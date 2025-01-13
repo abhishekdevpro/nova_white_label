@@ -1,6 +1,7 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import React from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import VendorPartnershipForm from "../WhiteLabel/Form";
 
 const Card = styled.div`
   padding: 30px;
@@ -8,7 +9,7 @@ const Card = styled.div`
   background: white;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
-  
+
   &:hover {
     transform: translateY(-5px);
   }
@@ -23,7 +24,7 @@ const Price = styled.div`
   font-size: 36px;
   font-weight: bold;
   margin-bottom: 10px;
-  
+
   span {
     font-size: 16px;
     color: #666;
@@ -39,16 +40,16 @@ const Description = styled.p`
 const Button = styled.button`
   width: 100%;
   padding: 12px;
-  background: #0066FF;
+  background: #0066ff;
   color: white;
   border: none;
   border-radius: 4px;
   font-size: 16px;
   cursor: pointer;
   margin-bottom: 20px;
-  
+
   &:hover {
-    background: #0052CC;
+    background: #0052cc;
   }
 `;
 
@@ -61,7 +62,7 @@ const FeatureList = styled.ul`
 const Feature = styled.li`
   padding: 8px 0;
   color: #444;
-  
+
   &:not(:last-child) {
     border-bottom: 1px solid #eee;
   }
@@ -75,9 +76,23 @@ const PricingCard = ({ title, price, description, features }) => {
         ${price} <span>per month</span>
       </Price>
       <Description>{description}</Description>
-      <Link to={'/vendor/login'}>
-      <Button>Start 14-Day Free Trial</Button>
-      </Link>
+      {/* <Link
+       to={"/vendor/login"}> */}
+      <Button
+        primary
+        href=""
+        type="button"
+        className="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target={"#vendorFormModal"}
+      >
+        Start 14-Day Free Trial
+      </Button>
+
+      {/* </Link> */}
+      <VendorPartnershipForm />
+      <VendorPartnershipForm />
+      <VendorPartnershipForm />
       <FeatureList>
         {features.map((feature, index) => (
           <Feature key={index}>{feature}</Feature>

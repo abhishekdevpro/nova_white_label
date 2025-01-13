@@ -455,7 +455,8 @@ const SubmitButton = styled.button`
   }
 `;
 
-const VendorPartnershipForm = () => {
+const VendorPartnershipForm = ({ formId }) => {
+  const [showPopup, setShowPopup] = useState(false);
   const [formData, setFormData] = useState({
     companyName: "",
     website: "",
@@ -496,6 +497,10 @@ const VendorPartnershipForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
+    setShowPopup(true);
+  };
+  const handleClosePopup = () => {
+    setShowPopup(false); // Close the popup
   };
 
   return (
@@ -736,10 +741,38 @@ const VendorPartnershipForm = () => {
                       </RadioGroup>
                     </FormGroup>
                   </FormGrid>
-                  <Link to="/vendor/vendorprofile">
-                    <SubmitButton type="submit">Submit Form</SubmitButton>
-                  </Link>
+                  {/* <Link to="/vendor/vendorprofile"> */}
+                  <SubmitButton type="submit">Submit Form</SubmitButton>
+                  {/* </Link> */}
                 </form>
+                {showPopup && (
+                  <div className="popup-overlay">
+                    <div className="popup-content">
+                      <h2>Thank You for Your Interest!</h2>
+                      <p>🎉 We're thrilled to have you onboard!</p>
+                      <p>
+                        Our team will get in touch soon to provide you with
+                        personalized service options. Let us help you take your
+                        business to the next level!
+                      </p>
+                      <p>
+                        📞 Need assistance right away? Contact us at{" "}
+                        <a
+                          href="mailto:email@example.com"
+                          className="email-link"
+                        >
+                          email@example.com
+                        </a>
+                      </p>
+                      <button
+                        onClick={handleClosePopup}
+                        className="close-popup"
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </div>
+                )}
               </FormContainer>
             </div>
           </div>

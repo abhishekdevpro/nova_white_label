@@ -1,4 +1,3 @@
-
 // import React from "react";
 // import styled from "styled-components";
 // import hero from "./home.png"; // Your hero image
@@ -125,9 +124,9 @@ import VendorPartnershipForm from "../WhiteLabel/Form";
 
 // Media query breakpoints
 const breakpoints = {
-  mobile: '320px',
-  tablet: '768px',
-  laptop: '1024px'
+  mobile: "320px",
+  tablet: "768px",
+  laptop: "1024px",
 };
 
 const HeroSection = styled.section`
@@ -137,7 +136,7 @@ const HeroSection = styled.section`
   padding: 2rem;
   min-height: 100vh;
   background-color: #f9fbfc;
-  
+
   @media (max-width: ${breakpoints.laptop}) {
     flex-direction: column;
     padding: 1.5rem;
@@ -150,7 +149,7 @@ const HeroContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  
+
   @media (max-width: ${breakpoints.laptop}) {
     max-width: 100%;
     text-align: center;
@@ -167,16 +166,16 @@ const Heading = styled.h1`
   font-size: 3rem;
   font-weight: bold;
   color: #0a0a0a;
-  
+
   @media (max-width: ${breakpoints.laptop}) {
     text-align: center;
     font-size: 2.5rem;
   }
-  
+
   @media (max-width: ${breakpoints.tablet}) {
     font-size: 2rem;
   }
-  
+
   @media (max-width: ${breakpoints.mobile}) {
     font-size: 1.75rem;
   }
@@ -187,12 +186,12 @@ const SubHeading = styled.p`
   font-size: 1.2rem;
   color: #5f6368;
   line-height: 1.6;
-  
+
   @media (max-width: ${breakpoints.laptop}) {
     text-align: center;
     font-size: 1.1rem;
   }
-  
+
   @media (max-width: ${breakpoints.mobile}) {
     font-size: 1rem;
     line-height: 1.4;
@@ -202,12 +201,12 @@ const SubHeading = styled.p`
 const ButtonsContainer = styled.div`
   display: flex;
   gap: 1rem;
-  
+
   @media (max-width: ${breakpoints.laptop}) {
     justify-content: center;
     flex-wrap: wrap;
   }
-  
+
   @media (max-width: ${breakpoints.mobile}) {
     flex-direction: column;
     gap: 0.75rem;
@@ -225,11 +224,11 @@ const Button = styled.a`
   cursor: pointer;
   transition: opacity 0.2s ease;
   white-space: nowrap;
-  
+
   &:hover {
     opacity: 0.9;
   }
-  
+
   @media (max-width: ${breakpoints.mobile}) {
     padding: 0.75rem 1rem;
     width: 100%;
@@ -241,21 +240,21 @@ const TrustLogos = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
-  
+
   @media (max-width: ${breakpoints.laptop}) {
     justify-content: center;
     flex-wrap: wrap;
   }
-  
+
   @media (max-width: ${breakpoints.mobile}) {
-        justify-content: center;
+    justify-content: center;
     gap: 0.75rem;
   }
 `;
 
 const Logo = styled.img`
   height: 40px;
-  
+
   @media (max-width: ${breakpoints.mobile}) {
     height: 32px;
   }
@@ -263,7 +262,7 @@ const Logo = styled.img`
 
 const HeroImageContainer = styled.div`
   max-width: 50%;
-  
+
   @media (max-width: ${breakpoints.laptop}) {
     max-width: 100%;
     order: 1;
@@ -276,7 +275,7 @@ const HeroImage = styled.img`
   object-fit: contain;
   display: block;
   margin: 0 auto;
-  
+
   @media (max-width: ${breakpoints.laptop}) {
     max-width: 100%;
   }
@@ -309,7 +308,7 @@ const Hero = () => {
           />
         </TrustLogos>
       </HeroContent>
-      
+
       <HeroImageContainer>
         <HeroImage src={hero} alt="AI Job Portal Platform" />
       </HeroImageContainer>
