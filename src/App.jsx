@@ -193,6 +193,7 @@ import SkillTestHistory from "./markup/Element/skill-test-history";
 import AboutusForm from "./adminPanel/CMS/About";
 import WhiteLabelForm from "./vendor/WhiteLabel";
 import WhiteLabelLanding from "./vendor/WhiteLanding/index";
+import WhiteStart from "./vendor/WhiteLabelSignUp/index"
 import Editor from "./vendor/Editor";
 
 function App() {
@@ -410,6 +411,12 @@ function App() {
           path="white-label"
           element={
               <WhiteLabelLanding />
+          }
+        />
+      <Route
+          path="white-label-started"
+          element={
+              <WhiteStart />
           }
         />
       <Route path="/vendor">

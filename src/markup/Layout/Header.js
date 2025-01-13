@@ -291,7 +291,7 @@ class UserHeader extends Component {
                     <li>
                       {localStorage.getItem("jobSeekerLoginToken") ? null : (
                         <Link
-                          to={"/vendor/login"}
+                          to={"/white-label"}
                           style={{ color: "white" }}
                           className="site-button "
                         >
