@@ -1,0 +1,38 @@
+.custom-carousel-wrapper {
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+  }
+  
+  .custom-carousel {
+    display: flex;
+    width: calc(100% * 8); /* Adjust this based on the number of boxes you want to display */
+    animation: scroll 100s linear infinite;
+  }
+  
+  .custom-carousel-box {
+    flex: 0 0 100%; /* Show one box per row on mobile */
+    padding: 15px;
+  }
+  
+  @media (min-width: 768px) {
+    .custom-carousel-box {
+      flex: 0 0 50%; /* Show two boxes per row on tablets */
+    }
+  }
+  
+  @media (min-width: 992px) {
+    .custom-carousel-box {
+      flex: 0 0 25%; /* Show four boxes per row on desktops */
+    }
+  }
+  
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-700%); /* Move through 7 boxes (100% * 7) */
+    }
+  }
+  

@@ -1,0 +1,168 @@
+.hover-3d{
+    color: white;
+    width: 37%;
+    background-color: #1c2957;
+    padding: 20px;
+    margin-bottom: 20px;
+    
+}
+
+.hoverlogo-3d{
+    color: white;
+    border-radius:300%;
+    box-shadow: 5px 5px 2px rgba(255, 255, 255, 255);
+  
+
+}
+.hover-3d  h2{
+    font-size: 26px!important;
+    line-height: 1.3em !important;
+    font-weight: 600 !important;
+    color: white;
+}
+
+.hover-3d:hover{
+    scale: 1.02;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5), 
+    10px 10px 20px rgba(0, 0, 0, 0.4), 
+    15px 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.hoverlogo-3d:hover{
+    scale: 1.02;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5), 
+    10px 10px 20px rgba(190, 188, 188, 0.4), 
+    15px 15px 30px rgba(0, 0, 0, 0.3);
+}
+.two-box-container{
+    width: 100%;
+    padding: 0px 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    perspective: 1000px;
+}
+.red-box{
+    width: 50%;
+    background-color: #fd1616;
+    padding: 20px;
+    border-radius: 7px;
+    color: white;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+   
+}
+.red-box:hover, .blue-box:hover{
+    scale: 1.02;
+
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5), 
+    10px 10px 20px rgba(0, 0, 0, 0.4), 
+    15px 15px 30px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease-in-out;
+
+}
+.blue-box{
+    align-items: flex-start;
+    width: 50%;
+    background-color: #010c29;
+    padding: 20px;
+    border-radius: 7px;
+    color: white;
+    display: flex;
+    gap: 12px;
+}
+.card-icon{
+    height: 50px;
+    width: 50px;
+    border-radius: 50px;
+    background-color: #fdccc0;
+    color: #fd1616;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.card {
+    width: 33%;
+    border: 2px solid #fd6661 !important;
+    border-style: dotted !important;
+    padding: 30px;
+    border-radius: 7px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    height: 200px
+}
+.card > h3 {
+    font-size: 19px;
+    font-weight: 500;
+    margin: 0px;
+    color: #1c2957;
+    line-height: 1.3em;
+    text-align: center;
+}
+.card p{
+    margin: 0;
+    line-height: 1.5em;
+    color: #9b9b9b;
+    text-align: center;
+}
+@media (max-width : 1100px){
+    .hover-3d{
+        width: 70%;
+    }
+    .two-box-container{
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .red-box,.blue-box{
+        width: 100%;
+    }
+    .card{
+        width: 45%;
+    }
+}
+
+@media (max-width : 650px){
+    .hover-3d{
+        width: 100%;
+    }
+    .card {
+        width: 100%;
+    }
+}
+
+.hover-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .hover-text {
+    font-size: smaller;
+    visibility: hidden;
+    width: 400px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px ;
+    position: absolute;
+    z-index: 1;
+    top: -100%;
+    right: 10%;
+    margin-right: -130px;
+    margin-left: 220px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  .hover-container:hover .hover-text {
+    visibility: visible;
+    opacity: 1;
+  }
+  

@@ -1,0 +1,152 @@
+* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+h2 {
+    margin: 0;
+}
+
+body {
+    background-color: "#e8e8e8";
+}
+
+.banner {
+    display: flex;
+    height: 400px;
+    background-color: skyblue;
+    border-radius: 0 0 30% 30%;
+    overflow: visible
+}
+
+.banner-img {
+    width: 50%;
+    display: flex;
+    align-items: flex-end;
+    overflow: visible
+}
+
+.banner-text {
+    display: flex;
+    width: 50%;
+    line-height: "10px";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+}
+
+.banner-text h2 {
+    color: black;
+}
+
+.services-row {
+    margin-top: 20px;
+    display: flex;
+    padding: 1% 20%;
+    justify-content: center;
+    gap: 3%;
+}
+
+.service-div {
+    width: 300px;
+    height: 350px;
+    background-color: white;
+    border-radius: 10%;
+    box-shadow: rgba(0, 0, 0, 0.75) 0px 5px 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.services-row :hover{
+    scale: 1.02;
+    transition: all 100ms ease-in-out;
+
+}
+
+.service-div p {
+    color: black;
+    margin: 0;
+    font-weight: 700;
+}
+
+.service-div li {
+    color: black;
+    margin: 0;
+    font-weight: 700;
+}
+
+
+
+.service-div img {
+    width: 100px;
+    height: 100px;
+    margin: 30px;
+}
+
+
+/* Default size for small screens */
+.custom-modal-header .btn-close {
+    font-size: 42px;
+  }
+  
+  /* Medium screens and up */
+  @media (min-width: 768px) {
+    .custom-modal-header .btn-close {
+        font-size: 42px;
+    }
+  }
+  
+  /* Large screens and up */
+  @media (min-width: 992px) {
+    .custom-modal-header .btn-close {
+        font-size: 42px;
+    }
+  }
+  
+  /* Extra large screens and up */
+  @media (min-width: 1200px) {
+    .custom-modal-header .btn-close {
+        font-size: 42px;
+    }
+  }
+  
+  /* Example CSS - Adjust as needed */
+.modal-content {
+    border-radius: 8px;
+  }
+  
+  .custom-modal-header {
+    border-bottom: none;
+  }
+  
+  .site-button {
+    /* Your button styles */
+  }
+  
+
+/* App.css */
+.responsive-button {
+    font-size: 15px;
+    padding: 16px 32px;
+    white-space: normal;
+    text-align: center;
+  }
+  
+  @media (max-width: 768px) {
+    .responsive-button {
+      font-size: 16px;
+      padding: 12px 24px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .responsive-button {
+      font-size: 14px;
+      padding: 10px 20px;
+    }
+  }
+  
+
+  

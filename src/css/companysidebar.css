@@ -1,0 +1,41 @@
+/* Default styles for the sidebar */
+.sidebar-container {
+    position: relative;
+  }
+  
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #f8f9fa;
+    overflow-x: hidden;
+    transition: transform 0.3s ease;
+    transform: translateX(0);
+    z-index: 1000;
+  }
+  
+  .sidebar-toggle {
+    display: none;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 1100;
+  }
+  
+  /* Media queries for responsive behavior */
+  @media (max-width: 992px) {
+    .sidebar {
+      transform: translateX(-100%);
+    }
+    .sidebar.active {
+      transform: translateX(0);
+    }
+    .sidebar-toggle {
+      display: block;
+    }
+  }
+  
