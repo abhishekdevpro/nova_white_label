@@ -293,7 +293,7 @@ const Hero = () => {
         </SubHeading>
         <ButtonsContainer>
           <Button href="/white-label-started">Get Started Now</Button>
-          <VendorPartnershipForm />
+          {/* <VendorPartnershipForm /> */}
           <Button href="#">Book A Call</Button>
         </ButtonsContainer>
         <TrustLogos>
