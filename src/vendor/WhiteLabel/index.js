@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import VendorCompanySideBar from "../Vendorsidebar";
-import VendorPartnershipForm from "./Form";
 import UserHeader2 from "../../markup/Layout/Header2";
 import Footer from "../../markup/Layout/Footer";
+import VendorPartnershipForm from "./Form";
 
 const PageWrapper = styled.div`
   background-color: white;
@@ -71,8 +71,8 @@ const ChatWrapper = styled.div`
     max-width: 100%;
   }
 `;
-const jobseekerToken = localStorage.getItem("jobSeekerLoginToken");
-console.log(jobseekerToken);
+// const jobseekerToken = localStorage.getItem("jobSeekerLoginToken");
+// console.log(jobseekerToken);
 function WhiteLabelForm() {
   return (
     <>
