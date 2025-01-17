@@ -63,7 +63,8 @@ class UserHeader extends Component {
                   {/* <Link to={"/"}><img src={logo2} className="logo" alt="img" /></Link> */}
                   <Link to={"/"}>
                     <img
-                      src={require("./../../images/logo/NovaUS.png")}
+                      // src={require("./../../images/logo/NovaUS.png")}
+                      src="https://abhishekdevpro-nova-home-care-fe.vercel.app/assets/logo-B4gdw3fA.png"
                       className="logo"
                       alt="img"
                     />
@@ -111,7 +112,7 @@ class UserHeader extends Component {
                   </div>
                   <ul className="nav navbar-nav align-items-center ">
                     <li className="">
-                      <Link to={"/user"}>Home </Link>
+                      <Link to={"/"}>Home </Link>
                       {/* <ul className="sub-menu">
                         <li>
                           <Link to={"./"} className="dez-page">
@@ -132,7 +133,7 @@ class UserHeader extends Component {
                     >
                       <Link
                         // style={{ color: "white" }}
-                        to="/services"
+                        // to="/services"
                         className="nav-link "
                       >
                         services
@@ -142,7 +143,7 @@ class UserHeader extends Component {
                         <div className="popup rounded-4 m-2 ">
                           <div className="d-flex gap-2 m-3 ">
                             <Link
-                              to="/about-us"
+                              // to="/about-us"
                               className="btn btn-primary "
                               style={{ backgroundColor: "#1C2957" }}
                             >
@@ -155,7 +156,9 @@ class UserHeader extends Component {
                     </li>
 
                     <li className="">
-                      <Link to={"/aboutus"}>About Us </Link>
+                      <Link 
+                      // to={"/aboutus"}
+                      >About Us </Link>
                     </li>
 
                     <li
@@ -165,7 +168,9 @@ class UserHeader extends Component {
                       }}
                       className=""
                     >
-                      <Link to={"/user/job/1"}>Job Page</Link>
+                      <Link 
+                      // to={"/user/job/1"}
+                      >Job Page</Link>
                       <ul className="sub-menu">
                         <li>
                           <Link to={"/Profilepagehome"} className="dez-page">
@@ -176,7 +181,9 @@ class UserHeader extends Component {
                     </li>
                     {localStorage.getItem("jobSeekerLoginToken") ? (
                       <li>
-                        <Link to={"/user/jobs-profile"}>Dashboard</Link>
+                        <Link 
+                        // to={"/user/jobs-profile"}
+                        >Dashboard</Link>
                         {/* <ul className="sub-menu">
                           <li>
                             <Link

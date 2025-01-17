@@ -276,7 +276,8 @@ useEffect(() => {
                     {/* <Link to={"./"}><img src={require("./../../images/logo.png")} alt="" /></Link> */}
                     <Link to={"/"}>
                       <img
-                        src={require("./../../images/logo/NovaUS.png")}
+                        // src={require("./../../images/logo/NovaUS.png")}
+                        src="https://abhishekdevpro-nova-home-care-fe.vercel.app/assets/logo-B4gdw3fA.png"
                         className="logo"
                         alt=""
                       />

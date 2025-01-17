@@ -4,6 +4,7 @@ import Header from './WhiteHeader';
 import PricingPlans from './PricingPlans';
 import UserHeader2 from '../../markup/Layout/Header2';
 import Footer from '../../markup/Layout/Footer';
+import VendorHeader from '../../markup/Layout/VendorHeader';
 
 
 const AppContainer = styled.div`
@@ -16,7 +17,8 @@ const AppContainer = styled.div`
 const WhiteStart = () => {
   return (
     <>
-    <UserHeader2 />
+    {/* <UserHeader2 /> */}
+    <VendorHeader/>
     <AppContainer>
       <Header />
       <PricingPlans />

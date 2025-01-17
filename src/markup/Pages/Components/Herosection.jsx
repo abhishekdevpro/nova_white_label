@@ -331,7 +331,7 @@ const CareerAdvisorPage = () => {
 
   const handleOptionChange = (option) => {
     setSelectedOption(option);
-    setIsModalOpen(true);
+    // setIsModalOpen(true);
   };
 
   const closeModal = () => {
@@ -410,7 +410,8 @@ const CareerAdvisorPage = () => {
       autoPlay
       loop
       muted
-      src={videoSrc}
+      // src={videoSrc}
+      src="https://wedesignthemes.s3.amazonaws.com/thatha/Slider+VDO+02+HD.mp4"
       type="video/mp4"
     >
       Your browser does not support the video tag.
@@ -468,7 +469,7 @@ const CareerAdvisorPage = () => {
 
           {/* Search button */}
           <FormGroup>
-            <Button type="submit" className="search-button">
+            <Button type="submit" className="search-button" disabled>
               <img
                 src="https://cdn-icons-png.flaticon.com/512/54/54481.png"
                 alt="Search"

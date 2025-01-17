@@ -6,7 +6,7 @@ import axios from 'axios';
 
 var bnr3 = require("./../../images/background/bg3.jpg");
 
-class UserHeader2 extends Component {
+class VendorHeader extends Component {
   state = {
     show: false,
     resume: null,
@@ -108,7 +108,7 @@ class UserHeader2 extends Component {
                 <div className="extra-nav">
                   <div className="extra-cell">
                     {localStorage.getItem("jobSeekerLoginToken") ? null : (
-                      <Link to={"/user/register-2"} className="site-button">
+                      <Link to={"/vendor/vendorregistration"} className="site-button">
                         <i className="fa fa-user"></i> Sign Up
                       </Link>
                     )}
@@ -118,7 +118,7 @@ class UserHeader2 extends Component {
                         <Logout />
                       </>
                     ) : (
-                      <Link to={"/user/login"} className="site-button">
+                      <Link to={"/vendor/login"} className="site-button">
                         <i className="fa fa-user"></i> Log in
                       </Link>
                     )}
@@ -263,4 +263,4 @@ class UserHeader2 extends Component {
   }
 }
 
-export default UserHeader2;
+export default VendorHeader;

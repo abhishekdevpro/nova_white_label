@@ -57,7 +57,8 @@ function Footer() {
                   <div className="mb-4">
                     <Link to={"/"}>
                       <img
-                        src={require("./../../images/logo/NovaUS.png")}
+                        // src={require("./../../images/logo/NovaUS.png")}
+                        src="https://abhishekdevpro-nova-home-care-fe.vercel.app/assets/logo-B4gdw3fA.png"
                         className="max-w-[180px] w-[180px] "
                         alt=""
                         style={{ width: "180px" }}
@@ -65,7 +66,7 @@ function Footer() {
                     </Link>
                   </div>
                   <b className="fw-bold mb-4">An AI enabled Job Portal</b>
-                  <ul className="list-3 d-flex flex-column gap-2 text-break mt-4">
+                  {/* <ul className="list-3 d-flex flex-column gap-2 text-break mt-4">
                     <li className="flex d-flex align-items-center justify-content-start gap-2">
                       <p>
                         <FaMapMarkerAlt className="" />
@@ -76,7 +77,7 @@ function Footer() {
                       <p>
                         <FaEnvelope className="" />
                       </p>
-                      {/* <Link to="mailto:contact@novajobs.us">Email us</Link> */}
+                      {/* <Link to="mailto:contact@novajobs.us">Email us</Link> 
                       <p>info@novajobs.us</p>
                     </li>
                     <li className="flex d-flex align-items-center justify-content-start gap-2">
@@ -85,7 +86,7 @@ function Footer() {
                       </p>
                       <p>hr@novajobs.us</p>
                     </li>
-                  </ul>
+                  </ul> */}
                 </div>
               </div>
               <div className="col mb-4 mb-md-0 col-md-2">
@@ -99,21 +100,28 @@ function Footer() {
                         window.scrollTo({ top: 0, behavior: "smooth" })
                       }
                     >
-                      <Link to={"/user/job/2"}>Search Jobs</Link>
+                      <Link
+                      //  to={"/user/job/2"}
+                      >Search Jobs</Link>
                     </li>
                     <li
                       onClick={() =>
                         window.scrollTo({ top: 0, behavior: "smooth" })
                       }
                     >
-                      <Link to={"/user/register-2"}>Create Free account</Link>
+                      <Link 
+                      // to={"/user/register-2"}
+                      >Create Free account</Link>
                     </li>
                     <li
                       onClick={() =>
                         window.scrollTo({ top: 0, behavior: "smooth" })
                       }
                     >
-                      <Link to={"/user/register-2"}>List profile</Link>
+                      <Link 
+                      // to={"/user/register-2"}
+                      >List profile</Link>
+
                     </li>
                     <li
                       onClick={() =>
@@ -121,7 +129,7 @@ function Footer() {
                       }
                     >
                       <Link
-                        onClick={handleBuilder}
+                        // onClick={handleBuilder}
 
                         // to={`https://airesume.novajobs.us/?tokenbyurl=${token}`}
                       >
@@ -130,7 +138,9 @@ function Footer() {
                     </li>
 
                     <li>
-                      <Link to={"/user/skill-test"}>Skill Test</Link>
+                      <Link 
+                      // to={"/user/skill-test"}
+                      >Skill Test</Link>
                     </li>
                   </ul>
                 </div>
@@ -146,14 +156,19 @@ function Footer() {
                         window.scrollTo({ top: 0, behavior: "smooth" })
                       }
                     >
-                      <Link to={"/employer/company-profile"}>Post Jobs</Link>
+                      <Link 
+                      // to={"/employer/company-profile"}
+                      
+                      >Post Jobs</Link>
                     </li>
                     <li
                       onClick={() =>
                         window.scrollTo({ top: 0, behavior: "smooth" })
                       }
                     >
-                      <Link to={"/employer/browse-candidates"}>
+                      <Link
+                      //  to={"/employer/browse-candidates"}
+                      >
                         Browse Applicants
                       </Link>
                     </li>
@@ -162,7 +177,9 @@ function Footer() {
                         window.scrollTo({ top: 0, behavior: "smooth" })
                       }
                     >
-                      <Link to={"/employer/login"}>Schedule Interviews</Link>
+                      <Link
+                      //  to={"/employer/login"}
+                      >Schedule Interviews</Link>
                     </li>
                   </ul>
                 </div>
@@ -178,7 +195,10 @@ function Footer() {
                         window.scrollTo({ top: 0, behavior: "smooth" })
                       }
                     >
-                      <Link to={"/vendor/vendorregistration"}>Partners</Link>
+                      <Link 
+                      // to={"/vendor/vendorregistration"}
+                      >
+                      Partners</Link>
                     </li>
                   </ul>
                 </div>
@@ -191,7 +211,7 @@ function Footer() {
                   <ul className="list-3 d-flex flex-column gap-2 text-break">
                     <li>
                       <Link
-                        to={"/aboutus"}
+                        // to={"/aboutus"}
                         onClick={() =>
                           window.scrollTo({ top: 0, behavior: "smooth" })
                         }
@@ -201,7 +221,7 @@ function Footer() {
                     </li>
                     <li>
                       <Link
-                        to={"/services"}
+                        // to={"/services"}
                         onClick={() =>
                           window.scrollTo({ top: 0, behavior: "smooth" })
                         }
@@ -211,7 +231,7 @@ function Footer() {
                     </li>
                     <li>
                       <Link
-                        to={"/employer/term-of-use-nova-jobs"}
+                        // to={"/employer/term-of-use-nova-jobs"}
                         onClick={() =>
                           window.scrollTo({ top: 0, behavior: "smooth" })
                         }
@@ -228,7 +248,7 @@ function Footer() {
             <ul className="list-inline d-flex text">
               <li>
                 <Link
-                  to={"https://www.facebook.com/Novausjobs"}
+                  // to={"https://www.facebook.com/Novausjobs"}
                   className="site-button white facebook circle text-white bg-primary"
                 >
                   <i className="fa fa-facebook"></i>
@@ -236,7 +256,7 @@ function Footer() {
               </li>
               <li>
                 <Link
-                  to={"https://www.linkedin.com/company/nova-us-jobs/"}
+                  // to={"https://www.linkedin.com/company/nova-us-jobs/"}
                   className="site-button white linkedin circle text-white bg-primary"
                 >
                   <i className="fa fa-linkedin"></i>
@@ -252,26 +272,26 @@ function Footer() {
           <div className="row align-items-center">
             <div className="col-md-6 text-center text-md-start mb-3 mb-md-0">
               <span>
-                © Copyright by{" "}
+                © Powered by{" "}
                 <img
                   src={india}
                   alt="India flag"
                   style={{ width: "40px", marginRight: "5px" }}
                 />{" "}
                 <strong style={{ color: "white", fontWeight: "bold" }}>
-                  Hyper V Solutions
+                  NovaJobs.us
                 </strong>{" "}
                 | All Rights Reserved
               </span>
             </div>
-            <div className="col-md-6 text-center text-md-end">
+            {/* <div className="col-md-6 text-center text-md-end">
               <img
                 src={SBELogo}
                 alt="SBE Logo"
                 style={{ height: "50px", marginRight: "10px" }}
               />
               <img src={NewDBELogo} alt="DBE Logo" style={{ height: "50px" }} />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
