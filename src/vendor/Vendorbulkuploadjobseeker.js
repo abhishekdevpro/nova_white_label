@@ -8,6 +8,7 @@ import Footer from "../markup/Layout/Footer";
 import axios from "axios";
 import { showToastError, showToastSuccess } from "../utils/toastify";
 import csd from "./download - demo.csv"
+import VendorHeader from "../markup/Layout/VendorHeader";
 function Vendorbulkuploadjobseeker() {
   const [file, setFile] = useState("");
   const token = localStorage.getItem("vendorToken");
@@ -28,7 +29,7 @@ function Vendorbulkuploadjobseeker() {
 
     try {
       const response = await axios.post(
-        'https://api.novajobs.us/api/admin/file/job-seekers', 
+        'https://apiwl.novajobs.us/api/admin/file/job-seekers', 
         formData,
         {
           headers: {
@@ -46,7 +47,7 @@ function Vendorbulkuploadjobseeker() {
   return (
     <>
       <div className="page-content bg-white">
-        <Navbar bg="white" variant="white" className='py-3 border-bottom'>
+        {/* <Navbar bg="white" variant="white" className='py-3 border-bottom'>
           <Navbar.Brand as={Link} to="/">
             <img
               style={{ width: "110px" }}
@@ -56,9 +57,10 @@ function Vendorbulkuploadjobseeker() {
             />
           </Navbar.Brand>
           <Nav className="ml-auto align-items-center">
-            {/* Additional nav items can go here */}
+            {/* Additional nav items can go here 
           </Nav>
-        </Navbar>
+        </Navbar> */}
+        <VendorHeader/>
 
         <div className="content-block">
           <div className="section-full bg-white p-t50 p-b20">

@@ -107,12 +107,12 @@ class VendorHeader extends Component {
 
                 <div className="extra-nav">
                   <div className="extra-cell">
-                    {localStorage.getItem("jobSeekerLoginToken") ? null : (
+                    {localStorage.getItem("vendorToken") ? null : (
                       <Link to={"/vendor/vendorregistration"} className="site-button">
                         <i className="fa fa-user"></i> Sign Up
                       </Link>
                     )}
-                    {localStorage.getItem("jobSeekerLoginToken") ? (
+                    {localStorage.getItem("vendorToken") ? (
                       <>
                        
                         <Logout />
@@ -150,11 +150,11 @@ class VendorHeader extends Component {
                     </li>
                    
 
-                    {localStorage.getItem('jobSeekerLoginToken') ? (
+                    {localStorage.getItem('vendorToken') ? (
                     <li>
                       
                       <Link 
-                      // to={`/user/jobs-profile`}
+                      to={`/vendor/vendorprofile`}
                       >
                         Dashboard
                       </Link>

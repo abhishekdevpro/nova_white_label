@@ -22,7 +22,7 @@ function Vendorapplicant() {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem("vendorToken");
-        let endpoint = `https://api.novajobs.us/api/admin/jobs-applicants/${id}`;
+        let endpoint = `https://apiwl.novajobs.us/api/admin/jobs-applicants/${id}`;
         
         if (view === "shortlisted") {
           endpoint += `?job_applied_status_id=1`;
@@ -79,7 +79,7 @@ function Vendorapplicant() {
     try {
       const token = localStorage.getItem("vendorToken");
       await axios.put(
-        `https://api.novajobs.us/api/admin/action-applicants-job/${jobId}/${jobSeekerId}`,
+        `https://apiwl.novajobs.us/api/admin/action-applicants-job/${jobId}/${jobSeekerId}`,
         { job_applied_status_id, createdAt },
         {
           headers: {

@@ -14,6 +14,7 @@ import { FaX } from "react-icons/fa6";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Footer from "../markup/Layout/Footer";
+import VendorHeader from "../markup/Layout/VendorHeader";
 
 function VendorCompanymanage() {
   const [skeleton, setSkeleton] = useState(true);
@@ -35,7 +36,7 @@ function VendorCompanymanage() {
   const fetchPublishedJobs = () => {
     axios({
       method: "GET",
-      url: "https://api.novajobs.us/api/admin/job-lists?is_publish=1",
+      url: "https://apiwl.novajobs.us/api/admin/job-lists?is_publish=1",
       headers: {
         Authorization: token,
       },
@@ -71,7 +72,7 @@ function VendorCompanymanage() {
 
     axios({
       method: "PUT",
-      url: `https://api.novajobs.us/api/admin/job-post/${id}`,
+      url: `https://apiwl.novajobs.us/api/admin/job-post/${id}`,
       headers: {
         Authorization: token,
       },
@@ -139,7 +140,7 @@ function VendorCompanymanage() {
 
   return (
     <div className="position-relative">
-       <Navbar bg="white" variant="white" className='py-3 border-bottom'>
+       {/* <Navbar bg="white" variant="white" className='py-3 border-bottom'>
       <Navbar.Brand as={Link} to="/">
         <img
           style={{ width: "110px" }}
@@ -156,7 +157,8 @@ function VendorCompanymanage() {
           
         </Nav>
     
-    </Navbar>
+    </Navbar> */}
+    <VendorHeader/>
       <div className="page-content bg-white ">
         <div className="content-block">
           <div className="section-full bg-white p-t50 p-b20">

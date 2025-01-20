@@ -28,7 +28,7 @@ const Listvendor = () => {
           Authorization: authToken,
         };
 
-        const jobsEndpoint = "https://api.novajobs.us/api/admin/vendor-lists";
+        const jobsEndpoint = "https://apiwl.novajobs.us/api/admin/vendor-lists";
 
         const response = await fetch(jobsEndpoint, { headers });
         if (!response.ok) {
@@ -78,13 +78,13 @@ const Listvendor = () => {
 
     try {
       if (status === "active") {
-        await fetch(`https://api.novajobs.us/api/admin/vendor-active/${id}`, {
+        await fetch(`https://apiwl.novajobs.us/api/admin/vendor-active/${id}`, {
           method: "PUT",
           headers,
           body: JSON.stringify({ status: 1 }), // Sending 1 for active
         });
       } else if (status === "inactive") {
-        await fetch(`https://api.novajobs.us/api/admin/vendor-inactive/${id}`, {
+        await fetch(`https://apiwl.novajobs.us/api/admin/vendor-inactive/${id}`, {
           method: "PUT",
           headers,
           body: JSON.stringify({ status: 0 }), // Sending 0 for inactive

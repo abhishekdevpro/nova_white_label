@@ -8,8 +8,14 @@ function LogoutPage(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const onLogout = () => {
-    localStorage.removeItem("jobSeekerLoginToken");
+    const jobSeekerLoginToken = localStorage.getItem("jobSeekerLoginToken")
+    if(jobSeekerLoginToken){
+      localStorage.removeItem("jobSeekerLoginToken");
     navigate("/user/login");
+    }else{
+      localStorage.removeItem("vendorToken");
+    navigate("/vendor/login");
+    }
   };
   return (
     <>

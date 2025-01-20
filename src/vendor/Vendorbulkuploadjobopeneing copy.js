@@ -9,6 +9,7 @@ import axios from "axios";
 import { showToastError, showToastSuccess } from "../utils/toastify";
 import csd from "./downloadjob.csv"
 import { useState } from "react";
+import VendorHeader from "../markup/Layout/VendorHeader";
 
 function Vendorbulkuploadjobopeneing() {
   const [file, setFile] = useState("");
@@ -30,7 +31,7 @@ function Vendorbulkuploadjobopeneing() {
 
     try {
       const response = await axios.post(
-        'https://api.novajobs.us/api/admin/file/job-post', 
+        'https://apiwl.novajobs.us/api/admin/file/job-post', 
         formData,
         {
           headers: {
@@ -48,19 +49,7 @@ function Vendorbulkuploadjobopeneing() {
   return (
     <>
       <div className="page-content bg-white">
-        <Navbar bg="white" variant="white" className='py-3 border-bottom'>
-          <Navbar.Brand as={Link} to="/">
-            <img
-              style={{ width: "110px" }}
-              src={require("../images/logo/NovaUS.png")}
-              className="logo"
-              alt="img"
-            />
-          </Navbar.Brand>
-          <Nav className="ml-auto align-items-center">
-            {/* Additional nav items can go here */}
-          </Nav>
-        </Navbar>
+        <VendorHeader/>
 
         <div className="content-block">
           <div className="section-full bg-white p-t50 p-b20">

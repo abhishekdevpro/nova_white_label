@@ -72,7 +72,7 @@ function MoreServices({ moreServicesData }) {
 
     try {
       const response = await axios.patch(
-        "https://api.novajobs.us/api/admin/update-aboutus-content/5",
+        "https://apiwl.novajobs.us/api/admin/update-aboutus-content/5",
         formData,
         {
           headers: {

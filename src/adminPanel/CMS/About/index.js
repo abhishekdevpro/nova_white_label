@@ -16,7 +16,7 @@ function AboutusForm() {
   const fetchContent = async () => {
     try {
       const response = await axios.get(
-        "https://api.novajobs.us/api/admin/get-aboutus-content"
+        "https://apiwl.novajobs.us/api/admin/get-aboutus-content"
       );
       const data = response.data;
       setSections(data.data || []);

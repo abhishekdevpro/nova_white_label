@@ -21,7 +21,7 @@ const Employeelist = () => {
         };
 
         const companyEndpoint =
-          "https://api.novajobs.us/api/admin/employeer-lists";
+          "https://apiwl.novajobs.us/api/admin/employeer-lists";
 
         const response = await fetch(companyEndpoint, { headers });
         if (!response.ok) {
@@ -49,7 +49,7 @@ const Employeelist = () => {
     try {
       if (status === "active") {
         await fetch(
-          `https://api.novajobs.us/api/admin/employeer-active/${companyId}`,
+          `https://apiwl.novajobs.us/api/admin/employeer-active/${companyId}`,
           {
             method: "PUT",
             headers,
@@ -58,7 +58,7 @@ const Employeelist = () => {
         );
       } else if (status === "inactive") {
         await fetch(
-          `https://api.novajobs.us/api/admin/employeer-inactive/${companyId}`,
+          `https://apiwl.novajobs.us/api/admin/employeer-inactive/${companyId}`,
           {
             method: "PUT",
             headers,

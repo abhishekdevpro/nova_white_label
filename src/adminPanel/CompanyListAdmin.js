@@ -22,7 +22,7 @@ const CompanyListAdmin = () => {
           Authorization: authToken,
         };
 
-        const jobsEndpoint = 'https://api.novajobs.us/api/admin/companies';
+        const jobsEndpoint = 'https://apiwl.novajobs.us/api/admin/companies';
 
         const response = await fetch(jobsEndpoint, { headers });
         if (!response.ok) {

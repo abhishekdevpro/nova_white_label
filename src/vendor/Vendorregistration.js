@@ -23,6 +23,7 @@ const Vendorregistration = () => {
     alternative_number: '', // Alternative Number field
     company_linkedin: '', // Company Linkedin field
     access: [], // Checkbox access options
+    domain:"https://abc.novajobs.us"
   });
   
 
@@ -46,7 +47,7 @@ const Vendorregistration = () => {
     e.preventDefault();
   
     try {
-        const response = await fetch('https://api.novajobs.us/api/admin/auth/vendor/register', {
+        const response = await fetch('https://apiwl.novajobs.us/api/admin/auth/vendor/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

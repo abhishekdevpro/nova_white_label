@@ -15,10 +15,11 @@ const Adminlogin = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://api.novajobs.us/api/admin/auth/login', {
+      const response = await axios.post('https://apiwl.novajobs.us/api/admin/auth/login', {
         email,
         phone,
         password,
+        domain :"https://novajobs.us/"
       });
 
       if (response.data.data.token) {

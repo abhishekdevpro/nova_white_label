@@ -38,7 +38,7 @@ const Addvendor = () => {
     try {
       const token = localStorage.getItem("authToken");
       const response = await fetch(
-        "https://api.novajobs.us/api/admin/create-vendor",
+        "https://apiwl.novajobs.us/api/admin/create-vendor",
         {
           method: "POST",
           headers: {

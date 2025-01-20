@@ -9,7 +9,7 @@ export const vendorcompanyFunction = createAsyncThunk(
     try {
       const response = await axios({
         method: "get",
-        url: "https://api.novajobs.us/api/admin/vendor/user-profile",
+        url: "https://apiwl.novajobs.us/api/admin/vendor/user-profile",
         headers: {
           Authorization: token,
         },
