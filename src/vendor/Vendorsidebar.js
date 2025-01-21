@@ -17,6 +17,7 @@ import { fetchCompanyInfo } from "../store/thunkFunctions/companyFunction";
 import { ToastContainer } from "react-toastify";
 import "../css/profilesidebar.css";
 import { Navigate } from "react-router-dom";
+import { Settings } from "lucide-react";
 
 const VendorCompanySideBar = ({ active }) => {
   const token = localStorage.getItem("vendorToken");
@@ -36,7 +37,7 @@ const VendorCompanySideBar = ({ active }) => {
   const dispatch = useDispatch();
   const postJob = async () => {
     await axios({
-      url: "https://api.novajobs.us/api/admin/job-post",
+      url: "https://apiwl.novajobs.us/api/admin/job-post",
       method: "POST",
       headers: {
         Authorization: token,
@@ -72,7 +73,7 @@ const VendorCompanySideBar = ({ active }) => {
     try {
       const response = await axios({
         method: "get",
-        url: "https://api.novajobs.us/api/admin/vendor/user-profile",
+        url: "https://apiwl.novajobs.us/api/admin/vendor/user-profile",
         headers: {
           Authorization: token,
         },
@@ -114,7 +115,7 @@ const VendorCompanySideBar = ({ active }) => {
     e.preventDefault();
     axios({
       method: "PUT",
-      url: "https://api.novajobs.us/api/admin/company-logo",
+      url: "https://apiwl.novajobs.us/api/admin/company-logo",
       headers: {
         Authorization: token,
       },
@@ -308,6 +309,17 @@ const VendorCompanySideBar = ({ active }) => {
                   >
                     <i className="fa fa-key" aria-hidden="true"></i>
                     <span>Change Password</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to={"/vendor/setting"}
+                    className={
+                      active === "setting" ? "active" : null
+                    }
+                  >
+                    <Settings aria-hidden="true"/>
+                    <span>Settings</span>
                   </Link>
                 </li>
                 <li>

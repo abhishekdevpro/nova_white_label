@@ -6,6 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { Navbar, Nav, Badge } from 'react-bootstrap';
 import { FaBell } from 'react-icons/fa';
 import Footer from '../markup/Layout/Footer';
+import VendorHeader from '../markup/Layout/VendorHeader';
 
 const Vendorregistration = () => {
   const [formData, setFormData] = useState({
@@ -22,6 +23,7 @@ const Vendorregistration = () => {
     alternative_number: '', // Alternative Number field
     company_linkedin: '', // Company Linkedin field
     access: [], // Checkbox access options
+    domain:"https://abc.novajobs.us"
   });
   
 
@@ -45,7 +47,7 @@ const Vendorregistration = () => {
     e.preventDefault();
   
     try {
-        const response = await fetch('https://api.novajobs.us/api/admin/auth/vendor/register', {
+        const response = await fetch('https://apiwl.novajobs.us/api/admin/auth/vendor/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -70,7 +72,7 @@ const Vendorregistration = () => {
 
   return (
     <div>
-       <Navbar bg="white" variant="white" className='py-3 border-bottom'>
+       {/* <Navbar bg="white" variant="white" className='py-3 border-bottom'>
       <Navbar.Brand as={Link} to="/">
         <img
           style={{ width: "110px" }}
@@ -92,11 +94,13 @@ const Vendorregistration = () => {
           
         </Nav>
     
-    </Navbar>
+    </Navbar> */}
+    <VendorHeader/>
       <Link to={"/"}
              className="dez-page d-flex justify-content-center mt-5">
                     <img style={{width:"210px"}}
-                      src={require("../images/logo/NovaUS.png")}
+                      src="https://abhishekdevpro-nova-home-care-fe.vercel.app/assets/logo-B4gdw3fA.png"
+                      // src={require("../images/logo/NovaUS.png")}
                       className="logo"
                       alt="img"
                     />

@@ -195,6 +195,7 @@ import WhiteLabelForm from "./vendor/WhiteLabel";
 import WhiteLabelLanding from "./vendor/WhiteLanding/index";
 import WhiteStart from "./vendor/WhiteLabelSignUp/index"
 import Editor from "./vendor/Editor";
+import VendorSetting from "./vendor/vendorSettings";
 
 function App() {
   const dispatch = useDispatch();
@@ -436,6 +437,15 @@ function App() {
             <PrivateRoutevendor>
               {" "}
               <WhiteLabelForm />{" "}
+            </PrivateRoutevendor>
+          }
+        />
+        <Route
+          path="setting"
+          element={
+            <PrivateRoutevendor>
+              {" "}
+              <VendorSetting />{" "}
             </PrivateRoutevendor>
           }
         />

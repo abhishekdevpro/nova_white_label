@@ -85,6 +85,7 @@ import Features from "./Feature";
 import WebsiteMockupSlider from "./Slider";
 import FeaturesComponent from "./FeatureSection";
 import Hero from "./HeroSection ";
+import VendorHeader from "../../markup/Layout/VendorHeader";
 const Container = styled.div`
   background-color: white;
   width: 100%;
@@ -105,7 +106,8 @@ function WhiteLabelLanding() {
 
   return (
     <>
-      <UserHeader2 />
+      {/* <UserHeader2 /> */}
+      <VendorHeader />
       <Container>
         <Content>
           <Hero />

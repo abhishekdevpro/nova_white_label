@@ -24,6 +24,7 @@ import { showToastError , showToastSuccess} from "../utils/toastify";
 import { useEffect } from "react";
 import VendorCompanySideBar from "./Vendorsidebar";
 import Footer from "../markup/Layout/Footer";
+import VendorHeader from "../markup/Layout/VendorHeader";
 
 
 function VendorComponypostjobs() {
@@ -101,7 +102,7 @@ function VendorComponypostjobs() {
   useEffect(() => {
     axios({
       method: "get",
-      url: "https://api.novajobs.us/api/admin/job-categories",
+      url: "https://apiwl.novajobs.us/api/admin/job-categories",
       headers: {
         Authorization: token,
       },
@@ -128,7 +129,7 @@ function VendorComponypostjobs() {
   useEffect(() => {
     axios({
       method: "get",
-      url: "https://api.novajobs.us/api/admin/experience-level",
+      url: "https://apiwl.novajobs.us/api/admin/experience-level",
       headers: {
         Authorization: token,
       },
@@ -155,7 +156,7 @@ function VendorComponypostjobs() {
 
   const getJob = async () => {
     await axios({
-      url: `https://api.novajobs.us/api/admin/job-lists/${id}`,
+      url: `https://apiwl.novajobs.us/api/admin/job-lists/${id}`,
       method: "get",
       headers: {
         Authorization: token,
@@ -192,7 +193,7 @@ function VendorComponypostjobs() {
   const aiJobDescription = async () => {
     setDescription(true);
     await axios({
-      url: `https://api.novajobs.us/api/admin/ai-job-description`,
+      url: `https://apiwl.novajobs.us/api/admin/ai-job-description`,
       method: "post",
       headers: {
         Authorization: token,
@@ -212,7 +213,7 @@ function VendorComponypostjobs() {
 
   const postCompleted = async () => {
     await axios({
-      url: `https://api.novajobs.us/api/admin/job-post/${id}`,
+      url: `https://apiwl.novajobs.us/api/admin/job-post/${id}`,
       method: "PUT",
       headers: {
         Authorization: token,
@@ -245,7 +246,7 @@ function VendorComponypostjobs() {
   
   const getJobTyes = async () => {
     await axios({
-      url: "https://api.novajobs.us/api/admin/job-types",
+      url: "https://apiwl.novajobs.us/api/admin/job-types",
 
       headers: {
         Authorization: token,
@@ -262,7 +263,7 @@ function VendorComponypostjobs() {
 
   const getWorkplaceType = async () => {
     await axios({
-      url: "https://api.novajobs.us/api/admin/workplace-types",
+      url: "https://apiwl.novajobs.us/api/admin/workplace-types",
 
       headers: {
         Authorization: token,
@@ -280,7 +281,7 @@ function VendorComponypostjobs() {
   const getCountry = async () => {
     await axios({
       method: "get",
-      url: "https://api.novajobs.us/api/admin/countries",
+      url: "https://apiwl.novajobs.us/api/admin/countries",
       headers: {
         Authorization: token,
       },
@@ -299,7 +300,7 @@ function VendorComponypostjobs() {
   const getState = async () => {
     await axios({
       method: "get",
-      url: `https://api.novajobs.us/api/admin/stats/231`,
+      url: `https://apiwl.novajobs.us/api/admin/stats/231`,
       headers: {
         Authorization: token,
       },
@@ -324,7 +325,7 @@ function VendorComponypostjobs() {
   const getCities = async () => {
     await axios({
       method: "get",
-      url: `https://api.novajobs.us/api/admin/cities/${postAJobData.selectedState}`,
+      url: `https://apiwl.novajobs.us/api/admin/cities/${postAJobData.selectedState}`,
       headers: {
         Authorization: token,
       },
@@ -463,8 +464,11 @@ function VendorComponypostjobs() {
     <>
       <div className="page-content bg-white">
         <div className="content-block">
+        <VendorHeader/>
+
           <div className="section-full bg-white p-t50 p-b20">
             <div className="container">
+              
               <div className="row">
                 <VendorCompanySideBar active="postJob" />
                 <div className="col-xl-9 col-lg-9 m-b30">

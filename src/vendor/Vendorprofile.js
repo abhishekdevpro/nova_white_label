@@ -10,6 +10,7 @@ import VendorCompanySideBar from "./Vendorsidebar";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Footer from "../markup/Layout/Footer";
+import VendorHeader from "../markup/Layout/VendorHeader";
 
 function VendorCompanyprofile() {
   const dispatch = useDispatch();
@@ -41,7 +42,7 @@ function VendorCompanyprofile() {
 
   useEffect(() => {
     // Fetch industries from API
-    axios.get("https://api.novajobs.us/api/admin/company-industry", {
+    axios.get("https://apiwl.novajobs.us/api/admin/company-industry", {
       headers: {
         Authorization: token,
       },
@@ -78,7 +79,7 @@ function VendorCompanyprofile() {
   }, [companyData]);
 
   const getCountry = async () => {
-    axios.get("https://api.novajobs.us/api/admin/countries", {
+    axios.get("https://apiwl.novajobs.us/api/admin/countries", {
       headers: {
         Authorization: token,
       },
@@ -93,7 +94,7 @@ function VendorCompanyprofile() {
 
   const getState = async () => {
     if (selectedCountry) {
-      axios.get(`https://api.novajobs.us/api/admin/stats/${selectedCountry}`, {
+      axios.get(`https://apiwl.novajobs.us/api/admin/stats/${selectedCountry}`, {
         headers: {
           Authorization: token,
         },
@@ -109,7 +110,7 @@ function VendorCompanyprofile() {
 
   const getCities = async () => {
     if (selectedStates) {
-      axios.get(`https://api.novajobs.us/api/admin/cities/${selectedStates}`, {
+      axios.get(`https://apiwl.novajobs.us/api/admin/cities/${selectedStates}`, {
         headers: {
           Authorization: token,
         },
@@ -163,9 +164,9 @@ function VendorCompanyprofile() {
     };
 
     console.log("Payload:", payload); // Log the payload for debugging
-    console.log("URL:", "https://api.novajobs.us/api/admin/company"); // Log the URL for debugging
+    console.log("URL:", "https://apiwl.novajobs.us/api/admin/company"); // Log the URL for debugging
 
-    axios.put("https://api.novajobs.us/api/admin/company", payload, {
+    axios.put("https://apiwl.novajobs.us/api/admin/company", payload, {
       headers: {
         Authorization: token,
       },
@@ -187,7 +188,7 @@ function VendorCompanyprofile() {
   return (
     <>
       <div className="page-content bg-white">
-        <Navbar bg="white" variant="white" className='py-3 border-bottom'>
+        {/* <Navbar bg="white" variant="white" className='py-3 border-bottom'>
           <Navbar.Brand as={Link} to="/">
             <img
               style={{ width: "110px" }}
@@ -201,7 +202,8 @@ function VendorCompanyprofile() {
               Logout
             </Button>
           </Nav>
-        </Navbar>
+        </Navbar> */}
+        <VendorHeader/>
         <div className="content-block">
           <div className="section-full bg-white p-t50 p-b20">
             <div className="container">

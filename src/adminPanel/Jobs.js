@@ -21,7 +21,7 @@ const Jobs = () => {
   const dispatch = useDispatch()
   const postJob = async () => {
     await axios({
-      url: "https://api.novajobs.us/api/admin/job-post",
+      url: "https://apiwl.novajobs.us/api/admin/job-post",
       method: "POST",
       headers: {
         Authorization: token,

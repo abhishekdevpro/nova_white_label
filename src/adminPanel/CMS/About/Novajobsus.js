@@ -96,7 +96,7 @@ function Novajobsus({ novaJobsusData }) {
     try {
       const token = localStorage.getItem("authToken");
       const response = await axios.patch(
-        "https://api.novajobs.us/api/admin/update-aboutus-content/4",
+        "https://apiwl.novajobs.us/api/admin/update-aboutus-content/4",
         formData,
         {
           headers: {

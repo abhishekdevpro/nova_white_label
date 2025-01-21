@@ -12,9 +12,10 @@ import processVid from "../../gif process.mp4";
 import bnr from "../../images/login/loginbg.jpeg";
 import validator from "validator";
 import { toast, ToastContainer } from "react-toastify";
+import Footer from "../../markup/Layout/Footer";
+import UserHeader2 from "../../markup/Layout/Header2";
 
 
-import Footer from "../Layout/Footer";
 function EmployeeRegister2(props) {
   let errorsObj = { email: "", password: "" };
   const [errors, setErrors] = useState(errorsObj);
@@ -259,6 +260,7 @@ const notify = (data) => toast.warning(data);
             height: "100vh",
           }}
         >
+          <UserHeader2/>
           <div className="row">
             <div
               className="col-xl-6 col-lg-7 col-md-8 col-sm-12 bg-white z-index2 relative p-a0 content-scroll skew-section left-bottom"
@@ -273,7 +275,8 @@ const notify = (data) => toast.warning(data);
                   {/* <Link to={"./"}><img src={require("./../../images/logo.png")} alt="" /></Link> */}
                   <Link to={"./"}>
                     <img
-                      src={require("./../../images/logo/NovaUS.png")}
+                      // src={require("./../../images/logo/NovaUS.png")}
+                      src="https://abhishekdevpro-nova-home-care-fe.vercel.app/assets/logo-B4gdw3fA.png"
                       className="logo"
                       alt=""
                     />

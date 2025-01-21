@@ -4,11 +4,12 @@ import { Link } from "react-router-dom";
 import VendorCompanySideBar from "./Vendorsidebar";
 import { Navbar, Nav, Badge } from 'react-bootstrap';
 import Footer from "../markup/Layout/Footer";
+import VendorHeader from "../markup/Layout/VendorHeader";
 function Vendorplan() {
   return (
     <>
       <div className="page-content bg-white">
-        <Navbar bg="white" variant="white" className="py-3 border-bottom">
+        {/* <Navbar bg="white" variant="white" className="py-3 border-bottom">
           <Navbar.Brand as={Link} to="/">
             <img
               style={{ width: "110px" }}
@@ -19,7 +20,8 @@ function Vendorplan() {
           </Navbar.Brand>
 
           <Nav className="ml-auto align-items-center"></Nav>
-        </Navbar>
+        </Navbar> */}
+        <VendorHeader/>
         <div className="content-block">
           <div className="section-full bg-white p-t50 p-b20">
             <div className="container">

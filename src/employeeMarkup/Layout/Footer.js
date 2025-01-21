@@ -67,7 +67,8 @@ function Footer() {
                       <div className="mb-4">
                         <Link to={"/"}>
                           <img
-                            src={require("./../../images/logo/NovaUS.png")}
+                            src="https://abhishekdevpro-nova-home-care-fe.vercel.app/assets/logo-B4gdw3fA.png"
+                            // src={require("./../../images/logo/NovaUS.png")}
                             className="max-w-[180px] w-[180px] "
                             alt=""
                             style={{ width: "180px" }}
@@ -93,7 +94,7 @@ function Footer() {
                           <p>
                             <FaEnvelope className="" />
                           </p>
-                          <p>hr@novajobs.us</p>
+                          {/* <p>hr@novajobs.us</p> */}
                         </li>
                       </ul>
                     </div>
@@ -262,7 +263,7 @@ function Footer() {
           <div className="row align-items-center">
             <div className="col-md-6 text-center text-md-start mb-3 mb-md-0">
               <span>
-                © Copyright by{" "}
+                © Powered by{" "}
                 <img
                   src={india}
                   alt="India flag"
@@ -274,14 +275,14 @@ function Footer() {
                 | All Rights Reserved
               </span>
             </div>
-            <div className="col-md-6 text-center text-md-end">
+            {/* <div className="col-md-6 text-center text-md-end">
               <img
                 src={SBELogo}
                 alt="SBE Logo"
                 style={{ height: "50px", marginRight: "10px" }}
               />
               <img src={NewDBELogo} alt="DBE Logo" style={{ height: "50px" }} />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

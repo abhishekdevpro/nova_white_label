@@ -26,7 +26,7 @@ const Dashboard = () => {
           Authorization: authToken,
         };
 
-        const jobsEndpoint = 'https://api.novajobs.us/api/admin/job-lists';
+        const jobsEndpoint = 'https://apiwl.novajobs.us/api/admin/job-lists';
 
         const response = await fetch(jobsEndpoint, { headers });
         if (!response.ok) {
@@ -63,7 +63,7 @@ const Dashboard = () => {
           Authorization: authToken,
         };
 
-        const jobsEndpoint = 'https://api.novajobs.us/api/admin/job-seekers';
+        const jobsEndpoint = 'https://apiwl.novajobs.us/api/admin/job-seekers';
 
         const response = await fetch(jobsEndpoint, { headers });
         if (!response.ok) {
@@ -100,7 +100,7 @@ const Dashboard = () => {
           Authorization: authToken,
         };
 
-        const jobsEndpoint = 'https://api.novajobs.us/api/admin/vendor-lists';
+        const jobsEndpoint = 'https://apiwl.novajobs.us/api/admin/vendor-lists';
 
         const response = await fetch(jobsEndpoint, { headers });
         if (!response.ok) {
@@ -137,7 +137,7 @@ const Dashboard = () => {
           Authorization: authToken,
         };
 
-        const jobsEndpoint = 'https://api.novajobs.us/api/admin/companies';
+        const jobsEndpoint = 'https://apiwl.novajobs.us/api/admin/companies';
 
         const response = await fetch(jobsEndpoint, { headers });
         if (!response.ok) {

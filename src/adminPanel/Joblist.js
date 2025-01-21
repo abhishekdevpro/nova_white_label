@@ -23,7 +23,7 @@ const Jobslist = () => {
           Authorization: authToken,
         };
 
-        const jobsEndpoint = "https://api.novajobs.us/api/admin/job-lists";
+        const jobsEndpoint = "https://apiwl.novajobs.us/api/admin/job-lists";
 
         const response = await fetch(jobsEndpoint, { headers });
         if (!response.ok) {
@@ -51,7 +51,7 @@ const Jobslist = () => {
     try {
       if (status === "active") {
         await fetch(
-          `https://api.novajobs.us/api/admin/jobseeker-active/${jobId}`,
+          `https://apiwl.novajobs.us/api/admin/jobseeker-active/${jobId}`,
           {
             method: "PUT",
             headers,
@@ -60,7 +60,7 @@ const Jobslist = () => {
         );
       } else if (status === "inactive") {
         await fetch(
-          `https://api.novajobs.us/api/admin/jobseeker-inactive/${jobId}`,
+          `https://apiwl.novajobs.us/api/admin/jobseeker-inactive/${jobId}`,
           {
             method: "PUT",
             headers,

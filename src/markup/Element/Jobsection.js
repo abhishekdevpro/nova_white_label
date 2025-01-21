@@ -277,7 +277,7 @@ function Jobsection() {
                         <div className="job-post-info">
                           <h4>
                             <Link
-                              to={`/user/job/${item.job_detail.id}`}
+                              // to={`/user/job/${item.job_detail.id}`}
                               onClick={() =>
                                 window.scrollTo({ top: 0, behavior: "smooth" })
                               }
@@ -537,7 +537,7 @@ function Jobsection() {
                               <>
                                 <button
                                   className=" site-button btn btn-primary justify-end "
-                                  onClick={() => navigate("/user/login")}
+                                  // onClick={() => navigate("/user/login")}
                                 >
                                   Apply now
                                 </button>
@@ -595,11 +595,11 @@ function Jobsection() {
                                 style={{
                                   cursor: "pointer",
                                 }}
-                                onClick={() => {
-                                  navigate(
-                                    `/user/company/${selectedJob.companies.id}`
-                                  );
-                                }}
+                                // onClick={() => {
+                                //   navigate(
+                                //     `/user/company/${selectedJob.companies.id}`
+                                //   );
+                                // }}
                               >
                                 <i
                                   class="fa fa-briefcase"

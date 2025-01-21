@@ -18,7 +18,7 @@ const VerifyEmail = () => {
 
       try {
         const response = await axios.get(
-          `https://api.novajobs.us/api/admin/verify-account/${token}`
+          `https://apiwl.novajobs.us/api/admin/verify-account/${token}`
         );
         console.log(response);
         if (response) {

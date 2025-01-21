@@ -4,6 +4,7 @@ import axios from "axios";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import { Navbar, Nav, Badge } from "react-bootstrap";
 import Footer from "../markup/Layout/Footer";
+import VendorHeader from "../markup/Layout/VendorHeader";
 
 const Vendorlogin = () => {
   const [email, setEmail] = useState("");
@@ -17,7 +18,7 @@ const Vendorlogin = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://api.novajobs.us/api/admin/auth/vendor/login",
+        "https://apiwl.novajobs.us/api/admin/auth/vendor/login",
         {
           email,
           password,
@@ -39,7 +40,7 @@ const Vendorlogin = () => {
 
   return (
     <div>
-      <Navbar bg="white" variant="white" className="py-3 border-bottom">
+      {/* <Navbar bg="white" variant="white" className="py-3 border-bottom">
         <Navbar.Brand as={Link} to="/">
           <img
             style={{ width: "110px" }}
@@ -61,7 +62,8 @@ const Vendorlogin = () => {
             </Button>
           </Nav.Link>
         </Nav>
-      </Navbar>
+      </Navbar> */}
+      <VendorHeader/>
       <Container className="d-flex justify-content-center align-items-center vh-50">
         <Row className="w-100">
           <Col md={{ span: 6, offset: 3 }}>
@@ -71,7 +73,8 @@ const Vendorlogin = () => {
             >
               <img
                 style={{ width: "210px" }}
-                src={require("../images/logo/NovaUS.png")}
+                src="https://abhishekdevpro-nova-home-care-fe.vercel.app/assets/logo-B4gdw3fA.png"
+                // src={require("../images/logo/NovaUS.png")}
                 className="logo"
                 alt="img"
               />

@@ -66,7 +66,7 @@ function ForJobseeker({ forJobseekerData }) {
 
     try {
       const response = await axios.patch(
-        "https://api.novajobs.us/api/admin/update-aboutus-content/2",
+        "https://apiwl.novajobs.us/api/admin/update-aboutus-content/2",
         formData,
         {
           headers: {

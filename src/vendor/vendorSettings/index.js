@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import VendorCompanySideBar from "../Vendorsidebar";
-import UserHeader2 from "../../markup/Layout/Header2";
 import Footer from "../../markup/Layout/Footer";
-import VendorPartnershipForm from "./Form";
+import VendorHeader from "../../markup/Layout/VendorHeader";
+import NavbarManagementForm from "./NavbarForm";
 
 const PageWrapper = styled.div`
   background-color: white;
@@ -73,12 +73,12 @@ const ChatWrapper = styled.div`
 `;
 // const jobseekerToken = localStorage.getItem("jobSeekerLoginToken");
 // console.log(jobseekerToken);
-function WhiteLabelForm() {
+function VendorSetting() {
   return (
     <>
       {/* <UserHeader2 /> */}
       {/* {jobseekerToken? <FixedHeader />:""} */}
-
+     <VendorHeader/>
       <PageWrapper>
         <ContentBlock>
           <Section>
@@ -88,7 +88,8 @@ function WhiteLabelForm() {
                   <VendorCompanySideBar active="form" />
                 </SidebarWrapper>
                 <ChatWrapper>
-                  <VendorPartnershipForm />
+                  {/* <VendorPartnershipForm /> */}
+                  <NavbarManagementForm/>
                 </ChatWrapper>
               </Row>
             </Container>
@@ -101,4 +102,4 @@ function WhiteLabelForm() {
   );
 }
 
-export default WhiteLabelForm;
+export default VendorSetting;

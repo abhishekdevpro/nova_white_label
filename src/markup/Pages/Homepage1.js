@@ -109,7 +109,9 @@ function Homepage() {
                     >
                       Search Jobs with advanced filters and the power of AI
                     </p>
-                    <Link to={"/user/job/2"} style={{ color: "white" }}>
+                    <Link
+                    //  to={"/user/job/2"} 
+                     style={{ color: "white" }}>
                       <button
                         type="button"
                         className="btn text-white hoverlogo-3d"
@@ -169,7 +171,7 @@ function Homepage() {
                       <button
                         type="button"
                         class="btn btn-danger hoverlogo-3d"
-                        onClick={handleScroll}
+                        // onClick={handleScroll}
                       >
                         Search Talent
                       </button>
@@ -250,7 +252,9 @@ function Homepage() {
               <div className="card-icon">
                 <FaRegFilePdf />
               </div>
-              <Link to={"https://novajobs.us/novajobs#tab3"}>
+              <Link 
+              // to={"https://novajobs.us/novajobs#tab3"}
+              >
                 <h3 className="d-flex justify-content-center">
                   <b>Give skill test</b>
                 </h3>
@@ -278,7 +282,9 @@ function Homepage() {
               <div className="card-icon">
                 <FaRegUser />
               </div>
-              <Link to={"https://ultraaura.education/"}>
+              <Link 
+              // to={"https://ultraaura.education/"}
+              >
                 <h3 className="d-flex justify-content-center">
                   <b>Enhance Skills</b>
                 </h3>
@@ -289,7 +295,7 @@ function Homepage() {
             </div>
           </div>
         </div>
-        <Featureblog />
+        {/* <Featureblog /> */}
         <Jobsection />
         <div
           className="section-full p-tb70 overlay-black-dark text-white text-center bg-img-fix"
