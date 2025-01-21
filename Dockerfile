@@ -1,56 +1,57 @@
-# # Build environment
 # FROM node:20.3.0-alpine AS build
 
 # WORKDIR /app
 
-# # Install dependencies
-# COPY ./package.json ./package-lock.json* ./
-# RUN npm install
+# COPY ./package.json ./
+# RUN npm i
 
-# # Copy source code and build the application
-# COPY . ./
+# COPY . .
 # RUN npm run build
 
-# # Production environment
-# FROM nginx:1.25.1-alpine AS production
 
-# WORKDIR /usr/share/nginx/html
+# # production environment
+# FROM nginx:stable-alpine
 
-# # Copy the React build output to the Nginx HTML directory
-# COPY --from=build /app/build .
+# COPY --from=build /app/build /usr/share/nginx/www
+# # COPY --from=build /app/nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
-# # Expose the port Nginx will use
-# EXPOSE 80
+# # Set environment variables (adjust as needed)
+# ENV NODE_ENV=production
+# ENV PORT=3000
 
-# # Health check (optional)
-# HEALTHCHECK CMD curl --fail http://localhost:80/ || exit 1
+# EXPOSE 3000
 
-# # Start Nginx server
-# CMD ["nginx", "-g", "daemon off;"]
-
-# docker build . -t abhishekdevpro/novawl_fe:1.0
-# docker push abhishekdevpro/novawl_fe:1.0
+# CMD ["nginx", "-g"," daemon off;"]
 
 
-# build environment
-# FROM node:20-alpine3.17 AS build
+# Stage 1: Build the React application
 FROM node:20.3.0-alpine AS build
 
+# Set the working directory inside the container
 WORKDIR /app
 
-COPY ./package.json ./
-RUN npm i
+# Copy package.json and install dependencies
+COPY package.json package-lock.json ./ 
+RUN npm install
 
+# Copy all files to the container
 COPY . .
+
+# Build the React application for production
 RUN npm run build
 
-
-# production environment
+# Stage 2: Serve the React application using Nginx
 FROM nginx:stable-alpine
 
-COPY --from=build /app/build /usr/share/nginx/www
-# COPY --from=build /app/nginx/nginx.conf /etc/nginx/conf.d/default.conf
+# Copy built React application from the build stage to Nginx's web root
+COPY --from=build /app/build /usr/share/nginx/html
 
-EXPOSE 80
+# Remove default Nginx configuration and replace it with a custom configuration (optional)
+# Uncomment if you have a custom nginx.conf for SPA routing
+# COPY ./nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
-CMD ["nginx", "-g"," daemon off;"]
+# Expose port 3000 for the application
+EXPOSE 3000
+
+# Start Nginx server
+CMD ["nginx", "-g", "daemon off;"]
