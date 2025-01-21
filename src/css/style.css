@@ -3492,9 +3492,10 @@ blockquote:before {
 
 .logo-header img,
 .logo-footer img {
-  height: auto;
+  height: 80px;
   width: auto;
   max-width: 180px;
+  padding: .25rem;
 }
 
 .logo-header span,

@@ -17,6 +17,7 @@ import { fetchCompanyInfo } from "../store/thunkFunctions/companyFunction";
 import { ToastContainer } from "react-toastify";
 import "../css/profilesidebar.css";
 import { Navigate } from "react-router-dom";
+import { Settings } from "lucide-react";
 
 const VendorCompanySideBar = ({ active }) => {
   const token = localStorage.getItem("vendorToken");
@@ -308,6 +309,17 @@ const VendorCompanySideBar = ({ active }) => {
                   >
                     <i className="fa fa-key" aria-hidden="true"></i>
                     <span>Change Password</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to={"/vendor/setting"}
+                    className={
+                      active === "setting" ? "active" : null
+                    }
+                  >
+                    <Settings aria-hidden="true"/>
+                    <span>Settings</span>
                   </Link>
                 </li>
                 <li>
