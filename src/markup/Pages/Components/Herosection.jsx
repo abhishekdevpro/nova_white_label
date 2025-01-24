@@ -315,65 +315,514 @@ const SearchWrapper = styled.div`
 // Import your required styles and components here
 // import Container, SearchForm, FormRow, FormGroup, Input, Select, Button, etc.
 
-const CareerAdvisorPage = () => {
-  const [searchJob, setSearchJob] = useState('');
-  const [sector, setSector] = useState('');
-  const [location, setLocation] = useState('');
-  const [states, setStates] = useState([]);
-  const [categories, setCategories] = useState([]); // For sector dropdown
-  const token = localStorage.getItem("jobSeekerLoginToken"); // Add your actual token
-  const navigate = useNavigate();
+// const CareerAdvisorPage = () => {
+//   const [searchJob, setSearchJob] = useState('');
+//   const [sector, setSector] = useState('');
+//   const [location, setLocation] = useState('');
+//   const [states, setStates] = useState([]);
+//   const [categories, setCategories] = useState([]); // For sector dropdown
+//   const token = localStorage.getItem("jobSeekerLoginToken"); // Add your actual token
+//   const navigate = useNavigate();
 
-  const [selectedOption, setSelectedOption] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
+//   const [selectedOption, setSelectedOption] = useState('');
+//   const [isModalOpen, setIsModalOpen] = useState(false);
   
-  const options = ["A Jobseeker", "An Employer", "A Partner"];
+//   const options = ["A Jobseeker", "An Employer", "A Partner"];
 
-  const handleOptionChange = (option) => {
-    setSelectedOption(option);
-    // setIsModalOpen(true);
-  };
+//   const handleOptionChange = (option) => {
+//     setSelectedOption(option);
+//     // setIsModalOpen(true);
+//   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+//   const closeModal = () => {
+//     setIsModalOpen(false);
+//   };
 
-  const renderForm = () => {
-    switch (selectedOption) {
-      case "A Jobseeker":
-        return <JobseekerForm />;
-      case "An Employer":
-        return <EmployeeForm />;
-      case "A Partner":
-        return <PartnerForm />;
-      default:
-        return null;
-    }
-  };
+//   const renderForm = () => {
+//     switch (selectedOption) {
+//       case "A Jobseeker":
+//         return <JobseekerForm />;
+//       case "An Employer":
+//         return <EmployeeForm />;
+//       case "A Partner":
+//         return <PartnerForm />;
+//       default:
+//         return null;
+//     }
+//   };
 
  
 
-  const handleAIAssist = () => {
-    // Implement AI Assist functionality here
-    console.log("AI Assist clicked");
-  };
+//   const handleAIAssist = () => {
+//     // Implement AI Assist functionality here
+//     console.log("AI Assist clicked");
+//   };
 
-  // Fetch states for the location dropdown
+//   // Fetch states for the location dropdown
+//   useEffect(() => {
+//     const getState = async () => {
+//       try {
+//         const response = await axios.get(`https://api.novajobs.us/api/jobseeker/stats/231`, {
+//           headers: { Authorization: token },
+//         });
+//         setStates(response.data.data);
+//       } catch (err) {
+//         console.log(err, "STATE fetch error");
+//       }
+//     };
+//     getState();
+//   }, [token]);
+
+//   // Fetch categories for the sector dropdown
+//   useEffect(() => {
+//     const getCategory = async () => {
+//       try {
+//         const res = await axios.get("https://api.novajobs.us/api/jobseeker/job-categories", {
+//           headers: {
+//             Authorization: token,
+//           },
+//         });
+//         setCategories(res.data.data);
+//       } catch (err) {
+//         console.log(err, 'error fetching categories');
+//       }
+//     };
+//     getCategory();
+//   }, [token]);
+
+//   // Handle the form submission and navigate with query parameters
+//   const handleSearch = (e) => {
+//     e.preventDefault();
+//     const params = new URLSearchParams();
+//     if (searchJob) params.append("title_keywords", searchJob);
+//     if (sector) params.append("sector", sector);
+//     if (location) params.append("location", location);
+
+//     const searchUrl = `/user/job/1?${params.toString()}`;
+//     navigate(searchUrl);
+//   };
+
+//   return (
+
+   
+//     <Container>
+//       <Video
+//       autoPlay
+//       loop
+//       muted
+//       // src={videoSrc}
+//       src="https://wedesignthemes.s3.amazonaws.com/thatha/Slider+VDO+02+HD.mp4"
+//       type="video/mp4"
+//     >
+//       Your browser does not support the video tag.
+//     </Video>
+//     <Heading1>Hello, I'm Aria,</Heading1>
+//     <Heading2>Your Personal Career Advisor!</Heading2>
+//     <Prompt>Are You?</Prompt>
+//     <OptionWrapper>
+//       {options.map((option, index) => (
+//         <OptionLabel
+//           key={index}
+//           selected={selectedOption === option}
+//           onClick={() => handleOptionChange(option)}
+//         >
+//           {option}
+//         </OptionLabel>
+//       ))}
+//     </OptionWrapper>
+
+//       <SearchForm onSubmit={handleSearch}>
+//         <FormRow>
+//           {/* Job title search input */}
+//           <FormGroup>
+//             <Input
+//               type="text"
+//               placeholder="Job Title, Keywords, or Phrase"
+//               value={searchJob}
+//               onChange={(e) => setSearchJob(e.target.value)}
+//             />
+//           </FormGroup>
+
+//           {/* Sector dropdown populated with API data */}
+//           <FormGroup>
+//             <Select value={sector} onChange={(e) => setSector(e.target.value)}>
+//               <option value="">Select Sector</option>
+//               {categories.map((category) => (
+//                 <option key={category.id} value={category.name}>
+//                   {category.name}
+//                 </option>
+//               ))}
+//             </Select>
+//           </FormGroup>
+
+//           {/* Location dropdown populated with state data */}
+//           <FormGroup>
+//             <Select value={location} onChange={(e) => setLocation(e.target.value)}>
+//               <option value="">Select Location</option>
+//               {states.map((state) => (
+//                 <option key={state.id} value={state.name}>
+//                   {state.name}
+//                 </option>
+//               ))}
+//             </Select>
+//           </FormGroup>
+
+//           {/* Search button */}
+//           <FormGroup>
+//             <Button type="submit" className="search-button" disabled>
+//               <img
+//                 src="https://cdn-icons-png.flaticon.com/512/54/54481.png"
+//                 alt="Search"
+//                 className="search-icon"
+//               />
+//               Search
+//             </Button>
+//           </FormGroup>
+//         </FormRow>
+//       </SearchForm>
+
+//       {isModalOpen && (
+//       <>
+//         <Overlay onClick={closeModal} />
+//         <Modal>
+//           <CloseButton onClick={closeModal}>
+//             <FaTimes />
+//           </CloseButton>
+//           <ModalTitle>{selectedOption} Form</ModalTitle>
+//           {renderForm()}
+//         </Modal>
+//       </>
+//     )}
+//     </Container>
+//   );
+// };
+// const CareerAdvisorPage = () => {
+//   const [searchJob, setSearchJob] = useState("")
+//   const [sector, setSector] = useState("")
+//   const [location, setLocation] = useState("")
+//   const [states, setStates] = useState([])
+//   const [categories, setCategories] = useState([])
+//   const [pageData, setPageData] = useState(null)
+//   const [loading, setLoading] = useState(true)
+//   const [error, setError] = useState(null)
+
+//   const token = localStorage.getItem("jobSeekerLoginToken")
+//   const navigate = useNavigate()
+
+//   const [selectedOption, setSelectedOption] = useState("")
+//   const [isModalOpen, setIsModalOpen] = useState(false)
+
+//   const options = ["A Jobseeker", "An Employer", "A Partner"]
+
+//   // Fetch page data from the API
+//   useEffect(() => {
+//     const fetchPageData = async () => {
+//       try {
+//         const response = await axios.get(
+//           "https://apiwl.novajobs.us/api/jobseeker/general-info?domain=http://novahomecare.novajobs.us",
+//           {
+//             headers: {
+//               Authorization: token,
+//             },
+//           },
+//         )
+//         setPageData(response.data.data)
+//         setLoading(false)
+//       } catch (err) {
+//         console.error("Error fetching page data:", err)
+//         setError(err.message)
+//         setLoading(false)
+//       }
+//     }
+
+//     fetchPageData()
+//   }, [token])
+
+//   // Keep existing useEffects for states and categories...
+//   useEffect(() => {
+//     const getState = async () => {
+//       try {
+//         const response = await axios.get(`https://api.novajobs.us/api/jobseeker/stats/231`, {
+//           headers: { Authorization: token },
+//         })
+//         setStates(response.data.data)
+//       } catch (err) {
+//         console.log(err, "STATE fetch error")
+//       }
+//     }
+//     getState()
+//   }, [token])
+
+//   useEffect(() => {
+//     const getCategory = async () => {
+//       try {
+//         const res = await axios.get("https://api.novajobs.us/api/jobseeker/job-categories", {
+//           headers: {
+//             Authorization: token,
+//           },
+//         })
+//         setCategories(res.data.data)
+//       } catch (err) {
+//         console.log(err, "error fetching categories")
+//       }
+//     }
+//     getCategory()
+//   }, [token])
+
+//   const handleOptionChange = (option) => {
+//     setSelectedOption(option)
+//   }
+
+//   const closeModal = () => {
+//     setIsModalOpen(false)
+//   }
+
+//   const renderForm = () => {
+//     switch (selectedOption) {
+//       case "A Jobseeker":
+//         return <JobseekerForm />
+//       case "An Employer":
+//         return <EmployeeForm />
+//       case "A Partner":
+//         return <PartnerForm />
+//       default:
+//         return null
+//     }
+//   }
+
+//   const handleSearch = (e) => {
+//     e.preventDefault()
+//     const params = new URLSearchParams()
+//     if (searchJob) params.append("title_keywords", searchJob)
+//     if (sector) params.append("sector", sector)
+//     if (location) params.append("location", location)
+
+//     const searchUrl = `/user/job/1?${params.toString()}`
+//     navigate(searchUrl)
+//   }
+
+//   if (loading) {
+//     return <Container>Loading...</Container>
+//   }
+
+//   if (error) {
+//     return (
+//       <Container>
+//         <Video
+//           autoPlay
+//           loop
+//           muted
+//           src="https://wedesignthemes.s3.amazonaws.com/thatha/Slider+VDO+02+HD.mp4"
+//           type="video/mp4"
+//         >
+//           Your browser does not support the video tag.
+//         </Video>
+//         <Heading1>Hello, I'm Aria,</Heading1>
+//         <Heading2>Your Personal Career Advisor!</Heading2>
+//         {/* Show default content when API fails */}
+//       </Container>
+//     )
+//   }
+// console.log(pageData?.home_here_section?.BackgroundMedia,"lll");
+//   return (
+//     <Container>
+//       <Video
+//         autoPlay
+//         loop
+//         muted
+//         src={
+//           pageData?.home_here_section?.BackgroundMedia ||
+//           "https://wedesignthemes.s3.amazonaws.com/thatha/Slider+VDO+02+HD.mp4"
+//         }
+//         type="video/mp4"
+//       >
+//         Your browser does not support the video tag.
+//       </Video>
+
+//       <Heading1>{pageData?.home_here_section?.title || "Hello, I'm Aria,"}</Heading1>
+//       <Heading2>{pageData?.home_here_section?.description || "Your Personal Career Advisor!"}</Heading2>
+//       <Prompt>Are You?</Prompt>
+
+//       <OptionWrapper>
+//         {options.map((option, index) => (
+//           <OptionLabel key={index} selected={selectedOption === option} onClick={() => handleOptionChange(option)}>
+//             {option}
+//           </OptionLabel>
+//         ))}
+//       </OptionWrapper>
+
+//       <SearchForm onSubmit={handleSearch}>
+//         <FormRow>
+//           <FormGroup>
+//             <Input
+//               type="text"
+//               placeholder="Job Title, Keywords, or Phrase"
+//               value={searchJob}
+//               onChange={(e) => setSearchJob(e.target.value)}
+//             />
+//           </FormGroup>
+
+//           <FormGroup>
+//             <Select value={sector} onChange={(e) => setSector(e.target.value)}>
+//               <option value="">Select Sector</option>
+//               {categories.map((category) => (
+//                 <option key={category.id} value={category.name}>
+//                   {category.name}
+//                 </option>
+//               ))}
+//             </Select>
+//           </FormGroup>
+
+//           <FormGroup>
+//             <Select value={location} onChange={(e) => setLocation(e.target.value)}>
+//               <option value="">Select Location</option>
+//               {states.map((state) => (
+//                 <option key={state.id} value={state.name}>
+//                   {state.name}
+//                 </option>
+//               ))}
+//             </Select>
+//           </FormGroup>
+
+//           <FormGroup>
+//             <Button type="submit" className="search-button" disabled>
+//               <img src="https://cdn-icons-png.flaticon.com/512/54/54481.png" alt="Search" className="search-icon" />
+//               Search
+//             </Button>
+//           </FormGroup>
+//         </FormRow>
+//       </SearchForm>
+
+//       {isModalOpen && (
+//         <>
+//           <Overlay onClick={closeModal} />
+//           <Modal>
+//             <CloseButton onClick={closeModal}>
+//               <FaTimes />
+//             </CloseButton>
+//             <ModalTitle>{selectedOption} Form</ModalTitle>
+//             {renderForm()}
+//           </Modal>
+//         </>
+//       )}
+//     </Container>
+//   )
+// }
+const BackgroundMedia = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+
+  img, video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+`
+
+const CareerAdvisorPage = () => {
+  const [searchJob, setSearchJob] = useState("")
+  const [sector, setSector] = useState("")
+  const [location, setLocation] = useState("")
+  const [states, setStates] = useState([])
+  const [categories, setCategories] = useState([])
+  const [pageData, setPageData] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  const token = localStorage.getItem("jobSeekerLoginToken")
+  const navigate = useNavigate()
+
+  const [selectedOption, setSelectedOption] = useState("")
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const options = ["A Jobseeker", "An Employer", "A Partner"]
+
+  // Helper function to check file type
+  const getFileType = (url) => {
+    if (!url) return null
+    const extension = url.split(".").pop().toLowerCase()
+    if (["jpg", "jpeg", "png", "gif", "webp"].includes(extension)) {
+      return "image"
+    } else if (["mp4", "webm", "ogg"].includes(extension)) {
+      return "video"
+    }
+    return null
+  }
+
+  // Render background media based on file type
+  const renderBackgroundMedia = (mediaUrl) => {
+    const fileType = getFileType(mediaUrl)
+    const defaultVideo = "https://wedesignthemes.s3.amazonaws.com/thatha/Slider+VDO+02+HD.mp4"
+
+    if (!mediaUrl) {
+      return (
+        <Video autoPlay loop muted src={defaultVideo} type="video/mp4">
+          Your browser does not support the video tag.
+        </Video>
+      )
+    }
+
+    switch (fileType) {
+      case "image":
+        return <img src={mediaUrl || "/placeholder.svg"} alt="Background" />
+      case "video":
+        return (
+          <Video autoPlay loop muted src={mediaUrl} type={`video/${mediaUrl.split(".").pop()}`}>
+            Your browser does not support the video tag.
+          </Video>
+        )
+      default:
+        return (
+          <Video autoPlay loop muted src={defaultVideo} type="video/mp4">
+            Your browser does not support the video tag.
+          </Video>
+        )
+    }
+  }
+
+  // Fetch page data from the API
+  useEffect(() => {
+    const fetchPageData = async () => {
+      try {
+        const response = await axios.get(
+          "https://apiwl.novajobs.us/api/jobseeker/general-info?domain=http://novahomecare.novajobs.us",
+          {
+            headers: {
+              Authorization: token,
+            },
+          },
+        )
+        setPageData(response.data.data)
+        setLoading(false)
+      } catch (err) {
+        console.error("Error fetching page data:", err)
+        setError(err.message)
+        setLoading(false)
+      }
+    }
+
+    fetchPageData()
+  }, [token])
+
+  // Keep existing useEffects for states and categories...
   useEffect(() => {
     const getState = async () => {
       try {
         const response = await axios.get(`https://api.novajobs.us/api/jobseeker/stats/231`, {
           headers: { Authorization: token },
-        });
-        setStates(response.data.data);
+        })
+        setStates(response.data.data)
       } catch (err) {
-        console.log(err, "STATE fetch error");
+        console.log(err, "STATE fetch error")
       }
-    };
-    getState();
-  }, [token]);
+    }
+    getState()
+  }, [token])
 
-  // Fetch categories for the sector dropdown
   useEffect(() => {
     const getCategory = async () => {
       try {
@@ -381,59 +830,69 @@ const CareerAdvisorPage = () => {
           headers: {
             Authorization: token,
           },
-        });
-        setCategories(res.data.data);
+        })
+        setCategories(res.data.data)
       } catch (err) {
-        console.log(err, 'error fetching categories');
+        console.log(err, "error fetching categories")
       }
-    };
-    getCategory();
-  }, [token]);
+    }
+    getCategory()
+  }, [token])
 
-  // Handle the form submission and navigate with query parameters
+  const handleOptionChange = (option) => {
+    setSelectedOption(option)
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+  }
+
+  const renderForm = () => {
+    switch (selectedOption) {
+      case "A Jobseeker":
+        return <JobseekerForm />
+      case "An Employer":
+        return <EmployeeForm />
+      case "A Partner":
+        return <PartnerForm />
+      default:
+        return null
+    }
+  }
+
   const handleSearch = (e) => {
-    e.preventDefault();
-    const params = new URLSearchParams();
-    if (searchJob) params.append("title_keywords", searchJob);
-    if (sector) params.append("sector", sector);
-    if (location) params.append("location", location);
+    e.preventDefault()
+    const params = new URLSearchParams()
+    if (searchJob) params.append("title_keywords", searchJob)
+    if (sector) params.append("sector", sector)
+    if (location) params.append("location", location)
 
-    const searchUrl = `/user/job/1?${params.toString()}`;
-    navigate(searchUrl);
-  };
+    const searchUrl = `/user/job/1?${params.toString()}`
+    navigate(searchUrl)
+  }
+
+  if (loading) {
+    return <Container>Loading...</Container>
+  }
 
   return (
-
-   
     <Container>
-      <Video
-      autoPlay
-      loop
-      muted
-      // src={videoSrc}
-      src="https://wedesignthemes.s3.amazonaws.com/thatha/Slider+VDO+02+HD.mp4"
-      type="video/mp4"
-    >
-      Your browser does not support the video tag.
-    </Video>
-    <Heading1>Hello, I'm Aria,</Heading1>
-    <Heading2>Your Personal Career Advisor!</Heading2>
-    <Prompt>Are You?</Prompt>
-    <OptionWrapper>
-      {options.map((option, index) => (
-        <OptionLabel
-          key={index}
-          selected={selectedOption === option}
-          onClick={() => handleOptionChange(option)}
-        >
-          {option}
-        </OptionLabel>
-      ))}
-    </OptionWrapper>
+      <BackgroundMedia>{renderBackgroundMedia(pageData?.home_here_section?.BackgroundMedia)}</BackgroundMedia>
+
+      <Heading1>{pageData?.home_here_section?.title || "Hello, I'm Aria,"}</Heading1>
+      <Heading2>{pageData?.home_here_section?.description || "Your Personal Career Advisor!"}</Heading2>
+      <Prompt>Are You?</Prompt>
+
+      <OptionWrapper>
+        {options.map((option, index) => (
+          <OptionLabel key={index} selected={selectedOption === option} onClick={() => handleOptionChange(option)}>
+            {option}
+          </OptionLabel>
+        ))}
+      </OptionWrapper>
 
       <SearchForm onSubmit={handleSearch}>
         <FormRow>
-          {/* Job title search input */}
           <FormGroup>
             <Input
               type="text"
@@ -443,7 +902,6 @@ const CareerAdvisorPage = () => {
             />
           </FormGroup>
 
-          {/* Sector dropdown populated with API data */}
           <FormGroup>
             <Select value={sector} onChange={(e) => setSector(e.target.value)}>
               <option value="">Select Sector</option>
@@ -455,7 +913,6 @@ const CareerAdvisorPage = () => {
             </Select>
           </FormGroup>
 
-          {/* Location dropdown populated with state data */}
           <FormGroup>
             <Select value={location} onChange={(e) => setLocation(e.target.value)}>
               <option value="">Select Location</option>
@@ -467,14 +924,9 @@ const CareerAdvisorPage = () => {
             </Select>
           </FormGroup>
 
-          {/* Search button */}
           <FormGroup>
             <Button type="submit" className="search-button" disabled>
-              <img
-                src="https://cdn-icons-png.flaticon.com/512/54/54481.png"
-                alt="Search"
-                className="search-icon"
-              />
+              <img src="https://cdn-icons-png.flaticon.com/512/54/54481.png" alt="Search" className="search-icon" />
               Search
             </Button>
           </FormGroup>
@@ -482,19 +934,22 @@ const CareerAdvisorPage = () => {
       </SearchForm>
 
       {isModalOpen && (
-      <>
-        <Overlay onClick={closeModal} />
-        <Modal>
-          <CloseButton onClick={closeModal}>
-            <FaTimes />
-          </CloseButton>
-          <ModalTitle>{selectedOption} Form</ModalTitle>
-          {renderForm()}
-        </Modal>
-      </>
-    )}
+        <>
+          <Overlay onClick={closeModal} />
+          <Modal>
+            <CloseButton onClick={closeModal}>
+              <FaTimes />
+            </CloseButton>
+            <ModalTitle>{selectedOption} Form</ModalTitle>
+            {renderForm()}
+          </Modal>
+        </>
+      )}
     </Container>
-  );
-};
+  )
+}
 
-export default CareerAdvisorPage;
+export default CareerAdvisorPage
+
+
+// export default CareerAdvisorPage;
