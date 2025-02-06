@@ -358,7 +358,7 @@ import axios from "axios";
 import Logout from "./Logout";
 import "../Layout/Headerjobseeker.css";
 
-const defaultLogo = "https://abhishekdevpro-nova-home-care-fe.vercel.app/assets/logo-B4gdw3fA.png";
+const defaultLogo = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUhQJ-44yDYIuo8Hj-L1ezQSKAkkK4CqlecQ&s";
 
 const UserHeader = () => {
   const [show, setShow] = useState(false);
@@ -367,12 +367,13 @@ const UserHeader = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+ const url =  window.location.origin
   useEffect(() => {
     // Fetch logo from API
     const fetchLogo = async () => {
       try {
         const response = await axios.get(
-          "https://apiwl.novajobs.us/api/jobseeker/acount-info?domain=http://novahomecare.novajobs.us"
+            `https://apiwl.novajobs.us/api/jobseeker/acount-info?domain=${url}`
         );
         if (response.data?.data.logo) {
           setLogo(response.data.data.logo);

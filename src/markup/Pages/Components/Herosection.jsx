@@ -783,13 +783,13 @@ const CareerAdvisorPage = () => {
         )
     }
   }
-
+  const url =  window.location.origin
   // Fetch page data from the API
   useEffect(() => {
     const fetchPageData = async () => {
       try {
         const response = await axios.get(
-          "https://apiwl.novajobs.us/api/jobseeker/general-info?domain=http://novahomecare.novajobs.us",
+          `https://apiwl.novajobs.us/api/jobseeker/general-info?domain=${url}`,
           {
             headers: {
               Authorization: token,
