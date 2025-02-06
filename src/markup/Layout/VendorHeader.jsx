@@ -300,12 +300,12 @@ const VendorHeader = () => {
       });
     }
   };
-
+  const url = window.location.origin;
   useEffect(() => {
     // Fetch logo from API
     const fetchLogo = async () => {
       try {
-        const response = await axios.get('https://apiwl.novajobs.us/api/jobseeker/acount-info?domain=http://novahomecare.novajobs.us'); // Replace with your domain
+        const response = await axios.get(`https://apiwl.novajobs.us/api/jobseeker/acount-info?domain=${url}`); // Replace with your domain
         // console.log(response.data.data,"llll");
         if (response.data && response.data.data.logo) {
           setLogo(response.data.data.logo);

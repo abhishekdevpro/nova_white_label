@@ -156,7 +156,7 @@
 //                     </li>
 
 //                     <li className="">
-//                       <Link 
+//                       <Link
 //                       // to={"/aboutus"}
 //                       >About Us </Link>
 //                     </li>
@@ -168,7 +168,7 @@
 //                       }}
 //                       className=""
 //                     >
-//                       <Link 
+//                       <Link
 //                       // to={"/user/job/1"}
 //                       >Job Page</Link>
 //                       <ul className="sub-menu">
@@ -181,13 +181,13 @@
 //                     </li>
 //                     {localStorage.getItem("jobSeekerLoginToken") ? (
 //                       <li>
-//                         <Link 
+//                         <Link
 //                         // to={"/user/jobs-profile"}
 //                         >Dashboard</Link>
-                        
+
 //                       </li>
 //                     ) : null}
-                  
+
 //                     <li
 //                       className="nav-item jobseeker-hover"
 //                       style={{ position: "relative" }}
@@ -350,7 +350,6 @@
 // }
 // export default UserHeader;
 
-
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Modal } from "react-bootstrap";
@@ -358,25 +357,28 @@ import axios from "axios";
 import Logout from "./Logout";
 import "../Layout/Headerjobseeker.css";
 
-const defaultLogo = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUhQJ-44yDYIuo8Hj-L1ezQSKAkkK4CqlecQ&s";
+const defaultLogo =
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUhQJ-44yDYIuo8Hj-L1ezQSKAkkK4CqlecQ&s";
 
 const UserHeader = () => {
   const [show, setShow] = useState(false);
   const [logo, setLogo] = useState(defaultLogo);
+  const [isPartner, setIsPartner] = useState(true);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
- const url =  window.location.origin
+  const url = window.location.origin;
   useEffect(() => {
     // Fetch logo from API
     const fetchLogo = async () => {
       try {
         const response = await axios.get(
-            `https://apiwl.novajobs.us/api/jobseeker/acount-info?domain=${url}`
+          `https://apiwl.novajobs.us/api/jobseeker/acount-info?domain=${url}`
         );
         if (response.data?.data.logo) {
           setLogo(response.data.data.logo);
+          setIsPartner(response.data.data.is_partner_with_us);
         }
       } catch (error) {
         console.error("Error fetching logo:", error);
@@ -406,11 +408,11 @@ const UserHeader = () => {
     const checkLi = (current) => {
       const parentEl = current.parentElement;
       const parentUl = parentEl.parentElement;
-      
-      parentUl.querySelectorAll("li").forEach((el) =>
-        parentEl !== el ? el.classList.remove("open") : ""
-      );
-      
+
+      parentUl
+        .querySelectorAll("li")
+        .forEach((el) => (parentEl !== el ? el.classList.remove("open") : ""));
+
       setTimeout(() => {
         parentEl.classList.toggle("open");
       }, 100);
@@ -428,7 +430,7 @@ const UserHeader = () => {
       });
     };
   }, []);
-
+  console.log(isPartner, "LLLL");
   return (
     <>
       <header className="site-header mo-left header fullwidth">
@@ -469,7 +471,10 @@ const UserHeader = () => {
                     <Link to="/">Home</Link>
                   </li>
 
-                  <li className="nav-item jobseeker-hover" style={{ position: "relative" }}>
+                  <li
+                    className="nav-item jobseeker-hover"
+                    style={{ position: "relative" }}
+                  >
                     <Link className="nav-link">Services</Link>
                     {!localStorage.getItem("jobSeekerLoginToken") && (
                       <div className="popup rounded-4 m-2">
@@ -511,11 +516,18 @@ const UserHeader = () => {
                     </li>
                   )}
 
-                  <li className="nav-item jobseeker-hover" style={{ position: "relative" }}>
+                  <li
+                    className="nav-item jobseeker-hover"
+                    style={{ position: "relative" }}
+                  >
                     {localStorage.getItem("jobSeekerLoginToken") ? (
                       <Logout />
                     ) : (
-                      <Link style={{ color: "white" }} to="#" className="nav-link site-button">
+                      <Link
+                        style={{ color: "white" }}
+                        to="#"
+                        className="nav-link site-button"
+                      >
                         Jobseeker
                       </Link>
                     )}
@@ -538,8 +550,8 @@ const UserHeader = () => {
                     )}
                   </li>
 
-                  <li>
-                    {!localStorage.getItem("jobSeekerLoginToken") && (
+                  {/* <li>
+                    {!localStorage.getItem("jobSeekerLoginToken") &&  (
                       <Link
                         to="/white-label"
                         style={{ color: "white" }}
@@ -548,7 +560,16 @@ const UserHeader = () => {
                         Partner With Us
                       </Link>
                     )}
-                  </li>
+                  </li> */}
+                  {isPartner && !localStorage.getItem("jobSeekerLoginToken") && (
+                    <Link
+                      to="/white-label"
+                      style={{ color: "white" }}
+                      className="site-button"
+                    >
+                      Partner With Us
+                    </Link>
+                  )}
 
                   <li>
                     {!localStorage.getItem("jobSeekerLoginToken") && (
@@ -583,7 +604,8 @@ const UserHeader = () => {
               <div
                 className="col-lg-6 col-md-6 overlay-primary-dark d-flex p-a0"
                 style={{
-                  backgroundImage: "url(" + require("./../../images/background/bg3.jpg") + ")",
+                  backgroundImage:
+                    "url(" + require("./../../images/background/bg3.jpg") + ")",
                   backgroundPosition: "center",
                   backgroundSize: "cover",
                 }}
@@ -591,8 +613,8 @@ const UserHeader = () => {
                 <div className="form-info text-white align-self-center">
                   <h3 className="m-b15">Login To You Now</h3>
                   <p className="m-b15">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting
-                    industry has been the industry.
+                    Lorem Ipsum is simply dummy text of the printing and
+                    typesetting industry has been the industry.
                   </p>
                   <ul className="list-inline m-a0">
                     <li>

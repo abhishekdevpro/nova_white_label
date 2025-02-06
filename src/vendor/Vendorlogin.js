@@ -71,13 +71,13 @@ const Vendorlogin = () => {
               to={"/"}
               className="dez-page d-flex justify-content-center mt-5"
             >
-              <img
+              {/* <img
                 style={{ width: "210px" }}
                 src="https://abhishekdevpro-nova-home-care-fe.vercel.app/assets/logo-B4gdw3fA.png"
                 // src={require("../images/logo/NovaUS.png")}
                 className="logo"
                 alt="img"
-              />
+              /> */}
             </Link>
             <h3 className="text-center m-4">Vendor Login</h3>
             <Form onSubmit={handleLogin}>

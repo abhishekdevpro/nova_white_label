@@ -772,7 +772,9 @@ const VendorPartnershipForm = () => {
           'Authorization': token
         }
       });
+      console.log(response.data.data,"Activesd");
       setIsActivated(response.data.data.domain_active);
+      toast.success("Domain activated successfully")
       if (response.data.data.domain) {
         setDomain(response.data.data.domain);
         // Set the subdomain in formData when domain is fetched
