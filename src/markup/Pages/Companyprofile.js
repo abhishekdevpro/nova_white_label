@@ -15,7 +15,7 @@ function Companyprofile() {
   const companyData = useSelector(
     (state) => state.companyDataSlice.companyData
   );
-  console.log(companyData, "hey");
+  console.log(companyData, "hey cd");
   const [countries, setCountries] = useState([
     {
       id: "",
@@ -51,17 +51,7 @@ function Companyprofile() {
   const [googleBusiness, setGoogleBusiness] = useState("");
   const [glassdoor, setGlassdor] = useState("");
   const token = localStorage.getItem("employeeLoginToken");
-  useEffect(() => {
-    console.log(selectedCountry);
-    setSelectedState("");
-    getState();
-  }, [selectedCountry]);
-
-  useEffect(() => {
-    console.log(selectedStates);
-    // setSelectedCities("");
-    getCities();
-  }, [selectedStates]);
+ 
 
   const getCountry = async () => {
     axios({
@@ -73,7 +63,7 @@ function Companyprofile() {
     })
       .then((res) => {
         setCountries(res.data.data);
-        console.log(res.data.data);
+        // console.log(res.data.data);
       })
       .catch((error) => {
         console.log(error);
@@ -90,12 +80,13 @@ function Companyprofile() {
     })
       .then((res) => {
         setStates(res.data.data);
-        console.log(res.data.data);
+        // console.log(res.data.data);
       })
       .catch((error) => {
         console.log(error);
       });
   };
+  
   const getCities = async () => {
     axios({
       method: "get",
@@ -105,9 +96,9 @@ function Companyprofile() {
       },
     })
       .then((res) => {
-        console.log(selectedStates);
+        // console.log(selectedStates);
         setCities(res.data.data);
-        console.log(res.data.data);
+        // console.log(res.data.data);
       })
       .catch((error) => {
         console.log(error);
@@ -174,7 +165,16 @@ function Companyprofile() {
     setGoogleBusiness(companyData.google_link);
     setGlassdor(companyData.facebook_link);
   }, [companyData]);
+  useEffect(() => {
+    setSelectedState("");
+    getState();
+  }, [selectedCountry]);
 
+  useEffect(() => {
+    // console.log(selectedStates);
+    setSelectedCities("");
+    getCities();
+  }, [selectedStates]);
   return (
     <>
       <Header2 />

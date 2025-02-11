@@ -210,7 +210,7 @@ const FixedHeader = () => {
 
   const imagePath = fixedHeaderValues.photo;
   const fullImageUrl = imagePath;
-  console.log(fullImageUrl);
+  // console.log(fullImageUrl);
 
   function handleChange(event) {
     const selectedFile = event.target.files && event.target.files[0];

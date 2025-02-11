@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
@@ -8,7 +8,7 @@ import Header2 from "./../Layout/Header2";
 import Footer from "./../Layout/Footer";
 import FixedHeader from "../Layout/fixedHeader";
 import Profilesidebar from "../Element/Profilesidebar";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 function MyResumes() {
   const [resumes, setResumes] = useState([]);
   const [scores, setScores] = useState({});
@@ -21,9 +21,9 @@ function MyResumes() {
   const [editingResumeId, setEditingResumeId] = useState(null);
   const [newResumeName, setNewResumeName] = useState("");
   const [isDefault, setIsDefault] = useState(false); // New state for is_default
-
+  const token = localStorage.getItem("jobSeekerLoginToken");
   useEffect(() => {
-    const token = localStorage.getItem("jobSeekerLoginToken");
+   
     if (token) {
       axios
         .get("https://apiwl.novajobs.us/api/user/resume-list", {
@@ -81,7 +81,7 @@ function MyResumes() {
   };
 
   const handleGetSuggestions = (resume) => {
-    const token = localStorage.getItem("token");
+    // const token = localStorage.getItem("token");
     if (token) {
       setIsLoading(true);
       axios
@@ -110,7 +110,7 @@ function MyResumes() {
     }
   };
   const handleEditResumeName = async () => {
-    const token = localStorage.getItem("token");
+    // const token = localStorage.getItem("token");
     if (token && editingResumeId) {
       try {
         await axios.put(
@@ -142,7 +142,7 @@ function MyResumes() {
   };
 
   const handleDeleteResume = async () => {
-    const token = localStorage.getItem("token");
+    // const token = localStorage.getItem("token");
     if (token) {
       try {
         await axios.delete(
@@ -176,7 +176,6 @@ function MyResumes() {
                 <Profilesidebar data={"resume-list"} />
                 <div className="col-xl-9 col-lg-8 m-b30 browse-job">
                   <h6>Resumes List</h6>
-                  <ToastContainer />
                   <div className="overflow-x-auto post-bx">
                     <table className="min-w-full bg-white text-black rounded-md">
                       <thead>
@@ -192,7 +191,7 @@ function MyResumes() {
                         </tr>
                       </thead>
                       <tbody>
-                        {resumes.map((resume, index) => (
+                        {resumes?.map((resume, index) => (
                           <tr key={index} className="border-2">
                             <td className="py-2 px-4">{index + 1}</td>
                             <td className="py-2 px-4">

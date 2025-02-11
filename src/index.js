@@ -9,6 +9,8 @@ import reportWebVitals from "./reportWebVitals";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import { ToastContainer } from 'react-toastify';
+import { LogoProvider } from './Context/LogoContext';
 // import SimpleReactLightbox from "simple-react-lightbox";
 
 //ReactDOM.render(<App />, document.getElementById('root'));
@@ -16,9 +18,13 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
+      <LogoProvider>
       <Router>
         <App />
+        <ToastContainer />
       </Router>
+      </LogoProvider>
+
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

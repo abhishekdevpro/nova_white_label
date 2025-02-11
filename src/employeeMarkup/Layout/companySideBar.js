@@ -80,7 +80,7 @@ const CompanySideBar = ({ active }) => {
     getLogo(); // Fetch logo on component mount
   }, []); // Empty dependency array ensures it runs only once
 
-  console.log(logo, "lavi");
+  // console.log(logo, "lavi");
 
   const companyData = useSelector(
     (state) => state.companyDataSlice.companyData

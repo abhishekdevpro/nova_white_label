@@ -206,7 +206,6 @@ function App() {
   const dispatch = useDispatch();
 
   return (
-    <LogoProvider>
     <Routes>
       <Route path="/" element={<Homepage />} />
       <Route path="services" element={<LandingPage />} />
@@ -1428,7 +1427,6 @@ function App() {
         <Route path="*" element={<EmployeeError404 />} />
       </Route>
     </Routes>
-    </LogoProvider>
   );
 }
 

@@ -28,12 +28,16 @@ import { useParams } from "react-router-dom";
 import SkeletonImg from "../../images/jobpage/No data-pana.png";
 import { FaSearch, FaBars } from "react-icons/fa";
 import { ToastContainer } from "react-toastify";
+import { useLogo } from "../../Context/LogoContext";
 
 function JobPage() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const url = window.location.origin.includes("localhost")
+  ? "https://wl.novajobs.us"
+  : window.location.origin;
 
   const [selectedJob, setSelectedJob] = useState(null);
   const [show, setShow] = useState(false);
@@ -95,11 +99,11 @@ function JobPage() {
 
   useEffect(() => {
     const fetchJobApplicationData = async () => {
-      console.log(page);
+      // console.log(page);
       try {
         const response = await axios.get(
           // "https://apiwl.novajobs.us/api/jobseeker/job-lists?page_no=1&page_size=7&is_publish=1",
-          `https://apiwl.novajobs.us/api/jobseeker/job-lists?page_no=${page}&page_size=${perPage}&is_publish=1`,
+          `https://apiwl.novajobs.us/api/jobseeker/job-lists?page_no=${page}&page_size=${perPage}&is_publish=1&domain=${url}`,
           {
             headers: {
               Authorization: token,
@@ -120,6 +124,7 @@ function JobPage() {
             }
           );
           if (response.data.data) {
+            // console.log(response.data.data,"job data");
             setSelectedJob(response.data.data);
           } else {
             console.log(`No job found with id: ${id}`);
@@ -349,7 +354,7 @@ function JobPage() {
   const baseUrl =
     // "https://apiwl.novajobs.us/api/jobseeker/job-lists/?page_size=7&is_publish=1";
     // "https://apiwl.novajobs.us/api/jobseeker/job-lists?page_size=7&is_publish=1";
-    `https://apiwl.novajobs.us/api/jobseeker/job-lists?page_no=${page}&page_size=${perPage}&is_publish=1`;
+    `https://apiwl.novajobs.us/api/jobseeker/job-lists?page_no=${page}&page_size=${perPage}&is_publish=1&domain=${url}`;
   const params = new URLSearchParams();
   // Handle Search Based on Params
   const handleSearch = () => {
@@ -412,8 +417,8 @@ function JobPage() {
         });
         showToastSuccess("Job applied successfully");
       } catch (err) {
-        console.log(err);
-        console.log(err.response.data.message);
+        // console.log(err);
+        // console.log(err.response.data.message);
         showToastError(err?.response?.data?.message);
       }
     }
@@ -425,12 +430,11 @@ function JobPage() {
 
     // fetchJobApplicationData(nextPage);
   };
-  console.log("pagevalue", page);
+  // console.log("pagevalue", page);
   return (
     <>
       <Header />
       {localStorage.getItem("jobSeekerLoginToken") ? <FixedHeader /> : null}
-      <ToastContainer />
       <div>
         {showSkeleton === true ? (
           <div className="bg-white w-100 ">

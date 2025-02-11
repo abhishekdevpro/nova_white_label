@@ -26,7 +26,7 @@ const SkillHistory = () => {
         }
 
         const response = await axios.get(
-          "https://apiwl.novajobs.us/api/user/skill-assessment-history",
+          "https://apiwl.novajobs.us/api/jobseeker/skill-assessment-history",
           {
             headers: {
               Authorization: token,
@@ -66,9 +66,7 @@ const SkillHistory = () => {
               <LoadingSpinner />
               <p className="mt-3 text-secondary">Loading skill history...</p>
             </div>
-          ) : error ? (
-            <div className="text-center py-5 text-danger fs-5">{error}</div>
-          ) : users.length === 0 ? (
+          ) :  users ? (
             <div className="text-center py-5 text-muted">
               <Award className="fs-1 text-secondary mb-3" />
               <p className="fs-4 mb-2">No Skill Assessment History</p>

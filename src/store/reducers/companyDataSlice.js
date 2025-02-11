@@ -58,7 +58,7 @@ const companyDataSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchCompanyInfo.pending, (state) => {
-        console.log("here");
+        // console.log("here");
         state.isUserChatsLoading = true;
         state.userChatsError = null;
       })

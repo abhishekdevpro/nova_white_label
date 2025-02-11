@@ -14,7 +14,7 @@ export const fetchCompanyInfo = createAsyncThunk(
           Authorization: token,
         },
       });
-      console.log(response.data.data, "fulfilled");
+      // console.log(response.data.data, "fulfilled");
       return response.data.data; // This is the resolved value used as action.payload
     } catch (error) {
       // Using rejectWithValue to return a custom error payload
