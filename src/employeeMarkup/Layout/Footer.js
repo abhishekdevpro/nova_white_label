@@ -6,6 +6,7 @@ import india from "../../images/WhatsApp_Image_2024-05-11_at_19.51.05-removebg-p
 import axios from "axios";
 import { showToastError, showToastSuccess } from "../../utils/toastify";
 import { FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
+import LogoWrapper from "../../markup/Layout/LogoWrapper";
 
 function Footer() {
   const [email, setEmail] = useState("");
@@ -40,7 +41,7 @@ function Footer() {
 
     axios({
       method: "POST",
-      url: "https://api.novajobs.us/api/jobseeker/user-subscribe",
+      url: "https://apiwl.novajobs.us/api/jobseeker/user-subscribe",
       data: { email },
     })
       .then((res) => {
@@ -64,19 +65,11 @@ function Footer() {
                 <div className="row row-cols-1 row-cols-md-5">
                   <div className="col mb-4 mb-md-0 col-md-4">
                     <div className="text-start">
-                      <div className="mb-4">
-                        <Link to={"/"}>
-                          <img
-                            src="https://abhishekdevpro-nova-home-care-fe.vercel.app/assets/logo-B4gdw3fA.png"
-                            // src={require("./../../images/logo/NovaUS.png")}
-                            className="max-w-[180px] w-[180px] "
-                            alt=""
-                            style={{ width: "180px" }}
-                          />
-                        </Link>
-                      </div>
-                      <b className="fw-bold mb-4">An AI enabled Job Portal</b>
-                      <ul className="list-3 d-flex flex-column gap-2 text-break mt-4">
+                    <div className="mb-4 d-flex flex-column align-items-center text-center">
+                    <LogoWrapper />
+                    <b className="fw-bold mt-2">An AI-enabled Job Portal</b>
+                  </div>
+                      {/* <ul className="list-3 d-flex flex-column gap-2 text-break mt-4">
                         <li className="flex d-flex align-items-center justify-content-start gap-2">
                           <p>
                             <FaMapMarkerAlt className="" />
@@ -87,16 +80,16 @@ function Footer() {
                           <p>
                             <FaEnvelope className="" />
                           </p>
-                          {/* <Link to="mailto:contact@novajobs.us">Email us</Link> */}
+                          {/* <Link to="mailto:contact@novajobs.us">Email us</Link> 
                           <p>info@novajobs.us</p>
                         </li>
                         <li className="flex d-flex align-items-center justify-content-start gap-2">
                           <p>
                             <FaEnvelope className="" />
                           </p>
-                          {/* <p>hr@novajobs.us</p> */}
+                          {/* <p>hr@novajobs.us</p> 
                         </li>
-                      </ul>
+                      </ul> */}
                     </div>
                   </div>
                   <div className="col mb-4 mb-md-0 col-md-2">

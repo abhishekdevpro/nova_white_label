@@ -31,7 +31,7 @@ function Jobsappliedjob() {
   useEffect(() => {
     axios({
       method: "GET",
-      url: "https://api.novajobs.us/api/jobseeker/jobs-applied",
+      url: "https://apiwl.novajobs.us/api/jobseeker/jobs-applied",
       headers: {
         Authorization: token,
         "Content-Type": "application/json",

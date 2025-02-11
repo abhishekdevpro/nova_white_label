@@ -103,7 +103,7 @@ function EmployeeBrowsecandidates() {
   const getCountry = () => {
     axios({
       method: "GET",
-      url: "https://api.novajobs.us/api/employeer/countries",
+      url: "https://apiwl.novajobs.us/api/employeer/countries",
       headers: {
         Authorization: token,
       },
@@ -121,7 +121,7 @@ function EmployeeBrowsecandidates() {
   const getState = () => {
     axios({
       method: "GET",
-      url: `https://api.novajobs.us/api/employeer/stats/231`,
+      url: `https://apiwl.novajobs.us/api/employeer/stats/231`,
       headers: {
         Authorization: token,
       },
@@ -140,7 +140,7 @@ function EmployeeBrowsecandidates() {
   const getCities = () => {
     axios({
       method: "GET",
-      url: `https://api.novajobs.us/api/employeer/cities/${browseCandidateValues.state_id}`,
+      url: `https://apiwl.novajobs.us/api/employeer/cities/${browseCandidateValues.state_id}`,
       headers: {
         Authorization: token,
       },
@@ -196,7 +196,7 @@ function EmployeeBrowsecandidates() {
   useEffect(() => {
     axios({
       method: "GET",
-      url: "https://api.novajobs.us/api/employeer/experience-level",
+      url: "https://apiwl.novajobs.us/api/employeer/experience-level",
       headers: {
         Authorization: token,
       },
@@ -210,7 +210,7 @@ function EmployeeBrowsecandidates() {
   useEffect(() => {
     axios({
       method: "GET",
-      url: "https://api.novajobs.us/api/employeer/salary-range",
+      url: "https://apiwl.novajobs.us/api/employeer/salary-range",
       headers: {
         Authorization: token,
       },
@@ -232,7 +232,7 @@ function EmployeeBrowsecandidates() {
   useEffect(() => {
     axios({
       method: "GET",
-      url: "https://api.novajobs.us/api/employeer/educations",
+      url: "https://apiwl.novajobs.us/api/employeer/educations",
       headers: {
         Authorization: token,
       },
@@ -248,7 +248,7 @@ function EmployeeBrowsecandidates() {
       });
   }, []);
 
-  const baseUrl = "https://api.novajobs.us/api/employeer/job-seekers";
+  const baseUrl = "https://apiwl.novajobs.us/api/employeer/job-seekers";
 
   const params = new URLSearchParams();
 

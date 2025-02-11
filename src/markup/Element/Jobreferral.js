@@ -22,7 +22,7 @@ function Jobreferral() {
     const referralData = { name, phone, email, remark };
 
     try {
-      const response = await axios.post("https://api.novajobs.us/api/jobseeker/add-referral", referralData, {
+      const response = await axios.post("https://apiwl.novajobs.us/api/jobseeker/add-referral", referralData, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': token,

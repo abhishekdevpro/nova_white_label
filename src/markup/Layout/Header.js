@@ -356,38 +356,16 @@ import { Modal } from "react-bootstrap";
 import axios from "axios";
 import Logout from "./Logout";
 import "../Layout/Headerjobseeker.css";
+import { User } from "lucide-react";
+import LogoWrapper from "./LogoWrapper";
+import { useLogo } from "../../Context/LogoContext";
 
-const defaultLogo =
-  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUhQJ-44yDYIuo8Hj-L1ezQSKAkkK4CqlecQ&s";
 
 const UserHeader = () => {
   const [show, setShow] = useState(false);
-  const [logo, setLogo] = useState(defaultLogo);
-  const [isPartner, setIsPartner] = useState(true);
-
+  const {isPartner,logo} = useLogo()
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
-  const url = window.location.origin;
-  useEffect(() => {
-    // Fetch logo from API
-    const fetchLogo = async () => {
-      try {
-        const response = await axios.get(
-          `https://apiwl.novajobs.us/api/jobseeker/acount-info?domain=${url}`
-        );
-        if (response.data?.data.logo) {
-          setLogo(response.data.data.logo);
-          setIsPartner(response.data.data.is_partner_with_us);
-        }
-      } catch (error) {
-        console.error("Error fetching logo:", error);
-        // Keep using default logo in case of error
-      }
-    };
-
-    fetchLogo();
-  }, []);
 
   useEffect(() => {
     // Sidebar open/close
@@ -430,18 +408,18 @@ const UserHeader = () => {
       });
     };
   }, []);
-  console.log(isPartner, "LLLL");
   return (
     <>
       <header className="site-header mo-left header fullwidth">
         <div className="sticky-header main-bar-wraper navbar-expand-lg">
           <div className="main-bar clearfix">
             <div className="container clearfix">
-              <div className="logo-header mostion">
+              {/* <div className="logo-header mostion">
                 <Link to="/">
                   <img src={logo} className="logo" alt="company logo" />
                 </Link>
-              </div>
+              </div> */}
+              <LogoWrapper/>
 
               <button
                 className="navbar-toggler collapsed navicon justify-content-end"
@@ -463,7 +441,7 @@ const UserHeader = () => {
               >
                 <div className="logo-header mostion d-md-block d-lg-none">
                   <Link to="/" className="dez-page">
-                    <img src={logo} className="logo" alt="mobile logo" />
+                    <img src={logo.logo} className="logo" alt="mobile logo" />
                   </Link>
                 </div>
                 <ul className="nav navbar-nav align-items-center">
@@ -471,7 +449,7 @@ const UserHeader = () => {
                     <Link to="/">Home</Link>
                   </li>
 
-                  <li
+                 {isPartner && <li
                     className="nav-item jobseeker-hover"
                     style={{ position: "relative" }}
                   >
@@ -488,7 +466,7 @@ const UserHeader = () => {
                         </div>
                       </div>
                     )}
-                  </li>
+                  </li>}
 
                   <li>
                     <Link>About Us</Link>
@@ -501,13 +479,13 @@ const UserHeader = () => {
                     }}
                   >
                     <Link>Job Page</Link>
-                    <ul className="sub-menu">
+                    {isPartner && <ul className="sub-menu">
                       <li>
                         <Link to="/Profilepagehome" className="dez-page">
                           Company Page
                         </Link>
                       </li>
-                    </ul>
+                    </ul>}
                   </li>
 
                   {localStorage.getItem("jobSeekerLoginToken") && (
@@ -524,15 +502,17 @@ const UserHeader = () => {
                       <Logout />
                     ) : (
                       <Link
+                       to="/user/login"
                         style={{ color: "white" }}
-                        to="#"
+                        // to="#"
                         className="nav-link site-button"
                       >
-                        Jobseeker
+                          <User className="me-2" size={20} />
+                        Jobseeker Login
                       </Link>
                     )}
 
-                    {!localStorage.getItem("jobSeekerLoginToken") && (
+                    {/* {!localStorage.getItem("jobSeekerLoginToken") && (
                       <div className="popup rounded-4 m-2">
                         <div className="d-flex gap-2 m-3">
                           <Link
@@ -547,7 +527,7 @@ const UserHeader = () => {
                           </Link>
                         </div>
                       </div>
-                    )}
+                    )} */}
                   </li>
 
                   {/* <li>
@@ -567,6 +547,7 @@ const UserHeader = () => {
                       style={{ color: "white" }}
                       className="site-button"
                     >
+
                       Partner With Us
                     </Link>
                   )}
@@ -578,7 +559,8 @@ const UserHeader = () => {
                         to="/employer"
                         className="site-button"
                       >
-                        Employers/Post Job
+                        <User className="me-2" size={20} />
+                        Employers Login
                       </Link>
                     )}
                   </li>

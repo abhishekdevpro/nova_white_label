@@ -24,7 +24,7 @@ function SkillTest() {
   const getSkillTestQuestion = async (id, name) => {
     await axios({
       method: "get",
-      url: `https://api.novajobs.us/api/user/skill-assessment?skill_id=${id}&skill_name=${name}`,
+      url: `https://apiwl.novajobs.us/api/user/skill-assessment?skill_id=${id}&skill_name=${name}`,
       headers: {
         Authorization: token,
         "Content-type": "application/json",
@@ -45,7 +45,7 @@ function SkillTest() {
   useEffect(() => {
     axios({
       method: "GET",
-      url: "https://api.novajobs.us/api/user/user-skills",
+      url: "https://apiwl.novajobs.us/api/user/user-skills",
       headers: {
         Authorization: token,
         "Content-type": "application/json",

@@ -24,7 +24,7 @@ const CompanySideBar = ({ active }) => {
   const dispatch = useDispatch();
   const postJob = async () => {
     await axios({
-      url: "https://api.novajobs.us/api/employeer/job-post",
+      url: "https://apiwl.novajobs.us/api/employeer/job-post",
       method: "POST",
       headers: {
         Authorization: token,
@@ -60,7 +60,7 @@ const CompanySideBar = ({ active }) => {
     try {
       const response = await axios({
         method: "get",
-        url: "https://api.novajobs.us/api/employeer/employeer-profile",
+        url: "https://apiwl.novajobs.us/api/employeer/employeer-profile",
         headers: {
           Authorization: token,
         },
@@ -102,7 +102,7 @@ const CompanySideBar = ({ active }) => {
     e.preventDefault();
     axios({
       method: "PUT",
-      url: "https://api.novajobs.us/api/employeer/company-logo",
+      url: "https://apiwl.novajobs.us/api/employeer/company-logo",
       headers: {
         Authorization: token,
       },

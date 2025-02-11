@@ -31,7 +31,7 @@ function ResetPasswordemployee(props) {
   
     await axios({
       method: "POST",
-      url: "https://api.novajobs.us/api/employeer/reset-password",
+      url: "https://apiwl.novajobs.us/api/employeer/reset-password",
       data: formData,
     })
       .then((response) => {

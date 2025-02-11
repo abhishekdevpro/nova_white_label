@@ -44,7 +44,7 @@ function ForEmployer({ forEmployerData }) {
       const imgData = JSON.parse(forEmployerData.images);
 
       setImagePreview(
-        imgData[0] ? "https://api.novajobs.us" + imgData[0] : logo3
+        imgData[0] ? "https://apiwl.novajobs.us" + imgData[0] : logo3
       );
     }
   }, [forEmployerData]);

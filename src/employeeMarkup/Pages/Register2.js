@@ -119,7 +119,7 @@ const notify = (data) => toast.warning(data);
     }
 
     axios
-      .post("https://api.novajobs.us/api/employeer/resume-upload", formData, {
+      .post("https://apiwl.novajobs.us/api/employeer/resume-upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: token,
@@ -152,7 +152,7 @@ const notify = (data) => toast.warning(data);
 
     try {
       const res = await axios.post(
-        "https://api.novajobs.us/api/employeer/auth/signup",
+        "https://apiwl.novajobs.us/api/employeer/auth/signup",
         body,
         {
           headers: {
@@ -183,7 +183,7 @@ const notify = (data) => toast.warning(data);
       const encodedEmail = encodeURIComponent(email); // Encode email
       const encodedToken = encodeURIComponent(token); // Encode token
 
-      const verificationLink = `https://api.novajobs.us/api/employer/verify-account/${encodedToken}?email=${encodedEmail}`;
+      const verificationLink = `https://apiwl.novajobs.us/api/employer/verify-account/${encodedToken}?email=${encodedEmail}`;
       const emailBody = {
         to: email,
         subject: "Confirm Your Email",
@@ -225,7 +225,7 @@ const notify = (data) => toast.warning(data);
     console.log(resumeUrl);
     await axios({
       method: "post",
-      url: "https://api.novajobs.us/api/jobseeker/file-based-ai",
+      url: "https://apiwl.novajobs.us/api/jobseeker/file-based-ai",
       data: {
         keyword: "Rate this resume content in percentage ?",
         file_location: resumeUrl,

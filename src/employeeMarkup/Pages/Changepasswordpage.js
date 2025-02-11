@@ -34,7 +34,7 @@ function Changepasswordpage() {
     e.preventDefault();
     axios({
       method: "POST",
-      url: "https://api.novajobs.us/api/employeer/change-password",
+      url: "https://apiwl.novajobs.us/api/employeer/change-password",
       headers: {
         Authorization: token,
         "Content-type": "application/json",

@@ -48,7 +48,7 @@ function Introductions({ introductionData }) {
     if (introductionData.images && JSON.parse(introductionData.images)) {
       const imgData = JSON.parse(introductionData.images);
       setImagePreview(
-        imgData[0] ? "https://api.novajobs.us" + imgData[0] : logo1
+        imgData[0] ? "https://apiwl.novajobs.us" + imgData[0] : logo1
       );
     }
   }, [introductionData]);

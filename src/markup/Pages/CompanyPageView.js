@@ -42,7 +42,7 @@ const CompanyPage = () => {
   const handleGetRequest = () => {
     axios({
       method: "GET",
-      url: `https://api.novajobs.us/api/jobseeker/companies/${id}`,
+      url: `https://apiwl.novajobs.us/api/jobseeker/companies/${id}`,
     })
       .then((response) => {
         console.log(response);
@@ -58,7 +58,7 @@ const CompanyPage = () => {
   const handleGetJobRequest = () => {
     axios({
       method: "GET",
-      url: "https://api.novajobs.us/api/jobseeker/job-lists?company_id=1",
+      url: "https://apiwl.novajobs.us/api/jobseeker/job-lists?company_id=1",
     })
       .then((response) => {
         console.log(response);
@@ -78,7 +78,7 @@ const CompanyPage = () => {
   useEffect(() => {
     axios({
       method: "GET",
-      url: "https://api.novajobs.us/api/jobseeker/companies?page_size=6",
+      url: "https://apiwl.novajobs.us/api/jobseeker/companies?page_size=6",
       
     })
       .then((res) => {

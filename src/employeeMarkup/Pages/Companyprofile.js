@@ -59,7 +59,7 @@ function EmployeeCompanyprofile() {
     // Fetch industries from API
     axios({
       method: "GET",
-      url: "https://api.novajobs.us/api/employeer/company-industry",
+      url: "https://apiwl.novajobs.us/api/employeer/company-industry",
       headers: {
         Authorization: token, // Assuming you have token stored
       },
@@ -145,7 +145,7 @@ function EmployeeCompanyprofile() {
   const getCountry = async () => {
     axios({
       method: "get",
-      url: "https://api.novajobs.us/api/employeer/countries",
+      url: "https://apiwl.novajobs.us/api/employeer/countries",
       headers: {
         Authorization: token,
       },
@@ -161,7 +161,7 @@ function EmployeeCompanyprofile() {
   const getState = async () => {
     axios({
       method: "get",
-      url: `https://api.novajobs.us/api/employeer/stats/${selectedCountry}`,
+      url: `https://apiwl.novajobs.us/api/employeer/stats/${selectedCountry}`,
       headers: {
         Authorization: token,
       },
@@ -177,7 +177,7 @@ function EmployeeCompanyprofile() {
   const getCities = async () => {
     axios({
       method: "get",
-      url: `https://api.novajobs.us/api/employeer/cities/${selectedStates}`,
+      url: `https://apiwl.novajobs.us/api/employeer/cities/${selectedStates}`,
       headers: {
         Authorization: token,
       },
@@ -287,7 +287,7 @@ function EmployeeCompanyprofile() {
       // First request to update company data
       await axios({
         method: "put",
-        url: `https://api.novajobs.us/api/employeer/company`,
+        url: `https://apiwl.novajobs.us/api/employeer/company`,
         headers: {
           Authorization: token,
         },
@@ -316,7 +316,7 @@ function EmployeeCompanyprofile() {
       // Second request to update company services
       await axios({
         method: "put",
-        url: `https://api.novajobs.us/api/employeer/company-services`,
+        url: `https://apiwl.novajobs.us/api/employeer/company-services`,
         headers: {
           Authorization: token,
           // No need to set 'Content-Type' when sending FormData; the browser sets it automatically
@@ -543,7 +543,7 @@ function EmployeeCompanyprofile() {
                                 {service.image && (
                                   <div className="col-lg-12 col-md-12 mt-2">
                                     <img
-                                      src={`https://api.novajobs.us${service.image}`}
+                                      src={`https://apiwl.novajobs.us${service.image}`}
                                       alt="Service"
                                       className="img-fluid"
                                       style={{ maxHeight: "100px" }}

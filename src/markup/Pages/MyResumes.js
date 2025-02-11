@@ -26,7 +26,7 @@ function MyResumes() {
     const token = localStorage.getItem("jobSeekerLoginToken");
     if (token) {
       axios
-        .get("https://api.novajobs.us/api/user/resume-list", {
+        .get("https://apiwl.novajobs.us/api/user/resume-list", {
           headers: { Authorization: token },
         })
         .then((response) => {
@@ -51,7 +51,7 @@ function MyResumes() {
       setIsLoading(true);
       axios
         .post(
-          "https://api.novajobs.us/api/user/file-based-ai",
+          "https://apiwl.novajobs.us/api/user/file-based-ai",
           {
             keyword:
               "Rate this resume content in percentage ? and checklist of scope improvements in manner of content and informations",
@@ -86,7 +86,7 @@ function MyResumes() {
       setIsLoading(true);
       axios
         .post(
-          "https://api.novajobs.us/api/user/file-based-ai",
+          "https://apiwl.novajobs.us/api/user/file-based-ai",
           {
             keyword:
               "Rate this resume content in percentage ? and checklist of scope improvements in manner of content and informations",
@@ -114,7 +114,7 @@ function MyResumes() {
     if (token && editingResumeId) {
       try {
         await axios.put(
-          `https://api.novajobs.us/api/user/resume-details/${editingResumeId}`,
+          `https://apiwl.novajobs.us/api/user/resume-details/${editingResumeId}`,
           { resume_title: newResumeName, is_default: isDefault ? 1 : 0 }, // Pass is_default as 1 or 0 ,
 
           {
@@ -146,7 +146,7 @@ function MyResumes() {
     if (token) {
       try {
         await axios.delete(
-          `https://api.novajobs.us/api/user/resume-list/${deleteresumeid}`,
+          `https://apiwl.novajobs.us/api/user/resume-list/${deleteresumeid}`,
           {
             headers: { Authorization: token },
           }

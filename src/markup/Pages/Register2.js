@@ -114,7 +114,7 @@ function Register2(props) {
     }
 
     axios
-      .post("https://api.novajobs.us/api/jobseeker/resume-upload", formData, {
+      .post("https://apiwl.novajobs.us/api/jobseeker/resume-upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: token,
@@ -146,7 +146,7 @@ function Register2(props) {
     };
   
     try {
-      const res = await axios.post("https://api.novajobs.us/api/jobseeker/auth/signup", body, {
+      const res = await axios.post("https://apiwl.novajobs.us/api/jobseeker/auth/signup", body, {
         headers: {
           "Content-Type": "application/json",
           Authorization: token,
@@ -184,7 +184,7 @@ const sendConfirmationEmail = async (email, token) => {
     const encodedEmail = encodeURIComponent(email); // Encode email
     const encodedToken = encodeURIComponent(token); // Encode token
 
-    const verificationLink = `https://api.novajobs.us/api/jobseeker/verify-account/${encodedToken}?email=${encodedEmail}`;
+    const verificationLink = `https://apiwl.novajobs.us/api/jobseeker/verify-account/${encodedToken}?email=${encodedEmail}`;
     const emailBody = {
       to: email,
       subject: "Confirm Your Email",
@@ -227,7 +227,7 @@ useEffect(() => {
     console.log(resumeUrl);
     await axios({
       method: "post",
-      url: "https://api.novajobs.us/api/jobseeker/file-based-ai",
+      url: "https://apiwl.novajobs.us/api/jobseeker/file-based-ai",
       data: {
         keyword: "Rate this resume content in percentage ?",
         file_location: resumeUrl,

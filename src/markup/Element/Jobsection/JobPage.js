@@ -35,7 +35,7 @@ function JobPage2() {
     setLoading(true); // Start loading
     try {
       const response = await axios.get(
-        `https://api.novajobs.us/api/jobseeker/job-lists?page_no=${currentPage}&page_size=${perPage}&is_publish=1`,
+        `https://apiwl.novajobs.us/api/jobseeker/job-lists?page_no=${currentPage}&page_size=${perPage}&is_publish=1`,
         {
           headers: {
             Authorization: token,
@@ -92,7 +92,7 @@ function JobPage2() {
   const toggleFabJobs = async () => {
     try {
       await axios({
-        url: "https://api.novajobs.us/api/jobseeker/job-favorites",
+        url: "https://apiwl.novajobs.us/api/jobseeker/job-favorites",
         method: "POST",
         headers: { Authorization: token },
         data: {

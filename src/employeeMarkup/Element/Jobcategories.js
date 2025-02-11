@@ -9,7 +9,7 @@ function Jobcategories() {
   useEffect(() => {
     axios({
       method: "GET",
-      url: "https://api.novajobs.us/api/employeer/job-categories",
+      url: "https://apiwl.novajobs.us/api/employeer/job-categories",
       headers: {
         Authorization: token,
       },

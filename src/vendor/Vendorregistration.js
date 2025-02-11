@@ -1,376 +1,344 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
-import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import { ToastContainer, toast } from 'react-toastify';
-import { Navbar, Nav, Badge } from 'react-bootstrap';
-import { FaBell } from 'react-icons/fa';
-import Footer from '../markup/Layout/Footer';
-import VendorHeader from '../markup/Layout/VendorHeader';
 
-const Vendorregistration = () => {
-  const [formData, setFormData] = useState({
-    first_name: '',
-    last_name: '',
-    email: '',
-    phone: '',
-    password: '',
-    company_name: '',
-    created_on: '', // Created On field
-    website: '', // Website field
-    authorized_person: '', // Authorized Person field
-    public_view_link: '', // Public View link field
-    alternative_number: '', // Alternative Number field
-    company_linkedin: '', // Company Linkedin field
-    access: [], // Checkbox access options
-    domain:"https://abc.novajobs.us"
-  });
+
+import { useState, useEffect } from "react"
+import { toast, ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+import axios from "axios"
+// import { Container, Form, Logo, Title, FormGroup, Label, Input, CheckboxGroup, SubmitButton } from "./StyledComponents"
+import styled from "styled-components"
+
+
+import DomainSection from "./DomainSection"
+import UserHeader from "../markup/Layout/Header"
+import Footer from "../markup/Layout/Footer"
+import { useLogo } from "../Context/LogoContext"
+
+const VendorRegistration = () => {
+  const {logo} = useLogo()
   
+  const [formData, setFormData] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone: "",
+    password: "",
+    company_name: "",
+    website: "",
+    company_linkedin: "",
+    access: [],
+    domain: "https://abc.novajobs.us",
+  })
+
+
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-  
-    if (type === 'checkbox') {
-      const isChecked = checked;
-      const updatedAccess = isChecked
-        ? [...formData.access, name]
-        : formData.access.filter((item) => item !== name);
-  
-      setFormData({ ...formData, access: updatedAccess });
+    const { name, value, type, checked } = e.target
+    if (type === "checkbox") {
+      const updatedAccess = checked ? [...formData.access, name] : formData.access.filter((item) => item !== name)
+      setFormData({ ...formData, access: updatedAccess })
     } else {
-      setFormData({ ...formData, [name]: value });
+      setFormData({ ...formData, [name]: value })
     }
-  };
-  
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-  
+    e.preventDefault()
     try {
-        const response = await fetch('https://apiwl.novajobs.us/api/admin/auth/vendor/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),
-        });
-  
-        // Check if response is ok
-        if (response.ok) {
-            toast.success('Vendor registered successfully! Please check your email for verification.');
-        } else {
-            // Attempt to parse the error message from the response
-            const errorData = await response.json();
-            toast.error(errorData.message || 'Registration failed. Please try again.');
-        }
-    } catch (error) {
-        toast.error('An unexpected error occurred. Please try again.');
-        console.error('Error:', error); // Log the error for debugging
-    }
-};
+      const response = await fetch("https://apiwl.novajobs.us/api/admin/auth/vendor/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
 
+      if (response.ok) {
+        toast.success("Vendor registered successfully! Please check your email for verification.")
+        setFormData({
+          first_name: "",
+          last_name: "",
+          email: "",
+          phone: "",
+          password: "",
+          company_name: "",
+          website: "",
+          company_linkedin: "",
+          access: [],
+        })
+      } else {
+        const errorData = await response.json()
+        toast.error(errorData.message || "Registration failed. Please try again.")
+      }
+    } catch (error) {
+      toast.error("An unexpected error occurred. Please try again.")
+      console.error("Error:", error)
+    }
+  }
 
   return (
-    <div>
-       {/* <Navbar bg="white" variant="white" className='py-3 border-bottom'>
-      <Navbar.Brand as={Link} to="/">
-        <img
-          style={{ width: "110px" }}
-          src={require("../images/logo/NovaUS.png")}
-          className="logo"
-          alt="img"
-        />
-      </Navbar.Brand>
-
-<ToastContainer/>
-        <Nav className="ml-auto align-items-center">
-          <Nav.Link href="/vendor/login" className="mr-4">
-          
-          <Button variant="primary" type="submit" className="  " style={{ backgroundColor: '#1C2957'}}>
-                  Sign In
-                </Button>
-          </Nav.Link>
-
-          
-        </Nav>
-    
-    </Navbar> */}
-    <VendorHeader/>
-      <Link to={"/"}
-             className="dez-page d-flex justify-content-center mt-5">
-                    <img style={{width:"210px"}}
-                      src="https://abhishekdevpro-nova-home-care-fe.vercel.app/assets/logo-B4gdw3fA.png"
-                      // src={require("../images/logo/NovaUS.png")}
-                      className="logo"
-                      alt="img"
-                    />
-                    </Link>
-          <h3 className="text-center m-4">Vendor registration</h3>
-       
-          <Container fluid>
-        <Row>
-          
-          <Col md={10} className='d-flex justify-content-center'>
-          
-            <Form onSubmit={handleSubmit} className='ms-5 ps-5'>
-              <div className='d-flex gap-4'>
-              <Form.Group controlId="formFirstName">
-                <Form.Label className='mx-5'>First Name</Form.Label>
-                <Form.Control
-                className='w-100 p-4 mx-5'
-                  type="text"
-                  placeholder="Enter first name"
-                  name="first_name"
-                  value={formData.first_name}
+    <>
+      <UserHeader />
+      <Container>
+        <Logo src={logo} alt="Company Logo" />
+        <Title>Vendor Registration</Title>
+        <Form onSubmit={handleSubmit}>
+          <FormRow>
+            <FormGroup>
+              <Label htmlFor="first_name">First Name *</Label>
+              <Input
+                type="text"
+                id="first_name"
+                name="first_name"
+                value={formData.first_name}
+                onChange={handleChange}
+                required
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label htmlFor="last_name">Last Name *</Label>
+              <Input
+                type="text"
+                id="last_name"
+                name="last_name"
+                value={formData.last_name}
+                onChange={handleChange}
+                required
+              />
+            </FormGroup>
+          </FormRow>
+          <FormRow>
+            <FormGroup>
+              <Label htmlFor="email">Email address *</Label>
+              <Input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required />
+            </FormGroup>
+            <FormGroup>
+              <Label htmlFor="phone">Phone *</Label>
+              <Input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleChange} required />
+            </FormGroup>
+          </FormRow>
+          <FormRow>
+            <FormGroup>
+              <Label htmlFor="password">Password *</Label>
+              <Input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label htmlFor="company_name">Company Name</Label>
+              <Input
+                type="text"
+                id="company_name"
+                name="company_name"
+                value={formData.company_name}
+                onChange={handleChange}
+                required
+              />
+            </FormGroup>
+          </FormRow>
+          <FormRow>
+            <FormGroup>
+              <Label htmlFor="website">Website</Label>
+              <Input type="url" id="website" name="website" value={formData.website} onChange={handleChange} />
+            </FormGroup>
+            <FormGroup>
+              <Label htmlFor="company_linkedin">Company LinkedIn</Label>
+              <Input
+                type="url"
+                id="company_linkedin"
+                name="company_linkedin"
+                value={formData.company_linkedin}
+                onChange={handleChange}
+              />
+            </FormGroup>
+          </FormRow>
+          <DomainSection formData={formData} setFormData={setFormData} />
+          <CheckboxGroup>
+            <h4>Required Services on Portal</h4>
+            {[
+              { label: "Jobs portal", name: "A" },
+              { label: "Employer Login", name: "A+" },
+              { label: "Jobseeker Login", name: "B" },
+              { label: "ATS", name: "B+" },
+              { label: "HRMS", name: "C" },
+              { label: "AI Resume builder", name: "skill_test" },
+              { label: "Community", name: "resume_builder" },
+              { label: "Messaging", name: "jobseeker_access" },
+              { label: "SEO & Digital Marketing", name: "D" },
+            ].map((item) => (
+              <label key={item.name}>
+                <input
+                  type="checkbox"
+                  name={item.name}
+                  checked={formData.access.includes(item.name)}
                   onChange={handleChange}
-                  required
                 />
-              </Form.Group>
-
-              <Form.Group controlId="formLastName">
-                <Form.Label className='mx-5'>Last Name</Form.Label>
-                <Form.Control
-                className='w-100 p-4 mx-5'
-                  type="text"
-                  placeholder="Enter last name"
-                  name="last_name"
-                  value={formData.last_name}
-                  onChange={handleChange}
-                  required
-                />
-              </Form.Group>
-              </div>
-              <div className='d-flex gap-4'>
-              <Form.Group controlId="formEmail">
-                <Form.Label className='mx-5'>Email address</Form.Label>
-                <Form.Control
-                className='w-100 p-4 mx-5'
-                  type="email"
-                  placeholder="Enter email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                />
-              </Form.Group>
-
-              <Form.Group controlId="formPhone">
-                <Form.Label className='mx-5'>Phone</Form.Label>
-                <Form.Control
-                className='w-100 p-4 mx-5'
-                  type="tel"
-                  placeholder="Enter phone number"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  required
-                />
-              </Form.Group>
-             </div>
-
-            <div className='d-flex gap-4'>
-            <Form.Group controlId="formPassword">
-                <Form.Label className='mx-5'>Password</Form.Label>
-                <Form.Control
-                className='w-100 p-4 mx-5'
-                  type="password"
-                  placeholder="Enter password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  required
-                />
-              </Form.Group>
-
-              <Form.Group controlId="formCompanyName">
-                <Form.Label className='mx-5'>Company Name</Form.Label>
-                <Form.Control
-                className='w-100 p-4 mx-5'
-                  type="text"
-                  placeholder="Enter company name"
-                  name="company_name"
-                  value={formData.company_name}
-                  onChange={handleChange}
-                  required
-                />
-              </Form.Group>
-              
-            </div>
-              <div className='d-flex gap-5'>
-              <Form.Group controlId="formCreatedOn">
-  <Form.Label className='mx-5'>Created On</Form.Label>
-  <Form.Control
-  className=' px- py-4 mx-5 pe-5'
-    type="date"
-    name="created_on"
-    value={formData.created_on}
-    onChange={handleChange}
-    required
-  />
-</Form.Group>
-
-<Form.Group controlId="formWebsite">
-  <Form.Label className='mx-5'>Website</Form.Label>
-  <Form.Control
-  className='w-100 p-4 mx-5 ps-5'
-    type="url"
-    placeholder="Enter website URL"
-    name="website"
-    value={formData.website}
-    onChange={handleChange}
-  />
-</Form.Group>
-              </div>
-
-<div className='d-flex gap-4'>
-<Form.Group controlId="formAuthorizedPerson">
-  <Form.Label className='mx-5'>Authorized Person</Form.Label>
-  <Form.Control
-  className='w-100 p-4 mx-5'
-    type="text"
-    placeholder="Enter authorized person"
-    name="authorized_person"
-    value={formData.authorized_person}
-    onChange={handleChange}
-  />
-</Form.Group>
-
-<Form.Group controlId="formPublicViewLink">
-  <Form.Label className='mx-5'>Public View Link</Form.Label>
-  <Form.Control
-  className='w-100 p-4 mx-5'
-    type="url"
-    placeholder="Enter public view link"
-    name="public_view_link"
-    value={formData.public_view_link}
-    onChange={handleChange}
-  />
-</Form.Group>
-</div>
-
-<div className='d-flex gap-4'><Form.Group controlId="formAlternativeNumber">
-  <Form.Label className='mx-5'>Alternative Number</Form.Label>
-  <Form.Control
-  className='w-100 p-4 mx-5'
-    type="tel"
-    placeholder="Enter alternative number"
-    name="alternative_number"
-    value={formData.alternative_number}
-    onChange={handleChange}
-  />
-</Form.Group>
-
-<Form.Group controlId="formCompanyLinkedin">
-  <Form.Label className='mx-5'>Company Linkedin</Form.Label>
-  <Form.Control
-  className='w-100 p-4 mx-5'
-    type="url"
-    placeholder="Enter company LinkedIn URL"
-    name="company_linkedin"
-    value={formData.company_linkedin}
-    onChange={handleChange}
-  />
-</Form.Group></div>
-
-<div className='d-flex gap-5'><Form.Group controlId="formAccess">
-  <Form.Label className='mx-5'>Access</Form.Label>
-  <Form.Check
-  className='w-100 my-3 mx-5'
-    type="checkbox"
-    label="Jobs posting"
-    name="A"
-    checked={formData.access.includes('A')}
-    onChange={handleChange}
-  />
-  <Form.Check
-  className='w-100 my-3 mx-5'
-    type="checkbox"
-    label="Bulk Upload"
-    name="A+"
-    checked={formData.access.includes('A+')}
-    onChange={handleChange}
-  />
-  <Form.Check
-   className='w-100 my-3 mx-5'
-    type="checkbox"
-    label="Job seeker"
-    name="B"
-    checked={formData.access.includes('B')}
-    onChange={handleChange}
-  />
-  <Form.Check
-   className='w-100 my-3 mx-5'
-    type="checkbox"
-    label="Job seeker Bulk upload"
-    name="B+"
-    checked={formData.access.includes('B+')}
-    onChange={handleChange}
-  />
-  <Form.Check
-   className='w-100 my-3 mx-5'
-    type="checkbox"
-    label="Search Jobs"
-    name="C"
-    checked={formData.access.includes('C')}
-    onChange={handleChange}
-  />
-  <Form.Check
-   className='w-100 my-3 mx-5'
-    type="checkbox"
-    label="Dashboard"
-    name="D"
-    checked={formData.access.includes('D')}
-    onChange={handleChange}
-  />
-</Form.Group>
-
-<Form.Group controlId="formWhiteLabelPlans">
-  <Form.Label className='mx-5' >White Label Plans</Form.Label>
-  
-  <Form.Check
-   className='w-100 my-3 mx-5'
-    type="checkbox"
-    label="Skill Test"
-    name="skill_test"
-    checked={formData.access.includes('skill_test')}
-    onChange={handleChange}
-  />
-  <Form.Check
-   className='w-100 my-3 mx-5'
-    type="checkbox"
-    label="Resume Builder"
-    name="resume_builder"
-    checked={formData.access.includes('resume_builder')}
-    onChange={handleChange}
-  />
-  <Form.Check
-   className='w-100 my-3 mx-5'
-    type="checkbox"
-    label="Jobseeker access"
-    name="jobseeker_access"
-    checked={formData.access.includes('jobseeker_access')}
-    onChange={handleChange}
-  />
- 
-</Form.Group></div>
-
-
-              <Button variant="primary" type="submit" className="m-5 ml-5 w-100" style={{ backgroundColor: '#1C2957'}}>
-                Register
-              </Button> 
-              
-            </Form>
-            
-          </Col>
-            <div className='d-flex justify-content-center'>
-            
-            </div>
-        </Row>
+                {item.label}
+              </label>
+            ))}
+          </CheckboxGroup>
+          <RemarksContainer>
+      <div>
+        <RemarksLabel htmlFor="remarks">Additional Remarks</RemarksLabel>
+        <RemarksTextarea id="remarks" placeholder="Enter any additional remarks..."></RemarksTextarea>
+      </div>
+      <TermsContainer>
+        <TermsCheckbox type="checkbox" id="terms" />
+        <TermsText htmlFor="terms">
+          By submitting this form, you agree to our <a href="#">Terms of Use</a> & <a href="#">Privacy Policy</a>.
+        </TermsText>
+      </TermsContainer>
+    </RemarksContainer>
+          <SubmitButton type="submit">Register</SubmitButton>
+        </Form>
       </Container>
       <ToastContainer />
-      <Footer/>
-    </div>
-  );
-};
+      <Footer />
+    </>
+  )
+}
 
-export default Vendorregistration;
+export default VendorRegistration
+
+export const Container = styled.div`
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+`
+
+export const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`
+
+export const FormRow = styled.div`
+  display: flex;
+  gap: 1rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+`
+
+export const FormGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+`
+
+export const Label = styled.label`
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+`
+
+export const Input = styled.input`
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+`
+
+export const CheckboxGroup = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+
+  h4 {
+    grid-column: 1 / -1;
+    margin-bottom: 1rem;
+  }
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+`
+
+export const SubmitButton = styled.button`
+  background-color: #1C2957;
+  color: white;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #161f3f;
+  }
+`
+
+export const Logo = styled.img`
+  width: 210px;
+  display: block;
+  margin: 2rem auto;
+`
+
+export const Title = styled.h3`
+  text-align: center;
+  margin-bottom: 2rem;
+`
+export const RemarksContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1rem;
+`;
+
+export const RemarksLabel = styled.label`
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: block;
+`;
+
+export const RemarksTextarea = styled.textarea`
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  resize: vertical;
+  min-height: 100px;
+
+  &:focus {
+    border-color: #1C2957;
+    outline: none;
+  }
+`;
+
+export const TermsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+`;
+
+export const TermsCheckbox = styled.input`
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+`;
+
+export const TermsText = styled.label`
+  font-size: 0.9rem;
+  color: #333;
+
+  a {
+    color: #1C2957;
+    text-decoration: none;
+    font-weight: bold;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+`;

@@ -30,7 +30,7 @@ const ProfilePage = () => {
   const getUser = async () => {
     try {
       await axios({
-        url: `https://api.novajobs.us/api/employeer/job-seekers/${id}`,
+        url: `https://apiwl.novajobs.us/api/employeer/job-seekers/${id}`,
         method: "GET",
       })
         .then((res) => {
@@ -53,7 +53,7 @@ const ProfilePage = () => {
   useEffect(() => {
     axios({
       method: "GET",
-      url: "https://api.novajobs.us/api/employeer/job-seekers?page_size=10",
+      url: "https://apiwl.novajobs.us/api/employeer/job-seekers?page_size=10",
       headers: {
         Authorization: token,
       },

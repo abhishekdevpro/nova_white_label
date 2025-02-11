@@ -53,12 +53,12 @@
 //     const fetchFilters = async () => {
 //       try {
 //         const [categoriesRes, statesRes, citiesRes, workplaceTypesRes, jobTypesRes, experienceLevelsRes] = await Promise.all([
-//           axios.get("https://api.novajobs.us/api/jobseeker/job-categories", { headers: { Authorization: token } }),
-//           axios.get("https://api.novajobs.us/api/jobseeker/stats/231", ),
-//           axios.get("https://api.novajobs.us/api/jobseeker/cities/3", ),
-//           axios.get("https://api.novajobs.us/api/jobseeker/workplace-types", { headers: { Authorization: token } }),
-//           axios.get("https://api.novajobs.us/api/jobseeker/job-types", { headers: { Authorization: token } }),
-//           axios.get("https://api.novajobs.us/api/jobseeker/experience-level", { headers: { Authorization: token } }),
+//           axios.get("https://apiwl.novajobs.us/api/jobseeker/job-categories", { headers: { Authorization: token } }),
+//           axios.get("https://apiwl.novajobs.us/api/jobseeker/stats/231", ),
+//           axios.get("https://apiwl.novajobs.us/api/jobseeker/cities/3", ),
+//           axios.get("https://apiwl.novajobs.us/api/jobseeker/workplace-types", { headers: { Authorization: token } }),
+//           axios.get("https://apiwl.novajobs.us/api/jobseeker/job-types", { headers: { Authorization: token } }),
+//           axios.get("https://apiwl.novajobs.us/api/jobseeker/experience-level", { headers: { Authorization: token } }),
 //         ]);
 
 //         console.log(categoriesRes, statesRes, citiesRes, workplaceTypesRes, jobTypesRes, experienceLevelsRes);
@@ -191,11 +191,11 @@ const JobFilters = ({ onSearch }) => {
     const fetchFilters = async () => {
       try {
         const [categoriesRes, statesRes, workplaceTypesRes, jobTypesRes, experienceLevelsRes] = await Promise.all([
-          axios.get("https://api.novajobs.us/api/jobseeker/job-categories", ),
-          axios.get("https://api.novajobs.us/api/jobseeker/stats/231"),
-          axios.get("https://api.novajobs.us/api/jobseeker/workplace-types", ),
-          axios.get("https://api.novajobs.us/api/jobseeker/job-types", ),
-          axios.get("https://api.novajobs.us/api/jobseeker/experience-level", ),
+          axios.get("https://apiwl.novajobs.us/api/jobseeker/job-categories", ),
+          axios.get("https://apiwl.novajobs.us/api/jobseeker/stats/231"),
+          axios.get("https://apiwl.novajobs.us/api/jobseeker/workplace-types", ),
+          axios.get("https://apiwl.novajobs.us/api/jobseeker/job-types", ),
+          axios.get("https://apiwl.novajobs.us/api/jobseeker/experience-level", ),
         ]);
 
         setCategories(categoriesRes.data.data);
@@ -213,7 +213,7 @@ const JobFilters = ({ onSearch }) => {
 
   const fetchCities = async (stateId) => {
     try {
-      const citiesRes = await axios.get(`https://api.novajobs.us/api/jobseeker/cities/${stateId}`);
+      const citiesRes = await axios.get(`https://apiwl.novajobs.us/api/jobseeker/cities/${stateId}`);
       setCities(citiesRes.data.data);
     } catch (error) {
       console.error("Error fetching cities:", error);

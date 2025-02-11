@@ -196,11 +196,17 @@ import WhiteLabelLanding from "./vendor/WhiteLanding/index";
 import WhiteStart from "./vendor/WhiteLabelSignUp/index"
 import Editor from "./vendor/Editor";
 import VendorSetting from "./vendor/vendorSettings";
+import Gauth from "./markup/Pages/G-Auth";
+import LoginCode from "./markup/Pages/Login-code";
+import { LogoProvider } from "./Context/LogoContext";
+import LoginEmployerCode from "./employeeMarkup/Pages/EmployerLoginCode";
+import EmployerGauth from "./employeeMarkup/Pages/EmployerG-auth";
 
 function App() {
   const dispatch = useDispatch();
 
   return (
+    <LogoProvider>
     <Routes>
       <Route path="/" element={<Homepage />} />
       <Route path="services" element={<LandingPage />} />
@@ -531,10 +537,11 @@ function App() {
         />
         <Route path="vendorregistration" element={<Vendorregistration />} />
       </Route>
-
+      <Route path="gauth" element={<Gauth />} />
       <Route path="/user">
         <Route path="" element={<Homepage />} />
         <Route path="login" element={<Loginpage2 />} />
+        <Route path="login-code" element={<LoginCode />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
         <Route path="reset-password/:token" element={<ResetPassword />} />
         <Route path="register" element={<Register1 />} />
@@ -544,7 +551,7 @@ function App() {
           path="jobs-profile"
           element={
             <UserPrivateRoute>
-              <Jobprofile />
+              <Jobprofile /> 
             </UserPrivateRoute>
           }
         />
@@ -919,6 +926,7 @@ function App() {
       {/* routes for empployees */}
 
       <Route path="/employer">
+      <Route path="gauth" element={<EmployerGauth />} />
         <Route path="verify/:token" element={<VerifyEmailemployee />} />
 
         <Route path="forgot-password" element={<ForgotPasswordemployee />} />
@@ -935,6 +943,7 @@ function App() {
           }
         />
         <Route path="login" element={<EmployeeLogin />} />
+        <Route path="login-code" element={<LoginEmployerCode />} />
         <Route path="register" element={<EmployeeRegister1 />} />
         <Route path="register-2" element={<EmployeeRegister2 />} />
 
@@ -1419,6 +1428,7 @@ function App() {
         <Route path="*" element={<EmployeeError404 />} />
       </Route>
     </Routes>
+    </LogoProvider>
   );
 }
 

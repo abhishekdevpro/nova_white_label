@@ -65,7 +65,7 @@ const FixedHeader = () => {
   useEffect(() => {
     axios({
       method: "GET",
-      url: "https://api.novajobs.us/api/jobseeker/user-profile",
+      url: "https://apiwl.novajobs.us/api/jobseeker/user-profile",
       headers: {
         Authorization: token,
       },
@@ -108,7 +108,7 @@ const FixedHeader = () => {
   // useEffect(() => {
   //   axios({
   //     method: "GET",
-  //     url: "https://api.novajobs.us/api/jobseeker/user-profile",
+  //     url: "https://apiwl.novajobs.us/api/jobseeker/user-profile",
   //     headers: {
   //       Authorization: token,
   //     },
@@ -154,7 +154,7 @@ const FixedHeader = () => {
   const getCountry = () => {
     axios({
       method: "GET",
-      url: "https://api.novajobs.us/api/jobseeker/countries",
+      url: "https://apiwl.novajobs.us/api/jobseeker/countries",
       headers: {
         Authorization: token,
       },
@@ -173,7 +173,7 @@ const FixedHeader = () => {
   const getState = () => {
     axios({
       method: "GET",
-      url: `https://api.novajobs.us/api/jobseeker/stats/${fixedHeaderValues.country_id}`,
+      url: `https://apiwl.novajobs.us/api/jobseeker/stats/${fixedHeaderValues.country_id}`,
       headers: {
         Authorization: token,
       },
@@ -234,8 +234,8 @@ const FixedHeader = () => {
 
     axios
       .post(
-        // "https://api.novajobs.us/api/jobseeker/resume-upload",
-        "https://api.novajobs.us/api/user/resume-upload",
+        // "https://apiwl.novajobs.us/api/jobseeker/resume-upload",
+        "https://apiwl.novajobs.us/api/user/resume-upload",
         formData,
         {
           headers: {
@@ -266,7 +266,7 @@ const FixedHeader = () => {
     if (resumeUrl) {
       axios({
         method: "post",
-        url: "https://api.novajobs.us/api/user/file-based-ai",
+        url: "https://apiwl.novajobs.us/api/user/file-based-ai",
         data: {
           keyword: "Rate this resume content in percentage ?",
           file_location: resumeUrl,

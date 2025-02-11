@@ -10,6 +10,8 @@ import bgimg from './bg-img.jpg';
 import videoSrc  from './herovideo.mp4'
 import  {  useEffect } from 'react';
 import axios from 'axios';
+import defaultImg from "../../../assests/hero.jpg"
+import { useLogo } from '../../../Context/LogoContext';
 
 
 // ... (keep all the existing styled components)
@@ -362,7 +364,7 @@ const SearchWrapper = styled.div`
 //   useEffect(() => {
 //     const getState = async () => {
 //       try {
-//         const response = await axios.get(`https://api.novajobs.us/api/jobseeker/stats/231`, {
+//         const response = await axios.get(`https://apiwl.novajobs.us/api/jobseeker/stats/231`, {
 //           headers: { Authorization: token },
 //         });
 //         setStates(response.data.data);
@@ -377,7 +379,7 @@ const SearchWrapper = styled.div`
 //   useEffect(() => {
 //     const getCategory = async () => {
 //       try {
-//         const res = await axios.get("https://api.novajobs.us/api/jobseeker/job-categories", {
+//         const res = await axios.get("https://apiwl.novajobs.us/api/jobseeker/job-categories", {
 //           headers: {
 //             Authorization: token,
 //           },
@@ -542,7 +544,7 @@ const SearchWrapper = styled.div`
 //   useEffect(() => {
 //     const getState = async () => {
 //       try {
-//         const response = await axios.get(`https://api.novajobs.us/api/jobseeker/stats/231`, {
+//         const response = await axios.get(`https://apiwl.novajobs.us/api/jobseeker/stats/231`, {
 //           headers: { Authorization: token },
 //         })
 //         setStates(response.data.data)
@@ -556,7 +558,7 @@ const SearchWrapper = styled.div`
 //   useEffect(() => {
 //     const getCategory = async () => {
 //       try {
-//         const res = await axios.get("https://api.novajobs.us/api/jobseeker/job-categories", {
+//         const res = await axios.get("https://apiwl.novajobs.us/api/jobseeker/job-categories", {
 //           headers: {
 //             Authorization: token,
 //           },
@@ -738,8 +740,14 @@ const CareerAdvisorPage = () => {
 
   const [selectedOption, setSelectedOption] = useState("")
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const {isPartner} = useLogo();
+  // console.log(isPartner,"Partner form hero");
 
-  const options = ["A Jobseeker", "An Employer", "A Partner"]
+  const options = [
+    " Jobseeker",
+    "Employer",
+    ...(isPartner ? ["A Partner"] : []) // Only add "A Partner" if isPartner is true
+  ];
 
   // Helper function to check file type
   const getFileType = (url) => {
@@ -755,20 +763,38 @@ const CareerAdvisorPage = () => {
 
   // Render background media based on file type
   const renderBackgroundMedia = (mediaUrl) => {
-    const fileType = getFileType(mediaUrl)
-    const defaultVideo = "https://wedesignthemes.s3.amazonaws.com/thatha/Slider+VDO+02+HD.mp4"
+    // const fileType = getFileType(mediaUrl)
+    // const defaultVideo = "https://wedesignthemes.s3.amazonaws.com/thatha/Slider+VDO+02+HD.mp4"
+    // const defaultImg = defaultImg;
 
+    // if (!mediaUrl) {
+    //   return (
+    //     <Video autoPlay loop muted src={defaultVideo} type="video/mp4">
+    //       Your browser does not support the video tag.
+    //     </Video>
+    //   )
+    // }
+    const fileType = getFileType(mediaUrl);
+    const defaultVideo = "https://wedesignthemes.s3.amazonaws.com/thatha/Slider+VDO+02+HD.mp4";
+    // const defaultImg = "https://your-default-image-url.com/default.jpg"; // Replace with actual image URL
+  
     if (!mediaUrl) {
+      return <img src={defaultImg} alt="Default Background" style={{ width: "100%", height: "100%", objectFit: "cover" }} />;
+    }
+  
+    if (fileType === "video") {
       return (
-        <Video autoPlay loop muted src={defaultVideo} type="video/mp4">
+        <Video autoPlay loop muted src={mediaUrl} type="video/mp4">
           Your browser does not support the video tag.
         </Video>
-      )
+      );
     }
+  
+   <img src={mediaUrl} alt="Background" style={{ width: "100%", height: "100%", objectFit: "cover" }} />;
 
     switch (fileType) {
       case "image":
-        return <img src={mediaUrl || "/placeholder.svg"} alt="Background" />
+        return <img src={mediaUrl || defaultImg} alt="Background" />
       case "video":
         return (
           <Video autoPlay loop muted src={mediaUrl} type={`video/${mediaUrl.split(".").pop()}`}>
@@ -783,7 +809,9 @@ const CareerAdvisorPage = () => {
         )
     }
   }
-  const url =  window.location.origin
+  const url = window.location.origin.includes("localhost")
+  ? "https://wl.novajobs.us"
+  : window.location.origin;
   // Fetch page data from the API
   useEffect(() => {
     const fetchPageData = async () => {
@@ -812,7 +840,7 @@ const CareerAdvisorPage = () => {
   useEffect(() => {
     const getState = async () => {
       try {
-        const response = await axios.get(`https://api.novajobs.us/api/jobseeker/stats/231`, {
+        const response = await axios.get(`https://apiwl.novajobs.us/api/jobseeker/stats/231`, {
           headers: { Authorization: token },
         })
         setStates(response.data.data)
@@ -826,7 +854,7 @@ const CareerAdvisorPage = () => {
   useEffect(() => {
     const getCategory = async () => {
       try {
-        const res = await axios.get("https://api.novajobs.us/api/jobseeker/job-categories", {
+        const res = await axios.get("https://apiwl.novajobs.us/api/jobseeker/job-categories", {
           headers: {
             Authorization: token,
           },

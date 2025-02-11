@@ -67,7 +67,7 @@ const SavedJobs = () => {
   const toggleFabJobsmobile = async () => {
     try {
       await axios({
-        url: "https://api.novajobs.us/api/jobseeker/job-favorites",
+        url: "https://apiwl.novajobs.us/api/jobseeker/job-favorites",
         method: "POST",
         headers: { Authorization: token },
         data: {
@@ -81,8 +81,8 @@ const SavedJobs = () => {
   const fetchJobApplicationData = async () => {
     try {
       const response = await axios.get(
-        "https://api.novajobs.us/api/jobseeker/job-favorites",
-        // "https://api.novajobs.us/api/jobseeker/job-lists?page_size=7&is_publish=1",
+        "https://apiwl.novajobs.us/api/jobseeker/job-favorites",
+        // "https://apiwl.novajobs.us/api/jobseeker/job-lists?page_size=7&is_publish=1",
         {
           headers: {
             Authorization: token,
@@ -103,7 +103,7 @@ const SavedJobs = () => {
   const toggleFabJobs = async (id) => {
     try {
       await axios({
-        url: "https://api.novajobs.us/api/jobseeker/job-favorites",
+        url: "https://apiwl.novajobs.us/api/jobseeker/job-favorites",
         method: "POST",
         headers: { Authorization: token },
         data: {
@@ -148,7 +148,7 @@ const SavedJobs = () => {
     } else {
       try {
         await axios({
-          url: "https://api.novajobs.us/api/jobseeker/jobs-applied",
+          url: "https://apiwl.novajobs.us/api/jobseeker/jobs-applied",
           method: "POST",
           headers: {
             Authorization: token,

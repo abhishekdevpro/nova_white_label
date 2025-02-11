@@ -26,7 +26,7 @@ const SkillHistory = () => {
         }
 
         const response = await axios.get(
-          "https://api.novajobs.us/api/user/skill-assessment-history",
+          "https://apiwl.novajobs.us/api/user/skill-assessment-history",
           {
             headers: {
               Authorization: token,

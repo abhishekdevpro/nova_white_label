@@ -38,7 +38,7 @@ function EmployeeCompanymanage() {
   const fetchPublishedJobs = () => {
     axios({
       method: "GET",
-      url: "https://api.novajobs.us/api/employeer/job-lists?is_publish=1",
+      url: "https://apiwl.novajobs.us/api/employeer/job-lists?is_publish=1",
       headers: {
         Authorization: token,
       },
@@ -74,7 +74,7 @@ function EmployeeCompanymanage() {
   
     axios({
       method: "PUT",
-      url: `https://api.novajobs.us/api/employeer/job-post/${id}`,
+      url: `https://apiwl.novajobs.us/api/employeer/job-post/${id}`,
       headers: {
         Authorization: token,
       },

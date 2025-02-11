@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import { Navbar, Nav, Badge } from "react-bootstrap";
 import Footer from "../markup/Layout/Footer";
 import VendorHeader from "../markup/Layout/VendorHeader";
+import LogoWrapper from "../markup/Layout/LogoWrapper";
 
 const Vendorlogin = () => {
   const [email, setEmail] = useState("");
@@ -13,6 +14,7 @@ const Vendorlogin = () => {
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
   const navigate = useNavigate();
+  // const [logo, setLogo] = useState("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUhQJ-44yDYIuo8Hj-L1ezQSKAkkK4CqlecQ&s"); // Default logo
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -37,6 +39,64 @@ const Vendorlogin = () => {
       }
     }
   };
+
+  // const url = window.location.origin;
+  // useEffect(() => {
+  //   // Fetch logo from API
+  //   const fetchLogo = async () => {
+  //     try {
+  //       const response = await axios.get(`https://apiwl.novajobs.us/api/jobseeker/acount-info?domain=${url}`); // Replace with your domain
+  //       // console.log(response.data.data,"llll");
+  //       if (response.data && response.data.data.logo) {
+  //         setLogo(response.data.data.logo);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching logo:", error);
+  //       // Keep default logo on error
+  //     }
+  //   };
+
+  //   fetchLogo();
+
+  //   // Sidebar toggle functionality
+  //   const navicon = document.querySelector(".navicon");
+  //   const sidebarmenu = document.querySelector(".myNavbar");
+
+  //   const toggleFunc = () => {
+  //     sidebarmenu?.classList.toggle("show");
+  //   };
+
+  //   navicon?.addEventListener("click", toggleFunc);
+
+  //   // Sidenav li open close
+  //   const navUl = Array.from(
+  //     document.querySelectorAll(".navbar-nav > li > a, .sub-menu > li > a")
+  //   );
+
+  //   const checkLi = (current) => {
+  //     const parentUl = current.parentElement.parentElement;
+  //     if (parentUl) {
+  //       parentUl.querySelectorAll("li").forEach((el) =>
+  //         current.parentElement !== el ? el.classList.remove("open") : ""
+  //       );
+  //     }
+  //     setTimeout(() => {
+  //       current.parentElement.classList.toggle("open");
+  //     }, 100);
+  //   };
+
+  //   navUl.forEach((item) => {
+  //     item.addEventListener("click", () => checkLi(item));
+  //   });
+
+  //   // Cleanup event listeners
+  //   return () => {
+  //     navicon?.removeEventListener("click", toggleFunc);
+  //     navUl.forEach((item) => {
+  //       item.removeEventListener("click", () => checkLi(item));
+  //     });
+  //   };
+  // }, []);
 
   return (
     <div>
@@ -73,11 +133,12 @@ const Vendorlogin = () => {
             >
               {/* <img
                 style={{ width: "210px" }}
-                src="https://abhishekdevpro-nova-home-care-fe.vercel.app/assets/logo-B4gdw3fA.png"
+                src={logo}
                 // src={require("../images/logo/NovaUS.png")}
                 className="logo"
                 alt="img"
               /> */}
+              <LogoWrapper/>
             </Link>
             <h3 className="text-center m-4">Vendor Login</h3>
             <Form onSubmit={handleLogin}>

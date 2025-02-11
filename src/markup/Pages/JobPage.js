@@ -98,8 +98,8 @@ function JobPage() {
       console.log(page);
       try {
         const response = await axios.get(
-          // "https://api.novajobs.us/api/jobseeker/job-lists?page_no=1&page_size=7&is_publish=1",
-          `https://api.novajobs.us/api/jobseeker/job-lists?page_no=${page}&page_size=${perPage}&is_publish=1`,
+          // "https://apiwl.novajobs.us/api/jobseeker/job-lists?page_no=1&page_size=7&is_publish=1",
+          `https://apiwl.novajobs.us/api/jobseeker/job-lists?page_no=${page}&page_size=${perPage}&is_publish=1`,
           {
             headers: {
               Authorization: token,
@@ -112,7 +112,7 @@ function JobPage() {
         // If we have an ID from params, find and set the matching job
         if (id) {
           const response = await axios.get(
-            `https://api.novajobs.us/api/jobseeker/job-lists/${id}`,
+            `https://apiwl.novajobs.us/api/jobseeker/job-lists/${id}`,
             {
               headers: {
                 Authorization: token,
@@ -181,7 +181,7 @@ function JobPage() {
   const toggleFabJobs = async () => {
     try {
       await axios({
-        url: "https://api.novajobs.us/api/jobseeker/job-favorites",
+        url: "https://apiwl.novajobs.us/api/jobseeker/job-favorites",
         method: "POST",
         headers: { Authorization: token },
         data: {
@@ -246,7 +246,7 @@ function JobPage() {
   const getJobTypes = async () => {
     try {
       const res = await axios.get(
-        "https://api.novajobs.us/api/jobseeker/job-types",
+        "https://apiwl.novajobs.us/api/jobseeker/job-types",
         {
           headers: { Authorization: token },
         }
@@ -260,7 +260,7 @@ function JobPage() {
   const getCategory = async () => {
     try {
       const res = await axios.get(
-        "https://api.novajobs.us/api/jobseeker/job-categories",
+        "https://apiwl.novajobs.us/api/jobseeker/job-categories",
         {
           headers: {
             Authorization: token,
@@ -276,7 +276,7 @@ function JobPage() {
   const getWorkplaceType = async () => {
     try {
       const response = await axios.get(
-        "https://api.novajobs.us/api/jobseeker/workplace-types",
+        "https://apiwl.novajobs.us/api/jobseeker/workplace-types",
         {
           headers: { Authorization: token },
         }
@@ -290,7 +290,7 @@ function JobPage() {
   const getExperience = async () => {
     try {
       const response = await axios.get(
-        "https://api.novajobs.us/api/jobseeker/experience-level",
+        "https://apiwl.novajobs.us/api/jobseeker/experience-level",
         {
           headers: { Authorization: token },
         }
@@ -305,7 +305,7 @@ function JobPage() {
   const getCountry = async () => {
     try {
       const response = await axios.get(
-        "https://api.novajobs.us/api/jobseeker/countries",
+        "https://apiwl.novajobs.us/api/jobseeker/countries",
         {
           headers: { Authorization: token },
         }
@@ -319,7 +319,7 @@ function JobPage() {
   const getState = async () => {
     try {
       const response = await axios.get(
-        `https://api.novajobs.us/api/jobseeker/stats/231`,
+        `https://apiwl.novajobs.us/api/jobseeker/stats/231`,
         {
           headers: { Authorization: token },
         }
@@ -335,7 +335,7 @@ function JobPage() {
   const getCities = async () => {
     try {
       const response = await axios.get(
-        `https://api.novajobs.us/api/jobseeker/cities/${jobApplicationValues.state_id}`,
+        `https://apiwl.novajobs.us/api/jobseeker/cities/${jobApplicationValues.state_id}`,
         {
           headers: { Authorization: token },
         }
@@ -347,9 +347,9 @@ function JobPage() {
   };
 
   const baseUrl =
-    // "https://api.novajobs.us/api/jobseeker/job-lists/?page_size=7&is_publish=1";
-    // "https://api.novajobs.us/api/jobseeker/job-lists?page_size=7&is_publish=1";
-    `https://api.novajobs.us/api/jobseeker/job-lists?page_no=${page}&page_size=${perPage}&is_publish=1`;
+    // "https://apiwl.novajobs.us/api/jobseeker/job-lists/?page_size=7&is_publish=1";
+    // "https://apiwl.novajobs.us/api/jobseeker/job-lists?page_size=7&is_publish=1";
+    `https://apiwl.novajobs.us/api/jobseeker/job-lists?page_no=${page}&page_size=${perPage}&is_publish=1`;
   const params = new URLSearchParams();
   // Handle Search Based on Params
   const handleSearch = () => {
@@ -400,7 +400,7 @@ function JobPage() {
     } else {
       try {
         await axios({
-          url: "https://api.novajobs.us/api/jobseeker/jobs-applied",
+          url: "https://apiwl.novajobs.us/api/jobseeker/jobs-applied",
           method: "POST",
           headers: {
             Authorization: token,

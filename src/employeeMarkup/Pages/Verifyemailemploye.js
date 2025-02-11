@@ -14,7 +14,7 @@ function VerifyEmailemployee() {
   useEffect(() => {
     const verifyEmail = async () => {
       try {
-        const response = await axios.get(`https://api.novajobs.us/api/employeer/verify-account/${token}`);
+        const response = await axios.get(`https://apiwl.novajobs.us/api/employeer/verify-account/${token}`);
         console.log(response)
         if (response.data) { 
           showToastSuccess("Email verified successfully");

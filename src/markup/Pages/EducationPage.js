@@ -46,7 +46,7 @@ function EducationPage() {
 
   const submitTest = async () => {
     await axios({
-      url: `https://api.novajobs.us/api/user/skill-assessment/${skill_assessment_id}`,
+      url: `https://apiwl.novajobs.us/api/user/skill-assessment/${skill_assessment_id}`,
       method: "PUT",
       headers: {
         Authorization: token,
