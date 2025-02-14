@@ -171,7 +171,7 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <div className="banner">
+      <div className="banner mb-4">
         <div className="banner-text mt-5 pt-4 flex flex-col">
           <h1 className="fw-bold text-black m-4">What we offer</h1>
           <span className="fw-bold text-black m-2">

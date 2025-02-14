@@ -20,7 +20,6 @@ function Profilesidebar({ data }) {
   useEffect(() => {
     const storedToken = localStorage.getItem("jobSeekerLoginToken");
     if (storedToken) {
-      console.log("Stored token:", storedToken); // Log the stored token when component mounts
       setToken(storedToken);
     }
   }, []);
@@ -56,7 +55,7 @@ function Profilesidebar({ data }) {
               <li>
                 <Link
                   // ${token}
-                  to={`https://airesume.novajobs.us/?tokenbyurl=${token}`}
+                  to={`https://nova-rb-white-label.vercel.app/?tokenbyurl=${token}`}
                   // to={`http://localhost:3000/?tokenbyurl=${token}`}
                   className={data === "resume" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}

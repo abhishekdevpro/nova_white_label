@@ -1431,3 +1431,7 @@ function App() {
 }
 
 export default App;
+
+
+// docker build . -t abhishekdevpro/novawl_fe:1.0
+// docker push abhishekdevpro/novawl_fe:1.0

@@ -445,11 +445,11 @@ const UserHeader = () => {
                   </Link>
                 </div>
                 <ul className="nav navbar-nav align-items-center">
-                  <li>
+                 {/* {isPartner && <li>
                     <Link to="/">Home</Link>
-                  </li>
+                  </li>} */}
 
-                 {isPartner && <li
+                 {/* {isPartner && <li
                     className="nav-item jobseeker-hover"
                     style={{ position: "relative" }}
                   >
@@ -466,7 +466,7 @@ const UserHeader = () => {
                         </div>
                       </div>
                     )}
-                  </li>}
+                  </li>} */}
 
                   <li>
                     <Link>About Us</Link>

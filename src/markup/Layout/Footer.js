@@ -194,7 +194,7 @@ function Footer() {
               <div className="col mb-4 mb-md-0 col-md-2">
                 <div className="text-start">
                   <h5 className="mb-4 F-heading fw-bold  text-[18px]">
-                    Partner with Us
+                    Others
                   </h5>
                   <ul className="list-3 d-flex flex-column gap-2 text-break">
                     <li
@@ -205,7 +205,18 @@ function Footer() {
                       <Link
                       // to={"/vendor/vendorregistration"}
                       >
-                        Partners
+                        Cookies Ploicy
+                      </Link>
+                    </li>
+                    <li
+                      onClick={() =>
+                        window.scrollTo({ top: 0, behavior: "smooth" })
+                      }
+                    >
+                      <Link
+                      // to={"/vendor/vendorregistration"}
+                      >
+                        Privacy Ploicy
                       </Link>
                     </li>
                   </ul>

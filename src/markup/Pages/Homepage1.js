@@ -309,7 +309,7 @@ function Homepage() {
           </div>
         </div>
 
-        <div
+        {/* <div
           className="d-flex flex-column bg-white align-items-center my-5"
           style={{ gap: "20px", padding: "20px" }}
         >
@@ -417,7 +417,7 @@ function Homepage() {
               </Link>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
       <Footer />
     </div>

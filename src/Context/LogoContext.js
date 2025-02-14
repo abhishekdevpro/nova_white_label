@@ -31,8 +31,8 @@ export const LogoProvider = ({ children }) => {
     fetchLogo();
 
     // Optional: Check for logo updates every 30 seconds
-    const interval = setInterval(fetchLogo, 30000);
-    return () => clearInterval(interval);
+    // const interval = setInterval(fetchLogo, 30000);
+    // return () => clearInterval(interval);
   }, []);
 
   return (

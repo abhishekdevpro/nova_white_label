@@ -295,7 +295,7 @@ const FixedHeader = () => {
       className="overlay-black-dark profile-edit p-t50 p-b20"
       style={{ backgroundImage: "url(" + bnr + ")" }}
     >
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <div className="container">
         <div className="d-flex justify-content-around profile-edit">
           <div className="candidate-info">
@@ -414,8 +414,8 @@ const FixedHeader = () => {
                       visible={true}
                       height="100"
                       width="100"
-                      color="#1c2957"
-                      secondaryColor="#1c2957"
+                      color="#FFF"
+                      secondaryColor="#FFF"
                       radius="12.5"
                       ariaLabel="mutating-dots-loading"
                       wrapperStyle={{}}

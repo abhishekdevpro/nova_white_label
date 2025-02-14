@@ -53,7 +53,7 @@ const VendorRegistration = () => {
       })
 
       if (response.ok) {
-        toast.success("Vendor registered successfully! Please check your email for verification.")
+        toast.success(response.message || "Vendor registered successfully! Please check your email for verification.")
         setFormData({
           first_name: "",
           last_name: "",

@@ -26,9 +26,7 @@ import JobPageSkeleton from "../skeleton/jobPage";
 import TwoBoxWithLinesSkeleton from "../skeleton/twoBoxLines";
 import { useParams } from "react-router-dom";
 import SkeletonImg from "../../images/jobpage/No data-pana.png";
-import { FaSearch, FaBars } from "react-icons/fa";
-import { ToastContainer } from "react-toastify";
-import { useLogo } from "../../Context/LogoContext";
+import { FaSearch } from "react-icons/fa";
 
 function JobPage() {
   const { id } = useParams();

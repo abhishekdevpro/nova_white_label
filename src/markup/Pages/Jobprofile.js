@@ -15,6 +15,7 @@ import { useEffect } from "react";
 import { FaImage } from "react-icons/fa";
 import Resizer from "react-image-file-resizer";
 import styled from "styled-components";
+import { toast } from "react-toastify";
 
 const ToggleSwitch = styled.div`
   display: flex;
@@ -197,7 +198,7 @@ function Jobprofile() {
       },
     })
       .then((response) => {
-        console.log(response.data.data.id, "all data");
+        // console.log(response.data.data.id, "all data");
         let data = response.data.data;
         setId(response.data.data.id)
         dispatch(
@@ -221,8 +222,8 @@ function Jobprofile() {
       })
       .catch((err) => {
         console.log(err);
-        console.log(err.response.data.message);
-        showToastError(err?.response?.data?.message);
+        // console.log(err.response.data.message);
+        toast.error(err?.response?.data?.message);
       });
   };
   useEffect(() => {
@@ -301,6 +302,9 @@ function Jobprofile() {
   };
 
   const getState = () => {
+    if(!jobProfileValues.country_id){
+      return
+    }
     axios({
       method: "GET",
       url: `https://apiwl.novajobs.us/api/jobseeker/stats/${jobProfileValues.country_id}`,
@@ -319,6 +323,9 @@ function Jobprofile() {
   };
 
   const getCities = () => {
+    if(!jobProfileValues.state_id){
+      return ;
+    }
     axios({
       method: "GET",
       url: `https://apiwl.novajobs.us/api/jobseeker/cities/${jobProfileValues.state_id}`,
