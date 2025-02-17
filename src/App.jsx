@@ -201,7 +201,8 @@ import LoginCode from "./markup/Pages/Login-code";
 import { LogoProvider } from "./Context/LogoContext";
 import LoginEmployerCode from "./employeeMarkup/Pages/EmployerLoginCode";
 import EmployerGauth from "./employeeMarkup/Pages/EmployerG-auth";
-
+import UltraAuraCourses from "./markup/Element/UltraAuraCourses";
+// import AboutusForm from 
 function App() {
   const dispatch = useDispatch();
 
@@ -210,6 +211,7 @@ function App() {
       <Route path="/" element={<Homepage />} />
       <Route path="services" element={<LandingPage />} />
       <Route path="novajobs" element={<Novajobs />} />
+      {/* <Route path="aboutus-form" element={<AboutusForm />} /> */}
       <Route path="aboutus" element={<Aboutus1 />} />
       <Route path="Profilepagehome" element={<Profilepagehome />} />
       <Route path="/*" element={<Error404 />} />
@@ -610,6 +612,14 @@ function App() {
           element={
             <UserPrivateRoute>
               <Jobsappliedjob />
+            </UserPrivateRoute>
+          }
+        />
+        <Route
+          path="ultraaura-courses"
+          element={
+            <UserPrivateRoute>
+              <UltraAuraCourses />
             </UserPrivateRoute>
           }
         />

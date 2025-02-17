@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 // import Image from "next/image";
-import { toast, ToastContainer } from "react-toastify";
+import { toast} from "react-toastify";
 import axios from "axios"; // Import Axios
 import logo from "../../images/login/loginbg.jpeg";
 import loginbg from "../../images/login/loginbg.jpeg";
@@ -33,7 +33,7 @@ const LoginCode = () => {
 
     setLoading(true);
     const url = window.location.origin.includes("localhost")
-    ? "https://wl.novajobs.us"
+    ? "https://novajobs.us"
     : window.location.origin;
     try {
       const response = await axios.post(

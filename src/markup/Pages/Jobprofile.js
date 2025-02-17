@@ -258,7 +258,8 @@ function Jobprofile() {
     })
       .then((response) => {
         getReq();
-        showToastSuccess("Setting saved");
+        console.log(response.data,"???");
+        showToastSuccess(response.data.message || "Job Profile saved Successfully");
       })
       .catch((err) => {
         showToastError(err?.response?.data?.message);
@@ -525,7 +526,7 @@ function Jobprofile() {
                             <p className="text-danger">{errors.languages}</p>
                           )}
                         </div>
-                        <div className="col-lg-6 col-md-6">
+                        {/* <div className="col-lg-6 col-md-6">
                           <div className="form-group">
                             <label htmlFor="age">Age:</label>
                             <input
@@ -541,7 +542,7 @@ function Jobprofile() {
                           {errors.age && (
                             <p className="text-danger">{errors.age}</p>
                           )}
-                        </div>
+                        </div> */}
                         <div className="col-lg-6 col-md-6">
                           <div className="form-group">
                             <label htmlFor="current_salary">
@@ -563,10 +564,10 @@ function Jobprofile() {
                             </p>
                           )}
                         </div>
-                        <div className="col-12">
+                        <div className="col-6">
                           <div className="form-group">
                             <label htmlFor="expected_salary">
-                              Expected Salary/month:
+                              Expected Salary/month($):
                             </label>
                             <input
                               type="text"
@@ -609,7 +610,7 @@ function Jobprofile() {
                             <input
                               type="text"
                               className="form-control"
-                              // placeholder="+1 123 456 7890"
+                              placeholder="+1 123 456 7890"
                               name="phone"
                               id="phone"
                               onChange={handleChange}

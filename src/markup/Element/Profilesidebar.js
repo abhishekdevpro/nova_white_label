@@ -55,7 +55,7 @@ function Profilesidebar({ data }) {
               <li>
                 <Link
                   // ${token}
-                  to={`https://nova-rb-white-label.vercel.app/?tokenbyurl=${token}`}
+                  to={`https://airesume.novajobs.us/?tokenbyurl=${token}`}
                   // to={`http://localhost:3000/?tokenbyurl=${token}`}
                   className={data === "resume" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
@@ -137,7 +137,7 @@ function Profilesidebar({ data }) {
               </li>
               <li>
                 <Link
-                  to={""}
+                  to={"/user/ultraaura-courses"}
                   className={data === "ultra-aura" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
                 >

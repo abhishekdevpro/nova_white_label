@@ -14,7 +14,6 @@
 // //   setSkillsData,
 // // } from "../store/reducers/postAJobSlice";
 // // import { fetchCompanyInfo } from "../store/thunkFunctions/companyFunction";
-// // import { ToastContainer } from "react-toastify";
 // // import "../css/profilesidebar.css";
 // // import { Navigate } from "react-router-dom";
 // // import { Settings } from "lucide-react";
@@ -136,7 +135,7 @@
 // //       </button>
 // //       <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
 // //         <div className="">
-// //           <ToastContainer />
+// //           
 // //           <div className="sticky-top">
 // //             <div className="candidate-info company-info">
 // //               <div className="candidate-detail text-center">
@@ -345,7 +344,6 @@
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 // import { faCloudUploadAlt } from "@fortawesome/free-solid-svg-icons"
 // import { Settings } from "lucide-react"
-// import { ToastContainer, toast } from "react-toastify"
 // import { setPostAJobData } from "../store/reducers/postAJobSlice"
 // // Assuming you have this action
 
@@ -470,7 +468,7 @@
 //       </button>
 //       <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
 //         <div className="">
-//           <ToastContainer />
+//           
 //           <div className="sticky-top">
 //             <div className="candidate-info company-info">
 //               <div className="candidate-detail text-center">
@@ -634,7 +632,7 @@ import axios from "axios"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCloudUploadAlt } from "@fortawesome/free-solid-svg-icons"
 import { Settings } from "lucide-react"
-import { ToastContainer, toast } from "react-toastify"
+import { toast } from "react-toastify"
 import { setPostAJobData } from "../store/reducers/postAJobSlice"
 
 const VendorCompanySideBar = ({ active }) => {
@@ -763,7 +761,7 @@ const VendorCompanySideBar = ({ active }) => {
       </button>
       <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
         <div className="">
-          <ToastContainer />
+          
           <div className="sticky-top">
             <div className="candidate-info company-info">
               <div className="candidate-detail text-center">

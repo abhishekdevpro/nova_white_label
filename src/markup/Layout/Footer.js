@@ -98,7 +98,7 @@ function Footer() {
                       }
                     >
                       <Link
-                      //  to={"/user/job/2"}
+                       to={"/user/job/1"}
                       >
                         Search Jobs
                       </Link>
@@ -109,22 +109,22 @@ function Footer() {
                       }
                     >
                       <Link
-                      // to={"/user/register-2"}
+                      to={"/user/login"}
                       >
                         Create Free account
                       </Link>
                     </li>
-                    <li
+                    {/* <li
                       onClick={() =>
                         window.scrollTo({ top: 0, behavior: "smooth" })
                       }
                     >
                       <Link
-                      // to={"/user/register-2"}
+                      to={"/user/register-2"}
                       >
                         List profile
                       </Link>
-                    </li>
+                    </li> */}
                     <li
                       onClick={() =>
                         window.scrollTo({ top: 0, behavior: "smooth" })
@@ -132,6 +132,7 @@ function Footer() {
                     >
                       <Link
                       // onClick={handleBuilder}
+                      to={`/novajobs#tab2`}
 
                       // to={`https://airesume.novajobs.us/?tokenbyurl=${token}`}
                       >
@@ -141,7 +142,7 @@ function Footer() {
 
                     <li>
                       <Link
-                      // to={"/user/skill-test"}
+                      to={"/novajobs#tab3"}
                       >
                         Skill Test
                       </Link>
@@ -161,7 +162,7 @@ function Footer() {
                       }
                     >
                       <Link
-                      // to={"/employer/company-profile"}
+                      to={localStorage.getItem("employeeLoginToken")?"employer/company-profile":"/employer/login"}
                       >
                         Post Jobs
                       </Link>
@@ -172,12 +173,12 @@ function Footer() {
                       }
                     >
                       <Link
-                      //  to={"/employer/browse-candidates"}
+                       to={localStorage.getItem("employeeLoginToken")?"/employer/browse-candidates":"/employer/login"}
                       >
                         Browse Applicants
                       </Link>
                     </li>
-                    <li
+                    {/* <li
                       onClick={() =>
                         window.scrollTo({ top: 0, behavior: "smooth" })
                       }
@@ -187,7 +188,7 @@ function Footer() {
                       >
                         Schedule Interviews
                       </Link>
-                    </li>
+                    </li> */}
                   </ul>
                 </div>
               </div>
@@ -203,7 +204,7 @@ function Footer() {
                       }
                     >
                       <Link
-                      // to={"/vendor/vendorregistration"}
+                      to={"/white-label"}
                       >
                         Cookies Ploicy
                       </Link>
@@ -214,7 +215,7 @@ function Footer() {
                       }
                     >
                       <Link
-                      // to={"/vendor/vendorregistration"}
+                      to={"/white-label"}
                       >
                         Privacy Ploicy
                       </Link>
@@ -230,7 +231,7 @@ function Footer() {
                   <ul className="list-3 d-flex flex-column gap-2 text-break">
                     <li>
                       <Link
-                        // to={"/aboutus"}
+                        to={"/aboutus"}
                         onClick={() =>
                           window.scrollTo({ top: 0, behavior: "smooth" })
                         }
@@ -240,7 +241,7 @@ function Footer() {
                     </li>
                     <li>
                       <Link
-                        // to={"/services"}
+                        to={"/services"}
                         onClick={() =>
                           window.scrollTo({ top: 0, behavior: "smooth" })
                         }
@@ -250,7 +251,7 @@ function Footer() {
                     </li>
                     <li>
                       <Link
-                        // to={"/employer/term-of-use-nova-jobs"}
+                        to={"/employer/term-of-use-nova-jobs"}
                         onClick={() =>
                           window.scrollTo({ top: 0, behavior: "smooth" })
                         }
@@ -267,7 +268,7 @@ function Footer() {
             <ul className="list-inline d-flex text">
               <li>
                 <Link
-                  // to={"https://www.facebook.com/Novausjobs"}
+                  to={"https://www.facebook.com/Novausjobs"}
                   className="site-button white facebook circle text-white bg-primary"
                 >
                   <i className="fa fa-facebook"></i>
@@ -275,7 +276,7 @@ function Footer() {
               </li>
               <li>
                 <Link
-                  // to={"https://www.linkedin.com/company/nova-us-jobs/"}
+                  to={"https://www.linkedin.com/company/nova-us-jobs/"}
                   className="site-button white linkedin circle text-white bg-primary"
                 >
                   <i className="fa fa-linkedin"></i>

@@ -122,7 +122,7 @@ function Jobreferral() {
         </div>
       </div>
       <Footer />
-      <ToastContainer />
+      
     </>
   );
 }

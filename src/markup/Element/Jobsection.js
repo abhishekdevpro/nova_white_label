@@ -62,7 +62,7 @@ function Jobsection() {
     }
   };
   const url = window.location.origin.includes("localhost")
-  ? "https://wl.novajobs.us"
+  ? "https://novajobs.us"
   : window.location.origin;
   // Function to fetch job application data
   const fetchJobApplicationData = async (page = 1, perPage = 5) => {
@@ -161,7 +161,10 @@ function Jobsection() {
 
   // Toast message for unauthorized actions
   const showToastMessage = () => {
-    toast("Login To Continue");
+    toast.warn("Login To Continue");
+    setTimeout(() => {
+      navigate("/user/login");
+    }, 2000);
   };
 
   // Toggle favorite jobs

@@ -356,7 +356,7 @@ import { Modal } from "react-bootstrap";
 import axios from "axios";
 import Logout from "./Logout";
 import "../Layout/Headerjobseeker.css";
-import { User } from "lucide-react";
+import { Home, User } from "lucide-react";
 import LogoWrapper from "./LogoWrapper";
 import { useLogo } from "../../Context/LogoContext";
 
@@ -445,16 +445,20 @@ const UserHeader = () => {
                   </Link>
                 </div>
                 <ul className="nav navbar-nav align-items-center">
-                 {/* {isPartner && <li>
-                    <Link to="/">Home</Link>
-                  </li>} */}
+                 {isPartner && <li>
+                    <Link to="/">
+                     <Home className="me-2" size={20} />
+                    </Link>
+                  </li>}
 
-                 {/* {isPartner && <li
+                 {isPartner && <li
                     className="nav-item jobseeker-hover"
                     style={{ position: "relative" }}
                   >
-                    <Link className="nav-link">Services</Link>
-                    {!localStorage.getItem("jobSeekerLoginToken") && (
+                    <Link 
+                      to="/services"
+                    className="nav-link" >Services</Link>
+                    {isPartner && !localStorage.getItem("jobSeekerLoginToken") && (
                       <div className="popup rounded-4 m-2">
                         <div className="d-flex gap-2 m-3">
                           <Link
@@ -466,7 +470,7 @@ const UserHeader = () => {
                         </div>
                       </div>
                     )}
-                  </li>} */}
+                  </li>}
 
                   <li>
                     <Link>About Us</Link>
@@ -478,14 +482,10 @@ const UserHeader = () => {
                       localStorage.removeItem("title_keyword");
                     }}
                   >
-                    <Link>Job Page</Link>
-                    {isPartner && <ul className="sub-menu">
-                      <li>
-                        <Link to="/Profilepagehome" className="dez-page">
-                          Company Page
-                        </Link>
-                      </li>
-                    </ul>}
+                    <Link
+                    to={"/user/job/1"}
+                    >Job Page</Link>
+                   
                   </li>
 
                   {localStorage.getItem("jobSeekerLoginToken") && (
@@ -543,16 +543,7 @@ const UserHeader = () => {
                       </Link>
                     )}
                   </li> */}
-                  {isPartner && !localStorage.getItem("jobSeekerLoginToken") && (
-                    <Link
-                      to="/white-label"
-                      style={{ color: "white" }}
-                      className="site-button"
-                    >
-
-                      Partner With Us
-                    </Link>
-                  )}
+                  
 
                   <li>
                     {!localStorage.getItem("jobSeekerLoginToken") && (
@@ -566,8 +557,24 @@ const UserHeader = () => {
                       </Link>
                     )}
                   </li>
+                  
                 </ul>
+
+                <div className="nav navbar-nav align-items-center">
+                {isPartner && !localStorage.getItem("jobSeekerLoginToken") && (
+                    <Link
+                      to="/white-label"
+                      style={{ color: "white" }}
+                      className="site-button"
+                    >
+
+                      Partner With Us
+                    </Link>
+                  )}
+                </div>
+                
               </div>
+              
             </div>
           </div>
         </div>

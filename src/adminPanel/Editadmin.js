@@ -7,7 +7,7 @@ import axios from "axios";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { ToastContainer } from "react-toastify";
+
 
 
 function Editadmin() {
@@ -474,8 +474,6 @@ function Editadmin() {
           </div>
         </div>
       </div>
-
-      <ToastContainer />
     </>
   );
 }

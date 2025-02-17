@@ -10,7 +10,7 @@
 // import axios from "axios";
 // import { showToastError } from "../../utils/toastify";
 // import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
-// import { toast, ToastContainer } from "react-toastify";
+// import { toast} from "react-toastify";
 // import Footer from "../Layout/Footer";
 // import Header from "../Layout/Header"
 // import { Modal } from "react-bootstrap";
@@ -156,7 +156,7 @@
 //   return (
 //     <div className="page-wraper">
 //       <Header />
-//       <ToastContainer />
+//       
 
 //       <div
 //         className="page-content bg-white login-style2"
@@ -510,7 +510,7 @@ import loginbg from "../../images/login/loginbg.jpeg";
 import axios from "axios";
 import { showToastError } from "../../utils/toastify";
 import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
-import { toast, ToastContainer } from "react-toastify";
+import { toast} from "react-toastify";
 import Footer from "../Layout/Footer";
 import Header from "../Layout/Header";
 import { Modal } from "react-bootstrap";
@@ -531,7 +531,7 @@ function Login(props) {
   const navigate = useNavigate();
   const notify = (data) => toast.warning(data);
   const url = window.location.origin.includes("localhost")
-  ? "https://wl.novajobs.us"
+  ? "https://novajobs.us"
   : window.location.origin;
   const handlePostRequest = async (e) => {
     e.preventDefault();
@@ -690,7 +690,6 @@ function Login(props) {
   return (
     <div className="page-wraper">
       <Header />
-      <ToastContainer />
 
       <div
         className="page-content bg-white login-style2"

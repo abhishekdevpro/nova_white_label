@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { showToastError, showToastSuccess } from "../utils/toastify";
 import { vendorcompanyFunction } from "../store/thunkFunctions/vendorcompanyFunction";
 import VendorCompanySideBar from "./Vendorsidebar";
-import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Footer from "../markup/Layout/Footer";
 import VendorHeader from "../markup/Layout/VendorHeader";
@@ -456,7 +455,7 @@ function VendorCompanyprofile() {
           </div>
         </div>
       </div>
-      <ToastContainer />
+      
       <Footer />
     </>
   );

@@ -8,7 +8,6 @@ import { showToastError, showToastSuccess } from "../../utils/toastify";
 import { fetchCompanyInfo } from "../../store/thunkFunctions/companyFunction";
 import { useDispatch, useSelector } from "react-redux";
 import CompanySideBar from "../Layout/companySideBar";
-import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import TextEditor from "../Element/Editor";
 import ReactQuill from "react-quill";
@@ -159,6 +158,9 @@ function EmployeeCompanyprofile() {
   };
 
   const getState = async () => {
+    if(!selectedCountry){
+      return
+    }
     axios({
       method: "get",
       url: `https://apiwl.novajobs.us/api/employeer/stats/${selectedCountry}`,
@@ -175,6 +177,9 @@ function EmployeeCompanyprofile() {
   };
 
   const getCities = async () => {
+    if(!selectedStates){
+      return
+    }
     axios({
       method: "get",
       url: `https://apiwl.novajobs.us/api/employeer/cities/${selectedStates}`,
@@ -330,7 +335,7 @@ function EmployeeCompanyprofile() {
       showToastError("Failed to update company data or services.");
     }
   };
-
+// console.log(companyDetail,"companyDetail");
   return (
     <>
       <Header2 />
@@ -347,7 +352,7 @@ function EmployeeCompanyprofile() {
                         Company Profile
                       </h5>
                       <Link
-                        to={`/user/company/178`}
+                        // to={`/user/company/${companyDetail.id}`}
                         className="site-button right-arrow button-sm float-right"
                       >
                         View Company page
@@ -401,9 +406,10 @@ function EmployeeCompanyprofile() {
                             />
                           </div> */}
                           <div
-                            className="form-group"
+                            className="form-group  "
                             style={{ position: "relative" }}
                           >
+                            <label>Email ID</label>
                             <input
                               type="email"
                               className="form-control"
@@ -723,7 +729,7 @@ function EmployeeCompanyprofile() {
         </div>
       </div>
       <Footer />
-      <ToastContainer />
+      
     </>
   );
 }

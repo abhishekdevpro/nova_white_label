@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import SimpleLoadingSkeleton from "../skeleton/simpleLoadingSkeleton";
@@ -171,6 +170,9 @@ const FixedHeader = () => {
   };
 
   const getState = () => {
+    if(!fixedHeaderValues.country_id){
+      return
+    }
     axios({
       method: "GET",
       url: `https://apiwl.novajobs.us/api/jobseeker/stats/${fixedHeaderValues.country_id}`,
@@ -295,7 +297,7 @@ const FixedHeader = () => {
       className="overlay-black-dark profile-edit p-t50 p-b20"
       style={{ backgroundImage: "url(" + bnr + ")" }}
     >
-      {/* <ToastContainer /> */}
+      {/*  */}
       <div className="container">
         <div className="d-flex justify-content-around profile-edit">
           <div className="candidate-info">
@@ -333,7 +335,7 @@ const FixedHeader = () => {
                       {fixedHeaderValues.professional_title}
                     </p>
                   ) : null}
-                  <ul className="clearfix">
+                  <ul className="d-flex gap-2 flex-wrap">
                     {fixedHeaderValues.email ? (
                       <li>
                         <i className="ti-email"></i>
@@ -431,14 +433,14 @@ const FixedHeader = () => {
                   )}
                 </form>
               </div>
-              <button
+              {/* <button
                 className="site-button dz-xs-flex m-r5 mt-2"
                 onClick={(e) => {
                   navigate("/");
                 }}
               >
                 Go To Home
-              </button>
+              </button> */}
             </div>
           </div>
         </div>

@@ -9,7 +9,7 @@ import {
   setSkillsData,
 } from "../../store/reducers/postAJobSlice";
 import { fetchCompanyInfo } from "../../store/thunkFunctions/companyFunction";
-import { ToastContainer } from "react-toastify";
+
 import "../../css/profilesidebar.css";
 import { FaBell, FaComment } from "react-icons/fa";
 import { FaUser } from "react-icons/fa6";
@@ -124,7 +124,7 @@ const CompanySideBar = ({ active }) => {
       </button>
       <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
         <div className="">
-          <ToastContainer />
+          
           <div className="sticky-top">
             <div className="candidate-info company-info">
               <div className="candidate-detail text-center">

@@ -629,7 +629,7 @@ function Jobsappliedjob() {
                     </div>
                   )}
 
-                  <div className="pagination-bx m-t30">
+                  {/* <div className="pagination-bx m-t30">
                     <ul className="pagination">
                       <li className="previous">
                         <Link to={"#"}>
@@ -651,7 +651,7 @@ function Jobsappliedjob() {
                         </Link>
                       </li>
                     </ul>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

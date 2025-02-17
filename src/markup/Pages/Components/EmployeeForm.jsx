@@ -8,8 +8,8 @@ const FormWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  padding: 1rem;
+  // min-height: 100vh;
+  padding: 0.5rem;
   background-color: #f7fafc;
 `;
 
@@ -18,19 +18,19 @@ const Card = styled.div`
   max-width: 32rem;
   text-align: center;
   background-color: white;
-  padding: 2rem;
+  padding: 1rem;
   border-radius: 1rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
   @media (max-width: 640px) {
-    padding: 1.5rem;
+    // padding: 1.5rem;
   }
 `;
 
 const Title = styled.h1`
   font-size: 2.25rem;
   font-weight: bold;
-  margin-bottom: 1.5rem;
+  // margin-bottom: 0.5rem;
   color: #2d3748;
 
   @media (max-width: 640px) {
@@ -41,7 +41,7 @@ const Title = styled.h1`
 const Subtitle = styled.h2`
   font-size: 1.75rem;
   font-weight: 600;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   color: #2d3748;
 
   @media (max-width: 640px) {
@@ -51,7 +51,7 @@ const Subtitle = styled.h2`
 
 const Description = styled.p`
   font-size: 1.125rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
   color: #718096;
 
   @media (max-width: 640px) {
@@ -67,7 +67,7 @@ const ButtonGroup = styled.div`
 
 const OptionButton = styled.button`
   width: 100%;
-  padding: 1rem;
+  padding: 0.5rem;
   background-color: ${({ bgColor }) => bgColor};
   color: white;
   border: none;
@@ -90,7 +90,7 @@ const OptionButton = styled.button`
 `;
 
 const BackButton = styled.button`
-  margin-top: 1.5rem;
+  margin-top: 0.5rem;
   color: #4299e1;
   background: none;
   border: none;
@@ -113,19 +113,19 @@ const EmployeeForm = () => {
     { label: '🔍 Hiring: Find the perfect candidates', value: 'hiring' },
     { label: '📝 Job Posting: Post a new job listing', value: 'jobPosting' },
     { label: '📊 Track Applications: View and manage applications', value: 'trackApplications' },
-    { label: '❓ Help & Support: Get assistance', value: 'helpSupport' }
+    // { label: '❓ Help & Support: Get assistance', value: 'helpSupport' }
   ];
 
   const hiringOptions = [
     { label: '💼 Search Candidates', value: 'searchCandidates' },
     { label: '📂 View Job Listings', value: 'viewJobListings' },
-    { label: '🤖 AI Recommendations', value: 'aiRecommendations' }
+    // { label: '🤖 AI Recommendations', value: 'aiRecommendations' }
   ];
 
   const jobPostingOptions = [
     { label: '✍️ Create a Job Post', value: 'createJobPost' },
-    { label: '🛠 Optimize Your Job Listing', value: 'optimizeListing' },
-    { label: '📈 View Job Post Performance', value: 'postPerformance' }
+    // { label: '🛠 Optimize Your Job Listing', value: 'optimizeListing' },
+    // { label: '📈 View Job Post Performance', value: 'postPerformance' }
   ];
 
   const helpSupportOptions = [

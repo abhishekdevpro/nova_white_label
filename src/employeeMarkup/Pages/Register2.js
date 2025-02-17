@@ -11,7 +11,7 @@ import processVid from "../../gif process.mp4";
 // var bnr = require("./../../images/background/bg6.jpg");
 import bnr from "../../images/login/loginbg.jpeg";
 import validator from "validator";
-import { toast, ToastContainer } from "react-toastify";
+import { toast} from "react-toastify";
 import Footer from "../../markup/Layout/Footer";
 import UserHeader2 from "../../markup/Layout/Header2";
 
@@ -252,7 +252,7 @@ const notify = (data) => toast.warning(data);
   return (
     <div className="page-wraper">
       <div className="browse-job login-style3">
-        <ToastContainer />
+        
         <div
           className="bg-img-fix"
           style={{

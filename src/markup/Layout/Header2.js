@@ -4,6 +4,7 @@ import { Modal } from "react-bootstrap";
 import Logout from "./Logout";
 import axios from 'axios';
 import LogoWrapper from "./LogoWrapper";
+import { Home } from "lucide-react";
 
 var bnr3 = require("./../../images/background/bg3.jpg");
 
@@ -137,7 +138,7 @@ const UserHeader2 = () => {
                 id="navbarNavDropdown">
                 <ul className="nav navbar-nav">
                   <li className="">
-                    <Link to={"/"}>Home </Link>
+                    <Link to={"/"}> <Home /> </Link>
                   </li>
                   <li className="">
                     <Link>services </Link>

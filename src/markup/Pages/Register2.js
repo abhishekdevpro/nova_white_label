@@ -6,7 +6,7 @@ import {
   signupAction,
 } from "../../store/actions/AuthActions";
 import {  showToastSuccess } from "../../utils/toastify";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import axios from "axios";
 import { showToastError } from "../../utils/toastify";
 import processVid from "../../gif process.mp4";
@@ -253,7 +253,7 @@ useEffect(() => {
   
   return (
     <div className="page-wraper">
-      <ToastContainer />
+      
       <div className="browse-job login-style3">
         <div
           className="bg-img-fix"

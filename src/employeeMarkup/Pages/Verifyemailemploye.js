@@ -4,7 +4,7 @@ import axios from "axios";
 import { showToastError, showToastSuccess } from "../../utils/toastify";
 import { connect } from "react-redux";
 import { useDispatch } from "react-redux";
-import { ToastContainer } from "react-toastify";
+
 
 
 function VerifyEmailemployee() {
@@ -36,7 +36,7 @@ function VerifyEmailemployee() {
   return (
     <>
     <div>Verifying...</div>
-    <ToastContainer /></>
+    </>
   );
 }
 

@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import loginbg from "../../images/login/loginbg.jpeg";
 import axios from "axios";
 import { showToastError, showToastSuccess } from "../../utils/toastify";
-import { ToastContainer } from "react-toastify";
+
 import Footer from "./Footer";
 
 function ForgotPasswordemployee(props) {
@@ -47,7 +47,7 @@ function ForgotPasswordemployee(props) {
           backgroundSize: "cover",
         }}
       >
-        <ToastContainer />
+        
         <div className="section-full">
           <div className="container">
             <div className="row">

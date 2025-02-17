@@ -8,7 +8,7 @@ export const LogoProvider = ({ children }) => {
   const [isPartner, setIsPartner] = useState(null);
 
   const url = window.location.origin.includes("localhost")
-    ? "https://wl.novajobs.us"
+    ? "https://novajobs.us"
     : window.location.origin;
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaLinkedin, FaWhatsapp } from "react-icons/fa";
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { Link, useNavigate } from "react-router-dom";
@@ -149,7 +149,7 @@ function EmployeeCompanymanage() {
   return (
     <div className="position-relative">
       <Header2 />
-      <ToastContainer/>
+     
       <div className="page-content bg-white ">
         <div className="content-block">
           <div className="section-full bg-white p-t50 p-b20">

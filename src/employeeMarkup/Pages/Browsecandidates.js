@@ -119,6 +119,7 @@ function EmployeeBrowsecandidates() {
   };
 
   const getState = () => {
+    
     axios({
       method: "GET",
       url: `https://apiwl.novajobs.us/api/employeer/stats/231`,
@@ -138,6 +139,9 @@ function EmployeeBrowsecandidates() {
   };
 
   const getCities = () => {
+    if(!browseCandidateValues.state_id){
+      return
+    }
     axios({
       method: "GET",
       url: `https://apiwl.novajobs.us/api/employeer/cities/${browseCandidateValues.state_id}`,
@@ -481,12 +485,12 @@ function EmployeeBrowsecandidates() {
                                                 <p>
                                                   {
                                                     item.jobskkers_detail
-                                                      .first_name
+                                                      .job_seeker_uuid
                                                   }{" "}
-                                                  {
+                                                  {/* {
                                                     item.jobskkers_detail
                                                       .last_name
-                                                  }
+                                                  } */}
                                                 </p>
                                               )}
                                           </div>

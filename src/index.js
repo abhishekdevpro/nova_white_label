@@ -7,7 +7,7 @@
 // import { store } from "./store/store";
 // import reportWebVitals from "./reportWebVitals";
 // import 'bootstrap-icons/font/bootstrap-icons.css';
-// import { ToastContainer } from 'react-toastify';
+
 // import { LogoProvider } from './Context/LogoContext';
 // // import SimpleReactLightbox from "simple-react-lightbox";
 
@@ -19,7 +19,7 @@
 //       <LogoProvider>
 //       <Router>
 //         <App />
-//         <ToastContainer />
+//         
 //       </Router>
 //       </LogoProvider>
 
@@ -54,7 +54,7 @@ root.render(
       <LogoProvider>
         <Router>
           <App />
-          <ToastContainer />
+          <ToastContainer position="top-right" autoClose={3000}/>
         </Router>
       </LogoProvider>
     </Provider>

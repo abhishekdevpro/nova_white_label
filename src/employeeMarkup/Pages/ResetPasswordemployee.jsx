@@ -9,7 +9,7 @@ import {
 import loginbg from "../../images/login/loginbg.jpeg";
 import axios from "axios";
 import { showToastError, showToastSuccess } from "../../utils/toastify";
-import { ToastContainer } from "react-toastify";
+
 
 function ResetPasswordemployee(props) {
    const { token } = useParams();
@@ -60,7 +60,7 @@ function ResetPasswordemployee(props) {
           backgroundSize: "cover",
         }}
       >
-        <ToastContainer />
+        
         <div className="section-full">
           <div className="container">
             <div className="row">

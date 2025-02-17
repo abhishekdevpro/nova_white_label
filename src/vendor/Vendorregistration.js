@@ -1,7 +1,7 @@
 
 
 import { useState, useEffect } from "react"
-import { toast, ToastContainer } from "react-toastify"
+import { toast} from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import axios from "axios"
 // import { Container, Form, Logo, Title, FormGroup, Label, Input, CheckboxGroup, SubmitButton } from "./StyledComponents"
@@ -196,7 +196,7 @@ const VendorRegistration = () => {
           <SubmitButton type="submit">Register</SubmitButton>
         </Form>
       </Container>
-      <ToastContainer />
+      
       <Footer />
     </>
   )

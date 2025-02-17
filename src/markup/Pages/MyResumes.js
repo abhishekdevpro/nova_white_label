@@ -181,7 +181,7 @@ function MyResumes() {
                       <thead>
                         <tr>
                           <th className="py-2 px-4">Sr. no.</th>
-                          <th className="py-2 px-4">Edit Resume Name</th>
+                          {/* <th className="py-2 px-4">Edit Resume Name</th> */}
                           <th className="py-2 px-4">Resume Name</th>
                           <th className="py-2 px-4">AI-Score</th>
                           <th className="py-2 px-4">Improve with AI</th>
@@ -194,25 +194,10 @@ function MyResumes() {
                         {resumes?.map((resume, index) => (
                           <tr key={index} className="border-2">
                             <td className="py-2 px-4">{index + 1}</td>
-                            <td className="py-2 px-4">
-                              <p
-                                className=" "
-                                onClick={() => {
-                                  setEditingResumeId(resume.id);
-                                  setNewResumeName(resume.resue_name || "");
-                                  setIsDefault(resume.is_default === 1);
-                                  setModalType("edit");
-                                }}
-                                data-bs-toggle="modal"
-                                data-bs-target="#modalPopup"
-                                style={{ cursor: "pointer" }}
-                              >
-                                ✏️
-                              </p>
-                            </td>
+                            
 
                             <td className="py-2 px-4">
-                              {resume.resue_name || "No Name"}
+                              {resume.resume_title || "No Name"}
                             </td>
                             <td className="py-2 px-4">
                               <button
@@ -237,18 +222,21 @@ function MyResumes() {
                             <td className="py-2 px-4">
                               {new Date(resume.created_at).toLocaleDateString()}
                             </td>
-                            <td className="py-2 px-4">
-                              {/* <button
-                                className="btn btn-danger"
+                            {/* <td className="d-flex gap-3 justify-content-center align-items-center">
+                              <p
+                                className=" "
                                 onClick={() => {
-                                  setDeleteresumeid(resume.id);
-                                  setModalType("delete");
+                                  setEditingResumeId(resume.id);
+                                  setNewResumeName(resume.resume_title || "");
+                                  setIsDefault(resume.is_default === 1);
+                                  setModalType("edit");
                                 }}
                                 data-bs-toggle="modal"
                                 data-bs-target="#modalPopup"
+                                style={{ cursor: "pointer" }}
                               >
-                                Delete
-                                 </button> */}
+                                ✏️
+                              </p>
 
                               <i
                                 className="fa fa-trash-alt text-danger"
@@ -262,7 +250,37 @@ function MyResumes() {
                               >
                                 🗑️
                               </i>
-                            </td>
+                            </td> */}
+                            <td className="d-flex gap-3 justify-content-center align-items-center py-2">
+  <p
+    className="text-primary fw-bold mb-0 px-2 py-1 rounded"
+    onClick={() => {
+      setEditingResumeId(resume.id);
+      setNewResumeName(resume.resume_title || "");
+      setIsDefault(resume.is_default === 1);
+      setModalType("edit");
+    }}
+    data-bs-toggle="modal"
+    data-bs-target="#modalPopup"
+    style={{ cursor: "pointer", transition: "0.3s" }}
+  >
+    ✏️
+  </p>
+
+  <i
+    className="fa fa-trash-alt text-danger px-2 py-1 rounded "
+    onClick={() => {
+      setDeleteresumeid(resume.id);
+      setModalType("delete");
+    }}
+    data-bs-toggle="modal"
+    data-bs-target="#modalPopup"
+    style={{ cursor: "pointer", transition: "0.3s" }}
+  >
+    🗑️
+  </i>
+</td>
+
                             <td className="py-2 px-4">Coming Soon</td>
                           </tr>
                         ))}

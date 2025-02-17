@@ -181,7 +181,7 @@
 //   return (
 //     <div className="page-wraper">
 //       <Header />
-//       <ToastContainer />
+//       
 //       <div
 //         className="page-content bg-white login-style2"
 //         style={{
@@ -558,7 +558,7 @@ function EmployeeLogin(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const url = window.location.origin.includes("localhost")
-  ? "https://wl.novajobs.us"
+  ? "https://novajobs.us"
   : window.location.origin;
   const notify = (data) => toast.warning(data);
   
@@ -721,7 +721,7 @@ function EmployeeLogin(props) {
   return (
     <div className="page-wraper">
       <Header />
-      <ToastContainer />
+      
       <div
         className="page-content bg-white login-style2"
         style={{
