@@ -33,6 +33,10 @@ const Sidebar = () => {
   const [showTeamSubmenu9B1, setShowTeamSubmenu9B1] = useState(false);
   const [showTeamSubmenu9C, setShowTeamSubmenu9C] = useState(false);
   const [showTeamSubmenu9C1, setShowTeamSubmenu9C1] = useState(false);
+  const [showTeamSubmenu9D, setShowTeamSubmenu9D] = useState(false);
+  const [showTeamSubmenu9D1, setShowTeamSubmenu9D1] = useState(false);
+  const [showTeamSubmenu9E, setShowTeamSubmenu9E] = useState(false);
+  const [showTeamSubmenu9E1, setShowTeamSubmenu9E1] = useState(false);
   const [showTeamSubmenu10, setShowTeamSubmenu10] = useState(false);
   const [showTeamSubmenu10A, setShowTeamSubmenu10A] = useState(false);
   const [showTeamSubmenu10B, setShowTeamSubmenu10B] = useState(false);
@@ -78,6 +82,12 @@ const Sidebar = () => {
     if (location.pathname.startsWith("/admin/apps")) setShowTeamSubmenu9C(true);
     if (location.pathname.startsWith("/admin/apps"))
       setShowTeamSubmenu9C1(true);
+    if (location.pathname.startsWith("/admin/apps")) setShowTeamSubmenu9D(true);
+    if (location.pathname.startsWith("/admin/apps"))
+      setShowTeamSubmenu9D1(true);
+    if (location.pathname.startsWith("/admin/apps")) setShowTeamSubmenu9E(true);
+    if (location.pathname.startsWith("/admin/apps"))
+      setShowTeamSubmenu9E1(true);
     if (location.pathname.startsWith("/admin/server"))
       setShowTeamSubmenu10(true);
     if (location.pathname.startsWith("/admin/server"))
@@ -133,10 +143,22 @@ const Sidebar = () => {
     setShowTeamSubmenu9B1(!showTeamSubmenu9B1);
   };
   const handleTeamClick9C = () => {
-    setShowTeamSubmenu9C(!showTeamSubmenu9B);
+    setShowTeamSubmenu9C(!showTeamSubmenu9C);
   };
   const handleTeamClick9C1 = () => {
     setShowTeamSubmenu9C1(!showTeamSubmenu9C1);
+  };
+  const handleTeamClick9D = () => {
+    setShowTeamSubmenu9D(!showTeamSubmenu9D);
+  };
+  const handleTeamClick9D1 = () => {
+    setShowTeamSubmenu9D1(!showTeamSubmenu9D1);
+  };
+  const handleTeamClick9E = () => {
+    setShowTeamSubmenu9E(!showTeamSubmenu9E);
+  };
+  const handleTeamClick9E1 = () => {
+    setShowTeamSubmenu9E1(!showTeamSubmenu9E1);
   };
   const handleTeamClick10 = () => {
     setShowTeamSubmenu10(!showTeamSubmenu10);
@@ -518,8 +540,8 @@ const Sidebar = () => {
                         </Nav.Link>
                         <Nav.Link
                           as={NavLink}
-                          to=""
-                          style={navLinkStyle("/")}
+                          to="/admin/homecare/aboutus"
+                          style={navLinkStyle("/admin/homecare/aboutus")}
                           className="ps-7"
                         >
                           <FaUsers style={iconStyle} />
@@ -582,8 +604,8 @@ const Sidebar = () => {
                         </Nav.Link>
                         <Nav.Link
                           as={NavLink}
-                          to=""
-                          style={navLinkStyle("/")}
+                          to="/admin/paradigmshift/aboutus"
+                          style={navLinkStyle("/admin/paradigmshift/aboutus")}
                           className="ps-7"
                         >
                           <FaUsers style={iconStyle} />
@@ -605,6 +627,99 @@ const Sidebar = () => {
                 {/*<Nav.Link as={NavLink} to="/admin/team/bulkUploademployers" style={navLinkStyle("/admin/team/bulkUploademployers")} className='ps-5'>
               <FaUsers style={iconStyle} /> Bulk Upload
             </Nav.Link> */}
+                <Nav.Link
+                  as={NavLink}
+                  onClick={handleTeamClick9D}
+                  to=""
+                  style={navLinkStyle("/")}
+                  className="ps-5"
+                >
+                  <FaUsers style={iconStyle} />
+                  Freevance
+                </Nav.Link>
+                {showTeamSubmenu9D && (
+                  <>
+                    <Nav.Link
+                      onClick={handleTeamClick9D1}
+                      as={NavLink}
+                      to=""
+                      style={navLinkStyle("/")}
+                      className="ps-6"
+                    >
+                      <FaUsers style={iconStyle} />
+                      CMS
+                    </Nav.Link>
+                    {showTeamSubmenu9D1 && (
+                      <>
+                        <Nav.Link
+                          as={NavLink}
+                          to=""
+                          style={navLinkStyle("/")}
+                          className="ps-7"
+                        >
+                          <FaUsers style={iconStyle} />
+                          Home
+                        </Nav.Link>
+                        <Nav.Link
+                          as={NavLink}
+                          to="/admin/freevance/aboutus"
+                          style={navLinkStyle("/admin/freevance/aboutus")}
+                          className="ps-7"
+                        >
+                          <FaUsers style={iconStyle} />
+                          About Us
+                        </Nav.Link>
+                      </>
+                    )}
+                  </>
+                )}
+
+                <Nav.Link
+                  as={NavLink}
+                  onClick={handleTeamClick9E}
+                  to=""
+                  style={navLinkStyle("/")}
+                  className="ps-5"
+                >
+                  <FaUsers style={iconStyle} />
+                  Legitzone
+                </Nav.Link>
+                {showTeamSubmenu9E && (
+                  <>
+                    <Nav.Link
+                      onClick={handleTeamClick9E1}
+                      as={NavLink}
+                      to=""
+                      style={navLinkStyle("/")}
+                      className="ps-6"
+                    >
+                      <FaUsers style={iconStyle} />
+                      CMS
+                    </Nav.Link>
+                    {showTeamSubmenu9E1 && (
+                      <>
+                        <Nav.Link
+                          as={NavLink}
+                          to=""
+                          style={navLinkStyle("/")}
+                          className="ps-7"
+                        >
+                          <FaUsers style={iconStyle} />
+                          Home
+                        </Nav.Link>
+                        <Nav.Link
+                          as={NavLink}
+                          to="/admin/legitzone/aboutus"
+                          style={navLinkStyle("/admin/legitzone/aboutus")}
+                          className="ps-7"
+                        >
+                          <FaUsers style={iconStyle} />
+                          About Us
+                        </Nav.Link>
+                      </>
+                    )}
+                  </>
+                )}
               </>
             )}
           </div>
