@@ -110,8 +110,9 @@ function Homepage() {
                       Search Jobs with advanced filters and the power of AI
                     </p>
                     <Link
-                    //  to={"/user/job/2"} 
-                     style={{ color: "white" }}>
+                       to={"/user/login"}
+                      style={{ color: "white" }}
+                    >
                       <button
                         type="button"
                         className="btn text-white hoverlogo-3d"
@@ -137,14 +138,14 @@ function Homepage() {
                         display: "flex",
                         flexDirection: "row",
                         alignItems: "center",
-                        gap: "12px",
+                        gap: "8px",
                       }}
                     >
                       <FaRegEdit />
 
                       <h3
                         style={{
-                          fontSize: "17px",
+                          fontSize: "15px",
                           color: "white",
                           fontWeight: "600",
                           marginBottom: "0px",
@@ -158,14 +159,14 @@ function Homepage() {
                       style={{
                         margin: "0px",
                         padding: "0px",
-                        fontSize: "14px",
+                        fontSize: "11px",
                       }}
                     >
                       List your company, post jobs, search talent with advanced
                       filters and power of AI{" "}
                     </p>
                     <Link
-                      // to={"/employee/register-2"}
+                      to={"/employer/login"}
                       style={{ color: "white" }}
                     >
                       <button
@@ -220,7 +221,7 @@ function Homepage() {
                 <FaRegFileAlt />
               </div>
               <Link
-              // to={`https://airesume.novajobs.us/?tokenbyurl=${token}`}
+              to={`/novajobs#tab2`}
               >
                 <h3
                   onClick={handleBuilder}
@@ -252,8 +253,8 @@ function Homepage() {
               <div className="card-icon">
                 <FaRegFilePdf />
               </div>
-              <Link 
-              // to={"https://novajobs.us/novajobs#tab3"}
+              <Link
+              to={"/novajobs#tab3"}
               >
                 <h3 className="d-flex justify-content-center">
                   <b>Give skill test</b>
@@ -282,8 +283,8 @@ function Homepage() {
               <div className="card-icon">
                 <FaRegUser />
               </div>
-              <Link 
-              // to={"https://ultraaura.education/"}
+              <Link
+              to={"https://ultraaura.education/"}
               >
                 <h3 className="d-flex justify-content-center">
                   <b>Enhance Skills</b>
@@ -309,7 +310,7 @@ function Homepage() {
           </div>
         </div>
 
-        <div
+        {/* <div
           className="d-flex flex-column bg-white align-items-center my-5"
           style={{ gap: "20px", padding: "20px" }}
         >
@@ -417,7 +418,7 @@ function Homepage() {
               </Link>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
       <Footer />
     </div>

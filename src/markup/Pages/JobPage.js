@@ -26,14 +26,17 @@ import JobPageSkeleton from "../skeleton/jobPage";
 import TwoBoxWithLinesSkeleton from "../skeleton/twoBoxLines";
 import { useParams } from "react-router-dom";
 import SkeletonImg from "../../images/jobpage/No data-pana.png";
-import { FaSearch, FaBars } from "react-icons/fa";
-import { ToastContainer } from "react-toastify";
+import { FaSearch } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 function JobPage() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const url = window.location.origin.includes("localhost")
+  ? "https://novajobs.us"
+  : window.location.origin;
 
   const [selectedJob, setSelectedJob] = useState(null);
   const [show, setShow] = useState(false);
@@ -80,7 +83,9 @@ function JobPage() {
   const [category, Setcategory] = useState("");
 
   // Extract search params from the URL
+  // console.log(location.search,"urrrriiiii");
   const queryParams = new URLSearchParams(location.search);
+ 
   const initialSearchParams = {
     category: queryParams.get("category") || "",
     state_id: queryParams.get("state_id") || "",
@@ -93,52 +98,112 @@ function JobPage() {
 
   const [searchParams, setSearchParams] = useState(initialSearchParams);
 
+  // useEffect(() => {
+  //   const fetchJobApplicationData = async () => {
+  //     // console.log(page);
+  //     try {
+  //       const response = await axios.get(
+  //         // "https://apiwl.novajobs.us/api/jobseeker/job-lists?page_no=1&page_size=7&is_publish=1",
+  //         `https://apiwl.novajobs.us/api/jobseeker/job-lists?page_no=${page}&page_size=${perPage}&is_publish=1&domain=${url}`,
+  //         {
+  //           headers: {
+  //             Authorization: token,
+  //           },
+  //         }
+  //       );
+  //       dispatch(setJobApplicationData(response.data.data));
+  //       setShowSkeleton(false);
+
+  //       // If we have an ID from params, find and set the matching job
+  //       if (id) {
+  //         const response = await axios.get(
+  //           `https://apiwl.novajobs.us/api/jobseeker/job-lists/${id}`,
+  //           {
+  //             headers: {
+  //               Authorization: token,
+  //             },
+  //           }
+  //         );
+  //         if (response.data.data) {
+  //           // console.log(response.data.data,"job data");
+  //           setSelectedJob(response.data.data);
+  //         } else {
+  //           console.log(`No job found with id: ${id}`);
+  //         }
+  //       } else if (jobFromState) {
+  //         setSelectedJob(jobFromState);
+  //       } else if (response.data.data.length > 0) {
+  //         setSelectedJob(response.data.data[0]);
+  //       }
+
+  //       // Perform search based on initial search params
+  //       handleSearch();
+  //     } catch (error) {
+  //       console.error("Error fetching job data:", error);
+  //     }
+  //   };
+  //   fetchJobApplicationData();
+  // }, [id, jobFromState, dispatch, token, page]);
   useEffect(() => {
     const fetchJobApplicationData = async () => {
-      console.log(page);
       try {
+        // Construct URL with all active filters
+        const params = new URLSearchParams();
+        
+        // Add pagination params
+        params.append('page_no', page);
+        params.append('page_size', perPage);
+        params.append('is_publish', 1);
+        params.append('domain', url);
+        
+        // Add filter params if they exist
+        if (searchParams.category) params.append('category', searchParams.category);
+        if (searchParams.state_id) params.append('state_id', searchParams.state_id);
+        if (searchParams.city_id) params.append('city_id', searchParams.city_id);
+        if (searchParams.workplace_type) params.append('workplace_type', searchParams.workplace_type);
+        if (searchParams.job_type) params.append('job_type', searchParams.job_type);
+        if (searchParams.experience_level) params.append('experience_level', searchParams.experience_level);
+        if (searchParams.title_keywords) params.append('title_keywords', searchParams.title_keywords);
+  
         const response = await axios.get(
-          // "https://api.novajobs.us/api/jobseeker/job-lists?page_no=1&page_size=7&is_publish=1",
-          `https://api.novajobs.us/api/jobseeker/job-lists?page_no=${page}&page_size=${perPage}&is_publish=1`,
+          `https://apiwl.novajobs.us/api/jobseeker/job-lists?${params.toString()}`,
           {
             headers: {
               Authorization: token,
             },
           }
         );
+  
         dispatch(setJobApplicationData(response.data.data));
         setShowSkeleton(false);
-
-        // If we have an ID from params, find and set the matching job
+  
+        // Handle selected job logic
         if (id) {
-          const response = await axios.get(
-            `https://api.novajobs.us/api/jobseeker/job-lists/${id}`,
+          const jobResponse = await axios.get(
+            `https://apiwl.novajobs.us/api/jobseeker/job-lists/${id}`,
             {
               headers: {
                 Authorization: token,
               },
             }
           );
-          if (response.data.data) {
-            setSelectedJob(response.data.data);
-          } else {
-            console.log(`No job found with id: ${id}`);
+          if (jobResponse.data.data) {
+            setSelectedJob(jobResponse.data.data);
           }
         } else if (jobFromState) {
           setSelectedJob(jobFromState);
         } else if (response.data.data.length > 0) {
           setSelectedJob(response.data.data[0]);
         }
-
-        // Perform search based on initial search params
-        handleSearch();
       } catch (error) {
         console.error("Error fetching job data:", error);
+        setShowSkeleton(false);
       }
     };
+  
     fetchJobApplicationData();
-  }, [id, jobFromState, dispatch, token, page]);
-
+  }, [id, jobFromState, dispatch, token, page, searchParams]); // Added searchParams to dependencies
+  
   useEffect(() => {
     if (jobApplicationValues.jobCategory !== "") {
       setActiveDropDown("active_dropDown");
@@ -179,17 +244,27 @@ function JobPage() {
   };
 
   const toggleFabJobs = async () => {
+    if(!token){
+      toast.warning("Login required!")
+      setTimeout(() => {
+        navigate("/user/login");
+      }, 2000);
+    }
     try {
-      await axios({
-        url: "https://api.novajobs.us/api/jobseeker/job-favorites",
+      const response = await axios({
+        url: "https://apiwl.novajobs.us/api/jobseeker/job-favorites",
         method: "POST",
         headers: { Authorization: token },
         data: {
           job_id: selectedJob.job_detail.id,
         },
       });
+      // console.log(response.message,"meassg");
+     if(response)  toast.success(response.message || "job added to favorites")
+      else  toast.error(response.message)
     } catch (error) {
       console.log(error);
+      // toast.error(error.message || "Failed to add job to favorites. Try again! ")
     }
   };
 
@@ -246,7 +321,7 @@ function JobPage() {
   const getJobTypes = async () => {
     try {
       const res = await axios.get(
-        "https://api.novajobs.us/api/jobseeker/job-types",
+        "https://apiwl.novajobs.us/api/jobseeker/job-types",
         {
           headers: { Authorization: token },
         }
@@ -260,7 +335,7 @@ function JobPage() {
   const getCategory = async () => {
     try {
       const res = await axios.get(
-        "https://api.novajobs.us/api/jobseeker/job-categories",
+        "https://apiwl.novajobs.us/api/jobseeker/job-categories",
         {
           headers: {
             Authorization: token,
@@ -276,7 +351,7 @@ function JobPage() {
   const getWorkplaceType = async () => {
     try {
       const response = await axios.get(
-        "https://api.novajobs.us/api/jobseeker/workplace-types",
+        "https://apiwl.novajobs.us/api/jobseeker/workplace-types",
         {
           headers: { Authorization: token },
         }
@@ -290,7 +365,7 @@ function JobPage() {
   const getExperience = async () => {
     try {
       const response = await axios.get(
-        "https://api.novajobs.us/api/jobseeker/experience-level",
+        "https://apiwl.novajobs.us/api/jobseeker/experience-level",
         {
           headers: { Authorization: token },
         }
@@ -305,7 +380,7 @@ function JobPage() {
   const getCountry = async () => {
     try {
       const response = await axios.get(
-        "https://api.novajobs.us/api/jobseeker/countries",
+        "https://apiwl.novajobs.us/api/jobseeker/countries",
         {
           headers: { Authorization: token },
         }
@@ -319,7 +394,7 @@ function JobPage() {
   const getState = async () => {
     try {
       const response = await axios.get(
-        `https://api.novajobs.us/api/jobseeker/stats/231`,
+        `https://apiwl.novajobs.us/api/jobseeker/stats/231`,
         {
           headers: { Authorization: token },
         }
@@ -335,7 +410,7 @@ function JobPage() {
   const getCities = async () => {
     try {
       const response = await axios.get(
-        `https://api.novajobs.us/api/jobseeker/cities/${jobApplicationValues.state_id}`,
+        `https://apiwl.novajobs.us/api/jobseeker/cities/${jobApplicationValues.state_id}`,
         {
           headers: { Authorization: token },
         }
@@ -347,10 +422,11 @@ function JobPage() {
   };
 
   const baseUrl =
-    // "https://api.novajobs.us/api/jobseeker/job-lists/?page_size=7&is_publish=1";
-    // "https://api.novajobs.us/api/jobseeker/job-lists?page_size=7&is_publish=1";
-    `https://api.novajobs.us/api/jobseeker/job-lists?page_no=${page}&page_size=${perPage}&is_publish=1`;
+    // "https://apiwl.novajobs.us/api/jobseeker/job-lists/?page_size=7&is_publish=1";
+    // "https://apiwl.novajobs.us/api/jobseeker/job-lists?page_size=7&is_publish=1";
+    `https://apiwl.novajobs.us/api/jobseeker/job-lists?page_no=${page}&page_size=${perPage}&is_publish=1&domain=${url}`;
   const params = new URLSearchParams();
+
   // Handle Search Based on Params
   const handleSearch = () => {
     const {
@@ -400,7 +476,7 @@ function JobPage() {
     } else {
       try {
         await axios({
-          url: "https://api.novajobs.us/api/jobseeker/jobs-applied",
+          url: "https://apiwl.novajobs.us/api/jobseeker/jobs-applied",
           method: "POST",
           headers: {
             Authorization: token,
@@ -412,12 +488,20 @@ function JobPage() {
         });
         showToastSuccess("Job applied successfully");
       } catch (err) {
-        console.log(err);
-        console.log(err.response.data.message);
+        // console.log(err);
+        // console.log(err.response.data.message);
         showToastError(err?.response?.data?.message);
       }
     }
   };
+  const handleApplyClick = async()=>{
+    toast.warning("Login required!");
+
+    // Navigate after a short delay
+    setTimeout(() => {
+      navigate("/user/login");
+    }, 2000);
+  }
   //load more button
   const handleLoadMore = () => {
     const nextPage = page + 1;
@@ -425,12 +509,11 @@ function JobPage() {
 
     // fetchJobApplicationData(nextPage);
   };
-  console.log("pagevalue", page);
+  // console.log("pagevalue", page);
   return (
     <>
       <Header />
       {localStorage.getItem("jobSeekerLoginToken") ? <FixedHeader /> : null}
-      <ToastContainer />
       <div>
         {showSkeleton === true ? (
           <div className="bg-white w-100 ">
@@ -711,7 +794,7 @@ function JobPage() {
                                                 style={{
                                                   color: "black",
                                                   fontWeight: "500",
-                                                  fontSize: "20px",
+                                                  fontSize: "16px",
                                                 }}
                                               >
                                                 {job.job_detail.job_title}
@@ -812,7 +895,9 @@ function JobPage() {
                                 <div className="d-flex gap-4 justify-content-between align-items-center mt-6 p-2">
                                   <div>
                                     <Link to="#">
-                                      <h3 className="mb-1">
+                                      <h3 className="mb-1" style={{ fontSize: "16px", 
+                                        fontWeight: "500",
+                                      }}>
                                         {selectedJob.job_detail.job_title}
                                       </h3>
                                     </Link>
@@ -847,8 +932,8 @@ function JobPage() {
                                       <>
                                         <button
                                           className=" site-button btn btn-primary justify-end "
-                                          onClick={() =>
-                                            navigate("/user/login")
+                                          onClick={
+                                            handleApplyClick
                                           }
                                         >
                                           Apply now
@@ -892,7 +977,11 @@ function JobPage() {
                                     continuing to the company website to apply
                                   </p>
                                   <div className="d-inline-block border-end border-1 border-btn btn-outline-secondary w-100 mb-4"></div>
-                                  <h5>Job details</h5>
+                                  <h5
+                                   style={{ fontSize: "16px", 
+                                    fontWeight: "500",
+                                  }}
+                                  >Job details</h5>
                                   {selectedJob.companies.id && (
                                     <div
                                       className="d-flex "
@@ -946,7 +1035,9 @@ function JobPage() {
                                 </div>
 
                                 <div className="d-inline-block border-end border-1 border-btn btn-outline-secondary w-100 my-3"></div>
-                                <h5>Full job description</h5>
+                                <h5 style={{ fontSize: "16px", 
+                                        fontWeight: "500",
+                                      }}>Full job description</h5>
                                 {selectedJob.job_detail.job_description && (
                                   <p className="mb-1">
                                     <div

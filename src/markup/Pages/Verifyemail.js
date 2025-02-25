@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { showToastError, showToastSuccess } from "../../utils/toastify";
-import { ToastContainer } from "react-toastify";
+
 
 function VerifyEmail() {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ function VerifyEmail() {
   useEffect(() => {
     const verifyEmail = async () => {
       try {
-        const response = await axios.get(`https://api.novajobs.us/api/jobseeker/verify-account/${token}`);
+        const response = await axios.get(`https://apiwl.novajobs.us/api/jobseeker/verify-account/${token}`);
         console.log(response)
         if (response) { 
           showToastSuccess("Email verified successfully");
@@ -32,7 +32,7 @@ function VerifyEmail() {
 
   return (
     <div>Verifying...
-      <ToastContainer/>
+    
     </div>
   );
 }

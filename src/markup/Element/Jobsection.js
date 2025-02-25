@@ -50,7 +50,7 @@ function Jobsection() {
   const toggleFabJobsmobile = async () => {
     try {
       await axios({
-        url: "https://api.novajobs.us/api/jobseeker/job-favorites",
+        url: "https://apiwl.novajobs.us/api/jobseeker/job-favorites",
         method: "POST",
         headers: { Authorization: token },
         data: {
@@ -61,12 +61,15 @@ function Jobsection() {
       console.log(error);
     }
   };
+  const url = window.location.origin.includes("localhost")
+  ? "https://novajobs.us"
+  : window.location.origin;
   // Function to fetch job application data
   const fetchJobApplicationData = async (page = 1, perPage = 5) => {
     try {
       // Make API call to get job listings
       const response = await axios.get(
-        `https://api.novajobs.us/api/jobseeker/job-lists?page_no=${page}&page_size=${perPage}&is_publish=1`,
+        `https://apiwl.novajobs.us/api/jobseeker/job-lists?page_no=${page}&page_size=${perPage}&is_publish=1&domain=${url}`,
         {
           headers: {
             Authorization: token,
@@ -124,7 +127,7 @@ function Jobsection() {
     } else {
       try {
         await axios({
-          url: "https://api.novajobs.us/api/jobseeker/jobs-applied",
+          url: "https://apiwl.novajobs.us/api/jobseeker/jobs-applied",
           method: "POST",
           headers: {
             Authorization: token,
@@ -150,22 +153,7 @@ function Jobsection() {
   const jobApplicationValues = useSelector(
     (state) => state.jobApplicationSlice.jobApplicationValues
   );
-  // Function to fetch company logo
-  // const getLogo = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       "https://api.novajobs.us/api/employeer/employeer-profile",
-  //       {
-  //         headers: { Authorization: token },
-  //       }
-  //     );
-  //     setLogo(`${response.data.data.company_detail.logo}`);
-  //   } catch (error) {
-  //     console.error("Error fetching logo:", error);
-  //   }
-  // };
-
-  // Fetch logo and job data on component mount and page change
+  
   useEffect(() => {
     // getLogo();
     fetchJobApplicationData(currentPage, itemsPerPage);
@@ -173,14 +161,17 @@ function Jobsection() {
 
   // Toast message for unauthorized actions
   const showToastMessage = () => {
-    toast("Login To Continue");
+    toast.warn("Login To Continue");
+    setTimeout(() => {
+      navigate("/user/login");
+    }, 2000);
   };
 
   // Toggle favorite jobs
   const toggleFabJobs = async (id) => {
     try {
       await axios.post(
-        "https://api.novajobs.us/api/jobseeker/job-favorites",
+        "https://apiwl.novajobs.us/api/jobseeker/job-favorites",
         { job_id: id },
         { headers: { Authorization: token } }
       );
@@ -243,7 +234,6 @@ function Jobsection() {
   // Render the component
   return (
     <div className="section-full bg-white content-inner-2">
-      <ToastContainer />
       {skeleton ? (
         <TwoBoxWithLinesSkeleton />
       ) : (
@@ -277,7 +267,7 @@ function Jobsection() {
                         <div className="job-post-info">
                           <h4>
                             <Link
-                              // to={`/user/job/${item.job_detail.id}`}
+                              to={`/user/job/${item.job_detail.id}`}
                               onClick={() =>
                                 window.scrollTo({ top: 0, behavior: "smooth" })
                               }

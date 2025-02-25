@@ -9,7 +9,7 @@ import {
 import loginbg from "../../images/login/loginbg.jpeg";
 import axios from "axios";
 import { showToastError, showToastSuccess } from "../../utils/toastify";
-import { ToastContainer } from "react-toastify";
+
 
 function ResetPassword(props) {
    const { token } = useParams();
@@ -31,7 +31,7 @@ function ResetPassword(props) {
   
     await axios({
       method: "POST",
-      url: "https://api.novajobs.us/api/jobseeker/reset-password",
+      url: "https://apiwl.novajobs.us/api/jobseeker/reset-password",
       data: formData,
     })
       .then((response) => {
@@ -60,7 +60,7 @@ function ResetPassword(props) {
           backgroundSize: "cover",
         }}
       >
-        <ToastContainer />
+        
         <div className="section-full">
           <div className="container">
             <div className="row">

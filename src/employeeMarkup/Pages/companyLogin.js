@@ -49,7 +49,7 @@ function EmployeesCompanyLogin(props) {
     };
     await axios({
       method: "POST",
-      url: "https://api.novajobs.us/api/jobseeker/auth/login",
+      url: "https://apiwl.novajobs.us/api/jobseeker/auth/login",
       headers: {
         "Content-Type": "Application/json",
       },

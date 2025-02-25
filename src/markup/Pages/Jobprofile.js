@@ -15,6 +15,7 @@ import { useEffect } from "react";
 import { FaImage } from "react-icons/fa";
 import Resizer from "react-image-file-resizer";
 import styled from "styled-components";
+import { toast } from "react-toastify";
 
 const ToggleSwitch = styled.div`
   display: flex;
@@ -191,13 +192,13 @@ function Jobprofile() {
   const getReq = () => {
     axios({
       method: "GET",
-      url: "https://api.novajobs.us/api/jobseeker/user-profile",
+      url: "https://apiwl.novajobs.us/api/jobseeker/user-profile",
       headers: {
         Authorization: token,
       },
     })
       .then((response) => {
-        console.log(response.data.data.id, "all data");
+        // console.log(response.data.data.id, "all data");
         let data = response.data.data;
         setId(response.data.data.id)
         dispatch(
@@ -221,8 +222,8 @@ function Jobprofile() {
       })
       .catch((err) => {
         console.log(err);
-        console.log(err.response.data.message);
-        showToastError(err?.response?.data?.message);
+        // console.log(err.response.data.message);
+        toast.error(err?.response?.data?.message);
       });
   };
   useEffect(() => {
@@ -249,7 +250,7 @@ function Jobprofile() {
 
     axios({
       method: "PUT",
-      url: "https://api.novajobs.us/api/jobseeker/user-profile",
+      url: "https://apiwl.novajobs.us/api/jobseeker/user-profile",
       headers: {
         Authorization: token,
       },
@@ -257,7 +258,8 @@ function Jobprofile() {
     })
       .then((response) => {
         getReq();
-        showToastSuccess("Setting saved");
+        console.log(response.data,"???");
+        showToastSuccess(response.data.message || "Job Profile saved Successfully");
       })
       .catch((err) => {
         showToastError(err?.response?.data?.message);
@@ -285,7 +287,7 @@ function Jobprofile() {
   const getCountry = () => {
     axios({
       method: "GET",
-      url: "https://api.novajobs.us/api/jobseeker/countries",
+      url: "https://apiwl.novajobs.us/api/jobseeker/countries",
       headers: {
         Authorization: token,
       },
@@ -301,9 +303,12 @@ function Jobprofile() {
   };
 
   const getState = () => {
+    if(!jobProfileValues.country_id){
+      return
+    }
     axios({
       method: "GET",
-      url: `https://api.novajobs.us/api/jobseeker/stats/${jobProfileValues.country_id}`,
+      url: `https://apiwl.novajobs.us/api/jobseeker/stats/${jobProfileValues.country_id}`,
       headers: {
         Authorization: token,
       },
@@ -319,9 +324,12 @@ function Jobprofile() {
   };
 
   const getCities = () => {
+    if(!jobProfileValues.state_id){
+      return ;
+    }
     axios({
       method: "GET",
-      url: `https://api.novajobs.us/api/jobseeker/cities/${jobProfileValues.state_id}`,
+      url: `https://apiwl.novajobs.us/api/jobseeker/cities/${jobProfileValues.state_id}`,
       headers: {
         Authorization: token,
       },
@@ -518,7 +526,7 @@ function Jobprofile() {
                             <p className="text-danger">{errors.languages}</p>
                           )}
                         </div>
-                        <div className="col-lg-6 col-md-6">
+                        {/* <div className="col-lg-6 col-md-6">
                           <div className="form-group">
                             <label htmlFor="age">Age:</label>
                             <input
@@ -534,7 +542,7 @@ function Jobprofile() {
                           {errors.age && (
                             <p className="text-danger">{errors.age}</p>
                           )}
-                        </div>
+                        </div> */}
                         <div className="col-lg-6 col-md-6">
                           <div className="form-group">
                             <label htmlFor="current_salary">
@@ -556,10 +564,10 @@ function Jobprofile() {
                             </p>
                           )}
                         </div>
-                        <div className="col-12">
+                        <div className="col-6">
                           <div className="form-group">
                             <label htmlFor="expected_salary">
-                              Expected Salary/month:
+                              Expected Salary/month($):
                             </label>
                             <input
                               type="text"
@@ -602,7 +610,7 @@ function Jobprofile() {
                             <input
                               type="text"
                               className="form-control"
-                              // placeholder="+1 123 456 7890"
+                              placeholder="+1 123 456 7890"
                               name="phone"
                               id="phone"
                               onChange={handleChange}

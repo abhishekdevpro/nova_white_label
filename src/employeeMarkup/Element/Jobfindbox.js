@@ -27,7 +27,7 @@
 //   useEffect(() => {
 //     axios({
 //       method: "GET",
-//       url: "https://api.novajobs.us/api/employeer/experience-level",
+//       url: "https://apiwl.novajobs.us/api/employeer/experience-level",
 //       headers: {
 //         Authorization: token,
 //       },
@@ -42,7 +42,7 @@
 //   useEffect(() => {
 //     axios({
 //       method: "GET",
-//       url: "https://api.novajobs.us/api/employeer/salary-range",
+//       url: "https://apiwl.novajobs.us/api/employeer/salary-range",
 //       headers: {
 //         Authorization: token,
 //       },
@@ -64,7 +64,7 @@
 //       setBrowseCandidateValues({ ...browseCandidateValues, [name]: value })
 //     );
 //   };
-//   const baseUrl = "https://api.novajobs.us/api/employeer/job-seekers";
+//   const baseUrl = "https://apiwl.novajobs.us/api/employeer/job-seekers";
 
 //   const params = new URLSearchParams();
 

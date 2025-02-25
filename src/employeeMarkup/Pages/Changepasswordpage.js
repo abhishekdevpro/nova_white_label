@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Header2 from "./../Layout/Header2";
 import Footer from "./../Layout/Footer";
 import axios from "axios";
-import { ToastContainer } from "react-toastify";
+
 import CompanySideBar from "../Layout/companySideBar";
 import { showToastError, showToastSuccess } from "../../utils/toastify";
 import 'react-toastify/dist/ReactToastify.css'; 
@@ -34,7 +34,7 @@ function Changepasswordpage() {
     e.preventDefault();
     axios({
       method: "POST",
-      url: "https://api.novajobs.us/api/employeer/change-password",
+      url: "https://apiwl.novajobs.us/api/employeer/change-password",
       headers: {
         Authorization: token,
         "Content-type": "application/json",
@@ -59,7 +59,6 @@ function Changepasswordpage() {
   return (
     <>
       <Header2 />
-      <ToastContainer />
       <div className="page-content bg-white">
         <div className="content-block">
           <div className="section-full bg-white browse-job p-t50 p-b20">

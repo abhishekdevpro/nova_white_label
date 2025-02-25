@@ -6,9 +6,13 @@ import india from "../../images/WhatsApp_Image_2024-05-11_at_19.51.05-removebg-p
 import axios from "axios";
 import { showToastError, showToastSuccess } from "../../utils/toastify";
 import { FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
+import LogoWrapper from "./LogoWrapper";
 function Footer() {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [logo, setLogo] = useState(
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUhQJ-44yDYIuo8Hj-L1ezQSKAkkK4CqlecQ&s"
+  ); // Default logo
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -34,7 +38,7 @@ function Footer() {
 
     axios({
       method: "POST",
-      url: "https://api.novajobs.us/api/jobseeker/user-subscribe",
+      url: "https://apiwl.novajobs.us/api/jobseeker/user-subscribe",
       data: { email },
     })
       .then((res) => {
@@ -54,18 +58,11 @@ function Footer() {
             <div className="row row-cols-1 row-cols-md-5">
               <div className="col mb-4 mb-md-0 col-md-4">
                 <div className="text-start">
-                  <div className="mb-4">
-                    <Link to={"/"}>
-                      <img
-                        // src={require("./../../images/logo/NovaUS.png")}
-                        src="https://abhishekdevpro-nova-home-care-fe.vercel.app/assets/logo-B4gdw3fA.png"
-                        className="max-w-[180px] w-[180px] "
-                        alt=""
-                        style={{ width: "180px" }}
-                      />
-                    </Link>
+                  <div className="mb-4 d-flex flex-column align-items-center text-center">
+                    <LogoWrapper />
+                    <b className="fw-bold mt-2">An AI-enabled Job Portal</b>
                   </div>
-                  <b className="fw-bold mb-4">An AI enabled Job Portal</b>
+
                   {/* <ul className="list-3 d-flex flex-column gap-2 text-break mt-4">
                     <li className="flex d-flex align-items-center justify-content-start gap-2">
                       <p>
@@ -101,27 +98,10 @@ function Footer() {
                       }
                     >
                       <Link
-                      //  to={"/user/job/2"}
-                      >Search Jobs</Link>
-                    </li>
-                    <li
-                      onClick={() =>
-                        window.scrollTo({ top: 0, behavior: "smooth" })
-                      }
-                    >
-                      <Link 
-                      // to={"/user/register-2"}
-                      >Create Free account</Link>
-                    </li>
-                    <li
-                      onClick={() =>
-                        window.scrollTo({ top: 0, behavior: "smooth" })
-                      }
-                    >
-                      <Link 
-                      // to={"/user/register-2"}
-                      >List profile</Link>
-
+                       to={"/user/job/1"}
+                      >
+                        Search Jobs
+                      </Link>
                     </li>
                     <li
                       onClick={() =>
@@ -129,18 +109,43 @@ function Footer() {
                       }
                     >
                       <Link
-                        // onClick={handleBuilder}
+                      to={"/user/login"}
+                      >
+                        Create Free account
+                      </Link>
+                    </li>
+                    {/* <li
+                      onClick={() =>
+                        window.scrollTo({ top: 0, behavior: "smooth" })
+                      }
+                    >
+                      <Link
+                      to={"/user/register-2"}
+                      >
+                        List profile
+                      </Link>
+                    </li> */}
+                    <li
+                      onClick={() =>
+                        window.scrollTo({ top: 0, behavior: "smooth" })
+                      }
+                    >
+                      <Link
+                      // onClick={handleBuilder}
+                      to={`/novajobs#tab2`}
 
-                        // to={`https://airesume.novajobs.us/?tokenbyurl=${token}`}
+                      // to={`https://airesume.novajobs.us/?tokenbyurl=${token}`}
                       >
                         Build AI resume
                       </Link>
                     </li>
 
                     <li>
-                      <Link 
-                      // to={"/user/skill-test"}
-                      >Skill Test</Link>
+                      <Link
+                      to={"/novajobs#tab3"}
+                      >
+                        Skill Test
+                      </Link>
                     </li>
                   </ul>
                 </div>
@@ -156,20 +161,10 @@ function Footer() {
                         window.scrollTo({ top: 0, behavior: "smooth" })
                       }
                     >
-                      <Link 
-                      // to={"/employer/company-profile"}
-                      
-                      >Post Jobs</Link>
-                    </li>
-                    <li
-                      onClick={() =>
-                        window.scrollTo({ top: 0, behavior: "smooth" })
-                      }
-                    >
                       <Link
-                      //  to={"/employer/browse-candidates"}
+                      to={localStorage.getItem("employeeLoginToken")?"employer/company-profile":"/employer/login"}
                       >
-                        Browse Applicants
+                        Post Jobs
                       </Link>
                     </li>
                     <li
@@ -178,16 +173,29 @@ function Footer() {
                       }
                     >
                       <Link
-                      //  to={"/employer/login"}
-                      >Schedule Interviews</Link>
+                       to={localStorage.getItem("employeeLoginToken")?"/employer/browse-candidates":"/employer/login"}
+                      >
+                        Browse Applicants
+                      </Link>
                     </li>
+                    {/* <li
+                      onClick={() =>
+                        window.scrollTo({ top: 0, behavior: "smooth" })
+                      }
+                    >
+                      <Link
+                      //  to={"/employer/login"}
+                      >
+                        Schedule Interviews
+                      </Link>
+                    </li> */}
                   </ul>
                 </div>
               </div>
               <div className="col mb-4 mb-md-0 col-md-2">
                 <div className="text-start">
                   <h5 className="mb-4 F-heading fw-bold  text-[18px]">
-                    Partner with Us
+                    Others
                   </h5>
                   <ul className="list-3 d-flex flex-column gap-2 text-break">
                     <li
@@ -195,10 +203,22 @@ function Footer() {
                         window.scrollTo({ top: 0, behavior: "smooth" })
                       }
                     >
-                      <Link 
-                      // to={"/vendor/vendorregistration"}
+                      <Link
+                      to={"/white-label"}
                       >
-                      Partners</Link>
+                        Cookies Ploicy
+                      </Link>
+                    </li>
+                    <li
+                      onClick={() =>
+                        window.scrollTo({ top: 0, behavior: "smooth" })
+                      }
+                    >
+                      <Link
+                      to={"/white-label"}
+                      >
+                        Privacy Ploicy
+                      </Link>
                     </li>
                   </ul>
                 </div>
@@ -211,7 +231,7 @@ function Footer() {
                   <ul className="list-3 d-flex flex-column gap-2 text-break">
                     <li>
                       <Link
-                        // to={"/aboutus"}
+                        to={"/aboutus"}
                         onClick={() =>
                           window.scrollTo({ top: 0, behavior: "smooth" })
                         }
@@ -221,7 +241,7 @@ function Footer() {
                     </li>
                     <li>
                       <Link
-                        // to={"/services"}
+                        to={"/services"}
                         onClick={() =>
                           window.scrollTo({ top: 0, behavior: "smooth" })
                         }
@@ -231,7 +251,7 @@ function Footer() {
                     </li>
                     <li>
                       <Link
-                        // to={"/employer/term-of-use-nova-jobs"}
+                        to={"/employer/term-of-use-nova-jobs"}
                         onClick={() =>
                           window.scrollTo({ top: 0, behavior: "smooth" })
                         }
@@ -248,7 +268,7 @@ function Footer() {
             <ul className="list-inline d-flex text">
               <li>
                 <Link
-                  // to={"https://www.facebook.com/Novausjobs"}
+                  to={"https://www.facebook.com/Novausjobs"}
                   className="site-button white facebook circle text-white bg-primary"
                 >
                   <i className="fa fa-facebook"></i>
@@ -256,7 +276,7 @@ function Footer() {
               </li>
               <li>
                 <Link
-                  // to={"https://www.linkedin.com/company/nova-us-jobs/"}
+                  to={"https://www.linkedin.com/company/nova-us-jobs/"}
                   className="site-button white linkedin circle text-white bg-primary"
                 >
                   <i className="fa fa-linkedin"></i>

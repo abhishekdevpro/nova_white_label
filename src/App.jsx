@@ -196,7 +196,13 @@ import WhiteLabelLanding from "./vendor/WhiteLanding/index";
 import WhiteStart from "./vendor/WhiteLabelSignUp/index";
 import Editor from "./vendor/Editor";
 import VendorSetting from "./vendor/vendorSettings";
-
+import Gauth from "./markup/Pages/G-Auth";
+import LoginCode from "./markup/Pages/Login-code";
+import { LogoProvider } from "./Context/LogoContext";
+import LoginEmployerCode from "./employeeMarkup/Pages/EmployerLoginCode";
+import EmployerGauth from "./employeeMarkup/Pages/EmployerG-auth";
+import UltraAuraCourses from "./markup/Element/UltraAuraCourses";
+// import AboutusForm from 
 function App() {
   const dispatch = useDispatch();
 
@@ -205,6 +211,7 @@ function App() {
       <Route path="/" element={<Homepage />} />
       <Route path="services" element={<LandingPage />} />
       <Route path="novajobs" element={<Novajobs />} />
+      {/* <Route path="aboutus-form" element={<AboutusForm />} /> */}
       <Route path="aboutus" element={<Aboutus1 />} />
       <Route path="Profilepagehome" element={<Profilepagehome />} />
       <Route path="/*" element={<Error404 />} />
@@ -554,10 +561,11 @@ function App() {
         />
         <Route path="vendorregistration" element={<Vendorregistration />} />
       </Route>
-
+      <Route path="gauth" element={<Gauth />} />
       <Route path="/user">
         <Route path="" element={<Homepage />} />
         <Route path="login" element={<Loginpage2 />} />
+        <Route path="login-code" element={<LoginCode />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
         <Route path="reset-password/:token" element={<ResetPassword />} />
         <Route path="register" element={<Register1 />} />
@@ -567,7 +575,7 @@ function App() {
           path="jobs-profile"
           element={
             <UserPrivateRoute>
-              <Jobprofile />
+              <Jobprofile /> 
             </UserPrivateRoute>
           }
         />
@@ -627,6 +635,14 @@ function App() {
           element={
             <UserPrivateRoute>
               <Jobsappliedjob />
+            </UserPrivateRoute>
+          }
+        />
+        <Route
+          path="ultraaura-courses"
+          element={
+            <UserPrivateRoute>
+              <UltraAuraCourses />
             </UserPrivateRoute>
           }
         />
@@ -942,6 +958,7 @@ function App() {
       {/* routes for empployees */}
 
       <Route path="/employer">
+      <Route path="gauth" element={<EmployerGauth />} />
         <Route path="verify/:token" element={<VerifyEmailemployee />} />
 
         <Route path="forgot-password" element={<ForgotPasswordemployee />} />
@@ -958,6 +975,7 @@ function App() {
           }
         />
         <Route path="login" element={<EmployeeLogin />} />
+        <Route path="login-code" element={<LoginEmployerCode />} />
         <Route path="register" element={<EmployeeRegister1 />} />
         <Route path="register-2" element={<EmployeeRegister2 />} />
 
@@ -1446,3 +1464,7 @@ function App() {
 }
 
 export default App;
+
+
+// docker build . -t abhishekdevpro/novawl_fe:1.0
+// docker push abhishekdevpro/novawl_fe:1.0

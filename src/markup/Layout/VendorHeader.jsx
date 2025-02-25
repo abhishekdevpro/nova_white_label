@@ -273,6 +273,7 @@ import { Link } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import Logout from "./Logout";
 import axios from 'axios';
+import LogoWrapper from "./LogoWrapper";
 
 const VendorHeader = () => {
   const [show, setShow] = useState(false);
@@ -300,63 +301,7 @@ const VendorHeader = () => {
       });
     }
   };
-
-  useEffect(() => {
-    // Fetch logo from API
-    const fetchLogo = async () => {
-      try {
-        const response = await axios.get('https://apiwl.novajobs.us/api/jobseeker/acount-info?domain=http://novahomecare.novajobs.us'); // Replace with your domain
-        // console.log(response.data.data,"llll");
-        if (response.data && response.data.data.logo) {
-          setLogo(response.data.data.logo);
-        }
-      } catch (error) {
-        console.error("Error fetching logo:", error);
-        // Keep default logo on error
-      }
-    };
-
-    fetchLogo();
-
-    // Sidebar toggle functionality
-    const navicon = document.querySelector(".navicon");
-    const sidebarmenu = document.querySelector(".myNavbar");
-
-    const toggleFunc = () => {
-      sidebarmenu?.classList.toggle("show");
-    };
-
-    navicon?.addEventListener("click", toggleFunc);
-
-    // Sidenav li open close
-    const navUl = Array.from(
-      document.querySelectorAll(".navbar-nav > li > a, .sub-menu > li > a")
-    );
-
-    const checkLi = (current) => {
-      const parentUl = current.parentElement.parentElement;
-      if (parentUl) {
-        parentUl.querySelectorAll("li").forEach((el) =>
-          current.parentElement !== el ? el.classList.remove("open") : ""
-        );
-      }
-      setTimeout(() => {
-        current.parentElement.classList.toggle("open");
-      }, 100);
-    };
-
-    navUl.forEach((item) => {
-      item.addEventListener("click", () => checkLi(item));
-    });
-
-    // Cleanup event listeners
-    return () => {
-      navicon?.removeEventListener("click", toggleFunc);
-      navUl.forEach((item) => {
-        item.removeEventListener("click", () => checkLi(item));
-      });
-    };
-  }, []);
+  
 
 
   return (
@@ -365,11 +310,12 @@ const VendorHeader = () => {
         <div className="sticky-header main-bar-wraper navbar-expand-lg">
           <div className="main-bar clearfix">
             <div className="container clearfix">
-              <div className="logo-header mostion">
+              {/* <div className="logo-header mostion">
                 <Link to={"/"}>
                   <img src={logo} className="logo" alt="Company Logo" />
                 </Link>
-              </div>
+              </div> */}
+              <LogoWrapper />
 
               <button
                 className="navbar-toggler collapsed navicon justify-content-end"

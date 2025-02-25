@@ -168,7 +168,7 @@ const FeedSection = ({
     if (editedCommentContent.trim()) {
       try {
         const response = await axios.put(
-          `https://api.novajobs.us/api/feed/feed-comment/${editingCommentId}`,
+          `https://apiwl.novajobs.us/api/feed/feed-comment/${editingCommentId}`,
           {
             feed_id: editingCommentPostId,
             content: editedCommentContent,
@@ -232,7 +232,7 @@ const FeedSection = ({
 
     try {
       const response = await axios.post(
-        `https://api.novajobs.us/api/feed/toggle-like/${postId}`,
+        `https://apiwl.novajobs.us/api/feed/toggle-like/${postId}`,
         {},
         {
           headers: {
@@ -277,7 +277,7 @@ const FeedSection = ({
         }
 
         const response = await axios.post(
-          "https://api.novajobs.us/api/feed/feed-create",
+          "https://apiwl.novajobs.us/api/feed/feed-create",
           formData,
           {
             headers: {
@@ -305,7 +305,7 @@ const FeedSection = ({
   const fetchPosts = async () => {
     try {
       const response = await axios.get(
-        "https://api.novajobs.us/api/feed/pro/feeds",
+        "https://apiwl.novajobs.us/api/feed/pro/feeds",
         {
           headers: {
             Authorization: token,
@@ -336,7 +336,7 @@ const FeedSection = ({
 
     axios
       .post(
-        "https://api.novajobs.us/api/feed/feed-comment",
+        "https://apiwl.novajobs.us/api/feed/feed-comment",
         {
           feed_id: postId,
           content: commentContent,
@@ -401,9 +401,9 @@ const FeedSection = ({
       let endpoint;
 
       if (commentId) {
-        endpoint = `https://api.novajobs.us/api/feed/feed/comment/${id}/${commentId}`;
+        endpoint = `https://apiwl.novajobs.us/api/feed/feed/comment/${id}/${commentId}`;
       } else {
-        endpoint = `https://api.novajobs.us/api/feed/feed/${id}`;
+        endpoint = `https://apiwl.novajobs.us/api/feed/feed/${id}`;
       }
 
       const response = await axios.delete(endpoint, {
@@ -480,7 +480,7 @@ const FeedSection = ({
     if (editedContent.trim()) {
       try {
         const response = await axios.put(
-          `https://api.novajobs.us/api/feed/feed-edit/${postId}`,
+          `https://apiwl.novajobs.us/api/feed/feed-edit/${postId}`,
           { content: editedContent },
           {
             headers: {
@@ -587,7 +587,7 @@ const FeedSection = ({
                   <ProfileImage
                     src={
                       post.user_photo
-                        ? `https://api.novajobs.us/${post.user_photo}`
+                        ? `https://apiwl.novajobs.us/${post.user_photo}`
                         : "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small/Basic_Ui__28186_29.jpg"
                     }
                     alt="Profile"
@@ -665,7 +665,7 @@ const FeedSection = ({
 
               {post.feed_image && (
                 <img
-                  src={`https://api.novajobs.us${post.feed_image}`}
+                  src={`https://apiwl.novajobs.us${post.feed_image}`}
                   alt="Post"
                   style={{ width: '100%', borderRadius: '8px', marginBottom: '16px', objectFit: 'fit', maxHeight: '400px' }}
                 />

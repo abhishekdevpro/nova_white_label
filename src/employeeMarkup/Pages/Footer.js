@@ -39,7 +39,7 @@ function Footer() {
 
     axios({
       method: "POST",
-      url: "https://api.novajobs.us/api/jobseeker/user-subscribe",
+      url: "https://apiwl.novajobs.us/api/jobseeker/user-subscribe",
       data: { email },
     })
       .then((res) => {

@@ -58,7 +58,7 @@ function Aboutus(){
     const handleSubmit = async (e) => {
       e.preventDefault();
       try {
-        const response = await axios.post('https://api.novajobs.us/api/jobseeker/payment/create-checkout-session', formData);
+        const response = await axios.post('https://apiwl.novajobs.us/api/jobseeker/payment/create-checkout-session', formData);
         console.log(response.data);
         const data = response.data;
         if (data && data.data) {
