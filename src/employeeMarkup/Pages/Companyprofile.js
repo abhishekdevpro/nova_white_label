@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Header2 from "./../Layout/Header2";
-import Footer from "./../Layout/Footer";
 import { Form } from "react-bootstrap";
 import axios from "axios";
 import { showToastError, showToastSuccess } from "../../utils/toastify";
@@ -11,6 +10,9 @@ import CompanySideBar from "../Layout/companySideBar";
 import 'react-toastify/dist/ReactToastify.css';
 import TextEditor from "../Element/Editor";
 import ReactQuill from "react-quill";
+import Footer from "../../markup/Layout/Footer";
+import EmployeeHeader2 from "./../Layout/Header2";
+
 
 function EmployeeCompanyprofile() {
   const companyData = useSelector(
@@ -105,10 +107,10 @@ function EmployeeCompanyprofile() {
     setWebsite(companyDetail?.website_link || "");
     setFoundedYear(companyDetail?.founded_date || "");
     setDescription(companyDetail?.about || "");
-    setSelectedCountry(companyDetail?.country_id || null);
+    setSelectedCountry(companyDetail?.country_id || 231);
     setSelectedStates(companyDetail?.state_id || null);
     setSelectedCities(companyDetail?.city_id || null);
-    setNumber(employeerDetail?.phone || "");
+    setNumber(companyDetail?.phone || "");
     setAddress(companyDetail?.address || "");
     setlinkdin(companyDetail?.linkedin_link || "");
     setTwitter(companyDetail?.twitter_link || "");
@@ -253,6 +255,7 @@ function EmployeeCompanyprofile() {
       !selectedStates ||
       !selectedCities
     ) {
+    console.log(companyName,email,industry,selectedCountry,selectedStates,selectedCities);
       showToastError("Please fill out all required fields.");
       return;
     }
@@ -335,10 +338,10 @@ function EmployeeCompanyprofile() {
       showToastError("Failed to update company data or services.");
     }
   };
-// console.log(companyDetail,"companyDetail");
+console.log(companyDetail,"companyDetail");
   return (
     <>
-      <Header2 />
+      <EmployeeHeader2 />
       <div className="page-content bg-white">
         <div className="content-block">
           <div className="section-full bg-white p-t50 p-b20">
@@ -352,7 +355,7 @@ function EmployeeCompanyprofile() {
                         Company Profile
                       </h5>
                       <Link
-                        // to={`/user/company/${companyDetail.id}`}
+                        to={`/user/company/${companyDetail?.id}`}
                         className="site-button right-arrow button-sm float-right"
                       >
                         View Company page
@@ -658,7 +661,7 @@ function EmployeeCompanyprofile() {
                           </div>
                         </div> */}
 
-                        <div className="col-lg-6 col-md-6">
+                        <div className="col-lg-12 col-md-6">
                           <div className="form-group">
                             <label>LinkedIn Link</label>
                             <input
@@ -670,7 +673,7 @@ function EmployeeCompanyprofile() {
                             />
                           </div>
                         </div>
-                        <div className="col-lg-6 col-md-6">
+                        {/* <div className="col-lg-6 col-md-6">
                           <div className="form-group">
                             <label>Twitter Link</label>
                             <input
@@ -681,8 +684,8 @@ function EmployeeCompanyprofile() {
                               value={twitter}
                             />
                           </div>
-                        </div>
-                        <div className="col-lg-6 col-md-6">
+                        </div> */}
+                        {/* <div className="col-lg-6 col-md-6">
                           <div className="form-group">
                             <label>Google Business Link</label>
                             <input
@@ -695,8 +698,8 @@ function EmployeeCompanyprofile() {
                               value={googleBusiness}
                             />
                           </div>
-                        </div>
-                        <div className="col-lg-6 col-md-6">
+                        </div> */}
+                        {/* <div className="col-lg-6 col-md-6">
                           <div className="form-group">
                             <label>Glassdoor Link</label>
                             <input
@@ -707,7 +710,7 @@ function EmployeeCompanyprofile() {
                               value={glassdoor}
                             />
                           </div>
-                        </div>
+                        </div> */}
 
                         <div className="col-lg-12 col-md-12">
                           <div className="clearfix font-bold">

@@ -408,6 +408,8 @@ const UserHeader = () => {
       });
     };
   }, []);
+
+  const token = localStorage.getItem("jobSeekerLoginToken") || localStorage.getItem("employeeLoginToken")
   return (
     <>
       <header className="site-header mo-left header fullwidth">
@@ -441,7 +443,7 @@ const UserHeader = () => {
               >
                 <div className="logo-header mostion d-md-block d-lg-none">
                   <Link to="/" className="dez-page">
-                    <img src={logo.logo} className="logo" alt="mobile logo" />
+                    <img src={logo} className="logo" alt="mobile logo" />
                   </Link>
                 </div>
                 <ul className="nav navbar-nav align-items-center">
@@ -458,7 +460,7 @@ const UserHeader = () => {
                     <Link 
                       to="/services"
                     className="nav-link" >Services</Link>
-                    {isPartner && !localStorage.getItem("jobSeekerLoginToken") && (
+                    {/* {isPartner && !localStorage.getItem("jobSeekerLoginToken") && (
                       <div className="popup rounded-4 m-2">
                         <div className="d-flex gap-2 m-3">
                           <Link
@@ -469,11 +471,13 @@ const UserHeader = () => {
                           </Link>
                         </div>
                       </div>
-                    )}
+                    )} */}
                   </li>}
 
                   <li>
-                    <Link>About Us</Link>
+                    <Link
+                     to={'/aboutus'}
+                    >About Us</Link>
                   </li>
 
                   <li
@@ -488,10 +492,10 @@ const UserHeader = () => {
                    
                   </li>
 
-                  {localStorage.getItem("jobSeekerLoginToken") && (
+                  {token && (
                     <li>
                       <Link
-                       to={'/user/jobs-profile'}
+                       to={localStorage.getItem('jobSeekerLoginToken')?'/user/jobs-profile':'/employer/company-profile'}
                       >Dashboard</Link>
                     </li>
                   )}
@@ -500,7 +504,7 @@ const UserHeader = () => {
                     className="nav-item jobseeker-hover"
                     style={{ position: "relative" }}
                   >
-                    {localStorage.getItem("jobSeekerLoginToken") ? (
+                    {token ? (
                       <Logout />
                     ) : (
                       <Link
@@ -546,7 +550,7 @@ const UserHeader = () => {
                   
 
                   <li>
-                    {!localStorage.getItem("jobSeekerLoginToken") && (
+                    {!token && (
                       <Link
                         style={{ color: "white" }}
                         to="/employer"
@@ -561,7 +565,7 @@ const UserHeader = () => {
                 </ul>
 
                 <div className="nav navbar-nav align-items-center">
-                {isPartner && !localStorage.getItem("jobSeekerLoginToken") && (
+                {isPartner && !token && (
                     <Link
                       to="/white-label"
                       style={{ color: "white" }}

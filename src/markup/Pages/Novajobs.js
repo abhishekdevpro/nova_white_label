@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Header from "./../Layout/Header";
-import Footer from "./../Layout/Footer";
+
 import "./aboutus.css";
 import { Link } from "react-router-dom";
+import Footer from "../Layout/Footer";
 
 function Novajobs() {
   const [activeTab, setActiveTab] = useState("tab1");

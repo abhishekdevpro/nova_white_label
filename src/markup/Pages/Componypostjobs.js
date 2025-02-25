@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Header2 from "./../Layout/Header2";
-import Footer from "./../Layout/Footer";
+import Footer from "../../markup/Layout/Footer";
 import { Form, Button } from "react-bootstrap";
 import { FaX } from "react-icons/fa6";
 import TextEditor from "../Element/Editor";
@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setPostAJobData } from "../../store/reducers/postAJobSlice";
 import ReactQuill from "react-quill";
 import QualificationSetting from "../Element/qualificationSettingsEditor";
+import CompanySideBar from "../../employeeMarkup/Layout/companySideBar";
 function Componypostjobs() {
   const [suggestions, setSuggestions] = useState(true);
   const handleSuggestions = () => {
@@ -34,7 +35,7 @@ function Componypostjobs() {
           <div className="section-full bg-white p-t50 p-b20">
             <div className="container">
               <div className="row">
-                <div className="col-xl-3 col-lg-4 m-b30">
+                {/* <div className="col-xl-3 col-lg-4 m-b30">
                   <div className="sticky-top">
                     <div className="candidate-info company-info">
                       <div className="candidate-detail text-center">
@@ -119,7 +120,8 @@ function Componypostjobs() {
                       </ul>
                     </div>
                   </div>
-                </div>
+                </div> */}
+                <CompanySideBar />
                 <div className="col-xl-9 col-lg-8 m-b30">
                   <div className="job-bx submit-resume">
                     <div className="job-bx-title clearfix">

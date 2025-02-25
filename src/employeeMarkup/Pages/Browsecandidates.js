@@ -15,7 +15,7 @@ import {
 
 import { Link, useNavigate } from "react-router-dom";
 import Header from "./../Layout/Header";
-import Footer from "./../Layout/Footer";
+import Footer from "../../markup/Layout/Footer";
 import { FaSave, FaSearch, FaTimes } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";

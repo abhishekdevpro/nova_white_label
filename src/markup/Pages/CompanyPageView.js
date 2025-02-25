@@ -5,8 +5,16 @@ import "../../css/Profile.css";
 import { Link } from "react-router-dom";
 import Header from "./../Layout/Header";
 import Footer from "../Layout/Footer";
+import parse from 'html-react-parser';
 
 import { useNavigate, useParams } from "react-router-dom";
+import CompanyDetails from "../Element/CompanyPage/ComapnyDetails";
+import CompanyListing from "../Element/CompanyPage/CompanyListing";
+import CompanyAbout from "../Element/CompanyPage/CompanyAbout";
+import MapJobFinder from "../Element/CompanyPage/MapJobFinder";
+import CompanyProfile from "../Element/CompanyPage/CompanyProfile";
+import JobListing from "../Element/CompanyPage/JobListing";
+import styled from "styled-components";
 
 
 
@@ -14,25 +22,19 @@ const randomLatitude = -15.812898768599155;
 const randomLongitude = 104.14392380381247;
 
 
-const MapJobFinder = () => (
-  <div style={{ height: "300px", background: "#e9ecef" }}>
-    <iframe
-      width="100%"
-      height="300"
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31571676.56496063!2d-124.84897487781247!3d37.275120302365075!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c8c05555555555%3A0x4b1c9b0aaf10b10!2sUnited%20States!5e0!3m2!1sen!2sus!4v1613954061167!5m2!1sen!2sus"
-      style={{ border: 0 }}
-      allowFullScreen=""
-      loading="lazy"
-    ></iframe>
-  </div>
-);
+
 
 
 const CompanyPage = () => {
   const [activeTab, setActiveTab] = useState("about");
   const [companyData, setCompany] = useState(null);
   const [jobData, setJobData] = useState(null);
+  const token = localStorage.getItem("employeeLoginToken")
+  const domain = window.location.origin.includes("localhost")
+  ? "https://novajobs.us"
+  : window.location.origin;
 
+ 
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
   };
@@ -42,7 +44,10 @@ const CompanyPage = () => {
   const handleGetRequest = () => {
     axios({
       method: "GET",
-      url: `https://apiwl.novajobs.us/api/jobseeker/companies/${id}`,
+      url: `https://apiwl.novajobs.us/api/jobseeker/companies/${id}/?domain=${domain}`,
+      headers:{
+        Authorization:token
+      }
     })
       .then((response) => {
         console.log(response);
@@ -56,9 +61,16 @@ const CompanyPage = () => {
   const navigate = useNavigate();
 
   const handleGetJobRequest = () => {
+    const params = new URLSearchParams({
+      company_id: id,
+      domain: domain,
+    });
     axios({
       method: "GET",
-      url: "https://apiwl.novajobs.us/api/jobseeker/job-lists?company_id=1",
+      url: `https://apiwl.novajobs.us/api/jobseeker/job-lists/?${params.toString()}`,
+      headers:{
+        Authorization:token
+      }
     })
       .then((response) => {
         console.log(response);
@@ -76,9 +88,16 @@ const CompanyPage = () => {
 
   const [data, setData] = useState([]);
   useEffect(() => {
+    const params = new URLSearchParams({
+      page_size: 6,
+      domain: domain,
+    });
     axios({
       method: "GET",
-      url: "https://apiwl.novajobs.us/api/jobseeker/companies?page_size=6",
+      url: `https://apiwl.novajobs.us/api/jobseeker/companies/?${params.toString()}`,
+      headers:{
+        Authorization:token
+      }
       
     })
       .then((res) => {
@@ -94,7 +113,7 @@ const CompanyPage = () => {
 
   return (
     <>
-      {companyData ? (
+      {/* {companyData ? (
         <div>
           <Header />
           <div
@@ -216,7 +235,7 @@ const CompanyPage = () => {
                         <div className="text-start px-5">
                           <h4 className="text-start px-5">About Company</h4>
                           <p className="text-start px-5">
-                            {companyData?.about}
+                            {parse(companyData?.about)}
                           </p>
                           <h5>
                             <strong className="text-start px-5 mt-3">
@@ -466,7 +485,7 @@ const CompanyPage = () => {
                     <h3 className="text-xl font-semibold">
                       Employees Section Content
                     </h3>
-                    {/* Add content for the Employees tab here */}
+                    {/* Add content for the Employees tab here 
                   </div>
                 )}
                 {activeTab === "offices" && (
@@ -474,7 +493,7 @@ const CompanyPage = () => {
                     <h3 className="text-xl font-semibold">
                       Offices Section Content
                     </h3>
-                    {/* Add content for the Offices tab here */}
+                    {/* Add content for the Offices tab here 
                   </div>
                 )}
               </div>
@@ -483,9 +502,107 @@ const CompanyPage = () => {
 
           <Footer />
         </div>
-      ) : null}
+      ) : null} */}
+      {companyData ? (
+   <Container>
+   <Header />
+   <TabContainer>
+     <div className="container px-3 px-md-5">
+       <CompanyProfile companyData={companyData} />
+     </div>
+   </TabContainer>
+   <div className="bg-light">
+     <div className="container mx-auto">
+       <NavTabs>
+         {[
+           { id: "about", label: "About" },
+           { id: "jobs", label: "Jobs" },
+          //  { id: "employees", label: "Employees" },
+          //  { id: "offices", label: "Offices" },
+         ].map(({ id, label }) => (
+           <li className="nav-item" role="presentation" key={id}>
+             <NavLink
+               className={activeTab === id ? "active" : ""}
+               role="tab"
+               aria-selected={activeTab === id}
+               onClick={() => setActiveTab(id)}
+             >
+               {label}
+             </NavLink>
+           </li>
+         ))}
+       </NavTabs>
+       <Content>
+         {activeTab === "about" && (
+           <div className="row gy-4">
+             <div className="col-lg-8">
+               <CompanyAbout companyData={companyData} />
+             </div>
+             <CompanyDetails companyData={companyData} />
+             <CompanyListing data={data} />
+             <MapJobFinder randomLatitude={randomLatitude} randomLongitude={randomLongitude} />
+           </div>
+         )}
+         {activeTab === "jobs" && <JobListing data={data} />}
+         {activeTab === "employees" && (
+           <div className="p-4">
+             <h3 className="fw-bold" style={{ color: "#0d47a1" }}>Employees Section Content</h3>
+           </div>
+         )}
+         {activeTab === "offices" && (
+           <div className="p-4">
+             <h3 className="fw-bold" style={{ color: "#0d47a1" }}>Offices Section Content</h3>
+           </div>
+         )}
+       </Content>
+     </div>
+   </div>
+   <Footer />
+ </Container>
+) : null}
     </>
   );
 };
 
 export default CompanyPage;
+const Container = styled.div`
+  width: 100%;
+`;
+
+const TabContainer = styled.div`
+  background: #f6f9fd;
+  padding: 2rem 0;
+`;
+
+const NavTabs = styled.ul`
+  display: flex;
+  justify-content: center;
+  border: none;
+  gap: 1rem;
+  padding-top: 0.5rem;
+  background: #f8f9fa;
+  font-weight: 600;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
+`;
+
+const NavLink = styled.a`
+  padding: 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+  color: #6c757d;
+  border-bottom: 5px solid transparent;
+
+  &.active {
+    color: #0d47a1;
+    border-color: #0d47a1;
+  }
+`;
+
+const Content = styled.div`
+  padding: 2rem;
+`;

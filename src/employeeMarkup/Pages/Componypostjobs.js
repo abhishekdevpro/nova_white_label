@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import Header2 from "./../Layout/Header2";
-import Footer from "./../Layout/Footer";
 import { Form, Button } from "react-bootstrap";
 import { FaX } from "react-icons/fa6";
 import TextEditor from "../Element/Editor";
@@ -24,6 +23,7 @@ import { showToastError , showToastSuccess} from "../../utils/toastify";
 
 import { useEffect } from "react";
 import CompanySideBar from "../Layout/companySideBar";
+import Footer from "../../markup/Layout/Footer";
 
 
 function EmployeeComponypostjobs() {

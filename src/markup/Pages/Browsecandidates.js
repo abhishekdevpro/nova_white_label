@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Header from "./../Layout/Header";
-import Footer from "./../Layout/Footer";
+import Footer from "../../markup/Layout/Footer";
 import PageTitle from "./../Layout/PageTitle";
 import Jobfindbox from "./../Element/Jobfindbox";
 import { Form } from "react-bootstrap";

@@ -257,18 +257,27 @@ const ErrorText = styled.div`
   margin-top: 4px;
   margin-left: 4px;
 `;
+const CheckboxWrapper = styled.div`
+display :flex;
+flex-direction:row;
+justify-content:center;
+align-items:center;
+gap:1rem;
 
-
+`;
 // const VendorPartnershipForm = () => {
+//   const [profile,setProfile] =  useState()
+//   const [company,setCompany] =  useState()
 //   const [showPopup, setShowPopup] = useState(false);
 //   const [error, setError] = useState('');
 //   const [isActivated, setIsActivated] = useState(false);
+//   const [domain , setDomain]  = useState('')
 //   const [formData, setFormData] = useState({
-//     companyName: "",
-//     website: "",
-//     domain:"",
-//     countryCode: "",
-//     phoneNumber: "",
+//     companyName: profile?.company_name || "",
+//     website: company?.website_link || "",
+//     subdomain: "", // Changed from domain to subdomain to match API
+//     countryCode: company?.country?.phonecode || "",
+//     phoneNumber: profile?.phone ||"",
 //     email: "",
 //     location: "",
 //     services: {
@@ -279,29 +288,76 @@ const ErrorText = styled.div`
 //       hrAutomation: false,
 //     },
 //     customFeatures: "",
+//     customFeaturesDescription: "",
 //     launchTime: "",
 //   });
-//   const token = localStorage.getItem("vendorToken")
-//   const checkstatus =async ()=>{
-//     const response = await axios.get('https://apiwl.novajobs.us/api/admin/acount-info',{
-//       headers:{
-//         'Authorization':token,
+
+//   const vendorProfile = async()=>{
+//      try {
+//       const response = await axios.get(`https://apiwl.novajobs.us/api/admin/vendor/user-profile`,{
+//         headers:{
+//           Authorization:token
+//         }
+//       }) 
+//       if(response.data){
+//         console.log(response.data.data,"profile");
+//           setProfile(response.data.data.vendors_detail)
+//           setCompany(response.data.data.compnay_detail)
 //       }
-//     })
-//     console.log(response,"status");
-//     setIsActivated(response.data.data.domain_active)
+//      } catch (error) {
+//        console.log(error);
+//      }
 //   }
 //   useEffect(()=>{
-//     checkstatus()
-//   })
-//   console.log(isActivated,"llll");
+//     vendorProfile()
+//   },[])
+
+//   const token = localStorage.getItem("vendorToken");
+
+//   const checkStatus = async () => {
+//     try {
+//       const response = await axios.get('https://apiwl.novajobs.us/api/admin/acount-info', {
+//         headers: {
+//           'Authorization': token
+//         }
+//       });
+//       // console.log(response.data.data,"Activesd");
+//       setIsActivated(response.data.data.domain_active);
+//       // toast.success("Domain activated successfully")
+//       if (response.data.data.domain) {
+//         setDomain(response.data.data.domain);
+//         // Set the subdomain in formData when domain is fetched
+//         const trimmedDomain = response.data.data.domain.split('.')[0];
+//         setFormData(prev => ({
+//           ...prev,
+//           subdomain: trimmedDomain
+//         }));
+//       }
+//     } catch (error) {
+//       console.error('Error checking status:', error);
+//       setError('Failed to check domain status');
+//     }
+//   };
+
+//   useEffect(() => {
+//     checkStatus();
+//   }, []);
 
 //   const handleInputChange = (e) => {
 //     const { name, value, type, checked } = e.target;
+//     // Only update subdomain if not activated
+//     if (name === 'subdomain' && isActivated) {
+//       return;
+//     }
+    
 //     setFormData((prevState) => ({
 //       ...prevState,
 //       [name]: type === "checkbox" ? checked : value,
 //     }));
+    
+//     if (name === 'subdomain') {
+//       setError('');
+//     }
 //   };
 
 //   const handleServicesChange = (e) => {
@@ -315,79 +371,113 @@ const ErrorText = styled.div`
 //     }));
 //   };
 
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     setShowPopup(true);
-//     console.log("Form submitted:", formData);
-//   };
-
-//   const handleClosePopup = () => setShowPopup(false);
-
 //   const handleActivate = async () => {
-//     if (!formData.domain) {
+//     if (!formData.subdomain) {
 //       setError('Subdomain name is required!');
 //       return;
 //     }
   
 //     if (!isActivated) {
-//       try {
+//       const formDataInstance = new FormData();
+//       formDataInstance.append('sub_domain', formData.subdomain);
   
+//       try {
 //         const response = await axios.post(
 //           'https://apiwl.novajobs.us/api/admin/vendor/domain-active',
-//           {
-//             sub_domain: formData.domain,
-//           },
+//           formDataInstance,
 //           {
 //             headers: {
-//               Authorization: `${token}`,
+//               Authorization: token,
+//               'Content-Type': 'multipart/form-data',
 //             },
 //           }
 //         );
   
 //         if (response.status === 200) {
 //           setIsActivated(true);
-//           alert(`Activated subdomain:`);
-//         } else {
-//           setError('Failed to activate the subdomain. Please try again.');
+//           setDomain(`${formData.subdomain}.novajobs.us`);
+//           toast.success('Subdomain activated successfully');
 //         }
 //       } catch (error) {
 //         console.error('Error activating subdomain:', error);
-//         setError('An error occurred. Please try again.');
+//         setError(error.response?.data?.message || 'Failed to activate subdomain');
 //       }
 //     } else {
-//       alert(`Subdomain is already activated: ${formData.website}-impressivewebs.com`);
+//       toast.error('Subdomain is already activated');
 //     }
 //   };
-  
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     // Your existing submit logic here
+//   };
+
+//   const handleClosePopup = () => setShowPopup(false);
+
 //   return (
 //     <>
 //       <FormContainer>
 //         <Title>Vendor White-Label Partnership Form</Title>
 //         <form onSubmit={handleSubmit}>
-//         <FormGrid>
-//         <FormGroup>
-//       <Label htmlFor="domain">Subdomain Name</Label>
-//       <DomainWrapper error={!!error}>
-//         <Input
-//           type="text"
-//           id="domain"
-//           name="domain"
-//           value={formData.domain}
-//           onChange={handleInputChange}
-//           placeholder="Enter subdomain name..."
-//         />
-//         <Suffix>.novajobs.us</Suffix>
-//       </DomainWrapper>
-//       {error && <ErrorText>{error}</ErrorText>}
-      
-//     </FormGroup>
-//     <ActivateButton
-//         onClick={handleActivate}
-//         // disabled={!!error || !formData.website}
-//       >
-//         Activate
-//       </ActivateButton>
-//         </FormGrid>
+//           {/* <DomainSection>
+//             <FormGroup>
+//               <Label htmlFor="subdomain">Subdomain Name</Label>
+//               <DomainWrapper error={!!error}>
+//                 <DomainInput
+//                   type="text"
+//                   id="subdomain"
+//                   name="subdomain"
+//                   value={trimmeddomain}
+//                   onChange={handleInputChange}
+//                   placeholder="Enter subdomain name..."
+//                 />
+//                 <DomainSuffix>.novajobs.us</DomainSuffix>
+//               </DomainWrapper>
+//               {/* {error && <ErrorText>{error}</ErrorText>} 
+//             </FormGroup>
+//             <ActivateButton
+//               onClick={handleActivate}
+//               type="button"
+//               disabled={!formData.subdomain || isActivated}
+//             >
+//               {isActivated ? <div className="flex items-center space-x-2 text-green-600">
+//           <CheckCircle size={20} style={{marginRight:"0.5rem"}} />
+//           <span>Activated</span>
+//         </div> : 'Activate'}
+//             </ActivateButton>
+//           </DomainSection> */}
+
+// <DomainSection>
+//             <FormGroup>
+//               <Label htmlFor="subdomain">Subdomain Name</Label>
+//               <DomainWrapper error={!!error}>
+//                 <DomainInput
+//                   type="text"
+//                   id="subdomain"
+//                   name="subdomain"
+//                   value={formData.subdomain}
+//                   onChange={handleInputChange}
+//                   placeholder="Enter subdomain name..."
+//                   readOnly={isActivated}
+//                 />
+//                 <DomainSuffix>.novajobs.us</DomainSuffix>
+//               </DomainWrapper>
+//               {/* {error && <ErrorText>{error}</ErrorText>} */}
+//             </FormGroup>
+//             <ActivateButton
+//               onClick={handleActivate}
+//               type="button"
+//               disabled={!formData.subdomain || isActivated}
+//             >
+//               {isActivated ? (
+//                 <div className="flex items-center space-x-2 text-green-600">
+//                   <CheckCircle size={20} style={{marginRight:"0.5rem"}} />
+//                   <span>Activated</span>
+//                 </div>
+//               ) : 'Activate'}
+//             </ActivateButton>
+//           </DomainSection>
+
 //           <FormGrid>
 //             <FormGroup>
 //               <Label htmlFor="companyName">Company Name</Label>
@@ -401,6 +491,7 @@ const ErrorText = styled.div`
 //                 required
 //               />
 //             </FormGroup>
+
 //             <FormGroup>
 //               <Label htmlFor="website">Website</Label>
 //               <Input
@@ -412,200 +503,152 @@ const ErrorText = styled.div`
 //                 placeholder="Enter website"
 //               />
 //             </FormGroup>
-          
 
 //             <FormGroup>
-//                       <Label htmlFor="countryCode">Country Code</Label>
-//                       <Input
-//                         type="text"
-//                         id="countryCode"
-//                         name="countryCode"
-//                         placeholder="Enter country code"
-//                         value={formData.countryCode}
-//                         onChange={handleInputChange}
-//                         required
-//                       />
-//                     </FormGroup>
+//               <Label htmlFor="countryCode">Country Code</Label>
+//               <Input
+//                 type="text"
+//                 id="countryCode"
+//                 name="countryCode"
+//                 placeholder="Enter country code"
+//                 value={formData.countryCode}
+//                 onChange={handleInputChange}
+//                 required
+//               />
+//             </FormGroup>
 
-//                     <FormGroup>
-//                       <Label htmlFor="phoneNumber">Phone Number</Label>
-//                       <Input
-//                         type="tel"
-//                         id="phoneNumber"
-//                         name="phoneNumber"
-//                         placeholder="Enter phone number"
-//                         value={formData.phoneNumber}
-//                         onChange={handleInputChange}
-//                         required
-//                       />
-//                     </FormGroup>
+//             <FormGroup>
+//               <Label htmlFor="phoneNumber">Phone Number</Label>
+//               <Input
+//                 type="tel"
+//                 id="phoneNumber"
+//                 name="phoneNumber"
+//                 placeholder="Enter phone number"
+//                 value={formData.phoneNumber}
+//                 onChange={handleInputChange}
+//                 required
+//               />
+//             </FormGroup>
 
-//                     <FormGroup>
-//                       <Label htmlFor="email">Email</Label>
-//                       <Input
-//                         type="email"
-//                         id="email"
-//                         name="email"
-//                         placeholder="Enter email address"
-//                         value={formData.email}
-//                         onChange={handleInputChange}
-//                         required
-//                       />
-//                     </FormGroup>
+//             <FormGroup>
+//               <Label htmlFor="email">Email</Label>
+//               <Input
+//                 type="email"
+//                 id="email"
+//                 name="email"
+//                 placeholder="Enter email address"
+//                 value={formData.email}
+//                 onChange={handleInputChange}
+//                 required
+//               />
+//             </FormGroup>
 
-//                     <FormGroup>
-//                       <Label htmlFor="location">Location</Label>
-//                       <Input
-//                         type="text"
-//                         id="location"
-//                         name="location"
-//                         placeholder="City, Country"
-//                         value={formData.location}
-//                         onChange={handleInputChange}
-//                         required
-//                       />
-//                     </FormGroup>
+//             <FormGroup>
+//               <Label htmlFor="location">Location</Label>
+//               <Input
+//                 type="text"
+//                 id="location"
+//                 name="location"
+//                 placeholder="City, Country"
+//                 value={formData.location}
+//                 onChange={handleInputChange}
+//                 required
+//               />
+//             </FormGroup>
 
-//                     <FormGroup fullWidth>
-//                       <Label>Services of Interest</Label>
-//                       <CheckboxGroup>
-//                         <Checkbox
-//                           type="checkbox"
-//                           id="recruitmentWebsite"
-//                           name="recruitmentWebsite"
-//                           checked={formData.services.recruitmentWebsite}
-//                           onChange={handleServicesChange}
-//                         />
-//                         <Label htmlFor="recruitmentWebsite">
-//                           Recruitment Website
-//                         </Label>
-//                       </CheckboxGroup>
-//                       <CheckboxGroup>
-//                         <Checkbox
-//                           type="checkbox"
-//                           id="jobPosting"
-//                           name="jobPosting"
-//                           checked={formData.services.jobPosting}
-//                           onChange={handleServicesChange}
-//                         />
-//                         <Label htmlFor="jobPosting">
-//                           Job Posting & Management
-//                         </Label>
-//                       </CheckboxGroup>
-//                       <CheckboxGroup>
-//                         <Checkbox
-//                           type="checkbox"
-//                           id="resumeBuilder"
-//                           name="resumeBuilder"
-//                           checked={formData.services.resumeBuilder}
-//                           onChange={handleServicesChange}
-//                         />
-//                         <Label htmlFor="resumeBuilder">Resume Builder</Label>
-//                       </CheckboxGroup>
-//                       <CheckboxGroup>
-//                         <Checkbox
-//                           type="checkbox"
-//                           id="careerPages"
-//                           name="careerPages"
-//                           checked={formData.services.careerPages}
-//                           onChange={handleServicesChange}
-//                         />
-//                         <Label htmlFor="careerPages">
-//                           Career Pages for Clients
-//                         </Label>
-//                       </CheckboxGroup>
-//                       <CheckboxGroup>
-//                         <Checkbox
-//                           type="checkbox"
-//                           id="hrAutomation"
-//                           name="hrAutomation"
-//                           checked={formData.services.hrAutomation}
-//                           onChange={handleServicesChange}
-//                         />
-//                         <Label htmlFor="hrAutomation">HR Automation</Label>
-//                       </CheckboxGroup>
-//                     </FormGroup>
+//             <FormGroup fullWidth>
+//               <Label>Services of Interest</Label>
+//               {/* <CheckboxGroup>
+//                 {Object.keys(formData.services).map((service) => (
+//                   <CheckboxWrapper key={service}>
+//                     <Checkbox
+//                       type="checkbox"
+//                       id={service}
+//                       name={service}
+//                       checked={formData.services[service]}
+//                       onChange={handleServicesChange}
+//                     />
+//                     <Label htmlFor={service}>
+//                       {service.replace(/([A-Z])/g, ' $1').trim()}
+//                     </Label>
+//                   </CheckboxWrapper>
+//                 ))}
+//               </CheckboxGroup> */}
+//             </FormGroup>
 
-//                     <FormGroup fullWidth>
-//                       <Label>Additional Needs</Label>
-//                       <RadioGroup>
-//                         <RadioOption>
-//                           <input
-//                             type="radio"
-//                             id="customYes"
-//                             name="customFeatures"
-//                             value="yes"
-//                             checked={formData.customFeatures === "yes"}
-//                             onChange={handleInputChange}
-//                           />
-//                           <span>Yes (briefly describe)</span>
-//                         </RadioOption>
-//                         {formData.customFeatures === "yes" && (
-//                           <Input
-//                             type="text"
-//                             name="customFeaturesDescription"
-//                             placeholder="Describe your custom features"
-//                             onChange={handleInputChange}
-//                             style={{ marginTop: "8px" }}
-//                           />
-//                         )}
-//                         <RadioOption>
-//                           <input
-//                             type="radio"
-//                             id="customNo"
-//                             name="customFeatures"
-//                             value="no"
-//                             checked={formData.customFeatures === "no"}
-//                             onChange={handleInputChange}
-//                           />
-//                           <span>No</span>
-//                         </RadioOption>
-//                       </RadioGroup>
-//                     </FormGroup>
+//             <FormGroup fullWidth>
+//               <Label>Additional Needs</Label>
+//               <RadioGroup>
+//                 <RadioOption>
+//                   <input
+//                     type="radio"
+//                     id="customYes"
+//                     name="customFeatures"
+//                     value="yes"
+//                     checked={formData.customFeatures === "yes"}
+//                     onChange={handleInputChange}
+//                   />
+//                   <span>Yes (briefly describe)</span>
+//                 </RadioOption>
+//                 {formData.customFeatures === "yes" && (
+//                   <Input
+//                     type="text"
+//                     name="customFeaturesDescription"
+//                     placeholder="Describe your custom features"
+//                     value={formData.customFeaturesDescription}
+//                     onChange={handleInputChange}
+//                     style={{ marginTop: "8px" }}
+//                   />
+//                 )}
+//                 <RadioOption>
+//                   <input
+//                     type="radio"
+//                     id="customNo"
+//                     name="customFeatures"
+//                     value="no"
+//                     checked={formData.customFeatures === "no"}
+//                     onChange={handleInputChange}
+//                   />
+//                   <span>No</span>
+//                 </RadioOption>
+//               </RadioGroup>
+//             </FormGroup>
 
-//                     <FormGroup fullWidth>
-//                       <Label>Ready to Start</Label>
-//                       <RadioGroup>
-//                         <RadioOption>
-//                           <input
-//                             type="radio"
-//                             id="within2days"
-//                             name="launchTime"
-//                             value="within2days"
-//                             checked={formData.launchTime === "within2days"}
-//                             onChange={handleInputChange}
-//                           />
-//                           <span>Within 2 days</span>
-//                         </RadioOption>
-//                         <RadioOption>
-//                           <input
-//                             type="radio"
-//                             id="within7days"
-//                             name="launchTime"
-//                             value="within7days"
-//                             checked={formData.launchTime === "within7days"}
-//                             onChange={handleInputChange}
-//                           />
-//                           <span>Within 7 days</span>
-//                         </RadioOption>
-//                         <RadioOption>
-//                           <input
-//                             type="radio"
-//                             id="within1month"
-//                             name="launchTime"
-//                             value="within1month"
-//                             checked={formData.launchTime === "within1month"}
-//                             onChange={handleInputChange}
-//                           />
-//                           <span>Within 1 month</span>
-//                         </RadioOption>
-//                       </RadioGroup>
-//                     </FormGroup>
-//             {/* Other Input Fields */}
+//             <FormGroup fullWidth>
+//               <Label>Ready to Start</Label>
+//               <RadioGroup>
+//                 {['within2days', 'within7days', 'within1month'].map((time) => (
+//                   <RadioOption key={time}>
+//                     <input
+//                       type="radio"
+//                       id={time}
+//                       name="launchTime"
+//                       value={time}
+//                       checked={formData.launchTime === time}
+//                       onChange={handleInputChange}
+//                     />
+//                     <span>
+//                       {time === 'within2days'
+//                         ? 'Within 2 days'
+//                         : time === 'within7days'
+//                         ? 'Within 7 days'
+//                         : 'Within 1 month'}
+//                     </span>
+//                   </RadioOption>
+//                 ))}
+//               </RadioGroup>
+//             </FormGroup>
 //           </FormGrid>
-//           <SubmitButton type="submit">Submit</SubmitButton>
+          
+//           <SubmitButton 
+//             type="submit"
+//             disabled={!isActivated}
+//           >
+//             Submit
+//           </SubmitButton>
 //         </form>
 //       </FormContainer>
+
 //       {showPopup && (
 //         <PopupOverlay>
 //           <PopupContent>
@@ -619,19 +662,18 @@ const ErrorText = styled.div`
 //   );
 // };
 
-// export default VendorPartnershipForm;
-
-
-
 const VendorPartnershipForm = () => {
+  const [profile, setProfile] = useState(null);
+  const [company, setCompany] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
   const [error, setError] = useState('');
   const [isActivated, setIsActivated] = useState(false);
-  const [domain , setDomain]  = useState('')
+  const [domain, setDomain] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
   const [formData, setFormData] = useState({
     companyName: "",
     website: "",
-    subdomain: "", // Changed from domain to subdomain to match API
+    subdomain: "",
     countryCode: "",
     phoneNumber: "",
     email: "",
@@ -650,158 +692,100 @@ const VendorPartnershipForm = () => {
 
   const token = localStorage.getItem("vendorToken");
 
-  // const checkStatus = async () => {
-  //   try {
-  //     const response = await axios.get('https://apiwl.novajobs.us/api/admin/acount-info', {
-  //       headers: {
-  //         'Authorization': token
-  //       }
-  //     });
-  //     setIsActivated(response.data.data.domain_active);
-  //     setDomain(response.data.data.domain)
-  //   } catch (error) {
-  //     console.error('Error checking status:', error);
-  //     setError('Failed to check domain status');
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   checkStatus();
-  // }, []); // Added dependency array to prevent infinite loop
-
-  // const handleInputChange = (e) => {
-  //   const { name, value, type, checked } = e.target;
-  //   setFormData((prevState) => ({
-  //     ...prevState,
-  //     [name]: type === "checkbox" ? checked : value,
-  //   }));
-    
-  //   // Clear error when user types in subdomain field
-  //   if (name === 'subdomain') {
-  //     setError('');
-  //   }
-  // };
-
-  // const handleServicesChange = (e) => {
-  //   const { name, checked } = e.target;
-  //   setFormData((prevState) => ({
-  //     ...prevState,
-  //     services: {
-  //       ...prevState.services,
-  //       [name]: checked,
-  //     },
-  //   }));
-  // };
-
-  // const handleActivate = async () => {
-  //   if (!formData.subdomain) {
-  //     setError('Subdomain name is required!');
-  //     return;
-  //   }
-  
-  //   if (!isActivated) {
-  //     // Create a FormData instance
-  //     const formDataInstance = new FormData();
-  //     formDataInstance.append('sub_domain', formData.subdomain);
-  
-  //     try {
-  //       const response = await axios.post(
-  //         'https://apiwl.novajobs.us/api/admin/vendor/domain-active',
-  //         formDataInstance, // Pass the FormData instance here
-  //         {
-  //           headers: {
-  //             Authorization: token,
-  //             'Content-Type': 'multipart/form-data', // Set Content-Type for FormData
-  //           },
-  //         }
-  //       );
-  
-  //       if (response.status === 200) {
-  //         setIsActivated(true);
-  //         toast.success
-  //         (`Subdomain activated successfully`);
-  //       }
-  //     } catch (error) {
-  //       console.error('Error activating subdomain:', error);
-  //       setError(error.response?.data?.message || 'Failed to activate subdomain');
-  //     }
-  //   } else {
-  //     toast.error(`Subdomain is already activated`);
-  //   }
-  // };
-  
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-    
-  //   // try {
-  //   //   // Prepare the form data
-  //   //   const submissionData = {
-  //   //     ...formData,
-  //   //     subdomain: formData.subdomain, // Ensure subdomain is included
-  //   //     services: Object.keys(formData.services)
-  //   //       .filter(key => formData.services[key])
-  //   //       .join(', ')
-  //   //   };
-
-  //   //   // Submit the form data
-  //   //   const response = await axios.post(
-  //   //     'https://apiwl.novajobs.us/api/admin/vendor/partnership',
-  //   //     submissionData,
-  //   //     {
-  //   //       headers: {
-  //   //         Authorization: token,
-  //   //       },
-  //   //     }
-  //   //   );
-
-  //   //   if (response.status === 200) {
-  //   //     setShowPopup(true);
-  //   //   }
-  //   // } catch (error) {
-  //   //   console.error('Error submitting form:', error);
-  //   //   setError('Failed to submit form. Please try again.');
-  //   // }
-  // };
-
-  // const handleClosePopup = () => setShowPopup(false);
-  // let trimmeddomain = domain.split('.')[0];
-  const checkStatus = async () => {
+  // Fetch vendor profile data
+  const fetchVendorProfile = async () => {
+    setIsLoading(true);
     try {
-      const response = await axios.get('https://apiwl.novajobs.us/api/admin/acount-info', {
-        headers: {
-          'Authorization': token
+      const response = await axios.get(
+        "https://apiwl.novajobs.us/api/admin/vendor/user-profile",
+        {
+          headers: {
+            Authorization: token
+          }
         }
-      });
-      console.log(response.data.data,"Activesd");
-      setIsActivated(response.data.data.domain_active);
-      // toast.success("Domain activated successfully")
-      if (response.data.data.domain) {
-        setDomain(response.data.data.domain);
-        // Set the subdomain in formData when domain is fetched
-        const trimmedDomain = response.data.data.domain.split('.')[0];
-        setFormData(prev => ({
-          ...prev,
-          subdomain: trimmedDomain
+      );
+      
+      if (response.data && response.data.data) {
+        console.log("Profile data:", response.data.data);
+        setProfile(response.data.data.vendors_detail);
+        setCompany(response.data.data.compnay_detail);
+        
+        // Update form with fetched data
+        setFormData(prevState => ({
+          ...prevState,
+          companyName: response.data.data.vendors_detail?.company_name || "",
+          website: response.data.data.compnay_detail?.website_link || "",
+          countryCode: response.data.data.compnay_detail?.country?.phonecode || "",
+          phoneNumber: response.data.data.vendors_detail?.phone || "",
+          email: response.data.data.vendors_detail?.email || "",
+          location: response.data.data.compnay_detail?.address || ""
         }));
       }
     } catch (error) {
-      console.error('Error checking status:', error);
+      console.error("Error fetching vendor profile:", error);
+      toast.error("Failed to load profile data");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Check domain status
+  const checkDomainStatus = async () => {
+    try {
+      const response = await axios.get(
+        'https://apiwl.novajobs.us/api/admin/acount-info',
+        {
+          headers: {
+            'Authorization': token
+          }
+        }
+      );
+      
+      console.log("Domain status:", response.data.data);
+      
+      if (response.data.data) {
+        setIsActivated(response.data.data.domain_active);
+        
+        if (response.data.data.domain) {
+          setDomain(response.data.data.domain);
+          // Extract subdomain from the full domain
+          const trimmedDomain = response.data.data.domain.split('.')[0];
+          setFormData(prev => ({
+            ...prev,
+            subdomain: trimmedDomain
+          }));
+        }
+      }
+    } catch (error) {
+      console.error('Error checking domain status:', error);
       setError('Failed to check domain status');
     }
   };
 
+  // Initialize data on component mount
   useEffect(() => {
-    checkStatus();
-  }, []);
+    const initializeData = async () => {
+      await fetchVendorProfile();
+      await checkDomainStatus();
+    };
+    
+    if (token) {
+      initializeData();
+    } else {
+      setError("Authentication token not found");
+      setIsLoading(false);
+    }
+  }, [token]);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-    // Only update subdomain if not activated
+    
+    // Prevent subdomain change if already activated
     if (name === 'subdomain' && isActivated) {
       return;
     }
     
-    setFormData((prevState) => ({
+    setFormData(prevState => ({
       ...prevState,
       [name]: type === "checkbox" ? checked : value,
     }));
@@ -813,7 +797,7 @@ const VendorPartnershipForm = () => {
 
   const handleServicesChange = (e) => {
     const { name, checked } = e.target;
-    setFormData((prevState) => ({
+    setFormData(prevState => ({
       ...prevState,
       services: {
         ...prevState.services,
@@ -852,6 +836,7 @@ const VendorPartnershipForm = () => {
       } catch (error) {
         console.error('Error activating subdomain:', error);
         setError(error.response?.data?.message || 'Failed to activate subdomain');
+        toast.error(error.response?.data?.message || 'Failed to activate subdomain');
       }
     } else {
       toast.error('Subdomain is already activated');
@@ -860,45 +845,61 @@ const VendorPartnershipForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Your existing submit logic here
+    
+    if (!isActivated) {
+      toast.error('Please activate your subdomain first');
+      return;
+    }
+    
+    try {
+      // Prepare form data for submission
+      const submitData = {
+        company_name: formData.companyName,
+        website: formData.website,
+        country_code: formData.countryCode,
+        phone: formData.phoneNumber,
+        email: formData.email,
+        location: formData.location,
+        services: Object.keys(formData.services)
+          .filter(key => formData.services[key])
+          .join(','),
+        custom_features: formData.customFeatures === 'yes' ? formData.customFeaturesDescription : '',
+        launch_time: formData.launchTime
+      };
+      
+      // Replace with your actual submission endpoint
+      const response = await axios.post(
+        'https://apiwl.novajobs.us/api/admin/vendor/partnership-form',
+        submitData,
+        {
+          headers: {
+            Authorization: token
+          }
+        }
+      );
+      
+      if (response.status === 200) {
+        setShowPopup(true);
+        toast.success('Form submitted successfully');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast.error(error.response?.data?.message || 'Failed to submit form');
+    }
   };
 
   const handleClosePopup = () => setShowPopup(false);
+
+  if (isLoading) {
+    return <div>Loading vendor information...</div>;
+  }
 
   return (
     <>
       <FormContainer>
         <Title>Vendor White-Label Partnership Form</Title>
         <form onSubmit={handleSubmit}>
-          {/* <DomainSection>
-            <FormGroup>
-              <Label htmlFor="subdomain">Subdomain Name</Label>
-              <DomainWrapper error={!!error}>
-                <DomainInput
-                  type="text"
-                  id="subdomain"
-                  name="subdomain"
-                  value={trimmeddomain}
-                  onChange={handleInputChange}
-                  placeholder="Enter subdomain name..."
-                />
-                <DomainSuffix>.novajobs.us</DomainSuffix>
-              </DomainWrapper>
-              {/* {error && <ErrorText>{error}</ErrorText>} 
-            </FormGroup>
-            <ActivateButton
-              onClick={handleActivate}
-              type="button"
-              disabled={!formData.subdomain || isActivated}
-            >
-              {isActivated ? <div className="flex items-center space-x-2 text-green-600">
-          <CheckCircle size={20} style={{marginRight:"0.5rem"}} />
-          <span>Activated</span>
-        </div> : 'Activate'}
-            </ActivateButton>
-          </DomainSection> */}
-
-<DomainSection>
+          <DomainSection>
             <FormGroup>
               <Label htmlFor="subdomain">Subdomain Name</Label>
               <DomainWrapper error={!!error}>
@@ -913,7 +914,7 @@ const VendorPartnershipForm = () => {
                 />
                 <DomainSuffix>.novajobs.us</DomainSuffix>
               </DomainWrapper>
-              {/* {error && <ErrorText>{error}</ErrorText>} */}
+              {error && <ErrorText>{error}</ErrorText>}
             </FormGroup>
             <ActivateButton
               onClick={handleActivate}
@@ -1009,7 +1010,7 @@ const VendorPartnershipForm = () => {
 
             <FormGroup fullWidth>
               <Label>Services of Interest</Label>
-              {/* <CheckboxGroup>
+              <CheckboxGroup>
                 {Object.keys(formData.services).map((service) => (
                   <CheckboxWrapper key={service}>
                     <Checkbox
@@ -1020,11 +1021,11 @@ const VendorPartnershipForm = () => {
                       onChange={handleServicesChange}
                     />
                     <Label htmlFor={service}>
-                      {service.replace(/([A-Z])/g, ' $1').trim()}
+                      {service.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
                     </Label>
                   </CheckboxWrapper>
                 ))}
-              </CheckboxGroup> */}
+              </CheckboxGroup>
             </FormGroup>
 
             <FormGroup fullWidth>
@@ -1112,5 +1113,7 @@ const VendorPartnershipForm = () => {
     </>
   );
 };
+
+// export default VendorPartnershipForm;
 
 export default VendorPartnershipForm;

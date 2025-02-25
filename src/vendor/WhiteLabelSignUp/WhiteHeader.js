@@ -42,8 +42,7 @@ const Header = () => {
       <Title>Free Trial</Title>
       <SubText>
         Start your Recalles trial today, by choosing the subscription best for your needs.
-        Click on 'Start 14-Day Free Trial' below... In any doubt?{' '}
-        <a href="#" style={{ color: '#0066FF' }}>Book a demo call with us.</a>
+        Click on 'Start Free Trial' below... 
       </SubText>
       {/* <CountrySelector>
         Country Selector —

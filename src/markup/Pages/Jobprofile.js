@@ -419,12 +419,12 @@ function Jobprofile() {
                       
 
                       </div>
-                      <Link
+                      {/* <Link
                         to={"./"}
                         className="site-button right-arrow button-sm float-right"
                       >
                         Back
-                      </Link>
+                      </Link> */}
                     </div>
                     <form onSubmit={handleSubmit}>
                       <div className="row m-b30 ">
