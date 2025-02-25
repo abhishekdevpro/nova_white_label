@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css"; // Quill editor styles
-
 import logo2 from "../../../assests/logo2.jpg";
 import axios from "axios";
 
-function ForJobseeker({ forJobseekerData }) {
+function ForJobseeker({ forJobseekerData, projectName }) {
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [heading, setHeading] = useState("For Job Seekers:");
@@ -23,6 +22,10 @@ function ForJobseeker({ forJobseekerData }) {
   );
   const [image, setImage] = useState(null); // Binary image blob
   const [imagePreview, setImagePreview] = useState(logo2); // Preview for the image
+  const [showHeading, setShowHeading] = useState(true);
+  const [showParagraph1, setShowParagraph1] = useState(true);
+  const [showParagraph2, setShowParagraph2] = useState(true);
+  const [showImage, setShowImage] = useState(true);
 
   const authToken = localStorage.getItem("authToken"); // Retrieve auth token
 
@@ -34,7 +37,10 @@ function ForJobseeker({ forJobseekerData }) {
     setHeading(forJobseekerData.title || heading);
     setParagraph1Content(forJobseekerData.paragraph1 || paragraph1Content);
     setParagraph1AContent(forJobseekerData.paragraph2 || paragraph1AContent);
-
+    setShowHeading(forJobseekerData.is_title_display);
+    setShowParagraph1(forJobseekerData.is_paragraph1_display);
+    setShowParagraph2(forJobseekerData.is_paragraph2_display);
+    setShowImage(forJobseekerData.is_images_display);
     if (forJobseekerData.images && JSON.parse(forJobseekerData.images)) {
       const imgData = JSON.parse(forJobseekerData.images);
       setImagePreview(
@@ -59,14 +65,21 @@ function ForJobseeker({ forJobseekerData }) {
     formData.append("title", heading);
     formData.append("paragraph1", paragraph1Content);
     formData.append("paragraph2", paragraph1AContent);
+    formData.append("is_title_display", showHeading);
+    formData.append("is_paragraph1_display", showParagraph1);
+    formData.append("is_paragraph2_display", showParagraph2);
+    formData.append("is_images_display", showImage);
 
     if (image) {
       formData.append("images", image, "image.jpg");
     }
 
     try {
+      console.log(projectName, ">>>projectname");
       const response = await axios.patch(
-        "https://apiwl.novajobs.us/api/admin/update-aboutus-content/2",
+        `https://apiwl.novajobs.us/api/admin${
+          projectName ? projectName : ""
+        }/update-aboutus-content/2`,
         formData,
         {
           headers: {
@@ -84,6 +97,26 @@ function ForJobseeker({ forJobseekerData }) {
     }
   };
 
+  const handleDelete = (field) => {
+    switch (field) {
+      case "heading":
+        setHeading("");
+        break;
+      case "paragraph1":
+        setParagraph1Content("");
+        break;
+      case "paragraph2":
+        setParagraph1AContent("");
+        break;
+      case "image":
+        setImage(null);
+        setImagePreview(logo2);
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <>
       <div className="mt-5">
@@ -98,36 +131,100 @@ function ForJobseeker({ forJobseekerData }) {
         <div className="mx-3 mx-lg-5 mb-4 mb-lg-0">
           {isEditing ? (
             <div>
-              <label>
-                <h5> Heading(Title Mandatory):</h5>
-                <input
-                  type="text"
-                  value={heading}
-                  onChange={(e) => setHeading(e.target.value)}
-                  className="form-control"
-                  style={{ marginBottom: "10px" }}
-                />
-              </label>
-              <h5>Paragraph 1:</h5>
-              <ReactQuill
-                value={paragraph1Content}
-                onChange={setParagraph1Content}
-              />
-              <h5 className="mt-3">Paragraph 2:</h5>
-              <ReactQuill
-                value={paragraph1AContent}
-                onChange={setParagraph1AContent}
-              />
-              <label className="mt-3">
-                <h5>Change Image (400px x 800px):</h5>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  className="form-control"
-                />
-              </label>
-              {imagePreview && (
+              <div className="d-flex justify-content-start gap-2">
+                <div className="d-flex justify-content-start gap-2">
+                  <label className="form-check form-switch">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      checked={showHeading}
+                      onChange={() => setShowHeading(!showHeading)}
+                    />
+                  </label>
+                </div>
+                <label>
+                  <h5> Heading(Title Mandatory):</h5>
+                  {showHeading && (
+                    <input
+                      type="text"
+                      value={heading}
+                      onChange={(e) => setHeading(e.target.value)}
+                      className="form-control"
+                      style={{ marginBottom: "10px" }}
+                    />
+                  )}
+                </label>
+              </div>
+              <div className="d-flex justify-content-start gap-4">
+                <div className="d-flex justify-content-start gap-2">
+                  <label className="form-check form-switch">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      checked={showParagraph1}
+                      onChange={() => setShowParagraph1(!showParagraph1)}
+                    />
+                    {/* <span className="form-check-label">
+                    {showParagraph1 ? "Hide Paragraph 1" : "Show Paragraph 1"}
+                  </span> */}
+                  </label>
+                </div>
+                <div>
+                  <h5>Paragraph 1:</h5>
+                  {showParagraph1 && (
+                    <ReactQuill
+                      value={paragraph1Content}
+                      onChange={setParagraph1Content}
+                    />
+                  )}
+                </div>
+              </div>
+
+              <div className="d-flex justify-content-start gap-4">
+                <label className="form-check form-switch">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    checked={showParagraph2}
+                    onChange={() => setShowParagraph2(!showParagraph2)}
+                  />
+                </label>
+                <div>
+                  <h5>Paragraph 2:</h5>
+                  {showParagraph2 && (
+                    <ReactQuill
+                      value={paragraph1AContent}
+                      onChange={setParagraph1AContent}
+                    />
+                  )}
+                </div>
+              </div>
+
+              <div className="d-flex justify-content-start gap-2 mt-4">
+                <label className="form-check form-switch">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    checked={showImage}
+                    onChange={() => setShowImage(!showImage)}
+                  />
+                  {/* <span className="form-check-label">
+                  {showImage ? "Hide Image" : "Show Image"}
+                </span> */}
+                </label>
+                <label className="mt-3">
+                  <h5>Change Image (400px x 800px):</h5>
+                  {showImage && (
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      className="form-control"
+                    />
+                  )}
+                </label>
+              </div>
+              {showImage && imagePreview && (
                 <div className="mt-3">
                   <p>
                     <strong>Preview:</strong>
@@ -145,47 +242,56 @@ function ForJobseeker({ forJobseekerData }) {
                   />
                 </div>
               )}
-
-              <button
-                className="btn btn-primary mt-3"
-                onClick={handleSave}
-                disabled={loading}
-              >
-                {loading ? "Saving..." : "Save"}
-              </button>
-              <button
-                className="btn btn-secondary mt-3 ms-2"
-                onClick={() => setIsEditing(false)}
-              >
-                Cancel
-              </button>
+              <div className="mt-4">
+                <button
+                  className="btn btn-primary mt-3"
+                  onClick={handleSave}
+                  disabled={loading}
+                >
+                  {loading ? "Saving..." : "Save"}
+                </button>
+                <button
+                  className="btn btn-secondary mt-3 ms-2"
+                  onClick={() => setIsEditing(false)}
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
           ) : (
             <div>
-              <h1
-                style={{
-                  fontSize: "clamp(14px, 5vw, 20px)",
-                  fontWeight: "500",
-                  textDecoration: "underline",
-                }}
-              >
-                {heading}
-              </h1>
-              <div
-                dangerouslySetInnerHTML={{ __html: paragraph1Content }}
-                style={{ fontSize: "clamp(14px, 3vw, 15px)" }}
-              ></div>
-              <div
-                dangerouslySetInnerHTML={{ __html: paragraph1AContent }}
-                style={{ fontSize: "clamp(14px, 3vw, 15px)" }}
-              ></div>
-              <div className="mx-3 mx-lg-5 d-flex justify-content-center">
-                <img
-                  src={imagePreview}
-                  alt="Uploaded"
-                  style={{ height: "400px", width: "800px" }}
-                />
-              </div>
+              {showHeading && (
+                <h1
+                  style={{
+                    fontSize: "clamp(14px, 5vw, 20px)",
+                    fontWeight: "500",
+                    textDecoration: "underline",
+                  }}
+                >
+                  {heading}
+                </h1>
+              )}
+              {showParagraph1 && (
+                <div
+                  dangerouslySetInnerHTML={{ __html: paragraph1Content }}
+                  style={{ fontSize: "clamp(14px, 3vw, 15px)" }}
+                ></div>
+              )}
+              {showParagraph2 && (
+                <div
+                  dangerouslySetInnerHTML={{ __html: paragraph1AContent }}
+                  style={{ fontSize: "clamp(14px, 3vw, 15px)" }}
+                ></div>
+              )}
+              {showImage && (
+                <div className="mx-3 mx-lg-5 d-flex justify-content-center">
+                  <img
+                    src={imagePreview}
+                    alt="Uploaded"
+                    style={{ height: "400px", width: "800px" }}
+                  />
+                </div>
+              )}
             </div>
           )}
         </div>
