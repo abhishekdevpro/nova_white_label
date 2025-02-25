@@ -1,179 +1,207 @@
-import React, { useEffect } from "react";
+
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Header2 from "./../Layout/Header2";
 import Footer from "./../Layout/Footer";
 import { Form } from "react-bootstrap";
-// import GoogleMaps from "simple-react-google-maps";
 import axios from "axios";
-import { showToastError } from "../../utils/toastify";
 import { fetchCompanyInfo } from "../../store/thunkFunctions/companyFunction";
 import { useDispatch, useSelector } from "react-redux";
-import { get } from "react-scroll/modules/mixins/scroller";
-import { useState } from "react";
+import CompanySideBar from "../../employeeMarkup/Layout/companySideBar";
 
 function Companyprofile() {
-  const companyData = useSelector(
-    (state) => state.companyDataSlice.companyData
-  );
-  console.log(companyData, "hey");
-  const [countries, setCountries] = useState([
-    {
-      id: "",
-      name: "",
-    },
-  ]);
-  const [states, setStates] = useState([
-    {
-      id: "",
-      name: "",
-    },
-  ]);
-  const [cities, setCities] = useState([
-    {
-      id: "",
-      name: "",
-    },
-  ]);
-  const [selectedCountry, setSelectedCountry] = useState(null);
-  const [selectedStates, setSelectedState] = useState(null);
-  const [selectedCities, setSelectedCities] = useState(null);
-  const [companyName, setCompanyName] = useState("");
-  const [tagline, setTagline] = useState("");
-  const [email, setEmail] = useState("");
-  const [website, setWebsite] = useState("");
-  const [foundedYear, setDate] = useState("");
-  const [industry, setIndustry] = useState("");
-  const [description, setDescription] = useState("");
-  const [number, setNumber] = useState("");
-  const [address, setAddress] = useState("");
-  const [linkdin, setlinkdin] = useState("");
-  const [twitter, setTwitter] = useState("");
-  const [googleBusiness, setGoogleBusiness] = useState("");
-  const [glassdoor, setGlassdor] = useState("");
-  const token = localStorage.getItem("employeeLoginToken");
-  useEffect(() => {
-    console.log(selectedCountry);
-    setSelectedState("");
-    getState();
-  }, [selectedCountry]);
+  const companyData = useSelector((state) => state.companyDataSlice?.companyData) || {};
+  console.log(companyData,"companyDatacompanyDatasele");
+  
+  const [countries, setCountries] = useState([]);
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
+  
+  // Separate state for selected location values
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [selectedState, setSelectedState] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
+  
+  const [formData, setFormData] = useState({
+    companyName: "",
+    tagline: "",
+    email: "",
+    website: "",
+    foundedYear: "",
+    industry: "",
+    description: "",
+    number: "",
+    address: "",
+    linkdin: "",
+    twitter: "",
+    googleBusiness: "",
+    glassdoor: ""
+  });
 
-  useEffect(() => {
-    console.log(selectedStates);
-    // setSelectedCities("");
-    getCities();
-  }, [selectedStates]);
+  const token = localStorage.getItem("employeeLoginToken");
+  const dispatch = useDispatch();
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleCountryChange = (e) => {
+    const value = e.target.value;
+    setSelectedCountry(value);
+    setSelectedState("");
+    setSelectedCity("");
+    setStates([]);
+    setCities([]);
+  };
+
+  const handleStateChange = (e) => {
+    const value = e.target.value;
+    setSelectedState(value);
+    setSelectedCity("");
+    setCities([]);
+  };
+
+  const handleCityChange = (e) => {
+    setSelectedCity(e.target.value);
+  };
 
   const getCountry = async () => {
-    axios({
-      method: "get",
-      url: "https://api.novajobs.us/api/employeer/countries",
-      headers: {
-        Authorization: token,
-      },
-    })
-      .then((res) => {
-        setCountries(res.data.data);
-        console.log(res.data.data);
-      })
-      .catch((error) => {
-        console.log(error);
+    try {
+      const response = await axios({
+        method: "get",
+        url: "https://apiwl.novajobs.us/api/employeer/countries",
+        headers: { Authorization: token }
       });
+      if (response.data?.data) {
+        setCountries(response.data.data);
+      }
+    } catch (error) {
+      console.error("Error fetching countries:", error);
+    }
   };
 
-  const getState = async () => {
-    axios({
-      method: "get",
-      url: `https://api.novajobs.us/api/employeer/stats/${selectedCountry}`,
-      headers: {
-        Authorization: token,
-      },
-    })
-      .then((res) => {
-        setStates(res.data.data);
-        console.log(res.data.data);
-      })
-      .catch((error) => {
-        console.log(error);
+  const getState = async (countryId) => {
+    if (!countryId) return;
+    
+    try {
+      const response = await axios({
+        method: "get",
+        url: `https://apiwl.novajobs.us/api/employeer/stats/${countryId}`,
+        headers: { Authorization: token }
       });
+      if (response.data?.data) {
+        setStates(response.data.data);
+      }
+    } catch (error) {
+      console.error("Error fetching states:", error);
+    }
   };
-  const getCities = async () => {
-    axios({
-      method: "get",
-      url: `https://api.novajobs.us/api/employeer/cities/${selectedStates}`,
-      headers: {
-        Authorization: token,
-      },
-    })
-      .then((res) => {
-        console.log(selectedStates);
-        setCities(res.data.data);
-        console.log(res.data.data);
-      })
-      .catch((error) => {
-        console.log(error);
+
+  const getCities = async (stateId) => {
+    if (!stateId) return;
+    
+    try {
+      const response = await axios({
+        method: "get",
+        url: `https://apiwl.novajobs.us/api/employeer/cities/${stateId}`,
+        headers: { Authorization: token }
       });
+      if (response.data?.data) {
+        setCities(response.data.data);
+      }
+    } catch (error) {
+      console.error("Error fetching cities:", error);
+    }
   };
 
   const updateCompanyData = async (e) => {
-    axios({
-      method: "put",
-      url: `https://api.novajobs.us/api/employeer/company`,
-      headers: {
-        Authorization: token,
-      },
-      data: {
-        company_name: companyName,
-        // summery: "summery",
-        about: description,
-        // company_size_id: 1,
-        email: email,
-        // company_type_id: 1,
-        tagline: tagline,
-        user_id: 1,
-        website_link: website,
-        founded_date: foundedYear,
-        phone: number,
-        country_id: Number(selectedCountry),
-        state_id: Number(selectedStates),
-        city_id: Number(selectedCities),
-        // zip_code: "434",
-        address: address,
-        facebook_link: glassdoor,
-        twitter_link: twitter,
-        google_link: googleBusiness,
-        linkedin_link: linkdin,
-      },
-    })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((error) => {
-        console.log(error);
+    e.preventDefault();
+    
+    if (!selectedCountry || !selectedState || !selectedCity) {
+      console.error("Please select country, state and city");
+      return;
+    }
+
+    try {
+      const response = await axios({
+        method: "put",
+        url: `https://apiwl.novajobs.us/api/employeer/company`,
+        headers: { Authorization: token },
+        data: {
+          company_name: formData.companyName,
+          about: formData.description,
+          email: formData.email,
+          tagline: formData.tagline,
+          website_link: formData.website,
+          founded_date: formData.foundedYear,
+          phone: formData.number,
+          country_id: Number(selectedCountry),
+          state_id: Number(selectedState),
+          city_id: Number(selectedCity),
+          address: formData.address,
+          facebook_link: formData.glassdoor,
+          twitter_link: formData.twitter,
+          google_link: formData.googleBusiness,
+          linkedin_link: formData.linkdin,
+        }
       });
+      console.log("Update successful:", response);
+    } catch (error) {
+      console.error("Error updating company data:", error);
+    }
   };
 
-  const dispatch = useDispatch();
   useEffect(() => {
     getCountry();
     dispatch(fetchCompanyInfo());
   }, [dispatch]);
 
   useEffect(() => {
-    setCompanyName(companyData.company_name);
-    setTagline(companyData.tagline);
-    setEmail(companyData.email);
-    setWebsite(companyData.website_link.id);
-    setDate(companyData.founded_date);
-    setDescription(companyData.about);
+    if (companyData) {
+      setFormData({
+        companyName: companyData.company_name || "",
+        tagline: companyData.tagline || "",
+        email: companyData.email || "",
+        website: companyData.website_link?.id || "",
+        foundedYear: companyData.founded_date || "",
+        description: companyData.about || "",
+        number: companyData.phone || "",
+        address: companyData.address || "",
+        linkdin: companyData.linkedin_link || "",
+        twitter: companyData.twitter_link || "",
+        googleBusiness: companyData.google_link || "",
+        glassdoor: companyData.facebook_link || ""
+      });
 
-    // setIndustry(companyData.country.id)
-    setNumber(companyData.phone);
-    setAddress(companyData.address);
-    setlinkdin(companyData.linkedin_link);
-    setTwitter(companyData.twitter_link);
-    setGoogleBusiness(companyData.google_link);
-    setGlassdor(companyData.facebook_link);
+      if (companyData.country_id) {
+        setSelectedCountry(companyData.country_id);
+        getState(companyData.country_id);
+      }
+      if (companyData.state_id) {
+        setSelectedState(companyData.state_id);
+        getCities(companyData.state_id);
+      }
+      if (companyData.city_id) {
+        setSelectedCity(companyData.city_id);
+      }
+    }
   }, [companyData]);
+
+  useEffect(() => {
+    if (selectedCountry) {
+      getState(selectedCountry);
+    }
+  }, [selectedCountry]);
+
+  useEffect(() => {
+    if (selectedState) {
+      getCities(selectedState);
+    }
+  }, [selectedState]);
 
   return (
     <>
@@ -185,83 +213,7 @@ function Companyprofile() {
               <div className="row">
                 <div className="col-xl-3 col-lg-4 m-b30">
                   <div className="sticky-top">
-                    <div className="candidate-info company-info">
-                      <div className="candidate-detail text-center">
-                        <div className="canditate-des">
-                          <Link to={"#"}>
-                            <img
-                              alt=""
-                              src={require("./../../images/logo/icon3.jpg")}
-                            />
-                          </Link>
-                          <div
-                            className="upload-link"
-                            title="update"
-                            data-toggle="tooltip"
-                            data-placement="right">
-                            <input type="file" className="update-flie" />
-                            <i className="fa fa-pencil"></i>
-                          </div>
-                        </div>
-                        <div className="candidate-title">
-                          <h4 className="m-b5">
-                            <Link to={"#"}>@COMPANY</Link>
-                          </h4>
-                        </div>
-                      </div>
-                      <ul>
-                        <li>
-                          <Link to={"/company-profile"} className="active">
-                            <i className="fa fa-user-o" aria-hidden="true"></i>
-                            <span>Company Profile</span>
-                          </Link>
-                        </li>
-                        <li>
-                          <Link to={"/company-post-jobs"}>
-                            <i
-                              className="fa fa-file-text-o"
-                              aria-hidden="true"></i>
-                            <span>Post A Job</span>
-                          </Link>
-                        </li>
-                        <li>
-                          <Link to={"/company-transactions"}>
-                            <i className="fa fa-random" aria-hidden="true"></i>
-                            <span>Transactions</span>
-                          </Link>
-                        </li>
-                        <li>
-                          <Link to={"/company-manage-job"}>
-                            <i
-                              className="fa fa-briefcase"
-                              aria-hidden="true"></i>
-                            <span>Manage jobs</span>
-                          </Link>
-                        </li>
-                        <li>
-                          <Link to={"/company-resume"}>
-                            <i
-                              className="fa fa-id-card-o"
-                              aria-hidden="true"></i>
-                            <span>Resume</span>
-                          </Link>
-                        </li>
-                        <li>
-                          <Link to={"/jobs-change-password"}>
-                            <i className="fa fa-key" aria-hidden="true"></i>
-                            <span>Change Password</span>
-                          </Link>
-                        </li>
-                        <li>
-                          <Link to={"./"}>
-                            <i
-                              className="fa fa-sign-out"
-                              aria-hidden="true"></i>
-                            <span>Log Out</span>
-                          </Link>
-                        </li>
-                      </ul>
-                    </div>
+                    <CompanySideBar />
                   </div>
                 </div>
                 <div className="col-xl-9 col-lg-8 m-b30">
@@ -276,19 +228,18 @@ function Companyprofile() {
                         Back
                       </Link>
                     </div>
-                    <form>
+                    <form onSubmit={updateCompanyData}>
                       <div className="row m-b30">
                         <div className="col-lg-6 col-md-6">
                           <div className="form-group">
                             <label>Company Name</label>
                             <input
                               type="text"
+                              name="companyName"
                               className="form-control"
                               placeholder="Enter Company Name"
-                              onChange={(e) => {
-                                setCompanyName(e.target.value);
-                              }}
-                              value={companyName}
+                              onChange={handleInputChange}
+                              value={formData.companyName}
                             />
                           </div>
                         </div>
@@ -297,12 +248,11 @@ function Companyprofile() {
                             <label>Tagline</label>
                             <input
                               type="text"
+                              name="tagline"
                               className="form-control"
                               placeholder="Enter Company Tagline"
-                              onChange={(e) => {
-                                setTagline(e.target.value);
-                              }}
-                              value={tagline}
+                              onChange={handleInputChange}
+                              value={formData.tagline}
                             />
                           </div>
                         </div>
@@ -311,12 +261,11 @@ function Companyprofile() {
                             <label>Email ID</label>
                             <input
                               type="email"
+                              name="email"
                               className="form-control"
                               placeholder="info@gmail.com"
-                              onChange={(e) => {
-                                setEmail(e.target.value);
-                              }}
-                              value={email}
+                              onChange={handleInputChange}
+                              value={formData.email}
                             />
                           </div>
                         </div>
@@ -325,26 +274,24 @@ function Companyprofile() {
                             <label>Website</label>
                             <input
                               type="text"
+                              name="website"
                               className="form-control"
                               placeholder="Website Link"
-                              onChange={(e) => {
-                                setWebsite(e.target.value);
-                              }}
-                              value={website}
+                              onChange={handleInputChange}
+                              value={formData.website}
                             />
                           </div>
                         </div>
                         <div className="col-lg-6 col-md-6">
                           <div className="form-group">
-                            <label>Founded Year </label>
+                            <label>Founded Year</label>
                             <input
                               type="text"
+                              name="foundedYear"
                               className="form-control"
                               placeholder="17/12/2018"
-                              onChange={(e) => {
-                                setDate(e.target.value);
-                              }}
-                              value={foundedYear}
+                              onChange={handleInputChange}
+                              value={formData.foundedYear}
                             />
                           </div>
                         </div>
@@ -353,14 +300,14 @@ function Companyprofile() {
                             <label>Industry</label>
                             <Form.Control
                               as="select"
+                              name="industry"
                               custom
                               className="custom-select"
-                              onChange={(e) => {
-                                setIndustry(e.target.value);
-                              }}
-                              value={industry}>
-                              <option>Web Designer</option>
-                              <option>Web Developer1</option>
+                              onChange={handleInputChange}
+                              value={formData.industry}>
+                              <option value="">Select Industry</option>
+                              <option value="Web Designer">Web Designer</option>
+                              <option value="Web Developer">Web Developer</option>
                             </Form.Control>
                           </div>
                         </div>
@@ -369,11 +316,11 @@ function Companyprofile() {
                           <div className="form-group">
                             <label>Description:</label>
                             <textarea
+                              name="description"
                               className="form-control"
-                              onChange={(e) => {
-                                setDescription(e.target.value);
-                              }}
-                              value={description}></textarea>
+                              onChange={handleInputChange}
+                              value={formData.description}
+                            ></textarea>
                           </div>
                         </div>
                       </div>
@@ -389,12 +336,11 @@ function Companyprofile() {
                             <label>Contact Number</label>
                             <input
                               type="text"
+                              name="number"
                               className="form-control"
                               placeholder="+1 123 456 7890"
-                              onChange={(e) => {
-                                setNumber(e.target.value);
-                              }}
-                              value={number}
+                              onChange={handleInputChange}
+                              value={formData.number}
                             />
                           </div>
                         </div>
@@ -403,13 +349,13 @@ function Companyprofile() {
                             <label>Country</label>
                             <select
                               className="form-control"
-                              value={selectedCountry}
-                              onChange={(e) =>
-                                setSelectedCountry(e.target.value)
-                              }>
-                              <option value=""></option>
+                              value={selectedCountry || ""}
+                              onChange={handleCountryChange}>
+                              <option value="">Select Country</option>
                               {countries.map((item) => (
-                                <option value={item.id}>{item.name}</option>
+                                <option key={item.id} value={item.id}>
+                                  {item.name}
+                                </option>
                               ))}
                             </select>
                           </div>
@@ -420,13 +366,14 @@ function Companyprofile() {
                             <label>State</label>
                             <select
                               className="form-control"
-                              value={selectedStates}
-                              onChange={(e) =>
-                                setSelectedState(e.target.value)
-                              }>
-                              <option value=""></option>
+                              value={selectedState || ""}
+                              onChange={handleStateChange}
+                              disabled={!selectedCountry}>
+                              <option value="">Select State</option>
                               {states.map((item) => (
-                                <option value={item.id}>{item.name}</option>
+                                <option key={item.id} value={item.id}>
+                                  {item.name}
+                                </option>
                               ))}
                             </select>
                           </div>
@@ -437,95 +384,50 @@ function Companyprofile() {
                             <label>City</label>
                             <select
                               className="form-control"
-                              value={selectedCities}
-                              onChange={(e) => {
-                                setSelectedCities(e.target.value);
-                              }}>
-                              <option value=""></option>
-
+                              value={selectedCity ||""}
+                              onChange={handleCityChange}
+                              disabled={!selectedState}>
+                              <option value="">Select City</option>
                               {cities.map((item) => (
-                                <option value={item.id}>{item.name}</option>
+                                <option key={item.id} value={item.id}>
+                                  {item.name}
+                                </option>
                               ))}
                             </select>
                           </div>
                         </div>
-                        {/* <div className="col-lg-6 col-md-6">
-                          <div className="form-group">
-                            <label>Contry</label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder="India"
-                            />
-                          </div>
-                        </div>
-                        <div className="col-lg-6 col-md-6">
-                          <div className="form-group">
-                            <label>City</label>
-                            <input
-                              type="email"
-                              className="form-control"
-                              placeholder="Delhi"
-                            />
-                          </div>
-                        </div>
-                        <div className="col-lg-6 col-md-6">
-                          <div className="form-group">
-                            <label>Zip</label>
-                            <input
-                              type="email"
-                              className="form-control"
-                              placeholder="504030"
-                            />
-                          </div>
-                        </div> */}
+
                         <div className="col-lg-12">
                           <div className="form-group">
                             <label>Address</label>
                             <input
                               type="text"
+                              name="address"
                               className="form-control"
-                              placeholder="New york city"
-                              onChange={(e) => {
-                                setAddress(e.target.value);
-                              }}
-                              value={address}
+                              placeholder="Enter Address"
+                              onChange={handleInputChange}
+                              value={formData.address}
                             />
                           </div>
-                        </div>
-
-                        <div className="col-lg-12">
-                          {/* <GoogleMaps
-                            apiKey={"AIzaSyBPDjB2qkV4Yxn9h0tGSk2X5uH6NKmssXw"}
-                            style={{
-                              height: "300px",
-                              width: "100%",
-                              border: "0",
-                            }}
-                            zoom={6}
-                            center={{ lat: 37.4224764, lng: -122.0842499 }}
-                            markers={{ lat: 37.4224764, lng: -122.0842499 }} //optional
-                          /> */}
                         </div>
                       </div>
 
                       <div className="job-bx-title clearfix">
                         <h5 className="font-weight-700 pull-left text-uppercase">
-                          Social link
+                          Social Links
                         </h5>
                       </div>
                       <div className="row">
                         <div className="col-lg-6 col-md-6">
                           <div className="form-group">
-                            <label>Connect Linkedin</label>
+                            <label>LinkedIn</label>
                             <input
                               type="text"
+                              name="linkdin"
                               className="form-control"
-                              placeholder="https://www.facebook.com/"
-                              onChange={(e) => {
-                                setlinkdin(e.target.value);
-                              }}
-                              value={linkdin}
+                              placeholder="https://www.linkedin.com/"
+                              onChange={handleInputChange}
+                              value={formData.linkdin}
                             />
                           </div>
                         </div>
@@ -534,26 +436,24 @@ function Companyprofile() {
                             <label>Twitter</label>
                             <input
                               type="text"
+                              name="twitter"
                               className="form-control"
                               placeholder="https://www.twitter.com/"
-                              onChange={(e) => {
-                                setTwitter(e.target.value);
-                              }}
-                              value={twitter}
+                              onChange={handleInputChange}
+                              value={formData.twitter}
                             />
                           </div>
                         </div>
                         <div className="col-lg-6 col-md-6">
                           <div className="form-group">
-                            <label>Google Business Link</label>
+                            <label>Google Business</label>
                             <input
                               type="text"
+                              name="googleBusiness"
                               className="form-control"
                               placeholder="https://www.google.com/"
-                              onChange={(e) => {
-                                setGoogleBusiness(e.target.value);
-                              }}
-                              value={googleBusiness}
+                              onChange={handleInputChange}
+                              value={formData.googleBusiness}
                             />
                           </div>
                         </div>
@@ -562,24 +462,17 @@ function Companyprofile() {
                             <label>Glassdoor</label>
                             <input
                               type="text"
+                              name="glassdoor"
                               className="form-control"
-                              placeholder="https://www.linkedin.com/"
-                              onChange={(e) => {
-                                setGlassdor(e.target.value);
-                              }}
-                              value={glassdoor}
+                              placeholder="https://www.glassdoor.com/"
+                              onChange={handleInputChange}
+                              value={formData.glassdoor}
                             />
                           </div>
                         </div>
                       </div>
-                      <button
-                        className="site-button m-b30"
-                        onClick={(e) => {
-                          e.preventDefault();
-
-                          updateCompanyData();
-                        }}>
-                        Update Setting
+                      <button type="submit" className="site-button m-b30">
+                        Save Changes
                       </button>
                     </form>
                   </div>
@@ -593,4 +486,5 @@ function Companyprofile() {
     </>
   );
 }
+
 export default Companyprofile;

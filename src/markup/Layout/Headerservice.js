@@ -5,6 +5,7 @@ import Logout from "./Logout";
 import "../Layout/Headerjobseeker.css"
 
 import logo2 from "./../../images/logo.png";
+import { Home } from "lucide-react";
 var bnr3 = require("./../../images/background/bg3.jpg");
 
 class Headerservice extends Component {
@@ -111,7 +112,9 @@ class Headerservice extends Component {
                   </div>
                   <ul className="nav navbar-nav align-items-center ">
                     <li className="">
-                      <Link to={"/user"}>Home </Link>
+                      <Link to={"/user"}>
+                       <Home size={20} />
+                       </Link>
                       {/* <ul className="sub-menu">
                         <li>
                           <Link to={"./"} className="dez-page">
@@ -255,17 +258,7 @@ class Headerservice extends Component {
                         </div>
                       )}
                     </li>
-                    <li>
-                      {localStorage.getItem("jobSeekerLoginToken") ? null : (
-                        <Link
-                          to={"/vendor/login"}
-                          style={{ color: "white" }}
-                          className="site-button"
-                        >
-                          Partner With Us
-                        </Link>
-                      )}
-                    </li>
+                    
                     {/* <li>
                       {localStorage.getItem("jobSeekerLoginToken") ? null : (
                         <Link
@@ -287,6 +280,17 @@ class Headerservice extends Component {
                           className="site-button"
                         >
                           Employers / Post Job
+                        </Link>
+                      )}
+                    </li>
+                    <li>
+                      {localStorage.getItem("jobSeekerLoginToken") ? null : (
+                        <Link
+                          to={"/vendor/login"}
+                          style={{ color: "white" }}
+                          className="site-button"
+                        >
+                          Partner With Us
                         </Link>
                       )}
                     </li>

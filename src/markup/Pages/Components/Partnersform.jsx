@@ -8,21 +8,21 @@ const PartnerFormContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  // min-height: 100vh;
   background-color: #f0f4f8;
-  padding: 1rem;
+  padding: 0.5rem;
 `;
 
 const Card = styled.div`
   background-color: white;
   border-radius: 1rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
+  padding: 0.5rem;
   width: 100%;
   max-width: 500px;
 
   @media (max-width: 768px) {
-    padding: 1.5rem;
+    padding: 0.5rem;
   }
 `;
 
@@ -40,7 +40,7 @@ const Title = styled.h1`
 
 const Subtitle = styled.p`
   font-size: 1.1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
   color: #4a5568;
   text-align: center;
 
@@ -96,9 +96,9 @@ const PartnerForm = () => {
   const navigate = useNavigate();
 
   const mainOptions = [
-    { label: '🤝 Candidate Sourcing: Find candidates for your clients', value: 'candidateSourcing', bgColor: '#3498db', hoverColor: '#2980b9' },
-    { label: '📝 Post Jobs for Clients: List job openings', value: 'postJobsForClients', bgColor: '#f39c12', hoverColor: '#e67e22' },
-    { label: '📊 Track Client Applications: Manage applications for client positions', value: 'trackClientApplications', bgColor: '#2ecc71', hoverColor: '#27ae60' },
+    { label: '🤝 Candidate Sourcing: Find candidates', value: 'candidateSourcing', bgColor: '#3498db', hoverColor: '#2980b9' },
+    { label: '📝 Post Jobs: List job openings', value: 'postJobsForClients', bgColor: '#f39c12', hoverColor: '#e67e22' },
+    { label: '📊 Create Your Job Portal', value: 'trackClientApplications', bgColor: '#2ecc71', hoverColor: '#27ae60' },
     { label: '❓ Help & Support: Get assistance', value: 'helpSupport', bgColor: '#9b59b6', hoverColor: '#8e44ad' }
   ];
 
@@ -114,9 +114,9 @@ const PartnerForm = () => {
       { label: '📈 View Job Post Performance', value: 'viewJobPostPerformance', bgColor: '#f39c12', hoverColor: '#e67e22', route: '/view-performance' }
     ],
     trackClientApplications: [
-      { label: '📊 View Applications', value: 'viewApplications', bgColor: '#2ecc71', hoverColor: '#27ae60', route: '/view-applications' },
-      { label: '🔍 Track Progress', value: 'trackProgress', bgColor: '#2ecc71', hoverColor: '#27ae60', route: '/track-progress' },
-      { label: '📅 Schedule Interviews', value: 'scheduleInterviews', bgColor: '#2ecc71', hoverColor: '#27ae60', route: '/schedule-interviews' }
+      // { label: '📊 View Applications', value: 'viewApplications', bgColor: '#2ecc71', hoverColor: '#27ae60', route: '/view-applications' },
+      // { label: '🔍 Track Progress', value: 'trackProgress', bgColor: '#2ecc71', hoverColor: '#27ae60', route: '/track-progress' },
+      // { label: '📅 Schedule Interviews', value: 'scheduleInterviews', bgColor: '#2ecc71', hoverColor: '#27ae60', route: '/schedule-interviews' }
     ],
     helpSupport: [
       { label: '💬 Chat with Support', value: 'chatSupport', bgColor: '#9b59b6', hoverColor: '#8e44ad', route: '/chat-support' },
@@ -125,9 +125,17 @@ const PartnerForm = () => {
     ]
   };
 
+  // const handleOptionClick = (optionValue) => {
+  //   setSelectedOption(optionValue);
+  //   setStep(2);
+  // };
   const handleOptionClick = (optionValue) => {
-    setSelectedOption(optionValue);
-    setStep(2);
+    if (optionValue === 'trackClientApplications') {
+      navigate('/white-label'); // Navigate directly to /white-label
+    } else {
+      setSelectedOption(optionValue);
+      setStep(2);
+    }
   };
 
   const handleBack = () => {
@@ -140,7 +148,7 @@ const PartnerForm = () => {
   };
 
   const handleSubOptionClick = () => {
-    navigate('/vendor/login');
+    navigate('/white-label');
   };
 
   return (

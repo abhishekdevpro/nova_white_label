@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { FaStore } from "react-icons/fa";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CustomNavbar from "./Navbar";
 import Sidebar from "./Sidebar";
@@ -204,7 +204,7 @@ const Addvendor = () => {
           </Col>
         </Row>
       </Container>
-      <ToastContainer />
+     
     </div>
   );
 };

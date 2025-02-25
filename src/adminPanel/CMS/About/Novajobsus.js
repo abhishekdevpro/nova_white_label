@@ -55,7 +55,7 @@ function Novajobsus({ novaJobsusData }) {
       const imgData = JSON.parse(novaJobsusData.images);
       const updatedImages = imgData.map((img) => ({
         file: null,
-        preview: "https://api.novajobs.us" + img,
+        preview: "https://apiwl.novajobs.us" + img,
       }));
       setImages(updatedImages);
     }

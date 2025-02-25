@@ -262,10 +262,10 @@ const ChatBoxContentField = () => {
         let token = "";
 
         if (jobSeekerToken) {
-          apiUrl = "https://api.novajobs.us/api/jobseeker/user-profile";
+          apiUrl = "https://apiwl.novajobs.us/api/jobseeker/user-profile";
           token = jobSeekerToken;
         } else if (employerToken) {
-          apiUrl = "https://api.novajobs.us/api/employeer/employeer-profile";
+          apiUrl = "https://apiwl.novajobs.us/api/employeer/employeer-profile";
           token = employerToken;
         } else {
           console.error("No valid token found.");

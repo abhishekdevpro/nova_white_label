@@ -4,7 +4,6 @@ import { Modal } from "react-bootstrap";
 import Logout from "./Logout";
 
 import logo2 from "./../../images/logo.png";
-import { ToastContainer } from "react-toastify";
 var bnr3 = require("./../../images/background/bg3.jpg");
 
 class EmployeeHeader extends Component {
@@ -56,7 +55,7 @@ class EmployeeHeader extends Component {
     return (
       <>
         <header className="site-header mo-left header fullwidth">
-          <ToastContainer />
+
           <div className="sticky-header main-bar-wraper navbar-expand-lg">
             <div className="main-bar clearfix">
               <div className="container clearfix">

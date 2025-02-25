@@ -38,7 +38,7 @@ function ForJobseeker({ forJobseekerData }) {
     if (forJobseekerData.images && JSON.parse(forJobseekerData.images)) {
       const imgData = JSON.parse(forJobseekerData.images);
       setImagePreview(
-        imgData[0] ? "https://api.novajobs.us" + imgData[0] : logo2
+        imgData[0] ? "https://apiwl.novajobs.us" + imgData[0] : logo2
       );
     }
   }, [forJobseekerData]);

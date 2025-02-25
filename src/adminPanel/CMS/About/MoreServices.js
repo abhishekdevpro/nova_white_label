@@ -42,7 +42,7 @@ function MoreServices({ moreServicesData }) {
     if (moreServicesData.images && JSON.parse(moreServicesData.images)) {
       const imgData = JSON.parse(moreServicesData.images);
       setImagePreview(
-        imgData[0] ? "https://api.novajobs.us" + imgData[0] : logo5
+        imgData[0] ? "https://apiwl.novajobs.us" + imgData[0] : logo5
       );
     }
   }, [moreServicesData]);

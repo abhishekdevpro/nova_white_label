@@ -29,7 +29,7 @@ function EmployeeCompanyresume() {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem("employeeLoginToken");
-        let endpoint = `https://api.novajobs.us/api/employeer/jobs-applicants/${id}`;
+        let endpoint = `https://apiwl.novajobs.us/api/employeer/jobs-applicants/${id}`;
         
         if (view === "shortlisted") {
           endpoint += `?job_applied_status_id=1`;
@@ -88,7 +88,7 @@ function EmployeeCompanyresume() {
     try {
       const token = localStorage.getItem("employeeLoginToken");
       await axios.put(
-        `https://api.novajobs.us/api/employeer/action-applicants-job/${id}/${jobId}`,
+        `https://apiwl.novajobs.us/api/employeer/action-applicants-job/${id}/${jobId}`,
         { job_applied_status_id, createdAt },
         {
           headers: {
@@ -199,7 +199,7 @@ function EmployeeCompanyresume() {
 
   const handleViewResume = (resumeLink) => {
     if (resumeLink) {
-      setResumeLink(`https://api.novajobs.us${resumeLink}`); // Add full path if needed
+      setResumeLink(`https://apiwl.novajobs.us${resumeLink}`); // Add full path if needed
     } else {
       setResumeLink(null);
     }

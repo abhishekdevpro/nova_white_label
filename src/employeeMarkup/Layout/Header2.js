@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import Logout from "./Logout";
+import LogoWrapper from "../../markup/Layout/LogoWrapper";
 
 var bnr3 = require("./../../images/background/bg3.jpg");
 
@@ -57,7 +58,7 @@ class EmployeeHeader2 extends Component {
           <div className="sticky-header main-bar-wraper navbar-expand-lg">
             <div className="main-bar clearfix">
               <div className="container clearfix">
-                <div className="logo-header mostion">
+                {/* <div className="logo-header mostion">
                   <Link to={"/employer"}>
                     <img
                       src={require("./../../images/logo/NovaUS.png")}
@@ -65,7 +66,8 @@ class EmployeeHeader2 extends Component {
                       alt=""
                     />
                   </Link>
-                </div>
+                </div> */}
+                <LogoWrapper />
 
                 <button
                   className="navbar-toggler collapsed navicon justify-content-end"

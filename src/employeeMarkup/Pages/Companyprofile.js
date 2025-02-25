@@ -8,7 +8,6 @@ import { showToastError, showToastSuccess } from "../../utils/toastify";
 import { fetchCompanyInfo } from "../../store/thunkFunctions/companyFunction";
 import { useDispatch, useSelector } from "react-redux";
 import CompanySideBar from "../Layout/companySideBar";
-import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import TextEditor from "../Element/Editor";
 import ReactQuill from "react-quill";
@@ -59,7 +58,7 @@ function EmployeeCompanyprofile() {
     // Fetch industries from API
     axios({
       method: "GET",
-      url: "https://api.novajobs.us/api/employeer/company-industry",
+      url: "https://apiwl.novajobs.us/api/employeer/company-industry",
       headers: {
         Authorization: token, // Assuming you have token stored
       },
@@ -145,7 +144,7 @@ function EmployeeCompanyprofile() {
   const getCountry = async () => {
     axios({
       method: "get",
-      url: "https://api.novajobs.us/api/employeer/countries",
+      url: "https://apiwl.novajobs.us/api/employeer/countries",
       headers: {
         Authorization: token,
       },
@@ -159,9 +158,12 @@ function EmployeeCompanyprofile() {
   };
 
   const getState = async () => {
+    if(!selectedCountry){
+      return
+    }
     axios({
       method: "get",
-      url: `https://api.novajobs.us/api/employeer/stats/${selectedCountry}`,
+      url: `https://apiwl.novajobs.us/api/employeer/stats/${selectedCountry}`,
       headers: {
         Authorization: token,
       },
@@ -175,9 +177,12 @@ function EmployeeCompanyprofile() {
   };
 
   const getCities = async () => {
+    if(!selectedStates){
+      return
+    }
     axios({
       method: "get",
-      url: `https://api.novajobs.us/api/employeer/cities/${selectedStates}`,
+      url: `https://apiwl.novajobs.us/api/employeer/cities/${selectedStates}`,
       headers: {
         Authorization: token,
       },
@@ -287,7 +292,7 @@ function EmployeeCompanyprofile() {
       // First request to update company data
       await axios({
         method: "put",
-        url: `https://api.novajobs.us/api/employeer/company`,
+        url: `https://apiwl.novajobs.us/api/employeer/company`,
         headers: {
           Authorization: token,
         },
@@ -316,7 +321,7 @@ function EmployeeCompanyprofile() {
       // Second request to update company services
       await axios({
         method: "put",
-        url: `https://api.novajobs.us/api/employeer/company-services`,
+        url: `https://apiwl.novajobs.us/api/employeer/company-services`,
         headers: {
           Authorization: token,
           // No need to set 'Content-Type' when sending FormData; the browser sets it automatically
@@ -330,7 +335,7 @@ function EmployeeCompanyprofile() {
       showToastError("Failed to update company data or services.");
     }
   };
-
+// console.log(companyDetail,"companyDetail");
   return (
     <>
       <Header2 />
@@ -347,7 +352,7 @@ function EmployeeCompanyprofile() {
                         Company Profile
                       </h5>
                       <Link
-                        to={`/user/company/178`}
+                        // to={`/user/company/${companyDetail.id}`}
                         className="site-button right-arrow button-sm float-right"
                       >
                         View Company page
@@ -401,9 +406,10 @@ function EmployeeCompanyprofile() {
                             />
                           </div> */}
                           <div
-                            className="form-group"
+                            className="form-group  "
                             style={{ position: "relative" }}
                           >
+                            <label>Email ID</label>
                             <input
                               type="email"
                               className="form-control"
@@ -543,7 +549,7 @@ function EmployeeCompanyprofile() {
                                 {service.image && (
                                   <div className="col-lg-12 col-md-12 mt-2">
                                     <img
-                                      src={`https://api.novajobs.us${service.image}`}
+                                      src={`https://apiwl.novajobs.us${service.image}`}
                                       alt="Service"
                                       className="img-fluid"
                                       style={{ maxHeight: "100px" }}
@@ -723,7 +729,7 @@ function EmployeeCompanyprofile() {
         </div>
       </div>
       <Footer />
-      <ToastContainer />
+      
     </>
   );
 }

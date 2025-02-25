@@ -4,6 +4,7 @@ import VendorCompanySideBar from "../Vendorsidebar";
 import Footer from "../../markup/Layout/Footer";
 import VendorHeader from "../../markup/Layout/VendorHeader";
 import NavbarManagementForm from "./NavbarForm";
+import HeaderManagementForm from "./HeaderManagementForm";
 
 const PageWrapper = styled.div`
   background-color: white;
@@ -90,6 +91,7 @@ function VendorSetting() {
                 <ChatWrapper>
                   {/* <VendorPartnershipForm /> */}
                   <NavbarManagementForm/>
+                  <HeaderManagementForm/>
                 </ChatWrapper>
               </Row>
             </Container>

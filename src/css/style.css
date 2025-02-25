@@ -387,9 +387,9 @@ strong {
   text-transform: lowercase;
 }
 
-.text-uppercase {
+/* .text-uppercase {
   text-transform: uppercase;
-}
+} */
 
 .text-capitalize {
   text-transform: capitalize;
@@ -3639,7 +3639,8 @@ blockquote:before {
 .header-nav .nav > li {
   margin: 0px;
   font-weight: 400;
-  text-transform: uppercase;
+  /* font-size: 16px; */
+  text-transform: capitalize;
   position: relative;
 }
 

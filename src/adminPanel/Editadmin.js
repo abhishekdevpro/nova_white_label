@@ -7,7 +7,7 @@ import axios from "axios";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { ToastContainer } from "react-toastify";
+
 
 
 function Editadmin() {
@@ -44,7 +44,7 @@ function Editadmin() {
     // Fetch industries from API
     axios({
       method: "GET",
-      url: "https://api.novajobs.us/api/employeer/company-industry",
+      url: "https://apiwl.novajobs.us/api/employeer/company-industry",
       headers: {
         Authorization: token, // Assuming you have token stored
       },
@@ -68,7 +68,7 @@ function Editadmin() {
 
     axios({
       method: "put",
-      url: `https://api.novajobs.us/api/employeer/company`,
+      url: `https://apiwl.novajobs.us/api/employeer/company`,
       headers: {
         Authorization: token,
       },
@@ -128,7 +128,7 @@ function Editadmin() {
   const getCountry = async () => {
     axios({
       method: "get",
-      url: "https://api.novajobs.us/api/employeer/countries",
+      url: "https://apiwl.novajobs.us/api/employeer/countries",
       headers: {
         Authorization: token,
       },
@@ -144,7 +144,7 @@ function Editadmin() {
   const getState = async () => {
     axios({
       method: "get",
-      url: `https://api.novajobs.us/api/employeer/stats/${selectedCountry}`,
+      url: `https://apiwl.novajobs.us/api/employeer/stats/${selectedCountry}`,
       headers: {
         Authorization: token,
       },
@@ -160,7 +160,7 @@ function Editadmin() {
   const getCities = async () => {
     axios({
       method: "get",
-      url: `https://api.novajobs.us/api/employeer/cities/${selectedStates}`,
+      url: `https://apiwl.novajobs.us/api/employeer/cities/${selectedStates}`,
       headers: {
         Authorization: token,
       },
@@ -474,8 +474,6 @@ function Editadmin() {
           </div>
         </div>
       </div>
-
-      <ToastContainer />
     </>
   );
 }

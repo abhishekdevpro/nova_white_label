@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ReactPlayer from "react-player";
 import ReactQuill from "react-quill";
@@ -48,7 +48,7 @@ function Introductions({ introductionData }) {
     if (introductionData.images && JSON.parse(introductionData.images)) {
       const imgData = JSON.parse(introductionData.images);
       setImagePreview(
-        imgData[0] ? "https://api.novajobs.us" + imgData[0] : logo1
+        imgData[0] ? "https://apiwl.novajobs.us" + imgData[0] : logo1
       );
     }
   }, [introductionData]);
@@ -104,7 +104,6 @@ function Introductions({ introductionData }) {
 
   return (
     <>
-      <ToastContainer />
       <div className="mt-5">
         {authToken && (
           <button

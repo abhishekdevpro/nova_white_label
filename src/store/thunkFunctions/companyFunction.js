@@ -1,6 +1,31 @@
+// import { createAsyncThunk } from "@reduxjs/toolkit";
+// import axios from "axios";
+// import { showToastError } from "../../utils/toastify";
+// const token = localStorage.getItem("employeeLoginToken");
+
+// export const fetchCompanyInfo = createAsyncThunk(
+//   "company/fetchCompanyInfo",
+//   async (_, { rejectWithValue }) => {
+//     try {
+//       const response = await axios({
+//         method: "get",
+//         url: "https://apiwl.novajobs.us/api/employeer/employeer-profile",
+//         headers: {
+//           Authorization: token,
+//         },
+//       });
+//       console.log(response.data.data, "fulfilled");
+//       return response.data.data; // This is the resolved value used as action.payload
+//     } catch (error) {
+//       // Using rejectWithValue to return a custom error payload
+//       return rejectWithValue(error.toString());
+//     }
+//   }
+// );
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { showToastError } from "../../utils/toastify";
+
 const token = localStorage.getItem("employeeLoginToken");
 
 export const fetchCompanyInfo = createAsyncThunk(
@@ -9,16 +34,16 @@ export const fetchCompanyInfo = createAsyncThunk(
     try {
       const response = await axios({
         method: "get",
-        url: "https://api.novajobs.us/api/employeer/employeer-profile",
+        url: "https://apiwl.novajobs.us/api/employeer/employeer-profile",
         headers: {
-          Authorization: token,
+          Authorization: token,  
         },
       });
-      console.log(response.data.data, "fulfilled");
-      return response.data.data; // This is the resolved value used as action.payload
+      return response.data.data;  // Return the response data as action payload
     } catch (error) {
-      // Using rejectWithValue to return a custom error payload
-      return rejectWithValue(error.toString());
+      // Log the error and use rejectWithValue to handle the error in reducers
+      console.error("Error fetching company info:", error);
+      return rejectWithValue(error.message || "Something went wrong");
     }
   }
 );

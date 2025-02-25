@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaLinkedin, FaWhatsapp } from "react-icons/fa";
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { Link, useNavigate } from "react-router-dom";
@@ -38,7 +38,7 @@ function EmployeeCompanymanage() {
   const fetchPublishedJobs = () => {
     axios({
       method: "GET",
-      url: "https://api.novajobs.us/api/employeer/job-lists?is_publish=1",
+      url: "https://apiwl.novajobs.us/api/employeer/job-lists?is_publish=1",
       headers: {
         Authorization: token,
       },
@@ -74,7 +74,7 @@ function EmployeeCompanymanage() {
   
     axios({
       method: "PUT",
-      url: `https://api.novajobs.us/api/employeer/job-post/${id}`,
+      url: `https://apiwl.novajobs.us/api/employeer/job-post/${id}`,
       headers: {
         Authorization: token,
       },
@@ -149,7 +149,7 @@ function EmployeeCompanymanage() {
   return (
     <div className="position-relative">
       <Header2 />
-      <ToastContainer/>
+     
       <div className="page-content bg-white ">
         <div className="content-block">
           <div className="section-full bg-white p-t50 p-b20">

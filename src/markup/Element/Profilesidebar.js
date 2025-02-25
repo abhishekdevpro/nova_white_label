@@ -9,6 +9,7 @@ import {
   FaLightbulb,
   FaUserFriends,
 } from "react-icons/fa";
+import { Bell, Briefcase, File, FileTextIcon, Heart, IdCard, LogOut, User } from "lucide-react";
 // import { FaStar } from "react-icons/fa6";
 
 function Profilesidebar({ data }) {
@@ -19,7 +20,6 @@ function Profilesidebar({ data }) {
   useEffect(() => {
     const storedToken = localStorage.getItem("jobSeekerLoginToken");
     if (storedToken) {
-      console.log("Stored token:", storedToken); // Log the stored token when component mounts
       setToken(storedToken);
     }
   }, []);
@@ -48,7 +48,7 @@ function Profilesidebar({ data }) {
                   className={data === "profile" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
                 >
-                  <i className="fa fa-user-o" aria-hidden="true"></i>
+                  <User className="me-2" />
                   <span>Profile</span>
                 </Link>
               </li>
@@ -60,7 +60,7 @@ function Profilesidebar({ data }) {
                   className={data === "resume" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
                 >
-                  <i className="fa fa-file-text-o" aria-hidden="true"></i>
+                  <FileTextIcon className="me-2" /> 
                   <span>AI Resume Builder</span>
                 </Link>
               </li>
@@ -70,7 +70,7 @@ function Profilesidebar({ data }) {
                   className={data === "resume-list" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
                 >
-                  <i className="fa fa-file-text-o" aria-hidden="true"></i>
+                  <File className="me-2" />
                   <span>My Resumes</span>
                 </Link>
               </li>
@@ -80,7 +80,7 @@ function Profilesidebar({ data }) {
                   className={data === "saved-jobs" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
                 >
-                  <i className="fa fa-heart-o" aria-hidden="true"></i>
+                 <Heart className="me-2"/>
                   <span>Saved Jobs</span>
                 </Link>
               </li>
@@ -90,7 +90,7 @@ function Profilesidebar({ data }) {
                   className={data === "applied-jobs" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
                 >
-                  <i className="fa fa-briefcase" aria-hidden="true"></i>
+                  <Briefcase className="me-2"/>
                   <span>Applied Jobs</span>
                 </Link>
               </li>
@@ -101,7 +101,7 @@ function Profilesidebar({ data }) {
                   className={data === "skill-test" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
                 >
-                  <FaLightbulb />
+                  <FaLightbulb className="me-2"/>
                   <span>Skill Test</span>
                 </Link>
               </li>
@@ -111,7 +111,7 @@ function Profilesidebar({ data }) {
                   className={data === "skill-test-history" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
                 >
-                  <FaHistory />
+                  <FaHistory className="me-2" />
                   <span>Skill Test History</span>
                 </Link>
               </li>
@@ -121,7 +121,7 @@ function Profilesidebar({ data }) {
                   className={data === "community" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
                 >
-                  <FaUserFriends />
+                  <FaUserFriends className="me-2" />
                   <span>Community</span>
                 </Link>
               </li>
@@ -131,17 +131,17 @@ function Profilesidebar({ data }) {
                   className={data === "messages" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
                 >
-                  <FaComment />
+                  <FaComment className="me-2" />
                   <span>Messages</span>
                 </Link>
               </li>
               <li>
                 <Link
-                  to={""}
+                  to={"/user/ultraaura-courses"}
                   className={data === "ultra-aura" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
                 >
-                  <FaExternalLinkAlt />
+                  <FaExternalLinkAlt  className="me-2"/>
                   <span>Ultra Aura</span>
                 </Link>
               </li>
@@ -151,7 +151,7 @@ function Profilesidebar({ data }) {
                   className={data === "jobs-referral" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
                 >
-                  <i className="fa fa-id-card-o" aria-hidden="true"></i>
+                  <IdCard className="me-2"/>
                   <span>Add Referral </span>
                 </Link>
               </li>
@@ -161,11 +161,11 @@ function Profilesidebar({ data }) {
                   className={data === "jobs-alerts" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
                 >
-                  <i className="fa fa-bell-o" aria-hidden="true"></i>
+                  <Bell className="me-2" />
                   <span>Notifications</span>
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link
                   to={"/user/jobs-change-password"}
                   className={data === "password" ? "active" : null}
@@ -174,7 +174,7 @@ function Profilesidebar({ data }) {
                   <i className="fa fa-key" aria-hidden="true"></i>
                   <span>Change Password</span>
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link
                   to={"/user/login"}
@@ -183,7 +183,7 @@ function Profilesidebar({ data }) {
                     setSidebarOpen(false);
                   }}
                 >
-                  <i className="fa fa-sign-out" aria-hidden="true"></i>
+                  <LogOut className="me-2"/>
                   <span>Log Out</span>
                 </Link>
               </li>

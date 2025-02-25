@@ -4,7 +4,7 @@ import axios from "axios";
 import { showToastError, showToastSuccess } from "../../utils/toastify";
 import { connect } from "react-redux";
 import { useDispatch } from "react-redux";
-import { ToastContainer } from "react-toastify";
+
 
 
 function VerifyEmailemployee() {
@@ -14,7 +14,7 @@ function VerifyEmailemployee() {
   useEffect(() => {
     const verifyEmail = async () => {
       try {
-        const response = await axios.get(`https://api.novajobs.us/api/employeer/verify-account/${token}`);
+        const response = await axios.get(`https://apiwl.novajobs.us/api/employeer/verify-account/${token}`);
         console.log(response)
         if (response.data) { 
           showToastSuccess("Email verified successfully");
@@ -36,7 +36,7 @@ function VerifyEmailemployee() {
   return (
     <>
     <div>Verifying...</div>
-    <ToastContainer /></>
+    </>
   );
 }
 

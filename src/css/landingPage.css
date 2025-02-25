@@ -46,7 +46,7 @@ body {
     display: flex;
     padding: 1% 20%;
     justify-content: center;
-    gap: 3%;
+    /* gap: 3%; */
 }
 
 .service-div {

@@ -38,7 +38,7 @@
 //   const toggleFabJobs = async () => {
 //     try {
 //       await axios({
-//         url: "https://api.novajobs.us/api/jobseeker/job-favorites",
+//         url: "https://apiwl.novajobs.us/api/jobseeker/job-favorites",
 //         method: "POST",
 //         headers: { Authorization: token },
 //         data: {
@@ -62,7 +62,7 @@
 //   useEffect(() => {
 //     axios({
 //       method: "GET",
-//       url: "https://api.novajobs.us/api/employeer/job-seekers",
+//       url: "https://apiwl.novajobs.us/api/employeer/job-seekers",
 //       headers: {
 //         Authorization: token,
 //       },
@@ -222,7 +222,7 @@
 //   const getJobTyes = async () => {
 //     await axios({
 //       method: "GET",
-//       url: "https://api.novajobs.us/api/jobseeker/job-types",
+//       url: "https://apiwl.novajobs.us/api/jobseeker/job-types",
 
 //       headers: {
 //         Authorization: token,
@@ -240,7 +240,7 @@
 //   const getWorkplaceType = () => {
 //     axios({
 //       method: "GET",
-//       url: "https://api.novajobs.us/api/jobseeker/workplace-types",
+//       url: "https://apiwl.novajobs.us/api/jobseeker/workplace-types",
 //       headers: {
 //         Authorization: token,
 //       },
@@ -257,7 +257,7 @@
 //   const getCountry = () => {
 //     axios({
 //       method: "GET",
-//       url: "https://api.novajobs.us/api/jobseeker/countries",
+//       url: "https://apiwl.novajobs.us/api/jobseeker/countries",
 //       headers: {
 //         Authorization: token,
 //       },
@@ -275,7 +275,7 @@
 //   const getState = () => {
 //     axios({
 //       method: "GET",
-//       url: `https://api.novajobs.us/api/jobseeker/stats/231`,
+//       url: `https://apiwl.novajobs.us/api/jobseeker/stats/231`,
 //       headers: {
 //         Authorization: token,
 //       },
@@ -294,7 +294,7 @@
 //   const getCities = () => {
 //     axios({
 //       method: "GET",
-//       url: `https://api.novajobs.us/api/jobseeker/cities/${jobApplicationValues.state_id}`,
+//       url: `https://apiwl.novajobs.us/api/jobseeker/cities/${jobApplicationValues.state_id}`,
 //       headers: {
 //         Authorization: token,
 //       },
@@ -312,7 +312,7 @@
 //   const getExperience = () => {
 //     axios({
 //       method: "GET",
-//       url: "https://api.novajobs.us/api/jobseeker/experience-level",
+//       url: "https://apiwl.novajobs.us/api/jobseeker/experience-level",
 //       headers: {
 //         Authorization: token,
 //       },
@@ -367,7 +367,7 @@
 //   useEffect(() => {
 //     axios({
 //       method: "GET",
-//       url: "https://api.novajobs.us/api/jobseeker/job-categories",
+//       url: "https://apiwl.novajobs.us/api/jobseeker/job-categories",
 //       headers: {
 //         Authorization: token,
 //       },
@@ -381,7 +381,7 @@
 
 //   const submitApplication = async () => {
 //     await axios({
-//       url: "https://api.novajobs.us/api/jobseeker/jobs-applied",
+//       url: "https://apiwl.novajobs.us/api/jobseeker/jobs-applied",
 //       method: "POST",
 //       headers: {
 //         Authorization: token,
@@ -401,7 +401,7 @@
 
 //   const selectedLocation = localStorage.getItem("selectedLocation");
 //   const title_keyword = localStorage.getItem("title_keyword");
-//   const baseUrl = "https://api.novajobs.us/api/jobseeker/job-lists";
+//   const baseUrl = "https://apiwl.novajobs.us/api/jobseeker/job-lists";
 
 //   const params = new URLSearchParams();
 

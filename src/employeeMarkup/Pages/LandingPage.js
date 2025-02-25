@@ -155,10 +155,19 @@ const LandingPage = () => {
         </Modal.Body>
       </Modal>
       <br />
-      <div className="position-absolute top-5 start-50 translate-middle text-center">
+      {/* <div className="position-absolute top-5 start-50 translate-middle text-center">
         <div className="container">
-          <div className="row">
-            <div className="col-12 d-flex justify-content-center mt-5 pt-5">
+          <div className="row ">
+            
+          </div>
+        </div>
+      </div> */}
+
+      <div className="banner mb-4">
+        <div className="banner-text flex flex-col">
+          {/* <h1 className="fw-bold text-black m-4">What we offer</h1> */}
+          {/* <div className="d-flex flex-col">
+          <div className=" d-flex justify-content-start mt-5 pt-5">
               <button
                 className="site-button mt-5 fw-bold responsive-button "
                 onClick={handleShow}
@@ -167,20 +176,28 @@ const LandingPage = () => {
                 Employers & Staffing Companies
               </button>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="banner">
-        <div className="banner-text mt-5 pt-4 flex flex-col">
-          <h1 className="fw-bold text-black m-4">What we offer</h1>
-          <span className="fw-bold text-black m-2">
+          <span className="fw-bold text-black text-center col-8 m-2">
             Looking for your dream job or the perfect candidate? Our platform
             connects job seekers and employers with ease. Post job listings or
             browse opportunities across industries. Whether you're hiring or
             searching, we make the process seamless and efficient. Start your
             journey to success today!
           </span>
+          </div> */}
+          <div className="d-flex flex-column align-items-center">
+  <div className="d-flex justify-content-start">
+    <button
+      className="site-button fw-bold responsive-button mt-3 text-center"
+      onClick={handleShow}
+    >
+      Explore Our One-stop White Label AI-Enabled Services for Employers & Staffing Companies
+    </button>
+  </div>
+  <span className="fw-bold text-black text-center col-8 mt-3">
+    Looking for your dream job or the perfect candidate? Our platform connects job seekers and employers with ease. Post job listings or browse opportunities across industries. Whether you're hiring or searching, we make the process seamless and efficient. Start your journey to success today!
+  </span>
+</div>
+
         </div>
         <div className="banner-img">
           <img src={img} alt="Banner" />

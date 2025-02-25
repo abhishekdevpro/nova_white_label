@@ -143,7 +143,7 @@ const NotificationsHistory = () => {
       }
 
       const response = await axios.get(
-        "https://api.novajobs.us/api/employeer/notifications",
+        "https://apiwl.novajobs.us/api/employeer/notifications",
         {
           headers: { 
            

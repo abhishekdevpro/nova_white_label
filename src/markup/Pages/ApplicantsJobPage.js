@@ -17,7 +17,7 @@
 //   //   const jobData = async () => {
 //   //     await axios({
 //   //       method: "get",
-//   //       url: "https://api.novajobs.us/api/employeer/jobs-applicants",
+//   //       url: "https://apiwl.novajobs.us/api/employeer/jobs-applicants",
 //   //       headers: {
 //   //         Authorization: token,
 //   //       },
@@ -35,7 +35,7 @@
 //   useEffect(() => {
 //     axios({
 //       method: "GET",
-//       url: "https://api.novajobs.us/api/jobseeker/job-lists",
+//       url: "https://apiwl.novajobs.us/api/jobseeker/job-lists",
 //       headers: {
 //         Authorization: token,
 //         "Content-Type": "application/json"
@@ -436,7 +436,7 @@ function ApplicantsJobPage() {
   useEffect(() => {
     axios({
       method: "GET",
-      url: "https://api.novajobs.us/api/jobseeker/job-lists",
+      url: "https://apiwl.novajobs.us/api/jobseeker/job-lists",
       headers: {
         Authorization: token,
         "Content-Type": "application/json",

@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 
 import { Navbar, Nav, Badge } from 'react-bootstrap';
 import axios from "axios";
-import { ToastContainer } from "react-toastify";
 import VendorCompanySideBar from "./Vendorsidebar";
 import { showToastError, showToastSuccess } from "../utils/toastify";
 import 'react-toastify/dist/ReactToastify.css'; 
@@ -60,7 +59,7 @@ function VendorChangepasswordpage() {
 
   return (
     <>
-      <ToastContainer />
+      
       <div className="page-content bg-white">
        <VendorHeader/>
         <div className="content-block">

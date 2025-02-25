@@ -9,10 +9,11 @@ import {
   setSkillsData,
 } from "../../store/reducers/postAJobSlice";
 import { fetchCompanyInfo } from "../../store/thunkFunctions/companyFunction";
-import { ToastContainer } from "react-toastify";
+
 import "../../css/profilesidebar.css";
 import { FaBell, FaComment } from "react-icons/fa";
 import { FaUser } from "react-icons/fa6";
+import { Briefcase, Building2, FileText, LogOut, User2Icon, WalletCards } from "lucide-react";
 
 const CompanySideBar = ({ active }) => {
   const token = localStorage.getItem("employeeLoginToken");
@@ -24,7 +25,7 @@ const CompanySideBar = ({ active }) => {
   const dispatch = useDispatch();
   const postJob = async () => {
     await axios({
-      url: "https://api.novajobs.us/api/employeer/job-post",
+      url: "https://apiwl.novajobs.us/api/employeer/job-post",
       method: "POST",
       headers: {
         Authorization: token,
@@ -60,7 +61,7 @@ const CompanySideBar = ({ active }) => {
     try {
       const response = await axios({
         method: "get",
-        url: "https://api.novajobs.us/api/employeer/employeer-profile",
+        url: "https://apiwl.novajobs.us/api/employeer/employeer-profile",
         headers: {
           Authorization: token,
         },
@@ -77,10 +78,10 @@ const CompanySideBar = ({ active }) => {
   };
 
   useEffect(() => {
-    getLogo(); // Fetch logo on component mount
+    // getLogo(); // Fetch logo on component mount
   }, []); // Empty dependency array ensures it runs only once
 
-  console.log(logo, "lavi");
+  // console.log(logo, "lavi");
 
   const companyData = useSelector(
     (state) => state.companyDataSlice.companyData
@@ -102,7 +103,7 @@ const CompanySideBar = ({ active }) => {
     e.preventDefault();
     axios({
       method: "PUT",
-      url: "https://api.novajobs.us/api/employeer/company-logo",
+      url: "https://apiwl.novajobs.us/api/employeer/company-logo",
       headers: {
         Authorization: token,
       },
@@ -123,7 +124,7 @@ const CompanySideBar = ({ active }) => {
       </button>
       <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
         <div className="">
-          <ToastContainer />
+          
           <div className="sticky-top">
             <div className="candidate-info company-info">
               <div className="candidate-detail text-center">
@@ -190,7 +191,7 @@ const CompanySideBar = ({ active }) => {
                     to={"/employer/company-profile"}
                     className={active === "company" ? "active" : null}
                   >
-                    <i className="fa fa-user-o" aria-hidden="true"></i>
+                    <Building2 className="me-2" />
                     <span>Company Profile</span>
                   </Link>
                 </li>
@@ -200,7 +201,7 @@ const CompanySideBar = ({ active }) => {
                     onClick={postJob}
                     //   to={"/employer/company-post-jobs"}
                   >
-                    <i className="fa fa-file-text-o" aria-hidden="true"></i>
+                   <FileText className="me-2"/>
                     <span>Post A Job</span>
                   </Link>
                 </li>
@@ -211,7 +212,7 @@ const CompanySideBar = ({ active }) => {
                       active === "company-manage-job" ? "active" : null
                     }
                   >
-                    <i className="fa fa-briefcase" aria-hidden="true"></i>
+                    <Briefcase className="me-2"/>
                     <span>Manage jobs</span>
                   </Link>
                 </li>
@@ -220,7 +221,7 @@ const CompanySideBar = ({ active }) => {
                     className={active === "community" ? "active" : null}
                     to={"/employer/community"}
                   >
-                    <FaUser />
+                    <FaUser className="me-2"/>
                     <span>Community</span>
                   </Link>
                 </li>
@@ -229,7 +230,7 @@ const CompanySideBar = ({ active }) => {
                     className={active === "messages" ? "active" : null}
                     to={"/employer/messages"}
                   >
-                    <FaComment />
+                    <FaComment className="me-2"/>
                     <span>Messages</span>
                   </Link>
                 </li>
@@ -238,7 +239,7 @@ const CompanySideBar = ({ active }) => {
                     className={active === "notifications" ? "active" : null}
                     to={"/employer/jobs-alerts"}
                   >
-                    <FaBell />
+                    <FaBell className="me-2"/>
                     <span>Notifications</span>
                   </Link>
                 </li>
@@ -246,11 +247,11 @@ const CompanySideBar = ({ active }) => {
                 <li>
                   <Link
                     to={"/employer/browse-candidates"}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    // target="_blank"
+                    // rel="noopener noreferrer"
                     className={active === "browse-candidates" ? "active" : null}
                   >
-                    <i className="fa fa-user-o" aria-hidden="true"></i>
+                    <User2Icon className="me-2" />
                     <span>Browse Candidates</span>
                   </Link>
                 </li>
@@ -259,7 +260,7 @@ const CompanySideBar = ({ active }) => {
                     className={active === "wallet" ? "active" : null}
                     to={"/employer/company-transactions"}
                   >
-                    <i className="fa fa-random" aria-hidden="true"></i>
+                    <WalletCards className="me-2"/>
                     <span>Wallet</span>
                   </Link>
                 </li>
@@ -274,7 +275,7 @@ const CompanySideBar = ({ active }) => {
               </Link>
             </li> */}
 
-                <li>
+                {/* <li>
                   <Link
                     to={"/employer/jobs-change-password"}
                     className={
@@ -284,10 +285,10 @@ const CompanySideBar = ({ active }) => {
                     <i className="fa fa-key" aria-hidden="true"></i>
                     <span>Change Password</span>
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link to={"/"}>
-                    <i className="fa fa-sign-out" aria-hidden="true"></i>
+                    <LogOut className="me-2"/>
                     <span>Log Out</span>
                   </Link>
                 </li>
