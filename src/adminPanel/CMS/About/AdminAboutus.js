@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import axios from "axios";
 
 import Introductions from "./Introductions";
@@ -10,7 +11,9 @@ import MoreServices from "./MoreServices";
 function AdminAboutus({ projectName }) {
   const [sections, setSections] = React.useState([]);
 
+
   const [activeSection, setActiveSection] = useState(null);
+
   // Fetch data from the GET API
   const fetchContent = async () => {
     try {
@@ -36,6 +39,7 @@ function AdminAboutus({ projectName }) {
     return sections.find((section) => section.id === id);
   };
 
+
   const toggleSection = (id) => {
     setActiveSection(activeSection === id ? null : id);
   };
@@ -47,6 +51,7 @@ function AdminAboutus({ projectName }) {
             <div className="container">
               <div className="m-b30">
                 <div className="job-bx">
+
                   {" "}
                   <div className="accordion-container">
                     {sections.length ? (
@@ -131,6 +136,7 @@ function AdminAboutus({ projectName }) {
                       </>
                     ) : null}
                   </div>
+
                 </div>
               </div>
             </div>

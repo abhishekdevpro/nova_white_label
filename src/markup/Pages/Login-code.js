@@ -49,6 +49,7 @@ const LoginCode = () => {
 
       navigate(`/user/jobs-profile`);
     } catch (error) {
+      toast.error(error.response?.data?.message || "Invalid OTP. Please try again.")
       console.error(
         error.response?.data?.message || "Invalid OTP. Please try again."
       );

@@ -12,11 +12,12 @@ import img8 from "../../images/services/Pink Cute Illustration Discord Avatar (1
 import img9 from "../../images/services/Pink Cute Illustration Discord Avatar.png";
 
 import { Modal } from "react-bootstrap";
-import Header from "./../Layout/Header";
+
 import Footer from "./../Layout/Footer";
 import Headerservice from "../../markup/Layout/Headerservice";
 import EmployeeHeader from "./../Layout/Header";
 import { Link ,useNavigate } from "react-router-dom";
+import UserHeader from "../../markup/Layout/Header";
 
 const LandingPage = () => {
   const [show, setShow] = useState(false);
@@ -49,7 +50,7 @@ const LandingPage = () => {
       {localStorage.getItem("employeeLoginToken") ? (
         <EmployeeHeader />
       ) : (
-        <Headerservice />
+        <UserHeader />
       )}
 
       <Modal

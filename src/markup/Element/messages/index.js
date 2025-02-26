@@ -7,6 +7,8 @@ import Footer from "../../Layout/Footer";
 import ChatBoxContentField from "./ChatBox";
 import CompanySideBar from "../../../employeeMarkup/Layout/companySideBar";
 import EmployeeHeader2 from "../../../employeeMarkup/Layout/Header2";
+import { useLocation } from "react-router-dom";
+
 
 const PageWrapper = styled.div`
   background-color: white;
@@ -74,13 +76,20 @@ const ChatWrapper = styled.div`
     max-width: 100%;
   }
 `;
-const jobseekerToken = localStorage.getItem("jobSeekerLoginToken");
-console.log(jobseekerToken);
+
+
+
+// console.log(jobseekerToken);
+
 function Messages() {
+  const location = useLocation();
+  const isUserMessagesRoute = location.pathname === "/user/messages"
+  console.log(isUserMessagesRoute,"isUserMessagesRoute");
+  const jobseekerToken = localStorage.getItem("jobSeekerLoginToken");
   return (
     <>
-      {jobseekerToken ? <UserHeader2 /> : <EmployeeHeader2 />}
-      {jobseekerToken ? <FixedHeader /> : ""}
+      {isUserMessagesRoute && jobseekerToken ? <UserHeader2 /> : <EmployeeHeader2 />}
+      {isUserMessagesRoute && jobseekerToken ? <FixedHeader /> : ""}
 
       <PageWrapper>
         <ContentBlock>
@@ -88,7 +97,7 @@ function Messages() {
             <Container>
               <Row>
                 <SidebarWrapper>
-                  {jobseekerToken ? (
+                  {isUserMessagesRoute&&jobseekerToken ? (
                     <Profilesidebar data="messages" />
                   ) : (
                     <CompanySideBar active="messages" />

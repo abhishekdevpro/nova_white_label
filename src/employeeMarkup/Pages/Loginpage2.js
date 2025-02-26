@@ -539,8 +539,9 @@ import { showToastError } from "../../utils/toastify";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Footer from "../Layout/Footer";
-import Header from "../Layout/Header";
+
 import { Modal } from "react-bootstrap";
+import UserHeader from "../../markup/Layout/Header";
 
 const bnr3 = require("./../../images/background/bg3.jpg");
 function EmployeeLogin(props) {
@@ -720,7 +721,7 @@ function EmployeeLogin(props) {
   };
   return (
     <div className="page-wraper">
-      <Header />
+      <UserHeader />
       
       <div
         className="page-content bg-white login-style2"

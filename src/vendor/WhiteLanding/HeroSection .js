@@ -294,7 +294,7 @@ const Hero = () => {
         <ButtonsContainer>
           <Button href="/white-label-started">Get Started Now</Button>
           {/* <VendorPartnershipForm /> */}
-          <Button href="#">Book A Call</Button>
+          {/* <Button href="#">Book A Call</Button> */}
         </ButtonsContainer>
         <TrustLogos>
           <span>Trusted by</span>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { toast} from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ReactPlayer from "react-player";
 import ReactQuill from "react-quill";
@@ -36,6 +36,7 @@ function Introductions({ introductionData, projectName }) {
   const [imagePreview, setImagePreview] = useState(logo1);
   const [loading, setLoading] = useState(false);
 
+
   const [showHeading, setShowHeading] = useState(true);
   const [showParagraph1, setShowParagraph1] = useState(true);
   const [showParagraph1A, setShowParagraph1A] = useState(true);
@@ -47,15 +48,18 @@ function Introductions({ introductionData, projectName }) {
   const [pdfPreview, setPdfPreview] = useState(null);
   const [showPdf, setShowPdf] = useState(true);
 
+
   const authToken = localStorage.getItem("authToken");
   useEffect(() => {
     if (!introductionData) return;
 
     if (introductionData.pdf && JSON.parse(introductionData.pdf)) {
       const pdfData = JSON.parse(introductionData.pdf);
+      
       setPdfPreview(
         pdfData[0] ? "https://apiwl.novajobs.us" + pdfData[0] : null
       );
+
     }
   }, [introductionData]);
   const handlePdfChange = (e) => {
@@ -164,6 +168,7 @@ function Introductions({ introductionData, projectName }) {
 
   return (
     <>
+      <ToastContainer />
       <div className="mt-5">
         {authToken && (
           <button
@@ -176,6 +181,7 @@ function Introductions({ introductionData, projectName }) {
         <div className="mx-3 mx-lg-5 mb-4 mb-lg-0">
           {isEditing ? (
             <div>
+
               <div className="d-flex justify-content-start gap-2">
                 <div className="d-flex justify-content-start gap-2">
                   <label className="form-check form-switch">
@@ -199,6 +205,7 @@ function Introductions({ introductionData, projectName }) {
                     />
                   )}
                 </label>
+
               </div>
               <div>
                 <div className="d-flex justify-content-start gap-4">
@@ -219,8 +226,10 @@ function Introductions({ introductionData, projectName }) {
                         onChange={() => setShowParagraph1(!showParagraph1)}
                       />
                       <span className="form-check-label">
+
                         {/* {showParagraph1 ? "Hide" : "Show"}  */}
                         Paragraph 1
+
                       </span>
                     </label>
                   </div>
@@ -251,8 +260,10 @@ function Introductions({ introductionData, projectName }) {
                         onChange={() => setShowParagraph1B(!showParagraph1B)}
                       />
                       <span className="form-check-label">
+
                         {/* {showParagraph1B ? "Hide" : "Show"}  */}
                         paragraph3
+
                       </span>
                     </label>
                   </div>
@@ -265,7 +276,9 @@ function Introductions({ introductionData, projectName }) {
                 )}
               </div>
 
+
               <div className="d-flex justify-content-start gap-4 mt-4">
+
                 <div className="d-flex justify-content-start gap-2">
                   <label className="form-check form-switch mt-4 mb-2">
                     <input
@@ -276,6 +289,7 @@ function Introductions({ introductionData, projectName }) {
                       onChange={() => setShowVideo(!showVideo)}
                     />
                     <span className="form-check-label">
+
                       {/* {showVideo ? "Hide" : "Show"} Video */}
                       Video Urls :
                     </span>
@@ -299,6 +313,7 @@ function Introductions({ introductionData, projectName }) {
                 >
                   Delete Video URL
                 </button> */}
+
               </div>
               {showVideo && (
                 <ReactPlayer
@@ -315,6 +330,7 @@ function Introductions({ introductionData, projectName }) {
                 />
               )}
               <div className="d-flex justify-content-start gap-4">
+
                 <div className="d-flex justify-content-start gap-2">
                   <label className="form-check form-switch mt-4 mb-2">
                     <input
@@ -333,6 +349,7 @@ function Introductions({ introductionData, projectName }) {
                 {showpdfheading && (
                   <label>
                     {/* Heading (Title Mandatory): */}
+
                     <input
                       type="text"
                       value={pdfheading}
@@ -341,13 +358,16 @@ function Introductions({ introductionData, projectName }) {
                     />
                   </label>
                 )}
+
               </div>
               <div className="d-flex justify-content-start gap-4">
+
                 <div className="d-flex justify-content-start gap-2">
                   <label className="form-check form-switch mt-4 mb-2">
                     <input
                       className="form-check-input"
                       type="checkbox"
+
                       checked={showPdf}
                       onChange={() => setShowPdf(!showPdf)}
                     />
@@ -356,6 +376,7 @@ function Introductions({ introductionData, projectName }) {
                     </span> */}
                   </label>
                 </div>
+
                 <label className="mt-3">
                   Upload PDF:
                   <input
@@ -365,6 +386,7 @@ function Introductions({ introductionData, projectName }) {
                     className="form-control mt-2"
                   />
                 </label>
+
               </div>
 
               {showPdf && pdfPreview && (
@@ -403,8 +425,10 @@ function Introductions({ introductionData, projectName }) {
                       onChange={() => setShowParagraph1A(!showParagraph1A)}
                     />
                     <span className="form-check-label">
+
                       {/* {showParagraph1A ? "Hide" : "Show"}  */}
                       paragraph2
+
                     </span>
                   </label>
                 </div>
@@ -417,6 +441,7 @@ function Introductions({ introductionData, projectName }) {
               )}
 
               <div className="d-flex justify-content-start gap-4 ">
+
                 <div className="d-flex justify-content-start gap-2">
                   <label className="form-check form-switch mt-4 mb-2">
                     <input
@@ -427,6 +452,7 @@ function Introductions({ introductionData, projectName }) {
                       onChange={() => setShowImage(!showImage)}
                     />
                     <span className="form-check-label">
+
                       {/* {showImage ? "Hide" : "Show"} */}
                       Change Image (400px x 800px):
                     </span>
@@ -443,6 +469,7 @@ function Introductions({ introductionData, projectName }) {
                     />
                   </label>
                 )}
+
               </div>
 
               {showImage && imagePreview && (
@@ -463,6 +490,7 @@ function Introductions({ introductionData, projectName }) {
                   />
                 </div>
               )}
+
               <div className="mt-4">
                 <button
                   className="btn btn-primary mt-3"
@@ -478,6 +506,7 @@ function Introductions({ introductionData, projectName }) {
                   Cancel
                 </button>
               </div>
+
             </div>
           ) : (
             <div>

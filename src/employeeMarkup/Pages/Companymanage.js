@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { Link, useNavigate } from "react-router-dom";
 import Header2 from "./../Layout/Header2";
-import Footer from "./../Layout/Footer";
+import Footer from "../../markup/Layout/Footer";
 import { Modal } from "react-bootstrap";
 import CompanySideBar from "../Layout/companySideBar";
 import axios from "axios";

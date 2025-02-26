@@ -144,6 +144,7 @@ function MoreServices({ moreServicesData, projectName }) {
         {isEditing ? (
           <div className="mx-3 mx-lg-5 mb-4 mb-lg-0">
             <div className="d-flex justify-content-start gap-4">
+
               <div className="d-flex justify-content-start gap-2 ms-2">
                 <label className="form-check form-switch mt-4 mb-2">
                   <input
@@ -153,6 +154,7 @@ function MoreServices({ moreServicesData, projectName }) {
                     checked={isHeadingVisible}
                     onChange={() => setIsHeadingVisible(!isHeadingVisible)}
                   />
+
                   {/* <span className="form-check-label">
                     {isHeadingVisible ? "Hide Heading" : "Show Heading"}
                   </span> */}
@@ -173,6 +175,7 @@ function MoreServices({ moreServicesData, projectName }) {
             </div>
 
             <div className="d-flex justify-content-start gap-2 mt-4">
+
               <label className="form-check form-switch">
                 <input
                   className="form-check-input"
@@ -181,8 +184,10 @@ function MoreServices({ moreServicesData, projectName }) {
                   onChange={() => setShowParagraph1(!showParagraph1)}
                 />
                 <span className="form-check-label">
+
                   {/* {showParagraph1 ? "Hide Paragraph 1" : "Show Paragraph 1"} */}
                   Paragraph 1
+
                 </span>
               </label>
             </div>
@@ -191,7 +196,9 @@ function MoreServices({ moreServicesData, projectName }) {
               <ReactQuill value={paragraph1} onChange={setParagraph1} />
             )}
 
+
             <div className="d-flex justify-content-start gap-2 mt-4">
+
               <label className="form-check form-switch">
                 <input
                   className="form-check-input"
@@ -200,8 +207,10 @@ function MoreServices({ moreServicesData, projectName }) {
                   onChange={() => setShowParagraph2(!showParagraph2)}
                 />
                 <span className="form-check-label">
+
                   {/* {showParagraph2 ? "Hide Paragraph 2" : "Show Paragraph 2"} */}
                   Paragraph 2
+
                 </span>
               </label>
             </div>
@@ -209,7 +218,9 @@ function MoreServices({ moreServicesData, projectName }) {
             {showParagraph2 && (
               <ReactQuill value={paragraph2} onChange={setParagraph2} />
             )}
+
             <div className="d-flex justify-content-start gap-2 mt-4">
+
               <label className="form-check form-switch">
                 <input
                   className="form-check-input"
@@ -218,8 +229,10 @@ function MoreServices({ moreServicesData, projectName }) {
                   onChange={() => setShowParagraph3(!showParagraph3)}
                 />
                 <span className="form-check-label">
+
                   {/* {showParagraph3 ? "Hide Paragraph 1" : "Show Paragraph 1"} */}
                   Paragraph 3
+
                 </span>
               </label>
             </div>
@@ -266,6 +279,7 @@ function MoreServices({ moreServicesData, projectName }) {
                 />
               </label>
             </div>
+
             <div className="mt-3">
               <p>
                 <strong>Preview:</strong>
@@ -282,6 +296,7 @@ function MoreServices({ moreServicesData, projectName }) {
                   }}
                 />
               )}
+
             </div>
 
             <button

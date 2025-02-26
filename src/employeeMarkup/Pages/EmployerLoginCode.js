@@ -42,14 +42,21 @@ const LoginEmployerCode = () => {
 
         { email, otp ,domain:url}
       );
+      console.log(response,">>>");
+       if(response){
+        const token = response.data?.data?.token;
 
-      const token = response.data?.data?.token;
-
-      toast.success("Login successful!");
-      localStorage.setItem("employeeLoginToken", token);
-
-      navigate(`/employer/company-profile`);
+        toast.success("Login successful!");
+        localStorage.setItem("employeeLoginToken", token);
+  
+        navigate(`/employer/company-profile`);
+       }
+       else{
+        toast.error(response.data.message || "Invalid OTP!")
+       }   
+     
     } catch (error) {
+      toast.error(error.response?.data?.message || "Invalid OTP. Please try again.")
       console.error(
         error.response?.data?.message || "Invalid OTP. Please try again."
       );

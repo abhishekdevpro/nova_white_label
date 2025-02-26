@@ -159,7 +159,7 @@ const CloseButton = styled.div`
 // };
 
 // export default PricingCard;
-const PricingCard = ({ title, price, description, features, isActive, openModal, closeModal }) => {
+const PricingCard = ({ key,title, price, description, features, isActive, openModal, closeModal }) => {
   const navigate = useNavigate(); // Hook for navigation
 
   const handleButtonClick = () => {
@@ -176,10 +176,12 @@ const PricingCard = ({ title, price, description, features, isActive, openModal,
       <Card>
         <PlanTitle>{title}</PlanTitle>
         <Price>
-          ${price} <span>per month</span>
+          {price} <span>per month</span>
         </Price>
-        <Description>{description}</Description>
-        <Button onClick={handleButtonClick}>Start 14-Day Free Trial</Button>
+        {/* <Description>{description}</Description> */}
+        <Button onClick={handleButtonClick}>
+  {price === "Free" ? "Start Free Trial" : "Buy Now"}
+</Button>
         <FeatureList>
           {features.map((feature, index) => (
             <Feature key={index}>{feature}</Feature>

@@ -275,13 +275,14 @@ const UltraAuraCourses = () => {
 
   const normalizedActiveLevel = activeLevel.toLowerCase();
 
-  const filteredCourses = courses.filter(
+  const filteredCourses = (courses ?? []).filter(
     (course) =>
       normalizedActiveLevel === "all" ||
-      course.course_level_name.toLowerCase() === normalizedActiveLevel
+      course.course_level_name?.toLowerCase() === normalizedActiveLevel
   );
-
+  
   const limitedCourses = filteredCourses.slice(0, displayCount);
+  
 
   const toggleClass = async (index, courseId) => {
     const updatedClasses = [...isClassAdded];
@@ -333,6 +334,7 @@ const UltraAuraCourses = () => {
   if (loading) {
     return <Container>Loading...</Container>;
   }
+  console.log(courses,"courses");
 
   return (
     <>
@@ -367,12 +369,12 @@ const UltraAuraCourses = () => {
                     </LevelFilter>
                     {limitedCourses.length === 0 ? (
                       <NoCoursesMessage>
-                        No courses available for this level.
+                        No courses available.
                       </NoCoursesMessage>
                     ) : (
                       <>
                         <CourseGrid>
-                          {limitedCourses.map((course) => (
+                          {limitedCourses?.map((course) => (
                             <CourseCard key={course.id}>
                               {/* {course.coupon_discount_display ? 
                  <ClaimCoupon>
