@@ -379,18 +379,6 @@ function ForJobseeker({ forJobseekerData, projectName }) {
           {isEditing ? (
             <div>
               <div className="d-flex justify-content-start gap-2">
-                {showHeading && (
-                  <label>
-                    <h5> Heading(Title Mandatory):</h5>
-                    <input
-                      type="text"
-                      value={heading}
-                      onChange={(e) => setHeading(e.target.value)}
-                      className="form-control"
-                      style={{ marginBottom: "10px" }}
-                    />
-                  </label>
-                )}
 
                 <div className="d-flex justify-content-start gap-2">
                   <label className="form-check form-switch">
@@ -400,11 +388,22 @@ function ForJobseeker({ forJobseekerData, projectName }) {
                       checked={showHeading}
                       onChange={() => setShowHeading(!showHeading)}
                     />
-                    <span className="form-check-label">
-                      {showHeading ? "Hide Heading" : "Show Heading"}
-                    </span>
+
                   </label>
                 </div>
+                <label>
+                  <h5> Heading(Title Mandatory):</h5>
+                  {showHeading && (
+                    <input
+                      type="text"
+                      value={heading}
+                      onChange={(e) => setHeading(e.target.value)}
+                      className="form-control"
+                      style={{ marginBottom: "10px" }}
+                    />
+                  )}
+                </label>
+
               </div>
               <div className="d-flex justify-content-start gap-4">
                 <div className="d-flex justify-content-start gap-2">
@@ -415,19 +414,23 @@ function ForJobseeker({ forJobseekerData, projectName }) {
                       checked={showParagraph1}
                       onChange={() => setShowParagraph1(!showParagraph1)}
                     />
-                    <span className="form-check-label">
-                      {showParagraph1 ? "Hide Paragraph 1" : "Show Paragraph 1"}
-                    </span>
+
+                    {/* <span className="form-check-label">
+                    {showParagraph1 ? "Hide Paragraph 1" : "Show Paragraph 1"}
+                  </span> */}
                   </label>
                 </div>
+                <div>
+                  <h5>Paragraph 1:</h5>
+                  {showParagraph1 && (
+                    <ReactQuill
+                      value={paragraph1Content}
+                      onChange={setParagraph1Content}
+                    />
+                  )}
+                </div>
               </div>
-              <h5>Paragraph 1:</h5>
-              {showParagraph1 && (
-                <ReactQuill
-                  value={paragraph1Content}
-                  onChange={setParagraph1Content}
-                />
-              )}
+
               <div className="d-flex justify-content-start gap-4">
                 <label className="form-check form-switch">
                   <input
@@ -436,19 +439,32 @@ function ForJobseeker({ forJobseekerData, projectName }) {
                     checked={showParagraph2}
                     onChange={() => setShowParagraph2(!showParagraph2)}
                   />
-                  <span className="form-check-label">
-                    {showParagraph2 ? "Hide Paragraph 2" : "Show Paragraph 2"}
-                  </span>
+
                 </label>
+                <div>
+                  <h5>Paragraph 2:</h5>
+                  {showParagraph2 && (
+                    <ReactQuill
+                      value={paragraph1AContent}
+                      onChange={setParagraph1AContent}
+                    />
+                  )}
+                </div>
               </div>
-              <h5>Paragraph 2:</h5>
-              {showParagraph2 && (
-                <ReactQuill
-                  value={paragraph1AContent}
-                  onChange={setParagraph1AContent}
-                />
-              )}
-              <div className="d-flex justify-content-start gap-2">
+
+              <div className="d-flex justify-content-start gap-2 mt-4">
+                <label className="form-check form-switch">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    checked={showImage}
+                    onChange={() => setShowImage(!showImage)}
+                  />
+                  {/* <span className="form-check-label">
+                  {showImage ? "Hide Image" : "Show Image"}
+                </span> */}
+                </label>
+
                 <label className="mt-3">
                   <h5>Change Image (400px x 800px):</h5>
                   {showImage && (
@@ -461,17 +477,6 @@ function ForJobseeker({ forJobseekerData, projectName }) {
                   )}
                 </label>
 
-                <label className="form-check form-switch">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    checked={showImage}
-                    onChange={() => setShowImage(!showImage)}
-                  />
-                  <span className="form-check-label">
-                    {showImage ? "Hide Image" : "Show Image"}
-                  </span>
-                </label>
               </div>
               {showImage && imagePreview && (
                 <div className="mt-3">
@@ -491,20 +496,21 @@ function ForJobseeker({ forJobseekerData, projectName }) {
                   />
                 </div>
               )}
-
-              <button
-                className="btn btn-primary mt-3"
-                onClick={handleSave}
-                disabled={loading}
-              >
-                {loading ? "Saving..." : "Save"}
-              </button>
-              <button
-                className="btn btn-secondary mt-3 ms-2"
-                onClick={() => setIsEditing(false)}
-              >
-                Cancel
-              </button>
+              <div className="mt-4">
+                <button
+                  className="btn btn-primary mt-3"
+                  onClick={handleSave}
+                  disabled={loading}
+                >
+                  {loading ? "Saving..." : "Save"}
+                </button>
+                <button
+                  className="btn btn-secondary mt-3 ms-2"
+                  onClick={() => setIsEditing(false)}
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
           ) : (
             <div>

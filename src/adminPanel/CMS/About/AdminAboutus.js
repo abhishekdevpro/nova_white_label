@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+
 import axios from "axios";
 
 import Introductions from "./Introductions";
@@ -9,6 +10,9 @@ import MoreServices from "./MoreServices";
 
 function AdminAboutus({ projectName }) {
   const [sections, setSections] = React.useState([]);
+
+
+  const [activeSection, setActiveSection] = useState(null);
 
   // Fetch data from the GET API
   const fetchContent = async () => {
@@ -34,6 +38,11 @@ function AdminAboutus({ projectName }) {
     console.log("sections", sections);
     return sections.find((section) => section.id === id);
   };
+
+
+  const toggleSection = (id) => {
+    setActiveSection(activeSection === id ? null : id);
+  };
   return (
     <>
       <div className="page-content bg-white">
@@ -42,30 +51,92 @@ function AdminAboutus({ projectName }) {
             <div className="container">
               <div className="m-b30">
                 <div className="job-bx">
-                  {sections.length ? (
-                    <>
-                      <Introductions
-                        introductionData={getSectionData(1)}
-                        projectName={projectName}
-                      />
-                      <ForJobseeker
-                        forJobseekerData={getSectionData(2)}
-                        projectName={projectName}
-                      />
-                      <ForEmployer
-                        forEmployerData={getSectionData(3)}
-                        projectName={projectName}
-                      />
-                      <Novajobsus
-                        novaJobsusData={getSectionData(4)}
-                        projectName={projectName}
-                      />
-                      <MoreServices
-                        moreServicesData={getSectionData(5)}
-                        projectName={projectName}
-                      />
-                    </>
-                  ) : null}
+
+                  {" "}
+                  <div className="accordion-container">
+                    {sections.length ? (
+                      <>
+                        <div className="accordion-item">
+                          <button
+                            className="accordion-title"
+                            onClick={() => toggleSection(1)}
+                          >
+                            Introduction
+                          </button>
+                          {activeSection === 1 && (
+                            <div className="accordion-content">
+                              <Introductions
+                                introductionData={getSectionData(1)}
+                              />
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="accordion-item">
+                          <button
+                            className="accordion-title"
+                            onClick={() => toggleSection(2)}
+                          >
+                            For Jobseeker
+                          </button>
+                          {activeSection === 2 && (
+                            <div className="accordion-content">
+                              <ForJobseeker
+                                forJobseekerData={getSectionData(2)}
+                              />
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="accordion-item">
+                          <button
+                            className="accordion-title"
+                            onClick={() => toggleSection(3)}
+                          >
+                            For Employer
+                          </button>
+                          {activeSection === 3 && (
+                            <div className="accordion-content">
+                              <ForEmployer
+                                forEmployerData={getSectionData(3)}
+                              />
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="accordion-item">
+                          <button
+                            className="accordion-title"
+                            onClick={() => toggleSection(4)}
+                          >
+                            NovaJobs Us
+                          </button>
+                          {activeSection === 4 && (
+                            <div className="accordion-content">
+                              <Novajobsus novaJobsusData={getSectionData(4)} />
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="accordion-item">
+                          <button
+                            className="accordion-title"
+                            onClick={() => toggleSection(5)}
+                          >
+                            More Services
+                          </button>
+                          {activeSection === 5 && (
+                            <div className="accordion-content">
+                              <MoreServices
+                                moreServicesData={getSectionData(5)}
+                              />
+                            </div>
+                          )}
+                        </div>
+                      </>
+                    ) : null}
+                  </div>
+
                 </div>
               </div>
             </div>

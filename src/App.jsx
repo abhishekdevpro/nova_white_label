@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 import Profilepagehome from "./markup/Layout/Profilepagehome";
-import 'bootstrap-icons/font/bootstrap-icons.css';
+import "bootstrap-icons/font/bootstrap-icons.css";
 import { useSelector, useDispatch } from "react-redux";
 import React, { useEffect } from "react";
 import Homepage from "./markup/Pages/Homepage1";
@@ -193,7 +193,7 @@ import SkillTestHistory from "./markup/Element/skill-test-history";
 import AboutusForm from "./adminPanel/CMS/About";
 import WhiteLabelForm from "./vendor/WhiteLabel";
 import WhiteLabelLanding from "./vendor/WhiteLanding/index";
-import WhiteStart from "./vendor/WhiteLabelSignUp/index"
+import WhiteStart from "./vendor/WhiteLabelSignUp/index";
 import Editor from "./vendor/Editor";
 import VendorSetting from "./vendor/vendorSettings";
 import Gauth from "./markup/Pages/G-Auth";
@@ -309,6 +309,39 @@ function App() {
           </PrivateRouteadmin>
         }
       />
+
+      <Route
+        path="/admin/freevance/aboutus"
+        element={
+          <PrivateRouteadmin>
+            <AboutusForm projectName={"/freevance"} />
+          </PrivateRouteadmin>
+        }
+      />
+      <Route
+        path="/admin/paradigmshift/aboutus"
+        element={
+          <PrivateRouteadmin>
+            <AboutusForm projectName={"/paradigmshift"} />
+          </PrivateRouteadmin>
+        }
+      />
+      <Route
+        path="/admin/legitzone/aboutus"
+        element={
+          <PrivateRouteadmin>
+            <AboutusForm projectName={"/legitzone"} />
+          </PrivateRouteadmin>
+        }
+      />
+      <Route
+        path="/admin/homecare/aboutus"
+        element={
+          <PrivateRouteadmin>
+            <AboutusForm projectName={"/homecare"} />
+          </PrivateRouteadmin>
+        }
+      />
       <Route
         path="/admin/jobs"
         element={
@@ -415,18 +448,8 @@ function App() {
       />
 
       <Route path="/vendor/verify" element={<VerifyEmail />} />
-      <Route
-          path="white-label"
-          element={
-              <WhiteLabelLanding />
-          }
-        />
-      <Route
-          path="white-label-started"
-          element={
-              <WhiteStart />
-          }
-        />
+      <Route path="white-label" element={<WhiteLabelLanding />} />
+      <Route path="white-label-started" element={<WhiteStart />} />
       <Route path="/vendor">
         <Route path="login" element={<Vendorlogin />} />
         <Route
@@ -520,7 +543,7 @@ function App() {
             </PrivateRoutevendor>
           }
         />
-         <Route
+        <Route
           path="editors"
           element={
             <PrivateRoutevendor>

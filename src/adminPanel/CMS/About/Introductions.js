@@ -36,6 +36,7 @@ function Introductions({ introductionData, projectName }) {
   const [imagePreview, setImagePreview] = useState(logo1);
   const [loading, setLoading] = useState(false);
 
+
   const [showHeading, setShowHeading] = useState(true);
   const [showParagraph1, setShowParagraph1] = useState(true);
   const [showParagraph1A, setShowParagraph1A] = useState(true);
@@ -47,13 +48,18 @@ function Introductions({ introductionData, projectName }) {
   const [pdfPreview, setPdfPreview] = useState(null);
   const [showPdf, setShowPdf] = useState(true);
 
+
   const authToken = localStorage.getItem("authToken");
   useEffect(() => {
     if (!introductionData) return;
 
     if (introductionData.pdf && JSON.parse(introductionData.pdf)) {
       const pdfData = JSON.parse(introductionData.pdf);
-      setPdfPreview(pdfData[0] ? "https://apiwl.novajobs.us" + pdfData[0] : null);
+      
+      setPdfPreview(
+        pdfData[0] ? "https://apiwl.novajobs.us" + pdfData[0] : null
+      );
+
     }
   }, [introductionData]);
   const handlePdfChange = (e) => {
@@ -175,33 +181,31 @@ function Introductions({ introductionData, projectName }) {
         <div className="mx-3 mx-lg-5 mb-4 mb-lg-0">
           {isEditing ? (
             <div>
-              <div className="d-flex justify-content-start gap-4">
-                {showHeading && (
-                  <label>
-                    Heading (Title Mandatory):
+
+              <div className="d-flex justify-content-start gap-2">
+                <div className="d-flex justify-content-start gap-2">
+                  <label className="form-check form-switch">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      checked={showHeading}
+                      onChange={() => setShowHeading(!showHeading)}
+                    />
+                  </label>
+                </div>
+                <label>
+                  <h5> Heading(Title Mandatory):</h5>
+                  {showHeading && (
                     <input
                       type="text"
                       value={heading}
                       onChange={(e) => setHeading(e.target.value)}
                       className="form-control"
+                      style={{ marginBottom: "10px" }}
                     />
-                  </label>
-                )}
+                  )}
+                </label>
 
-                <div className="d-flex justify-content-start gap-2">
-                  <label className="form-check form-switch mt-4 mb-2">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      id="toggleHeading"
-                      checked={showHeading}
-                      onChange={() => setShowHeading(!showHeading)}
-                    />
-                    <span className="form-check-label">
-                      {showHeading ? "Hide" : "Show"} Heading
-                    </span>
-                  </label>
-                </div>
               </div>
               <div>
                 <div className="d-flex justify-content-start gap-4">
@@ -222,7 +226,10 @@ function Introductions({ introductionData, projectName }) {
                         onChange={() => setShowParagraph1(!showParagraph1)}
                       />
                       <span className="form-check-label">
-                        {showParagraph1 ? "Hide" : "Show"} Paragraph 1
+
+                        {/* {showParagraph1 ? "Hide" : "Show"}  */}
+                        Paragraph 1
+
                       </span>
                     </label>
                   </div>
@@ -253,7 +260,10 @@ function Introductions({ introductionData, projectName }) {
                         onChange={() => setShowParagraph1B(!showParagraph1B)}
                       />
                       <span className="form-check-label">
-                        {showParagraph1B ? "Hide" : "Show"} paragraph3
+
+                        {/* {showParagraph1B ? "Hide" : "Show"}  */}
+                        paragraph3
+
                       </span>
                     </label>
                   </div>
@@ -266,24 +276,8 @@ function Introductions({ introductionData, projectName }) {
                 )}
               </div>
 
-              <div className="d-flex justify-content-start gap-4">
-                {showVideo && (
-                  <label className="mt-3">
-                    Video URL:
-                    <input
-                      type="text"
-                      value={videoUrl}
-                      onChange={(e) => setVideoUrl(e.target.value)}
-                      className="form-control"
-                    />
-                  </label>
-                )}
-                {/* <button
-                  className="btn btn-danger mt-4 mb-2 px-4 btn btn-primary"
-                  onClick={() => handleDelete("videoUrl")}
-                >
-                  Delete Video URL
-                </button> */}
+
+              <div className="d-flex justify-content-start gap-4 mt-4">
 
                 <div className="d-flex justify-content-start gap-2">
                   <label className="form-check form-switch mt-4 mb-2">
@@ -295,10 +289,31 @@ function Introductions({ introductionData, projectName }) {
                       onChange={() => setShowVideo(!showVideo)}
                     />
                     <span className="form-check-label">
-                      {showParagraph1 ? "Hide" : "Show"} Video
+
+                      {/* {showVideo ? "Hide" : "Show"} Video */}
+                      Video Urls :
                     </span>
                   </label>
                 </div>
+                <label className="mt-3">
+                  {/* Video URL: */}
+                  {showVideo && (
+                    <input
+                      type="text"
+                      value={videoUrl}
+                      onChange={(e) => setVideoUrl(e.target.value)}
+                      className="form-control"
+                    />
+                  )}
+                </label>
+
+                {/* <button
+                  className="btn btn-danger mt-4 mb-2 px-4 btn btn-primary"
+                  onClick={() => handleDelete("videoUrl")}
+                >
+                  Delete Video URL
+                </button> */}
+
               </div>
               {showVideo && (
                 <ReactPlayer
@@ -315,17 +330,6 @@ function Introductions({ introductionData, projectName }) {
                 />
               )}
               <div className="d-flex justify-content-start gap-4">
-                {showpdfheading && (
-                  <label>
-                    Heading (Title Mandatory):
-                    <input
-                      type="text"
-                      value={pdfheading}
-                      onChange={(e) => setPdfHeading(e.target.value)}
-                      className="form-control"
-                    />
-                  </label>
-                )}
 
                 <div className="d-flex justify-content-start gap-2">
                   <label className="form-check form-switch mt-4 mb-2">
@@ -337,12 +341,42 @@ function Introductions({ introductionData, projectName }) {
                       onChange={() => setShowPdfHeading(!showpdfheading)}
                     />
                     <span className="form-check-label">
-                      {showpdfheading ? "Hide" : "Show"} pdf Heading
+                      {/* {showpdfheading ? "Hide" : "Show"} */}
+                      Pdf Heading
                     </span>
                   </label>
                 </div>
+                {showpdfheading && (
+                  <label>
+                    {/* Heading (Title Mandatory): */}
+
+                    <input
+                      type="text"
+                      value={pdfheading}
+                      onChange={(e) => setPdfHeading(e.target.value)}
+                      className="form-control"
+                    />
+                  </label>
+                )}
+
               </div>
               <div className="d-flex justify-content-start gap-4">
+
+                <div className="d-flex justify-content-start gap-2">
+                  <label className="form-check form-switch mt-4 mb-2">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+
+                      checked={showPdf}
+                      onChange={() => setShowPdf(!showPdf)}
+                    />
+                    {/* <span className="form-check-label">
+                      {showPdf ? "Hide" : "Show"} PDF
+                    </span> */}
+                  </label>
+                </div>
+
                 <label className="mt-3">
                   Upload PDF:
                   <input
@@ -353,19 +387,6 @@ function Introductions({ introductionData, projectName }) {
                   />
                 </label>
 
-                <div className="d-flex justify-content-start gap-2">
-                  <label className="form-check form-switch mt-4 mb-2">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      checked={showPdf}
-                      onChange={() => setShowPdf(!showPdf)}
-                    />
-                    <span className="form-check-label">
-                      {showPdf ? "Hide" : "Show"} PDF
-                    </span>
-                  </label>
-                </div>
               </div>
 
               {showPdf && pdfPreview && (
@@ -404,7 +425,10 @@ function Introductions({ introductionData, projectName }) {
                       onChange={() => setShowParagraph1A(!showParagraph1A)}
                     />
                     <span className="form-check-label">
-                      {showParagraph1A ? "Hide" : "Show"} paragraph2
+
+                      {/* {showParagraph1A ? "Hide" : "Show"}  */}
+                      paragraph2
+
                     </span>
                   </label>
                 </div>
@@ -417,23 +441,6 @@ function Introductions({ introductionData, projectName }) {
               )}
 
               <div className="d-flex justify-content-start gap-4 ">
-                {showParagraph1A && (
-                  <label className="mt-3">
-                    Change Image (400px x 800px):
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageChange}
-                      className="form-control mt-2"
-                    />
-                  </label>
-                )}
-                {/* <button
-                  className="btn btn-danger mt-4 mb-2 px-4 btn-primary"
-                  onClick={() => handleDelete("image")}
-                >
-                  Delete Image
-                </button> */}
 
                 <div className="d-flex justify-content-start gap-2">
                   <label className="form-check form-switch mt-4 mb-2">
@@ -445,10 +452,24 @@ function Introductions({ introductionData, projectName }) {
                       onChange={() => setShowImage(!showImage)}
                     />
                     <span className="form-check-label">
-                      {showImage ? "Hide" : "Show"} Image
+
+                      {/* {showImage ? "Hide" : "Show"} */}
+                      Change Image (400px x 800px):
                     </span>
                   </label>
                 </div>
+                {showParagraph1A && (
+                  <label className="mt-3">
+                    {/* Change Image (400px x 800px): */}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      className="form-control mt-2"
+                    />
+                  </label>
+                )}
+
               </div>
 
               {showImage && imagePreview && (
@@ -470,19 +491,22 @@ function Introductions({ introductionData, projectName }) {
                 </div>
               )}
 
-              <button
-                className="btn btn-primary mt-3"
-                onClick={handleSave}
-                disabled={loading}
-              >
-                {loading ? "Saving..." : "Save"}
-              </button>
-              <button
-                className="btn btn-secondary mt-3 ms-2"
-                onClick={() => setIsEditing(false)}
-              >
-                Cancel
-              </button>
+              <div className="mt-4">
+                <button
+                  className="btn btn-primary mt-3"
+                  onClick={handleSave}
+                  disabled={loading}
+                >
+                  {loading ? "Saving..." : "Save"}
+                </button>
+                <button
+                  className="btn btn-secondary mt-3 ms-2"
+                  onClick={() => setIsEditing(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+
             </div>
           ) : (
             <div>
