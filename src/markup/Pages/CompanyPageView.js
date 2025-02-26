@@ -5,7 +5,7 @@ import "../../css/Profile.css";
 import { Link } from "react-router-dom";
 import Header from "./../Layout/Header";
 import Footer from "../Layout/Footer";
-import parse from 'html-react-parser';
+import parse from "html-react-parser";
 
 import { useNavigate, useParams } from "react-router-dom";
 import CompanyDetails from "../Element/CompanyPage/ComapnyDetails";
@@ -16,25 +16,18 @@ import CompanyProfile from "../Element/CompanyPage/CompanyProfile";
 import JobListing from "../Element/CompanyPage/JobListing";
 import styled from "styled-components";
 
-
-
 const randomLatitude = -15.812898768599155;
 const randomLongitude = 104.14392380381247;
-
-
-
-
 
 const CompanyPage = () => {
   const [activeTab, setActiveTab] = useState("about");
   const [companyData, setCompany] = useState(null);
   const [jobData, setJobData] = useState(null);
-  const token = localStorage.getItem("employeeLoginToken")
+  const token = localStorage.getItem("employeeLoginToken");
   const domain = window.location.origin.includes("localhost")
-  ? "https://novajobs.us"
-  : window.location.origin;
+    ? "https://novajobs.us"
+    : window.location.origin;
 
- 
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
   };
@@ -45,9 +38,9 @@ const CompanyPage = () => {
     axios({
       method: "GET",
       url: `https://apiwl.novajobs.us/api/jobseeker/companies/${id}/?domain=${domain}`,
-      headers:{
-        Authorization:token
-      }
+      headers: {
+        Authorization: token,
+      },
     })
       .then((response) => {
         console.log(response);
@@ -68,9 +61,9 @@ const CompanyPage = () => {
     axios({
       method: "GET",
       url: `https://apiwl.novajobs.us/api/jobseeker/job-lists/?${params.toString()}`,
-      headers:{
-        Authorization:token
-      }
+      headers: {
+        Authorization: token,
+      },
     })
       .then((response) => {
         console.log(response);
@@ -95,10 +88,9 @@ const CompanyPage = () => {
     axios({
       method: "GET",
       url: `https://apiwl.novajobs.us/api/jobseeker/companies/?${params.toString()}`,
-      headers:{
-        Authorization:token
-      }
-      
+      headers: {
+        Authorization: token,
+      },
     })
       .then((res) => {
         console.log(res.data.data, "job seekers data");
@@ -504,62 +496,81 @@ const CompanyPage = () => {
         </div>
       ) : null} */}
       {companyData ? (
-   <Container>
-   <Header />
-   <TabContainer>
-     <div className="container px-3 px-md-5">
-       <CompanyProfile companyData={companyData} />
-     </div>
-   </TabContainer>
-   <div className="bg-light">
-     <div className="container mx-auto">
-       <NavTabs>
-         {[
-           { id: "about", label: "About" },
-           { id: "jobs", label: "Jobs" },
-          //  { id: "employees", label: "Employees" },
-          //  { id: "offices", label: "Offices" },
-         ].map(({ id, label }) => (
-           <li className="nav-item" role="presentation" key={id}>
-             <NavLink
-               className={activeTab === id ? "active" : ""}
-               role="tab"
-               aria-selected={activeTab === id}
-               onClick={() => setActiveTab(id)}
-             >
-               {label}
-             </NavLink>
-           </li>
-         ))}
-       </NavTabs>
-       <Content>
-         {activeTab === "about" && (
-           <div className="row gy-4">
-             <div className="col-lg-8">
+        <Container>
+          <Header />
+          <TabContainer>
+            <div className="container px-3 px-md-5">
+              <CompanyProfile companyData={companyData} />
+            </div>
+          </TabContainer>
+          <div className="bg-light">
+            <div className="container mx-auto">
+              <NavTabs>
+                {[
+                  { id: "about", label: "About" },
+                  { id: "jobs", label: "Jobs" },
+                  //  { id: "employees", label: "Employees" },
+                  //  { id: "offices", label: "Offices" },
+                ].map(({ id, label }) => (
+                  <li className="nav-item" role="presentation" key={id}>
+                    <NavLink
+                      className={activeTab === id ? "active" : ""}
+                      role="tab"
+                      aria-selected={activeTab === id}
+                      onClick={() => setActiveTab(id)}
+                    >
+                      {label}
+                    </NavLink>
+                  </li>
+                ))}
+              </NavTabs>
+              <Content>
+                {activeTab === "about" && (
+                  <div className="row">
+                    {/* <div className="col-lg-8">
                <CompanyAbout companyData={companyData} />
-             </div>
-             <CompanyDetails companyData={companyData} />
-             <CompanyListing data={data} />
-             <MapJobFinder randomLatitude={randomLatitude} randomLongitude={randomLongitude} />
-           </div>
-         )}
-         {activeTab === "jobs" && <JobListing data={data} />}
-         {activeTab === "employees" && (
-           <div className="p-4">
-             <h3 className="fw-bold" style={{ color: "#0d47a1" }}>Employees Section Content</h3>
-           </div>
-         )}
-         {activeTab === "offices" && (
-           <div className="p-4">
-             <h3 className="fw-bold" style={{ color: "#0d47a1" }}>Offices Section Content</h3>
-           </div>
-         )}
-       </Content>
-     </div>
-   </div>
-   <Footer />
- </Container>
-) : null}
+               <CompanyDetails companyData={companyData} />
+             </div> */}
+                    <div className="row">
+                      {/* About Section (80%) */}
+                      <div className="col-12 col-lg-8">
+                        <CompanyAbout companyData={companyData} />
+                      </div>
+
+                      {/* Details Section (20%) */}
+                      <div className="col-12 col-lg-4">
+                        <CompanyDetails companyData={companyData} />
+                      </div>
+                    </div>
+
+                    <CompanyListing data={data} />
+                    <MapJobFinder
+                      randomLatitude={randomLatitude}
+                      randomLongitude={randomLongitude}
+                    />
+                  </div>
+                )}
+                {activeTab === "jobs" && <JobListing data={data} />}
+                {activeTab === "employees" && (
+                  <div className="p-4">
+                    <h3 className="fw-bold" style={{ color: "#0d47a1" }}>
+                      Employees Section Content
+                    </h3>
+                  </div>
+                )}
+                {activeTab === "offices" && (
+                  <div className="p-4">
+                    <h3 className="fw-bold" style={{ color: "#0d47a1" }}>
+                      Offices Section Content
+                    </h3>
+                  </div>
+                )}
+              </Content>
+            </div>
+          </div>
+          <Footer />
+        </Container>
+      ) : null}
     </>
   );
 };

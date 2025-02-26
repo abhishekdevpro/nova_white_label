@@ -14,11 +14,11 @@ const CompanyListing = ({ data }) => {
           <CardBody>
             <LogoWrapper>
               <CompanyLogo
-                src={item?.logo || "path-to-default-image.jpg"}
+                src={item?.logo || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLXn84m0ldNEy4b-doui_GKkeziMRUfEl71g&s"}
                 alt="company logo"
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = "path-to-default-image.jpg";
+                  e.target.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLXn84m0ldNEy4b-doui_GKkeziMRUfEl71g&s";
                 }}
               />
             </LogoWrapper>
