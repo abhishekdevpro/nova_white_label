@@ -64,12 +64,23 @@ function Novajobsus({ novaJobsusData, projectName }) {
       const updatedImages = imgData.map((img, index) => ({
         file: null,
         preview: "https://apiwl.novajobs.us" + img,
-        isVisible:
-          Array.isArray(novaJobsusData.is_images_display) &&
-          novaJobsusData.is_images_display.length > index
-            ? novaJobsusData.is_images_display[index]
-            : true, // Default to true if no specific visibility info is available
+        // isVisible:
+        //   Array.isArray(novaJobsusData.is_images_display) &&
+        //   novaJobsusData.is_images_display.length > index
+        //     ? novaJobsusData.is_images_display[index]
+        //     : true, // Default to true if no specific visibility info is available
+        isVisible: (() => {
+          try {
+            const parsedData = JSON.parse(novaJobsusData.is_images_display); // First parse
+            const actualArray = JSON.parse(parsedData[0]); // Second parse to get actual array
+            return actualArray[index] === true; // Check for boolean true/false
+          } catch (error) {
+            console.error("Error parsing is_images_display:", error);
+            return true; // Default to true in case of an error
+          }
+        })(),
       }));
+
       setImages(updatedImages);
     }
   }, [novaJobsusData]);

@@ -45,7 +45,11 @@ function ForEmployer({ forEmployerData, projectName }) {
     setShowHeading(forEmployerData.is_title_display);
     setShowParagraph1(forEmployerData.is_paragraph1_display);
     setShowParagraph2(forEmployerData.is_paragraph2_display);
-    setShowImage(forEmployerData.is_images_display);
+    console.log(
+      "forEmployerData",
+      typeof JSON.parse(forEmployerData.is_images_display)[0]
+    );
+    setShowImage(JSON.parse(forEmployerData.is_images_display)[0] === "true");
     if (forEmployerData.images && JSON.parse(forEmployerData.images)) {
       const imgData = JSON.parse(forEmployerData.images);
 
