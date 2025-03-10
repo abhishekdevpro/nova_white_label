@@ -360,10 +360,9 @@ import { Home, User } from "lucide-react";
 import LogoWrapper from "./LogoWrapper";
 import { useLogo } from "../../Context/LogoContext";
 
-
 const UserHeader = () => {
   const [show, setShow] = useState(false);
-  const {isPartner,logo} = useLogo()
+  const { isPartner, logo } = useLogo();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -409,7 +408,9 @@ const UserHeader = () => {
     };
   }, []);
 
-  const token = localStorage.getItem("jobSeekerLoginToken") || localStorage.getItem("employeeLoginToken")
+  const token =
+    localStorage.getItem("jobSeekerLoginToken") ||
+    localStorage.getItem("employeeLoginToken");
   return (
     <>
       <header className="site-header mo-left header fullwidth">
@@ -421,7 +422,7 @@ const UserHeader = () => {
                   <img src={logo} className="logo" alt="company logo" />
                 </Link>
               </div> */}
-              <LogoWrapper/>
+              <LogoWrapper />
 
               <button
                 className="navbar-toggler collapsed navicon justify-content-end"
@@ -447,20 +448,23 @@ const UserHeader = () => {
                   </Link>
                 </div>
                 <ul className="nav navbar-nav align-items-center">
-                 {isPartner && <li>
-                    <Link to="/">
-                     <Home className="me-2" size={20} />
-                    </Link>
-                  </li>}
+                  {isPartner && (
+                    <li>
+                      <Link to="/">
+                        <Home className="me-2" size={20} />
+                      </Link>
+                    </li>
+                  )}
 
-                 {isPartner && <li
-                    className="nav-item jobseeker-hover"
-                    style={{ position: "relative" }}
-                  >
-                    <Link 
-                      to="/services"
-                    className="nav-link" >Services</Link>
-                    {/* {isPartner && !localStorage.getItem("jobSeekerLoginToken") && (
+                  {isPartner && (
+                    <li
+                      className="nav-item jobseeker-hover"
+                      style={{ position: "relative" }}
+                    >
+                      <Link to="/services" className="nav-link">
+                        Services
+                      </Link>
+                      {/* {isPartner && !localStorage.getItem("jobSeekerLoginToken") && (
                       <div className="popup rounded-4 m-2">
                         <div className="d-flex gap-2 m-3">
                           <Link
@@ -472,12 +476,11 @@ const UserHeader = () => {
                         </div>
                       </div>
                     )} */}
-                  </li>}
+                    </li>
+                  )}
 
                   <li>
-                    <Link
-                     to={'/aboutus'}
-                    >About Us</Link>
+                    <Link to={"/aboutus"}>About Us</Link>
                   </li>
 
                   <li
@@ -486,17 +489,20 @@ const UserHeader = () => {
                       localStorage.removeItem("title_keyword");
                     }}
                   >
-                    <Link
-                    to={"/user/job/1"}
-                    >Job Page</Link>
-                   
+                    <Link to={"/user/job/1"}>Job Page</Link>
                   </li>
 
                   {token && (
                     <li>
                       <Link
-                       to={localStorage.getItem('jobSeekerLoginToken')?'/user/jobs-profile':'/employer/company-profile'}
-                      >Dashboard</Link>
+                        to={
+                          localStorage.getItem("jobSeekerLoginToken")
+                            ? "/user/jobs-profile"
+                            : "/employer/company-profile"
+                        }
+                      >
+                        Dashboard
+                      </Link>
                     </li>
                   )}
 
@@ -508,12 +514,12 @@ const UserHeader = () => {
                       <Logout />
                     ) : (
                       <Link
-                       to="/user/login"
+                        to="/user/login"
                         style={{ color: "white" }}
                         // to="#"
                         className="nav-link site-button"
                       >
-                          <User className="me-2" size={20} />
+                        <User className="me-2" size={20} />
                         Jobseeker Login
                       </Link>
                     )}
@@ -547,7 +553,6 @@ const UserHeader = () => {
                       </Link>
                     )}
                   </li> */}
-                  
 
                   <li>
                     {!token && (
@@ -561,24 +566,20 @@ const UserHeader = () => {
                       </Link>
                     )}
                   </li>
-                  
                 </ul>
 
                 <div className="nav navbar-nav align-items-center">
-                {isPartner && !token && (
+                  {isPartner && !token && (
                     <Link
                       to="/white-label"
                       style={{ color: "white" }}
                       className="site-button"
                     >
-
                       Partner With Us
                     </Link>
                   )}
                 </div>
-                
               </div>
-              
             </div>
           </div>
         </div>
