@@ -135,7 +135,7 @@
 // //       </button>
 // //       <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
 // //         <div className="">
-// //           
+// //
 // //           <div className="sticky-top">
 // //             <div className="candidate-info company-info">
 // //               <div className="candidate-detail text-center">
@@ -468,7 +468,7 @@
 //       </button>
 //       <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
 //         <div className="">
-//           
+//
 //           <div className="sticky-top">
 //             <div className="candidate-info company-info">
 //               <div className="candidate-detail text-center">
@@ -625,29 +625,29 @@
 
 // export default VendorCompanySideBar
 
-import { useState, useEffect } from "react"
-import { Link, useNavigate } from "react-router-dom"
-import { useSelector, useDispatch } from "react-redux"
-import axios from "axios"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faCloudUploadAlt } from "@fortawesome/free-solid-svg-icons"
-import { Settings } from "lucide-react"
-import { toast } from "react-toastify"
-import { setPostAJobData } from "../store/reducers/postAJobSlice"
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCloudUploadAlt } from "@fortawesome/free-solid-svg-icons";
+import { Settings } from "lucide-react";
+import { toast } from "react-toastify";
+import { setPostAJobData } from "../store/reducers/postAJobSlice";
 
 const VendorCompanySideBar = ({ active }) => {
-  const token = localStorage.getItem("vendorToken")
-  const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [logo, setLogo] = useState("")
-  const [myPortalOpen, setMyPortalOpen] = useState(false)
-  const [servicesOpen, setServicesOpen] = useState(false)
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const token = localStorage.getItem("vendorToken");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [logo, setLogo] = useState("");
+  const [myPortalOpen, setMyPortalOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogout = () => {
-    localStorage.removeItem("vendorToken")
-    navigate("/vendor/login")
-  }
+    localStorage.removeItem("vendorToken");
+    navigate("/vendor/login");
+  };
 
   const postJob = async () => {
     try {
@@ -657,8 +657,8 @@ const VendorCompanySideBar = ({ active }) => {
         headers: {
           Authorization: token,
         },
-      })
-      console.log(res.data.data, "job")
+      });
+      console.log(res.data.data, "job");
       dispatch(
         setPostAJobData({
           jobTitle: res.data.data.job_title,
@@ -669,13 +669,13 @@ const VendorCompanySideBar = ({ active }) => {
           selectedCity: res.data.data.city_id,
           selectedState: res.data.data.state_id,
           selectedCountry: res.data.data.country_id,
-        }),
-      )
-      navigate(`/vendor/vendorcomponypostjobs/${res.data.data.id}`)
+        })
+      );
+      navigate(`/vendor/vendorcomponypostjobs/${res.data.data.id}`);
     } catch (err) {
-      console.log(err, "joy")
+      console.log(err, "joy");
     }
-  }
+  };
 
   const getLogo = async () => {
     try {
@@ -685,46 +685,48 @@ const VendorCompanySideBar = ({ active }) => {
         headers: {
           Authorization: token,
         },
-      })
-      setLogo(`${response.data.data.company_detail.logo}`)
+      });
+      setLogo(`${response.data.data.company_detail.logo}`);
     } catch (error) {
-      console.error("Error fetching logo:", error)
+      console.error("Error fetching logo:", error);
     }
-  }
+  };
 
   const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen)
-  }
+    setSidebarOpen(!sidebarOpen);
+  };
 
   const toggleMyPortal = () => {
-    setMyPortalOpen(!myPortalOpen)
-  }
+    setMyPortalOpen(!myPortalOpen);
+  };
 
   const toggleServices = () => {
-    setServicesOpen(!servicesOpen)
-  }
+    setServicesOpen(!servicesOpen);
+  };
 
   useEffect(() => {
-    getLogo()
-  }, [token, getLogo]) // Added getLogo to dependencies
+    getLogo();
+  }, [token, getLogo]); // Added getLogo to dependencies
 
-  const companyData = useSelector((state) => state.companyDataSlice.companyData)
-  const companyDetail = companyData?.company_detail
+  const companyData = useSelector(
+    (state) => state.companyDataSlice.companyData
+  );
+  const companyDetail = companyData?.company_detail;
 
-  const [file, setFile] = useState([])
+  const [file, setFile] = useState([]);
   const handleImageChange = (e) => {
-    const img = e.target.files[0]
-    const url = URL.createObjectURL(img)
+    const img = e.target.files[0];
+    const url = URL.createObjectURL(img);
     setFile({
       file: img,
       url: url,
-    })
-  }
+    });
+  };
 
   const handleUpdateCompanyLogo = (e) => {
-    e.preventDefault()
-    const formData = new FormData()
-    formData.append("logo", file?.file)
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("logo", file?.file);
     axios({
       method: "PUT",
       url: "https://apiwl.novajobs.us/api/admin/company-logo",
@@ -734,13 +736,13 @@ const VendorCompanySideBar = ({ active }) => {
       data: formData,
     })
       .then((res) => {
-        console.log(res)
-        showToastSuccess(res?.data?.message)
+        console.log(res);
+        showToastSuccess(res?.data?.message);
       })
       .catch((err) => {
-        console.log(err)
-      })
-  }
+        console.log(err);
+      });
+  };
 
   const showToastSuccess = (message) => {
     toast.success(message, {
@@ -751,8 +753,8 @@ const VendorCompanySideBar = ({ active }) => {
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-    })
-  }
+    });
+  };
 
   return (
     <>
@@ -761,7 +763,6 @@ const VendorCompanySideBar = ({ active }) => {
       </button>
       <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
         <div className="">
-          
           <div className="sticky-top">
             <div className="candidate-info company-info">
               <div className="candidate-detail text-center">
@@ -792,8 +793,19 @@ const VendorCompanySideBar = ({ active }) => {
                       />
                     )}
                   </Link>
-                  <div className="upload-link" title="update" data-toggle="tooltip" data-placement="right">
-                    <input type="file" className="update-flie" name="file" id="file" onChange={handleImageChange} />
+                  <div
+                    className="upload-link"
+                    title="update"
+                    data-toggle="tooltip"
+                    data-placement="right"
+                  >
+                    <input
+                      type="file"
+                      className="update-flie"
+                      name="file"
+                      id="file"
+                      onChange={handleImageChange}
+                    />
                     <i className="fa fa-pencil"></i>
                   </div>
                 </div>
@@ -803,26 +815,38 @@ const VendorCompanySideBar = ({ active }) => {
                   <Link to={"#"}>{companyDetail?.company_name}</Link>
                 </h4>
                 {file?.url ? (
-                  <button onClick={handleUpdateCompanyLogo} className="site-button">
+                  <button
+                    onClick={handleUpdateCompanyLogo}
+                    className="site-button"
+                  >
                     Update
                   </button>
                 ) : null}
               </div>
               <ul>
                 <li>
-                  <Link to={"/vendor/vendorplan"} className={active === "vendorplan" ? "active" : null}>
+                  <Link
+                    to={"/vendor/vendorplan"}
+                    className={active === "vendorplan" ? "active" : null}
+                  >
                     <i className="fa fa-user-o" aria-hidden="true"></i>
                     <span>Plan</span>
                   </Link>
                 </li>
                 <li>
-                  <Link className={active === "lading" ? "active" : null} to={"/white-label"}>
+                  <Link
+                    className={active === "lading" ? "active" : null}
+                    to={"/white-label"}
+                  >
                     <i className="fa fa-random" aria-hidden="true"></i>
                     <span>White Label Landing</span>
                   </Link>
                 </li>
                 <li>
-                  <Link to={"/vendor/vendorprofile"} className={active === "company" ? "active" : null}>
+                  <Link
+                    to={"/vendor/vendorprofile"}
+                    className={active === "company" ? "active" : null}
+                  >
                     <i className="fa fa-user-o" aria-hidden="true"></i>
                     <span>Company Profile</span>
                   </Link>
@@ -831,20 +855,34 @@ const VendorCompanySideBar = ({ active }) => {
                   <Link to="#" onClick={toggleMyPortal}>
                     <i className="fa fa-user-o" aria-hidden="true"></i>
                     <span>My Portal</span>
-                    <i className={`fa fa-chevron-${myPortalOpen ? "up" : "down"} float-right`}></i>
+                    <i
+                      className={`fa fa-chevron-${
+                        myPortalOpen ? "up" : "down"
+                      } float-right`}
+                    ></i>
                   </Link>
                   {myPortalOpen && (
                     <ul className="sub-menu">
                       <li>
-                        <Link className={active === "vendorcomponypostjobs" ? "active" : null} onClick={postJob}>
-                          <i className="fa fa-file-text-o" aria-hidden="true"></i>
+                        <Link
+                          className={
+                            active === "vendorcomponypostjobs" ? "active" : null
+                          }
+                          onClick={postJob}
+                        >
+                          <i
+                            className="fa fa-file-text-o"
+                            aria-hidden="true"
+                          ></i>
                           <span>Post A Job</span>
                         </Link>
                       </li>
                       <li>
                         <Link
                           to={"/vendor/vendorcompanymanage/jobs"}
-                          className={active === "company-manage-job" ? "active" : null}
+                          className={
+                            active === "company-manage-job" ? "active" : null
+                          }
                         >
                           <i className="fa fa-briefcase" aria-hidden="true"></i>
                           <span>Manage jobs</span>
@@ -853,18 +891,32 @@ const VendorCompanySideBar = ({ active }) => {
                       <li>
                         <Link
                           to={"/vendor/vendorbulkuploadjobopeneing"}
-                          className={active === "vendorbulkuploadjobopeneing" ? "active" : null}
+                          className={
+                            active === "vendorbulkuploadjobopeneing"
+                              ? "active"
+                              : null
+                          }
                         >
-                          <FontAwesomeIcon icon={faCloudUploadAlt} className="me-2" />
+                          <FontAwesomeIcon
+                            icon={faCloudUploadAlt}
+                            className="me-2"
+                          />
                           <span>Upload job opening</span>
                         </Link>
                       </li>
                       <li>
                         <Link
                           to={"/vendor/vendorbulkuploadjobseeker"}
-                          className={active === "vendorbulkuploadjobseeker" ? "active" : null}
+                          className={
+                            active === "vendorbulkuploadjobseeker"
+                              ? "active"
+                              : null
+                          }
                         >
-                          <FontAwesomeIcon icon={faCloudUploadAlt} className="me-2" />
+                          <FontAwesomeIcon
+                            icon={faCloudUploadAlt}
+                            className="me-2"
+                          />
                           <span>Upload jobseeker</span>
                         </Link>
                       </li>
@@ -875,14 +927,20 @@ const VendorCompanySideBar = ({ active }) => {
                   <Link to="#" onClick={toggleServices}>
                     <i className="fa fa-cogs" aria-hidden="true"></i>
                     <span>Services</span>
-                    <i className={`fa fa-chevron-${servicesOpen ? "up" : "down"} float-right`}></i>
+                    <i
+                      className={`fa fa-chevron-${
+                        servicesOpen ? "up" : "down"
+                      } float-right`}
+                    ></i>
                   </Link>
                   {servicesOpen && (
                     <ul className="sub-menu">
                       <li>
                         <Link
                           to={"/vendor/ai-resume-builder"}
-                          className={active === "ai-resume-builder" ? "active" : null}
+                          className={
+                            active === "ai-resume-builder" ? "active" : null
+                          }
                         >
                           <i className="fa fa-file-text" aria-hidden="true"></i>
                           <span>AI Resume Builder</span>
@@ -892,7 +950,10 @@ const VendorCompanySideBar = ({ active }) => {
                   )}
                 </li>
                 <li>
-                  <Link to={"/vendor/editors"} className={active === "editors" ? "active" : null}>
+                  <Link
+                    to={"/vendor/editors"}
+                    className={active === "editors" ? "active" : null}
+                  >
                     <FontAwesomeIcon icon={faCloudUploadAlt} className="me-2" />
                     <span>Vendor Website</span>
                   </Link>
@@ -900,14 +961,19 @@ const VendorCompanySideBar = ({ active }) => {
                 <li>
                   <Link
                     to={"/vendor/vendorchangepasswordpage"}
-                    className={active === "jobs-change-password" ? "active" : null}
+                    className={
+                      active === "jobs-change-password" ? "active" : null
+                    }
                   >
                     <i className="fa fa-key" aria-hidden="true"></i>
                     <span>Change Password</span>
                   </Link>
                 </li>
                 <li>
-                  <Link to={"/vendor/setting"} className={active === "setting" ? "active" : null}>
+                  <Link
+                    to={"/vendor/setting"}
+                    className={active === "setting" ? "active" : null}
+                  >
                     <Settings aria-hidden="true" />
                     <span>Settings</span>
                   </Link>
@@ -924,8 +990,7 @@ const VendorCompanySideBar = ({ active }) => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default VendorCompanySideBar
-
+export default VendorCompanySideBar;
