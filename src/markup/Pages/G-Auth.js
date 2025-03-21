@@ -37,7 +37,7 @@ const Gauth = () => {
           toast.success(message || "Login successful!");
           //   window.open='http://localhost:3000/user/jobs-profile'
 
-          navigate("/user/jobs-profile");
+          navigate("/user/dashboard");
 
           // Redirect to the success URL with the token
           //   window.open = `https://abroadium-arbuild-dev-fe.vercel.app/dashboard/?${token}`;

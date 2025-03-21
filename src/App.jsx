@@ -202,6 +202,7 @@ import { LogoProvider } from "./Context/LogoContext";
 import LoginEmployerCode from "./employeeMarkup/Pages/EmployerLoginCode";
 import EmployerGauth from "./employeeMarkup/Pages/EmployerG-auth";
 import UltraAuraCourses from "./markup/Element/UltraAuraCourses";
+import JobSeekerDashboard from "./markup/Pages/JobSeekerDashboard";
 // import AboutusForm from 
 function App() {
   const dispatch = useDispatch();
@@ -576,6 +577,14 @@ function App() {
           element={
             <UserPrivateRoute>
               <Jobprofile /> 
+            </UserPrivateRoute>
+          }
+        />
+        <Route
+          path="dashboard"
+          element={
+            <UserPrivateRoute>
+              <JobSeekerDashboard />
             </UserPrivateRoute>
           }
         />

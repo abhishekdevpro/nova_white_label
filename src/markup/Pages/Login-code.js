@@ -47,7 +47,7 @@ const LoginCode = () => {
       toast.success("Login successful!");
       localStorage.setItem("jobSeekerLoginToken", token);
 
-      navigate(`/user/jobs-profile`);
+      navigate(`/user/dashboard`);
     } catch (error) {
       toast.error(error.response?.data?.message || "Invalid OTP. Please try again.")
       console.error(

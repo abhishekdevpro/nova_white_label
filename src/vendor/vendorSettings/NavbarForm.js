@@ -1,17 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Plus, Trash2, Upload } from 'lucide-react';
-import { toast } from 'react-toastify';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Plus, Trash2, Upload } from "lucide-react";
+import { toast } from "react-toastify";
 import styled from "styled-components";
 
 const NavbarManagementForm = () => {
   const [logo, setLogo] = useState(null);
-  const [logoPreview, setLogoPreview] = useState('');
+  const [logoPreview, setLogoPreview] = useState("");
   const [menuItems, setMenuItems] = useState([
-    { icon: '', label: '', route: '' }
+    { icon: "", label: "", route: "" },
   ]);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [favicon, setFavicon] = useState(null);
+  const [faviconPreview, setFaviconPreview] = useState(null);
+
+  // Handle favicon file selection
+  const handleFaviconChange = (e) => {
+    if (e.target.files[0]) {
+      setFavicon(e.target.files[0]);
+      setFaviconPreview(URL.createObjectURL(e.target.files[0]));
+    }
+  };
 
   const token = localStorage.getItem("vendorToken");
 
@@ -19,11 +29,14 @@ const NavbarManagementForm = () => {
   useEffect(() => {
     const fetchNavbarData = async () => {
       try {
-        const response = await axios.get('https://apiwl.novajobs.us/api/admin/general-info', {
-          headers: {
-            'Authorization': token
+        const response = await axios.get(
+          "https://apiwl.novajobs.us/api/admin/general-info",
+          {
+            headers: {
+              Authorization: token,
+            },
           }
-        });
+        );
         // console.log(response.data.data,"lll");
         if (response.data.data) {
           setLogoPreview(response.data.data.navigation.logo);
@@ -32,8 +45,8 @@ const NavbarManagementForm = () => {
           }
         }
       } catch (error) {
-        console.error('Error fetching navbar data:', error);
-        toast.error('Failed to fetch existing navbar data');
+        console.error("Error fetching navbar data:", error);
+        toast.error("Failed to fetch existing navbar data");
       }
     };
 
@@ -43,18 +56,19 @@ const NavbarManagementForm = () => {
   const handleLogoChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      if (file.size > 2 * 1024 * 1024) { // 2MB limit
-        setError('Logo file size should not exceed 2MB');
+      if (file.size > 2 * 1024 * 1024) {
+        // 2MB limit
+        setError("Logo file size should not exceed 2MB");
         return;
       }
-      
-      if (!file.type.startsWith('image/')) {
-        setError('Please upload an image file');
+
+      if (!file.type.startsWith("image/")) {
+        setError("Please upload an image file");
         return;
       }
 
       setLogo(file);
-      setError('');
+      setError("");
       const reader = new FileReader();
       reader.onloadend = () => {
         setLogoPreview(reader.result);
@@ -70,7 +84,7 @@ const NavbarManagementForm = () => {
   };
 
   const addMenuItem = () => {
-    setMenuItems([...menuItems, { icon: '', label: '', route: '' }]);
+    setMenuItems([...menuItems, { icon: "", label: "", route: "" }]);
   };
 
   const removeMenuItem = (index) => {
@@ -80,34 +94,34 @@ const NavbarManagementForm = () => {
 
   const handleLogoSubmit = async () => {
     if (!logo) {
-      setError('Please select a logo file');
+      setError("Please select a logo file");
       return;
     }
 
     setIsLoading(true);
     const formData = new FormData();
-    formData.append('logo_upload', logo);
+    formData.append("logo_upload", logo);
 
     try {
       const response = await axios.put(
-        'https://apiwl.novajobs.us/api/admin/navigation',
+        "https://apiwl.novajobs.us/api/admin/navigation",
         formData,
         {
           headers: {
-            'Authorization': token,
-            'Content-Type': 'multipart/form-data'
-          }
+            Authorization: token,
+            "Content-Type": "multipart/form-data",
+          },
         }
       );
 
       if (response.status === 200) {
-        toast.success('Logo updated successfully');
-        setError('');
+        toast.success("Logo updated successfully");
+        setError("");
       }
     } catch (error) {
-      console.error('Error updating logo:', error);
-      setError(error.response?.data?.message || 'Failed to update logo');
-      toast.error('Failed to update logo');
+      console.error("Error updating logo:", error);
+      setError(error.response?.data?.message || "Failed to update logo");
+      toast.error("Failed to update logo");
     } finally {
       setIsLoading(false);
     }
@@ -115,41 +129,131 @@ const NavbarManagementForm = () => {
 
   const handleMenuSubmit = async () => {
     // Validate menu items
-    const hasEmptyFields = menuItems.some(item => !item.icon || !item.label || !item.route);
+    const hasEmptyFields = menuItems.some(
+      (item) => !item.icon || !item.label || !item.route
+    );
     if (hasEmptyFields) {
-      setError('All menu item fields are required');
+      setError("All menu item fields are required");
       return;
     }
 
     setIsLoading(true);
     try {
       const response = await axios.post(
-        '',
+        "",
         { menuItems },
         {
           headers: {
-            'Authorization': token
-          }
+            Authorization: token,
+          },
         }
       );
 
       if (response.status === 200) {
-        toast.success('Menu items updated successfully');
-        setError('');
+        toast.success("Menu items updated successfully");
+        setError("");
       }
     } catch (error) {
-      console.error('Error updating menu items:', error);
-      setError(error.response?.data?.message || 'Failed to update menu items');
-      toast.error('Failed to update menu items');
+      console.error("Error updating menu items:", error);
+      setError(error.response?.data?.message || "Failed to update menu items");
+      toast.error("Failed to update menu items");
     } finally {
       setIsLoading(false);
     }
   };
+  // const handleFaviconSubmit = async () => {
+  //   if (!favicon) return;
 
+  //   setIsLoading(true);
+
+  //   const formData = new FormData();
+  //   formData.append("favicon_upload", favicon);
+
+  //   try {
+  //     // Replace with your actual API endpoint for favicon upload
+  //     const response = await fetch("https://apiwl.novajobs.us/api/admin/update-favicon", {
+  //       method: "PUT",
+  //       body: formData,
+  //     });
+
+  //     if (response.ok) {
+  //       // Handle successful upload
+  //       toast.success("Favicon updated successfully");
+  //     } else {
+  //       // Handle error
+  //       toast.error("Failed to update favicon");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error uploading favicon:", error);
+  //     toast.error("Error uploading favicon");
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+  const handleFaviconSubmit = async () => {
+    if (!favicon) return;
+  
+    setIsLoading(true);
+  
+    const formData = new FormData();
+    formData.append("favicon_upload", favicon);
+  
+    try {
+      const response = await axios.put(
+        "https://apiwl.novajobs.us/api/admin/update-favicon",
+        formData,
+        {
+          headers: {
+            Authorization:token,
+            "Content-Type": "multipart/form-data", // Required for file uploads
+          },
+        }
+      );
+  
+      if (response.status === 200) {
+        toast.success("Favicon updated successfully");
+      } else {
+        toast.error("Failed to update favicon");
+      }
+    } catch (error) {
+      console.error("Error uploading favicon:", error);
+      toast.error(error.response?.data?.message || "Error uploading favicon");
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <FormContainer>
       <Title>Navbar Management</Title>
-
+      <Section>
+        <SectionTitle>Favicon Management</SectionTitle>
+        <FormGroup>
+          <Label>Favicon</Label>
+          <LogoContainer>
+            {faviconPreview && (
+              <LogoPreview src={faviconPreview} alt="Favicon preview" />
+            )}
+            <FileInputWrapper>
+              <FileInput
+                type="file"
+                accept="image/x-icon,image/png,image/svg+xml"
+                onChange={handleFaviconChange}
+                id="favicon-upload"
+              />
+              <FileInputLabel htmlFor="favicon-upload">
+                <Upload size={20} />
+                Choose Favicon
+              </FileInputLabel>
+            </FileInputWrapper>
+          </LogoContainer>
+          <UpdateButton
+            onClick={handleFaviconSubmit}
+            disabled={!favicon || isLoading}
+          >
+            Update Favicon
+          </UpdateButton>
+        </FormGroup>
+      </Section>
       {/* Logo Section */}
       <Section>
         <SectionTitle>Logo Management</SectionTitle>
@@ -172,7 +276,7 @@ const NavbarManagementForm = () => {
               </FileInputLabel>
             </FileInputWrapper>
           </LogoContainer>
-          <UpdateButton 
+          <UpdateButton
             onClick={handleLogoSubmit}
             disabled={!logo || isLoading}
           >
@@ -191,7 +295,9 @@ const NavbarManagementForm = () => {
               <Input
                 type="text"
                 value={item.icon}
-                onChange={(e) => handleMenuItemChange(index, 'icon', e.target.value)}
+                onChange={(e) =>
+                  handleMenuItemChange(index, "icon", e.target.value)
+                }
                 placeholder="e.g., home, person, work"
               />
             </FormGroup>
@@ -200,7 +306,9 @@ const NavbarManagementForm = () => {
               <Input
                 type="text"
                 value={item.label}
-                onChange={(e) => handleMenuItemChange(index, 'label', e.target.value)}
+                onChange={(e) =>
+                  handleMenuItemChange(index, "label", e.target.value)
+                }
                 placeholder="Menu item label"
               />
             </FormGroup>
@@ -209,7 +317,9 @@ const NavbarManagementForm = () => {
               <Input
                 type="text"
                 value={item.route}
-                onChange={(e) => handleMenuItemChange(index, 'route', e.target.value)}
+                onChange={(e) =>
+                  handleMenuItemChange(index, "route", e.target.value)
+                }
                 placeholder="/route-path"
               />
             </FormGroup>
@@ -220,16 +330,16 @@ const NavbarManagementForm = () => {
             )}
           </MenuItemContainer>
         ))}
-        
+
         <AddButton onClick={addMenuItem}>
-          <Plus size={20} style={{ marginRight: '0.5rem' }} />
+          <Plus size={20} style={{ marginRight: "0.5rem" }} />
           Add Menu Item
         </AddButton>
 
-        <UpdateButton 
+        <UpdateButton
           onClick={handleMenuSubmit}
           disabled={isLoading}
-          style={{ marginTop: '1rem' }}
+          style={{ marginTop: "1rem" }}
         >
           Update Menu Items
         </UpdateButton>
@@ -336,7 +446,7 @@ const UpdateButton = styled.button`
   color: white;
   padding: 0.5rem 1rem;
   border-radius: 0.25rem;
-  border:none;
+  border: none;
   font-weight: 500;
   &:disabled {
     background-color: #9ca3af;

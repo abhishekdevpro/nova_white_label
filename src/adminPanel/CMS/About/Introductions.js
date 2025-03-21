@@ -306,8 +306,8 @@ function Introductions({ introductionData, projectName }) {
               {showVideo && (
                 <ReactPlayer
                   url={videoUrl}
-                  width="700px"
-                  height="500px"
+                  width="100%"
+                  height="auto"
                   controls={true}
                   style={{
                     margin: "50px",
@@ -487,7 +487,13 @@ function Introductions({ introductionData, projectName }) {
             </div>
           ) : (
             <div>
-              {showHeading && <h1 className="mb-4">{heading}</h1>}
+              {/* {showHeading && <h1 className="mb-4">{heading}</h1>} */}
+              {showHeading && (
+  <h1 className="mb-4 text-bold text-md-start display-6 display-md-5 display-lg-4">
+    {heading}
+  </h1>
+)}
+
               {showParagraph1 && (
                 <div
                   dangerouslySetInnerHTML={{ __html: paragraph1Content }}
@@ -499,7 +505,7 @@ function Introductions({ introductionData, projectName }) {
                   dangerouslySetInnerHTML={{ __html: paragraph1BContent }}
                 ></p>
               )}
-              {showVideo && (
+              {/* {showVideo && (
                 <div
                   style={{
                     display: "flex",
@@ -519,11 +525,47 @@ function Introductions({ introductionData, projectName }) {
                     }}
                   />
                 </div>
-              )}
+              )} */}{
+                showVideo && (
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      padding: "20px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        position: "relative",
+                        width: "90%", // Responsive width
+                        maxWidth: "700px", // Maximum width limit
+                        paddingBottom: "56.25%", // 16:9 Aspect Ratio
+                        border: "2px solid #ccc",
+                        borderRadius: "10px",
+                        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                        overflow: "hidden",
+                      }}
+                    >
+                      <ReactPlayer
+                        url={videoUrl}
+                        controls={true}
+                        width="100%"
+                        height="100%"
+                        style={{
+                          position: "absolute",
+                          top: "0",
+                          left: "0",
+                        }}
+                      />
+                    </div>
+                  </div>
+                )
+              }
               <div className="mt-4 ">
                 {showpdfheading && <h3 className="mb-4">{pdfheading}</h3>}
               </div>
-              {showPdf && pdfPreview && (
+              {/* {showPdf && pdfPreview && (
                 <div className="mt-4 mb-4 text-center">
                   <iframe
                     src={pdfPreview}
@@ -536,14 +578,48 @@ function Introductions({ introductionData, projectName }) {
                     }}
                   ></iframe>
                 </div>
-              )}
+              )} */}
+              {
+                showPdf &&
+                pdfPreview && (
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      padding: "20px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: "100%", 
+                        maxWidth: "800px", 
+                        height: "500px", 
+                        border: "2px solid #ccc",
+                        borderRadius: "10px",
+                        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                        overflow: "hidden",
+                      }}
+                    >
+                      <iframe
+                        src={pdfPreview}
+                        width="100%"
+                        height="100%"
+                        style={{
+                          border: "none",
+                        }}
+                      ></iframe>
+                    </div>
+                  </div>
+                )
+              }
 
               {showParagraph1A && (
                 <div
                   dangerouslySetInnerHTML={{ __html: paragraph1AContent }}
                 ></div>
               )}
-              {showImage && (
+              {/* {showImage && (
                 <div className="text-center">
                   <img
                     src={imagePreview}
@@ -551,7 +627,31 @@ function Introductions({ introductionData, projectName }) {
                     style={{ height: "400px", width: "800px" }}
                   />
                 </div>
-              )}
+              )} */}
+              {
+                showImage && (
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      padding: "20px",
+                    }}
+                  >
+                    <img
+                      src={imagePreview}
+                      alt="Uploaded Image"
+                      style={{
+                        width: "90%", // Responsive width
+                        maxWidth: "800px", // Maximum width limit
+                        height: "auto", // Maintain aspect ratio
+                        borderRadius: "10px",
+                        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                      }}
+                    />
+                  </div>
+                )
+              }
             </div>
           )}
         </div>
