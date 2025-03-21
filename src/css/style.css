@@ -4487,7 +4487,7 @@ blockquote:before {
 /*header with bg primary color 1 */
 
 [class*="bg-"] .header-nav .nav > li > a {
-  color: #fff;
+  color: black;
 }
 
 [class*="bg-"] .header-nav .nav > li.active > a,
@@ -4497,7 +4497,7 @@ blockquote:before {
 
 [class*="bg-"] .header-nav .nav > li > a:hover,
 [class*="bg-"] .header-nav .nav > li:hover > a {
-  color: #fff;
+  color: #000;
 }
 
 [class*="bg-"] .navbar-toggler {
@@ -4698,7 +4698,7 @@ blockquote:before {
 .header.yellow .header-nav .nav > li > a,
 .header.yellow .extra-nav .site-button-link,
 .header.yellow .navbar-toggler {
-  color: #fff;
+  color: #000;
 }
 
 .header.yellow .navbar-toggler span {
@@ -15540,7 +15540,7 @@ ol.commentlist li .star-rating {
   }
 
   .mo-left .header-nav {
-    overflow: scroll;
+    overflow: hidden;
     position: fixed;
     width: 60px;
     left: -280px;
@@ -15552,6 +15552,8 @@ ol.commentlist li .star-rating {
     top: 0;
     background-color: #fff;
     margin: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
     z-index: 99;
   }
 

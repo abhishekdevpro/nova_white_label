@@ -354,7 +354,7 @@ const VendorHeader = () => {
               >
                 <ul className="nav navbar-nav">
                   <li className="">
-                    <Link to={"/"}>Home</Link>
+                    <Link to={"/white-label"}>Home</Link>
                   </li>
                   <li className="">
                     <Link>services</Link>

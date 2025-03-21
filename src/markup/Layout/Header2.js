@@ -154,7 +154,7 @@ const UserHeader2 = () => {
 
                   {localStorage.getItem('jobSeekerLoginToken') ? (
                     <li>
-                      <Link to={'/user/jobs-profile'}>
+                      <Link to={'/user/dashboard'}>
                         Dashboard
                       </Link>
                     </li>

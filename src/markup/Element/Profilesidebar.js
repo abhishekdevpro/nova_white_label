@@ -39,9 +39,19 @@ function Profilesidebar({ data }) {
         ☰
       </button>
       <div className={`sidebar ${sidebarOpen ? "open" : ""} overflow-y`}>
-        <div className="sticky-top overflow-y">
+        <div className="sticky-top overflow-y ">
           <div className="candidate-info overflow-y">
             <ul>
+            <li>
+                <Link
+                  to={"/user/dashboard"}
+                  className={data === "dashboard" ? "active" : null}
+                  onClick={() => setSidebarOpen(false)}
+                >
+                  <User className="me-2" />
+                  <span>Dashboard</span>
+                </Link>
+              </li>
               <li>
                 <Link
                   to={"/user/jobs-profile"}

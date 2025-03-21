@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import image1 from "../../vendor/assests/2.jpg"
+import image2 from "../../vendor/assests/1.jpg"
+import image3 from "../../vendor/assests/3.jpg"
+import image4 from "../../vendor/assests/4.jpg"
+import image5 from "../../vendor/assests/5.jpg"
 
 const SliderContainer = styled.div`
   width: 100%;
@@ -120,11 +125,11 @@ const WebsiteMockupSlider = () => {
 
   // Mock data for the slides
   const mockups = [
-    { id: 1, image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGh5WFH8TOIfRKxUrIgJZoDCs1yvQ4hIcppw&s", alt: "Dark themed recruitment website" },
-    { id: 2, image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGh5WFH8TOIfRKxUrIgJZoDCs1yvQ4hIcppw&s", alt: "Pink themed digital team website" },
-    { id: 3, image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGh5WFH8TOIfRKxUrIgJZoDCs1yvQ4hIcppw&s", alt: "Blue themed recruitment platform" },
-    { id: 4, image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGh5WFH8TOIfRKxUrIgJZoDCs1yvQ4hIcppw&s", alt: "Modern recruitment website" },
-    { id: 5, image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGh5WFH8TOIfRKxUrIgJZoDCs1yvQ4hIcppw&s", alt: "Professional recruitment portal" }
+    { id: 1, image: image1, alt: "Dark themed recruitment website" },
+    { id: 2, image: image2, alt: "Pink themed digital team website" },
+    { id: 3, image: image3, alt: "Blue themed recruitment platform" },
+    { id: 4, image: image4, alt: "Modern recruitment website" },
+    { id: 5, image: image5, alt: "Professional recruitment portal" }
   ];
 
   React.useEffect(() => {

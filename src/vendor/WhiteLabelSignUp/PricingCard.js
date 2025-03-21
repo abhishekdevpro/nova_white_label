@@ -1,4 +1,3 @@
-
 import React from "react";
 import styled from "styled-components";
 import VendorPartnershipForm from "../WhiteLabel/Form";
@@ -126,7 +125,6 @@ const CloseButton = styled.div`
   }
 `;
 
-
 // const PricingCard = ({ title, price, description, features, isActive, openModal, closeModal }) => {
 //   return (
 //     <>
@@ -159,7 +157,16 @@ const CloseButton = styled.div`
 // };
 
 // export default PricingCard;
-const PricingCard = ({ key,title, price, description, features, isActive, openModal, closeModal }) => {
+const PricingCard = ({
+  key,
+  title,
+  price,
+  description,
+  features,
+  isActive,
+  openModal,
+  closeModal,
+}) => {
   const navigate = useNavigate(); // Hook for navigation
 
   const handleButtonClick = () => {
@@ -175,13 +182,14 @@ const PricingCard = ({ key,title, price, description, features, isActive, openMo
     <>
       <Card>
         <PlanTitle>{title}</PlanTitle>
+        {price === "Free" ? "For Freelancers/Individuals" : ""}
         <Price>
           {price} <span>per month</span>
         </Price>
         {/* <Description>{description}</Description> */}
         <Button onClick={handleButtonClick}>
-  {price === "Free" ? "Start Free Trial" : "Buy Now"}
-</Button>
+          {price === "Free" ? "Start Free Trial" : "Buy Now"}
+        </Button>
         <FeatureList>
           {features.map((feature, index) => (
             <Feature key={index}>{feature}</Feature>

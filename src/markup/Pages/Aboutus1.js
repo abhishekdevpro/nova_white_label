@@ -29,6 +29,7 @@ import ForJobseeker from "../../adminPanel/CMS/About/ForJobseeker";
 import ForEmployer from "../../adminPanel/CMS/About/ForEmployer";
 import Novajobsus from "../../adminPanel/CMS/About/Novajobsus";
 import MoreServices from "../../adminPanel/CMS/About/MoreServices";
+import FullPageLoader from "../skeleton/FullPageLoader";
 
 function AboutUs() {
   const [sections, setSections] = React.useState([]);
@@ -64,6 +65,7 @@ function AboutUs() {
   };
   return (
     <>
+      {loading && <FullPageLoader isLoading={loading} />}
       <Header />
       <div className="page-content bg-white">
         <div className="content-block">
@@ -71,7 +73,7 @@ function AboutUs() {
             <div className="container">
               <div className="m-b30">
                 <div className="job-bx">
-                  <div className=" justify-content-center">
+                  <div className=" justify-content-center ">
                     {sections.length ? (
                       <>
                         <Introductions introductionData={getSectionData(1)} />
@@ -88,7 +90,6 @@ function AboutUs() {
           </div>
         </div>
       </div>
-
       <Footer />
     </>
   );

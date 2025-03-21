@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import ultraLogo from "../../vendor/assests/ultraLogo.png"
+import novalogo from '../../vendor/assests/NovaLoog.png'
+import homecare from "../../vendor/assests/homecare.png"
+import para from '../../vendor/assests/para.png'
 
 
 const Partners = () => {
@@ -22,9 +25,9 @@ const PartnersGrid = styled.div`
 
  const PartnerLogo = styled.img`
   height: 40px;
-  object-fit: contain;
-  filter: brightness(0) invert(1);
-  opacity: 0.8;
+  object-fit: cover;
+  // filter: brightness(0) invert(1);
+  // opacity: 0.8;
   transition: opacity 0.3s ease;
 
   &:hover {
@@ -33,12 +36,12 @@ const PartnersGrid = styled.div`
 `;
 
   const partners = [
-    { name: 'Bullhorn', logo: 'https://ultraaura.education/static/media/Ultra_Aura.cabb61de498b919d72f4.png' },
-    { name: 'Vincere', logo: 'https://novajobs.us/static/media/NovaUS.649f79957e5090a75022.png' },
-    { name: 'JobAdder', logo: 'https://abhishekdevpro-nova-home-care-fe.vercel.app/assets/logo-B4gdw3fA.png' },
-    { name: 'Loxo', logo: 'https://ultraaura.education/static/media/Ultra_Aura.cabb61de498b919d72f4.png' },
-    { name: 'JobDiva', logo: 'https://novajobs.us/static/media/NovaUS.649f79957e5090a75022.png' },
-    { name: 'idibu', logo: 'https://abhishekdevpro-nova-home-care-fe.vercel.app/assets/logo-B4gdw3fA.png' },
+    { name: 'Bullhorn', logo: ultraLogo },
+    { name: 'Vincere', logo: novalogo },
+    { name: 'JobAdder', logo: homecare },
+    { name: 'Loxo', logo: para },
+    // { name: 'JobDiva', logo: 'https://novajobs.us/static/media/NovaUS.649f79957e5090a75022.png' },
+    // { name: 'idibu', logo: 'https://abhishekdevpro-nova-home-care-fe.vercel.app/assets/logo-B4gdw3fA.png' },
   ];
 
   return (
