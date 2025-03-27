@@ -41,7 +41,7 @@ const Header = () => {
       <Title>Sign Up For Your </Title>
       <Title>Free Trial</Title>
       <SubText>
-        Start your Recalles trial today, by choosing the subscription best for your needs.
+       Start your Novajobs trial today, by choosing the subscription best for your needs.
         Click on 'Start Free Trial' below... 
       </SubText>
       {/* <CountrySelector>

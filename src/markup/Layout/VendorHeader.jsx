@@ -357,7 +357,14 @@ const VendorHeader = () => {
                     <Link to={"/white-label"}>Home</Link>
                   </li>
                   <li className="">
-                    <Link>services</Link>
+                    <Link
+                     to={'/services'}
+                    >services</Link>
+                  </li>
+                  <li className="">
+                    <Link
+                     to={'/aboutus'}
+                    >About Us</Link>
                   </li>
                   <li
                     onClick={() => {
@@ -366,7 +373,9 @@ const VendorHeader = () => {
                     }}
                     className=""
                   >
-                    <Link>Job Page</Link>
+                    <Link
+                     to={'/user/job/1'}
+                    >Job Page</Link>
                   </li>
 
                   {localStorage.getItem('vendorToken') && (

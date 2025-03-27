@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import defaultImg from "../../../assests/hero.jpg";
 import { useLogo } from "../../../Context/LogoContext";
+import { Search } from "lucide-react";
 
 // ... (keep all the existing styled components)
 const Video = styled.video`
@@ -231,7 +232,56 @@ const ModalTitle = styled.h3`
   // margin-bottom: 1.5rem;
   text-align: center;
 `;
+const SearchForm2 = styled.form`
+  width: 100%;
+  max-width: 500px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  z-index: 2;
+  position: relative;
+`;
 
+const FormRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+`;
+
+const InputWrapper = styled.div`
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 0.5rem;
+  border: 1px solid #e0e0e0;
+  overflow: hidden;
+`;
+
+const Input = styled.input`
+  flex-grow: 1;
+  padding: 0.75rem 1rem;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+`;
+
+const SearchButton = styled.button`
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: background-color 0.3s ease;
+  
+  &:hover {
+    background-color: rgba(0,0,0,0.05);
+  }
+`;
 const SearchForm = styled.form`
   width: 100%;
   max-width: 1000px;
@@ -243,23 +293,23 @@ const SearchForm = styled.form`
   z-index: 2; /* Ensure the search form is above the overlay */
   position: relative; /* Position relative for layering */
 `;
-const FormRow = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: space-between;
+// const FormRow = styled.div`
+//   display: flex;
+//   flex-wrap: wrap;
+//   gap: 1rem;
+//   justify-content: space-between;
 
-  @media (max-width: 768px) {
-    flex-direction: column;
-  }
-`;
+//   @media (max-width: 768px) {
+//     flex-direction: column;
+//   }
+// `;
 
 const FormGroup = styled.div`
   flex: 1;
   min-width: 200px;
 `;
 
-const Input = styled.input`
+const Input2 = styled.input`
   width: 100%;
   padding: 0.75rem 1rem;
   border-radius: 0.5rem;
@@ -373,22 +423,6 @@ const CareerAdvisorPage = () => {
         </Video>
       );
     }
-    // const fileType = getFileType(mediaUrl);
-    // const defaultVideo = "https://wedesignthemes.s3.amazonaws.com/thatha/Slider+VDO+02+HD.mp4";
-    // // const defaultImg = "https://your-default-image-url.com/default.jpg"; // Replace with actual image URL
-
-    // if (!mediaUrl) {
-    //   return <img src={defaultImg} alt="Default Background" style={{ width: "100%", height: "100%", objectFit: "cover" }} />;
-    // }
-
-    // if (fileType === "video") {
-    //   return (
-    //     <Video autoPlay loop muted src={mediaUrl} type="video/mp4">
-    //       Your browser does not support the video tag.
-    //     </Video>
-    //   );
-    // }
-
     <img
       src={mediaUrl}
       alt="Background"
@@ -421,6 +455,7 @@ const CareerAdvisorPage = () => {
   const url = window.location.origin.includes("localhost")
     ? "https://novajobs.us"
     : window.location.origin;
+  // const url = "https://rishi.novajobs.us"
   // Fetch page data from the API
   useEffect(() => {
     const fetchPageData = async () => {
@@ -484,7 +519,7 @@ const CareerAdvisorPage = () => {
 
   const handleOptionChange = (option) => {
     setSelectedOption(option);
-    setIsModalOpen(true)
+    setIsModalOpen(true);
   };
 
   const closeModal = () => {
@@ -519,11 +554,12 @@ const CareerAdvisorPage = () => {
   if (loading) {
     return <Container>Loading...</Container>;
   }
-
   return (
     <Container>
       <BackgroundMedia>
-        {renderBackgroundMedia(pageData?.home_here_section?.BackgroundMedia)}
+        {url === "https://novajobs.us" 
+          ? renderBackgroundMedia(videoSrc)
+          : renderBackgroundMedia(pageData?.home_here_section?.BackgroundMedia)}
       </BackgroundMedia>
 
       <Heading1>
@@ -547,28 +583,17 @@ const CareerAdvisorPage = () => {
         ))}
       </OptionWrapper>
 
+      {url==="https://novajobs.us" ?
       <SearchForm onSubmit={handleSearch}>
         <FormRow>
           <FormGroup>
-            <Input
+            <Input2
               type="text"
               placeholder="Job Title, Keywords, or Phrase"
               value={searchJob}
               onChange={(e) => setSearchJob(e.target.value)}
             />
           </FormGroup>
-
-          {/* <FormGroup>
-            <Select value={sector} onChange={(e) => setSector(e.target.value)}>
-              <option value="">Select Sector</option>
-              {categories.map((category) => (
-                <option key={category.id} value={category.name}>
-                  {category.name}
-                </option>
-              ))}
-            </Select>
-          </FormGroup> */}
-
           <FormGroup>
             <Select
               value={location}
@@ -594,7 +619,25 @@ const CareerAdvisorPage = () => {
             </Button>
           </FormGroup>
         </FormRow>
-      </SearchForm>
+      </SearchForm>:
+         <SearchForm2 onSubmit={handleSearch}>
+         <FormRow>
+           <InputWrapper>
+             <Input
+               type="text"
+               placeholder="Job Title, Keywords, or Phrase"
+               value={searchJob}
+               onChange={(e) => setSearchJob(e.target.value)}
+             />
+             <SearchButton type="submit">
+               <Search size={20} color="#666" />
+             </SearchButton>
+           </InputWrapper>
+         </FormRow>
+       </SearchForm2>
+      }
+
+
 
       {isModalOpen && (
         <>

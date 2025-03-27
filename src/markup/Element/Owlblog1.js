@@ -1,5 +1,8 @@
-import React, { Component } from "react";
+
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
+import parse from "html-react-parser";
 
 const postBlog = [
   {
@@ -39,40 +42,97 @@ const postBlog = [
   },
 ];
 
-class owltestimonial extends Component {
-  render() {
-    var settings = {
-      slidesToShow: 3,
-      arrows: false,
-      infinite: true,
-      autoplay: true,
-      responsive: [
-        {
-          breakpoint: 1200,
-          settings: {
-            slidesToShow: 3,
-          },
-        },
-        {
-          breakpoint: 991,
-          settings: {
-            slidesToShow: 2,
-          },
-        },
-        {
-          breakpoint: 576,
-          settings: {
-            slidesToShow: 1,
-          },
-        },
-      ],
+const OwlTestimonial = () => {
+  const [pageData, setPageData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const url = window.location.origin.includes("localhost")
+    ? "https://novajobs.us"
+    : window.location.origin;
+    
+  useEffect(() => {
+    const fetchPageData = async () => {
+      try {
+        const response = await axios.get(
+          `https://apiwl.novajobs.us/api/jobseeker/testimonial?domain=${url}`
+        );
+        setPageData(response.data.data);
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching page data:", err);
+        setError(err.message);
+        setLoading(false);
+      }
     };
-    return (
-      <Slider
-        className="blog-carousel-center owl-carousel owl-none "
-        {...settings}
-      >
-        {postBlog.map((item, index) => (
+
+    fetchPageData();
+  }, [url]);
+  
+  const settings = {
+    slidesToShow: 3,
+    arrows: false,
+    infinite: true,
+    autoplay: true,
+    responsive: [
+      {
+        breakpoint: 1200,
+        settings: {
+          slidesToShow: 3,
+        },
+      },
+      {
+        breakpoint: 991,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 576,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+  };
+  // console.log(pageData,"////");
+  return (
+    <Slider className="blog-carousel-center owl-carousel owl-none" {...settings}>
+      {pageData && pageData.length>0 ? (
+        pageData.map((item)=>(
+          <div className="item p-3" key={item.id}>
+          <div className="testimonial-5">
+            <div
+              className="testimonial-text"
+              style={{
+                height: "300px",
+              }}
+            >
+              <p>{typeof item.content === "string" ? parse(item.content) : item.content}</p>
+            </div>
+            <div className="testimonial-detail clearfix">
+              <div className="testimonial-pic radius shadow">
+                <img
+                  src={item.photo}
+                  width="100"
+                  alt=""
+                  style={{
+                    objectFit: "cover",
+                    aspectRatio: 1,
+                  }}
+                />
+              </div>
+              <strong className="testimonial-name" style={{ color: "white" }}>
+                {item.name}
+              </strong>
+              <span className="testimonial-position">{item.place}</span>
+            </div>
+          </div>
+        </div>
+        ))
+      ) 
+      : (
+        postBlog.map((item, index) => (
           <div className="item p-3" key={index}>
             <div className="testimonial-5">
               <div
@@ -95,20 +155,17 @@ class owltestimonial extends Component {
                     }}
                   />
                 </div>
-                <strong
-                  className="testimonial-name "
-                  style={{ color: "white" }}
-                >
+                <strong className="testimonial-name" style={{ color: "white" }}>
                   {item.name}
                 </strong>
                 <span className="testimonial-position">{item.location}</span>
               </div>
             </div>
           </div>
-        ))}
-      </Slider>
-    );
-  }
-}
+        ))
+      )}
+    </Slider>
+  );
+};
 
-export default owltestimonial;
+export default OwlTestimonial;

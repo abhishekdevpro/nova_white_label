@@ -12,10 +12,11 @@ import DomainSection from "./DomainSection"
 import UserHeader from "../markup/Layout/Header"
 import Footer from "../markup/Layout/Footer"
 import { useLogo } from "../Context/LogoContext"
+import { Link, useNavigate } from "react-router-dom"
 
 const VendorRegistration = () => {
   const {logo} = useLogo()
-  
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -53,7 +54,7 @@ const VendorRegistration = () => {
       })
 
       if (response.ok) {
-        toast.success(response.message || "Vendor registered successfully! Please check your email for verification.")
+        toast.success(response.data.message || "Vendor registered successfully! Please check your email for verification.")
         setFormData({
           first_name: "",
           last_name: "",
@@ -65,12 +66,14 @@ const VendorRegistration = () => {
           company_linkedin: "",
           access: [],
         })
+        navigate('/vendor/login')
       } else {
         const errorData = await response.json()
+        // console.log(errorData,">>>>");
         toast.error(errorData.message || "Registration failed. Please try again.")
       }
     } catch (error) {
-      toast.error("An unexpected error occurred. Please try again.")
+      toast.error(error.response?.data?.message || "An unexpected error occurred. Please try again.")
       console.error("Error:", error)
     }
   }
@@ -136,7 +139,7 @@ const VendorRegistration = () => {
                 name="company_name"
                 value={formData.company_name}
                 onChange={handleChange}
-                required
+                // required
               />
             </FormGroup>
           </FormRow>
@@ -189,7 +192,7 @@ const VendorRegistration = () => {
       <TermsContainer>
         <TermsCheckbox type="checkbox" id="terms" />
         <TermsText htmlFor="terms">
-          By submitting this form, you agree to our <a href="#">Terms of Use</a> & <a href="#">Privacy Policy</a>.
+          By submitting this form, you agree to our <Link className="text-primary fw-bold" to={'/terms-and-conditions'}>Terms of Use</Link> & <Link className="text-primary fw-bold" to={'/privacy-policy'}>Privacy Policy</Link>.
         </TermsText>
       </TermsContainer>
     </RemarksContainer>

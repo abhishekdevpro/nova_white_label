@@ -204,9 +204,9 @@ function Footer() {
                       }
                     >
                       <Link
-                      to={"/white-label"}
+                      to={"/cookies-policy"}
                       >
-                        Cookies Ploicy
+                        Cookies Policy
                       </Link>
                     </li>
                     <li
@@ -215,9 +215,9 @@ function Footer() {
                       }
                     >
                       <Link
-                      to={"/white-label"}
+                      to={"/privacy-policy"}
                       >
-                        Privacy Ploicy
+                        Privacy Policy
                       </Link>
                     </li>
                   </ul>
@@ -251,7 +251,7 @@ function Footer() {
                     </li>
                     <li>
                       <Link
-                        to={"/employer/term-of-use-nova-jobs"}
+                        to={"/terms-and-conditions"}
                         onClick={() =>
                           window.scrollTo({ top: 0, behavior: "smooth" })
                         }

@@ -1,12 +1,65 @@
 import React, { useState, useEffect } from "react";
 import Header from "./../Layout/Header";
 import Footer from "./../Layout/Footer";
-
+import axios from "axios";
+import parse from "html-react-parser";
 function PrivacyRights() {
+    const [pageData, setPageData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const url = window.location.origin.includes("localhost")
+    ? "https://novajobs.us"
+    : window.location.origin;
+  useEffect(() => {
+    const fetchPageData = async () => {
+      try {
+        const response = await axios.get(
+          `https://apiwl.novajobs.us/api/jobseeker/privacy-and-policy?domain=${url}`
+        );
+        setPageData(response.data.data);
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching page data:", err);
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    fetchPageData();
+  }, []);
     return (
         <>
             <Header />
-            <div className="page-content bg-white">
+            {pageData?.title && pageData?.description ?  
+              <div className="page-content bg-white">
+                        <div className="content-block">
+                          <div className="section-full bg-white p-t50 p-b20">
+                            <div className="container">
+                              <div className="m-b30">
+                                <div className="job-bx">
+                                  <h1
+                                    className="m-b5 "
+                                    style={{
+                                      fontSize: "clamp(24px, 5vw, 30px)",
+                                      fontWeight: "bold",
+                                    }}
+                                  >
+                                   {pageData.title}
+                                  </h1>
+              
+                                  <div className="candidate-title">
+                                    <p>
+                                       {parse(pageData.description)}
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+            :<div className="page-content bg-white">
                 <div className="content-block">
                     <div className="section-full bg-white p-t50 p-b20">
                         <div className="container">
@@ -94,7 +147,7 @@ function PrivacyRights() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>}
             <Footer />
         </>
     );

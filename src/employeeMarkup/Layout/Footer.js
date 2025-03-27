@@ -207,7 +207,7 @@ function Footer() {
                           <Link to={"/services"}>Services</Link>
                         </li>
                         <li>
-                          <Link to={"/employer/term-of-use-nova-jobs"}>
+                          <Link to={"/terms-and-conditions"}>
                             Terms of use
                           </Link>
                         </li>

@@ -81,7 +81,7 @@ function JobPage() {
   const [activeDropDown, setActiveDropDown] = useState("");
   const [loading, setLoading] = useState(false); // Controls skeleton loading
   const [category, Setcategory] = useState("");
-
+  
   // Extract search params from the URL
   // console.log(location.search,"urrrriiiii");
   const queryParams = new URLSearchParams(location.search);
@@ -411,9 +411,7 @@ function JobPage() {
     try {
       const response = await axios.get(
         `https://apiwl.novajobs.us/api/jobseeker/cities/${jobApplicationValues.state_id}`,
-        {
-          headers: { Authorization: token },
-        }
+        
       );
       setCities(response.data.data);
     } catch (error) {
@@ -509,7 +507,21 @@ function JobPage() {
 
     // fetchJobApplicationData(nextPage);
   };
-  // console.log("pagevalue", page);
+
+  if (!jobApplicationData || jobApplicationData===null) {
+    return (
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <div className="alert alert-warning text-center p-4 shadow-lg">
+          <h4 className="mb-3">No Job Found</h4>
+          <p>Sorry, we couldn't find the job you're looking for.</p>
+          <Link to="/" className="btn btn-primary mt-2">
+            Back to Home
+          </Link>
+        </div>
+      </div>
+    );
+  }
+  
   return (
     <>
       <Header />
@@ -571,7 +583,7 @@ function JobPage() {
                         </div>
                       </div>
 
-                      <div className="col-lg-2 col-md-5 col-12">
+                    {url==="https://novajobs.us" && <div className="col-lg-2 col-md-5 col-12">
                         <div className="form-group">
                           <label htmlFor="state_id">State:</label>
                           {states ? (
@@ -596,7 +608,7 @@ function JobPage() {
                             </select>
                           ) : null}
                         </div>
-                      </div>
+                      </div>}
 
                       <div className="col-lg-2 col-md-5 col-12">
                         <div className="form-group">
@@ -898,7 +910,7 @@ function JobPage() {
                                       <h3 className="mb-1" style={{ fontSize: "16px", 
                                         fontWeight: "500",
                                       }}>
-                                        {selectedJob.job_detail.job_title}
+                                        {selectedJob.job_detail?.job_title}
                                       </h3>
                                     </Link>
                                   </div>
@@ -907,8 +919,7 @@ function JobPage() {
                                       "jobSeekerLoginToken"
                                     ) ? (
                                       <>
-                                        {selectedJob.job_detail
-                                          .is_job_applied ? (
+                                        {selectedJob.job_detail?.is_job_applied ? (
                                           <button
                                             className="site-button btn btn-primary"
                                             // onClick={handleShow}
@@ -943,20 +954,20 @@ function JobPage() {
                                   </div>
                                 </div>
                                 <div className="job-details-content">
-                                  {selectedJob.job_workplace_types.name &&
-                                    selectedJob.job_type.name &&
-                                    selectedJob.job_category.name && (
+                                  {selectedJob.job_workplace_types?.name &&
+                                    selectedJob.job_type?.name &&
+                                    selectedJob.job_category?.name && (
                                       <p className="p-2">
-                                        {selectedJob.job_workplace_types.name} |{" "}
-                                        {selectedJob.job_type.name} |{" "}
-                                        {selectedJob.job_category.name}
+                                        {selectedJob.job_workplace_types?.name} |{" "}
+                                        {selectedJob.job_type?.name} |{" "}
+                                        {selectedJob.job_category?.name}
                                       </p>
                                     )}
                                   <div
                                     className="d-flex"
                                     style={{ gap: "4px" }}
                                   >
-                                    {selectedJob.job_detail.skills_arr.map(
+                                    {selectedJob.job_detail?.skills_arr.map(
                                       (item, index) => (
                                         <p
                                           key={index}
@@ -967,9 +978,9 @@ function JobPage() {
                                       )
                                     )}
                                   </div>
-                                  {selectedJob.job_detail.skills && (
+                                  {selectedJob.job_detail?.skills && (
                                     <p>
-                                      Skills: {selectedJob.job_detail.skills}
+                                      Skills: {selectedJob.job_detail?.skills}
                                     </p>
                                   )}
                                   <p>
@@ -982,7 +993,7 @@ function JobPage() {
                                     fontWeight: "500",
                                   }}
                                   >Job details</h5>
-                                  {selectedJob.companies.id && (
+                                  {selectedJob?.companies?.id && (
                                     <div
                                       className="d-flex "
                                       style={{
@@ -995,7 +1006,7 @@ function JobPage() {
                                         }}
                                         onClick={() => {
                                           navigate(
-                                            `/user/company/${selectedJob.companies.id}`
+                                            `/user/company/${selectedJob?.companies?.id}`
                                           );
                                         }}
                                       >
@@ -1004,7 +1015,7 @@ function JobPage() {
                                           aria-hidden="true"
                                         ></i>
                                         {"  "}
-                                        {selectedJob.companies.company_name}
+                                        {selectedJob.companies?.company_name}
                                       </p>
                                       <p>
                                         <i
@@ -1013,11 +1024,11 @@ function JobPage() {
                                         ></i>
 
                                         {"  "}
-                                        {selectedJob.companies.founded_date}
+                                        {selectedJob.companies?.founded_date}
                                       </p>
                                     </div>
                                   )}
-                                  {selectedJob.companies.id && (
+                                  {selectedJob.companies?.id && (
                                     <div
                                       className="d-flex"
                                       style={{
@@ -1026,9 +1037,9 @@ function JobPage() {
                                     >
                                       <p>
                                         <i className="fa fa-map-marker mr-2"></i>
-                                        {selectedJob.companies.cities.name},{" "}
-                                        {selectedJob.companies.states.name},{" "}
-                                        {selectedJob.companies.countries.name}
+                                        {selectedJob.companies?.cities.name},{" "}
+                                        {selectedJob.companies?.states.name},{" "}
+                                        {selectedJob.companies?.countries.name}
                                       </p>
                                     </div>
                                   )}{" "}
@@ -1038,7 +1049,7 @@ function JobPage() {
                                 <h5 style={{ fontSize: "16px", 
                                         fontWeight: "500",
                                       }}>Full job description</h5>
-                                {selectedJob.job_detail.job_description && (
+                                {selectedJob.job_detail?.job_description && (
                                   <p className="mb-1">
                                     <div
                                       className="ql-editor"
@@ -1048,17 +1059,17 @@ function JobPage() {
                                       dangerouslySetInnerHTML={{
                                         __html:
                                           selectedJob.job_detail
-                                            .job_description,
+                                            ?.job_description,
                                       }}
                                     />
                                   </p>
                                 )}
                               </div>
-                              {selectedJob.job_detail.created_at && (
+                              {selectedJob.job_detail?.created_at && (
                                 <p>
                                   Posted{" "}
                                   {moment(
-                                    selectedJob.job_detail.created_at
+                                    selectedJob.job_detail?.created_at
                                   ).fromNow()}
                                 </p>
                               )}
@@ -1081,7 +1092,7 @@ function JobPage() {
 
                                   <Tab.Pane eventKey="contact-info">
                                     <form className="col-12 p-a0">
-                                      {selectedJob.screen_questions &&
+                                      {selectedJob?.screen_questions &&
                                       selectedJob.screen_questions
                                         .screen_question_keywords ? (
                                         <div>
@@ -1193,11 +1204,11 @@ function JobPage() {
                                   <input
                                     type="checkbox"
                                     defaultChecked={
-                                      selectedJob.job_detail.is_job_favorite
+                                      selectedJob.job_detail?.is_job_favorite
                                     }
-                                    name={selectedJob.job_detail.id}
+                                    name={selectedJob.job_detail?.id}
                                     onClick={() => {
-                                      toggleFabJobs(selectedJob.job_detail.id);
+                                      toggleFabJobs(selectedJob.job_detail?.id);
                                     }}
                                   />
                                   <span className="checkmark"></span>
@@ -1211,7 +1222,7 @@ function JobPage() {
                             <h3>About Company</h3>
                             <div
                               dangerouslySetInnerHTML={{
-                                __html: selectedJob.companies.about,
+                                __html: selectedJob.companies?.about,
                               }}
                             />
                           </div>

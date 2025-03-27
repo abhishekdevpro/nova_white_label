@@ -279,8 +279,8 @@ function Jobsection() {
                           <ul>
                             <li>
                               <i className="fa fa-map-marker"></i>{" "}
-                              {item.cities.name}, {item.states.name},{" "}
-                              {item.countries.name}
+                              {item.companies.cities.name}, {item.companies.states.name},{" "}
+                              {item.companies.countries.name}
                             </li>
                             {item.job_category.name && (
                               <li>
@@ -392,8 +392,8 @@ function Jobsection() {
                           <ul>
                             <li>
                               <i className="fa fa-map-marker"></i>{" "}
-                              {item.cities.name}, {item.states.name},{" "}
-                              {item.countries.name}
+                              {item.job_detail?.city_id}, {item.job_detail?.state_id},{" "}
+                              {item.job_detail?.country_id}
                             </li>
                             {item.job_category.name && (
                               <li>

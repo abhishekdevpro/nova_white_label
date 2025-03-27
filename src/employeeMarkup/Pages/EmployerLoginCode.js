@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import axios from "axios"; // Import Axios
 import logo from "../../images/login/loginbg.jpeg";
 import loginbg from "../../images/login/loginbg.jpeg";
+import LogoWrapper from "../../markup/Layout/LogoWrapper";
 // import { useRouter } from "next/router";
 const LoginEmployerCode = () => {
   //   const router = useRouter();
@@ -82,17 +83,26 @@ const LoginEmployerCode = () => {
         </Link>
 
         {/* Logo */}
-        <div className="text-center mb-3">
+        {/* <div className="text-center mb-3">
           <img
             src={require("./../../images/logo/NovaUS.png")}
             alt=""
             width={100}
             height={100}
           />
-        </div>
+         
+        </div> */}
+        {/* <LogoWrapper />
 
-        {/* Title */}
-        <h2 className="text-center">Sign in with login code</h2>
+        Title
+        <h2 className="text-center">Sign in with login code</h2> */}
+        <div className="d-flex flex-column align-items-center justify-content-center text-center">
+          <div className="p-4 ">
+            <LogoWrapper />
+          </div>
+          <h2 className="mt-3 fw-light">Sign in with Login Code</h2>
+
+        </div>
         <p className="text-center text-muted">
           We have sent your one-time passcode to <br />
           <strong className="text-primary">{email}</strong>. This passcode will

@@ -805,12 +805,12 @@ function Login(props) {
                             {" "}
                             I agree to the{" "}
                             {
-                              <Link to={"/employer/privacy-rights"}>
+                              <Link to={"privacy-policy"}>
                                 Privacy Policy
                               </Link>
                             }{" "}
                             and{" "}
-                            <Link to={"/employer/term-of-use-nova-jobs"}>
+                            <Link to={"/terms-and-conditions"}>
                               Terms & conditions{" "}
                             </Link>
                           </label>

@@ -169,12 +169,26 @@ const PricingCard = ({
 }) => {
   const navigate = useNavigate(); // Hook for navigation
 
+  // const handleButtonClick = () => {
+  //   const vendorToken = localStorage.getItem("vendorToken"); // Assuming token is stored in localStorage
+  //   if (vendorToken) {
+  //     openModal(); // Open the form modal if token exists
+  //   } else {
+  //     navigate("/vendor/login"); // Redirect to login page if no token
+  //   }
+  // };
+
   const handleButtonClick = () => {
     const vendorToken = localStorage.getItem("vendorToken"); // Assuming token is stored in localStorage
-    if (vendorToken) {
-      openModal(); // Open the form modal if token exists
+    
+    if (price === "Free") {
+      if (vendorToken) {
+        openModal(); // Open the form modal if token exists
+      } else {
+        navigate("/vendor/login"); // Redirect to login page if no token
+      }
     } else {
-      navigate("/vendor/login"); // Redirect to login page if no token
+      navigate("/vendor/payments"); // Navigate to payment page for paid plans
     }
   };
 
