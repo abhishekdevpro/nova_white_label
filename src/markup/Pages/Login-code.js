@@ -3,10 +3,11 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 // import Image from "next/image";
-import { toast} from "react-toastify";
+import { toast } from "react-toastify";
 import axios from "axios"; // Import Axios
 import logo from "../../images/login/loginbg.jpeg";
 import loginbg from "../../images/login/loginbg.jpeg";
+import LogoWrapper from "../Layout/LogoWrapper";
 // import { useRouter } from "next/router";
 const LoginCode = () => {
   //   const router = useRouter();
@@ -33,13 +34,13 @@ const LoginCode = () => {
 
     setLoading(true);
     const url = window.location.origin.includes("localhost")
-    ? "https://novajobs.us"
-    : window.location.origin;
+      ? "https://novajobs.us"
+      : window.location.origin;
     try {
       const response = await axios.post(
         `${BASE_URL}/api/jobseeker/auth/login-otp`,
 
-        { email, otp ,domain:url}
+        { email, otp, domain: url }
       );
 
       const token = response.data?.data?.token;
@@ -49,7 +50,9 @@ const LoginCode = () => {
 
       navigate(`/user/dashboard`);
     } catch (error) {
-      toast.error(error.response?.data?.message || "Invalid OTP. Please try again.")
+      toast.error(
+        error.response?.data?.message || "Invalid OTP. Please try again."
+      );
       console.error(
         error.response?.data?.message || "Invalid OTP. Please try again."
       );
@@ -75,17 +78,24 @@ const LoginCode = () => {
         </Link>
 
         {/* Logo */}
-        <div className="text-center mb-3">
+        {/* <div className="text-center mb-3">
           <img
             src={require("./../../images/logo/NovaUS.png")}
             alt=""
             width={100}
             height={100}
           />
+        </div> */}
+        {/* <LogoWrapper />
+        <h2 className="text-center">Sign in with login code</h2> */}
+        <div className="d-flex flex-column align-items-center justify-content-center text-center">
+          <div className="p-4 ">
+            <LogoWrapper />
+          </div>
+          <h2 className="mt-3 fw-light">Sign in with Login Code</h2>
+
         </div>
 
-        {/* Title */}
-        <h2 className="text-center">Sign in with login code</h2>
         <p className="text-center text-muted">
           We have sent your one-time passcode to <br />
           <strong className="text-primary">{email}</strong>. This passcode will

@@ -203,9 +203,43 @@ import LoginEmployerCode from "./employeeMarkup/Pages/EmployerLoginCode";
 import EmployerGauth from "./employeeMarkup/Pages/EmployerG-auth";
 import UltraAuraCourses from "./markup/Element/UltraAuraCourses";
 import JobSeekerDashboard from "./markup/Pages/JobSeekerDashboard";
+import axios from "axios";
+import Payment from "./vendor/Payments/Payemnts";
+import PlansPage from "./vendor/Payments/Plans";
 // import AboutusForm from 
 function App() {
   const dispatch = useDispatch();
+
+  const updateFavicon = (faviconUrl) => {
+    let link = document.querySelector("link[rel~='icon']");
+    
+    if (!link) {
+      link = document.createElement("link");
+      link.rel = "icon";
+      document.head.appendChild(link);
+    }
+  
+    link.href = faviconUrl;
+  };
+  const url = window.location.origin.includes("localhost")
+    ? "https://novajobs.us"
+    : window.location.origin;
+  useEffect(() => {
+    const fetchFavicon = async () => {
+      try {
+        const response = await axios.get(`https://apiwl.novajobs.us/api/jobseeker/general-info?domain=${url}`); // Replace with your actual API
+         if(response.data.data.success ==="sucsess" || response.data.data.code ===200){
+          updateFavicon(response.data.data.favicon.image)
+         }
+
+        
+      } catch (error) {
+        console.error("Error fetching favicon:", error);
+      }
+    };
+
+    fetchFavicon();
+  }, []);  
 
   return (
     <Routes>
@@ -217,6 +251,9 @@ function App() {
       <Route path="Profilepagehome" element={<Profilepagehome />} />
       <Route path="/*" element={<Error404 />} />
       <Route path="about-us" element={<Aboutus />} />
+      <Route path="privacy-policy" element={<PrivacyRights />} />
+      <Route path="cookies-policy" element={<CookiesDigitalAdvertising />} />
+      <Route path="terms-and-conditions" element={<TermOfUse />} />
       <Route path="accessibility-center" element={<AccessibilityCenter />} />
       <Route path="transaction" element={<Transactions />} />
 
@@ -453,6 +490,8 @@ function App() {
       <Route path="white-label-started" element={<WhiteStart />} />
       <Route path="/vendor">
         <Route path="login" element={<Vendorlogin />} />
+        <Route path="payments" element={<Payment />} />
+        <Route path="payment/plans" element={<PlansPage />} />
         <Route
           path="vendorprofile"
           element={
@@ -1295,14 +1334,6 @@ function App() {
           }
         />
 
-        <Route
-          path="term-of-use-nova-jobs"
-          element={
-            // <EmployeePrivateRoute>
-            <TermOfUse />
-            // </EmployeePrivateRoute>
-          }
-        />
         <Route
           path="resume-security"
           element={

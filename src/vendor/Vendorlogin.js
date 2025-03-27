@@ -6,6 +6,7 @@ import { Navbar, Nav, Badge } from "react-bootstrap";
 import Footer from "../markup/Layout/Footer";
 import VendorHeader from "../markup/Layout/VendorHeader";
 import LogoWrapper from "../markup/Layout/LogoWrapper";
+import { toast } from "react-toastify";
 
 const Vendorlogin = () => {
   const [email, setEmail] = useState("");
@@ -29,10 +30,12 @@ const Vendorlogin = () => {
 
       if (response.data.data.token) {
         localStorage.setItem("vendorToken", response.data.data.token);
+        toast.success(response.data.message || "User Logged In Successfully!")
         navigate("/white-label");
       }
     } catch (err) {
       if (err.response && err.response.data && err.response.data.message) {
+        toast.error(err.response.data.message || "Login Failed")
         setError(err.response.data.message);
       } else {
         setError("An error occurred. Please try again.");
@@ -40,90 +43,9 @@ const Vendorlogin = () => {
     }
   };
 
-  // const url = window.location.origin;
-  // useEffect(() => {
-  //   // Fetch logo from API
-  //   const fetchLogo = async () => {
-  //     try {
-  //       const response = await axios.get(`https://apiwl.novajobs.us/api/jobseeker/acount-info?domain=${url}`); // Replace with your domain
-  //       // console.log(response.data.data,"llll");
-  //       if (response.data && response.data.data.logo) {
-  //         setLogo(response.data.data.logo);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching logo:", error);
-  //       // Keep default logo on error
-  //     }
-  //   };
-
-  //   fetchLogo();
-
-  //   // Sidebar toggle functionality
-  //   const navicon = document.querySelector(".navicon");
-  //   const sidebarmenu = document.querySelector(".myNavbar");
-
-  //   const toggleFunc = () => {
-  //     sidebarmenu?.classList.toggle("show");
-  //   };
-
-  //   navicon?.addEventListener("click", toggleFunc);
-
-  //   // Sidenav li open close
-  //   const navUl = Array.from(
-  //     document.querySelectorAll(".navbar-nav > li > a, .sub-menu > li > a")
-  //   );
-
-  //   const checkLi = (current) => {
-  //     const parentUl = current.parentElement.parentElement;
-  //     if (parentUl) {
-  //       parentUl.querySelectorAll("li").forEach((el) =>
-  //         current.parentElement !== el ? el.classList.remove("open") : ""
-  //       );
-  //     }
-  //     setTimeout(() => {
-  //       current.parentElement.classList.toggle("open");
-  //     }, 100);
-  //   };
-
-  //   navUl.forEach((item) => {
-  //     item.addEventListener("click", () => checkLi(item));
-  //   });
-
-  //   // Cleanup event listeners
-  //   return () => {
-  //     navicon?.removeEventListener("click", toggleFunc);
-  //     navUl.forEach((item) => {
-  //       item.removeEventListener("click", () => checkLi(item));
-  //     });
-  //   };
-  // }, []);
-
   return (
     <div>
-      {/* <Navbar bg="white" variant="white" className="py-3 border-bottom">
-        <Navbar.Brand as={Link} to="/">
-          <img
-            style={{ width: "110px" }}
-            src={require("../images/logo/NovaUS.png")}
-            className="logo"
-            alt="img"
-          />
-        </Navbar.Brand>
-
-        <Nav className="ml-auto align-items-center">
-          <Nav.Link href="/vendor/vendorregistration" className="mr-4">
-            <Button
-              variant="primary"
-              type="submit"
-              className="  "
-              style={{ backgroundColor: "#1C2957" }}
-            >
-              Sign Up
-            </Button>
-          </Nav.Link>
-        </Nav>
-      </Navbar> */}
-      <VendorHeader/>
+      <VendorHeader />
       <Container className="d-flex justify-content-center align-items-center vh-50">
         <Row className="w-100">
           <Col md={{ span: 6, offset: 3 }}>
@@ -138,7 +60,7 @@ const Vendorlogin = () => {
                 className="logo"
                 alt="img"
               /> */}
-              <LogoWrapper/>
+              <LogoWrapper />
             </Link>
             <h3 className="text-center m-4">Vendor Login</h3>
             <Form onSubmit={handleLogin}>
@@ -178,17 +100,37 @@ const Vendorlogin = () => {
                   </span>
                 </div>
               </Form.Group>
+              <Form.Group controlId="formBasicCheckbox" className="mt-3">
+                <Form.Check
+                  type="checkbox"
+                  label={
+                    <span>
+                      I agree to the{" "}
+                      <Link to="/privacy-policy">Privacy Policy</Link> and{" "}
+                      <Link to="/terms-and-conditions">Terms & Conditions</Link>
+                      .
+                    </span>
+                  }
+                  required
+                />
+              </Form.Group>
 
               {error && <p className="text-danger mt-3">{error}</p>}
               <Button
                 variant="primary"
                 type="submit"
-                className="my-5 w-100"
+                className="my-1 w-100"
                 style={{ backgroundColor: "#1C2957" }}
               >
                 Login
               </Button>
             </Form>
+            <p className="text-center">
+              Don't have an account?{" "}
+              <Link to="/vendor/vendorregistration" className="text-primary fw-bold">
+                Sign up
+              </Link>
+            </p>
           </Col>
         </Row>
       </Container>

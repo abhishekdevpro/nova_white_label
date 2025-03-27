@@ -31,7 +31,7 @@ const blogGrid = [
 
 const token = localStorage.getItem("jobSeekerLoginToken");
 
-function Jobdetail() {
+function Jobdetail(selectedJob) {
   const { id } = useParams();
   const [jobData, setJobData] = useState(null);
   const [show, setShow] = useState(false);
