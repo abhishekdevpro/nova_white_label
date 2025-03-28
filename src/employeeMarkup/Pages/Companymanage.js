@@ -16,6 +16,7 @@ import { HiOutlineDotsVertical } from "react-icons/hi";
 import { FaX } from "react-icons/fa6";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import ShareButton from "./ShareButton";
 function EmployeeCompanymanage() {
 
   
@@ -195,7 +196,7 @@ function EmployeeCompanymanage() {
               <li key={index} className="position-relative">
                 <div className="post-bx d-flex w-100 justify-content-between">
                   <div className="job-post-info m-a0">
-                    {console.log("yehi h console", item.job_detail)}
+                    {/* {console.log("yehi h console", item.job_detail)} */}
                     {item.job_detail.job_title && (
                       <h4 className="mb-0">
                         <Link to={`/user/job/${item.job_detail.id}`}>
@@ -316,11 +317,11 @@ function EmployeeCompanymanage() {
                       style={{ cursor: "pointer", backgroundColor: "red" }}
                       onClick={() => handleRepostJob(item.job_detail.id)}
                     >
-                      Refresh
+                      Repost
                     </button>
                   </div>
                 </div>
-                <button
+                {/* <button
                   className="px-3 py-2 site-button text-white border-0 float-right mb-2"
                   style={{ cursor: "pointer" }}
                   onClick={() => handleShareClick(item.job_detail.id)}
@@ -385,7 +386,8 @@ function EmployeeCompanymanage() {
                       </div>
                     </Modal.Body>
                   </Modal>
-                )}
+                )} */}
+                <ShareButton courseUrl={`https://ultraaura.education/course-info/${item.job_detail.id}`} />
               </li>
             );
           })}
@@ -395,7 +397,7 @@ function EmployeeCompanymanage() {
       )}
     </div>
 
-                    <div className="pagination-bx m-t30 float-right">
+                    {/* <div className="pagination-bx m-t30 float-right">
                       <ul className="pagination">
                         <li className="previous">
                           <Link to={"#"}>
@@ -417,9 +419,9 @@ function EmployeeCompanymanage() {
                           </Link>
                         </li>
                       </ul>
-                    </div>
+                    </div> */}
 
-                    <Modal
+                    {/* <Modal
                       show={company}
                       onHide={setCompany}
                       className="modal fade modal-bx-info"
@@ -473,7 +475,7 @@ function EmployeeCompanymanage() {
                           </div>
                         </div>
                       </div>
-                    </Modal>
+                    </Modal> */}
                   </div>
                 </div>
               </div>

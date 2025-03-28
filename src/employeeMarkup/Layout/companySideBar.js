@@ -66,6 +66,7 @@ const CompanySideBar = ({ active }) => {
           Authorization: token,
         },
       });
+      // console.log(response,"LLLLL");
       setLogo(`${response.data.data.company_detail.logo}`);
     } catch (error) {
       console.error("Error fetching logo:", error);
@@ -78,8 +79,8 @@ const CompanySideBar = ({ active }) => {
   };
 
   useEffect(() => {
-    // getLogo(); // Fetch logo on component mount
-  }, []); // Empty dependency array ensures it runs only once
+    getLogo(); // Fetch logo on component mount
+  }, [logo]); // Empty dependency array ensures it runs only once
 
   // console.log(logo, "lavi");
 
@@ -169,21 +170,23 @@ const CompanySideBar = ({ active }) => {
                       onChange={handleImageChange}
                     />
                     <i className="fa fa-pencil"></i>
+                    
                   </div>
                 </div>
               </div>
-              <div className="candidate-title text-center candidate-detail text-break">
-                <h4 className="m-b5">
-                  <Link to={"#"}>{companyDetail?.company_name}</Link>
-                </h4>
-                {file?.url ? (
+              {file?.url ? (
                   <button
                     onClick={handleUpdateCompanyLogo}
-                    className="site-button"
+                    className="site-button w-100"
                   >
                     Update
                   </button>
                 ) : null}
+              <div className="candidate-title text-center candidate-detail text-break">
+                <h4 className="m-b5">
+                  <Link to={"#"}>{companyDetail?.company_name}</Link>
+                </h4>
+                
               </div>
               <ul>
                 <li>
@@ -216,6 +219,17 @@ const CompanySideBar = ({ active }) => {
                     <span>Manage jobs</span>
                   </Link>
                 </li>
+                {/* <li>
+                  <Link
+                    to={"/employer/company-resume"}
+                    className={
+                      active === "company-resume" ? "active" : null
+                    }
+                  >
+                    <Briefcase className="me-2"/>
+                    <span>Manage Applicants</span>
+                  </Link>
+                </li> */}
                 <li>
                   <Link
                     className={active === "community" ? "active" : null}

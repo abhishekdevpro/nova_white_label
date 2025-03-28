@@ -8,7 +8,7 @@ const Container = styled.div`
   padding: 1rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  
+
   @media (min-width: 768px) {
     flex-direction: row;
     justify-content: space-between;
@@ -21,7 +21,7 @@ const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  
+
   @media (min-width: 768px) {
     width: 75%;
   }
@@ -31,7 +31,7 @@ const CompanyInfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  
+
   @media (min-width: 576px) {
     flex-direction: row;
     align-items: flex-start;
@@ -41,7 +41,7 @@ const CompanyInfoWrapper = styled.div`
 const LogoWrapper = styled.div`
   text-align: center;
   margin-bottom: 1rem;
-  
+
   @media (min-width: 576px) {
     text-align: left;
     margin-bottom: 0;
@@ -49,21 +49,35 @@ const LogoWrapper = styled.div`
   }
 `;
 
+// const Logo = styled.img`
+//   width: 120px;
+//   height: 60px;
+//   max-width: 100%;
+//   object-fit: contain;
+//   border-radius:50%;
+
+//   @media (min-width: 576px) {
+//     width: 150px;
+//     height: 75px;
+//   }
+// `;
 const Logo = styled.img`
-  width: 120px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
   max-width: 100%;
-  object-fit: contain;
-  
+  object-fit: cover;
+  border-radius: 50%; /* Makes it circular */
+  border: 2px solid #ddd; /* Optional: Adds a subtle border */
+
   @media (min-width: 576px) {
-    width: 150px;
-    height: 75px;
+    width: 100px;
+    height: 100px;
   }
 `;
 
 const CompanyDetails = styled.div`
   text-align: center;
-  
+
   @media (min-width: 576px) {
     text-align: left;
   }
@@ -73,7 +87,7 @@ const CompanyName = styled.h4`
   font-weight: bold;
   margin-bottom: 0.5rem;
   font-size: 1.2rem;
-  
+
   @media (min-width: 576px) {
     font-size: 1.4rem;
   }
@@ -89,21 +103,21 @@ const CompanyInfoList = styled.ul`
   margin-bottom: 1rem;
   font-weight: 600;
   font-size: 0.8rem;
-  
+
   @media (min-width: 576px) {
     justify-content: flex-start;
     font-size: 0.9rem;
   }
-  
+
   li {
     display: flex;
     align-items: center;
     margin-right: 0.5rem;
-    
+
     @media (min-width: 768px) {
       margin-right: 1rem;
     }
-    
+
     i {
       margin-right: 0.25rem;
     }
@@ -113,19 +127,20 @@ const CompanyInfoList = styled.ul`
 const BadgeWrapper = styled.div`
   display: flex;
   justify-content: center;
-  
+
   @media (min-width: 576px) {
     justify-content: flex-start;
   }
 `;
 
-const Badge = styled.span`
+const Badge = styled.button`
   background-color: #007bff;
   color: white;
   padding: 0.35rem 0.75rem;
   border-radius: 1rem;
   font-size: 0.8rem;
-  
+  border:none;
+
   @media (min-width: 576px) {
     padding: 0.5rem 1rem;
     font-size: 0.9rem;
@@ -139,12 +154,12 @@ const ActionsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  
+
   @media (min-width: 576px) {
     flex-direction: row;
     justify-content: center;
   }
-  
+
   @media (min-width: 768px) {
     margin-top: 0;
     width: 25%;
@@ -164,11 +179,11 @@ const MessageButton = styled.button`
   font-size: 0.9rem;
   cursor: pointer;
   transition: background-color 0.2s;
-  
+
   &:hover {
     background-color: #083378;
   }
-  
+
   @media (min-width: 576px) {
     width: auto;
     margin-right: 0.75rem;
@@ -189,52 +204,55 @@ const BookmarkButton = styled.button`
   justify-content: center;
   cursor: pointer;
   transition: background-color 0.2s;
-  
+
   &:hover {
     background-color: #e8f0fe;
   }
 `;
 
-const CompanyProfile = ({ companyData }) => {
+const CompanyProfile = ({ companyData, setActiveTab }) => {
   return (
     <Container>
       <ContentWrapper>
         <CompanyInfoWrapper>
           <LogoWrapper>
-            <Logo src={companyData.logo} alt={`${companyData?.company_name} logo`} />
+            <Logo
+              src={companyData.logo}
+              alt={`${companyData?.company_name} logo`}
+            />
           </LogoWrapper>
           <CompanyDetails>
             <CompanyName>{companyData?.company_name}</CompanyName>
             <CompanyInfoList>
               <li>
-                <i className="bi bi-geo-alt text-primary"></i> 
+                <i className="bi bi-geo-alt text-primary"></i>
                 {companyData.city.name}, {companyData.state.name}
               </li>
               <li>
-                <i className="bi bi-briefcase text-primary"></i> 
+                <i className="bi bi-briefcase text-primary"></i>
                 {companyData?.company_industry.name}
               </li>
               <li>
-                <i className="bi bi-telephone text-primary"></i> 
+                <i className="bi bi-telephone text-primary"></i>
                 {companyData?.phone}
               </li>
               <li>
-                <i className="bi bi-envelope text-primary"></i> 
+                <i className="bi bi-envelope text-primary"></i>
                 {companyData?.email}
               </li>
             </CompanyInfoList>
             <BadgeWrapper>
-              <Badge>Open Jobs – {companyData.jobNumber}</Badge>
+              <Badge onClick={() => setActiveTab("jobs")}>
+                Open Jobs – {companyData.jobNumber}
+              </Badge>{" "}
             </BadgeWrapper>
           </CompanyDetails>
         </CompanyInfoWrapper>
       </ContentWrapper>
-      
+
       <ActionsWrapper>
         <a href={`mailto:${companyData?.email?.trim()}`}>
-          <MessageButton>
-            Message
-          </MessageButton>
+          <MessageButton>Message</MessageButton>
         </a>
         <BookmarkButton>
           <i className="bi bi-bookmark"></i>

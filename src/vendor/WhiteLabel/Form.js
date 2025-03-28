@@ -1,4 +1,3 @@
-
 import axios from "axios";
 import { Check, CheckCircle } from "lucide-react";
 import React, { useEffect, useState } from "react";
@@ -80,14 +79,18 @@ const Select = styled(Input).attrs({ as: "select" })`
 const CheckboxGroup = styled.div`
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items:center;
 `;
+
+
 
 const Checkbox = styled.input`
   width: 16px;
   height: 16px;
   border: 1px solid #dddddd;
-  border-radius: 4px;
+  // border-radius: 4px;
 `;
 
 const RadioGroup = styled.div`
@@ -181,7 +184,7 @@ const DomainSection = styled.div`
   display: flex;
   justify-content: ;
   align-items: center;
-    gap: 16px;
+  gap: 16px;
   margin-bottom: 24px;
   // border:2px solid green;
 
@@ -191,11 +194,10 @@ const DomainSection = styled.div`
   }
 `;
 
-
 const DomainWrapper = styled.div`
   display: flex;
   align-items: center;
-  border: 1px solid ${props => props.error ? '#ff4d4f' : '#d0d0d0'};
+  border: 1px solid ${(props) => (props.error ? "#ff4d4f" : "#d0d0d0")};
   border-radius: 8px;
   overflow: hidden;
   background-color: #f9f9f9;
@@ -215,7 +217,7 @@ const DomainInput = styled.input`
   outline: none;
   font-size: 14px;
   background: transparent;
-  
+
   &::placeholder {
     color: #aaaaaa;
   }
@@ -231,23 +233,23 @@ const DomainSuffix = styled.div`
 `;
 
 const ActivateButton = styled.button`
-  background-color: ${props => props.disabled ? '#4B6F44' : '#0070f3'};
+  background-color: ${(props) => (props.disabled ? "#4B6F44" : "#0070f3")};
   color: #ffffff;
   padding: 12px 24px;
   font-size: 14px;
   font-weight: 500;
   border: none;
   border-radius: 8px;
-  cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
   transition: all 0.2s ease;
   height: 45px; // Match input height
-  
+
   &:hover {
-    background-color: ${props => props.disabled ? '#cccccc' : '#005bb5'};
+    background-color: ${(props) => (props.disabled ? "#cccccc" : "#005bb5")};
   }
 
   &:active {
-    transform: ${props => props.disabled ? 'none' : 'translateY(1px)'};
+    transform: ${(props) => (props.disabled ? "none" : "translateY(1px)")};
   }
 `;
 
@@ -258,21 +260,20 @@ const ErrorText = styled.div`
   margin-left: 4px;
 `;
 const CheckboxWrapper = styled.div`
-display :flex;
-flex-direction:row;
-justify-content:center;
-align-items:center;
-gap:1rem;
-
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
 `;
 
 const VendorPartnershipForm = () => {
   const [profile, setProfile] = useState(null);
   const [company, setCompany] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [isActivated, setIsActivated] = useState(false);
-  const [domain, setDomain] = useState('');
+  const [domain, setDomain] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [formData, setFormData] = useState({
     companyName: "",
@@ -283,11 +284,15 @@ const VendorPartnershipForm = () => {
     email: "",
     location: "",
     services: {
-      recruitmentWebsite: false,
-      jobPosting: false,
-      resumeBuilder: false,
-      careerPages: false,
-      hrAutomation: false,
+      jobsPortal: false, 
+      employerLogin: false, 
+      jobseekerLogin: false,
+      ats: false, 
+      hrms: false, 
+      aiResumeBuilder: false, 
+      community: false, 
+      messaging: false, 
+      seoAndDigitalMarketing: false, 
     },
     customFeatures: "",
     customFeaturesDescription: "",
@@ -304,25 +309,26 @@ const VendorPartnershipForm = () => {
         "https://apiwl.novajobs.us/api/admin/vendor/user-profile",
         {
           headers: {
-            Authorization: token
-          }
+            Authorization: token,
+          },
         }
       );
-      
+
       if (response.data && response.data.data) {
         console.log("Profile data:", response.data.data);
         setProfile(response.data.data.vendors_detail);
         setCompany(response.data.data.compnay_detail);
-        
+
         // Update form with fetched data
-        setFormData(prevState => ({
+        setFormData((prevState) => ({
           ...prevState,
           companyName: response.data.data.vendors_detail?.company_name || "",
           website: response.data.data.compnay_detail?.website_link || "",
-          countryCode: response.data.data.compnay_detail?.country?.phonecode || "",
+          countryCode:
+            response.data.data.compnay_detail?.country?.phonecode || "",
           phoneNumber: response.data.data.vendors_detail?.phone || "",
           email: response.data.data.vendors_detail?.email || "",
-          location: response.data.data.compnay_detail?.address || ""
+          location: response.data.data.compnay_detail?.address || "",
         }));
       }
     } catch (error) {
@@ -337,32 +343,32 @@ const VendorPartnershipForm = () => {
   const checkDomainStatus = async () => {
     try {
       const response = await axios.get(
-        'https://apiwl.novajobs.us/api/admin/acount-info',
+        "https://apiwl.novajobs.us/api/admin/acount-info",
         {
           headers: {
-            'Authorization': token
-          }
+            Authorization: token,
+          },
         }
       );
-      
+
       console.log("Domain status:", response.data.data);
-      
+
       if (response.data.data) {
         setIsActivated(response.data.data.domain_active);
-        
+
         if (response.data.data.domain) {
           setDomain(response.data.data.domain);
           // Extract subdomain from the full domain
-          const trimmedDomain = response.data.data.domain.split('.')[0];
-          setFormData(prev => ({
+          const trimmedDomain = response.data.data.domain.split(".")[0];
+          setFormData((prev) => ({
             ...prev,
-            subdomain: trimmedDomain
+            subdomain: trimmedDomain,
           }));
         }
       }
     } catch (error) {
-      console.error('Error checking domain status:', error);
-      setError('Failed to check domain status');
+      console.error("Error checking domain status:", error);
+      setError("Failed to check domain status");
     }
   };
 
@@ -372,7 +378,7 @@ const VendorPartnershipForm = () => {
       await fetchVendorProfile();
       await checkDomainStatus();
     };
-    
+
     if (token) {
       initializeData();
     } else {
@@ -383,25 +389,25 @@ const VendorPartnershipForm = () => {
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-    
+
     // Prevent subdomain change if already activated
-    if (name === 'subdomain' && isActivated) {
+    if (name === "subdomain" && isActivated) {
       return;
     }
-    
-    setFormData(prevState => ({
+
+    setFormData((prevState) => ({
       ...prevState,
       [name]: type === "checkbox" ? checked : value,
     }));
-    
-    if (name === 'subdomain') {
-      setError('');
+
+    if (name === "subdomain") {
+      setError("");
     }
   };
 
   const handleServicesChange = (e) => {
     const { name, checked } = e.target;
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
       services: {
         ...prevState.services,
@@ -412,49 +418,53 @@ const VendorPartnershipForm = () => {
 
   const handleActivate = async () => {
     if (!formData.subdomain) {
-      setError('Subdomain name is required!');
+      setError("Subdomain name is required!");
       return;
     }
-  
+
     if (!isActivated) {
       const formDataInstance = new FormData();
-      formDataInstance.append('sub_domain', formData.subdomain);
-  
+      formDataInstance.append("sub_domain", formData.subdomain);
+
       try {
         const response = await axios.post(
-          'https://apiwl.novajobs.us/api/admin/vendor/domain-active',
+          "https://apiwl.novajobs.us/api/admin/vendor/domain-active",
           formDataInstance,
           {
             headers: {
               Authorization: token,
-              'Content-Type': 'multipart/form-data',
+              "Content-Type": "multipart/form-data",
             },
           }
         );
-  
+
         if (response.status === 200) {
           setIsActivated(true);
           setDomain(`${formData.subdomain}.novajobs.us`);
-          toast.success('Subdomain activated successfully');
+          toast.success("Subdomain activated successfully");
         }
       } catch (error) {
-        console.error('Error activating subdomain:', error);
-        setError(error.response?.data?.message || 'Failed to activate subdomain');
-        toast.error(error.response?.data?.message || 'Failed to activate subdomain');
+        console.error("Error activating subdomain:", error);
+        setError(
+          error.response?.data?.message || "Failed to activate subdomain"
+        );
+        toast.error(
+          error.response?.data?.message || "Failed to activate subdomain"
+        );
       }
     } else {
-      toast.error('Subdomain is already activated');
+      toast.error("Subdomain is already activated");
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!isActivated) {
-      toast.error('Please activate your subdomain first');
+      toast.error("Please activate your subdomain first");
       return;
     }
-    
+
     try {
       // Prepare form data for submission
       const submitData = {
@@ -465,12 +475,15 @@ const VendorPartnershipForm = () => {
         email: formData.email,
         location: formData.location,
         services: Object.keys(formData.services)
-          .filter(key => formData.services[key])
-          .join(','),
-        custom_features: formData.customFeatures === 'yes' ? formData.customFeaturesDescription : '',
-        launch_time: formData.launchTime
+          .filter((key) => formData.services[key])
+          .join(","),
+        custom_features:
+          formData.customFeatures === "yes"
+            ? formData.customFeaturesDescription
+            : "",
+        launch_time: formData.launchTime,
       };
-      
+
       // Replace with your actual submission endpoint
       // const response = await axios.post(
       //   'https://apiwl.novajobs.us/api/admin/vendor/partnership-form',
@@ -481,14 +494,14 @@ const VendorPartnershipForm = () => {
       //     }
       //   }
       // );
-      
+
       if (submitData) {
         setShowPopup(true);
-        toast.success('Form submitted successfully');
+        toast.success("Form submitted successfully");
       }
     } catch (error) {
-      console.error('Error submitting form:', error);
-      toast.error(error.response?.data?.message || 'Failed to submit form');
+      console.error("Error submitting form:", error);
+      toast.error(error.response?.data?.message || "Failed to submit form");
     }
   };
 
@@ -505,7 +518,9 @@ const VendorPartnershipForm = () => {
         <form onSubmit={handleSubmit}>
           <DomainSection>
             <FormGroup>
-              <Label htmlFor="subdomain">Your Portal link (Can be added to your website as well)  </Label>
+              <Label htmlFor="subdomain">
+                Your Portal link (Can be added to your website as well){" "}
+              </Label>
               <DomainWrapper error={!!error}>
                 <DomainInput
                   type="text"
@@ -527,10 +542,12 @@ const VendorPartnershipForm = () => {
             >
               {isActivated ? (
                 <div className="flex items-center space-x-2 text-green-600">
-                  <CheckCircle size={20} style={{marginRight:"0.5rem"}} />
+                  <CheckCircle size={20} style={{ marginRight: "0.5rem" }} />
                   <span>Activated</span>
                 </div>
-              ) : 'Request Activation'}
+              ) : (
+                "Request Activation"
+              )}
             </ActivateButton>
           </DomainSection>
 
@@ -625,7 +642,9 @@ const VendorPartnershipForm = () => {
                       onChange={handleServicesChange}
                     />
                     <Label htmlFor={service}>
-                      {service.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                      {service
+                        .replace(/([A-Z])/g, " $1")
+                        .replace(/^./, (str) => str.toUpperCase())}
                     </Label>
                   </CheckboxWrapper>
                 ))}
@@ -673,7 +692,7 @@ const VendorPartnershipForm = () => {
             <FormGroup fullWidth>
               <Label>Ready to Start</Label>
               <RadioGroup>
-                {['within2days', 'within7days', 'within1month'].map((time) => (
+                {["within2days", "within7days", "within1month"].map((time) => (
                   <RadioOption key={time}>
                     <input
                       type="radio"
@@ -684,22 +703,19 @@ const VendorPartnershipForm = () => {
                       onChange={handleInputChange}
                     />
                     <span>
-                      {time === 'within2days'
-                        ? 'Within 2 days'
-                        : time === 'within7days'
-                        ? 'Within 7 days'
-                        : 'Within 1 month'}
+                      {time === "within2days"
+                        ? "Within 2 days"
+                        : time === "within7days"
+                        ? "Within 7 days"
+                        : "Within 1 month"}
                     </span>
                   </RadioOption>
                 ))}
               </RadioGroup>
             </FormGroup>
           </FormGrid>
-          
-          <SubmitButton 
-            type="submit"
-            disabled={!isActivated}
-          >
+
+          <SubmitButton type="submit" disabled={!isActivated}>
             Submit
           </SubmitButton>
         </form>
