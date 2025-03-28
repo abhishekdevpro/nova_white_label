@@ -776,7 +776,7 @@ function EmployeeComponypostjobs() {
                         Upload
                       </button> */}
                     </form>
-                    {suggestions === false ? null : (
+                    {!postAJobData?.jobTitle  ? null : (
                       <div
                         className="d-flex flex-column  flex-row  p-4"
                         style={{
@@ -792,13 +792,11 @@ function EmployeeComponypostjobs() {
                           />
                         </div>
                         <p>
-                          987 members with titles similar to Business
-                          Development Specialist are actively seeking jobs in
-                          USA.
+                        People with title {postAJobData?.jobTitle || ""} are actively looking for job,
                         </p>
                       </div>
                     )}
-                    {showAiButton ? null : (
+                    {!postAJobData.jobTitle ? null : (
                       <div>
                         <div className="d-flex my-3 flex-column gap-3 ">
                           <Button
@@ -821,7 +819,7 @@ function EmployeeComponypostjobs() {
                         </p>
                         <p className="text-center ">
                           Limits may apply to free job posts.
-                          <Link to={"/employer/term-of-use-nova-jobs"}>
+                          <Link to={"/terms-and-conditions"}>
                             <span
                               style={{ color: "#0a66c2", fontWeight: "600" }}
                             >
@@ -858,7 +856,7 @@ function EmployeeComponypostjobs() {
                       <h4>Screening Questions</h4>
                       <AddScreening />
                     </div>
-                    <div className="mt-4">
+                    {/* <div className="mt-4">
                       <h4>Qualification setting</h4>
                       <div className="d-flex justify-content-start align-items-center">
                         <div class="custom-control custom-checkbox">
@@ -882,7 +880,7 @@ function EmployeeComponypostjobs() {
                       </div>
                       <p className="mb-0 mt-2">Preview*</p>
                       <QualificationSetting />
-                    </div>
+                    </div> */}
                     <div
                       style={{
                         display: "flex",
@@ -899,7 +897,7 @@ function EmployeeComponypostjobs() {
                         {jobPostingStatus === "pending" ? (
                           <button
                             onClick={handlePostJob}
-                            className="site-button d-flex justify-content-center align-items-center"
+                            className="site-button d-flex justify-content-center align-items-center mt-4 "
                           >
                             Post job
                           </button>

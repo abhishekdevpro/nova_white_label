@@ -7,12 +7,11 @@ import { showToastError, showToastSuccess } from "../../utils/toastify";
 import { fetchCompanyInfo } from "../../store/thunkFunctions/companyFunction";
 import { useDispatch, useSelector } from "react-redux";
 import CompanySideBar from "../Layout/companySideBar";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import TextEditor from "../Element/Editor";
 import ReactQuill from "react-quill";
 import Footer from "../../markup/Layout/Footer";
 import EmployeeHeader2 from "./../Layout/Header2";
-
 
 function EmployeeCompanyprofile() {
   const companyData = useSelector(
@@ -160,8 +159,8 @@ function EmployeeCompanyprofile() {
   };
 
   const getState = async () => {
-    if(!selectedCountry){
-      return
+    if (!selectedCountry) {
+      return;
     }
     axios({
       method: "get",
@@ -179,8 +178,8 @@ function EmployeeCompanyprofile() {
   };
 
   const getCities = async () => {
-    if(!selectedStates){
-      return
+    if (!selectedStates) {
+      return;
     }
     axios({
       method: "get",
@@ -202,13 +201,13 @@ function EmployeeCompanyprofile() {
   }, []);
 
   useEffect(() => {
-    console.log(selectedCountry);
+    // console.log(selectedCountry);
 
     getState();
   }, [selectedCountry]);
 
   useEffect(() => {
-    console.log(selectedStates);
+    // console.log(selectedStates);
     getCities();
   }, [selectedStates]);
 
@@ -255,7 +254,7 @@ function EmployeeCompanyprofile() {
       !selectedStates ||
       !selectedCities
     ) {
-    console.log(companyName,email,industry,selectedCountry,selectedStates,selectedCities);
+      // console.log(companyName,email,industry,selectedCountry,selectedStates,selectedCities);
       showToastError("Please fill out all required fields.");
       return;
     }
@@ -338,7 +337,7 @@ function EmployeeCompanyprofile() {
       showToastError("Failed to update company data or services.");
     }
   };
-console.log(companyDetail,"companyDetail");
+  // console.log(companyDetail,"companyDetail");
   return (
     <>
       <EmployeeHeader2 />
@@ -355,10 +354,19 @@ console.log(companyDetail,"companyDetail");
                         Company Profile
                       </h5>
                       <Link
-                        to={`/user/company/${companyDetail?.id}`}
-                        className="site-button right-arrow button-sm float-right"
+                        to={
+                          companyDetail?.id
+                            ? `/user/company/${companyDetail.id}`
+                            : "#"
+                        }
+                        className={`site-button right-arrow button-sm float-right ${
+                          !companyDetail?.id
+                            ? "opacity-50 cursor-not-allowed pointer-events-none"
+                            : ""
+                        }`}
+                        disabled={!companyDetail?.id}
                       >
-                        View Company page
+                        View Company Page
                       </Link>
                     </div>
                     <form
@@ -732,11 +740,8 @@ console.log(companyDetail,"companyDetail");
         </div>
       </div>
       <Footer />
-      
     </>
   );
 }
 
 export default EmployeeCompanyprofile;
-
-
