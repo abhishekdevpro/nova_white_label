@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { AiFillFacebook, AiFillLinkedin } from "react-icons/ai";
@@ -149,6 +148,10 @@ const FeedSection = ({
   });
   const token = localStorage.getItem("jobSeekerLoginToken") || localStorage.getItem("employeeLoginToken") || '';
 
+  function isValidJWT(token) {
+    return typeof token === 'string' && token.split('.').length === 3;
+  }
+
   const editComment = (commentId, content, postId) => {
     setEditingCommentId(commentId);
     setEditedCommentContent(content);
@@ -225,7 +228,7 @@ const FeedSection = ({
   };
 
   const toggleLike = async (postId) => {
-    if (!token) {
+    if (!token || !isValidJWT(token)) {
       setLoginModal(true);
       return;
     }

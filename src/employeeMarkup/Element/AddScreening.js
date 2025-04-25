@@ -19,6 +19,7 @@ const AddScreening = () => {
       state.postAJobSlice.selectedScreeningQuestions.screen_question_keywords
   );
   const dispatch = useDispatch();
+  const [selectedOptions, setSelectedOptions] = useState({});
   const screeningQuestion = async () => {
     await axios({
       url: "https://apiwl.novajobs.us/api/employeer/screen-questions",
@@ -74,8 +75,23 @@ const AddScreening = () => {
                         <label className="mt-2">{question.name}</label>
 
                         {question.screen_questions_options.map((item) => (
-                          <div className="custom-control custom-checkbox">
-                            <label className="custom-control-label ps-4">
+                          <div className="custom-control custom-checkbox" key={item.option}>
+                            <input
+                              type="checkbox"
+                              className="custom-control-input"
+                              id={`${question.name}-${item.option}`}
+                              checked={selectedOptions[question.name] === item.option}
+                              onChange={() => {
+                                setSelectedOptions((prev) => ({
+                                  ...prev,
+                                  [question.name]: prev[question.name] === item.option ? null : item.option,
+                                }));
+                              }}
+                            />
+                            <label
+                              className="custom-control-label ps-4"
+                              htmlFor={`${question.name}-${item.option}`}
+                            >
                               {item.option}
                             </label>
                           </div>

@@ -3,7 +3,7 @@ import { showToastError, showToastSuccess } from "../../utils/toastify";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import {
   setPostAJobData,
   setSkillsData,
@@ -19,6 +19,13 @@ const CompanySideBar = ({ active }) => {
   const token = localStorage.getItem("employeeLoginToken");
   //   const [res.data.data, setres.data.dataa] = useState({})
 
+  const handleLogout = () => {
+    // Clear authentication token or perform necessary logout actions
+    localStorage.removeItem('employeeLoginToken');
+    // Redirect to admin login screen
+    <Navigate to="/login" />
+    return ;
+  };
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [logo, setLogo] = useState("");
   const navigate = useNavigate();
@@ -301,7 +308,7 @@ const CompanySideBar = ({ active }) => {
                   </Link>
                 </li> */}
                 <li>
-                  <Link to={"/"}>
+                  <Link to={"/"} onClick={handleLogout}>
                     <LogOut className="me-2"/>
                     <span>Log Out</span>
                   </Link>

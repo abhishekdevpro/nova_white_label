@@ -26,10 +26,14 @@ const Icon = styled(AiFillHeart)`
   transition: color 0.2s;
 `;
 
+function isValidJWT(token) {
+  return typeof token === 'string' && token.split('.').length === 3;
+}
+
 const LikeButton = ({ post }) => {
   const [localLiked, setLocalLiked] = useState(post.feed_likes && post.feed_likes.id > 0);
   const [localLikesCount, setLocalLikesCount] = useState(post.feed_likes_count || 0);
-  const token = localStorage.getItem("jobSeekerLoginToken");
+  const token = localStorage.getItem("employeeLoginToken");
 
   // Sync local state with props
   useEffect(() => {
@@ -38,6 +42,10 @@ const LikeButton = ({ post }) => {
   }, [post]);
 
   const toggleLike = async (postId) => {
+    if (!token || !isValidJWT(token)) {
+      toast.error("You must be logged in to like posts.");
+      return;
+    }
     try {
       // Optimistic UI update
       const newLikedState = !localLiked;
