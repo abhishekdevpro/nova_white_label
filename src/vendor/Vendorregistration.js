@@ -11,6 +11,7 @@ import UserHeader from "../markup/Layout/Header"
 import Footer from "../markup/Layout/Footer"
 import { useLogo } from "../Context/LogoContext"
 import { Link, useNavigate } from "react-router-dom"
+import CookiesBanner from "../markup/Layout/CookiesBanner"
 
 const VendorRegistration = () => {
   const {logo} = useLogo()
@@ -21,23 +22,12 @@ const VendorRegistration = () => {
     email: "",
     phone: "",
     password: "",
-    company_name: "",
-    website: "",
-    company_linkedin: "",
-    access: [],
     domain: "https://abc.novajobs.us",
   })
 
-
-
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target
-    if (type === "checkbox") {
-      const updatedAccess = checked ? [...formData.access, name] : formData.access.filter((item) => item !== name)
-      setFormData({ ...formData, access: updatedAccess })
-    } else {
-      setFormData({ ...formData, [name]: value })
-    }
+    const { name, value } = e.target
+    setFormData({ ...formData, [name]: value })
   }
 
   const handleSubmit = async (e) => {
@@ -61,10 +51,6 @@ const VendorRegistration = () => {
           email: "",
           phone: "",
           password: "",
-          company_name: "",
-          website: "",
-          company_linkedin: "",
-          access: [],
           domain: "https://abc.novajobs.us",
         })
         navigate('/vendor/login')
@@ -130,76 +116,18 @@ const VendorRegistration = () => {
                 required
               />
             </FormGroup>
-            <FormGroup>
-              <Label htmlFor="company_name">Company Name</Label>
-              <Input
-                type="text"
-                id="company_name"
-                name="company_name"
-                value={formData.company_name}
-                onChange={handleChange}
-                // required
-              />
-            </FormGroup>
           </FormRow>
-          <FormRow>
-            <FormGroup>
-              <Label htmlFor="website">Website</Label>
-              <Input type="url" id="website" name="website" value={formData.website} onChange={handleChange} />
-            </FormGroup>
-            <FormGroup>
-              <Label htmlFor="company_linkedin">Company LinkedIn</Label>
-              <Input
-                type="url"
-                id="company_linkedin"
-                name="company_linkedin"
-                value={formData.company_linkedin}
-                onChange={handleChange}
-              />
-            </FormGroup>
-          </FormRow>
-          <DomainSection formData={formData} setFormData={setFormData} />
-          <CheckboxGroup>
-            <h4>Required Services on Portal</h4>
-            {[
-              { label: "Jobs portal", name: "A" },
-              { label: "Employer Login", name: "A+" },
-              { label: "Jobseeker Login", name: "B" },
-              { label: "ATS", name: "B+" },
-              { label: "HRMS", name: "C" },
-              { label: "AI Resume builder", name: "skill_test" },
-              { label: "Community", name: "resume_builder" },
-              { label: "Messaging", name: "jobseeker_access" },
-              { label: "SEO & Digital Marketing", name: "D" },
-            ].map((item) => (
-              <label key={item.name}>
-                <input
-                  type="checkbox"
-                  name={item.name}
-                  checked={formData.access.includes(item.name)}
-                  onChange={handleChange}
-                />
-                {item.label}
-              </label>
-            ))}
-          </CheckboxGroup>
-          <RemarksContainer>
-      <div>
-        <RemarksLabel htmlFor="remarks">Additional Remarks</RemarksLabel>
-        <RemarksTextarea id="remarks" placeholder="Enter any additional remarks..."></RemarksTextarea>
-      </div>
-      <TermsContainer>
-        <TermsCheckbox type="checkbox" id="terms" />
-        <TermsText htmlFor="terms">
-          By submitting this form, you agree to our <Link className="text-primary fw-bold" to={'/terms-and-conditions'}>Terms of Use</Link> & <Link className="text-primary fw-bold" to={'/privacy-policy'}>Privacy Policy</Link>.
-        </TermsText>
-      </TermsContainer>
-    </RemarksContainer>
+          <TermsContainer>
+            <TermsCheckbox type="checkbox" id="terms" required />
+            <TermsText htmlFor="terms">
+              By submitting this form, you agree to our <Link target="_blank" className="text-primary fw-bold" to={'/terms-and-conditions'}>Terms of Use</Link> & <Link target="_blank" className="text-primary fw-bold" to={'/privacy-policy'}>Privacy Policy</Link>.
+            </TermsText>
+          </TermsContainer>
           <SubmitButton type="submit">Register</SubmitButton>
         </Form>
       </Container>
-      
       <Footer />
+      <CookiesBanner />
     </>
   )
 }
