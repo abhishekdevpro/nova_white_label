@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -8,6 +7,7 @@ import { faCloudUploadAlt } from "@fortawesome/free-solid-svg-icons";
 import { Settings } from "lucide-react";
 import { toast } from "react-toastify";
 import { setPostAJobData } from "../store/reducers/postAJobSlice";
+import styled from "styled-components";
 
 const VendorCompanySideBar = ({ active }) => {
   const token = localStorage.getItem("vendorToken");
@@ -129,7 +129,7 @@ const VendorCompanySideBar = ({ active }) => {
       progress: undefined,
     });
   };
-// console.log(`https://apiwl.novajobs.us${logo}`,"llll");
+console.log(`https://apiwl.novajobs.us${logo}`,"llll");
   return (
     <>
       <button className="sidebar-toggle" onClick={toggleSidebar}>
@@ -158,7 +158,7 @@ const VendorCompanySideBar = ({ active }) => {
                       <img
                         className="img-fluid"
                         alt=""
-                        src={`https://apiwl.novajobs.us/api/admin/vendor/${logo}`}
+                        src={`https://apiwl.novajobs.us${logo}`}
                         style={{
                           width: "100%",
                           height: "100%",
@@ -204,7 +204,7 @@ const VendorCompanySideBar = ({ active }) => {
                     className={active === "vendorplan" ? "active" : null}
                   >
                     <i className="fa fa-user-o" aria-hidden="true"></i>
-                    <span>Plan</span>
+                    <span>Plan <FreeBadge>Free</FreeBadge></span>
                   </Link>
                 </li>
                 {/* <li>
@@ -366,5 +366,15 @@ const VendorCompanySideBar = ({ active }) => {
     </>
   );
 };
+
+const FreeBadge = styled.span`
+  background-color: #28a745;
+  color: white;
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  border-radius: 10px;
+  margin-left: 5px;
+  font-weight: bold;
+`;
 
 export default VendorCompanySideBar;
