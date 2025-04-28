@@ -460,6 +460,24 @@ function EmployeeComponypostjobs() {
     try {
       await postCompleted();
       showToastSuccess("Your Job post is under review");
+      // Reset form after successful post
+      dispatch(setPostAJobData({
+        jobTitle: "",
+        company: "",
+        workplaceType: "",
+        location: "",
+        jobType: "",
+        description: "",
+        education: "",
+        qualificationSetting: "",
+        selectedCity: "",
+        selectedState: "",
+        selectedCountry: "",
+      }));
+      dispatch(setSkillsData([]));
+      dispatch(setSelctedScreeningQuestionGet({ screen_question_keywords: [] }));
+      setErrors({ jobTitle: "", company: "" });
+      setSuggestions(true);
     } catch (error) {
       showToastError("Failed to post job");
     }
@@ -776,7 +794,7 @@ function EmployeeComponypostjobs() {
                         Upload
                       </button> */}
                     </form>
-                    {!postAJobData?.jobTitle  ? null : (
+                    {postAJobData?.jobTitle && suggestions ? (
                       <div
                         className="d-flex flex-column  flex-row  p-4"
                         style={{
@@ -792,10 +810,10 @@ function EmployeeComponypostjobs() {
                           />
                         </div>
                         <p>
-                        People with title {postAJobData?.jobTitle || ""} are actively looking for job,
+                          People with title {postAJobData?.jobTitle || ""} are actively looking for job,
                         </p>
                       </div>
-                    )}
+                    ) : null}
                     {!postAJobData.jobTitle ? null : (
                       <div>
                         <div className="d-flex my-3 flex-column gap-3 ">
