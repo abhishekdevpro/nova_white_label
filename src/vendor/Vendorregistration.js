@@ -1,5 +1,3 @@
-
-
 import { useState, useEffect } from "react"
 import { toast} from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
@@ -53,8 +51,10 @@ const VendorRegistration = () => {
         body: JSON.stringify(formData),
       })
 
-      if (response.ok) {
-        toast.success(response.data.message || "Vendor registered successfully! Please check your email for verification.")
+      const data = await response.json()
+
+      if (response.ok && data.status === "success") {
+        toast.success(data.message || "Vendor registered successfully! Please check your email for verification.")
         setFormData({
           first_name: "",
           last_name: "",
@@ -65,12 +65,11 @@ const VendorRegistration = () => {
           website: "",
           company_linkedin: "",
           access: [],
+          domain: "https://abc.novajobs.us",
         })
         navigate('/vendor/login')
       } else {
-        const errorData = await response.json()
-        // console.log(errorData,">>>>");
-        toast.error(errorData.message || "Registration failed. Please try again.")
+        toast.error(data.message || "Registration failed. Please try again.")
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "An unexpected error occurred. Please try again.")
