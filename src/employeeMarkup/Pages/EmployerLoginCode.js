@@ -129,7 +129,7 @@ const LoginEmployerCode = () => {
           onClick={handleSignIn}
           className="btn btn-primary w-100 d-flex justify-content-center align-items-center"
         >
-          {loading ? "Loading..." : "Sign In"}
+          {loading ? "submit" : "Sign In"}
         </button>
 
         {/* Resend Code */}

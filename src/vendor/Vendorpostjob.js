@@ -858,7 +858,7 @@ function VendorComponypostjobs() {
                             id="check1"
                             class="custom-control-input selectAllCheckBox"
                             name="example1"
-                            disabled
+                           
                           />
                           <label
                             class="custom-control-label"

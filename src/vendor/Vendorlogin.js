@@ -80,7 +80,7 @@ const Vendorlogin = () => {
                 <Form.Label>Password*</Form.Label>
                 <div className="position-relative">
                   <Form.Control
-                    className="p-4 h-25 rounded-3"
+                    className="p-4 h-25 rounded-3 pr-5"
                     type={showPassword ? "text" : "password"} // Toggle password visibility
                     placeholder="Enter password"
                     value={password}
