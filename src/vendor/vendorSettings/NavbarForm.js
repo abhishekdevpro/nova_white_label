@@ -35,6 +35,7 @@ const NavbarManagementForm = () => {
         // console.log(response.data.data,"lll");
         if (response.data.data) {
           setLogoPreview(response.data.data.navigation.logo)
+          setFaviconPreview(response.data.data.favicon.image)
           if (response.data.data.menuItems) {
             // setMenuItems(response.data.data.menuItems);
           }
@@ -188,6 +189,7 @@ const NavbarManagementForm = () => {
         <div className="form-group">
           <label className="label">Favicon</label>
           <div className="logo-container">
+            {console.log(faviconPreview,"faviconPreview")}
             {faviconPreview && (
               <div className="preview-wrapper">
                 <img className="logo-preview" src={faviconPreview || "/placeholder.svg"} alt="Favicon preview" />
@@ -195,9 +197,10 @@ const NavbarManagementForm = () => {
                   setFavicon(null);
                   setFaviconPreview(null);
                 }}>
-                  <Trash2 size={16} />
+                <Trash2 size={16}  />
                 </button>
               </div>
+              
             )}
             <div className="file-input-wrapper">
               <input
@@ -250,7 +253,7 @@ const NavbarManagementForm = () => {
       </div>
 
       {/* Menu Items Section */}
-      <div className="section">
+      {/* <div className="section">
         <h2 className="section-title1">Menu Items</h2>
         {menuItems.map((item, index) => (
           <div className="menu-item-container" key={index}>
@@ -300,7 +303,7 @@ const NavbarManagementForm = () => {
         <button className="update-button" onClick={handleMenuSubmit} disabled={isLoading} style={{ marginTop: "1rem" }}>
           Update Menu Items
         </button>
-      </div>
+      </div> */}
 
       {error && <p className="error-text">{error}</p>}
     </div>
