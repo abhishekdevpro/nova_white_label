@@ -542,6 +542,7 @@ import Footer from "../Layout/Footer";
 
 import { Modal } from "react-bootstrap";
 import UserHeader from "../../markup/Layout/Header";
+import CookiesBanner from "../../markup/Layout/CookiesBanner";
 
 const bnr3 = require("./../../images/background/bg3.jpg");
 function EmployeeLogin(props) {
@@ -1090,6 +1091,7 @@ function EmployeeLogin(props) {
           </div>
         </div>
       </Modal>
+      <CookiesBanner/>
     </div>
   );
 }

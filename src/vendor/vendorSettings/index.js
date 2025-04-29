@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import styled, { keyframes } from "styled-components";
 import VendorCompanySideBar from "../Vendorsidebar";
@@ -9,7 +8,8 @@ import HeaderManagementForm from "./HeaderManagementForm";
 import FooterManagementForm from "./FooterManagement";
 import TestimonialManagementForm from "./TestimonialManagement";
 import BulkUploadForm from "./BulkUploadForm";
-
+import Popup from "./Popup";
+import Pricing from "./Pricing";
 // Animation for tab transition
 const fadeIn = keyframes`
   from {
@@ -25,6 +25,7 @@ const fadeIn = keyframes`
 const PageWrapper = styled.div`
   background-color: #f4f7fa;
   min-height: 100vh;
+  padding-top: 60px; // Add padding for fixed header
 `;
 
 const ContentWrapper = styled.div`
@@ -34,8 +35,11 @@ const ContentWrapper = styled.div`
 
 const Section = styled.section`
   background-color: white;
-  padding-top: 50px;
-  padding-bottom: 20px;
+  padding: 20px 0;
+  @media (min-width: 768px) {
+    padding-top: 50px;
+    padding-bottom: 20px;
+  }
 `;
 
 const Container = styled.div`
@@ -59,47 +63,85 @@ const ContentBlock = styled.div`
 `;
 
 const SidebarWrapper = styled.div`
-  flex: 0 0 25%;
-  max-width: 25%;
+  flex: 0 0 100%;
+  max-width: 100%;
   padding: 0 15px;
+  margin-bottom: 20px;
+  position: relative;
 
-  @media (max-width: 1199px) {
-    flex: 0 0 33.333333%;
-    max-width: 33.333333%;
+  @media (min-width: 992px) {
+    flex: 0 0 25%;
+    max-width: 25%;
+    margin-bottom: 0;
   }
+`;
 
-  @media (max-width: 991px) {
-    flex: 0 0 100%;
-    max-width: 100%;
-    margin-bottom: 30px;
+const MobileSidebar = styled.div`
+  position: fixed;
+  top: 0;
+  left: ${props => props.isVisible ? '0' : '-100%'};
+  width: 80%;
+  max-width: 300px;
+  height: 100vh;
+  background-color: white;
+  z-index: 1000;
+  transition: left 0.3s ease-in-out;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+
+  @media (min-width: 992px) {
+    position: relative;
+    width: 100%;
+    max-width: none;
+    height: auto;
+    box-shadow: none;
+    left: 0;
+  }
+`;
+
+const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: ${props => props.isVisible ? 'block' : 'none'};
+
+  @media (min-width: 992px) {
+    display: none;
   }
 `;
 
 const ChatWrapper = styled.div`
-  flex: 0 0 75%;
-  max-width: 75%;
+  flex: 0 0 100%;
+  max-width: 100%;
   padding: 0 15px;
 
-  @media (max-width: 1199px) {
-    flex: 0 0 66.666667%;
-    max-width: 66.666667%;
-  }
-
-  @media (max-width: 991px) {
-    flex: 0 0 100%;
-    max-width: 100%;
+  @media (min-width: 992px) {
+    flex: 0 0 75%;
+    max-width: 75%;
   }
 `;
 
 const TabContainer = styled.div`
   display: flex;
+  flex-wrap: wrap;
   border-bottom: 2px solid #e2e8f0;
   margin-bottom: 1rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const TabButton = styled.button`
-  padding: 0.75rem 1.25rem;
+  padding: 0.5rem 1rem;
   margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
   border: none;
   background-color: ${props => props.active ? '#3b82f6' : 'transparent'};
   color: ${props => props.active ? 'white' : '#6b7280'};
@@ -108,6 +150,13 @@ const TabButton = styled.button`
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  white-space: nowrap;
+  font-size: 14px;
+
+  @media (min-width: 768px) {
+    padding: 0.75rem 1.25rem;
+    font-size: 16px;
+  }
 
   &:hover {
     background-color: ${props => props.active ? '#2563eb' : '#f3f4f6'};
@@ -127,10 +176,33 @@ const TabButton = styled.button`
 
 const AnimatedFormContainer = styled.div`
   animation: ${fadeIn} 0.3s ease-out;
+  padding: 1px;
+  @media (min-width: 768px) {
+    padding: 20px;
+  }
+`;
+
+const MobileMenuButton = styled.button`
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  font-weight: 600;
+  position: relative;
+  z-index: 1;
+  
+  @media (min-width: 992px) {
+    display: none;
+  }
 `;
 
 function VendorSetting() {
   const [activeTab, setActiveTab] = useState("navbar");
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
   const renderForm = () => {
     switch (activeTab) {
@@ -144,6 +216,10 @@ function VendorSetting() {
         return <TestimonialManagementForm />;
       case "bulkUpload":
         return <BulkUploadForm />;
+      case "popup":
+        return <Popup />;
+      case "pricing":
+        return <Pricing />;
       default:
         return <NavbarManagementForm />;
     }
@@ -155,6 +231,8 @@ function VendorSetting() {
     { key: "footer", label: "Footer" },
     { key: "testimonial", label: "Testimonial" },
     { key: "bulkUpload", label: "Bulk Upload" },
+    { key: "popup", label: "Form" },
+    { key: "pricing", label: "Site" },
   ];
 
   return (
@@ -165,9 +243,10 @@ function VendorSetting() {
           <Section>
             <Container>
               <Row>
-                <SidebarWrapper>
-                  <VendorCompanySideBar active="form" />
-                </SidebarWrapper>
+               
+                
+                    <VendorCompanySideBar active="form" />
+                
                 <ChatWrapper>
                   <TabContainer>
                     {tabs.map((tab) => (

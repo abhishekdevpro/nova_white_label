@@ -562,13 +562,17 @@ const CareerAdvisorPage = () => {
           : renderBackgroundMedia(pageData?.home_here_section?.BackgroundMedia)}
       </BackgroundMedia>
 
-      <Heading1>
-        {pageData?.home_here_section?.title || "Hello, I'm Aria,"}
-      </Heading1>
-      <Heading2>
-        {pageData?.home_here_section?.description ||
-          "Your Personal Career Advisor!"}
-      </Heading2>
+      <Heading1
+  dangerouslySetInnerHTML={{
+    __html: pageData?.home_here_section?.title || "Hello, I'm Aria,"
+  }}
+/>
+<Heading2
+  dangerouslySetInnerHTML={{
+    __html: pageData?.home_here_section?.description || "Your Personal Career Advisor!"
+  }}
+/>
+
       <Prompt>Are You?</Prompt>
 
       <OptionWrapper>

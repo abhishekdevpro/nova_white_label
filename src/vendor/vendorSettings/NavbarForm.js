@@ -15,11 +15,24 @@ const NavbarManagementForm = () => {
 
   // Handle favicon file selection
   const handleFaviconChange = (e) => {
-    if (e.target.files[0]) {
-      setFavicon(e.target.files[0])
-      setFaviconPreview(URL.createObjectURL(e.target.files[0]))
+    const file = e.target.files[0]
+    if (file) {
+      if (file.size > 1 * 1024 * 1024) { // 1MB size limit
+        setError("Favicon file size should not exceed 1MB")
+        return
+      }
+  
+      if (!file.type.startsWith("image/")) {
+        setError("Please upload a valid image file for favicon")
+        return
+      }
+  
+      setFavicon(file)
+      setFaviconPreview(URL.createObjectURL(file))
+      setError("") // Clear any previous errors
     }
   }
+  
 
   const token = localStorage.getItem("vendorToken")
 
@@ -34,12 +47,18 @@ const NavbarManagementForm = () => {
         })
         // console.log(response.data.data,"lll");
         if (response.data.data) {
-          setLogoPreview(response.data.data.navigation.logo)
-          setFaviconPreview(response.data.data.favicon.image)
-          if (response.data.data.menuItems) {
-            // setMenuItems(response.data.data.menuItems);
+          const data = response.data.data;
+          if (data.navigation?.logo) {
+            setLogoPreview(data.navigation.logo);
+          }
+          if (data.favicon?.image) {
+            setFaviconPreview(data.favicon.image);
+          }
+          if (data.menuItems) {
+            // setMenuItems(data.menuItems);
           }
         }
+        
       } catch (error) {
         console.error("Error fetching navbar data:", error)
         toast.error("Failed to fetch existing navbar data")
@@ -191,8 +210,8 @@ const NavbarManagementForm = () => {
           <div className="logo-container">
             {console.log(faviconPreview,"faviconPreview")}
             {faviconPreview && (
-              <div className="preview-wrapper">
-                <img className="logo-preview" src={faviconPreview || "/placeholder.svg"} alt="Favicon preview" />
+             <div className="preview-wrapper">
+    <img className="logo-preview" src={faviconPreview || "/placeholder.svg"} alt="Favicon preview" />
                 <button className="delete-preview" onClick={() => {
                   setFavicon(null);
                   setFaviconPreview(null);
@@ -201,7 +220,8 @@ const NavbarManagementForm = () => {
                 </button>
               </div>
               
-            )}
+            )}{error && <p className="error-text">{error}</p>}
+
             <div className="file-input-wrapper">
               <input
                 className="file-input"
