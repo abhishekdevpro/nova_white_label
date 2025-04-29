@@ -2,36 +2,36 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Table, Button } from "react-bootstrap";
 
-const BulkResumeTable = () => {
-  const [resumes, setResumes] = useState([]);
+const BulkResumeTable = ({resumes}) => {
+  // const [resumes, setResumes] = useState([]);
 
-  useEffect(() => {
-    const fetchResumes = async () => {
-      try {
-        const token = localStorage.getItem("vendorToken");
+  // useEffect(() => {
+  //   const fetchResumes = async () => {
+  //     try {
+  //       const token = localStorage.getItem("vendorToken");
 
-        if (!token) {
-          console.error("Unauthorized. Please log in.");
-          return;
-        }
+  //       if (!token) {
+  //         console.error("Unauthorized. Please log in.");
+  //         return;
+  //       }
 
-        const response = await axios.get(
-          "https://apiwl.novajobs.us/api/admin/bulk-resume",
-          {
-            headers: { Authorization: token },
-          }
-        );
+  //       const response = await axios.get(
+  //         "https://apiwl.novajobs.us/api/admin/bulk-resume",
+  //         {
+  //           headers: { Authorization: token },
+  //         }
+  //       );
 
-        if (response.data?.status === "success") {
-          setResumes(response.data.data);
-        }
-      } catch (error) {
-        console.error("Error fetching resumes:", error);
-      }
-    };
+  //       if (response.data?.status === "success") {
+  //         setResumes(response.data.data);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching resumes:", error);
+  //     }
+  //   };
 
-    fetchResumes();
-  }, []);
+  //   fetchResumes();
+  // }, []);
 
   return (
     <div className="container mt-4">
