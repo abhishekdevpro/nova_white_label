@@ -12,6 +12,7 @@ import axios from "axios";
 import defaultImg from "../../../assests/hero.jpg";
 import { useLogo } from "../../../Context/LogoContext";
 import { Search } from "lucide-react";
+// import parse from "react-html-parser"
 
 // ... (keep all the existing styled components)
 const Video = styled.video`
@@ -455,8 +456,7 @@ const CareerAdvisorPage = () => {
   const url = window.location.origin.includes("localhost")
     ? "https://novajobs.us"
     : window.location.origin;
-  // const url = "https://rishi.novajobs.us"
-  // Fetch page data from the API
+
   useEffect(() => {
     const fetchPageData = async () => {
       try {

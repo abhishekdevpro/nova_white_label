@@ -765,7 +765,7 @@ const TestimonialManagementForm = () => {
                   {testimonial.photo && (
                     <img
                       className="testimonial-photo"
-                      src={testimonial.photo || "/placeholder.svg"}
+                      src={`https://apiwl.novajobs.us${testimonial.photo}` || "/placeholder.svg"}
                       alt={testimonial.name}
                     />
                   )}
