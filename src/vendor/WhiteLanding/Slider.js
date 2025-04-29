@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import image1 from "../../vendor/assests/2.jpg"
@@ -27,18 +27,18 @@ const SliderTrack = styled.div`
 `;
 
 const Slide = styled.div`
-//   min-width: 300px;
+  flex: 0 0 auto;
+  width: ${props => props.$slideWidth}px;
   height: 300px;
   padding: 0 1rem;
-  flex: 0 0 auto;
   
   @media (max-width: 768px) {
-    min-width: 100px;
+    width: ${props => props.$slideWidth}px;
     height: 300px;
   }
 
   @media (max-width: 480px) {
-    min-width: 100px;
+    width: ${props => props.$slideWidth}px;
     height: 300px;
   }
 `;
@@ -85,11 +85,6 @@ const NavigationButton = styled.button`
     transform: translateY(-50%) scale(1.05);
   }
 
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
   ${props => props.$position === 'left' ? 'left: 1rem;' : 'right: 1rem;'}
 
   @media (max-width: 768px) {
@@ -120,11 +115,13 @@ const Dot = styled.button`
 `;
 
 const WebsiteMockupSlider = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [sliderWidth, setSliderWidth] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(1); // Start at 1 to account for cloned slides
+  const [slideWidth, setSlideWidth] = useState(300);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const sliderRef = useRef(null);
 
   // Mock data for the slides
-  const mockups = [
+  const originalMockups = [
     { id: 1, image: image1, alt: "Dark themed recruitment website" },
     { id: 2, image: image2, alt: "Pink themed digital team website" },
     { id: 3, image: image3, alt: "Blue themed recruitment platform" },
@@ -132,39 +129,64 @@ const WebsiteMockupSlider = () => {
     { id: 5, image: image5, alt: "Professional recruitment portal" }
   ];
 
-  React.useEffect(() => {
-    const updateSliderWidth = () => {
-      const slideWidth = window.innerWidth < 768 ? 250 : 300;
-      setSliderWidth(slideWidth);
+  // Create infinite slides by cloning first and last slides
+  const mockups = [
+    ...originalMockups.slice(-2), // Clone last two slides to beginning
+    ...originalMockups,
+    ...originalMockups.slice(0, 2) // Clone first two slides to end
+  ];
+
+  useEffect(() => {
+    const updateSlideWidth = () => {
+      const width = window.innerWidth < 768 ? 250 : 300;
+      setSlideWidth(width);
     };
 
-    updateSliderWidth();
-    window.addEventListener('resize', updateSliderWidth);
+    updateSlideWidth();
+    window.addEventListener('resize', updateSlideWidth);
     
-    return () => window.removeEventListener('resize', updateSliderWidth);
+    return () => window.removeEventListener('resize', updateSlideWidth);
   }, []);
 
   const nextSlide = () => {
-    setCurrentIndex(prev => 
-      prev === mockups.length - 1 ? 0 : prev + 1
-    );
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setCurrentIndex(prev => prev + 1);
+    
+    setTimeout(() => {
+      if (currentIndex >= originalMockups.length + 1) {
+        setCurrentIndex(1);
+      }
+      setIsTransitioning(false);
+    }, 500);
   };
 
   const prevSlide = () => {
-    setCurrentIndex(prev => 
-      prev === 0 ? mockups.length - 1 : prev - 1
-    );
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setCurrentIndex(prev => prev - 1);
+    
+    setTimeout(() => {
+      if (currentIndex <= 0) {
+        setCurrentIndex(originalMockups.length);
+      }
+      setIsTransitioning(false);
+    }, 500);
   };
 
   const goToSlide = (index) => {
-    setCurrentIndex(index);
+    if (isTransitioning) return;
+    setCurrentIndex(index + 1); // Add 1 to account for cloned slides
   };
 
+  // Calculate the offset for the slider track
+  const offset = -currentIndex * slideWidth;
+
   return (
-    <SliderContainer>
-      <SliderTrack $offset={-currentIndex * sliderWidth}>
+    <SliderContainer ref={sliderRef}>
+      <SliderTrack $offset={offset}>
         {mockups.map((mockup, index) => (
-          <Slide key={mockup.id}>
+          <Slide key={`${mockup.id}-${index}`} $slideWidth={slideWidth}>
             <MockupImage>
               <img 
                 src={mockup.image} 
@@ -179,7 +201,6 @@ const WebsiteMockupSlider = () => {
       <NavigationButton 
         $position="left"
         onClick={prevSlide}
-        disabled={currentIndex === 0}
       >
         <ChevronLeft size={24} />
       </NavigationButton>
@@ -187,16 +208,15 @@ const WebsiteMockupSlider = () => {
       <NavigationButton 
         $position="right"
         onClick={nextSlide}
-        disabled={currentIndex === mockups.length - 1}
       >
         <ChevronRight size={24} />
       </NavigationButton>
 
       <DotContainer>
-        {mockups.map((_, index) => (
+        {originalMockups.map((_, index) => (
           <Dot
             key={index}
-            $active={currentIndex === index}
+            $active={currentIndex === index + 1}
             onClick={() => goToSlide(index)}
           />
         ))}

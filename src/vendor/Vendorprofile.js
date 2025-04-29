@@ -1,20 +1,24 @@
-
 import React, { useEffect, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
-import { Navbar, Nav, Badge, Form, Button } from 'react-bootstrap';
+import { Link } from "react-router-dom";
+import Header2 from "../markup/Layout/Header2";
+import { Form } from "react-bootstrap";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
 import { showToastError, showToastSuccess } from "../utils/toastify";
-import { vendorcompanyFunction } from "../store/thunkFunctions/vendorcompanyFunction";
-import VendorCompanySideBar from "./Vendorsidebar";
-import 'react-toastify/dist/ReactToastify.css';
+import { fetchCompanyInfo } from "../store/thunkFunctions/companyFunction";
+import { useDispatch, useSelector } from "react-redux";
+import "react-toastify/dist/ReactToastify.css";
+import TextEditor from "../markup/Element/Editor";
+import ReactQuill from "react-quill";
 import Footer from "../markup/Layout/Footer";
 import VendorHeader from "../markup/Layout/VendorHeader";
+import VendorCompanySideBar from "./Vendorsidebar";   
 
-function VendorCompanyprofile() {
-  const dispatch = useDispatch();
-  const companyData = useSelector((state) => state.companyDataSlice.companyData);
-  const companyDetail = companyData?.company_detail;
+function Vendorprofile() {
+  const companyData = useSelector(
+    (state) => state.companyDataSlice.companyData
+  );
+  let companyDetail = companyData?.company_detail;
+  let employeerDetail = companyData?.employeer_detail;
 
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
@@ -26,8 +30,8 @@ function VendorCompanyprofile() {
   const [tagline, setTagline] = useState("");
   const [email, setEmail] = useState("");
   const [website, setWebsite] = useState("");
-  const [foundedYear, setDate] = useState("");
-  const [industry, setIndustry] = useState("");
+  const [foundedYear, setFoundedYear] = useState("");
+  const [industry, setIndustry] = useState(""); // State variable to hold selected industry ID
   const [description, setDescription] = useState("");
   const [number, setNumber] = useState("");
   const [address, setAddress] = useState("");
@@ -35,39 +39,76 @@ function VendorCompanyprofile() {
   const [twitter, setTwitter] = useState("");
   const [googleBusiness, setGoogleBusiness] = useState("");
   const [glassdoor, setGlassdor] = useState("");
+  const [services, setServices] = useState([{ title: "", image: null }]);
   const [industries, setIndustries] = useState([]);
+  const [file, setFile] = useState(null);
 
-  const token = localStorage.getItem("vendorToken");
+  const token = localStorage.getItem("employeeLoginToken");
 
+  // const handleChange = (content, delta, source, editor) => {
+  //   const plainText = editor.getText();
+
+  //   // Extract plain text from the editor
+  //   setDescription(plainText); // Set the plain text in the state
+  // };
+  const handleChange = (content) => {
+    // Extract plain text from the editor
+    setDescription(content); // Set the plain text in the state
+  };
   useEffect(() => {
     // Fetch industries from API
-    axios.get("https://apiwl.novajobs.us/api/admin/company-industry", {
+    axios({
+      method: "GET",
+      url: "https://apiwl.novajobs.us/api/admin/company-industry",
       headers: {
-        Authorization: token,
+        Authorization: token, // Assuming you have token stored
       },
     })
-    .then((res) => {
-      setIndustries(res.data.data);
-    })
-    .catch((err) => {
-      showToastError(err?.response?.data?.message);
-    });
-  }, [token]);
+      .then((res) => {
+        setIndustries(res.data.data); // Set fetched industries to state
+      })
+      .catch((err) => {
+        console.log(err);
+        showToastError(err?.response?.data?.message);
+      });
+  }, [token]); // Added token as dependency to ensure useEffect runs on token change
+
+  // Function to update company data
+  const handlePhoneNumberChange = (e) => {
+    const value = e.target.value;
+
+    // Check if the input is numeric
+    if (!/^\d*$/.test(value)) {
+      showToastError("Phone number must contain only numeric characters.");
+      return;
+    }
+
+    // Check if the input length exceeds 10 digits
+    if (value.length > 10) {
+      showToastError("Phone number cannot exceed 10 digits.");
+      return;
+    }
+
+    // Update the state only if input is valid
+    setNumber(value);
+  };
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(vendorcompanyFunction());
+    dispatch(fetchCompanyInfo());
   }, [dispatch]);
 
   useEffect(() => {
     setCompanyName(companyDetail?.company_name || "");
     setTagline(companyDetail?.tagline || "");
-    setEmail(companyDetail?.email || "");
+    setEmail(employeerDetail?.email || "");
     setWebsite(companyDetail?.website_link || "");
-    setDate(companyDetail?.founded_date || "");
+    setFoundedYear(companyDetail?.founded_date || "");
     setDescription(companyDetail?.about || "");
-    setSelectedCountry(companyDetail?.country?.id || null);
-    setSelectedStates(companyDetail?.state?.id || null);
-    setSelectedCities(companyDetail?.city?.id || null);
+    setSelectedCountry(companyDetail?.country_id || 231);
+    setSelectedStates(companyDetail?.state_id || null);
+    setSelectedCities(companyDetail?.city_id || null);
     setNumber(companyDetail?.phone || "");
     setAddress(companyDetail?.address || "");
     setlinkdin(companyDetail?.linkedin_link || "");
@@ -75,52 +116,84 @@ function VendorCompanyprofile() {
     setGoogleBusiness(companyDetail?.google_link || "");
     setGlassdor(companyDetail?.facebook_link || "");
     setIndustry(companyDetail?.company_industry?.id || "");
+    const companyServices = companyDetail?.company_services;
+
+    // Check if companyServices is a valid JSON string
+    if (
+      companyServices &&
+      typeof companyServices === "string" &&
+      companyServices.trim() !== ""
+    ) {
+      try {
+        const parsedServices = JSON.parse(companyServices);
+        const formattedServices = parsedServices.map((service) => ({
+          title: service.service_name,
+          image: service.service_photo,
+        }));
+        setServices(formattedServices);
+      } catch (error) {
+        console.error("Failed to parse company services:", error);
+        // Optionally set services to an empty array or handle the error as needed
+        setServices([]);
+      }
+    } else {
+      // If companyServices is not valid, set services to an empty array
+      setServices([]);
+    }
   }, [companyData]);
 
   const getCountry = async () => {
-    axios.get("https://apiwl.novajobs.us/api/admin/countries", {
+    axios({
+      method: "get",
+      url: "https://apiwl.novajobs.us/api/admin/countries",
       headers: {
         Authorization: token,
       },
     })
-    .then((res) => {
-      setCountries(res.data.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+      .then((res) => {
+        setCountries(res.data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const getState = async () => {
-    if (selectedCountry) {
-      axios.get(`https://apiwl.novajobs.us/api/admin/stats/${selectedCountry}`, {
-        headers: {
-          Authorization: token,
-        },
-      })
+    if (!selectedCountry) {
+      return;
+    }
+    axios({
+      method: "get",
+      url: `https://apiwl.novajobs.us/api/admin/states/${selectedCountry}`,
+      headers: {
+        Authorization: token,
+      },
+    })
       .then((res) => {
         setStates(res.data.data);
       })
       .catch((error) => {
         console.log(error);
       });
-    }
   };
 
   const getCities = async () => {
-    if (selectedStates) {
-      axios.get(`https://apiwl.novajobs.us/api/admin/cities/${selectedStates}`, {
-        headers: {
-          Authorization: token,
-        },
-      })
+    if (!selectedStates) {
+      return;
+    }
+    axios({
+      method: "get",
+      url: `https://apiwl.novajobs.us/api/admin/cities/${selectedStates}`,
+      headers: {
+        Authorization: token,
+      },
+    })
       .then((res) => {
         setCities(res.data.data);
       })
       .catch((error) => {
         console.log(error);
       });
-    }
   };
 
   useEffect(() => {
@@ -128,81 +201,147 @@ function VendorCompanyprofile() {
   }, []);
 
   useEffect(() => {
+    // console.log(selectedCountry);
+
     getState();
   }, [selectedCountry]);
 
   useEffect(() => {
+    // console.log(selectedStates);
     getCities();
   }, [selectedStates]);
 
-  const updateCompanyData = async (e) => {
-    e.preventDefault();
+  // ... (previous useEffect hooks and functions)
 
-    if (!companyName || !industry || !selectedCountry || !selectedStates || !selectedCities) {
+  const addService = () => {
+    setServices([...services, { title: "", image: "" }]);
+  };
+
+  const removeService = (index) => {
+    const updatedServices = services.filter((_, i) => i !== index);
+    setServices(updatedServices);
+  };
+
+  const handleServiceChange = (index, field, value) => {
+    const updatedServices = services.map((service, i) => {
+      if (i === index) {
+        return { ...service, [field]: value };
+      }
+      return service;
+    });
+    setServices(updatedServices);
+  };
+
+  const handleImageChange = (index, e) => {
+    const img = e.target.files[0];
+    const url = URL.createObjectURL(img);
+
+    const updatedServices = services.map((service, i) => {
+      if (i === index) {
+        return { ...service, image: img, url: url }; // Store the file and its URL
+      }
+      return service;
+    });
+    setServices(updatedServices);
+  };
+
+  const updateCompanyData = async () => {
+    if (
+      !companyName ||
+      !email ||
+      !industry ||
+      !selectedCountry ||
+      !selectedStates ||
+      !selectedCities
+    ) {
+      // console.log(companyName,email,industry,selectedCountry,selectedStates,selectedCities);
       showToastError("Please fill out all required fields.");
       return;
     }
-    const payload = {
-      company_name: companyName,
-      about: description,
-      email: email,
-      tagline: tagline,
-      
-      website_link: website,
-      founded_date: foundedYear,
-      phone: number,
-      country_id: Number(selectedCountry),
-      state_id: Number(selectedStates),
-      city_id: Number(selectedCities),
-      address: address,
-      facebook_link: glassdoor,
-      twitter_link: twitter,
-      google_link: googleBusiness,
-      linkedin_link: linkdin,
-      company_industry_id: Number(industry),
-    };
 
-    console.log("Payload:", payload); // Log the payload for debugging
-    console.log("URL:", "https://apiwl.novajobs.us/api/admin/company"); // Log the URL for debugging
+    try {
+      const servicesName = services.map((service) => service.title);
+      const formData = new FormData();
+      const serviceFiles = []; // Array to hold service images
+      const serviceNames = []; // Array to hold service names
 
-    axios.put("https://apiwl.novajobs.us/api/admin/company", payload, {
-      headers: {
-        Authorization: token,
-      },
-    })
-    .then((res) => {
+      // Function to convert a URL or string to a Blob/File
+      const convertImageToBinary = async (image) => {
+        if (typeof image === "string") {
+          // If the image is a URL, fetch it as a Blob
+          const response = await fetch(image);
+          const blob = await response.blob();
+          return new File([blob], "image.png"); // You can adjust the file name and type if necessary
+        }
+        return image; // If it's already a File or Blob, return as is
+      };
+
+      // Process each service to prepare the data
+      for (const service of services) {
+        serviceNames.push(service.title); // Collect service titles
+        if (service.image) {
+          const binaryImage = await convertImageToBinary(service.image); // Convert image to binary if needed
+          serviceFiles.push(binaryImage); // Collect service images
+        }
+      }
+
+      // Append each service image and its corresponding name to formData
+      for (let i = 0; i < serviceFiles.length; i++) {
+        formData.append("images", serviceFiles[i]);
+        formData.append("services_name", serviceNames[i] || `file-${i}`); // Use a default name if none provided
+      }
+
+      // First request to update company data
+      await axios({
+        method: "put",
+        url: `https://apiwl.novajobs.us/api/admin/company`,
+        headers: {
+          Authorization: token,
+        },
+        data: {
+          company_name: companyName,
+          about: description.trim(),
+          email: email,
+          tagline: tagline,
+          website_link: website,
+          founded_date: foundedYear,
+          phone: number,
+          country_id: Number(selectedCountry),
+          state_id: Number(selectedStates),
+          city_id: Number(selectedCities),
+          address: address,
+          facebook_link: glassdoor,
+          twitter_link: twitter,
+          google_link: googleBusiness,
+          linkedin_link: linkdin,
+          company_industry_id: Number(industry),
+        },
+      });
+
       showToastSuccess("Company data updated successfully.");
-    })
-    .catch((error) => {
-      console.error("Error:", error.response); // Log the error response for debugging
-      showToastError("Failed to update company data.");
-    });
-  };
 
-  const handleLogout = () => {
-    localStorage.removeItem('vendorToken');
-    window.location.href = "/vendor/login";
-  };
+      // Second request to update company services
+      await axios({
+        method: "put",
+        url: `https://apiwl.novajobs.us/api/admin/company-services`,
+        headers: {
+          Authorization: token,
+          // No need to set 'Content-Type' when sending FormData; the browser sets it automatically
+        },
+        data: formData, // This is the FormData containing images and names
+      });
 
+      showToastSuccess("Services updated successfully.");
+    } catch (error) {
+      console.error("Error updating company data or services:", error);
+      showToastError("Failed to update company data or services.");
+    }
+  };
+  // console.log(companyDetail,"companyDetail");
   return (
     <>
+      <VendorHeader />
       <div className="page-content bg-white">
-        {/* <Navbar bg="white" variant="white" className='py-3 border-bottom'>
-          <Navbar.Brand as={Link} to="/">
-            <img
-              style={{ width: "110px" }}
-              src={require("../images/logo/NovaUS.png")}
-              className="logo"
-              alt="img"
-            />
-          </Navbar.Brand>
-          <Nav className="ml-auto align-items-center">
-            <Button onClick={handleLogout} style={{backgroundColor:'#1C2957'}} className='text-white px-4'>
-              Logout
-            </Button>
-          </Nav>
-        </Navbar> */}
-        <VendorHeader/>
         <div className="content-block">
           <div className="section-full bg-white p-t50 p-b20">
             <div className="container">
@@ -214,8 +353,28 @@ function VendorCompanyprofile() {
                       <h5 className="font-weight-700 pull-left text-uppercase">
                         Company Profile
                       </h5>
+                      <Link
+                        to={
+                          companyDetail?.id
+                            ? `/user/company/${companyDetail.id}`
+                            : "#"
+                        }
+                        className={`site-button right-arrow button-sm float-right ${
+                          !companyDetail?.id
+                            ? "opacity-50 cursor-not-allowed pointer-events-none"
+                            : ""
+                        }`}
+                        disabled={!companyDetail?.id}
+                      >
+                        View Company Page
+                      </Link>
                     </div>
-                    <form onSubmit={updateCompanyData}>
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        updateCompanyData();
+                      }}
+                    >
                       <div className="row m-b30">
                         <div className="col-lg-6 col-md-6">
                           <div className="form-group">
@@ -246,7 +405,7 @@ function VendorCompanyprofile() {
                           </div>
                         </div>
                         <div className="col-lg-6 col-md-6">
-                          <div className="form-group">
+                          {/* <div className="form-group">
                             <label>Email ID</label>
                             <input
                               type="email"
@@ -256,6 +415,36 @@ function VendorCompanyprofile() {
                               value={email}
                               required
                             />
+                          </div> */}
+                          <div
+                            className="form-group  "
+                            style={{ position: "relative" }}
+                          >
+                            <label>Email ID</label>
+                            <input
+                              type="email"
+                              className="form-control"
+                              placeholder="info@gmail.com"
+                              value={email}
+                              disabled
+                              style={{
+                                paddingRight: "2.5rem", // Leave space for the icon
+                              }}
+                            />
+                            <span
+                              style={{
+                                position: "absolute",
+                                top: "50%",
+                                right: "10px", // Adjust spacing from the right
+                                transform: "translateY(-50%)",
+                                color: "green",
+                                fontSize: "1.2rem",
+                                cursor: "pointer",
+                              }}
+                              title="Verified"
+                            >
+                              ✅
+                            </span>
                           </div>
                         </div>
                         <div className="col-lg-6 col-md-6">
@@ -275,42 +464,118 @@ function VendorCompanyprofile() {
                           <div className="form-group">
                             <label>Founded Year</label>
                             <input
-                              type="text"
+                              type="text" // Allows the user to select year and month
                               className="form-control"
-                              onChange={(e) => setDate(e.target.value)}
+                              onChange={(e) => setFoundedYear(e.target.value)}
                               value={foundedYear}
-                              required
                             />
                           </div>
                         </div>
+
                         <div className="col-lg-6 col-md-6">
                           <div className="form-group">
                             <label>Industry</label>
-                            <select
-                              className="form-control"
+                            <Form.Control
+                              as="select"
+                              custom
+                              className="custom-select"
                               onChange={(e) => setIndustry(e.target.value)}
                               value={industry}
                               required
                             >
                               <option value="">Select Industry</option>
-                              {industries.map((item) => (
-                                <option key={item.id} value={item.id}>
-                                  {item.name}
+                              {industries.map((industry) => (
+                                <option key={industry.id} value={industry.id}>
+                                  {industry.name}
                                 </option>
                               ))}
-                            </select>
+                            </Form.Control>
+                          </div>
+                        </div>
+                        <div className="col-lg-12 col-md-6">
+                          <div className="form-group">
+                            <label>Company Description</label>
+                            {/* <input
+                              className="form-control"
+                              placeholder="Company Description"
+                              onChange={(e) => setDescription(e.target.value)}
+                              value={description}
+                              rows="3"
+                              required
+                            /> */}
+                            <ReactQuill
+                              theme="snow"
+                              value={description}
+                              onChange={handleChange}
+                              style={{
+                                height: "200px",
+                                width: "100%",
+                                marginBottom: "70px",
+                              }}
+                            />
                           </div>
                         </div>
                         <div className="col-lg-12 col-md-12">
                           <div className="form-group">
-                            <label>Description</label>
-                            <textarea
-                              className="form-control"
-                              placeholder="Enter Description"
-                              onChange={(e) => setDescription(e.target.value)}
-                              value={description}
-                              required
-                            />
+                            <label>Services</label>
+                            {services.map((service, index) => (
+                              <div key={index} className="row mb-3">
+                                <div className="col-lg-6 col-md-6">
+                                  <div className="form-group">
+                                    <input
+                                      type="text"
+                                      className="form-control"
+                                      placeholder="Service Title"
+                                      value={service.title}
+                                      onChange={(e) =>
+                                        handleServiceChange(
+                                          index,
+                                          "title",
+                                          e.target.value
+                                        )
+                                      }
+                                    />
+                                  </div>
+                                </div>
+                                <div className="col-lg-5 col-md-5">
+                                  <div className="form-group">
+                                    <input
+                                      type="file"
+                                      className="form-control-file"
+                                      onChange={(e) =>
+                                        handleImageChange(index, e)
+                                      }
+                                    />
+                                  </div>
+                                </div>
+                                <div className="col-lg-1 col-md-1">
+                                  <button
+                                    type="button"
+                                    className="site-button button-sm red"
+                                    onClick={() => removeService(index)}
+                                  >
+                                    <i className="fa fa-trash"></i>
+                                  </button>
+                                </div>
+                                {service.image && (
+                                  <div className="col-lg-12 col-md-12 mt-2">
+                                    <img
+                                      src={`https://apiwl.novajobs.us${service.image}`}
+                                      alt="Service"
+                                      className="img-fluid"
+                                      style={{ maxHeight: "100px" }}
+                                    />
+                                  </div>
+                                )}
+                              </div>
+                            ))}
+                            <button
+                              type="button"
+                              className="site-button button-sm"
+                              onClick={addService}
+                            >
+                              Add Service
+                            </button>
                           </div>
                         </div>
                         <div className="col-lg-6 col-md-6">
@@ -319,8 +584,9 @@ function VendorCompanyprofile() {
                             <input
                               type="text"
                               className="form-control"
-                              placeholder="Number"
-                              onChange={(e) => setNumber(e.target.value)}
+                              placeholder="Phone Number"
+                              // onChange={(e) => setNumber(e.target.value)}
+                              onChange={(e) => handlePhoneNumberChange(e)}
                               value={number}
                               required
                             />
@@ -329,124 +595,142 @@ function VendorCompanyprofile() {
                         <div className="col-lg-6 col-md-6">
                           <div className="form-group">
                             <label>Country</label>
-                            <select
-                              className="form-control"
-                              onChange={(e) => setSelectedCountry(e.target.value)}
-                              value={selectedCountry || ""}
+                            <Form.Control
+                              as="select"
+                              custom
+                              onChange={(e) =>
+                                setSelectedCountry(e.target.value)
+                              }
+                              value={selectedCountry}
                               required
                             >
                               <option value="">Select Country</option>
-                              {countries.map((item) => (
-                                <option key={item.id} value={item.id}>
-                                  {item.name}
+                              {countries.map((country) => (
+                                <option key={country.id} value={country.id}>
+                                  {country.name}
                                 </option>
                               ))}
-                            </select>
+                            </Form.Control>
                           </div>
                         </div>
                         <div className="col-lg-6 col-md-6">
                           <div className="form-group">
                             <label>State</label>
-                            <select
-                              className="form-control"
-                              onChange={(e) => setSelectedStates(e.target.value)}
-                              value={selectedStates || ""}
+                            <Form.Control
+                              as="select"
+                              custom
+                              onChange={(e) =>
+                                setSelectedStates(e.target.value)
+                              }
+                              value={selectedStates}
                               required
                             >
                               <option value="">Select State</option>
-                              {states.map((item) => (
-                                <option key={item.id} value={item.id}>
-                                  {item.name}
+                              {states.map((state) => (
+                                <option key={state.id} value={state.id}>
+                                  {state.name}
                                 </option>
                               ))}
-                            </select>
+                            </Form.Control>
                           </div>
                         </div>
                         <div className="col-lg-6 col-md-6">
                           <div className="form-group">
                             <label>City</label>
-                            <select
-                              className="form-control"
-                              onChange={(e) => setSelectedCities(e.target.value)}
-                              value={selectedCities || ""}
+                            <Form.Control
+                              as="select"
+                              custom
+                              onChange={(e) =>
+                                setSelectedCities(e.target.value)
+                              }
+                              value={selectedCities}
                               required
                             >
                               <option value="">Select City</option>
-                              {cities.map((item) => (
-                                <option key={item.id} value={item.id}>
-                                  {item.name}
+                              {cities.map((city) => (
+                                <option key={city.id} value={city.id}>
+                                  {city.name}
                                 </option>
                               ))}
-                            </select>
+                            </Form.Control>
                           </div>
                         </div>
-                        <div className="col-lg-6 col-md-6">
+                        {/* <div className="col-lg-12 col-md-12">
                           <div className="form-group">
                             <label>Address</label>
                             <input
                               type="text"
                               className="form-control"
-                              placeholder="Enter Your Address"
+                              placeholder="Enter Address"
                               onChange={(e) => setAddress(e.target.value)}
                               value={address}
                               required
                             />
                           </div>
-                        </div>
-                        <div className="col-lg-6 col-md-6">
+                        </div> */}
+
+                        <div className="col-lg-12 col-md-6">
                           <div className="form-group">
-                            <label>LinkedIn</label>
+                            <label>LinkedIn Link</label>
                             <input
                               type="text"
                               className="form-control"
                               placeholder="LinkedIn Link"
                               onChange={(e) => setlinkdin(e.target.value)}
                               value={linkdin}
-                              required
                             />
                           </div>
                         </div>
-                        <div className="col-lg-6 col-md-6">
+                        {/* <div className="col-lg-6 col-md-6">
                           <div className="form-group">
-                            <label>Twitter</label>
+                            <label>Twitter Link</label>
                             <input
                               type="text"
                               className="form-control"
                               placeholder="Twitter Link"
                               onChange={(e) => setTwitter(e.target.value)}
                               value={twitter}
-                              required
                             />
                           </div>
-                        </div>
-                        <div className="col-lg-6 col-md-6">
+                        </div> */}
+                        {/* <div className="col-lg-6 col-md-6">
                           <div className="form-group">
-                            <label>Google Business</label>
+                            <label>Google Business Link</label>
                             <input
                               type="text"
                               className="form-control"
                               placeholder="Google Business Link"
-                              onChange={(e) => setGoogleBusiness(e.target.value)}
+                              onChange={(e) =>
+                                setGoogleBusiness(e.target.value)
+                              }
                               value={googleBusiness}
-                              required
                             />
                           </div>
-                        </div>
-                        <div className="col-lg-6 col-md-6">
+                        </div> */}
+                        {/* <div className="col-lg-6 col-md-6">
                           <div className="form-group">
-                            <label>Glassdoor</label>
+                            <label>Glassdoor Link</label>
                             <input
                               type="text"
                               className="form-control"
                               placeholder="Glassdoor Link"
                               onChange={(e) => setGlassdor(e.target.value)}
                               value={glassdoor}
-                              required
                             />
+                          </div>
+                        </div> */}
+
+                        <div className="col-lg-12 col-md-12">
+                          <div className="clearfix font-bold">
+                            <button
+                              type="submit"
+                              className="site-button button-sm px-4 py-2 text-bolder"
+                            >
+                              Save
+                            </button>
                           </div>
                         </div>
                       </div>
-                      <button type="submit" className="site-button m-b30">Save</button>
                     </form>
                   </div>
                 </div>
@@ -455,10 +739,9 @@ function VendorCompanyprofile() {
           </div>
         </div>
       </div>
-      
       <Footer />
     </>
   );
 }
 
-export default VendorCompanyprofile;
+export default Vendorprofile;
