@@ -19,7 +19,7 @@ function Vendorprofile() {
   );
   let companyDetail = companyData?.company_detail;
   let employeerDetail = companyData?.employeer_detail;
-
+  
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
@@ -144,8 +144,8 @@ function Vendorprofile() {
 
   const getCountry = async () => {
     axios({
-      method: "get",
-      url: "https://apiwl.novajobs.us/api/admin/countries",
+        method: "get",
+        url: "https://apiwl.novajobs.us/api/admin/countries",
       headers: {
         Authorization: token,
       },
@@ -182,7 +182,7 @@ function Vendorprofile() {
       return;
     }
     axios({
-      method: "get",
+        method: "get",
       url: `https://apiwl.novajobs.us/api/admin/cities/${selectedStates}`,
       headers: {
         Authorization: token,
@@ -524,7 +524,7 @@ function Vendorprofile() {
                                   <div className="form-group">
                                     <input
                                       type="text"
-                                      className="form-control"
+                              className="form-control"
                                       placeholder="Service Title"
                                       value={service.title}
                                       onChange={(e) =>

@@ -37,46 +37,47 @@ const BulkResumeTable = ({resumes}) => {
     <div className="container mt-4">
       <h2 className="mb-3">Bulk Resumes</h2>
       <Table striped bordered hover responsive>
-        <thead className="table-dark">
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Contact Number</th>
-            <th>Address</th>
+  <thead className="table-dark">
+    <tr>
+      <th>#</th> {/* Serial number header */}
+      <th>Name</th>
+      <th>Email</th>
+      <th>Contact Number</th>
+      <th>Address</th>
+      <th>Resume</th>
+    </tr>
+  </thead>
+  <tbody>
+    {resumes.length > 0 ? (
+      resumes.map((resume, index) => (
+        <tr key={index}>
+          <td>{index + 1}</td> {/* Serial number */}
+          <td>{resume.name}</td>
+          <td>{resume.email}</td>
+          <td>{resume.contact_number}</td>
+          <td>{resume.address}</td>
+          <td>
+            <Button
+              variant="primary"
+              href={`https://apiwl.novajobs.us${resume.resume_path}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View
+            </Button>
+          </td>
+        </tr>
+      ))
+    ) : (
+      <tr>
+        <td colSpan="6" className="text-center">
+          No resumes found.
+        </td>
+      </tr>
+    )}
+  </tbody>
+</Table>
 
-            <th>Resume</th>
-          </tr>
-        </thead>
-        <tbody>
-          {resumes.length > 0 ? (
-            resumes.map((resume, index) => (
-              <tr key={index}>
-                <td>{resume.name}</td>
-                <td>{resume.email}</td>
-                <td>{resume.contact_number}</td>
-                <td>{resume.address}</td>
-
-                <td>
-                  <Button
-                    variant="primary"
-                    href={`https://apiwl.novajobs.us${resume.resume_path}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    View
-                  </Button>
-                </td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="5" className="text-center">
-                No resumes found.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </Table>
     </div>
   );
 };

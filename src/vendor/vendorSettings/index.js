@@ -8,7 +8,8 @@ import HeaderManagementForm from "./HeaderManagementForm";
 import FooterManagementForm from "./FooterManagement";
 import TestimonialManagementForm from "./TestimonialManagement";
 import BulkUploadForm from "./BulkUploadForm";
-
+import Popup from "./Popup";
+import Pricing from "./Pricing";
 // Animation for tab transition
 const fadeIn = keyframes`
   from {
@@ -215,6 +216,10 @@ function VendorSetting() {
         return <TestimonialManagementForm />;
       case "bulkUpload":
         return <BulkUploadForm />;
+      case "popup":
+        return <Popup />;
+      case "pricing":
+        return <Pricing />;
       default:
         return <NavbarManagementForm />;
     }
@@ -226,6 +231,8 @@ function VendorSetting() {
     { key: "footer", label: "Footer" },
     { key: "testimonial", label: "Testimonial" },
     { key: "bulkUpload", label: "Bulk Upload" },
+    { key: "popup", label: "Form" },
+    { key: "pricing", label: "Site" },
   ];
 
   return (
