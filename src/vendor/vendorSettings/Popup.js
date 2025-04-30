@@ -466,6 +466,9 @@ const VendorPartnershipForm = () => {
     }
 
     try {
+      // Save formData to localStorage
+      localStorage.setItem("vendorFormData", JSON.stringify(formData));
+
       // Prepare form data for submission
       const submitData = {
         company_name: formData.companyName,
