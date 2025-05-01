@@ -206,6 +206,7 @@ import JobSeekerDashboard from "./markup/Pages/JobSeekerDashboard";
 import axios from "axios";
 import Payment from "./vendor/Payments/Payemnts";
 import PlansPage from "./vendor/Payments/Plans";
+import ResumeList from "./adminPanel/ResumeList";
 // import AboutusForm from 
 function App() {
   const dispatch = useDispatch();
@@ -280,6 +281,14 @@ function App() {
         element={
           <PrivateRouteadmin>
             <Vendor />
+          </PrivateRouteadmin>
+        }
+      />
+      <Route
+        path="/admin/resumelist"
+        element={
+          <PrivateRouteadmin>
+            <ResumeList />
           </PrivateRouteadmin>
         }
       />

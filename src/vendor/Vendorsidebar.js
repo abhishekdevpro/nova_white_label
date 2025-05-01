@@ -15,6 +15,7 @@ const VendorCompanySideBar = ({ active }) => {
   const [logo, setLogo] = useState("");
   const [myPortalOpen, setMyPortalOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [domainName, setdomainName] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -60,9 +61,11 @@ const VendorCompanySideBar = ({ active }) => {
           Authorization: token,
         },
       });
-      setLogo(`${response.data.data.company_detail.logo}`);
+      const vendorDetails = response.data.data.vendors_detail;
+      setLogo(vendorDetails.logo); // Set the logo
+      setdomainName(vendorDetails.domain); // Set the domain dynamically
     } catch (error) {
-      console.error("Error fetching logo:", error);
+      console.error("Error fetching vendor details:", error);
     }
   };
 
@@ -228,7 +231,10 @@ console.log(`https://apiwl.novajobs.us${logo}`,"llll");
                 <li>
                   <Link to="#" onClick={toggleMyPortal}>
                     <i className="fa fa-user-o" aria-hidden="true"></i>
-                    <span>My Portal</span>
+                    <span>
+                      My Portal{" "}
+                 
+                    </span>
                     <i
                       className={`fa fa-chevron-${
                         myPortalOpen ? "up" : "down"
@@ -325,11 +331,19 @@ console.log(`https://apiwl.novajobs.us${logo}`,"llll");
                 </li>
                 <li>
                   <Link
-                    to={"/vendor/editors"}
+                    to={domainName ? `https://${domainName}` : "#"}
+                    target="_blank"
                     className={active === "editors" ? "active" : null}
                   >
                     <FontAwesomeIcon icon={faCloudUploadAlt} className="me-2" />
-                    <span>Vendor Website</span>
+                    <span>
+                      Vendor Website
+                      <i
+                        className="fa fa-external-link"
+                        aria-hidden="true"
+                        style={{ marginLeft: "5px" }}
+                      ></i>
+                    </span>
                   </Link>
                 </li>
                 <li>
