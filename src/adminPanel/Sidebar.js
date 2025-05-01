@@ -12,6 +12,7 @@ import {
   FaTasks,
   FaWallet,
   FaUserGraduate,
+  FaFileAlt,
 } from "react-icons/fa";
 import "../css/profilesidebar.css";
 const Sidebar = () => {
@@ -806,47 +807,14 @@ const Sidebar = () => {
               </>
             )}
           </div>
-          {/*
-     
-       <div>
-        <Nav.Link
-          onClick={handleTeamClick6}
-          as={NavLink} to="/admin/wallet"
-          style={navLinkStyle("/admin/wallet")}
-          className='ps-4'
-        >
-          <FaWallet style={iconStyle} /> Wallet
-        </Nav.Link>
-        {showTeamSubmenu6 && (
-          <>
-            <Nav.Link as={NavLink} to="/admin/team/totaltransaction" style={navLinkStyle("/admin/team/totaltransaction")} className='ps-5'>
-              <FaUsers style={iconStyle} /> Total Transaction
-            </Nav.Link>
-            <Nav.Link as={NavLink} to="/admin/team/credit" style={navLinkStyle("/admin/team/credit")} className='ps-5'>
-              <FaUsers style={iconStyle} /> Credit
-            </Nav.Link>
-            <Nav.Link as={NavLink} to="/admin/team/debit" style={navLinkStyle("/admin/team/debit")} className='ps-5'>
-              <FaUsers style={iconStyle} /> Debit
-            </Nav.Link>
-            <Nav.Link as={NavLink} to="/admin/team/filters" style={navLinkStyle("/admin/team/filters")} className='ps-5'>
-              <FaUsers style={iconStyle} /> Filters like Week, Month, source
-            </Nav.Link>
-            <Nav.Link as={NavLink} to="/admin/team/upcomingdebits" style={navLinkStyle("/admin/team/upcomingdebits")} className='ps-5'>
-              <FaUsers style={iconStyle} /> Upcoming Debits
-            </Nav.Link>
-            <Nav.Link as={NavLink} to="/admin/team/upcomingcredits" style={navLinkStyle("/admin/team/upcomingcredits")} className='ps-5'>
-              <FaUsers style={iconStyle} /> Upcoming credits
-            </Nav.Link>
-          </>
-        )}
-      </div>
-     
-     <Nav.Link as={NavLink} to="/admin/assignrole" style={navLinkStyle("/admin/assignrole")} className='ps-4'>
-        <FaTasks style={iconStyle} /> Assign Role
-      </Nav.Link>
-      <Nav.Link as={NavLink} to="/admin/assigntask" style={navLinkStyle("/admin/assigntask")} className='ps-4'>
-        <FaTasks style={iconStyle} /> Assign Task
-      </Nav.Link> */}
+          <Nav.Link
+            as={NavLink}
+            to="/admin/resumelist"
+            style={navLinkStyle("/admin/resumelist")}
+            className="ps-4"
+          >
+            <FaFileAlt style={iconStyle} /> Resume List
+          </Nav.Link>
         </Nav>
       </div>
     </>

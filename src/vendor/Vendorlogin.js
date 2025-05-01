@@ -30,6 +30,7 @@ const Vendorlogin = () => {
 
       if (response.data.data.token) {
         localStorage.setItem("vendorToken", response.data.data.token);
+        localStorage.setItem("vendorId", response.data.data.id);
         toast.success(response.data.message || "User Logged In Successfully!")
         navigate("/white-label");
       }
@@ -42,7 +43,7 @@ const Vendorlogin = () => {
       }
     }
   };
-
+console.log("Vendor ID:", localStorage.getItem("vendorId")); // Log the vendor ID for debugging
   return (
     <div>
       <VendorHeader />

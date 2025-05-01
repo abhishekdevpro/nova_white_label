@@ -218,8 +218,7 @@ function VendorSetting() {
         return <BulkUploadForm />;
       case "popup":
         return <Popup />;
-      case "pricing":
-        return <Pricing />;
+      
       default:
         return <NavbarManagementForm />;
     }
@@ -232,7 +231,7 @@ function VendorSetting() {
     { key: "testimonial", label: "Testimonial" },
     { key: "bulkUpload", label: "Bulk Upload" },
     { key: "popup", label: "Form" },
-    { key: "pricing", label: "Site" },
+
   ];
 
   return (

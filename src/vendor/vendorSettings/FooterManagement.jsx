@@ -27,7 +27,7 @@ const FooterManagementForm = () => {
       setter(response.data.data || { title: "", description: "" })
     } catch (error) {
       console.error("Error fetching data:", error)
-      toast.error(error.response?.data?.message || "Failed to fetch data")
+     
     }
   }
 
