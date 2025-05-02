@@ -59,9 +59,24 @@
 
       -->
 
-      <script> window.chtlConfig = { chatbotId: "8171453563" } </script>
-      <script async data-id="8171453563" id="chatling-embed-script" type="text/javascript" src="https://chatling.ai/js/embed.js"></script>
+      <script> 
+        // Function to check if current path is a vendor page
+        function isVendorPage() {
+          return window.location.pathname.includes('/vendor');
+        }
 
+        // Only initialize chatbot if not on vendor pages
+        if (!isVendorPage()) {
+          window.chtlConfig = { chatbotId: "8171453563" };
+          var script = document.createElement('script');
+          script.async = true;
+          script.dataset.id = "8171453563";
+          script.id = "chatling-embed-script";
+          script.type = "text/javascript";
+          script.src = "https://chatling.ai/js/embed.js";
+          document.body.appendChild(script);
+        }
+      </script>
 
 </body>
 
