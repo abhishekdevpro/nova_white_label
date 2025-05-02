@@ -1,7 +1,42 @@
 /* Base styles */
 .sidebar {
-  width: 250px;
+  width: 280px;
   transition: transform 0.3s ease;
+  transform: translateX(-100%);
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar.open {
+  transform: translateX(0);
+}
+
+.sidebar-toggle {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 1001;
+  background: #1C2957;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+/* Add margin to the main content to prevent overlap with fixed sidebar */
+main {
+  margin-left: 280px;
+  padding: 20px;
+}
+
+@media (max-width: 768px) {
+  main {
+    margin-left: 0;
+  }
+  
+  .sidebar.open + main {
+    margin-left: 280px;
+  }
 }
 
 /* Desktop view */
@@ -37,6 +72,7 @@
     width: 40px;
     height: 50px;
   }
+
 }
 .ps-6 {
   padding-left: 5rem !important;
@@ -44,3 +80,4 @@
 .ps-7 {
   padding-left: 7rem !important;
 }
+
