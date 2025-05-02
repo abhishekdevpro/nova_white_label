@@ -47,7 +47,7 @@ const Sidebar = () => {
     alignItems: "center",
     backgroundColor: location.pathname === path ? "#1C2957" : "transparent",
     color: location.pathname === path ? "white" : "black",
-    padding: "10px 15px",
+    padding: "",
     textDecoration: "none",
   });
 
@@ -179,8 +179,16 @@ const Sidebar = () => {
       <button className="sidebar-toggle" onClick={toggleSidebar}>
         ☰
       </button>
-      <div className={`sidebar ${sidebarOpen ? "open" : ""} overflow-y`}>
-        <Nav className="flex-column bg-light h-screen gap-3 h-full">
+      <div className={`sidebar ${sidebarOpen ? "open" : ""}`} style={{
+        position: 'fixed',
+        top: 82,
+        left: -15,
+        height: '100vh',
+        overflowY: 'auto',
+        zIndex: 1000,
+     
+      }}>
+        <Nav className="flex-column bg-light h-screen gap-3">
           <Nav.Link
             as={NavLink}
             to="/admin/dashboard"

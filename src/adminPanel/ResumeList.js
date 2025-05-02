@@ -2,6 +2,18 @@ import React, { useEffect, useState } from "react";
 import { Table, Button, Container, Row, Col, Pagination, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { 
+  faFilter, 
+  faUndoAlt, 
+  faCheck, 
+  faSortAmountDown, 
+  faMapMarkerAlt, 
+  faBriefcase, 
+  faBuilding, 
+  faChevronDown, 
+  faSearch 
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Sidebar from "./Sidebar"; // Assuming you have a Sidebar component
 import { FaFileAlt } from "react-icons/fa";
@@ -12,11 +24,21 @@ const ResumeList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const resumesPerPage = 10; // Number of resumes per page
 
-  // Filter states
-  const [sortBy, setSortBy] = useState("asc");
-  const [location, setLocation] = useState("");
-  const [position, setPosition] = useState("");
-  const [vendorId, setVendorId] = useState("");
+  // Active filters (these will be used for API calls)
+  const [activeFilters, setActiveFilters] = useState({
+    sortBy: "asc",
+    location: "",
+    position: "",
+    vendorId: ""
+  });
+
+  // Temporary filter states (for form inputs)
+  const [tempFilters, setTempFilters] = useState({
+    sortBy: "asc",
+    location: "",
+    position: "",
+    vendorId: ""
+  });
 
   // Job titles for the position dropdown
   const [jobTitles, setJobTitles] = useState([]);
@@ -38,10 +60,10 @@ const ResumeList = () => {
         {
           headers: { Authorization: token },
           params: {
-            sort_by: sortBy,
-            location: location || undefined,
-            position: position || undefined,
-            vendor_id: vendorId || undefined,
+            sort_by: activeFilters.sortBy,
+            location: activeFilters.location || undefined,
+            position: activeFilters.position || undefined,
+            vendor_id: activeFilters.vendorId || undefined,
           },
         }
       );
@@ -96,10 +118,10 @@ const ResumeList = () => {
       });
 
       if (response.data?.status === "success") {
-        // Extract vendors from the API response
+        // Extract vendors from the API response using vendors_detail.id
         const vendorList = response.data.data.map((vendor) => ({
-          id: vendor.company_detail.id,
-          name: vendor.company_detail.company_name || "Unknown Company",
+          id: vendor.vendors_detail.id,
+          name: vendor.company_detail.company_name || vendor.vendors_detail.first_name + " " + vendor.vendors_detail.last_name || "Unknown Vendor",
         }));
         setVendors(vendorList);
       }
@@ -110,7 +132,7 @@ const ResumeList = () => {
 
   useEffect(() => {
     fetchResumes();
-  }, [sortBy, location, position, vendorId]);
+  }, [activeFilters]); // Only re-fetch when activeFilters change
 
   useEffect(() => {
     fetchJobTitles();
@@ -134,17 +156,28 @@ const ResumeList = () => {
 
   const handleFilterSubmit = (e) => {
     e.preventDefault();
-    setCurrentPage(1); // Reset to the first page when filters are applied
-    fetchResumes();
+    setCurrentPage(1); // Reset to first page
+    setActiveFilters({ ...tempFilters }); // Update active filters with temporary values
   };
 
   const handleResetFilters = () => {
-    setSortBy("asc");
-    setLocation("");
-    setPosition("");
-    setVendorId("");
-    setCurrentPage(1); // Reset to the first page
-    fetchResumes(); // Reload resumes with default filters
+    const defaultFilters = {
+      sortBy: "asc",
+      location: "",
+      position: "",
+      vendorId: ""
+    };
+    setTempFilters(defaultFilters);
+    setActiveFilters(defaultFilters);
+    setCurrentPage(1);
+  };
+
+  // Update temporary filter values
+  const handleFilterChange = (field, value) => {
+    setTempFilters(prev => ({
+      ...prev,
+      [field]: value
+    }));
   };
 
   return (
@@ -164,81 +197,214 @@ const ResumeList = () => {
                 <h2 className="mb-3">Resume List</h2>
 
                 {/* Filter Form */}
-                <Form onSubmit={handleFilterSubmit} className="mb-4 p-4 border rounded shadow bg-white">
-                  <Row className="gy-4">
-                    <Col md={3}>
-                      <Form.Group controlId="sortBy">
-                        <Form.Label className="fw-semibold text-secondary">Sort By</Form.Label>
-                        <Form.Control
-                          as="select"
-                          value={sortBy}
-                          onChange={(e) => setSortBy(e.target.value)}
-                          className="form-select shadow-sm"
+                <Form 
+                  onSubmit={handleFilterSubmit} 
+                  className="mb-4 p-0 border-0"
+                  style={{
+                    background: 'linear-gradient(145deg, rgba(255,255,255,0.9), rgba(255,255,255,0.8))',
+                    backdropFilter: 'blur(10px)',
+                    borderRadius: '24px',
+                  }}
+                >
+                  <div className="px-4 py-3 border-bottom" style={{ background: 'rgba(255,255,255,0.5)', borderTopLeftRadius: '24px', borderTopRightRadius: '24px' }}>
+                    <div className="d-flex align-items-center">
+                      <div>
+                        <h5 className="fw-bold m-0" style={{ color: '#2563eb' }}>
+                          <FontAwesomeIcon icon={faFilter} className="me-2" />
+                          Filter Resumes
+                        </h5>
+                        <p className="text-muted small m-0 mt-1">Customize your search criteria</p>
+                      </div>
+                      <div className="ms-auto d-flex gap-2">
+                        <Button 
+                          variant="link" 
+                          onClick={handleResetFilters} 
+                          className="text-muted px-3 py-2 d-flex align-items-center"
+                          style={{ 
+                            transition: 'all 0.2s',
+                            textDecoration: 'none',
+                            fontSize: '0.9rem'
+                          }}
                         >
-                          <option value="asc">Ascending</option>
-                          <option value="desc">Descending</option>
-                        </Form.Control>
-                      </Form.Group>
-                    </Col>
-                    <Col md={3}>
-                      <Form.Group controlId="location">
-                        <Form.Label className="fw-semibold text-secondary">Location</Form.Label>
-                        <Form.Control
-                          type="text"
-                          placeholder="Enter location"
-                          value={location}
-                          onChange={(e) => setLocation(e.target.value)}
-                          className="form-control shadow-sm"
-                        />
-                      </Form.Group>
-                    </Col>
-                    <Col md={3}>
-                      <Form.Group controlId="position">
-                        <Form.Label className="fw-semibold text-secondary">Position</Form.Label>
-                        <Form.Control
-                          as="select"
-                          value={position}
-                          onChange={(e) => setPosition(e.target.value)}
-                          className="form-select shadow-sm"
+                          <FontAwesomeIcon icon={faUndoAlt} className="me-2" />
+                          Reset
+                        </Button>
+                        <Button 
+                          variant="primary" 
+                          type="submit" 
+                          className="px-4 py-2 d-flex align-items-center"
+                          style={{ 
+                            background: 'linear-gradient(145deg, #2563eb, #1d4ed8)',
+                            border: 'none',
+                            borderRadius: '12px',
+                            transition: 'all 0.2s',
+                            fontSize: '0.9rem'
+                          }}
                         >
-                          <option value="">Select Position</option>
-                          {jobTitles.map((jobTitle, index) => (
-                            <option key={index} value={jobTitle}>
-                              {jobTitle}
-                            </option>
-                          ))}
-                        </Form.Control>
-                      </Form.Group>
-                    </Col>
-                    <Col md={3}>
-                      <Form.Group controlId="vendorId">
-                        <Form.Label className="fw-semibold text-secondary">Vendor</Form.Label>
-                        <Form.Control
-                          as="select"
-                          value={vendorId}
-                          onChange={(e) => setVendorId(e.target.value)}
-                          className="form-select shadow-sm"
-                        >
-                          <option value="">Select Vendor</option>
-                          {vendors.map((vendor) => (
-                            <option key={vendor.id} value={vendor.id}>
-                              {vendor.name}
-                            </option>
-                          ))}
-                        </Form.Control>
-                      </Form.Group>
-                    </Col>
-                  </Row>
-                  <Row className="mt-4">
-                    <Col className="d-flex justify-content-end">
-                      <Button variant="primary" type="submit" className="me-2 shadow-sm">
-                        Apply Filters
-                      </Button>
-                      <Button variant="outline-secondary" onClick={handleResetFilters} className="shadow-sm">
-                        Reset Filters
-                      </Button>
-                    </Col>
-                  </Row>
+                          <FontAwesomeIcon icon={faCheck} className="me-2" />
+                          Apply Filters
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="p-4">
+                    <Row className="g-4">
+                      <Col md={3}>
+                        <Form.Group controlId="sortBy">
+                          <Form.Label className="d-flex align-items-center mb-2">
+                            <FontAwesomeIcon icon={faSortAmountDown} className="me-2" style={{ color: '#2563eb' }} />
+                            <span className="text-secondary small fw-medium">Sort By</span>
+                          </Form.Label>
+                          <div className="position-relative">
+                            <Form.Control
+                              as="select"
+                              value={tempFilters.sortBy}
+                              onChange={(e) => handleFilterChange('sortBy', e.target.value)}
+                              className="form-select border-0 py-2 ps-3 pe-5"
+                              style={{
+                                borderRadius: '12px',
+                                backgroundColor: 'rgba(243, 244, 246, 0.8)',
+                                transition: 'all 0.2s',
+                                cursor: 'pointer',
+                                fontSize: '0.9rem'
+                              }}
+                            >
+                              <option value="asc">Ascending</option>
+                              <option value="desc">Descending</option>
+                            </Form.Control>
+                            <FontAwesomeIcon 
+                              icon={faChevronDown} 
+                              className="position-absolute" 
+                              style={{ 
+                                right: '15px', 
+                                top: '50%', 
+                                transform: 'translateY(-50%)', 
+                                color: '#6b7280', 
+                                pointerEvents: 'none' 
+                              }} 
+                            />
+                          </div>
+                        </Form.Group>
+                      </Col>
+                      <Col md={3}>
+                        <Form.Group controlId="location">
+                          <Form.Label className="d-flex align-items-center mb-2">
+                            <FontAwesomeIcon icon={faMapMarkerAlt} className="me-2" style={{ color: '#2563eb' }} />
+                            <span className="text-secondary small fw-medium">Location</span>
+                          </Form.Label>
+                          <div className="position-relative">
+                            <Form.Control
+                              type="text"
+                              placeholder="Enter location"
+                              value={tempFilters.location}
+                              onChange={(e) => handleFilterChange('location', e.target.value)}
+                              className="border-0 py-2 ps-3"
+                              style={{
+                                borderRadius: '12px',
+                                backgroundColor: 'rgba(243, 244, 246, 0.8)',
+                                transition: 'all 0.2s',
+                                fontSize: '0.9rem'
+                              }}
+                            />
+                            <FontAwesomeIcon 
+                              icon={faSearch} 
+                              className="position-absolute" 
+                              style={{ 
+                                right: '15px', 
+                                top: '50%', 
+                                transform: 'translateY(-50%)', 
+                                color: '#6b7280', 
+                                pointerEvents: 'none' 
+                              }} 
+                            />
+                          </div>
+                        </Form.Group>
+                      </Col>
+                      <Col md={3}>
+                        <Form.Group controlId="position">
+                          <Form.Label className="d-flex align-items-center mb-2">
+                            <FontAwesomeIcon icon={faBriefcase} className="me-2" style={{ color: '#2563eb' }} />
+                            <span className="text-secondary small fw-medium">Position</span>
+                          </Form.Label>
+                          <div className="position-relative">
+                            <Form.Control
+                              as="select"
+                              value={tempFilters.position}
+                              onChange={(e) => handleFilterChange('position', e.target.value)}
+                              className="form-select border-0 py-2 ps-3 pe-5"
+                              style={{
+                                borderRadius: '12px',
+                                backgroundColor: 'rgba(243, 244, 246, 0.8)',
+                                transition: 'all 0.2s',
+                                cursor: 'pointer',
+                                fontSize: '0.9rem'
+                              }}
+                            >
+                              <option value="">Select Position</option>
+                              {jobTitles.map((jobTitle, index) => (
+                                <option key={index} value={jobTitle}>
+                                  {jobTitle}
+                                </option>
+                              ))}
+                            </Form.Control>
+                            <FontAwesomeIcon 
+                              icon={faChevronDown} 
+                              className="position-absolute" 
+                              style={{ 
+                                right: '15px', 
+                                top: '50%', 
+                                transform: 'translateY(-50%)', 
+                                color: '#6b7280', 
+                                pointerEvents: 'none' 
+                              }} 
+                            />
+                          </div>
+                        </Form.Group>
+                      </Col>
+                      <Col md={3}>
+                        <Form.Group controlId="vendorId">
+                          <Form.Label className="d-flex align-items-center mb-2">
+                            <FontAwesomeIcon icon={faBuilding} className="me-2" style={{ color: '#2563eb' }} />
+                            <span className="text-secondary small fw-medium">Vendor</span>
+                          </Form.Label>
+                          <div className="position-relative">
+                            <Form.Control
+                              as="select"
+                              value={tempFilters.vendorId}
+                              onChange={(e) => handleFilterChange('vendorId', e.target.value)}
+                              className="form-select border-0 py-2 ps-3 pe-5"
+                              style={{
+                                borderRadius: '12px',
+                                backgroundColor: 'rgba(243, 244, 246, 0.8)',
+                                transition: 'all 0.2s',
+                                cursor: 'pointer',
+                                fontSize: '0.9rem'
+                              }}
+                            >
+                              <option value="">Select Vendor</option>
+                              {vendors.map((vendor) => (
+                                <option key={vendor.id} value={vendor.id}>
+                                  {vendor.name}
+                                </option>
+                              ))}
+                            </Form.Control>
+                            <FontAwesomeIcon 
+                              icon={faChevronDown} 
+                              className="position-absolute" 
+                              style={{ 
+                                right: '15px', 
+                                top: '50%', 
+                                transform: 'translateY(-50%)', 
+                                color: '#6b7280', 
+                                pointerEvents: 'none' 
+                              }} 
+                            />
+                          </div>
+                        </Form.Group>
+                      </Col>
+                    </Row>
+                  </div>
                 </Form>
 
                 <Table striped bordered hover responsive className="shadow-sm bg-white">
