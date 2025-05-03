@@ -207,6 +207,15 @@ const CompanySideBar = ({ active }) => {
                 </li>
                 <li>
                   <Link
+                    to={"/employer/branding-company"}
+                    className={active === "branding" ? "active" : null}
+                  >
+                    <Building2 className="me-2" />
+                    <span>Branding Company</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     className={active === "postJob" ? "active" : null}
                     onClick={postJob}
                     //   to={"/employer/company-post-jobs"}

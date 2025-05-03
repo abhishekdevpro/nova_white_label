@@ -229,6 +229,15 @@ console.log(`https://apiwl.novajobs.us${logo}`,"llll");
                   </Link>
                 </li>
                 <li>
+                  <Link
+                    to={"/vendor/branding"}
+                    className={active === "branding" ? "active" : null}
+                  >
+                    <i className="fa fa-paint-brush" aria-hidden="true"></i>
+                    <span>Branding</span>
+                  </Link>
+                </li>
+                <li>
                   <Link to="#" onClick={toggleMyPortal}>
                     <i className="fa fa-user-o" aria-hidden="true"></i>
                     <span>

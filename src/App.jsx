@@ -207,7 +207,9 @@ import axios from "axios";
 import Payment from "./vendor/Payments/Payemnts";
 import PlansPage from "./vendor/Payments/Plans";
 import ResumeList from "./adminPanel/ResumeList";
-// import AboutusForm from 
+import BrandingCompany from "./employeeMarkup/Pages/BrandingCompany";
+import Branding from "./vendor/Branding";
+
 function App() {
   const dispatch = useDispatch();
 
@@ -507,6 +509,15 @@ function App() {
             <PrivateRoutevendor>
               {" "}
               <VendorCompanyprofile />{" "}
+            </PrivateRoutevendor>
+          }
+        />
+        <Route
+          path="branding"
+          element={
+            <PrivateRoutevendor>
+              {" "}
+              <Branding />{" "}
             </PrivateRoutevendor>
           }
         />
@@ -1115,6 +1126,14 @@ function App() {
           element={
             <EmployeePrivateRoute>
               <EmployeeCompanyprofile />
+            </EmployeePrivateRoute>
+          }
+        />
+        <Route
+          path="branding-company"
+          element={
+            <EmployeePrivateRoute>
+              <BrandingCompany />
             </EmployeePrivateRoute>
           }
         />
