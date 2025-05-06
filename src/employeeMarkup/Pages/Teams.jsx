@@ -5,30 +5,35 @@ import LogoCoverUploader from './LogoCoverUploader';
 
 const TeamMemberManager = () => {
   const [teamMembers, setTeamMembers] = useState([]);
+  const [editingId, setEditingId] = useState(null);
+  const [tempMember, setTempMember] = useState({ name: '', description: '', image: null });
 
   const addTeamMember = () => {
-    setTeamMembers(prev => [
-      ...prev,
-      {
-        id: Date.now(),
-        name: '',
-        position: '',
-        description: '',
-        image: null
-      }
-    ]);
+    setEditingId('new');
+    setTempMember({ name: '', description: '', image: null });
   };
 
-  const removeTeamMember = (id) => {
-    setTeamMembers(prev => prev.filter(member => member.id !== id));
+  const saveTeamMember = () => {
+    if (editingId === 'new') {
+      setTeamMembers(prev => [
+        ...prev,
+        { id: Date.now(), ...tempMember }
+      ]);
+    } else {
+      setTeamMembers(prev => prev.map(m => m.id === editingId ? { ...m, ...tempMember } : m));
+    }
+    setEditingId(null);
+    setTempMember({ name: '', description: '', image: null });
   };
 
-  const handleTeamMemberChange = (id, field, value) => {
-    setTeamMembers(prev =>
-      prev.map(member =>
-        member.id === id ? { ...member, [field]: value } : member
-      )
-    );
+  const cancelEdit = () => {
+    setEditingId(null);
+    setTempMember({ name: '', description: '', image: null });
+  };
+
+  const editTeamMember = (member) => {
+    setEditingId(member.id);
+    setTempMember({ name: member.name, description: member.description, image: member.image || null });
   };
 
   const styles = {
@@ -160,139 +165,118 @@ const TeamMemberManager = () => {
   };
 
   return (
-    <div style={styles.container}>
-      {teamMembers.map((member, index) => (
-        <div 
-          key={member.id} 
-          style={styles.memberCard}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.boxShadow = styles.memberCardHover.boxShadow;
-            e.currentTarget.style.borderColor = styles.memberCardHover.borderColor;
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.boxShadow = styles.memberCard.boxShadow;
-            e.currentTarget.style.borderColor = styles.memberCard.border;
-          }}
-        >
-          <div style={styles.header}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <div style={styles.numberBadge}>{index + 1}</div>
-              <h5 style={styles.title}>Team Member #{index + 1}</h5>
-            </div>
+    <div style={{ maxWidth: 420, margin: '0 auto', paddingTop: 32 }}>
+      <h2 style={{ fontWeight: 800, fontSize: 36, color: '#444', marginBottom: 32, textAlign: 'left', letterSpacing: 1 }}>Team Member Manager</h2>
+      {(editingId !== null) ? (
+        <div style={{
+          background: '#fff',
+          borderRadius: 16,
+          boxShadow: '0 4px 24px rgba(0,0,0,0.07)',
+          padding: 32,
+          marginBottom: 32,
+          minWidth: 320,
+        }}>
+          <input
+            type="text"
+            value={tempMember.name}
+            onChange={e => setTempMember(prev => ({ ...prev, name: e.target.value }))}
+            placeholder="Name"
+            style={{
+              width: '100%',
+              padding: '12px 16px',
+              borderRadius: 8,
+              border: '1.5px solid #e0e0e0',
+              fontSize: 17,
+              marginBottom: 18,
+              background: '#fafbfc',
+            }}
+          />
+          <ReactQuill
+            theme="snow"
+            value={tempMember.description}
+            onChange={val => setTempMember(prev => ({ ...prev, description: val }))}
+            style={{ height: 120, marginBottom: 18, borderRadius: 8, border: '1.5px solid #e0e0e0', background: '#fafbfc' }}
+          />
+          <div style={{ fontWeight: 700, marginBottom: 8, color: '#222' }}>Update Photo</div>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={e => setTempMember(prev => ({ ...prev, image: e.target.files[0] }))}
+            style={{ marginBottom: 24 }}
+          />
+          <div style={{ display: 'flex', gap: 16, marginTop: 12 }}>
             <button
               type="button"
-              onClick={() => removeTeamMember(member.id)}
-              style={styles.deleteButton}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = styles.deleteButtonHover.color;
-                e.currentTarget.style.backgroundColor = styles.deleteButtonHover.backgroundColor;
-                e.currentTarget.style.transform = styles.deleteButtonHover.transform;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = styles.deleteButton.color;
-                e.currentTarget.style.backgroundColor = 'transparent';
-                e.currentTarget.style.transform = 'none';
+              onClick={saveTeamMember}
+              style={{
+                background: '#22c55e',
+                color: '#fff',
+                border: 'none',
+                borderRadius: 8,
+                padding: '10px 28px',
+                fontWeight: 700,
+                fontSize: 18,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 8,
+                cursor: 'pointer',
+                boxShadow: '0 2px 8px rgba(34,197,94,0.08)',
+                transition: 'background 0.2s',
               }}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" style={styles.deleteIcon} viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
+              <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path fill="#fff" d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7.17a2 2 0 0 1 1.41.59l3.83 3.83A2 2 0 0 1 20 8.83V19a2 2 0 0 1-2 2ZM7 3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8.83a2 2 0 0 0-.59-1.41l-3.83-3.83A2 2 0 0 0 14.17 3H7Zm5 13a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z"></path></svg>
+              <span>Save</span>
+            </button>
+            <button
+              type="button"
+              onClick={cancelEdit}
+              style={{
+                background: '#6b7280',
+                color: '#fff',
+                border: 'none',
+                borderRadius: 8,
+                padding: '10px 28px',
+                fontWeight: 700,
+                fontSize: 18,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 8,
+                cursor: 'pointer',
+                boxShadow: '0 2px 8px rgba(107,114,128,0.08)',
+                transition: 'background 0.2s',
+              }}
+            >
+              <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path fill="#fff" d="M18.3 5.71a1 1 0 0 0-1.41 0L12 10.59 7.11 5.7A1 1 0 0 0 5.7 7.11L10.59 12l-4.89 4.89a1 1 0 1 0 1.41 1.41L12 13.41l4.89 4.89a1 1 0 0 0 1.41-1.41L13.41 12l4.89-4.89a1 1 0 0 0 0-1.4Z"></path></svg>
+              <span>Cancel</span>
             </button>
           </div>
-
-          <div style={styles.grid}>
-            <div>
-              <label style={styles.label}>Name</label>
-              <input
-                type="text"
-                value={member.name}
-                onChange={(e) => handleTeamMemberChange(member.id, 'name', e.target.value)}
-                style={styles.input}
-                onFocus={(e) => {
-                  e.currentTarget.style.borderColor = styles.inputFocus.borderColor;
-                  e.currentTarget.style.boxShadow = styles.inputFocus.boxShadow;
-                }}
-                onBlur={(e) => {
-                  e.currentTarget.style.borderColor = styles.input.border;
-                  e.currentTarget.style.boxShadow = 'none';
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = styles.inputHover.borderColor;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = styles.input.border;
-                }}
-                placeholder="Enter team member name"
-              />
-            </div>
-            <div>
-              <label style={styles.label}>Position</label>
-              <input
-                type="text"
-                value={member.position}
-                onChange={(e) => handleTeamMemberChange(member.id, 'position', e.target.value)}
-                style={styles.input}
-                onFocus={(e) => {
-                  e.currentTarget.style.borderColor = styles.inputFocus.borderColor;
-                  e.currentTarget.style.boxShadow = styles.inputFocus.boxShadow;
-                }}
-                onBlur={(e) => {
-                  e.currentTarget.style.borderColor = styles.input.border;
-                  e.currentTarget.style.boxShadow = 'none';
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = styles.inputHover.borderColor;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = styles.input.border;
-                }}
-                placeholder="Enter team member position"
-              />
-            </div>
-          </div>
-
-          <div style={{ marginTop: '1rem' }}>
-            <label style={styles.label}>Description</label>
-            <ReactQuill
-              theme="snow"
-              value={member.description}
-              onChange={(value) => handleTeamMemberChange(member.id, 'description', value)}
-              style={{ height: '9rem', marginBottom: '3rem', borderRadius: '0.75rem', border: '1px solid #e5e7eb' }}
-              placeholder="Describe this team member..."
-            />
-          </div>
-
-          <div style={{ marginTop: '1rem' }}>
-            <label style={styles.label}>Profile Image</label>
-            <LogoCoverUploader
-              text="Add Profile Image"
-              accept="image/*"
-              onChange={(e) => handleTeamMemberChange(member.id, 'image', e.target.files[0])}
-            />
-          </div>
         </div>
-      ))}
-
+      ) : null}
       <button
         type="button"
         onClick={addTeamMember}
-        style={styles.addButton}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.background = styles.addButtonHover.background;
-          e.currentTarget.style.transform = styles.addButtonHover.transform;
-          e.currentTarget.style.boxShadow = styles.addButtonHover.boxShadow;
-          e.currentTarget.querySelector('svg').style.transform = styles.plusIconHover.transform;
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.background = styles.addButton.background;
-          e.currentTarget.style.transform = 'none';
-          e.currentTarget.style.boxShadow = styles.addButton.boxShadow;
-          e.currentTarget.querySelector('svg').style.transform = 'none';
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: 320,
+          margin: '0 auto',
+          padding: '16px 0',
+          background: '#3b82f6',
+          borderRadius: 10,
+          color: 'white',
+          fontWeight: 700,
+          fontSize: 20,
+          boxShadow: '0 4px 16px rgba(59,130,246,0.10)',
+          transition: 'background 0.2s, box-shadow 0.2s, transform 0.1s',
+          marginTop: 32,
+          marginBottom: 32,
+          border: 'none',
+          cursor: 'pointer',
+          gap: 12,
         }}
       >
-        <svg xmlns="http://www.w3.org/2000/svg" style={styles.plusIcon} viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-        </svg>
+        <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M12 5v14m7-7H5"/></svg>
         Add New Team Member
       </button>
     </div>
