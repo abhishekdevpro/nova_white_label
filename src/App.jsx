@@ -140,6 +140,7 @@ import Aboutus1 from "./markup/Pages/Aboutus1";
 import Novajobs from "./markup/Pages/Novajobs";
 import Jobreferral from "./markup/Element/Jobreferral";
 import VerifyEmailemployee from "./employeeMarkup/Pages/Verifyemailemploye";
+import ShowcaseView from "./employeeMarkup/Pages/ShowcaseView";
 
 import Admin from "./adminPanel/Admin";
 import Vendor from "./adminPanel/Vendor";
@@ -1026,22 +1027,11 @@ function App() {
       {/* routes for empployees */}
 
       <Route path="/employer">
-      <Route path="gauth" element={<EmployerGauth />} />
+        <Route path="gauth" element={<EmployerGauth />} />
         <Route path="verify/:token" element={<VerifyEmailemployee />} />
-
         <Route path="forgot-password" element={<ForgotPasswordemployee />} />
-        <Route
-          path="reset-password/:token"
-          element={<ResetPasswordemployee />}
-        />
-        <Route
-          path=""
-          element={
-            <EmployeePrivateRoute>
-              <EmployeeHomepage />
-            </EmployeePrivateRoute>
-          }
-        />
+        <Route path="reset-password/:token" element={<ResetPasswordemployee />} />
+        <Route path="showcase" element={<ShowcaseView />} />
         <Route path="login" element={<EmployeeLogin />} />
         <Route path="login-code" element={<LoginEmployerCode />} />
         <Route path="register" element={<EmployeeRegister1 />} />

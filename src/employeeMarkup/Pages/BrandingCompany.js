@@ -14,6 +14,7 @@ import Footer from "../Layout/Footer";
 import CompanySideBar from "../Layout/companySideBar";
 
 const SocialNetworkBox = () => {
+  const [activeTab, setActiveTab] = useState('basic');
   const [selectedImages, setSelectedImages] = useState([]);
   const [companyData, setCompanyData] = useState({
     company_name: "",
@@ -51,6 +52,13 @@ const SocialNetworkBox = () => {
   const [insideCultureImages, setInsideCultureImages] = useState([]);
   const [insideWorkplaceImages, setInsideWorkplaceImages] = useState([]);
   const [insidePeopleImages, setInsidePeopleImages] = useState([]);
+
+  const tabs = [
+    { id: 'basic', label: 'Basic Information' },
+    { id: 'about', label: 'About Company' },
+    { id: 'images', label: 'Inside Company Images' },
+    { id: 'team', label: 'Team Members' }
+  ];
 
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files);
@@ -380,445 +388,325 @@ const SocialNetworkBox = () => {
                       </h5>
                     </div>
                     <form>
-                      {/* Basic Info Section */}
-                      <div className="row ">
-                        <div className="col-lg-12">
-                          <div className="form-group">
-                            <label className="font-weight-700">Basic Information</label>
-                            <div className="row">
-                              <div className="col-lg-6 col-md-6">
-                                <div className="form-group">
-                                  <label>Company Name</label>
-                                  <input
-                                    type="text"
-                                    name="company_name"
-                                    value={companyData.company_name || ""}
-                                    onChange={handleInputChange}
-                                    className="form-control"
-                                    placeholder="Enter company name"
-                                  />
-                                </div>
-                              </div>
-                              <div className="col-lg-6 col-md-6">
-                                <div className="form-group">
-                                  <label>Tagline</label>
-                                  <input
-                                    type="text"
-                                    name="tagline"
-                                    value={companyData.tagline || ""}
-                                    onChange={handleInputChange}
-                                    className="form-control"
-                                    placeholder="Enter company tagline"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                      {/* Tab Navigation */}
+                      <div className="mb-4">
+                        <ul className="nav nav-tabs" role="tablist">
+                          {tabs.map(tab => (
+                            <li key={tab.id} className="nav-item">
+                              <button
+                                className={`nav-link ${activeTab === tab.id ? 'active' : ''}`}
+                                onClick={() => setActiveTab(tab.id)}
+                                type="button"
+                                style={{
+                                  color: activeTab === tab.id ? '#1967d2' : '#6c757d',
+                                  borderBottom: activeTab === tab.id ? '2px solid #1967d2' : 'none',
+                                  padding: '0.5rem 1rem',
+                                  fontWeight: activeTab === tab.id ? '600' : '400'
+                                }}
+                              >
+                                {tab.label}
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
 
-                      {/* About Section */}
-                      <div className="row m-b30">
-                        <div className="col-lg-12">
-                          <div className="form-group">
-                            <label className="font-weight-900 text-2xl">About Company</label>
-                            <div className="row">
-                              <div className="col-lg-12">
-                                <div className="form-group">
-                                  <label>Company Title</label>
-                                  <input
-                                    type="text"
-                                    name="title"
-                                    value={companyData.title || ""}
-                                    onChange={handleInputChange}
-                                    className="form-control"
-                                    placeholder="Enter company title"
-                                  />
-                                </div>
-                              </div>
-                              <div className="col-lg-12">
-                                <div className="form-group">
-                                  <label>Summary</label>
-                                  <ReactQuill
-                                    theme="snow"
-                                    value={companyData.summery || ""}
-                                    onChange={(value) => setCompanyData(prev => ({...prev, summery: value}))}
-                                    className="h-48 mb-12"
-                                  />
-                                </div>
-                              </div>
-                              <div className="col-lg-12">
-                                <div className="form-group">
-                                  <label>Description</label>
-                                  <ReactQuill
-                                    theme="snow"
-                                    value={companyData.about || ""}
-                                    onChange={(value) => setCompanyData(prev => ({...prev, about: value}))}
-                                    className="h-48 mb-12"
-                                  />
-                                </div>
-                              </div>
-                              <div className="col-lg-12">
-                                <div className="form-group">
-                                  <label>Upload Images (Max: 3)</label>
-                                  <div className="d-flex flex-wrap gap-2 mb-3">
-                                    {selectedImages.map((image, index) => (
-                                      <div key={index} className="position-relative">
-                                        <img
-                                          src={URL.createObjectURL(image)}
-                                          alt="Uploaded"
-                                          className="img-thumbnail"
-                                          style={{ width: '100px', height: '100px', objectFit: 'cover' }}
-                                        />
-                                        <button
-                                          type="button"
-                                          onClick={() => removeImage(index)}
-                                          className="btn btn-danger btn-sm position-absolute top-0 end-0"
-                                        >
-                                          ×
-                                        </button>
-                                      </div>
-                                    ))}
-                                  </div>
-                                  {selectedImages.length < 3 && (
-                                    <input
-                                      type="file"
-                                      accept="image/*"
-                                      onChange={handleImageUpload}
-                                      className="form-control mb-3"
-                                      multiple
-                                    />
-                                  )}
-                                  <button
-                                    type="button"
-                                    onClick={handleAboutSave}
-                                    className="btn btn-primary btn-lg d-flex align-items-center gap-2 "
-                                    style={{
-                                      backgroundColor: '#1967d2',
-                                      border: 'none',
-                                      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                                      transition: 'all 0.3s ease'
-                                    }}
-                                  >
-                                    <i className="fa-solid fa-save"></i>
-                                    <small>Save About Section</small>
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Inside Company Images Section */}
-                      <div className="row m-b30">
-                        <div className="col-lg-12">
-                          <div className="form-group">
-                            <label className="font-weight-700">Inside Company Images</label>
-                            <div className="row">
-                              {/* Culture Images */}
-                              <div className="col-lg-4 col-md-6">
-                                <div className="form-group">
-                                  <label>Culture Images</label>
-                                  <div className="d-flex flex-wrap gap-2 mb-3">
-                                    {insideCultureImages.map((image, index) => (
-                                      <div key={index} className="position-relative">
-                                        <img
-                                          src={typeof image === 'string' ? `${BASE_IMAGE_URL}${image}` : URL.createObjectURL(image)}
-                                          alt="Culture"
-                                          className="img-thumbnail"
-                                          style={{ width: '100px', height: '100px', objectFit: 'cover' }}
-                                        />
-                                        <button
-                                          type="button"
-                                          onClick={() => removeInsideImage(index, 'culture')}
-                                          className="btn btn-danger btn-sm position-absolute top-0 end-0"
-                                        >
-                                          ×
-                                        </button>
-                                      </div>
-                                    ))}
-                                  </div>
-                                  {insideCultureImages.length < 3 && (
-                                    <input
-                                      type="file"
-                                      accept="image/*"
-                                      onChange={(e) => handleInsideImageUpload(e, 'culture')}
-                                      className="form-control mb-3"
-                                      multiple
-                                    />
-                                  )}
-                                  <button
-                                    type="button"
-                                    onClick={() => handleInsideImagesSave('culture')}
-                                    className="btn btn-primary d-flex align-items-center gap-2"
-                                    style={{
-                                      backgroundColor: '#1967d2',
-                                      border: 'none',
-                                      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                                      transition: 'all 0.3s ease'
-                                    }}
-                                  >
-                                    <i className="fa-solid fa-save"></i>
-                                    Save Culture Images
-                                  </button>
-                                </div>
-                              </div>
-                              {/* Workplace Images */}
-                              <div className="col-lg-4 col-md-6">
-                                <div className="form-group">
-                                  <label>Workplace Images</label>
-                                  <div className="d-flex flex-wrap gap-2 mb-3">
-                                    {insideWorkplaceImages.map((image, index) => (
-                                      <div key={index} className="position-relative">
-                                        <img
-                                          src={typeof image === 'string' ? `${BASE_IMAGE_URL}${image}` : URL.createObjectURL(image)}
-                                          alt="Workplace"
-                                          className="img-thumbnail"
-                                          style={{ width: '100px', height: '100px', objectFit: 'cover' }}
-                                        />
-                                        <button
-                                          type="button"
-                                          onClick={() => removeInsideImage(index, 'workplace')}
-                                          className="btn btn-danger btn-sm position-absolute top-0 end-0"
-                                        >
-                                          ×
-                                        </button>
-                                      </div>
-                                    ))}
-                                  </div>
-                                  {insideWorkplaceImages.length < 3 && (
-                                    <input
-                                      type="file"
-                                      accept="image/*"
-                                      onChange={(e) => handleInsideImageUpload(e, 'workplace')}
-                                      className="form-control mb-3"
-                                      multiple
-                                    />
-                                  )}
-                                  <button
-                                    type="button"
-                                    onClick={() => handleInsideImagesSave('workplace')}
-                                    className="btn btn-primary d-flex align-items-center gap-2"
-                                    style={{
-                                      backgroundColor: '#1967d2',
-                                      border: 'none',
-                                      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                                      transition: 'all 0.3s ease'
-                                    }}
-                                  >
-                                    <i className="fa-solid fa-save"></i>
-                                    Save Workplace Images
-                                  </button>
-                                </div>
-                              </div>
-                              {/* People Images */}
-                              <div className="col-lg-4 col-md-6">
-                                <div className="form-group">
-                                  <label>People Images</label>
-                                  <div className="d-flex flex-wrap gap-2 mb-3">
-                                    {insidePeopleImages.map((image, index) => (
-                                      <div key={index} className="position-relative">
-                                        <img
-                                          src={typeof image === 'string' ? `${BASE_IMAGE_URL}${image}` : URL.createObjectURL(image)}
-                                          alt="People"
-                                          className="img-thumbnail"
-                                          style={{ width: '100px', height: '100px', objectFit: 'cover' }}
-                                        />
-                                        <button
-                                          type="button"
-                                          onClick={() => removeInsideImage(index, 'people')}
-                                          className="btn btn-danger btn-sm position-absolute top-0 end-0"
-                                        >
-                                          ×
-                                        </button>
-                                      </div>
-                                    ))}
-                                  </div>
-                                  {insidePeopleImages.length < 3 && (
-                                    <input
-                                      type="file"
-                                      accept="image/*"
-                                      onChange={(e) => handleInsideImageUpload(e, 'people')}
-                                      className="form-control mb-3"
-                                      multiple
-                                    />
-                                  )}
-                                  <button
-                                    type="button"
-                                    onClick={() => handleInsideImagesSave('people')}
-                                    className="btn btn-primary d-flex align-items-center gap-2"
-                                    style={{
-                                      backgroundColor: '#1967d2',
-                                      border: 'none',
-                                      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                                      transition: 'all 0.3s ease'
-                                    }}
-                                  >
-                                    <i className="fa-solid fa-save"></i>
-                                    Save People Images
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                    
-
-                      {/* Team Members Section */}
-                      <div className="row m-b30">
-                        <div className="col-lg-12">
-                          <div className="form-group">
-                            <label className="font-weight-700">Our Team</label>
-                            <TeamMemberManager />
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* What Makes Us Unique Section */}
-                      <div className="row m-b30">
-                        <div className="col-lg-12">
-                          <div className="form-group">
-                            <label className="font-weight-700">What Makes Us Unique</label>
-                            <div className="row">
-                              {makesUsUnique.map((item, index) => (
-                                <div key={index} className="col-lg-6 col-md-6 mb-4">
-                                  <div className="form-group p-3 border rounded" style={{ backgroundColor: '#f8f9fa' }}>
-                                    <div className="d-flex justify-content-between align-items-center mb-3">
-                                      <label className="font-weight-600 mb-0">{item.title}</label>
-                                      <div className="d-flex align-items-center">
-                                        <span className="me-4 pe-2" style={{ fontSize: '0.9rem', color: item.toogle ? '#28a745' : '#6c757d' }}>
-                                          {item.toogle ? 'Enabled' : 'Disabled'}
-                                        </span>
-                                        <div 
-                                          className="form-check form-switch"
-                                          style={{ transform: 'scale(1.2)' }}
-                                        >
-                                          <input
-                                            className="form-check-input"
-                                            type="checkbox"
-                                            checked={item.toogle}
-                                            onChange={(e) => {
-                                              setMakesUsUnique(prev =>
-                                                prev.map((val, i) =>
-                                                  i === index ? { ...val, toogle: e.target.checked } : val
-                                                )
-                                              );
-                                            }}
-                                            style={{
-                                              backgroundColor: item.toogle ? '#28a745' : '#6c757d',
-                                              borderColor: item.toogle ? '#28a745' : '#6c757d',
-                                              cursor: 'pointer'
-                                            }}
-                                          />
-                                        </div>
-                                      </div>
+                      {/* Tab Content */}
+                      <div className="tab-content">
+                        {/* Basic Information Tab */}
+                        <div className={`tab-pane fade ${activeTab === 'basic' ? 'show active' : ''}`}>
+                          <div className="row">
+                            <div className="col-lg-12">
+                              <div className="form-group">
+                                <div className="row">
+                                  <div className="col-lg-6 col-md-6">
+                                    <div className="form-group">
+                                      <label>Company Name</label>
+                                      <input
+                                        type="text"
+                                        name="company_name"
+                                        value={companyData.company_name || ""}
+                                        onChange={handleInputChange}
+                                        className="form-control"
+                                        placeholder="Enter company name"
+                                      />
                                     </div>
-                                    {item.toogle && (
-                                      <div className="mt-3">
-                                        <textarea
-                                          value={item.value}
-                                          onChange={(e) => {
-                                            setMakesUsUnique(prev =>
-                                              prev.map((val, i) =>
-                                                i === index ? { ...val, value: e.target.value } : val
-                                              )
-                                            );
-                                          }}
-                                          className="form-control"
-                                          placeholder={`Describe ${item.title}`}
-                                          rows="3"
-                                          style={{
-                                            border: '1px solid #ced4da',
-                                            borderRadius: '0.375rem',
-                                            padding: '0.5rem',
-                                            resize: 'vertical'
-                                          }}
-                                        />
-                                      </div>
-                                    )}
+                                  </div>
+                                  <div className="col-lg-6 col-md-6">
+                                    <div className="form-group">
+                                      <label>Tagline</label>
+                                      <input
+                                        type="text"
+                                        name="tagline"
+                                        value={companyData.tagline || ""}
+                                        onChange={handleInputChange}
+                                        className="form-control"
+                                        placeholder="Enter company tagline"
+                                      />
+                                    </div>
                                   </div>
                                 </div>
-                              ))}
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
 
-                      {/* Join Us Section */}
-                      <div className="row m-b30">
-                        <div className="col-lg-12">
-                          <div className="form-group">
-                            <label className="font-weight-700">Join Us</label>
-                            <ReactQuill
-                              theme="snow"
-                              value={companyData.join_us || ""}
-                              onChange={(value) => setCompanyData(prev => ({...prev, join_us: value}))}
-                              className="h-48 mb-12"
-                            />
+                        {/* About Company Tab */}
+                        <div className={`tab-pane fade ${activeTab === 'about' ? 'show active' : ''}`}>
+                          <div className="row m-b30">
+                            <div className="col-lg-12">
+                              <div className="form-group">
+                                <div className="row">
+                                  <div className="col-lg-12">
+                                    <div className="form-group">
+                                      <label>Company Title</label>
+                                      <input
+                                        type="text"
+                                        name="title"
+                                        value={companyData.title || ""}
+                                        onChange={handleInputChange}
+                                        className="form-control"
+                                        placeholder="Enter company title"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-lg-12">
+                                    <div className="form-group">
+                                      <label>Summary</label>
+                                      <ReactQuill
+                                        theme="snow"
+                                        value={companyData.summery || ""}
+                                        onChange={(value) => setCompanyData(prev => ({...prev, summery: value}))}
+                                        className="h-48 mb-12"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-lg-12">
+                                    <div className="form-group">
+                                      <label>Description</label>
+                                      <ReactQuill
+                                        theme="snow"
+                                        value={companyData.about || ""}
+                                        onChange={(value) => setCompanyData(prev => ({...prev, about: value}))}
+                                        className="h-48 mb-12"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-lg-12">
+                                    <div className="form-group">
+                                      <label>Upload Images (Max: 3)</label>
+                                      <div className="d-flex flex-wrap gap-2 mb-3">
+                                        {selectedImages.map((image, index) => (
+                                          <div key={index} className="position-relative">
+                                            <img
+                                              src={URL.createObjectURL(image)}
+                                              alt="Uploaded"
+                                              className="img-thumbnail"
+                                              style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+                                            />
+                                            <button
+                                              type="button"
+                                              onClick={() => removeImage(index)}
+                                              className="btn btn-danger btn-sm position-absolute top-0 end-0"
+                                            >
+                                              ×
+                                            </button>
+                                          </div>
+                                        ))}
+                                      </div>
+                                      {selectedImages.length < 3 && (
+                                        <input
+                                          type="file"
+                                          accept="image/*"
+                                          onChange={handleImageUpload}
+                                          className="form-control mb-3"
+                                          multiple
+                                        />
+                                      )}
+                                      <button
+                                        type="button"
+                                        onClick={handleAboutSave}
+                                        className="btn btn-primary btn-lg d-flex align-items-center gap-2"
+                                        style={{
+                                          backgroundColor: '#1967d2',
+                                          border: 'none',
+                                          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                                          transition: 'all 0.3s ease'
+                                        }}
+                                      >
+                                        <i className="fa-solid fa-save"></i>
+                                        <small>Save About Section</small>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
 
-                      {/* Social Links Section */}
-                      <div className="row m-b30">
-                        <div className="col-lg-12">
-                          <div className="form-group">
-                            <label className="font-weight-700">Social Media & Website</label>
-                            <div className="row">
-                              <div className="col-lg-6 col-md-6">
-                                <div className="form-group">
-                                  <label>Facebook</label>
-                                  <input
-                                    type="text"
-                                    name="facebook_link"
-                                    value={companyData.facebook_link || ""}
-                                    onChange={handleInputChange}
-                                    className="form-control"
-                                    placeholder="Facebook profile URL"
-                                  />
+                        {/* Inside Company Images Tab */}
+                        <div className={`tab-pane fade ${activeTab === 'images' ? 'show active' : ''}`}>
+                          <div className="row m-b30">
+                            <div className="col-lg-12">
+                              <div className="form-group">
+                                <div className="row">
+                                  {/* Culture Images */}
+                                  <div className="col-lg-4 col-md-6">
+                                    <div className="form-group">
+                                      <label>Culture Images</label>
+                                      <div className="d-flex flex-wrap gap-2 mb-3">
+                                        {insideCultureImages.map((image, index) => (
+                                          <div key={index} className="position-relative">
+                                            <img
+                                              src={typeof image === 'string' ? `${BASE_IMAGE_URL}${image}` : URL.createObjectURL(image)}
+                                              alt="Culture"
+                                              className="img-thumbnail"
+                                              style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+                                            />
+                                            <button
+                                              type="button"
+                                              onClick={() => removeInsideImage(index, 'culture')}
+                                              className="btn btn-danger btn-sm position-absolute top-0 end-0"
+                                            >
+                                              ×
+                                            </button>
+                                          </div>
+                                        ))}
+                                      </div>
+                                      {insideCultureImages.length < 3 && (
+                                        <input
+                                          type="file"
+                                          accept="image/*"
+                                          onChange={(e) => handleInsideImageUpload(e, 'culture')}
+                                          className="form-control mb-3"
+                                          multiple
+                                        />
+                                      )}
+                                      <button
+                                        type="button"
+                                        onClick={() => handleInsideImagesSave('culture')}
+                                        className="btn btn-primary d-flex align-items-center gap-2"
+                                        style={{
+                                          backgroundColor: '#1967d2',
+                                          border: 'none',
+                                          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                                          transition: 'all 0.3s ease'
+                                        }}
+                                      >
+                                        <i className="fa-solid fa-save"></i>
+                                        Save Culture Images
+                                      </button>
+                                    </div>
+                                  </div>
+                                  {/* Workplace Images */}
+                                  <div className="col-lg-4 col-md-6">
+                                    <div className="form-group">
+                                      <label>Workplace Images</label>
+                                      <div className="d-flex flex-wrap gap-2 mb-3">
+                                        {insideWorkplaceImages.map((image, index) => (
+                                          <div key={index} className="position-relative">
+                                            <img
+                                              src={typeof image === 'string' ? `${BASE_IMAGE_URL}${image}` : URL.createObjectURL(image)}
+                                              alt="Workplace"
+                                              className="img-thumbnail"
+                                              style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+                                            />
+                                            <button
+                                              type="button"
+                                              onClick={() => removeInsideImage(index, 'workplace')}
+                                              className="btn btn-danger btn-sm position-absolute top-0 end-0"
+                                            >
+                                              ×
+                                            </button>
+                                          </div>
+                                        ))}
+                                      </div>
+                                      {insideWorkplaceImages.length < 3 && (
+                                        <input
+                                          type="file"
+                                          accept="image/*"
+                                          onChange={(e) => handleInsideImageUpload(e, 'workplace')}
+                                          className="form-control mb-3"
+                                          multiple
+                                        />
+                                      )}
+                                      <button
+                                        type="button"
+                                        onClick={() => handleInsideImagesSave('workplace')}
+                                        className="btn btn-primary d-flex align-items-center gap-2"
+                                        style={{
+                                          backgroundColor: '#1967d2',
+                                          border: 'none',
+                                          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                                          transition: 'all 0.3s ease'
+                                        }}
+                                      >
+                                        <i className="fa-solid fa-save"></i>
+                                        Save Workplace Images
+                                      </button>
+                                    </div>
+                                  </div>
+                                  {/* People Images */}
+                                  <div className="col-lg-4 col-md-6">
+                                    <div className="form-group">
+                                      <label>People Images</label>
+                                      <div className="d-flex flex-wrap gap-2 mb-3">
+                                        {insidePeopleImages.map((image, index) => (
+                                          <div key={index} className="position-relative">
+                                            <img
+                                              src={typeof image === 'string' ? `${BASE_IMAGE_URL}${image}` : URL.createObjectURL(image)}
+                                              alt="People"
+                                              className="img-thumbnail"
+                                              style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+                                            />
+                                            <button
+                                              type="button"
+                                              onClick={() => removeInsideImage(index, 'people')}
+                                              className="btn btn-danger btn-sm position-absolute top-0 end-0"
+                                            >
+                                              ×
+                                            </button>
+                                          </div>
+                                        ))}
+                                      </div>
+                                      {insidePeopleImages.length < 3 && (
+                                        <input
+                                          type="file"
+                                          accept="image/*"
+                                          onChange={(e) => handleInsideImageUpload(e, 'people')}
+                                          className="form-control mb-3"
+                                          multiple
+                                        />
+                                      )}
+                                      <button
+                                        type="button"
+                                        onClick={() => handleInsideImagesSave('people')}
+                                        className="btn btn-primary d-flex align-items-center gap-2"
+                                        style={{
+                                          backgroundColor: '#1967d2',
+                                          border: 'none',
+                                          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                                          transition: 'all 0.3s ease'
+                                        }}
+                                      >
+                                        <i className="fa-solid fa-save"></i>
+                                        Save People Images
+                                      </button>
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
-                              <div className="col-lg-6 col-md-6">
-                                <div className="form-group">
-                                  <label>LinkedIn</label>
-                                  <input
-                                    type="text"
-                                    name="linkedin_link"
-                                    value={companyData.linkedin_link || ""}
-                                    onChange={handleInputChange}
-                                    className="form-control"
-                                    placeholder="LinkedIn profile URL"
-                                  />
-                                </div>
-                              </div>
-                              <div className="col-lg-6 col-md-6">
-                                <div className="form-group">
-                                  <label>Twitter</label>
-                                  <input
-                                    type="text"
-                                    name="twitter_link"
-                                    value={companyData.twitter_link || ""}
-                                    onChange={handleInputChange}
-                                    className="form-control"
-                                    placeholder="Twitter profile URL"
-                                  />
-                                </div>
-                              </div>
-                              <div className="col-lg-6 col-md-6">
-                                <div className="form-group">
-                                  <label>Website</label>
-                                  <input
-                                    type="text"
-                                    name="website_link"
-                                    value={companyData.website_link || ""}
-                                    onChange={handleInputChange}
-                                    className="form-control"
-                                    placeholder="Company website URL"
-                                  />
-                                </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Team Members Tab */}
+                        <div className={`tab-pane fade ${activeTab === 'team' ? 'show active' : ''}`}>
+                          <div className="row m-b30">
+                            <div className="col-lg-12">
+                              <div className="form-group">
+                                <TeamMemberManager />
                               </div>
                             </div>
                           </div>
@@ -826,7 +714,7 @@ const SocialNetworkBox = () => {
                       </div>
 
                       {/* Submit Button */}
-                      <div className="row">
+                      <div className="row mt-4">
                         <div className="col-lg-12">
                           <div className="form-group text-end">
                             <button
