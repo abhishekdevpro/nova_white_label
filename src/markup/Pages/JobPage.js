@@ -828,8 +828,8 @@ function JobPage() {
                                                 fontSize: "12px",
                                               }}
                                             >
-                                              {job.companies.cities.name},{" "}
-                                              {job.companies.states.name}
+                                              {job.cities.name},{" "}
+                                              {job.states.name}
                                             </div>
 
                                             <div
@@ -1037,8 +1037,8 @@ function JobPage() {
                                     >
                                       <p>
                                         <i className="fa fa-map-marker mr-2"></i>
-                                        {selectedJob.companies?.cities.name},{" "}
-                                        {selectedJob.companies?.states.name},{" "}
+                                        {selectedJob.cities.name},{" "}
+                                        {selectedJob.states.name},{" "}
                                         {selectedJob.companies?.countries.name}
                                       </p>
                                     </div>

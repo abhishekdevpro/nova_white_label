@@ -295,6 +295,16 @@ const CompanySideBar = ({ active }) => {
                   </Link>
                 </li>
 
+                <li>
+                  <Link
+                    className={active === "view" ? "active" : null}
+                    to={"/employer/showcase"}
+                  >
+                    <FileText className="me-2"/>
+                    <span>View</span>
+                  </Link>
+                </li>
+
                 {/* <li>
               <Link
                 to={"/employer/company-resume"}

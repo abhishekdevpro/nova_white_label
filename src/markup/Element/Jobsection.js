@@ -279,7 +279,7 @@ function Jobsection() {
                           <ul>
                             <li>
                               <i className="fa fa-map-marker"></i>{" "}
-                              {item.companies.cities.name}, {item.companies.states.name},{" "}
+                              {item.cities.name}, {item.states.name},{" "}
                               {item.companies.countries.name}
                             </li>
                             {item.job_category.name && (

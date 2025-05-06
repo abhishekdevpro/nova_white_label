@@ -165,7 +165,7 @@ function Profilesidebar({ data }) {
                   <span>Add Referral </span>
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link
                   to={"/user/jobs-alerts"}
                   className={data === "jobs-alerts" ? "active" : null}
@@ -174,7 +174,7 @@ function Profilesidebar({ data }) {
                   <Bell className="me-2" />
                   <span>Notifications</span>
                 </Link>
-              </li>
+              </li> */}
               {/* <li>
                 <Link
                   to={"/user/jobs-change-password"}
