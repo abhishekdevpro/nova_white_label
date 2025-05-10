@@ -560,7 +560,9 @@ function EmployeeCompanyprofile() {
                                 {service.image && (
                                   <div className="col-lg-12 col-md-12 mt-2">
                                     <img
-                                      src={`https://apiwl.novajobs.us${service.image}`}
+                                      src={typeof service.image === 'string' 
+                                        ? `https://apiwl.novajobs.us${service.image}`
+                                        : service.url}
                                       alt="Service"
                                       className="img-fluid"
                                       style={{ maxHeight: "100px" }}

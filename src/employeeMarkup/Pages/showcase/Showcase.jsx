@@ -1187,17 +1187,7 @@ const ShowcaseComponent = () => {
 
         {/* Social Links Section */}
         <section style={styles.socialSection}>
-          <button 
-            style={{
-              ...styles.editButton,
-              backgroundColor: "rgba(255, 255, 255, 0.2)",
-              backdropFilter: "blur(8px)",
-            }}
-            onClick={() => handleEditClick('social')}
-          >
-            <MdEdit size={18} />
-            Edit Social Links
-          </button>
+         
           <div style={styles.socialContainer}>
             <h2 style={styles.socialTitle}>Connect With Us</h2>
             <p style={styles.socialSubtitle}>Follow us on social media to stay updated with our latest news and opportunities</p>
