@@ -53,6 +53,11 @@ const SocialNetworkBox = () => {
   const [insideWorkplaceImages, setInsideWorkplaceImages] = useState([]);
   const [insidePeopleImages, setInsidePeopleImages] = useState([]);
 
+  const [teamMembers, setTeamMembers] = React.useState([]);
+  const [editingId, setEditingId] = React.useState(null);
+  const [tempMember, setTempMember] = React.useState({ name: '', description: '', image: null });
+  const [, forceUpdate] = React.useReducer(x => x + 1, 0);
+
   const tabs = [
     { id: 'basic', label: 'Basic Information' },
     { id: 'about', label: 'About Company' },
@@ -217,10 +222,35 @@ const SocialNetworkBox = () => {
           headers: { Authorization: token }
         });
         const data = response.data?.data || {};
+
         setCompanyData(prev => ({
           ...prev,
-          ...data,
+          company_name: data.company_name || "",
+          title: data.title || "",
+          summery: data.summery || "",
+          about: data.about || "",
+          tagline: data.tagline || "",
+          website_link: data.website_link || "",
+          founded_date: data.founded_date || "",
+          phone: data.phone || "",
+          country_id: data.country_id || "",
+          state_id: data.state_id || "",
+          city_id: data.city_id || "",
+          zip_code: data.zip_code || "",
+          address: data.address || "",
+          facebook_link: data.facebook_link || "",
+          twitter_link: data.twitter_link || "",
+          google_link: data.google_link || "",
+          linkedin_link: data.linkedin_link || "",
+          company_industry_id: data.company_industry_id || "",
+          join_us: data.join_us || "",
+          email: data.email || "",
+          about_images: data.about_images || [],
+          inside_culture_images: data.inside_culture_images || [],
+          inside_workplace_images: data.inside_workplace_images || [],
+          inside_people_images: data.inside_people_images || [],
         }));
+
         setMakesUsUnique([
           {
             title: "Health Insurance",
@@ -265,9 +295,20 @@ const SocialNetworkBox = () => {
             value: data.personal_accident_insurance_value || "",
           },
         ]);
+
         setInsideCultureImages(data.inside_culture_images || []);
         setInsideWorkplaceImages(data.inside_workplace_images || []);
         setInsidePeopleImages(data.inside_people_images || []);
+        // Show about images as previews if present
+        if (data.about_images && data.about_images.length > 0) {
+          setSelectedImages(
+            data.about_images
+              .filter(img => !!img)
+              .map(img => typeof img === 'string' && !img.startsWith('http') ? BASE_IMAGE_URL + img : img)
+          );
+        } else {
+          setSelectedImages([]);
+        }
       } catch (error) {
         toast.error("Error fetching data");
       }
@@ -351,7 +392,7 @@ const SocialNetworkBox = () => {
     };
 
     try {
-      await axios.put("https://apiwl.novajobs.us/api/employeer/company", dataToUpdate, {
+      await axios.patch("https://apiwl.novajobs.us/api/employeer/company-additional", dataToUpdate, {
         headers: {
           "Content-Type": "application/json",
           Authorization: token,
@@ -371,8 +412,104 @@ const SocialNetworkBox = () => {
     <div className={`space-y-6 mb-8 ${className}`}>{children}</div>
   );
 
+  // Modern About Company tab styles
+  const aboutTabStyles = `
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: none; }
+    }
+    .modern-label {
+      font-weight: 600;
+      font-size: 1.08rem;
+      color: #3a4664;
+      letter-spacing: 0.03em;
+      margin-bottom: 10px;
+      display: block;
+    }
+    .modern-input:focus, .modern-file:focus {
+      border: 1.5px solid #1967d2 !important;
+      outline: none;
+      box-shadow: 0 0 0 2px #e3eaf5;
+    }
+    .modern-divider {
+      border-bottom: 1px solid #e3eaf5;
+      margin: 32px 0 24px 0;
+    }
+    .modern-save-btn {
+      background: linear-gradient(90deg, #1967d2 0%, #3b82f6 100%);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 15px 38px;
+      font-weight: 700;
+      font-size: 1.13rem;
+      box-shadow: 0 4px 16px rgba(25,103,210,0.10);
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .modern-save-btn:hover {
+      background: linear-gradient(90deg, #155ab6 0%, #2563eb 100%);
+      box-shadow: 0 8px 24px rgba(25,103,210,0.13);
+      transform: translateY(-2px) scale(1.03);
+    }
+  `;
+
+  const addTeamMember = () => {
+    setEditingId('new');
+    setTempMember({ name: '', description: '', image: null });
+  };
+  const saveTeamMember = async () => {
+    // Prepare FormData for API
+    const formData = new FormData();
+    formData.append('name', tempMember.name);
+    formData.append('description', tempMember.description);
+    if (tempMember.image) {
+      formData.append('image', tempMember.image);
+    }
+    try {
+      const response = await axios.post(
+        'https://apiwl.novajobs.us/api/employeer/company-teams',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: token,
+          },
+        }
+      );
+      if (response.status === 200) {
+        toast.success('Team member saved successfully!');
+        if (editingId === 'new') {
+          setTeamMembers(prev => [
+            ...prev,
+            { id: Date.now(), ...tempMember }
+          ]);
+        } else {
+          setTeamMembers(prev => prev.map(m => m.id === editingId ? { ...m, ...tempMember } : m));
+        }
+        setEditingId(null);
+        setTempMember({ name: '', description: '', image: null });
+        forceUpdate();
+      } else {
+        toast.error('Failed to save team member.');
+      }
+    } catch (error) {
+      toast.error('Error saving team member.');
+    }
+  };
+  const cancelEdit = () => {
+    setEditingId(null);
+    setTempMember({ name: '', description: '', image: null });
+    forceUpdate();
+  };
+
   return (
     <>
+      <style dangerouslySetInnerHTML={{__html: aboutTabStyles}} />
       <Header2 />
       <div className="page-content bg-white">
         <div className="content-block">
@@ -418,32 +555,104 @@ const SocialNetworkBox = () => {
                           <div className="row">
                             <div className="col-lg-12">
                               <div className="form-group">
+                                <h4 className="font-bold text-lg mb-3">Basic Information</h4>
                                 <div className="row">
-                                  <div className="col-lg-6 col-md-6">
-                                    <div className="form-group">
-                                      <label>Company Name</label>
-                                      <input
-                                        type="text"
-                                        name="company_name"
-                                        value={companyData.company_name || ""}
-                                        onChange={handleInputChange}
-                                        className="form-control"
-                                        placeholder="Enter company name"
-                                      />
-                                    </div>
+                                  <div className="col-lg-12 mb-3">
+                                    <label>Company Name</label>
+                                    <input
+                                      type="text"
+                                      name="company_name"
+                                      value={companyData.company_name || ""}
+                                      onChange={handleInputChange}
+                                      className="form-control"
+                                      placeholder="Enter company name"
+                                    />
                                   </div>
-                                  <div className="col-lg-6 col-md-6">
-                                    <div className="form-group">
-                                      <label>Tagline</label>
+                                </div>
+                                {/* What Makes Us Unique Section */}
+                                <h4 className="font-bold text-lg mt-4 mb-3">What Makes Us Unique</h4>
+                                <div className="row">
+                                  {makesUsUnique.map((item, idx) => (
+                                    <div className="col-md-6 mb-3" key={item.key}>
+                                      <div className="d-flex align-items-center mb-1">
+                                        <label className="me-2 mb-0" style={{ fontWeight: 500 }}>{item.title}</label>
+                                        <Switch
+                                          checked={item.toogle}
+                                          onChange={checked => {
+                                            setMakesUsUnique(prev => prev.map((el, i) => i === idx ? { ...el, toogle: checked } : el));
+                                          }}
+                                          className="me-2"
+                                        />
+                                      </div>
                                       <input
                                         type="text"
-                                        name="tagline"
-                                        value={companyData.tagline || ""}
-                                        onChange={handleInputChange}
                                         className="form-control"
-                                        placeholder="Enter company tagline"
+                                        value={item.value}
+                                        onChange={e => {
+                                          setMakesUsUnique(prev => prev.map((el, i) => i === idx ? { ...el, value: e.target.value } : el));
+                                        }}
+                                        placeholder={item.title}
                                       />
                                     </div>
+                                  ))}
+                                </div>
+                                {/* Join Us Section */}
+                                <h4 className="font-bold text-lg mt-4 mb-3">Join Us</h4>
+                                <div className="mb-3">
+                                  <label>Career Opportunities</label>
+                                  <ReactQuill
+                                    theme="snow"
+                                    value={companyData.join_us || ""}
+                                    onChange={value => setCompanyData(prev => ({ ...prev, join_us: value }))}
+                                    className="h-48 mb-12"
+                                  />
+                                </div>
+                                {/* Social Media & Website Section */}
+                                <h4 className="font-bold text-lg mt-4 mb-3">Social Media & Website</h4>
+                                <div className="row">
+                                  <div className="col-md-6 mb-3">
+                                    <label>Facebook</label>
+                                    <input
+                                      type="text"
+                                      name="facebook_link"
+                                      value={companyData.facebook_link || ""}
+                                      onChange={handleInputChange}
+                                      className="form-control"
+                                      placeholder="Facebook"
+                                    />
+                                  </div>
+                                  <div className="col-md-6 mb-3">
+                                    <label>Linkedin</label>
+                                    <input
+                                      type="text"
+                                      name="linkedin_link"
+                                      value={companyData.linkedin_link || ""}
+                                      onChange={handleInputChange}
+                                      className="form-control"
+                                      placeholder="Linkedin"
+                                    />
+                                  </div>
+                                  <div className="col-md-6 mb-3">
+                                    <label>Twitter</label>
+                                    <input
+                                      type="text"
+                                      name="twitter_link"
+                                      value={companyData.twitter_link || ""}
+                                      onChange={handleInputChange}
+                                      className="form-control"
+                                      placeholder="Twitter"
+                                    />
+                                  </div>
+                                  <div className="col-md-6 mb-3">
+                                    <label>Website</label>
+                                    <input
+                                      type="text"
+                                      name="website_link"
+                                      value={companyData.website_link || ""}
+                                      onChange={handleInputChange}
+                                      className="form-control"
+                                      placeholder="Website"
+                                    />
                                   </div>
                                 </div>
                               </div>
@@ -453,95 +662,113 @@ const SocialNetworkBox = () => {
 
                         {/* About Company Tab */}
                         <div className={`tab-pane fade ${activeTab === 'about' ? 'show active' : ''}`}>
-                          <div className="row m-b30">
-                            <div className="col-lg-12">
-                              <div className="form-group">
-                                <div className="row">
-                                  <div className="col-lg-12">
-                                    <div className="form-group">
-                                      <label>Company Title</label>
-                                      <input
-                                        type="text"
-                                        name="title"
-                                        value={companyData.title || ""}
-                                        onChange={handleInputChange}
-                                        className="form-control"
-                                        placeholder="Enter company title"
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col-lg-12">
-                                    <div className="form-group">
-                                      <label>Summary</label>
-                                      <ReactQuill
-                                        theme="snow"
-                                        value={companyData.summery || ""}
-                                        onChange={(value) => setCompanyData(prev => ({...prev, summery: value}))}
-                                        className="h-48 mb-12"
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col-lg-12">
-                                    <div className="form-group">
-                                      <label>Description</label>
-                                      <ReactQuill
-                                        theme="snow"
-                                        value={companyData.about || ""}
-                                        onChange={(value) => setCompanyData(prev => ({...prev, about: value}))}
-                                        className="h-48 mb-12"
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col-lg-12">
-                                    <div className="form-group">
-                                      <label>Upload Images (Max: 3)</label>
-                                      <div className="d-flex flex-wrap gap-2 mb-3">
-                                        {selectedImages.map((image, index) => (
-                                          <div key={index} className="position-relative">
-                                            <img
-                                              src={URL.createObjectURL(image)}
-                                              alt="Uploaded"
-                                              className="img-thumbnail"
-                                              style={{ width: '100px', height: '100px', objectFit: 'cover' }}
-                                            />
-                                            <button
-                                              type="button"
-                                              onClick={() => removeImage(index)}
-                                              className="btn btn-danger btn-sm position-absolute top-0 end-0"
-                                            >
-                                              ×
-                                            </button>
-                                          </div>
-                                        ))}
-                                      </div>
-                                      {selectedImages.length < 3 && (
-                                        <input
-                                          type="file"
-                                          accept="image/*"
-                                          onChange={handleImageUpload}
-                                          className="form-control mb-3"
-                                          multiple
-                                        />
-                                      )}
-                                      <button
-                                        type="button"
-                                        onClick={handleAboutSave}
-                                        className="btn btn-primary btn-lg d-flex align-items-center gap-2"
-                                        style={{
-                                          backgroundColor: '#1967d2',
-                                          border: 'none',
-                                          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                                          transition: 'all 0.3s ease'
-                                        }}
-                                      >
-                                        <i className="fa-solid fa-save"></i>
-                                        <small>Save About Section</small>
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
+                          <div style={{
+                            maxWidth: 700,
+                            margin: '0 auto',
+                            background: 'linear-gradient(135deg, #f8fbff 0%, #eaf1fb 100%)',
+                            borderRadius: 20,
+                            boxShadow: '0 8px 32px rgba(25,103,210,0.10)',
+                            padding: 44,
+                            marginTop: 40,
+                            marginBottom: 40,
+                            animation: 'fadeInUp 0.7s',
+                            border: '1px solid #e3eaf5',
+                            transition: 'box-shadow 0.2s',
+                          }}>
+                            <h4 style={{
+                              fontWeight: 800,
+                              fontSize: 30,
+                              marginBottom: 36,
+                              color: '#1a237e',
+                              letterSpacing: 0.3
+                            }}>About Company</h4>
+                            <div style={{ marginBottom: 0 }}>
+                              <label className="modern-label">Company Title</label>
+                              <input
+                                type="text"
+                                name="title"
+                                value={companyData.title || ""}
+                                onChange={handleInputChange}
+                                className="form-control modern-input"
+                                placeholder="Enter company title"
+                                style={{
+                                  borderRadius: 10,
+                                  border: '1.5px solid #dbeafe',
+                                  padding: '14px 18px',
+                                  fontSize: 17,
+                                  width: '100%',
+                                  marginTop: 4,
+                                  background: '#fafdff',
+                                  transition: 'border 0.2s, box-shadow 0.2s',
+                                }}
+                              />
                             </div>
+                            <div className="modern-divider"></div>
+                            <div style={{ marginBottom: 0 }}>
+                              <label className="modern-label">Summary</label>
+                              <ReactQuill
+                                theme="snow"
+                                value={companyData.summery || ""}
+                                onChange={value => setCompanyData(prev => ({ ...prev, summery: value }))}
+                                className="h-48 mb-12 modern-input"
+                                style={{
+                                  borderRadius: 10,
+                                  border: '1.5px solid #dbeafe',
+                                  marginTop: 4,
+                                  background: '#fafdff',
+                                  minHeight: 120,
+                                  transition: 'border 0.2s, box-shadow 0.2s',
+                                }}
+                              />
+                            </div>
+                            <div className="modern-divider"></div>
+                            <div style={{ marginBottom: 0 }}>
+                              <label className="modern-label">Description</label>
+                              <ReactQuill
+                                theme="snow"
+                                value={companyData.about || ""}
+                                onChange={value => setCompanyData(prev => ({ ...prev, about: value }))}
+                                className="h-48 mb-12 modern-input"
+                                style={{
+                                  borderRadius: 10,
+                                  border: '1.5px solid #dbeafe',
+                                  marginTop: 4,
+                                  background: '#fafdff',
+                                  minHeight: 120,
+                                  transition: 'border 0.2s, box-shadow 0.2s',
+                                }}
+                              />
+                            </div>
+                            <div className="modern-divider"></div>
+                            <div style={{ marginBottom: 0 }}>
+                              <label className="modern-label">Images (Max: 3)</label>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleImageUpload}
+                                className="form-control mb-2 modern-file"
+                                multiple
+                                style={{
+                                  borderRadius: 10,
+                                  border: '1.5px solid #dbeafe',
+                                  padding: '12px 14px',
+                                  fontSize: 16,
+                                  background: '#fafdff',
+                                  marginTop: 4,
+                                  transition: 'border 0.2s, box-shadow 0.2s',
+                                }}
+                              />
+                            </div>
+                            <button
+                              type="button"
+                              onClick={handleAboutSave}
+                              className="modern-save-btn"
+                            >
+                              <span style={{ display: 'flex', alignItems: 'center' }}>
+                                <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path fill="#fff" d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7.17a2 2 0 0 1 1.41.59l3.83 3.83A2 2 0 0 1 20 8.83V19a2 2 0 0 1-2 2ZM7 3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8.83a2 2 0 0 0-.59-1.41l-3.83-3.83A2 2 0 0 0 14.17 3H7Zm5 13a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z"></path></svg>
+                              </span>
+                              Save About Section
+                            </button>
                           </div>
                         </div>
 
@@ -703,12 +930,119 @@ const SocialNetworkBox = () => {
 
                         {/* Team Members Tab */}
                         <div className={`tab-pane fade ${activeTab === 'team' ? 'show active' : ''}`}>
-                          <div className="row m-b30">
-                            <div className="col-lg-12">
-                              <div className="form-group">
-                                <TeamMemberManager />
+                          <div style={{ maxWidth: 420, margin: '0 auto', paddingTop: 32 }}>
+                            {(editingId !== null) ? (
+                              <div style={{
+                                background: '#fff',
+                                borderRadius: 16,
+                                boxShadow: '0 4px 24px rgba(0,0,0,0.07)',
+                                padding: 32,
+                                marginBottom: 32,
+                                minWidth: 320,
+                              }}>
+                                <input
+                                  type="text"
+                                  value={tempMember.name}
+                                  onChange={e => setTempMember(prev => ({ ...prev, name: e.target.value }))}
+                                  placeholder="Name"
+                                  style={{
+                                    width: '100%',
+                                    padding: '12px 16px',
+                                    borderRadius: 8,
+                                    border: '1.5px solid #e0e0e0',
+                                    fontSize: 17,
+                                    marginBottom: 18,
+                                    background: '#fafbfc',
+                                  }}
+                                />
+                                <ReactQuill
+                                  theme="snow"
+                                  value={tempMember.description}
+                                  onChange={val => setTempMember(prev => ({ ...prev, description: val }))}
+                                  style={{ height: 120, marginBottom: 18, borderRadius: 8, border: '1.5px solid #e0e0e0', background: '#fafbfc' }}
+                                />
+                                <div style={{ fontWeight: 700, marginBottom: 8, color: '#222' }}>Update Photo</div>
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  onChange={e => setTempMember(prev => ({ ...prev, image: e.target.files[0] }))}
+                                  style={{ marginBottom: 24 }}
+                                />
+                                <div style={{ display: 'flex', gap: 16, marginTop: 12 }}>
+                                  <button
+                                    type="button"
+                                    onClick={saveTeamMember}
+                                    style={{
+                                      background: '#22c55e',
+                                      color: '#fff',
+                                      border: 'none',
+                                      borderRadius: 8,
+                                      padding: '10px 28px',
+                                      fontWeight: 700,
+                                      fontSize: 18,
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      gap: 8,
+                                      cursor: 'pointer',
+                                      boxShadow: '0 2px 8px rgba(34,197,94,0.08)',
+                                      transition: 'background 0.2s',
+                                    }}
+                                  >
+                                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path fill="#fff" d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7.17a2 2 0 0 1 1.41.59l3.83 3.83A2 2 0 0 1 20 8.83V19a2 2 0 0 1-2 2ZM7 3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8.83a2 2 0 0 0-.59-1.41l-3.83-3.83A2 2 0 0 0 14.17 3H7Zm5 13a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z"></path></svg>
+                                    <span>Save</span>
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={cancelEdit}
+                                    style={{
+                                      background: '#6b7280',
+                                      color: '#fff',
+                                      border: 'none',
+                                      borderRadius: 8,
+                                      padding: '10px 28px',
+                                      fontWeight: 700,
+                                      fontSize: 18,
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      gap: 8,
+                                      cursor: 'pointer',
+                                      boxShadow: '0 2px 8px rgba(107,114,128,0.08)',
+                                      transition: 'background 0.2s',
+                                    }}
+                                  >
+                                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path fill="#fff" d="M18.3 5.71a1 1 0 0 0-1.41 0L12 10.59 7.11 5.7A1 1 0 0 0 5.7 7.11L10.59 12l-4.89 4.89a1 1 0 1 0 1.41 1.41L12 13.41l4.89 4.89a1 1 0 0 0 1.41-1.41L13.41 12l4.89-4.89a1 1 0 0 0 0-1.4Z"></path></svg>
+                                    <span>Cancel</span>
+                                  </button>
+                                </div>
                               </div>
-                            </div>
+                            ) : null}
+                            <button
+                              type="button"
+                              onClick={addTeamMember}
+                              style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                width: 320,
+                                margin: '0 auto',
+                                padding: '16px 0',
+                                background: '#3b82f6',
+                                borderRadius: 10,
+                                color: 'white',
+                                fontWeight: 700,
+                                fontSize: 20,
+                                boxShadow: '0 4px 16px rgba(59,130,246,0.10)',
+                                transition: 'background 0.2s, box-shadow 0.2s, transform 0.1s',
+                                marginTop: 32,
+                                marginBottom: 32,
+                                border: 'none',
+                                cursor: 'pointer',
+                                gap: 12,
+                              }}
+                            >
+                              <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M12 5v14m7-7H5"/></svg>
+                              Add New Team Member
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -717,22 +1051,24 @@ const SocialNetworkBox = () => {
                       <div className="row mt-4">
                         <div className="col-lg-12">
                           <div className="form-group text-end">
-                            <button
-                              type="submit"
-                              onClick={handleSave}
-                              className="btn btn-primary btn-lg d-flex align-items-center gap-2"
-                              style={{
-                                backgroundColor: '#1967d2',
-                                border: 'none',
-                                boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                                transition: 'all 0.3s ease',
-                                padding: '0.75rem 1.5rem',
-                                fontSize: '1.1rem'
-                              }}
-                            >
-                              <i className="fa-solid fa-save"></i>
-                              Save All Changes
-                            </button>
+                            {activeTab !== 'about' && activeTab !== 'images' && activeTab !== 'team' && (
+                              <button
+                                type="submit"
+                                onClick={handleSave}
+                                className="btn btn-primary btn-lg d-flex align-items-center gap-2"
+                                style={{
+                                  backgroundColor: '#1967d2',
+                                  border: 'none',
+                                  boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                                  transition: 'all 0.3s ease',
+                                  padding: '0.75rem 1.5rem',
+                                  fontSize: '1.1rem'
+                                }}
+                              >
+                                <i className="fa-solid fa-save"></i>
+                                Save All Changes
+                              </button>
+                            )}
                           </div>
                         </div>
                       </div>

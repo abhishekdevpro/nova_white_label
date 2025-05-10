@@ -298,6 +298,175 @@ function Homepage() {
         </div>
         {/* <Featureblog /> */}
         <Jobsection />
+        
+        {/* Pricing Plans Section */}
+        <div className="section-full p-tb70 bg-white">
+          <div className="container">
+            <div className="section-head text-center">
+              <h2 className="m-b5" style={{ 
+                position: 'relative',
+                display: 'inline-block',
+                paddingBottom: '10px',
+                color: '#09213c',
+                fontWeight: '600'
+              }}>
+                Choose Your Perfect Plan
+                <span style={{
+                  position: 'absolute',
+                  bottom: 0,
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  width: '120px',
+                  height: '4px',
+                  backgroundColor: '#09213c',
+                  borderRadius: '2px'
+                }}></span>
+              </h2>
+              <p className="m-b0" style={{ color: '#09213c', fontSize: '16px' }}>Select the plan that best fits your needs</p>
+            </div>
+            <div className="row justify-content-center flex-wrap" style={{ rowGap: '24px' }}>
+              {/* Freemium Plan */}
+              <div className="col-lg-4 col-md-6 col-sm-10 mb-4 d-flex align-items-stretch" style={{ minWidth: '260px' }}>
+                <div className="pricing-box w-100" style={{
+                  padding: '30px',
+                  borderRadius: '10px',
+                  boxShadow: '0 0 20px rgba(9,33,60,0.1)',
+                  transition: 'all 0.3s ease',
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  border: '1px solid rgba(9,33,60,0.1)',
+                  width: '100%'
+                }}>
+                  <div className="pricing-header text-center">
+                    <h3 className="m-b0" style={{ color: '#09213c', fontWeight: '600', fontSize: 'clamp(1.2rem,2vw,1.5rem)' }}>Freemium</h3>
+                    <div className="price" style={{ margin: '20px 0', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', gap: '6px' }}>
+                      <h2 className="m-b0" style={{ color: '#09213c', fontWeight: '700', fontSize: 'clamp(2rem,5vw,2.5rem)', margin: 0 }}>$0</h2>
+                      <span style={{ color: '#09213c', opacity: '0.7', fontSize: 'clamp(1rem,2vw,1.3rem)', fontWeight: 500, marginBottom: '4px' }}>/mo</span>
+                    </div>
+                  </div>
+                  <div className="pricing-features" style={{ flex: 1 }}>
+                    <ul style={{ listStyle: 'none', padding: 0 }}>
+                      <li style={{ padding: '10px 0', borderBottom: '1px solid rgba(9,33,60,0.1)' }}>
+                        <i className="fa fa-check" style={{ color: '#09213c', marginRight: '10px' }}></i> Job Search
+                      </li>
+                      <li style={{ padding: '10px 0', borderBottom: '1px solid rgba(9,33,60,0.1)' }}>
+                        <i className="fa fa-check" style={{ color: '#09213c', marginRight: '10px' }}></i> Job Apply
+                      </li>
+                      <li style={{ padding: '10px 0', borderBottom: '1px solid rgba(9,33,60,0.1)' }}>
+                        <i className="fa fa-check" style={{ color: '#09213c', marginRight: '10px' }}></i> AI Dashboard
+                      </li>
+                      <li style={{ padding: '10px 0', borderBottom: '1px solid rgba(9,33,60,0.1)' }}>
+                        <i className="fa fa-check" style={{ color: '#09213c', marginRight: '10px' }}></i> Limited AI Resume Builder
+                      </li>
+                      <li style={{ padding: '10px 0', borderBottom: '1px solid rgba(9,33,60,0.1)' }}>
+                        <i className="fa fa-check" style={{ color: '#09213c', marginRight: '10px' }}></i> Access to Free Courses
+                      </li>
+                      <li style={{ padding: '10px 0', borderBottom: '1px solid rgba(9,33,60,0.1)' }}>
+                        <i className="fa fa-check" style={{ color: '#09213c', marginRight: '10px' }}></i> Profile Listing
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="pricing-footer text-center mt-4">
+                    <Link to="/employer/register-2" className="site-button button-sm w-100" style={{ backgroundColor: '#09213c', borderColor: '#09213c', fontSize: 'clamp(1rem,2vw,1.1rem)' }}>
+                      Get Started
+                    </Link>
+                  </div>
+                </div>
+              </div>
+
+              {/* Elevate Plan */}
+              <div className="col-lg-4 col-md-6 col-sm-10 mb-4 d-flex align-items-stretch" style={{ minWidth: '260px' }}>
+                <div className="pricing-box w-100" style={{
+                  padding: '30px',
+                  borderRadius: '10px',
+                  boxShadow: '0 0 20px rgba(9,33,60,0.15)',
+                  transition: 'all 0.3s ease',
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  border: '2px solid #09213c',
+                  transform: 'scale(1.05)',
+                  backgroundColor: 'rgba(9,33,60,0.02)',
+                  width: '100%'
+                }}>
+                  <div className="pricing-header text-center">
+                    <h3 className="m-b0" style={{ color: '#09213c', fontWeight: '600', fontSize: 'clamp(1.2rem,2vw,1.5rem)' }}>Elevate</h3>
+                    <div className="price" style={{ margin: '20px 0', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', gap: '6px' }}>
+                      <h2 className="m-b0" style={{ color: '#09213c', fontWeight: '700', fontSize: 'clamp(2rem,5vw,2.5rem)', margin: 0 }}>$18.95</h2>
+                      <span style={{ color: '#09213c', opacity: '0.7', fontSize: 'clamp(1rem,2vw,1.3rem)', fontWeight: 500, marginBottom: '4px' }}>/mo</span>
+                    </div>
+                  </div>
+                  <div className="pricing-features" style={{ flex: 1 }}>
+                    <ul style={{ listStyle: 'none', padding: 0 }}>
+                      <li style={{ padding: '10px 0', borderBottom: '1px solid rgba(9,33,60,0.1)' }}>
+                        <i className="fa fa-check" style={{ color: '#09213c', marginRight: '10px' }}></i> Everything in Freemium
+                      </li>
+                      <li style={{ padding: '10px 0', borderBottom: '1px solid rgba(9,33,60,0.1)' }}>
+                        <i className="fa fa-check" style={{ color: '#09213c', marginRight: '10px' }}></i> Advanced Job Search
+                      </li>
+                      <li style={{ padding: '10px 0', borderBottom: '1px solid rgba(9,33,60,0.1)' }}>
+                        <i className="fa fa-check" style={{ color: '#09213c', marginRight: '10px' }}></i> Advanced AI Resume Builder
+                      </li>
+                      <li style={{ padding: '10px 0', borderBottom: '1px solid rgba(9,33,60,0.1)' }}>
+                        <i className="fa fa-check" style={{ color: '#09213c', marginRight: '10px' }}></i> Access to Advanced Courses
+                      </li>
+                      <li style={{ padding: '10px 0', borderBottom: '1px solid rgba(9,33,60,0.1)' }}>
+                        <i className="fa fa-check" style={{ color: '#09213c', marginRight: '10px' }}></i> AI Skill Test
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="pricing-footer text-center mt-4">
+                    <Link to="/employer/register-2" className="site-button button-sm w-100" style={{ backgroundColor: '#09213c', borderColor: '#09213c', fontSize: 'clamp(1rem,2vw,1.1rem)' }}>
+                      Get Started
+                    </Link>
+                  </div>
+                </div>
+              </div>
+
+              {/* Pro Max Plan */}
+              <div className="col-lg-4 col-md-6 col-sm-10 mb-4 d-flex align-items-stretch" style={{ minWidth: '260px' }}>
+                <div className="pricing-box w-100" style={{
+                  padding: '30px',
+                  borderRadius: '10px',
+                  boxShadow: '0 0 20px rgba(9,33,60,0.1)',
+                  transition: 'all 0.3s ease',
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  border: '1px solid rgba(9,33,60,0.1)',
+                  width: '100%'
+                }}>
+                  <div className="pricing-header text-center">
+                    <h3 className="m-b0" style={{ color: '#09213c', fontWeight: '600', fontSize: 'clamp(1.2rem,2vw,1.5rem)' }}>Pro Max</h3>
+                    <div className="price" style={{ margin: '20px 0', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', gap: '6px' }}>
+                      <h2 className="m-b0" style={{ color: '#09213c', fontWeight: '700', fontSize: 'clamp(2rem,5vw,2.5rem)', margin: 0 }}>$48.95</h2>
+                      <span style={{ color: '#09213c', opacity: '0.7', fontSize: 'clamp(1rem,2vw,1.3rem)', fontWeight: 500, marginBottom: '4px' }}>/mo</span>
+                    </div>
+                  </div>
+                  <div className="pricing-features" style={{ flex: 1 }}>
+                    <ul style={{ listStyle: 'none', padding: 0 }}>
+                      <li style={{ padding: '10px 0', borderBottom: '1px solid rgba(9,33,60,0.1)' }}>
+                        <i className="fa fa-check" style={{ color: '#09213c', marginRight: '10px' }}></i> Everything in Elevate
+                      </li>
+                      <li style={{ padding: '10px 0', borderBottom: '1px solid rgba(9,33,60,0.1)' }}>
+                        <i className="fa fa-check" style={{ color: '#09213c', marginRight: '10px' }}></i> Career coach interactions 
+                      </li>
+                      <li style={{ padding: '10px 0', borderBottom: '1px solid rgba(9,33,60,0.1)' }}>
+                        <i className="fa fa-check" style={{ color: '#09213c', marginRight: '10px' }}></i> Certification included
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="pricing-footer text-center mt-4">
+                    <Link to="/employer/register-2" className="site-button button-sm w-100" style={{ backgroundColor: '#09213c', borderColor: '#09213c', fontSize: 'clamp(1rem,2vw,1.1rem)' }}>
+                      Get Started
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div
           className="section-full p-tb70 overlay-black-dark text-white text-center bg-img-fix"
           style={{ backgroundImage: "url(" + bnr2 + ")" }}
@@ -310,115 +479,7 @@ function Homepage() {
           </div>
         </div>
 
-        {/* <div
-          className="d-flex flex-column bg-white align-items-center my-5"
-          style={{ gap: "20px", padding: "20px" }}
-        >
-          <h2
-            className="m-0"
-            style={{
-              fontSize: "28px",
-              fontWeight: "600",
-              lineHeight: "1.3em",
-              textAlign: "center",
-              color: "#09213c",
-            }}
-          >
-            Our Partners
-          </h2>
-          <div className="two-box-container my-3">
-            <div
-              className="card"
-              style={{
-                padding: "20px",
-                borderRadius: "8px",
-                boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-                transition: "transform 0.3s ease",
-                height: "220px",
-              }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.transform = "scale(1.05)")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.transform = "scale(1)")
-              }
-            >
-              <div className="card-icon">
-                <img src="https://ultraaura.education/static/media/scope.e082ae7a0491759feb4b.jpg" />
-              </div>
-              <h3>Scope </h3>
-              <p className="" style={{ fontWeight: "800" }}>
-                Empowering Citizens of South Florida… Innovative education and
-                employment program for a stronger Hallandale Beach  community.
-              </p>
-              <button class="btn btn-primary " type="button">
-                Learn More
-              </button>
-            </div>
-            <div
-              className="card"
-              style={{
-                padding: "20px",
-                borderRadius: "8px",
-                boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-                transition: "transform 0.3s ease",
-                height: "220px",
-              }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.transform = "scale(1.05)")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.transform = "scale(1)")
-              }
-            >
-              <div className="card-icon">
-                <img src="https://ultraaura.education/static/media/Agi.34685fda483584baba04.jpg" />
-              </div>
-              <h3>AGI Tax Experts</h3>
-              <p className="" style={{ fontWeight: "800" }}>
-                Launch your career with AGI Tax Experts! Comprehensive training
-                and placement opportunities available through our portal
-              </p>
-              <Link to="https://ultraaura.education/course-info/226">
-                <button class="btn btn-primary " type="button">
-                  Learn More
-                </button>
-              </Link>
-            </div>
-
-            <div
-              className="card"
-              style={{
-                padding: "20px",
-                borderRadius: "8px",
-                boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-                transition: "transform 0.3s ease",
-                height: "220px",
-              }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.transform = "scale(1.05)")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.transform = "scale(1)")
-              }
-            >
-              <div className="card-icon">
-                <img src="https://idfy-eia3.vercel.app/assets/logo5-DddCxhI1.jpg" />
-              </div>
-              <h3>NOVA Home Care</h3>
-              <p className="" style={{ fontWeight: "800" }}>
-                Elevate your career with top-notch training and placement.
-                Transform lives and secure your future with us.
-              </p>
-
-              <Link to="https://novahome.care/">
-                <button class="btn btn-primary " type="button">
-                  Learn More
-                </button>
-              </Link>
-            </div>
-          </div>
-        </div> */}
+      
       </div>
       <Footer />
     </div>

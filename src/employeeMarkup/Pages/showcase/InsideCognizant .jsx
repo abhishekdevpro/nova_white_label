@@ -26,7 +26,7 @@ const InsideCompany = ({ companyData }) => {
   });
   
   const BASEURL = `${Constant.API_URL}/api/employeer`;
-  const BASEIMAGEURL = Constant.API_URL;
+  const BASEIMAGEURL = "https://apiwl.novajobs.us";
   const token = localStorage.getItem("employerToken");
 
   const uploadFieldNames = {

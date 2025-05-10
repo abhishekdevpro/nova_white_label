@@ -257,7 +257,7 @@ const AboutSection = ({ companyData = {},userInfo, onSave }) => {
     }
     
     // Define BASE_IMAGE_URL or use empty string if not available
-    const BASE_IMAGE_URL = "https://api.sentryspot.co.uk";
+    const BASE_IMAGE_URL = "https://apiwl.novajobs.us";
     return `${BASE_IMAGE_URL}${companyData[imageKey][index]}`;
   };
 
