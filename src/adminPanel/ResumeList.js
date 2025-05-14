@@ -11,9 +11,12 @@ import {
   faBriefcase, 
   faBuilding, 
   faChevronDown, 
-  faSearch 
+  faSearch,
+  faUserCheck 
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Sidebar from "./Sidebar"; // Assuming you have a Sidebar component
 import { FaFileAlt } from "react-icons/fa";
@@ -180,8 +183,47 @@ const ResumeList = () => {
     }));
   };
 
+  const handleBrowseCandidate = async (bulkResumeId) => {
+    try {
+      const token = localStorage.getItem("authToken");
+
+      if (!token) {
+        toast.error("Unauthorized. Please log in.");
+        return;
+      }
+
+      const response = await axios.get(
+        `https://apiwl.novajobs.us/api/admin/browse-candidate/${bulkResumeId}`,
+        {
+          headers: { Authorization: token }
+        }
+      );
+
+      if (response.data?.status === "success") {
+        toast.success("Candidate listed successfully!");
+      } else {
+        toast.error(response.data?.message || "Error listing candidate");
+      }
+    } catch (error) {
+      console.error("Error listing candidate:", error);
+      toast.error("Error listing candidate. Please try again.");
+    }
+  };
+
   return (
     <div>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <CustomNavbar />
       <Container fluid>
         <Row>
@@ -415,34 +457,81 @@ const ResumeList = () => {
                       <th>Email</th>
                       <th>Contact Number</th>
                       <th>Address</th>
+                      <th>Skills</th>
+                      <th>Education</th>
+                      <th>Work Experience</th>
                       <th>Resume</th>
+                      {/* <th>Actions</th> */}
                     </tr>
                   </thead>
                   <tbody>
                     {currentResumes.length > 0 ? (
-                      currentResumes.map((resume, index) => (
-                        <tr key={index}>
-                          <td>{indexOfFirstResume + index + 1}</td>
-                          <td>{resume.name || "N/A"}</td>
-                          <td>{resume.email || "N/A"}</td>
-                          <td>{resume.contact_number || "N/A"}</td>
-                          <td>{resume.address || "N/A"}</td>
-                          <td>
-                            <Button
-                              variant="primary"
-                              href={`https://apiwl.novajobs.us${resume.resume_path || ""}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="shadow-sm"
-                            >
-                              View
-                            </Button>
-                          </td>
-                        </tr>
-                      ))
+                      currentResumes.map((resume, index) => {
+                        // Parse education and work experience JSON strings
+                        const education = resume.education ? JSON.parse(resume.education) : [];
+                        const workExperience = resume.work_experience ? JSON.parse(resume.work_experience) : [];
+                        
+                        return (
+                          <tr key={index}>
+                            <td>{indexOfFirstResume + index + 1}</td>
+                            <td>{resume.name || "N/A"}</td>
+                            <td>{resume.email || "N/A"}</td>
+                            <td>{resume.contact_number || "N/A"}</td>
+                            <td>{resume.address || "N/A"}</td>
+                            <td>{resume.skills || "N/A"}</td>
+                            <td>
+                              {education.length > 0 ? (
+                                <ul className="list-unstyled mb-0">
+                                  {education.map((edu, i) => (
+                                    <li key={i}>
+                                      {edu.school} - {edu.degree}
+                                    </li>
+                                  ))}
+                                </ul>
+                              ) : (
+                                "N/A"
+                              )}
+                            </td>
+                            <td>
+                              {workExperience.length > 0 ? (
+                                <ul className="list-unstyled mb-0">
+                                  {workExperience.map((exp, i) => (
+                                    <li key={i}>
+                                      <strong>{exp.company}</strong> - {exp.position}
+                                    </li>
+                                  ))}
+                                </ul>
+                              ) : (
+                                "N/A"
+                              )}
+                            </td>
+                            <td>
+                              <div className="d-flex gap-2">
+                                <Button
+                                  variant="primary"
+                                  href={`https://apiwl.novajobs.us${resume.resume_path || ""}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="shadow-sm"
+                                >
+                                  View
+                                </Button>
+                                <Button
+                                  variant="success"
+                                  onClick={() => handleBrowseCandidate(resume.id)}
+                                  className="shadow-sm d-flex align-items-center"
+                                >
+                                  <FontAwesomeIcon icon={faUserCheck} className="me-1" />
+                                  List
+                                </Button>
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })
                     ) : (
                       <tr>
-                        <td colSpan="6" className="text-center text-muted">
+                        <td colSpan="10" className="text-center text-muted">
                           No data found.
                         </td>
                       </tr>

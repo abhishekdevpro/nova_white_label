@@ -324,9 +324,9 @@ function Homepage() {
               </h2>
               <p className="m-b0" style={{ color: '#09213c', fontSize: '16px' }}>Select the plan that best fits your needs</p>
             </div>
-            <div className="row justify-content-center flex-wrap" style={{ rowGap: '24px' }}>
+            <div className="row justify-content-center pricing-row" style={{ display: 'flex', flexWrap: 'nowrap', justifyContent: 'flex-start', gap: '24px', paddingBottom: '10px', width: '100%', margin: '0 auto', overflowX: 'hidden' }}>
               {/* Freemium Plan */}
-              <div className="col-lg-4 col-md-6 col-sm-10 mb-4 d-flex align-items-stretch" style={{ minWidth: '260px' }}>
+              <div className="col-lg-4 col-md-6 col-sm-10 mb-4 d-flex align-items-stretch" style={{ flex: '1 1 22%', minWidth: '260px', maxWidth: '300px', display: 'flex', alignItems: 'stretch' }}>
                 <div className="pricing-box w-100" style={{
                   padding: '30px',
                   borderRadius: '10px',
@@ -368,7 +368,7 @@ function Homepage() {
                     </ul>
                   </div>
                   <div className="pricing-footer text-center mt-4">
-                    <Link to="/employer/register-2" className="site-button button-sm w-100" style={{ backgroundColor: '#09213c', borderColor: '#09213c', fontSize: 'clamp(1rem,2vw,1.1rem)' }}>
+                    <Link to="https://airesume.novajobs.us/settings/subscription" className="site-button button-sm w-100" style={{ backgroundColor: '#09213c', borderColor: '#09213c', fontSize: 'clamp(1rem,2vw,1.1rem)' }}>
                       Get Started
                     </Link>
                   </div>
@@ -376,7 +376,7 @@ function Homepage() {
               </div>
 
               {/* Elevate Plan */}
-              <div className="col-lg-4 col-md-6 col-sm-10 mb-4 d-flex align-items-stretch" style={{ minWidth: '260px' }}>
+              <div className="col-lg-4 col-md-6 col-sm-10 mb-4 d-flex align-items-stretch" style={{ flex: '1 1 22%', minWidth: '260px', maxWidth: '300px', display: 'flex', alignItems: 'stretch' }}>
                 <div className="pricing-box w-100" style={{
                   padding: '30px',
                   borderRadius: '10px',
@@ -417,7 +417,7 @@ function Homepage() {
                     </ul>
                   </div>
                   <div className="pricing-footer text-center mt-4">
-                    <Link to="/employer/register-2" className="site-button button-sm w-100" style={{ backgroundColor: '#09213c', borderColor: '#09213c', fontSize: 'clamp(1rem,2vw,1.1rem)' }}>
+                    <Link to="https://airesume.novajobs.us/settings/subscription" className="site-button button-sm w-100" style={{ backgroundColor: '#09213c', borderColor: '#09213c', fontSize: 'clamp(1rem,2vw,1.1rem)' }}>
                       Get Started
                     </Link>
                   </div>
@@ -425,7 +425,7 @@ function Homepage() {
               </div>
 
               {/* Pro Max Plan */}
-              <div className="col-lg-4 col-md-6 col-sm-10 mb-4 d-flex align-items-stretch" style={{ minWidth: '260px' }}>
+              <div className="col-lg-4 col-md-6 col-sm-10 mb-4 d-flex align-items-stretch" style={{ flex: '1 1 22%', minWidth: '260px', maxWidth: '300px', display: 'flex', alignItems: 'stretch' }}>
                 <div className="pricing-box w-100" style={{
                   padding: '30px',
                   borderRadius: '10px',
@@ -458,7 +458,50 @@ function Homepage() {
                     </ul>
                   </div>
                   <div className="pricing-footer text-center mt-4">
-                    <Link to="/employer/register-2" className="site-button button-sm w-100" style={{ backgroundColor: '#09213c', borderColor: '#09213c', fontSize: 'clamp(1rem,2vw,1.1rem)' }}>
+                    <Link to="https://airesume.novajobs.us/settings/subscription" className="site-button button-sm w-100" style={{ backgroundColor: '#09213c', borderColor: '#09213c', fontSize: 'clamp(1rem,2vw,1.1rem)' }}>
+                      Get Started
+                    </Link>
+                  </div>
+                </div>
+              </div>
+
+              {/* Ultra Elite Plan */}
+              <div className="col-lg-4 col-md-6 col-sm-10 mb-4 d-flex align-items-stretch" style={{ flex: '1 1 22%', minWidth: '260px', maxWidth: '300px', display: 'flex', alignItems: 'stretch' }}>
+                <div className="pricing-box w-100" style={{
+                  padding: '30px',
+                  borderRadius: '10px',
+                  boxShadow: '0 0 20px rgba(9,33,60,0.18)',
+                  transition: 'all 0.3s ease',
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  border: '2px solid #183153',
+                  backgroundColor: '#183153',
+                  color: 'white',
+                  width: '100%'
+                }}>
+                  <div className="pricing-header text-center">
+                    <h3 className="m-b0" style={{ color: 'white', fontWeight: '700', fontSize: 'clamp(1.2rem,2vw,1.5rem)' }}>Ultra Elite</h3>
+                    <div className="price" style={{ margin: '20px 0', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', gap: '6px' }}>
+                      <h2 className="m-b0" style={{ color: 'white', fontWeight: '700', fontSize: 'clamp(2rem,5vw,2.5rem)', margin: 0 }}>$98.95</h2>
+                      <span style={{ color: 'white', opacity: '0.8', fontSize: 'clamp(1rem,2vw,1.3rem)', fontWeight: 500, marginBottom: '4px' }}>/mo</span>
+                    </div>
+                  </div>
+                  <div className="pricing-features" style={{ flex: 1 }}>
+                    <ul style={{ listStyle: 'none', padding: 0 }}>
+                      <li style={{ padding: '10px 0', borderBottom: '1px solid rgba(255,255,255,0.15)' }}>
+                        <i className="fa fa-check" style={{ color: 'white', marginRight: '10px' }}></i> Everything in Pro Max
+                      </li>
+                      <li style={{ padding: '10px 0', borderBottom: '1px solid rgba(255,255,255,0.15)' }}>
+                        <i className="fa fa-check" style={{ color: 'white', marginRight: '10px' }}></i> Trainer access (as needed)
+                      </li>
+                      <li style={{ padding: '10px 0', borderBottom: '1px solid rgba(255,255,255,0.15)' }}>
+                        <i className="fa fa-check" style={{ color: 'white', marginRight: '10px' }}></i> Certification included (after course request & eligibility)
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="pricing-footer text-center mt-4">
+                    <Link to="https://airesume.novajobs.us/settings/subscription" className="site-button button-sm w-100" style={{ backgroundColor: '#0a1a36', borderColor: '#0a1a36', fontSize: 'clamp(1rem,2vw,1.1rem)', color: 'white' }}>
                       Get Started
                     </Link>
                   </div>
