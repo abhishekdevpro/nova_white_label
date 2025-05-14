@@ -119,7 +119,6 @@ function EmployeeBrowsecandidates() {
   };
 
   const getState = () => {
-    
     axios({
       method: "GET",
       url: `https://apiwl.novajobs.us/api/employeer/stats/231`,
@@ -139,8 +138,8 @@ function EmployeeBrowsecandidates() {
   };
 
   const getCities = () => {
-    if(!browseCandidateValues.state_id){
-      return
+    if (!browseCandidateValues.state_id) {
+      return;
     }
     axios({
       method: "GET",
@@ -285,7 +284,34 @@ function EmployeeBrowsecandidates() {
   const url = `${baseUrl}?${params.toString()}&page=${currentPage}&limit=${itemsPerPage}`;
   console.log(url, "this is the url");
 
-  const handleGetReq = () => {
+ const handleGetReq = (page = currentPage) => {
+    const params = new URLSearchParams()
+
+    if (browseCandidateValues.experience) {
+      params.append("experience_in_month", browseCandidateValues.experience)
+    }
+
+    if (browseCandidateValues.salary) {
+      params.append("salary_range", browseCandidateValues.salary)
+    }
+
+    if (localStorage.getItem("profession_title")) {
+      params.append("title_keywords", localStorage.getItem("profession_title"))
+    } else if (browseCandidateValues.search_input) {
+      params.append("title_keywords", browseCandidateValues.search_input)
+    }
+
+    if (selectedState) {
+      params.append("location", selectedState)
+    }
+
+    if (browseCandidateValues.education) {
+      params.append("education", browseCandidateValues.education)
+    }
+
+    const url = `${baseUrl}?${params.toString()}&page_no=${page}&page_size=${itemsPerPage}`
+    console.log(url, "this is the url")
+
     axios({
       method: "GET",
       url: url,
@@ -295,17 +321,17 @@ function EmployeeBrowsecandidates() {
     })
       .then((response) => {
         if (response.data.data) {
-          dispatch(setBrowseCandidateData(response.data.data));
-          setTotalPages(response.data.totalPages); // Adjust based on API response
-          setShowSkeleton(false);
+          dispatch(setBrowseCandidateData(response.data.data))
+          setTotalPages(Math.ceil(response.data.total_records / 5));
+          setShowSkeleton(false)
         } else {
-          dispatch(setBrowseCandidateData([]));
+          dispatch(setBrowseCandidateData([]))
         }
       })
       .catch((err) => {
-        console.log(err, "custom err");
-      });
-  };
+        console.log(err, "custom err")
+      })
+  }
 
   useEffect(() => {
     // if (localStorage.getItem("profession_title") !== null) {
@@ -318,7 +344,7 @@ function EmployeeBrowsecandidates() {
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
-    handleGetReq(); // Re-fetch the data with the new page number
+    handleGetReq(page); // Re-fetch the data with the new page number
   };
 
   const getSingleCountry = (countryId) => {
@@ -427,7 +453,7 @@ function EmployeeBrowsecandidates() {
               ) : (
                 <div className="container ">
                   <div className="row">
-                    <div className="col-xl-10">
+                    <div className="col-xl-12">
                       <div className="sticky-top">
                         {browseCandidateData ? (
                           <div className="company-info">
@@ -637,26 +663,67 @@ function EmployeeBrowsecandidates() {
                                                   {item.jobskkers_detail.degree
                                                     ? item.jobskkers_detail
                                                         .degree
-                                                    : "Bachelor's degree"}
+                                                    : "N.A"}
                                                 </p>
                                               </div>
                                               |
-                                              <div>
-                                                <p>
-                                                  {" "}
-                                                  <FontAwesomeIcon
-                                                    icon={faUniversity}
-                                                    className="mr-2"
-                                                    style={{
-                                                      color: "#1c2957",
-                                                    }}
-                                                  />
+                                              <div className="d-flex align-items-start gap-2">
+                                                <FontAwesomeIcon
+                                                  icon={faUniversity}
+                                                  className="mt-1"
+                                                  style={{
+                                                    color: "#1c2957",
+                                                    fontSize: "1.2rem",
+                                                  }}
+                                                />
+
+                                                <div>
                                                   {item.jobskkers_detail
-                                                    .education
-                                                    ? item.jobskkers_detail
+                                                    .education ? (
+                                                    JSON.parse(
+                                                      item.jobskkers_detail
                                                         .education
-                                                    : "University of South Carolina"}
-                                                </p>
+                                                    )?.map((edu, index) => (
+                                                      <div
+                                                        key={index}
+                                                        className="d-flex gap-2"
+                                                      >
+                                                        <p
+                                                          className="mb-1 fw-semibold text-dark"
+                                                          style={{
+                                                            fontSize: "1rem",
+                                                          }}
+                                                        >
+                                                          {edu.degree}
+                                                        </p>{" "}
+                                                        |
+                                                        <p
+                                                          className="mb-1 text-secondary"
+                                                          style={{
+                                                            fontSize: "0.95rem",
+                                                          }}
+                                                        >
+                                                          {edu.school}
+                                                        </p>{" "}
+                                                        |
+                                                        <p
+                                                          className="mb-0 text-muted"
+                                                          style={{
+                                                            fontSize: "0.85rem",
+                                                          }}
+                                                        >
+                                                          {edu.startYear}
+                                                          {edu.endYear &&
+                                                            ` – ${edu.endYear}`}
+                                                        </p>
+                                                      </div>
+                                                    ))
+                                                  ) : (
+                                                    <p className="mb-0 text-muted">
+                                                      N.A
+                                                    </p>
+                                                  )}
+                                                </div>
                                               </div>
                                             </div>
                                           </div>
@@ -928,7 +995,7 @@ function EmployeeBrowsecandidates() {
           >
             <button
               className="page-link"
-              onClick={() => handlePageChange(currentPage + 1)}
+               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
             >
               Next
