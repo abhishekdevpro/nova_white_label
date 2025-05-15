@@ -265,6 +265,7 @@ const ResumeList = () => {
 
       if (response.data?.status === "success") {
         toast.success("Candidate listed successfully!");
+        fetchResumes()
       } else {
         toast.error(response.data?.message || "Error listing candidate");
       }
