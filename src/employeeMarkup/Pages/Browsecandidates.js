@@ -19,7 +19,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import Header from "./../Layout/Header";
 import Footer from "../../markup/Layout/Footer";
-import { FaSave, FaSearch, FaTimes } from "react-icons/fa";
+import { FaLanguage, FaSave, FaSearch, FaTimes, FaTools } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { showToastError } from "../../utils/toastify";
@@ -35,6 +35,7 @@ import {
   setBrowseCandidateData,
   setBrowseCandidateValues,
 } from "../../store/reducers/browseCandidateSlice";
+import { Globe } from "lucide-react";
 var bnr = require("./../../images/banner/bnr1.jpg");
 const postBox = [
   { image: require("./../../images/testimonials/pic1.jpg") },
@@ -51,6 +52,8 @@ function EmployeeBrowsecandidates() {
   const [show, setShow] = useState(false);
   const [activeTab, setActiveTab] = useState("contact-info"); // Initial active tab
   const dispatch = useDispatch();
+   const [showPhone, setShowPhone] = useState(false);
+  const [showEmail, setShowEmail] = useState(false);
   const [countries, setCountries] = useState([
     {
       id: 0,
@@ -514,7 +517,7 @@ function EmployeeBrowsecandidates() {
                                               : item?.jobskkers_detail
                                                   ?.job_seeker_uuid}
                                           </h4>
-                                          <div className="d-flex align-items-center mt-1">
+                                          {/* <div className="d-flex align-items-center mt-1">
                                             <span
                                               className="text-muted"
                                               style={{
@@ -525,7 +528,7 @@ function EmployeeBrowsecandidates() {
                                             >
                                               {item?.jobskkers_detail?.email}
                                             </span>
-                                          </div>
+                                          </div> */}
                                         </div>
                                         <div>
                                           <Link
@@ -765,6 +768,22 @@ function EmployeeBrowsecandidates() {
 
                                             return (
                                               <>
+                                                <p
+                                                  style={{
+                                                    fontSize: "15px",
+                                                    fontWeight: "500",
+                                                    color: "#1c2957",
+                                                    fontFamily:
+                                                      "'Poppins', sans-serif",
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    gap: "6px",
+                                                  }}
+                                                >
+                                                  <FaLanguage size={16} />
+                                                  Language :
+                                                </p>
+
                                                 {displayedLanguages.map(
                                                   (lang, index) => (
                                                     <span
@@ -817,54 +836,7 @@ function EmployeeBrowsecandidates() {
                                       </div>
 
                                       {/* Skills Section */}
-                                      {/* <div className="candidate-skills">
-                                        <div className="d-flex flex-wrap gap-2">
-                                          {item?.jobskkers_detail?.skills_arr
-                                            ?.slice(0, 5)
-                                            .map((skill, skillIndex) => (
-                                              <span
-                                                key={skillIndex}
-                                                className="skill-badge"
-                                                style={{
-                                                  backgroundColor: "#f0f5f7",
-                                                  color: "#1c2957",
-                                                  padding: "4px 12px",
-                                                  borderRadius: "20px",
-                                                  fontSize: "12px",
-                                                  fontWeight: "500",
-                                                  display: "inline-block",
-                                                  marginBottom: "6px",
-                                                  fontFamily:
-                                                    "'Poppins', sans-serif",
-                                                }}
-                                              >
-                                                {skill}
-                                              </span>
-                                            ))}
-                                          {item?.jobskkers_detail?.skills_arr
-                                            ?.length > 5 && (
-                                            <span
-                                              className="skill-badge"
-                                              style={{
-                                                backgroundColor: "#e9ecef",
-                                                color: "#495057",
-                                                padding: "4px 12px",
-                                                borderRadius: "20px",
-                                                fontSize: "12px",
-                                                fontWeight: "500",
-                                                display: "inline-block",
-                                                fontFamily:
-                                                  "'Poppins', sans-serif",
-                                              }}
-                                            >
-                                              +
-                                              {item?.jobskkers_detail
-                                                ?.skills_arr?.length - 5}{" "}
-                                              more
-                                            </span>
-                                          )}
-                                        </div>
-                                      </div> */}
+
                                       <div className="candidate-skills">
                                         <div className="d-flex flex-wrap gap-2">
                                           {(() => {
@@ -890,13 +862,29 @@ function EmployeeBrowsecandidates() {
 
                                             // Show first 5 skills
                                             const displayedSkills =
-                                              allSkills.slice(0);
+                                              allSkills.slice(0, 5);
                                             const remainingCount =
                                               allSkills.length -
                                               displayedSkills.length;
 
                                             return (
                                               <>
+                                                <p
+                                                  style={{
+                                                    fontSize: "15px",
+                                                    fontWeight: "500",
+                                                    color: "#1c2957",
+                                                    fontFamily:
+                                                      "'Poppins', sans-serif",
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    gap: "6px",
+                                                  }}
+                                                >
+                                                  <FaTools size={16} />
+                                                  Skills :
+                                                </p>
+
                                                 {displayedSkills.map(
                                                   (skill, index) => (
                                                     <span
@@ -943,6 +931,48 @@ function EmployeeBrowsecandidates() {
                                             );
                                           })()}
                                         </div>
+                                      </div>
+
+                                      <div className="d-flex gap-3">
+                                        {/* View Phone Button */}
+                                        <button
+                                          onClick={() =>
+                                            setShowPhone(!showPhone)
+                                          }
+                                          className="btn btn-primary btn-sm"
+                                          style={{
+                                            backgroundColor: "#1c2957",
+                                            border: "none",
+                                            borderRadius: "4px",
+                                            padding: "6px 16px",
+                                            fontWeight: "500",
+                                            fontSize: "14px",
+                                          }}
+                                        >
+                                          {showPhone
+                                            ? item?.jobskkers_detail
+                                                  ?.phone
+                                            : "View Phone Number"}
+                                        </button>
+
+                                        {/* View Email Button */}
+                                        <button
+                                          onClick={() =>
+                                            setShowEmail(!showEmail)
+                                          }
+                                          className="btn btn-primary btn-sm"
+                                          style={{
+                                            backgroundColor: "#1c2957",
+                                            border: "none",
+                                            borderRadius: "4px",
+                                            padding: "6px 16px",
+                                            fontWeight: "500",
+                                            fontSize: "14px",
+                                          }}
+                                        >
+                                          {showEmail ? item?.jobskkers_detail
+                                                  ?.email : "View Email"}
+                                        </button>
                                       </div>
 
                                       {/* Activity Status */}
