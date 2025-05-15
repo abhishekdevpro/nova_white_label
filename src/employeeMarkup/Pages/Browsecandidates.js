@@ -11,6 +11,9 @@ import {
   faGraduationCap,
   faUniversity,
   faBriefcase,
+  faClockRotateLeft,
+  faDollarSign,
+  faUserTie,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { Link, useNavigate } from "react-router-dom";
@@ -284,33 +287,33 @@ function EmployeeBrowsecandidates() {
   const url = `${baseUrl}?${params.toString()}&page=${currentPage}&limit=${itemsPerPage}`;
   console.log(url, "this is the url");
 
- const handleGetReq = (page = currentPage) => {
-    const params = new URLSearchParams()
+  const handleGetReq = (page = currentPage) => {
+    const params = new URLSearchParams();
 
     if (browseCandidateValues.experience) {
-      params.append("experience_in_month", browseCandidateValues.experience)
+      params.append("experience_in_month", browseCandidateValues.experience);
     }
 
     if (browseCandidateValues.salary) {
-      params.append("salary_range", browseCandidateValues.salary)
+      params.append("salary_range", browseCandidateValues.salary);
     }
 
     if (localStorage.getItem("profession_title")) {
-      params.append("title_keywords", localStorage.getItem("profession_title"))
+      params.append("title_keywords", localStorage.getItem("profession_title"));
     } else if (browseCandidateValues.search_input) {
-      params.append("title_keywords", browseCandidateValues.search_input)
+      params.append("title_keywords", browseCandidateValues.search_input);
     }
 
     if (selectedState) {
-      params.append("location", selectedState)
+      params.append("location", selectedState);
     }
 
     if (browseCandidateValues.education) {
-      params.append("education", browseCandidateValues.education)
+      params.append("education", browseCandidateValues.education);
     }
 
-    const url = `${baseUrl}?${params.toString()}&page_no=${page}&page_size=${itemsPerPage}`
-    console.log(url, "this is the url")
+    const url = `${baseUrl}?${params.toString()}&page_no=${page}&page_size=${itemsPerPage}&is_browse_candidate=1`;
+    console.log(url, "this is the url");
 
     axios({
       method: "GET",
@@ -321,17 +324,17 @@ function EmployeeBrowsecandidates() {
     })
       .then((response) => {
         if (response.data.data) {
-          dispatch(setBrowseCandidateData(response.data.data))
+          dispatch(setBrowseCandidateData(response.data.data));
           setTotalPages(Math.ceil(response.data.total_records / 5));
-          setShowSkeleton(false)
+          setShowSkeleton(false);
         } else {
-          dispatch(setBrowseCandidateData([]))
+          dispatch(setBrowseCandidateData([]));
         }
       })
       .catch((err) => {
-        console.log(err, "custom err")
-      })
-  }
+        console.log(err, "custom err");
+      });
+  };
 
   useEffect(() => {
     // if (localStorage.getItem("profession_title") !== null) {
@@ -443,7 +446,7 @@ function EmployeeBrowsecandidates() {
           </div>
         </div>
 
-        {browseCandidateData ? (
+        {browseCandidateData.length !== 0 ? (
           <div className="content-block ">
             <div className="section-full bg-white browse-job p-b50">
               {showSkeleton === true ? (
@@ -457,504 +460,529 @@ function EmployeeBrowsecandidates() {
                       <div className="sticky-top">
                         {browseCandidateData ? (
                           <div className="company-info">
-                            <ul className="post-job-bx browse-job ">
+                            <ul className="post-job-bx browse-job">
                               {browseCandidateData.map((item, index) => (
-                                <li>
-                                  <div key={index}>
-                                    <li>
-                                      {/* <Link
-                                        to="#"
-                                        // onClick={() => handleSelectJob(item)}
-                                      > */}
-                                      <div className="post-bx d-flex mb-3">
-                                        <div className="job-post-company ">
-                                          <span>
-                                            <img
-                                              src={require("./../../images/logo/icon1.png")}
-                                              alt=""
-                                            />
-                                          </span>
+                                <li key={index} className="candidate-card">
+                                  <div className="post-bx d-flex mb-3 position-relative">
+                                    {/* Profile Image */}
+                                    <div className="job-post-company">
+                                      <span>
+                                        <img
+                                          src={
+                                            item?.jobskkers_detail.photo &&
+                                            item?.jobskkers_detail.photo !==
+                                              "https://apiwl.novajobs.us"
+                                              ? item?.jobskkers_detail.photo
+                                              : "https://t3.ftcdn.net/jpg/06/33/54/78/360_F_633547842_AugYzexTpMJ9z1YcpTKUBoqBF0CUCk10.jpg"
+                                          }
+                                          alt="jobseeker_image"
+                                          className="rounded-circle"
+                                          style={{
+                                            width: "70px",
+                                            height: "70px",
+                                            objectFit: "cover",
+                                            border: "2px solid #eaeaea",
+                                          }}
+                                        />
+                                      </span>
+                                    </div>
+
+                                    {/* Candidate Info */}
+                                    <div
+                                      className="job-post-info ps-3 w-100"
+                                      style={{
+                                        fontFamily: "'Poppins', sans-serif",
+                                      }}
+                                    >
+                                      {/* Candidate Name/ID */}
+                                      <div className="d-flex justify-content-between align-items-center mb-2">
+                                        <div>
+                                          <h4
+                                            className="candidate-name mb-0"
+                                            style={{
+                                              fontWeight: "600",
+                                              fontSize: "18px",
+                                              color: "#1c2957",
+                                              fontFamily:
+                                                "'Poppins', sans-serif",
+                                            }}
+                                          >
+                                            {item?.jobskkers_detail
+                                              ?.first_name &&
+                                            item?.jobskkers_detail?.last_name
+                                              ? `${item?.jobskkers_detail?.first_name} ${item?.jobskkers_detail?.last_name}`
+                                              : item?.jobskkers_detail
+                                                  ?.job_seeker_uuid}
+                                          </h4>
+                                          <div className="d-flex align-items-center mt-1">
+                                            <span
+                                              className="text-muted"
+                                              style={{
+                                                fontSize: "13px",
+                                                fontFamily:
+                                                  "'Poppins', sans-serif",
+                                              }}
+                                            >
+                                              {item?.jobskkers_detail?.email}
+                                            </span>
+                                          </div>
                                         </div>
-                                        <div className="job-post-info ">
-                                          <div
-                                            className="text-black mb-2"
-                                            style={{
-                                              fontWeight: "700",
-                                              fontSize: "25px",
-                                              cursor: "pointer",
-                                            }}
-                                            key={index}
-                                            // onClick={() =>
-                                            //   navigate(
-                                            //     `/employer/profilepage/${item?.jobskkers_detail?.id}`
-                                            //   )
-                                            // }
-                                          >
-                                            {/* {item.jobskkers_detail
-                                                .proffesional_title ||
-                                                (item.jobskkers_detail
-                                                  .last_name && (
-                                                  <p>
-                                                    {
-                                                      item.jobskkers_detail
-                                                        .proffesional_title
-                                                    }{" "}
-                                                    {
-                                                      item.jobskkers_detail
-                                                        .last_name
-                                                    }
-                                                  </p>
-                                                ))} */}
-                                            {item.jobskkers_detail.first_name &&
-                                              item.jobskkers_detail
-                                                .last_name && (
-                                                <p>
-                                                  {
-                                                    item.jobskkers_detail
-                                                      .job_seeker_uuid
-                                                  }{" "}
-                                                  {/* {
-                                                    item.jobskkers_detail
-                                                      .last_name
-                                                  } */}
-                                                </p>
-                                              )}
-                                          </div>
-
-                                          <div
-                                            className="gap-0 align-items-center joblist d-flex gap-4 text-black "
-                                            style={{
-                                              gap: "0px",
-                                              height: "auto",
-                                              fontSize: "15px",
-                                            }}
-                                          >
-                                            <div
-                                              className="d-flex"
-                                              style={{
-                                                justifyContent: "start",
-                                                gap: "10px",
-                                              }}
-                                            >
-                                              <div>
-                                                <p>
-                                                  <FontAwesomeIcon
-                                                    icon={faBriefcase}
-                                                    className="mr-2"
-                                                    style={{
-                                                      color: "#1c2957",
-                                                    }}
-                                                  />{" "}
-                                                  {item.jobskkers_detail
-                                                    .proffesional_title
-                                                    ? item.jobskkers_detail
-                                                        .proffesional_title
-                                                    : "Data Coordination and Resilience Intern"}
-                                                </p>
-                                              </div>
-                                              |
-                                              <div>
-                                                <Link
-                                                  to={`${item?.jobskkers_detail?.company_linkedin_link}`}
-                                                >
-                                                  <p>
-                                                    {" "}
-                                                    <FontAwesomeIcon
-                                                      icon={faIndustry}
-                                                      className="mr-2"
-                                                      style={{
-                                                        color: "#1c2957",
-                                                      }}
-                                                    />
-                                                    {item.jobskkers_detail
-                                                      .industry_name
-                                                      ? item.jobskkers_detail
-                                                          .industry_name
-                                                      : "Government Administration"}
-                                                  </p>
-                                                </Link>
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <div className="d-flex  joblist mb-4">
-                                            <div>
-                                              {item.jobskkers_detail.cities
-                                                .id && (
-                                                <p
-                                                  style={{
-                                                    margin: "0px",
-                                                    color: "black",
-                                                  }}
-                                                >
-                                                  <FontAwesomeIcon
-                                                    icon={faMapMarkerAlt}
-                                                    className="mr-2"
-                                                    style={{
-                                                      color: "#1c2957",
-                                                    }}
-                                                  />
-                                                  {
-                                                    item?.jobskkers_detail
-                                                      ?.cities?.name
-                                                  }
-                                                </p>
-                                              )}
-                                            </div>
-                                            ,
-                                            <div>
-                                              {item.jobskkers_detail.states
-                                                .id && (
-                                                <p
-                                                  style={{
-                                                    margin: "0px",
-                                                    color: "black",
-                                                  }}
-                                                >
-                                                  {
-                                                    item?.jobskkers_detail
-                                                      ?.states?.name
-                                                  }
-                                                </p>
-                                              )}
-                                            </div>
-                                            ,{" "}
-                                            <div>
-                                              {item.jobskkers_detail.countries
-                                                .id && (
-                                                <p
-                                                  style={{
-                                                    margin: "0px",
-                                                    color: "black",
-                                                  }}
-                                                >
-                                                  {
-                                                    item?.jobskkers_detail
-                                                      ?.countries?.name
-                                                  }
-                                                </p>
-                                              )}
-                                            </div>{" "}
-                                          </div>
-                                          <div
-                                            className="gap-0 align-items-center joblist d-flex gap-4 text-black "
-                                            style={{
-                                              gap: "0px",
-                                              height: "auto",
-                                              fontSize: "15px",
-                                            }}
-                                          >
-                                            <div
-                                              className="d-flex"
-                                              style={{
-                                                justifyContent: "start",
-                                                gap: "10px",
-                                              }}
-                                            >
-                                              <div>
-                                                <p>
-                                                  {" "}
-                                                  <FontAwesomeIcon
-                                                    icon={faGraduationCap}
-                                                    className="mr-2"
-                                                    style={{
-                                                      color: "#1c2957",
-                                                    }}
-                                                  />
-                                                  {item.jobskkers_detail.degree
-                                                    ? item.jobskkers_detail
-                                                        .degree
-                                                    : "N.A"}
-                                                </p>
-                                              </div>
-                                              |
-                                              <div className="d-flex align-items-start gap-2">
-                                                <FontAwesomeIcon
-                                                  icon={faUniversity}
-                                                  className="mt-1"
-                                                  style={{
-                                                    color: "#1c2957",
-                                                    fontSize: "1.2rem",
-                                                  }}
-                                                />
-
-                                                <div>
-                                                  {item.jobskkers_detail
-                                                    .education ? (
-                                                    JSON.parse(
-                                                      item.jobskkers_detail
-                                                        .education
-                                                    )?.map((edu, index) => (
-                                                      <div
-                                                        key={index}
-                                                        className="d-flex gap-2"
-                                                      >
-                                                        <p
-                                                          className="mb-1 fw-semibold text-dark"
-                                                          style={{
-                                                            fontSize: "1rem",
-                                                          }}
-                                                        >
-                                                          {edu.degree}
-                                                        </p>{" "}
-                                                        |
-                                                        <p
-                                                          className="mb-1 text-secondary"
-                                                          style={{
-                                                            fontSize: "0.95rem",
-                                                          }}
-                                                        >
-                                                          {edu.school}
-                                                        </p>{" "}
-                                                        |
-                                                        <p
-                                                          className="mb-0 text-muted"
-                                                          style={{
-                                                            fontSize: "0.85rem",
-                                                          }}
-                                                        >
-                                                          {edu.startYear}
-                                                          {edu.endYear &&
-                                                            ` – ${edu.endYear}`}
-                                                        </p>
-                                                      </div>
-                                                    ))
-                                                  ) : (
-                                                    <p className="mb-0 text-muted">
-                                                      N.A
-                                                    </p>
-                                                  )}
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                          {/* <div
-                                              className="gap-0 align-items-center joblist d-flex gap-4 text-black mb-2"
-                                              style={{
-                                                gap: "0px",
-                                                height: "auto",
-                                                fontSize: "15px",
-                                              }}
-                                            >
-                                              <div
-                                                className="d-flex"
-                                                style={{
-                                                  justifyContent: "start",
-                                                  gap: "10px",
-                                                }}
-                                              >
-                                                <div className="d-flex">
-                                                  <div>
-                                                    {item.jobskkers_detail
-                                                      .cities.id && (
-                                                      <p
-                                                        style={{
-                                                          margin: "0px",
-                                                          color: "black",
-                                                        }}
-                                                      >
-                                                        <FontAwesomeIcon
-                                                          icon={faMapMarkerAlt}
-                                                          className="mr-2"
-                                                          style={{
-                                                            color: "#1c2957",
-                                                          }}
-                                                        />
-                                                        {
-                                                          item?.jobskkers_detail
-                                                            ?.cities?.name
-                                                        }
-                                                      </p>
-                                                    )}
-                                                  </div>
-                                                  ,
-                                                  <div>
-                                                    {item.jobskkers_detail
-                                                      .states.id && (
-                                                      <p
-                                                        style={{
-                                                          margin: "0px",
-                                                          color: "black",
-                                                        }}
-                                                      >
-                                                        {
-                                                          item?.jobskkers_detail
-                                                            ?.states?.name
-                                                        }
-                                                      </p>
-                                                    )}
-                                                  </div>
-                                                  ,{" "}
-                                                  <div>
-                                                    {item.jobskkers_detail
-                                                      .countries.id && (
-                                                      <p
-                                                        style={{
-                                                          margin: "0px",
-                                                          color: "black",
-                                                        }}
-                                                      >
-                                                        {
-                                                          item?.jobskkers_detail
-                                                            ?.countries?.name
-                                                        }
-                                                      </p>
-                                                    )}
-                                                  </div>{" "}
-                                                </div>
-                                                |
-                                                <div className="salary-bx">
-                                                  <p
-                                                    style={{
-                                                      margin: "0px",
-                                                      color: "black",
-                                                    }}
-                                                  >
-                                                    <FontAwesomeIcon
-                                                      icon={faMoneyBill}
-                                                      className="mr-2"
-                                                      style={{
-                                                        color: "#1c2957",
-                                                      }}
-                                                    />
-
-                                                    {item.jobskkers_detail
-                                                      .expected_salary
-                                                      ? item.jobskkers_detail
-                                                          .expected_salary
-                                                      : "$99 / hour"}
-                                                  </p>
-                                                </div>
-                                              </div>
-
-                                              <div>
-                                                {item.jobskkers_detail
-                                                  .ai_resume_parse_data
-                                                  .jobsMyResumeData
-                                                  .desiredCareerProfile
-                                                  .employmentType && (
-                                                  <p
-                                                    style={{
-                                                      margin: "0px",
-                                                      color: "black",
-                                                    }}
-                                                  >
-                                                    <FontAwesomeIcon
-                                                      icon={faEnvelope}
-                                                      className="mr-2 "
-                                                      style={{
-                                                        color: "#1c2957",
-                                                      }}
-                                                    />
-                                                    {
-                                                      item.jobskkers_detail
-                                                        .ai_resume_parse_data
-                                                        .jobsMyResumeData
-                                                        .desiredCareerProfile
-                                                        .employmentType
-                                                    }
-                                                  </p>
-                                                )}
-                                              </div>
-                                            </div> */}
-                                          <div className="mb-4">
-                                            {item.jobskkers_detail
-                                              .created_at && (
-                                              <p
-                                                style={{
-                                                  margin: "0px",
-                                                  fontWeight: "600",
-                                                  color: "black",
-                                                }}
-                                              >
-                                                <FontAwesomeIcon
-                                                  icon={faCalendarAlt}
-                                                  className="mr-2"
-                                                  style={{ color: "#1c2957" }}
-                                                />
-                                                Published{" "}
-                                                {moment(
-                                                  item.jobskkers_detail
-                                                    .created_at
-                                                ).fromNow()}
-                                              </p>
-                                            )}
-                                          </div>
-                                          <div className="">
-                                            {item.jobskkers_detail
-                                              .skills_arr ? (
-                                              <div className="row mt-3 ">
-                                                {item.jobskkers_detail.skills_arr.map(
-                                                  (skill, index) => (
-                                                    <div
-                                                      className="col-3 col-md-3 mb-1 text-break "
-                                                      key={index}
-                                                    >
-                                                      <span
-                                                        className="badge badge-info p-2"
-                                                        style={{
-                                                          backgroundColor:
-                                                            "#f0f5f7",
-                                                          borderRadius: "100px",
-                                                          padding: "5px 15px",
-                                                          color: "dimgray",
-                                                        }}
-                                                      >
-                                                        {skill}
-                                                      </span>
-                                                    </div>
-                                                  )
-                                                )}
-                                              </div>
-                                            ) : null}
-                                          </div>
-                                          <label className="like-btn">
-                                            <input type="checkbox" />
-                                            <span className="checkmark"></span>
-                                          </label>
+                                        <div>
                                           <Link
-                                            to={`${item?.jobskkers_detail?.linkedin_link}`}
+                                            to={`${
+                                              item?.jobskkers_detail
+                                                ?.linkedin_link || "#"
+                                            }`}
                                           >
-                                            <div
+                                            <button
+                                              className="site-button btn btn-primary btn-sm"
                                               style={{
-                                                position: "absolute",
-                                                right: "20px",
-                                                top: "70px",
+                                                backgroundColor: "#1c2957",
+                                                border: "none",
+                                                borderRadius: "4px",
+                                                padding: "6px 16px",
+                                                fontFamily:
+                                                  "'Poppins', sans-serif",
+                                                fontWeight: "500",
+                                                fontSize: "14px",
                                               }}
                                             >
-                                              <button
-                                                className="site-button btn btn-primary"
-                                                // onClick={handleShow}
-                                              >
-                                                View
-                                              </button>
-                                            </div>
+                                              View Profile
+                                            </button>
                                           </Link>
-
-                                          <div className="d-flex mt-3">
-                                            <div
-                                              className="d-flex align-items-center "
-                                              style={{ gap: "7px" }}
-                                            >
-                                              <div className="salary-bx">
-                                                {/* <span>
-                                                  {
-                                                    item?.jobskkers_detail
-                                                      ?.expected_salary
-                                                  }
-                                                </span> */}
-                                              </div>
-                                            </div>
-                                          </div>
                                         </div>
                                       </div>
-                                      {/* </Link> */}
-                                    </li>
-                                  </div>{" "}
+
+                                      {/* Current Role Info */}
+                                      <div className="d-flex flex-wrap mb-3">
+                                        <div className="candidate-role-info d-flex align-items-center me-4">
+                                          <FontAwesomeIcon
+                                            icon={faBriefcase}
+                                            className="me-2"
+                                            style={{
+                                              color: "#6c757d",
+                                              fontSize: "14px",
+                                            }}
+                                          />
+                                          <span
+                                            style={{
+                                              fontSize: "14px",
+                                              color: "#444",
+                                              fontFamily:
+                                                "'Poppins', sans-serif",
+                                              fontWeight: "400",
+                                            }}
+                                          >
+                                            {item?.jobskkers_detail
+                                              ?.job_title || "N/A"}
+                                          </span>
+                                        </div>
+
+                                        {/* <div className="candidate-experience d-flex align-items-center me-4">
+                                          <FontAwesomeIcon
+                                            icon={faCalendarAlt}
+                                            className="me-2"
+                                            style={{
+                                              color: "#6c757d",
+                                              fontSize: "14px",
+                                            }}
+                                          />
+                                          <span
+                                            style={{
+                                              fontSize: "14px",
+                                              color: "#444",
+                                              fontFamily:
+                                                "'Poppins', sans-serif",
+                                              fontWeight: "400",
+                                            }}
+                                          >
+                                            {item?.jobskkers_detail
+                                              ?.experience_in_month || "N/A"}
+                                          </span>
+                                        </div>
+                                        <div className="candidate-experience d-flex align-items-center me-4">
+                                          <FontAwesomeIcon
+                                            icon={faDollarSign}
+                                            className="me-2"
+                                            style={{
+                                              color: "#6c757d",
+                                              fontSize: "14px",
+                                            }}
+                                          />
+                                          <span
+                                            style={{
+                                              fontSize: "14px",
+                                              color: "#444",
+                                              fontFamily:
+                                                "'Poppins', sans-serif",
+                                              fontWeight: "400",
+                                            }}
+                                          >
+                                            {item?.jobskkers_detail
+                                              ?.current_salary || "N/A"}
+                                          </span>
+                                        </div> */}
+
+                                        <div className="candidate-location d-flex align-items-center">
+                                          <FontAwesomeIcon
+                                            icon={faMapMarkerAlt}
+                                            className="me-2"
+                                            style={{
+                                              color: "#6c757d",
+                                              fontSize: "14px",
+                                            }}
+                                          />
+                                          <span
+                                            style={{
+                                              fontSize: "14px",
+                                              color: "#444",
+                                              fontFamily:
+                                                "'Poppins', sans-serif",
+                                              fontWeight: "400",
+                                            }}
+                                          >
+                                            {item?.jobskkers_detail
+                                              ?.current_location
+                                              ? item?.jobskkers_detail
+                                                  ?.current_location
+                                              : "Location N/A"}
+                                          </span>
+                                        </div>
+                                      </div>
+
+                                      {/* Education */}
+                                      <div className="candidate-education mb-3">
+                                        {item?.jobskkers_detail?.education && (
+                                          <div className="education-details">
+                                            {JSON.parse(
+                                              item.jobskkers_detail.education
+                                            )
+                                              .slice(0, 1)
+                                              .map((edu, eduIndex) => (
+                                                <div
+                                                  key={eduIndex}
+                                                  style={{
+                                                    fontSize: "14px",
+                                                    color: "#444",
+                                                    fontFamily:
+                                                      "'Poppins', sans-serif",
+                                                  }}
+                                                >
+                                                  <div className="d-flex align-items-center mb-2">
+                                                    <FontAwesomeIcon
+                                                      icon={faGraduationCap}
+                                                      className="me-2"
+                                                      style={{
+                                                        fontSize: "16px",
+                                                        color: "#6c757d",
+                                                      }}
+                                                    />
+                                                    <span
+                                                      style={{
+                                                        fontSize: "15px",
+                                                        fontWeight: "500",
+                                                        color: "#1c2957",
+                                                        fontFamily:
+                                                          "'Poppins', sans-serif",
+                                                      }}
+                                                    >
+                                                      {edu.degree ||
+                                                        "BE/B.Tech"}
+                                                    </span>
+                                                  </div>
+                                                  <div
+                                                    className="fw-semibold"
+                                                    style={{
+                                                      fontSize: "14px",
+                                                      color: "#444",
+                                                      fontFamily:
+                                                        "'Poppins', sans-serif",
+                                                      fontWeight: "500",
+                                                    }}
+                                                  >
+                                                    {edu.school}
+                                                  </div>
+                                                  {edu.city1 && (
+                                                    <div
+                                                      className="text-muted"
+                                                      style={{
+                                                        fontSize: "13px",
+                                                        color: "#6c757d",
+                                                        fontFamily:
+                                                          "'Poppins', sans-serif",
+                                                        fontWeight: "400",
+                                                      }}
+                                                    >
+                                                      {edu.city1}
+                                                    </div>
+                                                  )}
+                                                  {(edu.startYear ||
+                                                    edu.endYear) && (
+                                                    <div
+                                                      className="text-muted"
+                                                      style={{
+                                                        fontSize: "13px",
+                                                        color: "#6c757d",
+                                                        fontFamily:
+                                                          "'Poppins', sans-serif",
+                                                        fontWeight: "400",
+                                                      }}
+                                                    >
+                                                      {edu.startYear} –{" "}
+                                                      {edu.endYear || "Present"}
+                                                    </div>
+                                                  )}
+                                                </div>
+                                              ))}
+                                          </div>
+                                        )}
+                                      </div>
+                                      {/* Langiuage section */}
+
+                                      <div className="candidate-languages mb-3">
+                                        <div className="d-flex flex-wrap gap-2">
+                                          {(() => {
+                                            // Safely parse the JSON string
+                                            let parsedLanguages = [];
+                                            try {
+                                              parsedLanguages = JSON.parse(
+                                                item?.jobskkers_detail
+                                                  ?.languages || "[]"
+                                              );
+                                            } catch (e) {
+                                              console.error(
+                                                "Invalid languages JSON:",
+                                                e
+                                              );
+                                            }
+
+                                            // Get first 5 languages
+                                            const displayedLanguages =
+                                              parsedLanguages.slice(0);
+                                            const remainingCount =
+                                              parsedLanguages.length -
+                                              displayedLanguages.length;
+
+                                            return (
+                                              <>
+                                                {displayedLanguages.map(
+                                                  (lang, index) => (
+                                                    <span
+                                                      key={index}
+                                                      className="language-badge"
+                                                      style={{
+                                                        backgroundColor:
+                                                          "#f0f5f7",
+                                                        color: "#1c2957",
+                                                        padding: "4px 12px",
+                                                        borderRadius: "20px",
+                                                        fontSize: "12px",
+                                                        fontWeight: "500",
+                                                        display: "inline-block",
+                                                        marginBottom: "6px",
+                                                        fontFamily:
+                                                          "'Poppins', sans-serif",
+                                                      }}
+                                                    >
+                                                      {lang.language}
+                                                      {lang.proficiency
+                                                        ? ` (${lang.proficiency})`
+                                                        : ""}
+                                                    </span>
+                                                  )
+                                                )}
+                                                {remainingCount > 0 && (
+                                                  <span
+                                                    className="language-badge"
+                                                    style={{
+                                                      backgroundColor:
+                                                        "#e9ecef",
+                                                      color: "#495057",
+                                                      padding: "4px 12px",
+                                                      borderRadius: "20px",
+                                                      fontSize: "12px",
+                                                      fontWeight: "500",
+                                                      display: "inline-block",
+                                                      fontFamily:
+                                                        "'Poppins', sans-serif",
+                                                    }}
+                                                  >
+                                                    +{remainingCount} more
+                                                  </span>
+                                                )}
+                                              </>
+                                            );
+                                          })()}
+                                        </div>
+                                      </div>
+
+                                      {/* Skills Section */}
+                                      {/* <div className="candidate-skills">
+                                        <div className="d-flex flex-wrap gap-2">
+                                          {item?.jobskkers_detail?.skills_arr
+                                            ?.slice(0, 5)
+                                            .map((skill, skillIndex) => (
+                                              <span
+                                                key={skillIndex}
+                                                className="skill-badge"
+                                                style={{
+                                                  backgroundColor: "#f0f5f7",
+                                                  color: "#1c2957",
+                                                  padding: "4px 12px",
+                                                  borderRadius: "20px",
+                                                  fontSize: "12px",
+                                                  fontWeight: "500",
+                                                  display: "inline-block",
+                                                  marginBottom: "6px",
+                                                  fontFamily:
+                                                    "'Poppins', sans-serif",
+                                                }}
+                                              >
+                                                {skill}
+                                              </span>
+                                            ))}
+                                          {item?.jobskkers_detail?.skills_arr
+                                            ?.length > 5 && (
+                                            <span
+                                              className="skill-badge"
+                                              style={{
+                                                backgroundColor: "#e9ecef",
+                                                color: "#495057",
+                                                padding: "4px 12px",
+                                                borderRadius: "20px",
+                                                fontSize: "12px",
+                                                fontWeight: "500",
+                                                display: "inline-block",
+                                                fontFamily:
+                                                  "'Poppins', sans-serif",
+                                              }}
+                                            >
+                                              +
+                                              {item?.jobskkers_detail
+                                                ?.skills_arr?.length - 5}{" "}
+                                              more
+                                            </span>
+                                          )}
+                                        </div>
+                                      </div> */}
+                                      <div className="candidate-skills">
+                                        <div className="d-flex flex-wrap gap-2">
+                                          {(() => {
+                                            // Safely parse the JSON string
+                                            let parsedSkills = [];
+                                            try {
+                                              parsedSkills = JSON.parse(
+                                                item?.jobskkers_detail
+                                                  ?.skills || "[]"
+                                              );
+                                            } catch (e) {
+                                              console.error(
+                                                "Invalid skills_arr JSON:",
+                                                e
+                                              );
+                                            }
+
+                                            // Flatten all skills into one array
+                                            const allSkills =
+                                              parsedSkills.flatMap(
+                                                (group) => group.skills || []
+                                              );
+
+                                            // Show first 5 skills
+                                            const displayedSkills =
+                                              allSkills.slice(0);
+                                            const remainingCount =
+                                              allSkills.length -
+                                              displayedSkills.length;
+
+                                            return (
+                                              <>
+                                                {displayedSkills.map(
+                                                  (skill, index) => (
+                                                    <span
+                                                      key={index}
+                                                      className="skill-badge"
+                                                      style={{
+                                                        backgroundColor:
+                                                          "#f0f5f7",
+                                                        color: "#1c2957",
+                                                        padding: "4px 12px",
+                                                        borderRadius: "20px",
+                                                        fontSize: "12px",
+                                                        fontWeight: "500",
+                                                        display: "inline-block",
+                                                        marginBottom: "6px",
+                                                        fontFamily:
+                                                          "'Poppins', sans-serif",
+                                                      }}
+                                                    >
+                                                      {skill}
+                                                    </span>
+                                                  )
+                                                )}
+                                                {remainingCount > 0 && (
+                                                  <span
+                                                    className="skill-badge"
+                                                    style={{
+                                                      backgroundColor:
+                                                        "#e9ecef",
+                                                      color: "#495057",
+                                                      padding: "4px 12px",
+                                                      borderRadius: "20px",
+                                                      fontSize: "12px",
+                                                      fontWeight: "500",
+                                                      display: "inline-block",
+                                                      fontFamily:
+                                                        "'Poppins', sans-serif",
+                                                    }}
+                                                  >
+                                                    +{remainingCount} more
+                                                  </span>
+                                                )}
+                                              </>
+                                            );
+                                          })()}
+                                        </div>
+                                      </div>
+
+                                      {/* Activity Status */}
+                                      <div className="candidate-activity mt-3">
+                                        <div className="d-flex align-items-center">
+                                          <span
+                                            style={{
+                                              fontSize: "13px",
+                                              color: "#777",
+                                              fontFamily:
+                                                "'Poppins', sans-serif",
+                                              fontWeight: "400",
+                                            }}
+                                          >
+                                            <FontAwesomeIcon
+                                              icon={faClockRotateLeft}
+                                              className="me-1"
+                                              style={{
+                                                color: "#6c757d",
+                                                fontSize: "12px",
+                                              }}
+                                            />
+                                            Active{" "}
+                                            {moment(
+                                              item?.jobskkers_detail?.created_at
+                                            ).fromNow()}
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
                                 </li>
                               ))}
                             </ul>
                           </div>
-                        ) : null}
+                        ) : (
+                          <div className="company-info">
+                            <p>No data found</p>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -995,7 +1023,7 @@ function EmployeeBrowsecandidates() {
           >
             <button
               className="page-link"
-               onClick={() => handlePageChange(currentPage + 1)}
+              onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
             >
               Next

@@ -22,6 +22,7 @@ import {
   FaRegUser,
   FaStar,
 } from "react-icons/fa";
+import PricingSection from "./Components/PricingSection";
 
 // Images
 var bnr2 = require("./../../images/background/bg4.jpg");
@@ -298,9 +299,9 @@ function Homepage() {
         </div>
         {/* <Featureblog /> */}
         <Jobsection />
-        
+         <PricingSection />
         {/* Pricing Plans Section */}
-        <div className="section-full p-tb70 bg-white">
+        {/* <div className="section-full p-tb70 bg-white">
           <div className="container">
             <div className="section-head text-center">
               <h2 className="m-b5" style={{ 
@@ -325,7 +326,7 @@ function Homepage() {
               <p className="m-b0" style={{ color: '#09213c', fontSize: '16px' }}>Select the plan that best fits your needs</p>
             </div>
             <div className="row justify-content-center pricing-row" style={{ display: 'flex', flexWrap: 'nowrap', justifyContent: 'flex-start', gap: '24px', paddingBottom: '10px', width: '100%', margin: '0 auto', overflowX: 'hidden' }}>
-              {/* Freemium Plan */}
+              {/* Freemium Plan 
               <div className="col-lg-4 col-md-6 col-sm-10 mb-4 d-flex align-items-stretch" style={{ flex: '1 1 22%', minWidth: '260px', maxWidth: '300px', display: 'flex', alignItems: 'stretch' }}>
                 <div className="pricing-box w-100" style={{
                   padding: '30px',
@@ -375,7 +376,7 @@ function Homepage() {
                 </div>
               </div>
 
-              {/* Elevate Plan */}
+              {/* Elevate Plan 
               <div className="col-lg-4 col-md-6 col-sm-10 mb-4 d-flex align-items-stretch" style={{ flex: '1 1 22%', minWidth: '260px', maxWidth: '300px', display: 'flex', alignItems: 'stretch' }}>
                 <div className="pricing-box w-100" style={{
                   padding: '30px',
@@ -424,7 +425,7 @@ function Homepage() {
                 </div>
               </div>
 
-              {/* Pro Max Plan */}
+              {/* Pro Max Plan 
               <div className="col-lg-4 col-md-6 col-sm-10 mb-4 d-flex align-items-stretch" style={{ flex: '1 1 22%', minWidth: '260px', maxWidth: '300px', display: 'flex', alignItems: 'stretch' }}>
                 <div className="pricing-box w-100" style={{
                   padding: '30px',
@@ -465,7 +466,7 @@ function Homepage() {
                 </div>
               </div>
 
-              {/* Ultra Elite Plan */}
+              {/* Ultra Elite Plan 
               <div className="col-lg-4 col-md-6 col-sm-10 mb-4 d-flex align-items-stretch" style={{ flex: '1 1 22%', minWidth: '260px', maxWidth: '300px', display: 'flex', alignItems: 'stretch' }}>
                 <div className="pricing-box w-100" style={{
                   padding: '30px',
@@ -509,7 +510,7 @@ function Homepage() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
         <div
           className="section-full p-tb70 overlay-black-dark text-white text-center bg-img-fix"
           style={{ backgroundImage: "url(" + bnr2 + ")" }}
