@@ -23,7 +23,6 @@ function MyResumes() {
   const [isDefault, setIsDefault] = useState(false); // New state for is_default
   const token = localStorage.getItem("jobSeekerLoginToken");
   useEffect(() => {
-   
     if (token) {
       axios
         .get("https://apiwl.novajobs.us/api/user/resume-list", {
@@ -177,52 +176,54 @@ function MyResumes() {
                 <div className="col-xl-9 col-lg-8 m-b30 browse-job">
                   <h6>Resumes List</h6>
                   <div className="overflow-x-auto post-bx">
-                    <table className="min-w-full bg-white text-black rounded-md">
-                      <thead>
-                        <tr>
-                          <th className="py-2 px-4">Sr. no.</th>
-                          {/* <th className="py-2 px-4">Edit Resume Name</th> */}
-                          <th className="py-2 px-4">Resume Name</th>
-                          <th className="py-2 px-4">AI-Score</th>
-                          <th className="py-2 px-4">Improve with AI</th>
-                          <th className="py-2 px-4">Created</th>
-                          <th className="py-2 px-4">Actions</th>
-                          <th className="py-2 px-4">JD Match %</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {resumes?.map((resume, index) => (
-                          <tr key={index} className="border-2">
-                            <td className="py-2 px-4">{index + 1}</td>
-                            
+                    {resumes.length !== 0 ? (
+                      <table className="min-w-full bg-white text-black rounded-md">
+                        <thead>
+                          <tr>
+                            <th className="py-2 px-4">Sr. no.</th>
+                            {/* <th className="py-2 px-4">Edit Resume Name</th> */}
+                            <th className="py-2 px-4">Resume Name</th>
+                            <th className="py-2 px-4">AI-Score</th>
+                            <th className="py-2 px-4">Improve with AI</th>
+                            <th className="py-2 px-4">Created</th>
+                            <th className="py-2 px-4">Actions</th>
+                            <th className="py-2 px-4">JD Match %</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {resumes?.map((resume, index) => (
+                            <tr key={index} className="border-2">
+                              <td className="py-2 px-4">{index + 1}</td>
 
-                            <td className="py-2 px-4">
-                              {resume.resume_title || "No Name"}
-                            </td>
-                            <td className="py-2 px-4">
-                              <button
-                                className="btn btn-primary"
-                                onClick={() => handleGetScore(resume)}
-                                data-bs-toggle="modal"
-                                data-bs-target="#modalPopup"
-                              >
-                                {scores[resume.id] || "View Score"}
-                              </button>
-                            </td>
-                            <td className="py-2 px-4">
-                              <button
-                                className="btn btn-secondary bg-#1c2957"
-                                onClick={() => handleGetSuggestions(resume)}
-                                data-bs-toggle="modal"
-                                data-bs-target="#modalPopup"
-                              >
-                                Improve with AI
-                              </button>
-                            </td>
-                            <td className="py-2 px-4">
-                              {new Date(resume.created_at).toLocaleDateString()}
-                            </td>
-                            {/* <td className="d-flex gap-3 justify-content-center align-items-center">
+                              <td className="py-2 px-4">
+                                {resume.resume_title || "No Name"}
+                              </td>
+                              <td className="py-2 px-4">
+                                <button
+                                  className="btn btn-primary"
+                                  onClick={() => handleGetScore(resume)}
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#modalPopup"
+                                >
+                                  {scores[resume.id] || "View Score"}
+                                </button>
+                              </td>
+                              <td className="py-2 px-4">
+                                <button
+                                  className="btn btn-secondary bg-#1c2957"
+                                  onClick={() => handleGetSuggestions(resume)}
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#modalPopup"
+                                >
+                                  Improve with AI
+                                </button>
+                              </td>
+                              <td className="py-2 px-4">
+                                {new Date(
+                                  resume.created_at
+                                ).toLocaleDateString()}
+                              </td>
+                              {/* <td className="d-flex gap-3 justify-content-center align-items-center">
                               <p
                                 className=" "
                                 onClick={() => {
@@ -251,41 +252,65 @@ function MyResumes() {
                                 🗑️
                               </i>
                             </td> */}
-                            <td className="d-flex gap-3 justify-content-center align-items-center py-2">
-  <p
-    className="text-primary fw-bold mb-0 px-2 py-1 rounded"
-    onClick={() => {
-      setEditingResumeId(resume.id);
-      setNewResumeName(resume.resume_title || "");
-      setIsDefault(resume.is_default === 1);
-      setModalType("edit");
-    }}
-    data-bs-toggle="modal"
-    data-bs-target="#modalPopup"
-    style={{ cursor: "pointer", transition: "0.3s" }}
-  >
-    ✏️
-  </p>
+                              <td className="d-flex gap-3 justify-content-center align-items-center py-2">
+                                <p
+                                  className="text-primary fw-bold mb-0 px-2 py-1 rounded"
+                                  onClick={() => {
+                                    setEditingResumeId(resume.id);
+                                    setNewResumeName(resume.resume_title || "");
+                                    setIsDefault(resume.is_default === 1);
+                                    setModalType("edit");
+                                  }}
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#modalPopup"
+                                  style={{
+                                    cursor: "pointer",
+                                    transition: "0.3s",
+                                  }}
+                                >
+                                  ✏️
+                                </p>
 
-  <i
-    className="fa fa-trash-alt text-danger px-2 py-1 rounded "
-    onClick={() => {
-      setDeleteresumeid(resume.id);
-      setModalType("delete");
-    }}
-    data-bs-toggle="modal"
-    data-bs-target="#modalPopup"
-    style={{ cursor: "pointer", transition: "0.3s" }}
-  >
-    🗑️
-  </i>
-</td>
+                                <i
+                                  className="fa fa-trash-alt text-danger px-2 py-1 rounded "
+                                  onClick={() => {
+                                    setDeleteresumeid(resume.id);
+                                    setModalType("delete");
+                                  }}
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#modalPopup"
+                                  style={{
+                                    cursor: "pointer",
+                                    transition: "0.3s",
+                                  }}
+                                >
+                                  🗑️
+                                </i>
+                              </td>
 
-                            <td className="py-2 px-4">Coming Soon</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                              <td className="py-2 px-4">Coming Soon</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    ) : (
+                      <p
+                        style={{
+                          padding: "12px 20px",
+                          backgroundColor: "#f8d7da",
+                          color: "#721c24",
+                          border: "1px solid #f5c6cb",
+                          borderRadius: "4px",
+                          fontWeight: "600",
+                          maxWidth: "100%",
+                          margin: "20px auto",
+                          textAlign: "center",
+                          boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+                        }}
+                      >
+                        No Resume Found. Please upload it.
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>

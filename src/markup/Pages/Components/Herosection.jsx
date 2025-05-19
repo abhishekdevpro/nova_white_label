@@ -249,6 +249,13 @@ const FormRow = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction:column;
+  align-items: center;
+  gap: 0.5rem;
+  }
 `;
 
 const InputWrapper = styled.div`

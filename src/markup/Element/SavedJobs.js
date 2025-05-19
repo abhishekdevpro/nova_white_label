@@ -191,7 +191,7 @@ const SavedJobs = () => {
             <div className="col-lg-12">
               {jobApplicationData ? (
                 <ul className="post-job-bx browse-job">
-                  {jobApplicationData.map((item, index) => (
+                  {jobApplicationData?.map((item, index) => (
                     <li key={index}>
                       <div className="post-bx">
                         <div className="d-flex m-b30">
@@ -254,12 +254,28 @@ const SavedJobs = () => {
                   ))}
                 </ul>
               ) : (
-                <div className="d-flex w-100  justify-content-center ">
+                <div className="d-flex flex-column w-100  justify-content-center ">
                   <img
                     src={noDataFound}
                     alt="no data found"
-                    style={{ width: "400px" }}
+                    style={{ width: "400px", margin: "auto" }}
                   />
+                  <p
+                    style={{
+                      padding: "12px 20px",
+                      backgroundColor: "#f8d7da",
+                      color: "#721c24",
+                      border: "1px solid #f5c6cb",
+                      borderRadius: "4px",
+                      fontWeight: "600",
+                      maxWidth: "100%",
+                      margin: "20px auto",
+                      textAlign: "center",
+                      boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+                    }}
+                  >
+                    No Saved jobs Found.
+                  </p>
                 </div>
               )}
             </div>
@@ -340,12 +356,33 @@ const SavedJobs = () => {
                   ))}
                 </ul>
               ) : (
-                <div className="d-flex w-100  justify-content-center ">
+                <div
+                  className="d-flex flex-column align-items-center justify-content-center w-100"
+                  style={{
+                    border: "2px solid red",
+                    width: "100%", // you can remove this if using 'w-100'
+                  }}
+                >
                   <img
                     src={noDataFound}
                     alt="no data found"
-                    style={{ width: "400px" }}
+                    style={{ width: "150px", margin: "auto" }}
                   />
+                  <p
+                    style={{
+                      padding: "12px 20px",
+                      backgroundColor: "#f8d7da",
+                      color: "#721c24",
+                      border: "1px solid #f5c6cb",
+                      borderRadius: "4px",
+                      fontWeight: "600",
+                      margin: "20px auto",
+                      textAlign: "center",
+                      boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+                    }}
+                  >
+                    No Saved jobs Found.
+                  </p>
                 </div>
               )}
             </div>

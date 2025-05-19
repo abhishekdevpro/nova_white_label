@@ -22,7 +22,7 @@ import {
   FaRegUser,
   FaStar,
 } from "react-icons/fa";
-import PricingSection from "./Components/PricingSection";
+import PricingSection from "./Payments/PricingSection";
 
 // Images
 var bnr2 = require("./../../images/background/bg4.jpg");
