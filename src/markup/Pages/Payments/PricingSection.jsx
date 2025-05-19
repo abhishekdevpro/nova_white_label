@@ -1,65 +1,11 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-
+import { plans } from "./Plan";
 const PricingSection = () => {
   // Plans data array with all details
   const navigate = useNavigate()
-  const plans = [
-    {
-      id: "freemium",
-      name: "Freemium",
-      price: "0",
-      isPopular: false,
-      isDark: false,
-      features: [
-        "Job Search",
-        "Job Apply",
-        "AI Dashboard",
-        "Limited AI Resume Builder",
-        "Access to Free Courses",
-        "Profile Listing",
-      ],
-    },
-    {
-      id: "elevate",
-      name: "Elevate",
-      price: "18.95",
-      isPopular: true,
-      isDark: false,
-      features: [
-        "Everything in Freemium",
-        "Advanced Job Search",
-        "Advanced AI Resume Builder",
-        "Access to Advanced Courses",
-        "AI Skill Test",
-      ],
-    },
-    {
-      id: "promax",
-      name: "Pro Max",
-      price: "48.95",
-      isPopular: false,
-      isDark: false,
-      features: [
-        "Everything in Elevate",
-        "Career coach interactions",
-        "Certification included",
-      ],
-    },
-    {
-      id: "ultraelite",
-      name: "Ultra Elite",
-      price: "98.95",
-      isPopular: false,
-      isDark: true,
-      features: [
-        "Everything in Pro Max",
-        "Trainer access (as needed)",
-        "Certification included (after course request & eligibility)",
-      ],
-    },
-  ];
+ 
 
   // Styles object to keep JSX clean
   const styles = {
@@ -232,7 +178,8 @@ const PricingSection = () => {
         navigate('/user/login')
      }
      else{
-        window.location.href  = (`https://airesume.novajobs.us/settings/subscription/?tokenbyurl=${token}`)
+      navigate('/user/subscription')
+        // window.location.href  = (`https://airesume.novajobs.us/settings/subscription/?tokenbyurl=${token}`)
         // window.location.href = (`http://localhost:3001/settings/subscription/?tokenbyurl=${token}`)
      }
   }

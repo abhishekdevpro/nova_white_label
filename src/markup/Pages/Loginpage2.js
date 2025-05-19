@@ -233,14 +233,14 @@ function Login(props) {
                       fontSize: "30px",
                     }}
                   >
-                    <li>
+                    {/* <li>
                       <Link
                         to={"https://www.linkedin.com/company/nova-us-jobs/"}
                         className="m-r10 text-white "
                       >
                         <i className="fa fa-linkedin"></i>
                       </Link>
-                    </li>
+                    </li> */}
                   </ul>
                 </div>
               </div>

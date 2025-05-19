@@ -210,6 +210,11 @@ import PlansPage from "./vendor/Payments/Plans";
 import ResumeList from "./adminPanel/ResumeList";
 import BrandingCompany from "./employeeMarkup/Pages/BrandingCompany";
 import Branding from "./vendor/Branding";
+import Subscription from "./markup/Pages/Payments/Subscription";
+import PaymentPlans from "./markup/Pages/Payments/PaymentPlans";
+import PaymentPage from "./markup/Pages/Payments/PaymentDetails";
+import PaymentFailurePage from "./markup/Pages/Payments/payment-failed";
+import PaymentSuccessPage from "./markup/Pages/Payments/Payment-success";
 
 function App() {
   const dispatch = useDispatch();
@@ -623,6 +628,8 @@ function App() {
         <Route path="vendorregistration" element={<Vendorregistration />} />
       </Route>
       <Route path="gauth" element={<Gauth />} />
+      <Route path="payment-success" element={<PaymentSuccessPage />} />
+      <Route path="payment-failed" element={<PaymentFailurePage />} />
       <Route path="/user">
         <Route path="" element={<Homepage />} />
         <Route path="login" element={<Loginpage2 />} />
@@ -632,6 +639,30 @@ function App() {
         <Route path="register" element={<Register1 />} />
         <Route path="register-2" element={<Register2 />} />
         <Route path="verify/:token" element={<Verifyemail />} />
+        <Route
+          path="subscription"
+          element={
+            <UserPrivateRoute>
+              <Subscription  />
+            </UserPrivateRoute>
+          }
+        />
+        <Route
+          path="payment-plans"
+          element={
+            <UserPrivateRoute>
+              <PaymentPlans  />
+            </UserPrivateRoute>
+          }
+        />
+        <Route
+          path="plan-details"
+          element={
+            <UserPrivateRoute>
+              <PaymentPage  />
+            </UserPrivateRoute>
+          }
+        />
         <Route
           path="jobs-profile"
           element={

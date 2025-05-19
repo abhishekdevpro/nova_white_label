@@ -186,9 +186,11 @@ function Jobprofile() {
   });
   const token = localStorage.getItem("jobSeekerLoginToken");
   const [fileUploaded, setFileUploaded] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
   const [uploadedFileName, setUploadedFileName] = useState("");
+  const [previewImage, setPreviewImage] = useState("");
   const [fileError, setFileError] = useState("");
-  const [id,setId] =useState("")
+  const [id, setId] = useState("");
   const getReq = () => {
     axios({
       method: "GET",
@@ -200,7 +202,9 @@ function Jobprofile() {
       .then((response) => {
         // console.log(response.data.data.id, "all data");
         let data = response.data.data;
-        setId(response.data.data.id)
+        setId(response.data.data.id);
+        console.log(response.data.data.photo, "response.data.data.photo");
+        setPreviewImage(response.data.data.photo);
         dispatch(
           setJobProfileValues({
             first_name: data.first_name,
@@ -216,7 +220,7 @@ function Jobprofile() {
             country_id: data.country_id,
             city_id: data.city_id,
             state_id: data.state_id,
-            photo: data.photo,
+            // photo: data.photo,
           })
         );
       })
@@ -246,20 +250,26 @@ function Jobprofile() {
     formData.append("country_id", Number(jobProfileValues.country_id));
     formData.append("city_id", Number(jobProfileValues.city_id));
     formData.append("state_id", Number(jobProfileValues.state_id));
-    formData.append("photo", profileImageValue);
+    // formData.append("photo", profileImageValue);
+    if (selectedFile) {
+      formData.append("photo", selectedFile);
+    }
 
     axios({
       method: "PUT",
       url: "https://apiwl.novajobs.us/api/jobseeker/user-profile",
       headers: {
         Authorization: token,
+        "Content-Type": "multipart/form-data",
       },
       data: formData,
     })
       .then((response) => {
         getReq();
-        console.log(response.data,"???");
-        showToastSuccess(response.data.message || "Job Profile saved Successfully");
+        console.log(response.data, "???");
+        showToastSuccess(
+          response.data.message || "Job Profile saved Successfully"
+        );
       })
       .catch((err) => {
         showToastError(err?.response?.data?.message);
@@ -303,8 +313,8 @@ function Jobprofile() {
   };
 
   const getState = () => {
-    if(!jobProfileValues.country_id){
-      return
+    if (!jobProfileValues.country_id) {
+      return;
     }
     axios({
       method: "GET",
@@ -324,8 +334,8 @@ function Jobprofile() {
   };
 
   const getCities = () => {
-    if(!jobProfileValues.state_id){
-      return ;
+    if (!jobProfileValues.state_id) {
+      return;
     }
     axios({
       method: "GET",
@@ -370,11 +380,15 @@ function Jobprofile() {
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
+    console.log(file, "file");
     if (file) {
       setUploadedFileName(file.name);
+      setSelectedFile(file);
       setFileUploaded(true);
       setFileError("");
-      resizeFile(file);
+      const previewUrl = URL.createObjectURL(file);
+      setPreviewImage(previewUrl);
+      // resizeFile(file);
     } else {
       setFileError("Please select a file.");
     }
@@ -416,8 +430,6 @@ function Jobprofile() {
                         <h5 className="font-weight-700 pull-left text-uppercase ">
                           Basic Information
                         </h5>
-                      
-
                       </div>
                       {/* <Link
                         to={"./"}
@@ -428,7 +440,7 @@ function Jobprofile() {
                     </div>
                     <form onSubmit={handleSubmit}>
                       <div className="row m-b30 ">
-                        <div className="col-12">
+                        {/* <div className="col-12">
                           <div className="form-group">
                             <label>Change Your Image</label>
                             <div className="custom-file">
@@ -446,6 +458,20 @@ function Jobprofile() {
                                 {fileUploaded ? "Change" : "Upload"} Image
                               </label>
                             </div>
+                            {previewImage && (
+                              <div className="mt-3">
+                                <img
+                                  src={previewImage}
+                                  alt="Preview"
+                                  style={{
+                                    width: "150px",
+                                    height: "150px",
+                                    objectFit: "cover",
+                                    borderRadius: "8px",
+                                  }}
+                                />
+                              </div>
+                            )}
                             {uploadedFileName && (
                               <span>{uploadedFileName}</span>
                             )}
@@ -453,7 +479,52 @@ function Jobprofile() {
                               <span style={{ color: "red" }}>{fileError}</span>
                             )}
                           </div>
+                        </div> */}
+                        <div className="form-group">
+                          <label>Change Your Image</label>
+
+                          <div className="d-flex flex-column flex-md-row align-items-center justify-content-center gap-3">
+                            {/* File input */}
+                            {previewImage && (
+                              <div style={{ }}>
+                                <img
+                                  src={previewImage}
+                                  alt="Preview"
+                                  style={{
+                                    width: "100px",
+                                    height: "100px",
+                                    objectFit: "contain",
+                                    borderRadius: "50%",
+                                    padding: "2px",
+                                  }}
+                                />
+                              </div>
+                            )}
+                            <div className="custom-file flex-grow-1">
+                              <input
+                                type="file"
+                                className="custom-file-input"
+                                id="customFile"
+                                accept="image/*"
+                                onChange={handleImageChange}
+                              />
+                              <label
+                                className="custom-file-label"
+                                htmlFor="customFile"
+                              >
+                                {fileUploaded ? "Change" : "Upload"} Image
+                              </label>
+                            </div>
+
+                            {/* Preview Image */}
+                          </div>
+
+                          {uploadedFileName && <span>{uploadedFileName}</span>}
+                          {fileError && (
+                            <span style={{ color: "red" }}>{fileError}</span>
+                          )}
                         </div>
+
                         <div className="col-lg-6 col-md-6">
                           <div className="form-group">
                             <label htmlFor="first_name">First Name:</label>
