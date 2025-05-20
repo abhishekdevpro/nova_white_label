@@ -155,19 +155,8 @@ export default function Subscription() {
   const [status, setStatus] = useState("Inactive");
   const [accountId, setAccountId] = useState();
   const [userData, setUserData] = useState(null);
-  const [token, setToken] = useState();
 
-  useEffect(() => {
-    const url = window.location.href;
-    const tokenFromUrl = url.split("?tokenbyurl=")[1];
-    if (tokenFromUrl) {
-      localStorage.setItem("token", tokenFromUrl);
-      setToken(tokenFromUrl);
-    } else if (typeof window !== "undefined") {
-      const storedToken = localStorage.getItem("token");
-      setToken(storedToken);
-    }
-  }, []);
+
 
   useEffect(() => {
     setAccountId(localStorage.getItem("ID"));
@@ -175,7 +164,7 @@ export default function Subscription() {
 
   const handleCancelSubscription = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("jobSeekerLoginToken");
       if (!token) {
         toast.error("Unauthorized. Please log in.");
         return;
@@ -212,7 +201,7 @@ export default function Subscription() {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("jobSeekerLoginToken");
         if (!token) return;
 
         const response = await axios.get(
