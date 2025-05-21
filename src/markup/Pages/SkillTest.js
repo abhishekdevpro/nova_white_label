@@ -11,6 +11,7 @@ import "./skilltest.css";
 import { useDispatch } from "react-redux";
 import LoadingBox from "../skeleton/skillTest";
 import Preloader from "../Layout/preloader";
+import { Loader2 } from "lucide-react";
 
 function SkillTest() {
   const navigate = useNavigate();
@@ -94,12 +95,13 @@ function SkillTest() {
                 <div className="container">
                   <div className="row">
                     <Profilesidebar data={"skill-test"} />
-                    <div className="col-xl-9 col-lg-9 m-b30 mx-2">
+                    <div className="col-xl-9 col-lg-8 m-b30">
                       <div className="job-bx job-profile">
                         {skeleton === true ? (
                           <h1>
                             Please upload the Resume then check back...
                             {/*   <Preloader /> */}
+                            <Loader2 className="w-5 h-5 animate-spin" />
                           </h1>
                         ) : (
                           <div className="row">

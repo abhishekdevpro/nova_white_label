@@ -29,7 +29,7 @@ function MyResumes() {
           headers: { Authorization: token },
         })
         .then((response) => {
-          const resumes = response.data.resumelist || [];
+          const resumes = response.data.data || [];
           if (resumes.length === 0) {
             toast.info("No resumes available.");
           }
@@ -176,6 +176,7 @@ function MyResumes() {
                 <div className="col-xl-9 col-lg-8 m-b30 browse-job">
                   <h6>Resumes List</h6>
                   <div className="overflow-x-auto post-bx">
+                    {console.log(resumes.length,"?????")}
                     {resumes.length !== 0 ? (
                       <table className="min-w-full bg-white text-black rounded-md">
                         <thead>

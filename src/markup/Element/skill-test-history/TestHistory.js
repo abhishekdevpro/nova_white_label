@@ -211,15 +211,17 @@ const SkillHistory = () => {
               <LoadingSpinner />
               <p className="mt-3 text-secondary">Loading skill history...</p>
             </div>
-          ) : users.length === 0 ? (
+          ) 
+           : (
+            <div className="table-responsive">
+             { 
+               users.length === 0  ? (
             <div className="text-center py-5 text-muted">
               <Award className="fs-1 text-secondary mb-3" />
               <p className="fs-4 mb-2">No Skill Assessment History</p>
               <p>Complete skill assessments to see your progress.</p>
-            </div>
-          ) : (
-            <div className="table-responsive">
-              <table className="table table-bordered">
+            </div> ):
+              (<table className="table table-bordered">
                 <thead className="table-light">
                   <tr>
                     <th>Date / Time</th>
@@ -279,7 +281,7 @@ const SkillHistory = () => {
                     </tr>
                   ))}
                 </tbody>
-              </table>
+              </table>)}
             </div>
           )}
         </div>

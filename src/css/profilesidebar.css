@@ -4,6 +4,8 @@
   transition: transform 0.3s ease;
   transform: translateX(-100%);
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+   overflow-y: auto;
+   padding-top: 1rem;
 }
 
 .sidebar.open {
@@ -12,9 +14,9 @@
 
 .sidebar-toggle {
   position: fixed;
-  top: 15px;
+  top: 105px;
   left: 15px;
-  z-index: 1001;
+  z-index: 1000;
   background: #1C2957;
   color: white;
   border: none;
@@ -59,6 +61,7 @@ main {
     left: 0;
     height: 100%;
     background-color: #fff;
+     overflow-y: auto;
     transform: translateX(-100%);
     z-index: 1000;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
