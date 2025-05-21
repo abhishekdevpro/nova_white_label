@@ -258,39 +258,40 @@ const FixedHeader = () => {
       .catch((error) => {
         console.log(error.response.data.message);
         showToastError(error?.response?.data?.message);
+        setResumeUrl("")
       });
   }
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const token = localStorage.getItem("jobSeekerLoginToken");
-    if (resumeUrl) {
-      axios({
-        method: "post",
-        url: "https://apiwl.novajobs.us/api/user/file-based-ai",
-        data: {
-          keyword: "Rate this resume content in percentage ?",
-          file_location: resumeUrl,
-        },
-        headers: {
-          Authorization: token,
-        },
-      })
-        .then((res) => {
-          console.log(res.data.data.content_acuracy_percentage);
-          setShowPercentage(true);
-          setPercentage(
-            `Your AI Resume score is ${res.data.data.content_acuracy_percentage}`
-          );
-        })
-        .catch((err) => {
-          console.log(err);
-          console.log(err.response.data.message);
-          showToastError(err?.response?.data?.message);
-        });
-    }
-  }, [resumeUrl]);
+  // useEffect(() => {
+  //   const token = localStorage.getItem("jobSeekerLoginToken");
+  //   if (resumeUrl) {
+  //     axios({
+  //       method: "post",
+  //       url: "https://apiwl.novajobs.us/api/user/file-based-ai",
+  //       data: {
+  //         keyword: "Rate this resume content in percentage ?",
+  //         file_location: resumeUrl,
+  //       },
+  //       headers: {
+  //         Authorization: token,
+  //       },
+  //     })
+  //       .then((res) => {
+  //         console.log(res.data.data.content_acuracy_percentage);
+  //         setShowPercentage(true);
+  //         setPercentage(
+  //           `Your AI Resume score is ${res.data.data.content_acuracy_percentage}`
+  //         );
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //         console.log(err.response.data.message);
+  //         showToastError(err?.response?.data?.message);
+  //       });
+  //   }
+  // }, [resumeUrl]);
 
   return (
     <div

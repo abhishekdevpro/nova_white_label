@@ -13,7 +13,7 @@ const VerifyEmail = () => {
     const verifyEmail = async () => {
       const token = queryParams.get("token");
 
-      console.log("Token:", token);
+      // console.log("Token:", token);
 
       try {
         const response = await axios.get(

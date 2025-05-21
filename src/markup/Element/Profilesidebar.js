@@ -9,7 +9,16 @@ import {
   FaLightbulb,
   FaUserFriends,
 } from "react-icons/fa";
-import { Bell, Briefcase, File, FileTextIcon, Heart, IdCard, LogOut, User } from "lucide-react";
+import {
+  Bell,
+  Briefcase,
+  File,
+  FileTextIcon,
+  Heart,
+  IdCard,
+  LogOut,
+  User,
+} from "lucide-react";
 // import { FaStar } from "react-icons/fa6";
 
 function Profilesidebar({ data }) {
@@ -42,7 +51,20 @@ function Profilesidebar({ data }) {
         <div className="sticky-top overflow-y ">
           <div className="candidate-info overflow-y">
             <ul>
-            <li>
+              {/* <li
+                style={{
+                  textAlign: "center",
+                  fontSize: "1.5rem",
+                  fontWeight: "bold",
+                  padding: "1rem 0",
+                  borderBottom: "1px solid #ddd",
+                  backgroundColor: "#f8f9fa",
+                  color: "#1C2957",
+                }}
+              >
+                <span>SideBar</span>
+              </li> */}
+              <li>
                 <Link
                   to={"/user/dashboard"}
                   className={data === "dashboard" ? "active" : null}
@@ -70,7 +92,7 @@ function Profilesidebar({ data }) {
                   className={data === "resume" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
                 >
-                  <FileTextIcon className="me-2" /> 
+                  <FileTextIcon className="me-2" />
                   <span>AI Resume Builder</span>
                 </Link>
               </li>
@@ -90,7 +112,7 @@ function Profilesidebar({ data }) {
                   className={data === "saved-jobs" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
                 >
-                 <Heart className="me-2"/>
+                  <Heart className="me-2" />
                   <span>Saved Jobs</span>
                 </Link>
               </li>
@@ -100,7 +122,7 @@ function Profilesidebar({ data }) {
                   className={data === "applied-jobs" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
                 >
-                  <Briefcase className="me-2"/>
+                  <Briefcase className="me-2" />
                   <span>Applied Jobs</span>
                 </Link>
               </li>
@@ -111,7 +133,7 @@ function Profilesidebar({ data }) {
                   className={data === "skill-test" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
                 >
-                  <FaLightbulb className="me-2"/>
+                  <FaLightbulb className="me-2" />
                   <span>Skill Test</span>
                 </Link>
               </li>
@@ -151,7 +173,7 @@ function Profilesidebar({ data }) {
                   className={data === "ultra-aura" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
                 >
-                  <FaExternalLinkAlt  className="me-2"/>
+                  <FaExternalLinkAlt className="me-2" />
                   <span>Ultra Aura</span>
                 </Link>
               </li>
@@ -161,7 +183,7 @@ function Profilesidebar({ data }) {
                   className={data === "jobs-referral" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
                 >
-                  <IdCard className="me-2"/>
+                  <IdCard className="me-2" />
                   <span>Add Referral </span>
                 </Link>
               </li>
@@ -193,7 +215,7 @@ function Profilesidebar({ data }) {
                     setSidebarOpen(false);
                   }}
                 >
-                  <LogOut className="me-2"/>
+                  <LogOut className="me-2" />
                   <span>Log Out</span>
                 </Link>
               </li>

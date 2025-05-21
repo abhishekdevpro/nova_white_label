@@ -28,6 +28,7 @@ import { showToastError } from "../../utils/toastify";
 
 const token = localStorage.getItem("employeeLoginToken");
 
+
 export const fetchCompanyInfo = createAsyncThunk(
   "company/fetchCompanyInfo",
   async (_, { rejectWithValue }) => {

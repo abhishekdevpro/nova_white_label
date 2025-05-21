@@ -311,49 +311,46 @@ export default function PaymentPlans() {
           <div>
             {/* Pricing Plans */}
             <PlanCardsContainer>
-              {plans.map((plan) => (
-                <PlanCard
-                  key={plan.id}
-                  selected={selectedPlan === plan.id}
-                  onClick={() => handlePlanSelection(plan.id)}
-                  dark={plan.isDark}
-                >
-                  {plan.isPopular && (
-                    <BestValueTag>
-                      Most Popular
-                    </BestValueTag>
-                  )}
-                  <PlanHeader>
-                    <PlanTitle>{plan.name}</PlanTitle>
-                    <Checkbox
-                      type="checkbox"
-                      checked={selectedPlan === plan.id}
-                      onChange={() => {}}
-                    />
-                  </PlanHeader>
+              {plans.map((plan) => {
+                // Skip freemium plan
+                if (plan.price === "0") return null;
 
-                  <PlanPrice>
-                    {plan.price === "0"
-                      ? "Free"
-                      : `$${plan.price}/mo`}
-                  </PlanPrice>
+                return (
+                  <PlanCard
+                    key={plan.id}
+                    selected={selectedPlan === plan.id}
+                    onClick={() => handlePlanSelection(plan.id)}
+                    dark={plan.isDark}
+                  >
+                    {plan.isPopular && (
+                      <BestValueTag>Most Popular</BestValueTag>
+                    )}
+                    <PlanHeader>
+                      <PlanTitle>{plan.name}</PlanTitle>
+                      <Checkbox
+                        type="checkbox"
+                        checked={selectedPlan === plan.id}
+                        onChange={() => {}}
+                      />
+                    </PlanHeader>
 
-                  <BillingCycle>
-                    {plan.price === "0" ? "Forever" : "Monthly billing"}
-                  </BillingCycle>
+                    <PlanPrice>{`$${plan.price}/mo`}</PlanPrice>
 
-                  <FeaturesList>
-                    {plan.features.map((feature, idx) => (
-                      <FeatureItem key={idx}>
-                        <IconWrapper>
-                          <CheckCircle size={16} color="#3b82f6" />
-                        </IconWrapper>
-                        <FeatureText>{feature}</FeatureText>
-                      </FeatureItem>
-                    ))}
-                  </FeaturesList>
-                </PlanCard>
-              ))}
+                    <BillingCycle>Monthly billing</BillingCycle>
+
+                    <FeaturesList>
+                      {plan.features.map((feature, idx) => (
+                        <FeatureItem key={idx}>
+                          <IconWrapper>
+                            <CheckCircle size={16} color="#3b82f6" />
+                          </IconWrapper>
+                          <FeatureText>{feature}</FeatureText>
+                        </FeatureItem>
+                      ))}
+                    </FeaturesList>
+                  </PlanCard>
+                );
+              })}
             </PlanCardsContainer>
           </div>
 
