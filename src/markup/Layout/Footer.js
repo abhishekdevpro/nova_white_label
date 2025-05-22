@@ -91,7 +91,7 @@ function Footer() {
               </div>
               <div className="col mb-4 mb-md-0 col-md-2">
                 <div className="text-start">
-                  <h5 className="mb-4 F-heading fw-bold text-[18px]">
+                  <h5 className="mb-4 F-heading fw-bold fs-6 fs-sm-5 fs-md-4 fs-lg-3">
                     For Job Seekers
                   </h5>
                   <ul className="list-3 d-flex flex-column gap-2 text-break">
@@ -155,7 +155,7 @@ function Footer() {
               </div>
               <div className="col mb-4 mb-md-0 col-md-2">
                 <div className="text-start">
-                  <h5 className="mb-4 F-heading fw-bold  text-[18px]">
+                  <h5 className="mb-4 F-heading fw-bold fs-6 fs-sm-5 fs-md-4 fs-lg-3">
                     For Employers
                   </h5>
                   <ul className="list-3 d-flex flex-column gap-2 text-break">
@@ -197,7 +197,7 @@ function Footer() {
               </div>
               <div className="col mb-4 mb-md-0 col-md-2">
                 <div className="text-start">
-                  <h5 className="mb-4 F-heading fw-bold  text-[18px]">
+                  <h5 className="mb-4 F-heading fw-bold fs-6 fs-sm-5 fs-md-4 fs-lg-3">
                     Others
                   </h5>
                   <ul className="list-3 d-flex flex-column gap-2 text-break">
@@ -240,7 +240,7 @@ function Footer() {
               </div>
               <div className="col mb-4 mb-md-0 col-md-2">
                 <div className="text-start">
-                  <h5 className="mb-4 F-heading fw-bold  text-[18px]">
+                  <h5 className="mb-4 F-heading fw-bold fs-6 fs-sm-5 fs-md-4 fs-lg-3">
                     Company
                   </h5>
                   <ul className="list-3 d-flex flex-column gap-2 text-break">
