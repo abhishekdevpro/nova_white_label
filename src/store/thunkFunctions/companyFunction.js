@@ -26,7 +26,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { showToastError } from "../../utils/toastify";
 
-const token = localStorage.getItem("employeeLoginToken");
+const token = localStorage.getItem("employeeLoginToken") || localStorage.getItem("vendorToken");
 
 
 export const fetchCompanyInfo = createAsyncThunk(
