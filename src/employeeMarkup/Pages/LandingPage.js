@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../../css/landingPage.css";
 import img from "../../images/360_F_309586333_FU8eARHr7QnC1TSPmvrIdqWp0qoRGMDM-removebg-preview.png";
-import img7 from "../../images/services/1.jpeg"
+import img7 from "../../images/services/1.jpeg";
 import img10 from "../../assests/services_image1.png";
 import img2 from "../../images/services/2.jpeg";
 import img3 from "../../images/services/3.jpeg";
@@ -13,11 +13,11 @@ import img9 from "../../images/services/Pink Cute Illustration Discord Avatar.pn
 
 import { Modal } from "react-bootstrap";
 
-import Footer from "./../Layout/Footer";
 import Headerservice from "../../markup/Layout/Headerservice";
 import EmployeeHeader from "./../Layout/Header";
-import { Link ,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import UserHeader from "../../markup/Layout/Header";
+import Footer from "../../markup/Layout/Footer";
 
 const LandingPage = () => {
   const [show, setShow] = useState(false);
@@ -28,19 +28,19 @@ const LandingPage = () => {
   const handleShow1 = () => setShow(true);
 
   const handleShow = () => {
-    window.location.href = '/';
+    window.location.href = "/";
   };
   const handleShow2 = () => {
     window.location.href = "/employer/login";
   };
   const handleShow3 = () => {
-    window.location.href = 'user/login';
+    window.location.href = "user/login";
   };
   const handleShow4 = () => {
-    window.location.href = '/aboutus';
+    window.location.href = "/aboutus";
   };
   const handleShow5 = () => {
-    window.location.href = 'https://ultraaura.education/';
+    window.location.href = "https://ultraaura.education/";
   };
 
   const handleClose = () => setShow(false);
@@ -186,19 +186,23 @@ const LandingPage = () => {
           </span>
           </div> */}
           <div className="d-flex flex-column align-items-center">
-  <div className="d-flex justify-content-start">
-    <button
-      className="site-button fw-bold responsive-button mt-3 text-center"
-      onClick={handleShow}
-    >
-      Explore Our One-stop White Label AI-Enabled Services for Employers & Staffing Companies
-    </button>
-  </div>
-  <span className="fw-bold text-black text-center col-8 mt-3">
-    Looking for your dream job or the perfect candidate? Our platform connects job seekers and employers with ease. Post job listings or browse opportunities across industries. Whether you're hiring or searching, we make the process seamless and efficient. Start your journey to success today!
-  </span>
-</div>
-
+            <div className="d-flex justify-content-start">
+              <button
+                className="site-button fw-bold responsive-button mt-3 text-center"
+                onClick={handleShow}
+              >
+                Explore Our One-stop White Label AI-Enabled Services for
+                Employers & Staffing Companies
+              </button>
+            </div>
+            <span className="fw-bold text-black text-center col-8 mt-3">
+              Looking for your dream job or the perfect candidate? Our platform
+              connects job seekers and employers with ease. Post job listings or
+              browse opportunities across industries. Whether you're hiring or
+              searching, we make the process seamless and efficient. Start your
+              journey to success today!
+            </span>
+          </div>
         </div>
         <div className="banner-img">
           <img src={img} alt="Banner" />
