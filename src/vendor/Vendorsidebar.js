@@ -61,7 +61,7 @@ const VendorCompanySideBar = ({ active }) => {
           Authorization: token,
         },
       });
-      const vendorDetails = response.data.data.vendors_detail;
+      const vendorDetails = response.data.data.company_detail;
       setLogo(vendorDetails.logo); // Set the logo
       setdomainName(vendorDetails.domain); // Set the domain dynamically
     } catch (error) {
@@ -132,7 +132,7 @@ const VendorCompanySideBar = ({ active }) => {
       progress: undefined,
     });
   };
-console.log(`https://apiwl.novajobs.us${logo}`,"llll");
+  console.log(`https://apiwl.novajobs.us${logo}`, "llll");
   return (
     <>
       <button className="sidebar-toggle" onClick={toggleSidebar}>
@@ -207,7 +207,9 @@ console.log(`https://apiwl.novajobs.us${logo}`,"llll");
                     className={active === "vendorplan" ? "active" : null}
                   >
                     <i className="fa fa-user-o" aria-hidden="true"></i>
-                    <span>Plan <FreeBadge>Free</FreeBadge></span>
+                    <span>
+                      Plan <FreeBadge>Free</FreeBadge>
+                    </span>
                   </Link>
                 </li>
                 {/* <li>
@@ -240,10 +242,7 @@ console.log(`https://apiwl.novajobs.us${logo}`,"llll");
                 <li>
                   <Link to="#" onClick={toggleMyPortal}>
                     <i className="fa fa-user-o" aria-hidden="true"></i>
-                    <span>
-                      My Portal{" "}
-                 
-                    </span>
+                    <span>My Portal </span>
                     <i
                       className={`fa fa-chevron-${
                         myPortalOpen ? "up" : "down"

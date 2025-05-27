@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Switch from "../../components/ui/switch";
-import { Plus, Trash2 } from 'lucide-react';
+import { Plus, Trash2 } from "lucide-react";
 import LogoCoverUploader from "./LogoCoverUploader";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { toast} from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import WatchWhatWeSaySection from "./WTS";
 import TeamMemberManager from "./Teams";
@@ -14,7 +14,7 @@ import Footer from "../Layout/Footer";
 import CompanySideBar from "../Layout/companySideBar";
 
 const SocialNetworkBox = () => {
-  const [activeTab, setActiveTab] = useState('basic');
+  const [activeTab, setActiveTab] = useState("basic");
   const [selectedImages, setSelectedImages] = useState([]);
   const [companyData, setCompanyData] = useState({
     company_name: "",
@@ -47,7 +47,7 @@ const SocialNetworkBox = () => {
 
   const [makesUsUnique, setMakesUsUnique] = useState([]);
   const token = localStorage.getItem("employeeLoginToken");
-  const BASE_IMAGE_URL = "https://apiwl.novajobs.us"
+  const BASE_IMAGE_URL = "https://apiwl.novajobs.us";
 
   const [insideCultureImages, setInsideCultureImages] = useState([]);
   const [insideWorkplaceImages, setInsideWorkplaceImages] = useState([]);
@@ -55,14 +55,18 @@ const SocialNetworkBox = () => {
 
   const [teamMembers, setTeamMembers] = React.useState([]);
   const [editingId, setEditingId] = React.useState(null);
-  const [tempMember, setTempMember] = React.useState({ name: '', description: '', image: null });
-  const [, forceUpdate] = React.useReducer(x => x + 1, 0);
+  const [tempMember, setTempMember] = React.useState({
+    name: "",
+    description: "",
+    image: null,
+  });
+  const [, forceUpdate] = React.useReducer((x) => x + 1, 0);
 
   const tabs = [
-    { id: 'basic', label: 'Basic Information' },
-    { id: 'about', label: 'About Company' },
-    { id: 'images', label: 'Inside Company Images' },
-    { id: 'team', label: 'Team Members' }
+    { id: "basic", label: "Basic Information" },
+    { id: "about", label: "About Company" },
+    { id: "images", label: "Inside Company Images" },
+    { id: "team", label: "Team Members" },
   ];
 
   const handleImageUpload = (e) => {
@@ -71,11 +75,11 @@ const SocialNetworkBox = () => {
       toast.error("You can only upload up to 3 images");
       return;
     }
-    setSelectedImages(prev => [...prev, ...files]);
+    setSelectedImages((prev) => [...prev, ...files]);
   };
 
   const removeImage = (index) => {
-    setSelectedImages(prev => prev.filter((_, i) => i !== index));
+    setSelectedImages((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleInputChange = (e) => {
@@ -87,42 +91,42 @@ const SocialNetworkBox = () => {
   };
 
   const addMediaContent = () => {
-    setCompanyData(prev => ({
+    setCompanyData((prev) => ({
       ...prev,
       media_content: [
         ...prev.media_content,
         {
           id: Date.now(),
-          type: 'video',
+          type: "video",
           file: null,
-          description: '',
-        }
-      ]
+          description: "",
+        },
+      ],
     }));
   };
 
   const removeMediaContent = (id) => {
-    setCompanyData(prev => ({
+    setCompanyData((prev) => ({
       ...prev,
-      media_content: prev.media_content.filter(item => item.id !== id)
+      media_content: prev.media_content.filter((item) => item.id !== id),
     }));
   };
 
   const handleMediaTypeChange = (id, type) => {
-    setCompanyData(prev => ({
+    setCompanyData((prev) => ({
       ...prev,
-      media_content: prev.media_content.map(item =>
+      media_content: prev.media_content.map((item) =>
         item.id === id ? { ...item, type } : item
-      )
+      ),
     }));
   };
 
   const handleMediaDescriptionChange = (id, description) => {
-    setCompanyData(prev => ({
+    setCompanyData((prev) => ({
       ...prev,
-      media_content: prev.media_content.map(item =>
+      media_content: prev.media_content.map((item) =>
         item.id === id ? { ...item, description } : item
-      )
+      ),
     }));
   };
 
@@ -133,13 +137,13 @@ const SocialNetworkBox = () => {
       return;
     }
     switch (type) {
-      case 'culture':
+      case "culture":
         setInsideCultureImages(files);
         break;
-      case 'workplace':
+      case "workplace":
         setInsideWorkplaceImages(files);
         break;
-      case 'people':
+      case "people":
         setInsidePeopleImages(files);
         break;
       default:
@@ -149,14 +153,14 @@ const SocialNetworkBox = () => {
 
   const removeInsideImage = (index, type) => {
     switch (type) {
-      case 'culture':
-        setInsideCultureImages(prev => prev.filter((_, i) => i !== index));
+      case "culture":
+        setInsideCultureImages((prev) => prev.filter((_, i) => i !== index));
         break;
-      case 'workplace':
-        setInsideWorkplaceImages(prev => prev.filter((_, i) => i !== index));
+      case "workplace":
+        setInsideWorkplaceImages((prev) => prev.filter((_, i) => i !== index));
         break;
-      case 'people':
-        setInsidePeopleImages(prev => prev.filter((_, i) => i !== index));
+      case "people":
+        setInsidePeopleImages((prev) => prev.filter((_, i) => i !== index));
         break;
       default:
         break;
@@ -168,20 +172,20 @@ const SocialNetworkBox = () => {
     let images, endpoint, uploadKey;
 
     switch (type) {
-      case 'culture':
+      case "culture":
         images = insideCultureImages;
-        endpoint = '/company-inside-culture';
-        uploadKey = 'inside_culture_images_upload';
+        endpoint = "/company-inside-culture";
+        uploadKey = "inside_culture_images_upload";
         break;
-      case 'workplace':
+      case "workplace":
         images = insideWorkplaceImages;
-        endpoint = '/company-inside-workplace';
-        uploadKey = 'inside_workplace_images_upload';
+        endpoint = "/company-inside-workplace";
+        uploadKey = "inside_workplace_images_upload";
         break;
-      case 'people':
+      case "people":
         images = insidePeopleImages;
-        endpoint = '/company-inside-people';
-        uploadKey = 'inside_people_images_upload';
+        endpoint = "/company-inside-people";
+        uploadKey = "inside_people_images_upload";
         break;
       default:
         return;
@@ -218,12 +222,15 @@ const SocialNetworkBox = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("https://apiwl.novajobs.us/api/employeer/company", {
-          headers: { Authorization: token }
-        });
+        const response = await axios.get(
+          "https://apiwl.novajobs.us/api/employeer/company",
+          {
+            headers: { Authorization: token },
+          }
+        );
         const data = response.data?.data || {};
 
-        setCompanyData(prev => ({
+        setCompanyData((prev) => ({
           ...prev,
           company_name: data.company_name || "",
           title: data.title || "",
@@ -303,8 +310,12 @@ const SocialNetworkBox = () => {
         if (data.about_images && data.about_images.length > 0) {
           setSelectedImages(
             data.about_images
-              .filter(img => !!img)
-              .map(img => typeof img === 'string' && !img.startsWith('http') ? BASE_IMAGE_URL + img : img)
+              .filter((img) => !!img)
+              .map((img) =>
+                typeof img === "string" && !img.startsWith("http")
+                  ? BASE_IMAGE_URL + img
+                  : img
+              )
           );
         } else {
           setSelectedImages([]);
@@ -319,7 +330,7 @@ const SocialNetworkBox = () => {
 
   const handleAboutSave = async (event) => {
     event.preventDefault();
-    
+
     if (selectedImages.length > 3) {
       toast.error("Please ensure only 3 images are selected.");
       return;
@@ -360,7 +371,7 @@ const SocialNetworkBox = () => {
 
   const handleSave = async (event) => {
     event.preventDefault();
-    
+
     const dataToUpdate = {
       company_name: companyData.company_name,
       summery: companyData.summery,
@@ -384,20 +395,27 @@ const SocialNetworkBox = () => {
       linkedin_link: companyData.linkedin_link,
       company_industry_id: companyData.company_industry_id,
       join_us: companyData.join_us,
-      ...makesUsUnique.reduce((acc, item) => ({
-        ...acc,
-        [item.key]: item.toogle,
-        [`${item.key}_value`]: item.value,
-      }), {}),
+      ...makesUsUnique.reduce(
+        (acc, item) => ({
+          ...acc,
+          [item.key]: item.toogle,
+          [`${item.key}_value`]: item.value,
+        }),
+        {}
+      ),
     };
 
     try {
-      await axios.patch("https://apiwl.novajobs.us/api/employeer/company-additional", dataToUpdate, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token,
-        },
-      });
+      await axios.patch(
+        "https://apiwl.novajobs.us/api/employeer/company-additional",
+        dataToUpdate,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        }
+      );
       toast.success("Company data updated successfully");
     } catch (error) {
       toast.error("Error updating company data");
@@ -405,7 +423,9 @@ const SocialNetworkBox = () => {
   };
 
   const SectionTitle = ({ children }) => (
-    <h4 className="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">{children}</h4>
+    <h4 className="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">
+      {children}
+    </h4>
   );
 
   const FormSection = ({ children, className = "" }) => (
@@ -459,57 +479,59 @@ const SocialNetworkBox = () => {
   `;
 
   const addTeamMember = () => {
-    setEditingId('new');
-    setTempMember({ name: '', description: '', image: null });
+    setEditingId("new");
+    setTempMember({ name: "", description: "", image: null });
   };
   const saveTeamMember = async () => {
     // Prepare FormData for API
     const formData = new FormData();
-    formData.append('name', tempMember.name);
-    formData.append('description', tempMember.description);
+    formData.append("name", tempMember.name);
+    formData.append("description", tempMember.description);
     if (tempMember.image) {
-      formData.append('image', tempMember.image);
+      formData.append("image", tempMember.image);
     }
     try {
       const response = await axios.post(
-        'https://apiwl.novajobs.us/api/employeer/company-teams',
+        "https://apiwl.novajobs.us/api/employeer/company-teams",
         formData,
         {
           headers: {
-            'Content-Type': 'multipart/form-data',
+            "Content-Type": "multipart/form-data",
             Authorization: token,
           },
         }
       );
       if (response.status === 200) {
-        toast.success('Team member saved successfully!');
-        if (editingId === 'new') {
-          setTeamMembers(prev => [
+        toast.success("Team member saved successfully!");
+        if (editingId === "new") {
+          setTeamMembers((prev) => [
             ...prev,
-            { id: Date.now(), ...tempMember }
+            { id: Date.now(), ...tempMember },
           ]);
         } else {
-          setTeamMembers(prev => prev.map(m => m.id === editingId ? { ...m, ...tempMember } : m));
+          setTeamMembers((prev) =>
+            prev.map((m) => (m.id === editingId ? { ...m, ...tempMember } : m))
+          );
         }
         setEditingId(null);
-        setTempMember({ name: '', description: '', image: null });
+        setTempMember({ name: "", description: "", image: null });
         forceUpdate();
       } else {
-        toast.error('Failed to save team member.');
+        toast.error("Failed to save team member.");
       }
     } catch (error) {
-      toast.error('Error saving team member.');
+      toast.error("Error saving team member.");
     }
   };
   const cancelEdit = () => {
     setEditingId(null);
-    setTempMember({ name: '', description: '', image: null });
+    setTempMember({ name: "", description: "", image: null });
     forceUpdate();
   };
 
   return (
     <>
-      <style dangerouslySetInnerHTML={{__html: aboutTabStyles}} />
+      <style dangerouslySetInnerHTML={{ __html: aboutTabStyles }} />
       <Header2 />
       <div className="page-content bg-white">
         <div className="content-block">
@@ -528,17 +550,26 @@ const SocialNetworkBox = () => {
                       {/* Tab Navigation */}
                       <div className="mb-4">
                         <ul className="nav nav-tabs" role="tablist">
-                          {tabs.map(tab => (
+                          {tabs.map((tab) => (
                             <li key={tab.id} className="nav-item">
                               <button
-                                className={`nav-link ${activeTab === tab.id ? 'active' : ''}`}
+                                className={`nav-link ${
+                                  activeTab === tab.id ? "active" : ""
+                                }`}
                                 onClick={() => setActiveTab(tab.id)}
                                 type="button"
                                 style={{
-                                  color: activeTab === tab.id ? '#1967d2' : '#6c757d',
-                                  borderBottom: activeTab === tab.id ? '2px solid #1967d2' : 'none',
-                                  padding: '0.5rem 1rem',
-                                  fontWeight: activeTab === tab.id ? '600' : '400'
+                                  color:
+                                    activeTab === tab.id
+                                      ? "#1967d2"
+                                      : "#6c757d",
+                                  borderBottom:
+                                    activeTab === tab.id
+                                      ? "2px solid #1967d2"
+                                      : "none",
+                                  padding: "0.5rem 1rem",
+                                  fontWeight:
+                                    activeTab === tab.id ? "600" : "400",
                                 }}
                               >
                                 {tab.label}
@@ -551,11 +582,17 @@ const SocialNetworkBox = () => {
                       {/* Tab Content */}
                       <div className="tab-content">
                         {/* Basic Information Tab */}
-                        <div className={`tab-pane fade ${activeTab === 'basic' ? 'show active' : ''}`}>
+                        <div
+                          className={`tab-pane fade ${
+                            activeTab === "basic" ? "show active" : ""
+                          }`}
+                        >
                           <div className="row">
                             <div className="col-lg-12">
                               <div className="form-group">
-                                <h4 className="font-bold text-lg mb-3">Basic Information</h4>
+                                <h4 className="font-bold text-lg mb-3">
+                                  Basic Information
+                                </h4>
                                 <div className="row">
                                   <div className="col-lg-12 mb-3">
                                     <label>Company Name</label>
@@ -570,16 +607,32 @@ const SocialNetworkBox = () => {
                                   </div>
                                 </div>
                                 {/* What Makes Us Unique Section */}
-                                <h4 className="font-bold text-lg mt-4 mb-3">What Makes Us Unique</h4>
+                                <h4 className="font-bold text-lg mt-4 mb-3">
+                                  What Makes Us Unique
+                                </h4>
                                 <div className="row">
                                   {makesUsUnique.map((item, idx) => (
-                                    <div className="col-md-6 mb-3" key={item.key}>
+                                    <div
+                                      className="col-md-6 mb-3"
+                                      key={item.key}
+                                    >
                                       <div className="d-flex align-items-center mb-1">
-                                        <label className="me-2 mb-0" style={{ fontWeight: 500 }}>{item.title}</label>
+                                        <label
+                                          className="me-2 mb-0"
+                                          style={{ fontWeight: 500 }}
+                                        >
+                                          {item.title}
+                                        </label>
                                         <Switch
                                           checked={item.toogle}
-                                          onChange={checked => {
-                                            setMakesUsUnique(prev => prev.map((el, i) => i === idx ? { ...el, toogle: checked } : el));
+                                          onChange={(checked) => {
+                                            setMakesUsUnique((prev) =>
+                                              prev.map((el, i) =>
+                                                i === idx
+                                                  ? { ...el, toogle: checked }
+                                                  : el
+                                              )
+                                            );
                                           }}
                                           className="me-2"
                                         />
@@ -588,8 +641,17 @@ const SocialNetworkBox = () => {
                                         type="text"
                                         className="form-control"
                                         value={item.value}
-                                        onChange={e => {
-                                          setMakesUsUnique(prev => prev.map((el, i) => i === idx ? { ...el, value: e.target.value } : el));
+                                        onChange={(e) => {
+                                          setMakesUsUnique((prev) =>
+                                            prev.map((el, i) =>
+                                              i === idx
+                                                ? {
+                                                    ...el,
+                                                    value: e.target.value,
+                                                  }
+                                                : el
+                                            )
+                                          );
                                         }}
                                         placeholder={item.title}
                                       />
@@ -597,18 +659,27 @@ const SocialNetworkBox = () => {
                                   ))}
                                 </div>
                                 {/* Join Us Section */}
-                                <h4 className="font-bold text-lg mt-4 mb-3">Join Us</h4>
+                                <h4 className="font-bold text-lg mt-4 mb-3">
+                                  Join Us
+                                </h4>
                                 <div className="mb-3">
                                   <label>Career Opportunities</label>
                                   <ReactQuill
                                     theme="snow"
                                     value={companyData.join_us || ""}
-                                    onChange={value => setCompanyData(prev => ({ ...prev, join_us: value }))}
+                                    onChange={(value) =>
+                                      setCompanyData((prev) => ({
+                                        ...prev,
+                                        join_us: value,
+                                      }))
+                                    }
                                     className="h-48 mb-12"
                                   />
                                 </div>
                                 {/* Social Media & Website Section */}
-                                <h4 className="font-bold text-lg mt-4 mb-3">Social Media & Website</h4>
+                                <h4 className="font-bold text-lg mt-4 mb-3">
+                                  Social Media & Website
+                                </h4>
                                 <div className="row">
                                   <div className="col-md-6 mb-3">
                                     <label>Facebook</label>
@@ -661,29 +732,42 @@ const SocialNetworkBox = () => {
                         </div>
 
                         {/* About Company Tab */}
-                        <div className={`tab-pane fade ${activeTab === 'about' ? 'show active' : ''}`}>
-                          <div style={{
-                            maxWidth: 700,
-                            margin: '0 auto',
-                            background: 'linear-gradient(135deg, #f8fbff 0%, #eaf1fb 100%)',
-                            borderRadius: 20,
-                            boxShadow: '0 8px 32px rgba(25,103,210,0.10)',
-                            padding: 44,
-                            marginTop: 40,
-                            marginBottom: 40,
-                            animation: 'fadeInUp 0.7s',
-                            border: '1px solid #e3eaf5',
-                            transition: 'box-shadow 0.2s',
-                          }}>
-                            <h4 style={{
-                              fontWeight: 800,
-                              fontSize: 30,
-                              marginBottom: 36,
-                              color: '#1a237e',
-                              letterSpacing: 0.3
-                            }}>About Company</h4>
+                        <div
+                          className={`tab-pane fade ${
+                            activeTab === "about" ? "show active" : ""
+                          }`}
+                        >
+                          <div
+                            style={{
+                              maxWidth: 700,
+                              margin: "0 auto",
+                              background:
+                                "linear-gradient(135deg, #f8fbff 0%, #eaf1fb 100%)",
+                              borderRadius: 20,
+                              boxShadow: "0 8px 32px rgba(25,103,210,0.10)",
+                              padding: 44,
+                              marginTop: 40,
+                              marginBottom: 40,
+                              animation: "fadeInUp 0.7s",
+                              border: "1px solid #e3eaf5",
+                              transition: "box-shadow 0.2s",
+                            }}
+                          >
+                            <h4
+                              style={{
+                                fontWeight: 800,
+                                fontSize: 30,
+                                marginBottom: 36,
+                                color: "#1a237e",
+                                letterSpacing: 0.3,
+                              }}
+                            >
+                              About Company
+                            </h4>
                             <div style={{ marginBottom: 0 }}>
-                              <label className="modern-label">Company Title</label>
+                              <label className="modern-label">
+                                Company Title
+                              </label>
                               <input
                                 type="text"
                                 name="title"
@@ -693,13 +777,13 @@ const SocialNetworkBox = () => {
                                 placeholder="Enter company title"
                                 style={{
                                   borderRadius: 10,
-                                  border: '1.5px solid #dbeafe',
-                                  padding: '14px 18px',
+                                  border: "1.5px solid #dbeafe",
+                                  padding: "14px 18px",
                                   fontSize: 17,
-                                  width: '100%',
+                                  width: "100%",
                                   marginTop: 4,
-                                  background: '#fafdff',
-                                  transition: 'border 0.2s, box-shadow 0.2s',
+                                  background: "#fafdff",
+                                  transition: "border 0.2s, box-shadow 0.2s",
                                 }}
                               />
                             </div>
@@ -709,39 +793,53 @@ const SocialNetworkBox = () => {
                               <ReactQuill
                                 theme="snow"
                                 value={companyData.summery || ""}
-                                onChange={value => setCompanyData(prev => ({ ...prev, summery: value }))}
+                                onChange={(value) =>
+                                  setCompanyData((prev) => ({
+                                    ...prev,
+                                    summery: value,
+                                  }))
+                                }
                                 className="h-48 mb-12 modern-input"
                                 style={{
                                   borderRadius: 10,
-                                  border: '1.5px solid #dbeafe',
+                                  border: "1.5px solid #dbeafe",
                                   marginTop: 4,
-                                  background: '#fafdff',
+                                  background: "#fafdff",
                                   minHeight: 120,
-                                  transition: 'border 0.2s, box-shadow 0.2s',
+                                  transition: "border 0.2s, box-shadow 0.2s",
                                 }}
                               />
                             </div>
                             <div className="modern-divider"></div>
                             <div style={{ marginBottom: 0 }}>
-                              <label className="modern-label">Description</label>
+                              <label className="modern-label">
+                                Description
+                              </label>
                               <ReactQuill
                                 theme="snow"
                                 value={companyData.about || ""}
-                                onChange={value => setCompanyData(prev => ({ ...prev, about: value }))}
+                                onChange={(value) =>
+                                  setCompanyData((prev) => ({
+                                    ...prev,
+                                    about: value,
+                                  }))
+                                }
                                 className="h-48 mb-12 modern-input"
                                 style={{
                                   borderRadius: 10,
-                                  border: '1.5px solid #dbeafe',
+                                  border: "1.5px solid #dbeafe",
                                   marginTop: 4,
-                                  background: '#fafdff',
+                                  background: "#fafdff",
                                   minHeight: 120,
-                                  transition: 'border 0.2s, box-shadow 0.2s',
+                                  transition: "border 0.2s, box-shadow 0.2s",
                                 }}
                               />
                             </div>
                             <div className="modern-divider"></div>
                             <div style={{ marginBottom: 0 }}>
-                              <label className="modern-label">Images (Max: 3)</label>
+                              <label className="modern-label">
+                                Images (Max: 3)
+                              </label>
                               <input
                                 type="file"
                                 accept="image/*"
@@ -750,12 +848,12 @@ const SocialNetworkBox = () => {
                                 multiple
                                 style={{
                                   borderRadius: 10,
-                                  border: '1.5px solid #dbeafe',
-                                  padding: '12px 14px',
+                                  border: "1.5px solid #dbeafe",
+                                  padding: "12px 14px",
                                   fontSize: 16,
-                                  background: '#fafdff',
+                                  background: "#fafdff",
                                   marginTop: 4,
-                                  transition: 'border 0.2s, box-shadow 0.2s',
+                                  transition: "border 0.2s, box-shadow 0.2s",
                                 }}
                               />
                             </div>
@@ -764,8 +862,23 @@ const SocialNetworkBox = () => {
                               onClick={handleAboutSave}
                               className="modern-save-btn"
                             >
-                              <span style={{ display: 'flex', alignItems: 'center' }}>
-                                <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path fill="#fff" d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7.17a2 2 0 0 1 1.41.59l3.83 3.83A2 2 0 0 1 20 8.83V19a2 2 0 0 1-2 2ZM7 3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8.83a2 2 0 0 0-.59-1.41l-3.83-3.83A2 2 0 0 0 14.17 3H7Zm5 13a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z"></path></svg>
+                              <span
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <svg
+                                  width="20"
+                                  height="20"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    fill="#fff"
+                                    d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7.17a2 2 0 0 1 1.41.59l3.83 3.83A2 2 0 0 1 20 8.83V19a2 2 0 0 1-2 2ZM7 3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8.83a2 2 0 0 0-.59-1.41l-3.83-3.83A2 2 0 0 0 14.17 3H7Zm5 13a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z"
+                                  ></path>
+                                </svg>
                               </span>
                               Save About Section
                             </button>
@@ -773,7 +886,11 @@ const SocialNetworkBox = () => {
                         </div>
 
                         {/* Inside Company Images Tab */}
-                        <div className={`tab-pane fade ${activeTab === 'images' ? 'show active' : ''}`}>
+                        <div
+                          className={`tab-pane fade ${
+                            activeTab === "images" ? "show active" : ""
+                          }`}
+                        >
                           <div className="row m-b30">
                             <div className="col-lg-12">
                               <div className="form-group">
@@ -783,42 +900,68 @@ const SocialNetworkBox = () => {
                                     <div className="form-group">
                                       <label>Culture Images</label>
                                       <div className="d-flex flex-wrap gap-2 mb-3">
-                                        {insideCultureImages.map((image, index) => (
-                                          <div key={index} className="position-relative">
-                                            <img
-                                              src={typeof image === 'string' ? `${BASE_IMAGE_URL}${image}` : URL.createObjectURL(image)}
-                                              alt="Culture"
-                                              className="img-thumbnail"
-                                              style={{ width: '100px', height: '100px', objectFit: 'cover' }}
-                                            />
-                                            <button
-                                              type="button"
-                                              onClick={() => removeInsideImage(index, 'culture')}
-                                              className="btn btn-danger btn-sm position-absolute top-0 end-0"
+                                        {insideCultureImages.map(
+                                          (image, index) => (
+                                            <div
+                                              key={index}
+                                              className="position-relative"
                                             >
-                                              ×
-                                            </button>
-                                          </div>
-                                        ))}
+                                              <img
+                                                src={
+                                                  typeof image === "string"
+                                                    ? `${BASE_IMAGE_URL}${image}`
+                                                    : URL.createObjectURL(image)
+                                                }
+                                                alt="Culture"
+                                                className="img-thumbnail"
+                                                style={{
+                                                  width: "100px",
+                                                  height: "100px",
+                                                  objectFit: "cover",
+                                                }}
+                                              />
+                                              <button
+                                                type="button"
+                                                onClick={() =>
+                                                  removeInsideImage(
+                                                    index,
+                                                    "culture"
+                                                  )
+                                                }
+                                                className="btn btn-danger btn-sm position-absolute top-0 end-0"
+                                              >
+                                                ×
+                                              </button>
+                                            </div>
+                                          )
+                                        )}
                                       </div>
                                       {insideCultureImages.length < 3 && (
                                         <input
                                           type="file"
                                           accept="image/*"
-                                          onChange={(e) => handleInsideImageUpload(e, 'culture')}
+                                          onChange={(e) =>
+                                            handleInsideImageUpload(
+                                              e,
+                                              "culture"
+                                            )
+                                          }
                                           className="form-control mb-3"
                                           multiple
                                         />
                                       )}
                                       <button
                                         type="button"
-                                        onClick={() => handleInsideImagesSave('culture')}
+                                        onClick={() =>
+                                          handleInsideImagesSave("culture")
+                                        }
                                         className="btn btn-primary d-flex align-items-center gap-2"
                                         style={{
-                                          backgroundColor: '#1967d2',
-                                          border: 'none',
-                                          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                                          transition: 'all 0.3s ease'
+                                          backgroundColor: "#1967d2",
+                                          border: "none",
+                                          boxShadow:
+                                            "0 2px 4px rgba(0,0,0,0.1)",
+                                          transition: "all 0.3s ease",
                                         }}
                                       >
                                         <i className="fa-solid fa-save"></i>
@@ -831,42 +974,68 @@ const SocialNetworkBox = () => {
                                     <div className="form-group">
                                       <label>Workplace Images</label>
                                       <div className="d-flex flex-wrap gap-2 mb-3">
-                                        {insideWorkplaceImages.map((image, index) => (
-                                          <div key={index} className="position-relative">
-                                            <img
-                                              src={typeof image === 'string' ? `${BASE_IMAGE_URL}${image}` : URL.createObjectURL(image)}
-                                              alt="Workplace"
-                                              className="img-thumbnail"
-                                              style={{ width: '100px', height: '100px', objectFit: 'cover' }}
-                                            />
-                                            <button
-                                              type="button"
-                                              onClick={() => removeInsideImage(index, 'workplace')}
-                                              className="btn btn-danger btn-sm position-absolute top-0 end-0"
+                                        {insideWorkplaceImages.map(
+                                          (image, index) => (
+                                            <div
+                                              key={index}
+                                              className="position-relative"
                                             >
-                                              ×
-                                            </button>
-                                          </div>
-                                        ))}
+                                              <img
+                                                src={
+                                                  typeof image === "string"
+                                                    ? `${BASE_IMAGE_URL}${image}`
+                                                    : URL.createObjectURL(image)
+                                                }
+                                                alt="Workplace"
+                                                className="img-thumbnail"
+                                                style={{
+                                                  width: "100px",
+                                                  height: "100px",
+                                                  objectFit: "cover",
+                                                }}
+                                              />
+                                              <button
+                                                type="button"
+                                                onClick={() =>
+                                                  removeInsideImage(
+                                                    index,
+                                                    "workplace"
+                                                  )
+                                                }
+                                                className="btn btn-danger btn-sm position-absolute top-0 end-0"
+                                              >
+                                                ×
+                                              </button>
+                                            </div>
+                                          )
+                                        )}
                                       </div>
                                       {insideWorkplaceImages.length < 3 && (
                                         <input
                                           type="file"
                                           accept="image/*"
-                                          onChange={(e) => handleInsideImageUpload(e, 'workplace')}
+                                          onChange={(e) =>
+                                            handleInsideImageUpload(
+                                              e,
+                                              "workplace"
+                                            )
+                                          }
                                           className="form-control mb-3"
                                           multiple
                                         />
                                       )}
                                       <button
                                         type="button"
-                                        onClick={() => handleInsideImagesSave('workplace')}
+                                        onClick={() =>
+                                          handleInsideImagesSave("workplace")
+                                        }
                                         className="btn btn-primary d-flex align-items-center gap-2"
                                         style={{
-                                          backgroundColor: '#1967d2',
-                                          border: 'none',
-                                          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                                          transition: 'all 0.3s ease'
+                                          backgroundColor: "#1967d2",
+                                          border: "none",
+                                          boxShadow:
+                                            "0 2px 4px rgba(0,0,0,0.1)",
+                                          transition: "all 0.3s ease",
                                         }}
                                       >
                                         <i className="fa-solid fa-save"></i>
@@ -879,42 +1048,65 @@ const SocialNetworkBox = () => {
                                     <div className="form-group">
                                       <label>People Images</label>
                                       <div className="d-flex flex-wrap gap-2 mb-3">
-                                        {insidePeopleImages.map((image, index) => (
-                                          <div key={index} className="position-relative">
-                                            <img
-                                              src={typeof image === 'string' ? `${BASE_IMAGE_URL}${image}` : URL.createObjectURL(image)}
-                                              alt="People"
-                                              className="img-thumbnail"
-                                              style={{ width: '100px', height: '100px', objectFit: 'cover' }}
-                                            />
-                                            <button
-                                              type="button"
-                                              onClick={() => removeInsideImage(index, 'people')}
-                                              className="btn btn-danger btn-sm position-absolute top-0 end-0"
+                                        {insidePeopleImages.map(
+                                          (image, index) => (
+                                            <div
+                                              key={index}
+                                              className="position-relative"
                                             >
-                                              ×
-                                            </button>
-                                          </div>
-                                        ))}
+                                              <img
+                                                src={
+                                                  typeof image === "string"
+                                                    ? `${BASE_IMAGE_URL}${image}`
+                                                    : URL.createObjectURL(image)
+                                                }
+                                                alt="People"
+                                                className="img-thumbnail"
+                                                style={{
+                                                  width: "100px",
+                                                  height: "100px",
+                                                  objectFit: "cover",
+                                                }}
+                                              />
+                                              <button
+                                                type="button"
+                                                onClick={() =>
+                                                  removeInsideImage(
+                                                    index,
+                                                    "people"
+                                                  )
+                                                }
+                                                className="btn btn-danger btn-sm position-absolute top-0 end-0"
+                                              >
+                                                ×
+                                              </button>
+                                            </div>
+                                          )
+                                        )}
                                       </div>
                                       {insidePeopleImages.length < 3 && (
                                         <input
                                           type="file"
                                           accept="image/*"
-                                          onChange={(e) => handleInsideImageUpload(e, 'people')}
+                                          onChange={(e) =>
+                                            handleInsideImageUpload(e, "people")
+                                          }
                                           className="form-control mb-3"
                                           multiple
                                         />
                                       )}
                                       <button
                                         type="button"
-                                        onClick={() => handleInsideImagesSave('people')}
+                                        onClick={() =>
+                                          handleInsideImagesSave("people")
+                                        }
                                         className="btn btn-primary d-flex align-items-center gap-2"
                                         style={{
-                                          backgroundColor: '#1967d2',
-                                          border: 'none',
-                                          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                                          transition: 'all 0.3s ease'
+                                          backgroundColor: "#1967d2",
+                                          border: "none",
+                                          boxShadow:
+                                            "0 2px 4px rgba(0,0,0,0.1)",
+                                          transition: "all 0.3s ease",
                                         }}
                                       >
                                         <i className="fa-solid fa-save"></i>
@@ -929,88 +1121,157 @@ const SocialNetworkBox = () => {
                         </div>
 
                         {/* Team Members Tab */}
-                        <div className={`tab-pane fade ${activeTab === 'team' ? 'show active' : ''}`}>
-                          <div style={{ maxWidth: 420, margin: '0 auto', paddingTop: 32 }}>
-                            {(editingId !== null) ? (
-                              <div style={{
-                                background: '#fff',
-                                borderRadius: 16,
-                                boxShadow: '0 4px 24px rgba(0,0,0,0.07)',
-                                padding: 32,
-                                marginBottom: 32,
-                                minWidth: 320,
-                              }}>
+                        <div
+                          className={`tab-pane fade ${
+                            activeTab === "team" ? "show active" : ""
+                          }`}
+                        >
+                          <div
+                            style={{
+                              maxWidth: 420,
+                              margin: "0 auto",
+                              paddingTop: 32,
+                            }}
+                          >
+                            {editingId !== null ? (
+                              <div
+                                style={{
+                                  background: "#fff",
+                                  borderRadius: 16,
+                                  boxShadow: "0 4px 24px rgba(0,0,0,0.07)",
+                                  padding: 32,
+                                  marginBottom: 32,
+                                  minWidth: 320,
+                                }}
+                              >
                                 <input
                                   type="text"
                                   value={tempMember.name}
-                                  onChange={e => setTempMember(prev => ({ ...prev, name: e.target.value }))}
+                                  onChange={(e) =>
+                                    setTempMember((prev) => ({
+                                      ...prev,
+                                      name: e.target.value,
+                                    }))
+                                  }
                                   placeholder="Name"
                                   style={{
-                                    width: '100%',
-                                    padding: '12px 16px',
+                                    width: "100%",
+                                    padding: "12px 16px",
                                     borderRadius: 8,
-                                    border: '1.5px solid #e0e0e0',
+                                    border: "1.5px solid #e0e0e0",
                                     fontSize: 17,
                                     marginBottom: 18,
-                                    background: '#fafbfc',
+                                    background: "#fafbfc",
                                   }}
                                 />
                                 <ReactQuill
                                   theme="snow"
                                   value={tempMember.description}
-                                  onChange={val => setTempMember(prev => ({ ...prev, description: val }))}
-                                  style={{ height: 120, marginBottom: 18, borderRadius: 8, border: '1.5px solid #e0e0e0', background: '#fafbfc' }}
+                                  onChange={(val) =>
+                                    setTempMember((prev) => ({
+                                      ...prev,
+                                      description: val,
+                                    }))
+                                  }
+                                  style={{
+                                    height: 120,
+                                    marginBottom: 18,
+                                    borderRadius: 8,
+                                    border: "1.5px solid #e0e0e0",
+                                    background: "#fafbfc",
+                                  }}
                                 />
-                                <div style={{ fontWeight: 700, marginBottom: 8, color: '#222' }}>Update Photo</div>
+                                <div
+                                  style={{
+                                    fontWeight: 700,
+                                    marginBottom: 8,
+                                    color: "#222",
+                                  }}
+                                >
+                                  Update Photo
+                                </div>
                                 <input
                                   type="file"
                                   accept="image/*"
-                                  onChange={e => setTempMember(prev => ({ ...prev, image: e.target.files[0] }))}
+                                  onChange={(e) =>
+                                    setTempMember((prev) => ({
+                                      ...prev,
+                                      image: e.target.files[0],
+                                    }))
+                                  }
                                   style={{ marginBottom: 24 }}
                                 />
-                                <div style={{ display: 'flex', gap: 16, marginTop: 12 }}>
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    gap: 16,
+                                    marginTop: 12,
+                                  }}
+                                >
                                   <button
                                     type="button"
                                     onClick={saveTeamMember}
                                     style={{
-                                      background: '#22c55e',
-                                      color: '#fff',
-                                      border: 'none',
+                                      background: "#22c55e",
+                                      color: "#fff",
+                                      border: "none",
                                       borderRadius: 8,
-                                      padding: '10px 28px',
+                                      padding: "10px 28px",
                                       fontWeight: 700,
                                       fontSize: 18,
-                                      display: 'flex',
-                                      alignItems: 'center',
+                                      display: "flex",
+                                      alignItems: "center",
                                       gap: 8,
-                                      cursor: 'pointer',
-                                      boxShadow: '0 2px 8px rgba(34,197,94,0.08)',
-                                      transition: 'background 0.2s',
+                                      cursor: "pointer",
+                                      boxShadow:
+                                        "0 2px 8px rgba(34,197,94,0.08)",
+                                      transition: "background 0.2s",
                                     }}
                                   >
-                                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path fill="#fff" d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7.17a2 2 0 0 1 1.41.59l3.83 3.83A2 2 0 0 1 20 8.83V19a2 2 0 0 1-2 2ZM7 3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8.83a2 2 0 0 0-.59-1.41l-3.83-3.83A2 2 0 0 0 14.17 3H7Zm5 13a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z"></path></svg>
+                                    <svg
+                                      width="20"
+                                      height="20"
+                                      fill="none"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path
+                                        fill="#fff"
+                                        d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7.17a2 2 0 0 1 1.41.59l3.83 3.83A2 2 0 0 1 20 8.83V19a2 2 0 0 1-2 2ZM7 3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8.83a2 2 0 0 0-.59-1.41l-3.83-3.83A2 2 0 0 0 14.17 3H7Zm5 13a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z"
+                                      ></path>
+                                    </svg>
                                     <span>Save</span>
                                   </button>
                                   <button
                                     type="button"
                                     onClick={cancelEdit}
                                     style={{
-                                      background: '#6b7280',
-                                      color: '#fff',
-                                      border: 'none',
+                                      background: "#6b7280",
+                                      color: "#fff",
+                                      border: "none",
                                       borderRadius: 8,
-                                      padding: '10px 28px',
+                                      padding: "10px 28px",
                                       fontWeight: 700,
                                       fontSize: 18,
-                                      display: 'flex',
-                                      alignItems: 'center',
+                                      display: "flex",
+                                      alignItems: "center",
                                       gap: 8,
-                                      cursor: 'pointer',
-                                      boxShadow: '0 2px 8px rgba(107,114,128,0.08)',
-                                      transition: 'background 0.2s',
+                                      cursor: "pointer",
+                                      boxShadow:
+                                        "0 2px 8px rgba(107,114,128,0.08)",
+                                      transition: "background 0.2s",
                                     }}
                                   >
-                                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path fill="#fff" d="M18.3 5.71a1 1 0 0 0-1.41 0L12 10.59 7.11 5.7A1 1 0 0 0 5.7 7.11L10.59 12l-4.89 4.89a1 1 0 1 0 1.41 1.41L12 13.41l4.89 4.89a1 1 0 0 0 1.41-1.41L13.41 12l4.89-4.89a1 1 0 0 0 0-1.4Z"></path></svg>
+                                    <svg
+                                      width="20"
+                                      height="20"
+                                      fill="none"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path
+                                        fill="#fff"
+                                        d="M18.3 5.71a1 1 0 0 0-1.41 0L12 10.59 7.11 5.7A1 1 0 0 0 5.7 7.11L10.59 12l-4.89 4.89a1 1 0 1 0 1.41 1.41L12 13.41l4.89 4.89a1 1 0 0 0 1.41-1.41L13.41 12l4.89-4.89a1 1 0 0 0 0-1.4Z"
+                                      ></path>
+                                    </svg>
                                     <span>Cancel</span>
                                   </button>
                                 </div>
@@ -1020,27 +1281,41 @@ const SocialNetworkBox = () => {
                               type="button"
                               onClick={addTeamMember}
                               style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
                                 width: 320,
-                                margin: '0 auto',
-                                padding: '16px 0',
-                                background: '#3b82f6',
+                                margin: "0 auto",
+                                padding: "16px 0",
+                                background: "#3b82f6",
                                 borderRadius: 10,
-                                color: 'white',
+                                color: "white",
                                 fontWeight: 700,
                                 fontSize: 20,
-                                boxShadow: '0 4px 16px rgba(59,130,246,0.10)',
-                                transition: 'background 0.2s, box-shadow 0.2s, transform 0.1s',
+                                boxShadow: "0 4px 16px rgba(59,130,246,0.10)",
+                                transition:
+                                  "background 0.2s, box-shadow 0.2s, transform 0.1s",
                                 marginTop: 32,
                                 marginBottom: 32,
-                                border: 'none',
-                                cursor: 'pointer',
+                                border: "none",
+                                cursor: "pointer",
                                 gap: 12,
                               }}
                             >
-                              <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M12 5v14m7-7H5"/></svg>
+                              <svg
+                                width="24"
+                                height="24"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  stroke="#fff"
+                                  strokeWidth="2"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M12 5v14m7-7H5"
+                                />
+                              </svg>
                               Add New Team Member
                             </button>
                           </div>
@@ -1051,24 +1326,26 @@ const SocialNetworkBox = () => {
                       <div className="row mt-4">
                         <div className="col-lg-12">
                           <div className="form-group text-end">
-                            {activeTab !== 'about' && activeTab !== 'images' && activeTab !== 'team' && (
-                              <button
-                                type="submit"
-                                onClick={handleSave}
-                                className="btn btn-primary btn-lg d-flex align-items-center gap-2"
-                                style={{
-                                  backgroundColor: '#1967d2',
-                                  border: 'none',
-                                  boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                                  transition: 'all 0.3s ease',
-                                  padding: '0.75rem 1.5rem',
-                                  fontSize: '1.1rem'
-                                }}
-                              >
-                                <i className="fa-solid fa-save"></i>
-                                Save All Changes
-                              </button>
-                            )}
+                            {activeTab !== "about" &&
+                              activeTab !== "images" &&
+                              activeTab !== "team" && (
+                                <button
+                                  type="submit"
+                                  onClick={handleSave}
+                                  className="btn btn-primary btn-lg d-flex align-items-center gap-2"
+                                  style={{
+                                    backgroundColor: "#1967d2",
+                                    border: "none",
+                                    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                                    transition: "all 0.3s ease",
+                                    padding: "0.75rem 1.5rem",
+                                    fontSize: "1.1rem",
+                                  }}
+                                >
+                                  <i className="fa-solid fa-save"></i>
+                                  Save All Changes
+                                </button>
+                              )}
                           </div>
                         </div>
                       </div>
@@ -1085,4 +1362,4 @@ const SocialNetworkBox = () => {
   );
 };
 
-export default SocialNetworkBox; 
+export default SocialNetworkBox;
