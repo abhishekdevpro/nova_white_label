@@ -15,7 +15,7 @@ import {
 // import ConfirmationDialog from "./ConfirmationDialog";
 // import LinkedInShareButton from "./ShareButton";
 import { Link } from "react-router-dom";
-import styled from 'styled-components';
+import styled from "styled-components";
 import LikeButton from "./LikeButton";
 import LinkedInShareButton from "./ShareButton";
 import ConfirmationDialog from "./ConformationDialog";
@@ -90,7 +90,6 @@ const ProfileImage = styled.img`
   border-radius: 50%; /* Circular image */
   margin-right: 12px;
   object-fit: cover;
-  
 `;
 
 const CommentSection = styled.div`
@@ -103,8 +102,8 @@ const CommentCard = styled.div`
   border-radius: 8px; /* Rounded corners */
   display: flex;
   align-items: center;
-  justify-center:between;
-  gap:1rem;
+  justify-center: between;
+  gap: 1rem;
 `;
 
 const CommentTextArea = styled.textarea`
@@ -122,10 +121,7 @@ const CommentTextArea = styled.textarea`
 `;
 
 // Main Component
-const FeedSection = ({
-  loginModal,
-  setLoginModal,
-}) => {
+const FeedSection = ({ loginModal, setLoginModal }) => {
   const [posts, setPosts] = useState([]);
   const [content, setContent] = useState("");
   const [isAnonymous, setIsAnonymous] = useState(false);
@@ -146,10 +142,13 @@ const FeedSection = ({
     id: null,
     commentId: null,
   });
-  const token = localStorage.getItem("jobSeekerLoginToken") || localStorage.getItem("employeeLoginToken") || '';
+  const token =
+    localStorage.getItem("jobSeekerLoginToken") ||
+    localStorage.getItem("employeeLoginToken") ||
+    "";
 
   function isValidJWT(token) {
-    return typeof token === 'string' && token.split('.').length === 3;
+    return typeof token === "string" && token.split(".").length === 3;
   }
 
   const editComment = (commentId, content, postId) => {
@@ -528,50 +527,61 @@ const FeedSection = ({
           onChange={(e) => setContent(e.target.value)}
           placeholder="Ask anything (even anonymously)..."
         />
-        <div style={{ marginTop: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+        <div
+          style={{
+            marginTop: "16px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
             <label
               htmlFor="file-upload"
-              style={{ cursor: 'pointer', color: '#1e3a8a' }}
+              style={{ cursor: "pointer", color: "#1e3a8a" }}
             >
-             <FaCamera style={{ marginRight: '8px' }} />
-              <span style={{ fontSize: '14px' }}>Upload Image</span>
+              <FaCamera style={{ marginRight: "8px" }} />
+              <span style={{ fontSize: "14px" }}>Upload Image</span>
               <input
                 type="file"
                 id="file-upload"
                 accept="image/*"
                 onChange={handleImageUpload}
-                style={{ display: 'none' }}
+                style={{ display: "none" }}
               />
             </label>
-
           </div>
 
           <Button onClick={addPost}>Post</Button>
         </div>
 
         {image && (
-          <div style={{ marginTop: '16px', position: 'relative' }}>
+          <div style={{ marginTop: "16px", position: "relative" }}>
             <img
               src={image}
               alt="Uploaded"
-              style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1)' }}
+              style={{
+                maxWidth: "100%",
+                height: "auto",
+                borderRadius: "8px",
+                boxShadow: "0 1px 2px rgba(0, 0, 0, 0.1)",
+              }}
             />
             <button
               onClick={() => setImage(null)}
               style={{
-                position: 'absolute',
-                top: '8px',
-                right: '8px',
-                backgroundColor: '#ef4444', /* Red */
-                color: '#ffffff',
-                padding: '4px',
-                borderRadius: '50%',
-                border: 'none',
-                cursor: 'pointer',
+                position: "absolute",
+                top: "8px",
+                right: "8px",
+                backgroundColor: "#ef4444" /* Red */,
+                color: "#ffffff",
+                padding: "4px",
+                borderRadius: "50%",
+                border: "none",
+                cursor: "pointer",
               }}
             >
-              <FaTimes  />
+              <FaTimes />
             </button>
           </div>
         )}
@@ -579,14 +589,30 @@ const FeedSection = ({
 
       <PostSection>
         {posts.length === 0 ? (
-          <div style={{ textAlign: 'center', color: '#6b7280', padding: '32px', backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1)' }}>
+          <div
+            style={{
+              textAlign: "center",
+              color: "#6b7280",
+              padding: "32px",
+              backgroundColor: "#ffffff",
+              borderRadius: "8px",
+              boxShadow: "0 1px 2px rgba(0, 0, 0, 0.1)",
+            }}
+          >
             No posts available. Be the first to post!
           </div>
         ) : (
           posts.map((post) => (
             <PostCard key={post.id}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  marginBottom: "16px",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center" }}>
                   <ProfileImage
                     src={
                       post.user_photo
@@ -596,38 +622,72 @@ const FeedSection = ({
                     alt="Profile"
                   />
                   <div>
-                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent:'center',alignItems:'center' }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
                       <Link to={`/community/${post.id}`}>
-                        <p style={{ fontWeight: 'bold', color: '#1f2937' }}>
+                        <p style={{ fontWeight: "bold", color: "#1f2937" }}>
                           {post.user_first_name} {post.user_last_name}
                         </p>
                       </Link>
-                      <p style={{ fontSize: '12px', color: '#6b7280' }}>
+                      <p style={{ fontSize: "12px", color: "#6b7280" }}>
                         {new Date(post.created_at).toLocaleDateString()}
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <div style={{ position: 'relative' }}>
+                <div style={{ position: "relative" }}>
                   <button
                     onClick={() => toggleDropdown(post.id)}
-                    style={{ padding: '8px',backgroundColor:'transparent' ,cursor: 'pointer',border:'none' }}
+                    style={{
+                      padding: "8px",
+                      backgroundColor: "transparent",
+                      cursor: "pointer",
+                      border: "none",
+                    }}
                   >
                     <FaEllipsisV />
                   </button>
 
                   {openDropdownId === post.id && (
-                    <div style={{ position: 'absolute', right: '0', marginTop: '8px', width: '120px', backgroundColor: '#ffffff', border: '1px solid #d1d5db', borderRadius: '8px', boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1)', zIndex: 10 }}>
+                    <div
+                      style={{
+                        position: "absolute",
+                        right: "0",
+                        marginTop: "8px",
+                        width: "120px",
+                        backgroundColor: "#ffffff",
+                        border: "1px solid #d1d5db",
+                        borderRadius: "8px",
+                        boxShadow: "0 1px 2px rgba(0, 0, 0, 0.1)",
+                        zIndex: 10,
+                      }}
+                    >
                       {post.is_edit && editingPostId !== post.id && (
                         <button
                           onClick={() => {
                             editPost(post.id, post.content);
                             setOpenDropdownId(null);
                           }}
-                          style={{ display: 'flex', alignItems: 'center', padding: '8px', width: '100%', textAlign: 'left', color: '#1e3a8a', backgroundColor: 'transparent', border: 'none', cursor: 'pointer' }}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            padding: "8px",
+                            width: "100%",
+                            textAlign: "left",
+                            color: "#1e3a8a",
+                            backgroundColor: "transparent",
+                            border: "none",
+                            cursor: "pointer",
+                          }}
                         >
-                          <FaEdit style={{ marginRight: '8px' }} /> Edit
+                          <FaEdit style={{ marginRight: "8px" }} /> Edit
                         </button>
                       )}
                       <button
@@ -635,9 +695,19 @@ const FeedSection = ({
                           confirmDeletePost(post.id);
                           setOpenDropdownId(null);
                         }}
-                        style={{ display: 'flex', alignItems: 'center', padding: '8px', width: '100%', textAlign: 'left', color: '#ef4444', backgroundColor: 'transparent', border: 'none', cursor: 'pointer' }}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          padding: "8px",
+                          width: "100%",
+                          textAlign: "left",
+                          color: "#ef4444",
+                          backgroundColor: "transparent",
+                          border: "none",
+                          cursor: "pointer",
+                        }}
                       >
-                        <FaTrash style={{ marginRight: '8px' }} /> Delete
+                        <FaTrash style={{ marginRight: "8px" }} /> Delete
                       </button>
                     </div>
                   )}
@@ -645,23 +715,46 @@ const FeedSection = ({
               </div>
 
               {editingPostId === post.id ? (
-                <div style={{ marginBottom: '16px' }}>
+                <div style={{ marginBottom: "16px" }}>
                   <TextArea
                     value={editedContent}
                     onChange={(e) => setEditedContent(e.target.value)}
                   />
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '8px' }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      gap: "8px",
+                      marginTop: "8px",
+                    }}
+                  >
                     <button
                       onClick={() => setEditingPostId(null)}
-                      style={{ backgroundColor: '#e5e7eb', color: '#4b5563', padding: '8px 16px', borderRadius: '6px', border: 'none', cursor: 'pointer' }}
+                      style={{
+                        backgroundColor: "#e5e7eb",
+                        color: "#4b5563",
+                        padding: "8px 16px",
+                        borderRadius: "6px",
+                        border: "none",
+                        cursor: "pointer",
+                      }}
                     >
                       Cancel
                     </button>
-                    <Button onClick={() => saveEditedPost(post.id)}>Save</Button>
+                    <Button onClick={() => saveEditedPost(post.id)}>
+                      Save
+                    </Button>
                   </div>
                 </div>
               ) : (
-                <p style={{ color: '#4b5563', marginBottom: '16px', whiteSpace: 'pre-wrap',textAlign:'start' }}>
+                <p
+                  style={{
+                    color: "#4b5563",
+                    marginBottom: "16px",
+                    whiteSpace: "pre-wrap",
+                    textAlign: "start",
+                  }}
+                >
                   {post.content}
                 </p>
               )}
@@ -670,31 +763,55 @@ const FeedSection = ({
                 <img
                   src={`https://apiwl.novajobs.us${post.feed_image}`}
                   alt="Post"
-                  style={{ width: '100%', borderRadius: '8px', marginBottom: '16px', objectFit: 'fit', maxHeight: '400px' }}
+                  style={{
+                    width: "100%",
+                    borderRadius: "8px",
+                    marginBottom: "16px",
+                    objectFit: "fit",
+                    maxHeight: "400px",
+                  }}
                 />
               )}
 
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between',padding:'6px' }}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  padding: "6px",
+                  // gap:"6px"
+                }}
+              >
                 <LikeButton post={post} />
 
                 <button
-  style={{
-    color: '#6b7280',
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    border:'none',
-    backgroundColor:'transparent'
-  }}
-  onClick={() =>
-    setActiveCommentPostId(
-      activeCommentPostId === post.id ? null : post.id
-    )
-  }
->
-  <FaComment style={{ marginRight: '8px' }} />
-  Comment
-</button>
+                  style={{
+                    color: "#6b7280",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    border: "none",
+                    backgroundColor: "transparent",
+                  }}
+                  onClick={() =>
+                    setActiveCommentPostId(
+                      activeCommentPostId === post.id ? null : post.id
+                    )
+                  }
+                >
+                  <FaComment style={{ marginRight: "8px" }} />
+                  <span className="comment-text">Comment</span>
+                </button>
+
+                <style>
+                  {`
+    @media (max-width: 768px) {
+      .comment-text {
+        display: none;
+      }
+    }
+  `}
+                </style>
 
                 <LinkedInShareButton post={post} />
               </div>
@@ -707,7 +824,13 @@ const FeedSection = ({
                       onChange={(e) => setCommentContent(e.target.value)}
                       placeholder="Join the conversation..."
                     />
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
                       {/* <div style={{ display: 'flex', alignItems: 'center' }}>
                         <input
                           type="checkbox"
@@ -741,12 +864,20 @@ const FeedSection = ({
                           Comment Anonymously
                         </label>
                       </div> */}
-                      <Button onClick={() => addComment(post.id)}>Post Comment</Button>
+                      <Button onClick={() => addComment(post.id)}>
+                        Post Comment
+                      </Button>
                     </div>
                   </CommentCard>
 
                   {post.feed_comments && post.feed_comments.length > 0 && (
-                    <div style={{  display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "8px",
+                      }}
+                    >
                       {post.feed_comments.map((comment, index) => (
                         <CommentCard key={index}>
                           <ProfileImage
@@ -765,36 +896,88 @@ const FeedSection = ({
                                   setEditedCommentContent(e.target.value)
                                 }
                               />
-                              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '8px' }}>
+                              <div
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "flex-end",
+                                  gap: "8px",
+                                  marginTop: "8px",
+                                }}
+                              >
                                 <button
                                   onClick={cancelCommentEdit}
-                                  style={{ backgroundColor: '#e5e7eb', color: '#4b5563', padding: '8px 16px', borderRadius: '6px', border: 'none', cursor: 'pointer' }}
+                                  style={{
+                                    backgroundColor: "#e5e7eb",
+                                    color: "#4b5563",
+                                    padding: "8px 16px",
+                                    borderRadius: "6px",
+                                    border: "none",
+                                    cursor: "pointer",
+                                  }}
                                 >
                                   Cancel
                                 </button>
-                                <Button onClick={saveEditedComment}>Save</Button>
+                                <Button onClick={saveEditedComment}>
+                                  Save
+                                </Button>
                               </div>
                             </div>
                           ) : (
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-                              <div style={{ display: 'flex', flexDirection: 'column',}}>
-                                <p style={{ fontWeight: 'bold', fontSize: '14px', color: '#1f2937' }}>
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                width: "100%",
+                              }}
+                            >
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                }}
+                              >
+                                <p
+                                  style={{
+                                    fontWeight: "bold",
+                                    fontSize: "14px",
+                                    color: "#1f2937",
+                                  }}
+                                >
                                   {comment.isAnonymous ? "Anonymous" : "User"}
                                 </p>
-                                <p style={{ color: '#4b5563', fontSize: '14px' }}>
+                                <p
+                                  style={{ color: "#4b5563", fontSize: "14px" }}
+                                >
                                   {comment.content}
                                 </p>
                               </div>
-                              <div style={{ position: 'relative' }}>
+                              <div style={{ position: "relative" }}>
                                 <button
                                   onClick={() => toggleDropdown(comment.id)}
-                                  style={{ padding: '8px', color: '#4b5563', cursor: 'pointer' }}
+                                  style={{
+                                    padding: "8px",
+                                    color: "#4b5563",
+                                    cursor: "pointer",
+                                  }}
                                 >
                                   <FaEllipsisV />
                                 </button>
 
                                 {openDropdownId === comment.id && (
-                                  <div style={{ position: 'absolute', right: '0', marginTop: '8px', width: '120px', backgroundColor: '#ffffff', border: '1px solid #d1d5db', borderRadius: '8px', boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1)', zIndex: 10 }}>
+                                  <div
+                                    style={{
+                                      position: "absolute",
+                                      right: "0",
+                                      marginTop: "8px",
+                                      width: "120px",
+                                      backgroundColor: "#ffffff",
+                                      border: "1px solid #d1d5db",
+                                      borderRadius: "8px",
+                                      boxShadow: "0 1px 2px rgba(0, 0, 0, 0.1)",
+                                      zIndex: 10,
+                                    }}
+                                  >
                                     {comment.is_edit &&
                                       editingCommentId !== comment.id && (
                                         <button
@@ -806,9 +989,22 @@ const FeedSection = ({
                                             );
                                             setOpenDropdownId(null);
                                           }}
-                                          style={{ display: 'flex', alignItems: 'center', padding: '8px', width: '100%', textAlign: 'left', color: '#1e3a8a', backgroundColor: 'transparent', border: 'none', cursor: 'pointer' }}
+                                          style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            padding: "8px",
+                                            width: "100%",
+                                            textAlign: "left",
+                                            color: "#1e3a8a",
+                                            backgroundColor: "transparent",
+                                            border: "none",
+                                            cursor: "pointer",
+                                          }}
                                         >
-                                          <FaEdit style={{ marginRight: '8px' }} /> Edit
+                                          <FaEdit
+                                            style={{ marginRight: "8px" }}
+                                          />{" "}
+                                          Edit
                                         </button>
                                       )}
                                     <button
@@ -819,9 +1015,20 @@ const FeedSection = ({
                                         );
                                         setOpenDropdownId(null);
                                       }}
-                                      style={{ display: 'flex', alignItems: 'center', padding: '8px', width: '100%', textAlign: 'left', color: '#ef4444', backgroundColor: 'transparent', border: 'none', cursor: 'pointer' }}
+                                      style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        padding: "8px",
+                                        width: "100%",
+                                        textAlign: "left",
+                                        color: "#ef4444",
+                                        backgroundColor: "transparent",
+                                        border: "none",
+                                        cursor: "pointer",
+                                      }}
                                     >
-                                      <FaTrash style={{ marginRight: '8px' }} /> Delete
+                                      <FaTrash style={{ marginRight: "8px" }} />{" "}
+                                      Delete
                                     </button>
                                   </div>
                                 )}

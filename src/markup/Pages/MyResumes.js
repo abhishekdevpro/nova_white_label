@@ -11,6 +11,7 @@ import Profilesidebar from "../Element/Profilesidebar";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 function MyResumes() {
   const [resumes, setResumes] = useState([]);
+  const [isResumeList, setIsResumeList] = useState(false);
   const [scores, setScores] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [modalType, setModalType] = useState(""); // To determine which modal to show
@@ -23,6 +24,7 @@ function MyResumes() {
   const [isDefault, setIsDefault] = useState(false); // New state for is_default
   const token = localStorage.getItem("jobSeekerLoginToken");
   useEffect(() => {
+    setIsResumeList(true);
     if (token) {
       axios
         .get("https://apiwl.novajobs.us/api/user/resume-list", {
@@ -34,10 +36,12 @@ function MyResumes() {
             toast.info("No resumes available.");
           }
           setResumes(resumes);
+          setIsResumeList(false);
         })
         .catch((error) => {
           console.error("Error fetching resume list:", error);
           toast.error("Failed to fetch resumes.");
+          setIsResumeList(false);
         });
     } else {
       console.error("Token not found in localStorage");
@@ -173,11 +177,24 @@ function MyResumes() {
             <div className="container">
               <div className="row">
                 <Profilesidebar data={"resume-list"} />
-                <div className="col-xl-9 col-lg-8 m-b30 browse-job">
+                <div className="col-xl-9  m-b30 browse-job">
                   <h6>Resumes List</h6>
                   <div className="overflow-x-auto post-bx">
-                    {console.log(resumes.length,"?????")}
-                    {resumes.length !== 0 ? (
+                    {/* {console.log(resumes.length,"?????")} */}
+                    {isResumeList && (
+                      <div
+                        className="d-flex justify-content-center align-items-center"
+                        style={{ height: "200px" }}
+                      >
+                        <div
+                          className="spinner-border text-primary"
+                          role="status"
+                        >
+                          <span className="visually-hidden">Loading...</span>
+                        </div>
+                      </div>
+                    )}
+                    {resumes && resumes.length !== 0 ? (
                       <table className="min-w-full bg-white text-black rounded-md">
                         <thead>
                           <tr>
@@ -201,7 +218,7 @@ function MyResumes() {
                               </td>
                               <td className="py-2 px-4">
                                 <button
-                                  className="btn btn-primary"
+                                  className="site-button btn-primary"
                                   onClick={() => handleGetScore(resume)}
                                   data-bs-toggle="modal"
                                   data-bs-target="#modalPopup"
@@ -211,7 +228,7 @@ function MyResumes() {
                               </td>
                               <td className="py-2 px-4">
                                 <button
-                                  className="btn btn-secondary bg-#1c2957"
+                                  className="site-button btn-secondary bg-#1c2957"
                                   onClick={() => handleGetSuggestions(resume)}
                                   data-bs-toggle="modal"
                                   data-bs-target="#modalPopup"

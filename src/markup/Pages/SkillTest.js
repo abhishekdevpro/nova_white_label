@@ -9,9 +9,10 @@ import axios from "axios";
 import { setSkillTestQuestions } from "../../store/reducers/skillTestQuestionsSlice";
 import "./skilltest.css";
 import { useDispatch } from "react-redux";
-import LoadingBox from "../skeleton/skillTest";
+import LoadingBox from "../skeleton/skillTestSkeleton";
 import Preloader from "../Layout/preloader";
-import { Loader2 } from "lucide-react";
+import { AlertCircleIcon, Loader2 } from "lucide-react";
+import { toast } from "react-toastify";
 
 function SkillTest() {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ function SkillTest() {
   const token = localStorage.getItem("jobSeekerLoginToken");
   const [showPopup, setShowPopup] = useState(false); // State for showing popup
   const [popupText, setPopupText] = useState(""); // State for popup text
+  const [showLimitModal, setShowLimitModal] = useState(false);
 
   const [userPercentage, setUserPercentage] = useState(0);
   const getSkillTestQuestion = async (id, name) => {
@@ -34,11 +36,23 @@ function SkillTest() {
       .then((response) => {
         console.log(response.data.data, "sktQ");
         setLoader(false);
-
         navigate("/user/education-page");
         dispatch(setSkillTestQuestions(response.data.data));
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err.response.data.data);
+        setLoader(false);
+
+        // Check if error status is 403
+        if (err.response && err.response.status === 403) {
+          // Show the limit exhausted modal
+          toast.error(
+            err.response.message || "Limit Exhausted Upgared Your plan!"
+          );
+          setShowLimitModal(true);
+          // showLimitExhaustedModal();
+        }
+      });
   };
 
   const [selectedCard, setSelectedCard] = useState(null);
@@ -81,7 +95,8 @@ function SkillTest() {
     <>
       {loader === true ? (
         <h1>
-          Please Wait for While...
+          {/* Please Wait for While... */}
+          <LoadingBox />
           {/*   <Preloader /> */}
         </h1>
       ) : (
@@ -95,8 +110,13 @@ function SkillTest() {
                 <div className="container">
                   <div className="row">
                     <Profilesidebar data={"skill-test"} />
-                    <div className="col-xl-9 col-lg-8 m-b30">
-                      <div className="job-bx job-profile">
+                    <div className="col-xl-9 m-b30">
+                      <div
+                        className="job-bx job-profile"
+                        style={{
+                          overflow: "hidden",
+                        }}
+                      >
                         {skeleton === true ? (
                           <h1>
                             Please upload the Resume then check back...
@@ -251,9 +271,8 @@ function SkillTest() {
           <Footer />
           {showPopup && (
             <div
-              className="modal"
+              className="modal d-flex align-items-center justify-content-center"
               style={{
-                display: "block",
                 backgroundColor: "rgba(0,0,0,0.5)",
                 position: "fixed",
                 top: 0,
@@ -261,54 +280,67 @@ function SkillTest() {
                 left: 0,
                 right: 0,
                 zIndex: 9999,
+                overflow: "auto", // allow scrolling in case modal height exceeds viewport
               }}
             >
               <div
-                className="modal-content "
+                className="modal-content bg-white rounded shadow"
                 style={{
-                  width: "50%",
-                  margin: "auto",
-                  marginTop: "100px",
-                  background: "#fff",
-                  padding: "50px",
-                  borderRadius: "8px",
-                  boxShadow: "0 0 10px rgba(0,0,0,0.3)",
+                  width: "90%",
+                  maxWidth: "600px",
+                  margin: "40px auto", // spacing from top on mobile
+                  maxHeight: "90vh", // don't exceed screen height
+                  overflowY: "auto", // scroll only the content
+                  padding: "1.5rem",
                 }}
               >
-                <h5 className="text-center">
-                  {" "}
-                  Test Instructions for<strong> {popupText}</strong>
+                {/* Modal Title */}
+                <h5 className="text-center fw-bold mb-3">
+                  Test Instructions for <strong>{popupText}</strong>
                   <br />
-                  Following instructions are common for all job seekers. <br />
+                  <small className="fw-normal d-block mt-2 text-muted">
+                    Following instructions are common for all job seekers.
+                  </small>
                 </h5>
-                <p className="fs-semibold">
-                  1. The duration of the test is 10 minutes*.
-                  <br /> Your answer gets automatically submitted after 20
-                  minutes*. <br />
-                  2. This test consists of 15* multiple - choice questions.{" "}
+
+                {/* Instructions */}
+                <p
+                  className="text-start text-muted"
+                  style={{ fontSize: "0.95rem", lineHeight: "1.6" }}
+                >
+                  1. The duration of the test is 10 minutes*. Your answer gets
+                  automatically submitted after 20 minutes*.
                   <br />
-                  3.You may attempt the questions in any order. <br />
+                  2. This test consists of 15* multiple-choice questions.
+                  <br />
+                  3. You may attempt the questions in any order.
+                  <br />
                   4. Please select the correct answer and click the "Save and
-                  next" button. <br />
-                  5. Please click "skip" if you wish to skip a question. <br />
-                  You may come back and answer the question later. <br />
+                  next" button.
+                  <br />
+                  5. Please click "Skip" if you wish to skip a question. You may
+                  come back and answer the question later.
+                  <br />
                   6. Please click on the "Submit Assessment" button after
-                  answering all the questions. <br />
-                  7. Do not close the window before submitting the test. <br />
+                  answering all the questions.
+                  <br />
+                  7. Do not close the window before submitting the test.
+                  <br />
                   8. Tests will be automatically submitted after the given time
-                  limit. <br />
+                  limit.
                 </p>
 
-                <div className="mt-3 text-center">
+                {/* Action Buttons */}
+                <div className="d-flex flex-column flex-sm-row justify-content-center gap-2 mt-4">
                   <button
                     onClick={() => handleTakeTest(selectedCard)}
-                    className="btn site-button btn btn-secondary me-2"
+                    className="site-button w-100"
                   >
                     Take Test
                   </button>
                   <button
                     onClick={() => setShowPopup(false)}
-                    className="btn site-button btn-danger"
+                    className="site-button bg-danger w-100"
                   >
                     Cancel
                   </button>
@@ -316,7 +348,63 @@ function SkillTest() {
               </div>
             </div>
           )}
-          {selectedCard && (
+
+          {showLimitModal && (
+            <div
+              className="modal d-flex align-items-center justify-content-center"
+              style={{
+                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                position: "fixed",
+                top: 0,
+                left: 0,
+                width: "100vw",
+                height: "100vh",
+                zIndex: 1050,
+              }}
+            >
+              <div
+                className="modal-content text-center bg-white rounded shadow p-4"
+                style={{
+                  width: "90%",
+                  maxWidth: "400px", // Responsive max-width for small to large screens
+                }}
+              >
+                {/* Header Icon and Title */}
+                <div className="d-flex align-items-center justify-content-center gap-2 mb-3">
+                  <AlertCircleIcon
+                    className="text-danger"
+                    style={{ width: "24px", height: "24px" }}
+                  />
+                  <h5 className="fw-bold mb-0">Limit Exhausted</h5>
+                </div>
+
+                {/* Message */}
+                <p className="text-muted mb-4">
+                  You have reached your skill assessment limit. Please upgrade
+                  your plan to continue taking skill tests.
+                </p>
+
+                {/* Buttons */}
+                <div className="d-flex flex-column flex-sm-row justify-content-center gap-2">
+                  <button
+                    className="site-button"
+                    onClick={() => setShowLimitModal(false)}
+                  >
+                    Close
+                  </button>
+                  <button
+                    className="site-button"
+                    onClick={() => navigate("/user/payment-plans")}
+                  >
+                    <i className="fas fa-crown me-2"></i>
+                    Upgrade Plan
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* {selectedCard && (
             <div
               className="modal"
               style={{ display: "block", backgroundColor: "rgba(0,0,0,0.5)" }}
@@ -343,7 +431,7 @@ function SkillTest() {
                 </button>
               </div>
             </div>
-          )}
+          )} */}
         </div>
       )}
     </>

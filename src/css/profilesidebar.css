@@ -16,7 +16,7 @@
   position: fixed;
   top: 105px;
   left: 15px;
-  z-index: 1000;
+  z-index: 10;
   background: #1C2957;
   color: white;
   border: none;
@@ -52,7 +52,11 @@ main {
     display: none;
   }
 }
-
+@media (min-width: 768px) {
+  .close-icon {
+    display: none;
+  }
+}
 /* Mobile view */
 @media (max-width: 991px) {
   .sidebar {

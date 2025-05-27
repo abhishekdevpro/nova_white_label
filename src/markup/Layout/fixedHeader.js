@@ -294,159 +294,300 @@ const FixedHeader = () => {
   // }, [resumeUrl]);
 
   return (
+    // <div
+    //   className="overlay-black-dark profile-edit p-t50 p-b20"
+    //   style={{ backgroundImage: "url(" + bnr + ")" }}
+    // >
+    //   {/*  */}
+    //   <div className="container">
+    //     <div className="d-flex justify-content-around profile-edit">
+    //       <div className="candidate-info">
+    //         {showSkeleton === true ? (
+    //           <SimpleLoadingSkeleton />
+    //         ) : (
+    //           <div className="d-flex candidate-detail">
+    //             <div className="canditate-des text-center">
+    //               <Link to={"#"}>
+    //                 {fixedHeaderValues.photo ? (
+    //                   <img src={fullImageUrl} style={{ height: "100px" }} />
+    //                 ) : (
+    //                   <img
+    //                     alt=""
+    //                     src={require("./../../images/team/pic1.jpg")}
+    //                   />
+    //                 )}
+    //               </Link>
+    //             </div>
+    //             <div className="text-white browse-job text-left">
+    //               {fixedHeaderValues.first_name ||
+    //               fixedHeaderValues.last_name ? (
+    //                 <h4 className="m-b0">
+    //                   {fixedHeaderValues.first_name}{" "}
+    //                   {fixedHeaderValues.last_name}
+    //                   <Link
+    //                     to={"#"}
+    //                     onClick={() => setBasicDetails(true)}
+    //                     className="m-l15 font-16 text-white"
+    //                   ></Link>
+    //                 </h4>
+    //               ) : null}
+    //               {fixedHeaderValues.professional_title ? (
+    //                 <p className="m-b15">
+    //                   {fixedHeaderValues.professional_title}
+    //                 </p>
+    //               ) : null}
+    //               <ul className="d-flex gap-2 flex-wrap">
+    //                 {fixedHeaderValues.email ? (
+    //                   <li>
+    //                     <i className="ti-email"></i>
+    //                     {fixedHeaderValues.email}
+    //                   </li>
+    //                 ) : null}
+    //                 {fixedHeaderValues.phone ? (
+    //                   <li>
+    //                     <i className="ti-mobile"></i>
+    //                     {fixedHeaderValues.phone}
+    //                   </li>
+    //                 ) : null}
+    //                 {fixedHeaderValues.country_id ? (
+    //                   <li>
+    //                     <i className="ti-location-pin"></i>
+    //                     {getSingleCountry(fixedHeaderValues.country_id)}{" "}
+    //                     {fixedHeaderValues.state_id ? (
+    //                       <>{`, ${getSingleState(
+    //                         fixedHeaderValues.state_id
+    //                       )}`}</>
+    //                     ) : (
+    //                       ""
+    //                     )}
+    //                   </li>
+    //                 ) : null}
+    //               </ul>
+
+    //               <div className="progress-bx mb-5">
+    //                 <div className="progress">
+    //                   <div
+    //                     className="progress-bar"
+    //                     role="progressbar"
+    //                     style={{
+    //                       width: `${fixedHeaderValues.n_profile_strength}%`,
+    //                     }}
+    //                     aria-valuenow={fixedHeaderValues.n_profile_strength}
+    //                     aria-valuemin="0"
+    //                     aria-valuemax="100"
+    //                   ></div>
+    //                 </div>
+    //                 <p className="font-12 m-b0">Profile Strength</p>
+    //               </div>
+    //             </div>
+    //           </div>
+    //         )}
+    //       </div>
+
+    //       <div className="ms-5 float-end">
+    //         <div>
+    //           <div>
+    //             {resumeUrl && (
+    //               <div>
+    //                 <div className="text-white">Your Resume is uploaded</div>
+    //                 <div>
+    //                   <span className="ml-2 truncate max-w-xs text-white">
+    //                     {fileName}
+    //                   </span>
+    //                 </div>
+    //               </div>
+    //             )}
+    //             <form onSubmit={handleSubmit}>
+    //               <div>
+    //                 <div className="text-white">
+    //                   Please upload a new resume up to 2MB
+    //                 </div>
+    //                 <div className="form-group">
+    //                   <input
+    //                     type="file"
+    //                     onChange={handleChange}
+    //                     className="form-control"
+    //                     accept=".pdf"
+    //                   />
+    //                 </div>
+    //                 {resumeId > 0 && <p className="text-white">{percentage}</p>}
+    //               </div>
+    //               {spinner ? (
+    //                 <MutatingDots
+    //                   visible={true}
+    //                   height="100"
+    //                   width="100"
+    //                   color="#FFF"
+    //                   secondaryColor="#FFF"
+    //                   radius="12.5"
+    //                   ariaLabel="mutating-dots-loading"
+    //                   wrapperStyle={{}}
+    //                   wrapperClass=""
+    //                 />
+    //               ) : (
+    //                 <button
+    //                   type="submit"
+    //                   className="site-button dz-xs-flex m-r5"
+    //                 >
+    //                   Upload Resume
+    //                 </button>
+    //               )}
+    //             </form>
+    //           </div>
+    //           {/* <button
+    //             className="site-button dz-xs-flex m-r5 mt-2"
+    //             onClick={(e) => {
+    //               navigate("/");
+    //             }}
+    //           >
+    //             Go To Home
+    //           </button> */}
+    //         </div>
+    //       </div>
+    //     </div>
+    //   </div>
+    // </div>
     <div
-      className="overlay-black-dark profile-edit p-t50 p-b20"
-      style={{ backgroundImage: "url(" + bnr + ")" }}
-    >
-      {/*  */}
-      <div className="container">
-        <div className="d-flex justify-content-around profile-edit">
-          <div className="candidate-info">
-            {showSkeleton === true ? (
-              <SimpleLoadingSkeleton />
-            ) : (
-              <div className="d-flex candidate-detail">
-                <div className="canditate-des text-center">
-                  <Link to={"#"}>
-                    {fixedHeaderValues.photo ? (
-                      <img src={fullImageUrl} style={{ height: "100px" }} />
-                    ) : (
-                      <img
-                        alt=""
-                        src={require("./../../images/team/pic1.jpg")}
-                      />
-                    )}
-                  </Link>
-                </div>
-                <div className="text-white browse-job text-left">
-                  {fixedHeaderValues.first_name ||
-                  fixedHeaderValues.last_name ? (
-                    <h4 className="m-b0">
-                      {fixedHeaderValues.first_name}{" "}
-                      {fixedHeaderValues.last_name}
-                      <Link
-                        to={"#"}
-                        onClick={() => setBasicDetails(true)}
-                        className="m-l15 font-16 text-white"
-                      ></Link>
-                    </h4>
-                  ) : null}
-                  {fixedHeaderValues.professional_title ? (
-                    <p className="m-b15">
-                      {fixedHeaderValues.professional_title}
-                    </p>
-                  ) : null}
-                  <ul className="d-flex gap-2 flex-wrap">
-                    {fixedHeaderValues.email ? (
-                      <li>
-                        <i className="ti-email"></i>
-                        {fixedHeaderValues.email}
-                      </li>
-                    ) : null}
-                    {fixedHeaderValues.phone ? (
-                      <li>
-                        <i className="ti-mobile"></i>
-                        {fixedHeaderValues.phone}
-                      </li>
-                    ) : null}
-                    {fixedHeaderValues.country_id ? (
-                      <li>
-                        <i className="ti-location-pin"></i>
-                        {getSingleCountry(fixedHeaderValues.country_id)}{" "}
-                        {fixedHeaderValues.state_id ? (
-                          <>{`, ${getSingleState(
-                            fixedHeaderValues.state_id
-                          )}`}</>
-                        ) : (
-                          ""
-                        )}
-                      </li>
-                    ) : null}
-                  </ul>
-
-                  <div className="progress-bx mb-5">
-                    <div className="progress">
-                      <div
-                        className="progress-bar"
-                        role="progressbar"
-                        style={{
-                          width: `${fixedHeaderValues.n_profile_strength}%`,
-                        }}
-                        aria-valuenow={fixedHeaderValues.n_profile_strength}
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                    <p className="font-12 m-b0">Profile Strength</p>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-
-          <div className="ms-5 float-end">
-            <div>
-              <div>
-                {resumeUrl && (
-                  <div>
-                    <div className="text-white">Your Resume is uploaded</div>
-                    <div>
-                      <span className="ml-2 truncate max-w-xs text-white">
-                        {fileName}
-                      </span>
-                    </div>
-                  </div>
+  className="overlay-black-dark profile-edit p-t50 p-b20"
+  style={{ backgroundImage: "url(" + bnr + ")" }}
+>
+  <div className="container">
+    <div className="row d-flex align-items-start">
+      {/* Candidate Info Section */}
+      <div className="col-12 col-md-7 mb-4">
+        {showSkeleton ? (
+          <SimpleLoadingSkeleton />
+        ) : (
+          <div className="d-flex flex-column flex-md-row align-items-center text-white">
+            {/* Profile Image */}
+            <div className="canditate-des text-center mb-3 mb-md-0 me-md-4">
+              <Link to={"#"}>
+                {fixedHeaderValues.photo ? (
+                  <img
+                    src={fullImageUrl}
+                    style={{ height: "100px", width: "100px", objectFit: "cover", borderRadius: "50%" }}
+                    alt="profile"
+                  />
+                ) : (
+                  <img
+                    alt=""
+                    src={require("./../../images/team/pic1.jpg")}
+                    style={{ height: "100px", width: "100px", objectFit: "cover", borderRadius: "50%" }}
+                  />
                 )}
-                <form onSubmit={handleSubmit}>
-                  <div>
-                    <div className="text-white">
-                      Please upload a new resume up to 2MB
-                    </div>
-                    <div className="form-group">
-                      <input
-                        type="file"
-                        onChange={handleChange}
-                        className="form-control"
-                        accept=".pdf"
-                      />
-                    </div>
-                    {resumeId > 0 && <p className="text-white">{percentage}</p>}
-                  </div>
-                  {spinner ? (
-                    <MutatingDots
-                      visible={true}
-                      height="100"
-                      width="100"
-                      color="#FFF"
-                      secondaryColor="#FFF"
-                      radius="12.5"
-                      ariaLabel="mutating-dots-loading"
-                      wrapperStyle={{}}
-                      wrapperClass=""
-                    />
-                  ) : (
-                    <button
-                      type="submit"
-                      className="site-button dz-xs-flex m-r5"
-                    >
-                      Upload Resume
-                    </button>
-                  )}
-                </form>
+              </Link>
+            </div>
+
+            {/* Candidate Text Info */}
+            <div className="text-left w-100">
+              {(fixedHeaderValues.first_name || fixedHeaderValues.last_name) && (
+                <h4 className="m-b0 text-white">
+                  {fixedHeaderValues.first_name} {fixedHeaderValues.last_name}
+                  <Link
+                    to={"#"}
+                    onClick={() => setBasicDetails(true)}
+                    className="m-l15 font-16 text-white"
+                  ></Link>
+                </h4>
+              )}
+
+              {fixedHeaderValues.professional_title && (
+                <p className="m-b15 text-white">{fixedHeaderValues.professional_title}</p>
+              )}
+
+              <ul className="d-flex gap-3 flex-wrap p-0 m-0" style={{ listStyle: "none" }}>
+                {fixedHeaderValues.email && (
+                  <li>
+                    <i className="ti-email me-1"></i>
+                    {fixedHeaderValues.email}
+                  </li>
+                )}
+                {fixedHeaderValues.phone && (
+                  <li>
+                    <i className="ti-mobile me-1"></i>
+                    {fixedHeaderValues.phone}
+                  </li>
+                )}
+                {fixedHeaderValues.country_id && (
+                  <li>
+                    <i className="ti-location-pin me-1"></i>
+                    {getSingleCountry(fixedHeaderValues.country_id)}
+                    {fixedHeaderValues.state_id ? `, ${getSingleState(fixedHeaderValues.state_id)}` : ""}
+                  </li>
+                )}
+              </ul>
+
+              {/* Profile Strength */}
+              <div className="progress-bx mt-3">
+                <div className="progress">
+                  <div
+                    className="progress-bar"
+                    role="progressbar"
+                    style={{ width: `${fixedHeaderValues.n_profile_strength}%` }}
+                    aria-valuenow={fixedHeaderValues.n_profile_strength}
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  ></div>
+                </div>
+                <p className="font-12 m-b0 text-white mt-1">Profile Strength</p>
               </div>
-              {/* <button
-                className="site-button dz-xs-flex m-r5 mt-2"
-                onClick={(e) => {
-                  navigate("/");
-                }}
-              >
-                Go To Home
-              </button> */}
             </div>
           </div>
+        )}
+      </div>
+
+      {/* Resume Upload Section */}
+      <div className="col-12 col-md-5">
+        <div className="text-white">
+          {resumeUrl && (
+            <div className="mb-3">
+              <div>Your Resume is uploaded</div>
+              <div>
+                <span className="ml-2 truncate max-w-xs">{fileName}</span>
+              </div>
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit}>
+            <div>
+              <div className="mb-2">Please upload a new resume up to 2MB</div>
+              <div className="form-group">
+                <input
+                  type="file"
+                  onChange={handleChange}
+                  className="form-control"
+                  accept=".pdf"
+                />
+              </div>
+              {resumeId > 0 && <p className="mt-2">{percentage}</p>}
+            </div>
+
+            {spinner ? (
+              <div className="d-flex justify-content-center mt-3">
+                <MutatingDots
+                  visible={true}
+                  height="100"
+                  width="100"
+                  color="#FFF"
+                  secondaryColor="#FFF"
+                  radius="12.5"
+                  ariaLabel="mutating-dots-loading"
+                />
+              </div>
+            ) : (
+              <button
+                type="submit"
+                className="site-button dz-xs-flex m-t15"
+              >
+                Upload Resume
+              </button>
+            )}
+          </form>
         </div>
       </div>
     </div>
+  </div>
+</div>
   );
 };
 

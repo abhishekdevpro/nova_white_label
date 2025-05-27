@@ -18,6 +18,7 @@ import {
   IdCard,
   LogOut,
   User,
+  X,
 } from "lucide-react";
 // import { FaStar } from "react-icons/fa6";
 
@@ -62,8 +63,30 @@ function Profilesidebar({ data }) {
                   color: "#1C2957",
                 }}
               >
-                <span>SideBar</span>
+                <span>Sidebar</span>
               </li> */}
+              <li
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  textAlign: "center",
+                  fontSize: "1.5rem",
+                  fontWeight: "bold",
+                  padding: "1rem",
+                  borderBottom: "1px solid #ddd",
+                  backgroundColor: "#f8f9fa",
+                  color: "#1C2957",
+                }}
+              >
+                <span>Menus</span>
+                <X
+                  onClick={toggleSidebar}
+                  style={{ cursor: "pointer", color: "#1C2957" }}
+                  size={24}
+                  className="close-icon"
+                />
+              </li>
               <li>
                 <Link
                   to={"/user/dashboard"}

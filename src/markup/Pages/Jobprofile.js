@@ -697,12 +697,15 @@ function Jobprofile() {
                             <label htmlFor="email">Email Address:</label>
                             <input
                               type="text"
-                              className="form-control"
+                              className="form-control "
+                              disabled
                               // placeholder="info@example.com"
                               name="email"
                               id="email"
                               onChange={handleChange}
                               value={jobProfileValues.email}
+                              readOnly
+                              
                             />
                           </div>
                           {errors.email && (
@@ -792,7 +795,7 @@ function Jobprofile() {
                       </div>
                       <button
                         onClick={handleSubmit}
-                        className="site-button m-b30"
+                        className="site-button w-100 "
                       >
                         Save Setting
                       </button>

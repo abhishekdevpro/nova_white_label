@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "./../Layout/Header";
 import Footer from "../Layout/Footer";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Form } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { setUserAnswer } from "../../store/reducers/skillTestQuestionsSlice";
@@ -13,6 +13,7 @@ import { showToastError } from "../../utils/toastify";
 import resultImage from "../../images/result/result.avif";
 function EducationPage() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [time, setTime] = useState(600);
 
   const [showResults, setShowResults] = useState(false);
@@ -89,7 +90,7 @@ function EducationPage() {
                       alt="resultimage"
                       style={{ width: "350px" }}
                     />
-                    <div
+                    {/* <div
                       className="row align-items-center justify-content-center "
                       style={{ gap: "12px" }}
                     >
@@ -117,6 +118,47 @@ function EducationPage() {
                           {Math.floor(results.Percentage)}%
                         </span>
                       </h3>
+                    </div> */}
+                    <div className="d-flex justify-content-center align-items-center p-4 bg-light">
+                      <div
+                        className="row text-center"
+                        style={{
+                          gap: "12px",
+                          maxWidth: "600px",
+                          margin: "0 auto",
+                        }}
+                      >
+                        <h3 style={{ fontWeight: "600" }}>
+                          Total Questions:{" "}
+                          <span style={{ fontWeight: "400" }}>
+                            {results.total_question}
+                          </span>
+                        </h3>
+                        <h3 style={{ fontWeight: "600" }}>
+                          Right Answer:{" "}
+                          <span style={{ fontWeight: "400" }}>
+                            {results.right_answer}
+                          </span>
+                        </h3>
+                        <h3 style={{ fontWeight: "600" }}>
+                          Wrong Answer:{" "}
+                          <span style={{ fontWeight: "400" }}>
+                            {results.wrong_answer}
+                          </span>
+                        </h3>
+                        <h3 style={{ fontWeight: "600" }}>
+                          Percentage:{" "}
+                          <span style={{ fontWeight: "400" }}>
+                            {Math.floor(results.Percentage)}%
+                          </span>
+                        </h3>
+                        <button
+                          onClick={() => navigate("/user/skill-test-history")}
+                          className="btn site-button border bg-primary-subtle"
+                        >
+                          Skill Test History
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -182,7 +224,7 @@ function EducationPage() {
                       <Form>
                         <Form.Group>
                           <div className="align-items-center">
-                            {currentConversationObj.options.map(
+                            {/* {currentConversationObj.options.map(
                               (item, index) => (
                                 <div
                                   className="bg-light p-3"
@@ -215,6 +257,44 @@ function EducationPage() {
                                   />
                                 </div>
                               )
+                            )} */}
+                            {currentConversationObj.options.map(
+                              (item, index) => {
+                                const optionId = `question-${currentConversation}-option-${index}`;
+                                return (
+                                  <div
+                                    key={index}
+                                    className="bg-light p-3 rounded"
+                                    style={{
+                                      marginTop: "10px",
+                                      cursor: "pointer",
+                                    }}
+                                    onClick={() => {
+                                      console.log(
+                                        `Selected item ${item} for question ${currentConversation}`
+                                      );
+                                      dispatch(
+                                        setUserAnswer({
+                                          index: currentConversation,
+                                          answer: item,
+                                        })
+                                      );
+                                    }}
+                                  >
+                                    <Form.Check
+                                      type="radio"
+                                      id={optionId}
+                                      label={item}
+                                      name={`question-${currentConversation}`}
+                                      checked={
+                                        conversations[currentConversation]
+                                          .user_answer === item
+                                      }
+                                      readOnly
+                                    />
+                                  </div>
+                                );
+                              }
                             )}
                           </div>
                         </Form.Group>

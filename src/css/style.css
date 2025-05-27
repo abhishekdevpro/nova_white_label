@@ -15554,7 +15554,7 @@ ol.commentlist li .star-rating {
     margin: 0;
     padding-left: 1rem;
     padding-right: 1rem;
-    z-index: 99;
+    z-index: 1000;
   }
 
   .mo-left .header-nav li.open a {

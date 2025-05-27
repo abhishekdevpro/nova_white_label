@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-// import { Constant } from "@/utils/constant/constant";
 import styled from 'styled-components';
-import { AiFillHeart } from 'react-icons/ai'; // Importing the heart icon from react-icons
+import { AiFillHeart } from 'react-icons/ai';
 import { toast } from "react-toastify";
 
 // Styled Components
@@ -12,18 +11,24 @@ const Button = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  color: ${({ liked }) => (liked ? '#dc2626' : '#000')}; /* Red if liked, black otherwise */
+  color: ${({ liked }) => (liked ? '#dc2626' : '#000')};
   transition: opacity 0.2s;
 
   &:hover {
-    opacity: 0.75; /* Slightly transparent on hover */
+    opacity: 0.75;
   }
 `;
 
 const Icon = styled(AiFillHeart)`
-  margin-right: 8px; /* Space between icon and text */
-  color: ${({ liked }) => (liked ? '#dc2626' : '#000')}; /* Red if liked, black otherwise */
+  margin-right: 8px;
+  color: ${({ liked }) => (liked ? '#dc2626' : '#000')};
   transition: color 0.2s;
+`;
+
+const Text = styled.span`
+  @media (max-width: 768px) {
+    display: none; // Hide "Likes" text on mobile
+  }
 `;
 
 function isValidJWT(token) {
@@ -35,7 +40,6 @@ const LikeButton = ({ post }) => {
   const [localLikesCount, setLocalLikesCount] = useState(post.feed_likes_count || 0);
   const token = localStorage.getItem("employeeLoginToken");
 
-  // Sync local state with props
   useEffect(() => {
     setLocalLiked(post.feed_likes && post.feed_likes.id > 0);
     setLocalLikesCount(post.feed_likes_count || 0);
@@ -46,24 +50,20 @@ const LikeButton = ({ post }) => {
       toast.error("You must be logged in to like posts.");
       return;
     }
+
     try {
-      // Optimistic UI update
       const newLikedState = !localLiked;
       const newLikesCount = newLikedState ? localLikesCount + 1 : Math.max(0, localLikesCount - 1);
 
       setLocalLiked(newLikedState);
       setLocalLikesCount(newLikesCount);
 
-      // Call API based on the new state
       let response;
       if (newLikedState) {
-        // Like the post
         response = await axios.post(
           `https://api.sentryspot.co.uk/api/feed/feed/like/${postId}`,
           {},
-          {
-            headers: { Authorization: `${token}` },
-          }
+          { headers: { Authorization: `${token}` } }
         );
         if (response.data.status === "success") {
           toast.success("Post liked successfully!");
@@ -71,12 +71,9 @@ const LikeButton = ({ post }) => {
           throw new Error(response.message || "Failed to like the post.");
         }
       } else {
-        // Unlike the post
         response = await axios.delete(
           `https://api.sentryspot.co.uk/api/feed/feed/like/${postId}`,
-          {
-            headers: { Authorization: `${token}` },
-          }
+          { headers: { Authorization: `${token}` } }
         );
         if (response.data.status === "success") {
           toast.success("Post unliked successfully!");
@@ -85,7 +82,6 @@ const LikeButton = ({ post }) => {
         }
       }
     } catch (error) {
-      // Rollback UI state on failure
       setLocalLiked(!localLiked);
       setLocalLikesCount(localLikesCount);
       console.error("Error toggling like:", error);
@@ -96,7 +92,7 @@ const LikeButton = ({ post }) => {
   return (
     <Button liked={localLiked} onClick={() => toggleLike(post.id)}>
       <Icon liked={localLiked} />
-      <span> Likes</span>
+      <Text>Likes</Text>
     </Button>
   );
 };
