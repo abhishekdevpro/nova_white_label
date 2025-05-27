@@ -109,7 +109,7 @@ function Jobreferral() {
                           required
                         />
                       </div>
-                      <button type="submit" className="btn btn-primary" disabled={loading}>
+                      <button type="submit" className="site-button w-100" disabled={loading}>
                         {loading ? "Submitting..." : "Submit"}
                       </button>
                     </form>

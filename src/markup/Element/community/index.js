@@ -22,11 +22,11 @@ function Community() {
           <div className="section-full bg-white p-t50 p-b20 shadow-sm">
             <div className="container">
               <div className="row">
-                <div className="col-xl-3 col-lg-4">
+                <div className="col-xl-3 col-lg-4 d-none d-lg-block">
                   {/* <Profilesidebar data={"community"} /> */}
                   <FilterSidebar />
                 </div>
-                <div className="col-xl-6 col-lg-8 m-b30">
+                <div className="col-xl-6 m-b30">
                   
                   <div className="mt-4 text-center">
                     <FeedSection />
@@ -35,7 +35,7 @@ function Community() {
                   
                   
                 </div>
-                <div className="col-xl-3 col-lg-4">
+                <div className="col-xl-3 col-lg-4 d-none d-lg-block">
                     <FilterLeftSidebar />
                   </div>
               </div>

@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
-import { LinkedinShareButton, TwitterShareButton, FacebookShareButton, WhatsappShareButton } from 'react-share';
-import { AiOutlineShareAlt } from 'react-icons/ai'; // Importing share icon
-import { FaLinkedin, FaTwitter, FaFacebookF, FaWhatsapp } from 'react-icons/fa'; // Importing social media icons
+import {
+  LinkedinShareButton,
+  TwitterShareButton,
+  FacebookShareButton,
+  WhatsappShareButton,
+} from 'react-share';
+import { AiOutlineShareAlt } from 'react-icons/ai';
+import { FaLinkedin, FaTwitter, FaFacebookF, FaWhatsapp } from 'react-icons/fa';
 import styled from 'styled-components';
 
 // Styled Components
@@ -12,13 +17,19 @@ const ShareButton = styled.button`
   color: black;
   padding: 8px 16px;
   border-radius: 6px;
-  border:none;
+  border: none;
   cursor: pointer;
   transition: background-color 0.2s;
 
-//   &:hover {
-//     background-color: ${({ hoverColor }) => hoverColor || '#005582'};
-//   }
+  span {
+    margin-left: 8px;
+  }
+
+  @media (max-width: 768px) {
+    span {
+      display: none;
+    }
+  }
 `;
 
 const PopupOverlay = styled.div`
@@ -45,11 +56,11 @@ const Input = styled.input`
   padding: 8px;
   border: 1px solid #d1d5db;
   border-radius: 6px;
-  background-color: #f9fafb; /* Light gray */
+  background-color: #f9fafb;
 `;
 
 const CopyButton = styled.button`
-  background-color: #3b82f6; /* Blue */
+  background-color: #3b82f6;
   color: white;
   padding: 8px 16px;
   border-radius: 6px;
@@ -57,20 +68,20 @@ const CopyButton = styled.button`
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: #2563eb; /* Darker blue */
+    background-color: #2563eb;
   }
 `;
 
 const CloseButton = styled.button`
-  background-color: #e5e7eb; /* Light gray */
-  color: #4b5563; /* Dark gray */
+  background-color: #e5e7eb;
+  color: #4b5563;
   padding: 8px 16px;
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: #d1d5db; /* Darker gray */
+    background-color: #d1d5db;
   }
 `;
 
@@ -100,8 +111,8 @@ const LinkedInShareButton = ({ post }) => {
   return (
     <>
       <ShareButton onClick={handleShare}>
-        <AiOutlineShareAlt style={{ marginRight: '8px' }} />
-        Share
+        <AiOutlineShareAlt />
+        <span>Share</span>
       </ShareButton>
 
       {showPopup && (
@@ -112,30 +123,30 @@ const LinkedInShareButton = ({ post }) => {
             {/* Social Media Buttons */}
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '16px' }}>
               <LinkedinShareButton url={shareUrl} title={shareTitle} summary={shareTitle}>
-                <ShareButton bgColor="#0077b5" hoverColor="#005582">
-                  <FaLinkedin style={{ marginRight: '8px' }} />
-                  LinkedIn
+                <ShareButton>
+                  <FaLinkedin />
+                  <span>LinkedIn</span>
                 </ShareButton>
               </LinkedinShareButton>
 
               <TwitterShareButton url={shareUrl} title={shareTitle}>
-                <ShareButton bgColor="#1da1f2" hoverColor="#1a91da">
-                  <FaTwitter style={{ marginRight: '8px' }} />
-                  Twitter
+                <ShareButton>
+                  <FaTwitter />
+                  <span>Twitter</span>
                 </ShareButton>
               </TwitterShareButton>
 
               <FacebookShareButton url={shareUrl} quote={shareTitle}>
-                <ShareButton bgColor="#3b5998" hoverColor="#2d4373">
-                  <FaFacebookF style={{ marginRight: '8px' }} />
-                  Facebook
+                <ShareButton>
+                  <FaFacebookF />
+                  <span>Facebook</span>
                 </ShareButton>
               </FacebookShareButton>
 
               <WhatsappShareButton url={shareUrl} title={shareTitle} separator=" - ">
-                <ShareButton bgColor="#25D366" hoverColor="#1da851">
-                  <FaWhatsapp style={{ marginRight: '8px' }} />
-                  WhatsApp
+                <ShareButton>
+                  <FaWhatsapp />
+                  <span>WhatsApp</span>
                 </ShareButton>
               </WhatsappShareButton>
             </div>
@@ -150,9 +161,7 @@ const LinkedInShareButton = ({ post }) => {
 
             {/* Close Button */}
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <CloseButton onClick={handleClosePopup}>
-                Close
-              </CloseButton>
+              <CloseButton onClick={handleClosePopup}>Close</CloseButton>
             </div>
           </PopupContainer>
         </PopupOverlay>
