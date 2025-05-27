@@ -19,7 +19,6 @@
 
 // export default LogoWrapper;
 
-
 import { Link } from "react-router-dom";
 import { useLogo } from "../../Context/LogoContext";
 
@@ -27,7 +26,7 @@ const LogoWrapper = () => {
   const { logo } = useLogo();
 
   const employeeLoginToken = localStorage.getItem("employeeLoginToken");
-  const vendorLoginToken = localStorage.getItem("vendorLoginToken");
+  const vendorLoginToken = localStorage.getItem("vendorToken");
 
   let linkPath = "/";
   if (employeeLoginToken) {

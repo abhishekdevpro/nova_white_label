@@ -11,7 +11,7 @@ import TextEditor from "../markup/Element/Editor";
 import ReactQuill from "react-quill";
 import Footer from "../markup/Layout/Footer";
 import VendorHeader from "../markup/Layout/VendorHeader";
-import VendorCompanySideBar from "./Vendorsidebar";   
+import VendorCompanySideBar from "./Vendorsidebar";
 
 function Vendorprofile() {
   const companyData = useSelector(
@@ -19,7 +19,7 @@ function Vendorprofile() {
   );
   let companyDetail = companyData?.company_detail;
   let employeerDetail = companyData?.employeer_detail;
-  
+
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
@@ -107,8 +107,8 @@ function Vendorprofile() {
     setFoundedYear(companyDetail?.founded_date || "");
     setDescription(companyDetail?.about || "");
     setSelectedCountry(companyDetail?.country_id || 231);
-    setSelectedStates(companyDetail?.state_id || null);
-    setSelectedCities(companyDetail?.city_id || null);
+    setSelectedStates(companyDetail?.state_id || "");
+    setSelectedCities(companyDetail?.city_id || "");
     setNumber(companyDetail?.phone || "");
     setAddress(companyDetail?.address || "");
     setlinkdin(companyDetail?.linkedin_link || "");
@@ -144,8 +144,8 @@ function Vendorprofile() {
 
   const getCountry = async () => {
     axios({
-        method: "get",
-        url: "https://apiwl.novajobs.us/api/admin/countries",
+      method: "get",
+      url: "https://apiwl.novajobs.us/api/admin/countries",
       headers: {
         Authorization: token,
       },
@@ -164,7 +164,7 @@ function Vendorprofile() {
     }
     axios({
       method: "get",
-      url: `https://apiwl.novajobs.us/api/admin/states/${selectedCountry}`,
+      url: `https://apiwl.novajobs.us/api/admin/stats/${selectedCountry}`,
       headers: {
         Authorization: token,
       },
@@ -182,7 +182,7 @@ function Vendorprofile() {
       return;
     }
     axios({
-        method: "get",
+      method: "get",
       url: `https://apiwl.novajobs.us/api/admin/cities/${selectedStates}`,
       headers: {
         Authorization: token,
@@ -254,7 +254,15 @@ function Vendorprofile() {
       !selectedStates ||
       !selectedCities
     ) {
-      // console.log(companyName,email,industry,selectedCountry,selectedStates,selectedCities);
+      console.log(
+        companyName,
+        email,
+        industry,
+        selectedCountry,
+        selectedStates,
+        selectedCities,
+        "copmany detail"
+      );
       showToastError("Please fill out all required fields.");
       return;
     }
@@ -290,7 +298,7 @@ function Vendorprofile() {
         formData.append("images", serviceFiles[i]);
         formData.append("services_name", serviceNames[i] || `file-${i}`); // Use a default name if none provided
       }
-
+      const token = localStorage.getItem("vendorToken");
       // First request to update company data
       await axios({
         method: "put",
@@ -396,6 +404,7 @@ function Vendorprofile() {
                             <label>Tagline</label>
                             <input
                               type="text"
+                              name="tagline"
                               className="form-control"
                               placeholder="Enter Company Tagline"
                               onChange={(e) => setTagline(e.target.value)}
@@ -405,18 +414,19 @@ function Vendorprofile() {
                           </div>
                         </div>
                         <div className="col-lg-6 col-md-6">
-                          {/* <div className="form-group">
+                          <div className="form-group">
                             <label>Email ID</label>
                             <input
                               type="email"
+                              name="email"
                               className="form-control"
                               placeholder="info@gmail.com"
                               onChange={(e) => setEmail(e.target.value)}
                               value={email}
                               required
                             />
-                          </div> */}
-                          <div
+                          </div>
+                          {/* <div
                             className="form-group  "
                             style={{ position: "relative" }}
                           >
@@ -445,7 +455,7 @@ function Vendorprofile() {
                             >
                               ✅
                             </span>
-                          </div>
+                          </div> */}
                         </div>
                         <div className="col-lg-6 col-md-6">
                           <div className="form-group">
@@ -466,6 +476,7 @@ function Vendorprofile() {
                             <input
                               type="text" // Allows the user to select year and month
                               className="form-control"
+                              placeholder="Founded Year"
                               onChange={(e) => setFoundedYear(e.target.value)}
                               value={foundedYear}
                             />
@@ -524,7 +535,7 @@ function Vendorprofile() {
                                   <div className="form-group">
                                     <input
                                       type="text"
-                              className="form-control"
+                                      className="form-control"
                                       placeholder="Service Title"
                                       value={service.title}
                                       onChange={(e) =>
@@ -557,10 +568,25 @@ function Vendorprofile() {
                                     <i className="fa fa-trash"></i>
                                   </button>
                                 </div>
-                                {service.image && (
+                                {/* {service.image && (
                                   <div className="col-lg-12 col-md-12 mt-2">
                                     <img
                                       src={`https://apiwl.novajobs.us${service.image}`}
+                                      alt="Service"
+                                      className="img-fluid"
+                                      style={{ maxHeight: "100px" }}
+                                    />
+                                  </div>
+                                )} */}
+                                {(service.url ||
+                                  typeof service.image === "string") && (
+                                  <div className="col-lg-12 col-md-12 mt-2">
+                                    <img
+                                      src={
+                                        service.url
+                                          ? service.url
+                                          : `https://apiwl.novajobs.us${service.image}`
+                                      }
                                       alt="Service"
                                       className="img-fluid"
                                       style={{ maxHeight: "100px" }}
