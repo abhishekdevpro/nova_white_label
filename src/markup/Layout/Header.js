@@ -359,6 +359,7 @@ import "../Layout/Headerjobseeker.css";
 import { Home, User } from "lucide-react";
 import LogoWrapper from "./LogoWrapper";
 import { useLogo } from "../../Context/LogoContext";
+import GoogleTranslate from "../../GoogleTranslate";
 
 const UserHeader = () => {
   const [show, setShow] = useState(false);
@@ -523,6 +524,7 @@ const UserHeader = () => {
                         Jobseeker Login
                       </Link>
                     )}
+                    
 
                     {/* {!localStorage.getItem("jobSeekerLoginToken") && (
                       <div className="popup rounded-4 m-2">
@@ -541,6 +543,10 @@ const UserHeader = () => {
                       </div>
                     )} */}
                   </li>
+
+                  <li>
+                      <GoogleTranslate />
+                    </li>
 
                   {/* <li>
                     {!localStorage.getItem("jobSeekerLoginToken") &&  (
