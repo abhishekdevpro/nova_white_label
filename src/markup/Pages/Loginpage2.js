@@ -31,7 +31,7 @@ function Login(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const notify = (data) => toast.warning(data);
-  const url = window.location.origin.includes("localhost")
+  const domain = window.location.origin.includes("localhost")
   ? "https://novajobs.us"
   : window.location.origin;
   const handlePostRequest = async (e) => {
@@ -50,7 +50,7 @@ function Login(props) {
     e.preventDefault();
     const reqBody = {
       email: email,
-      domain:url,
+      domain:domain,
       // password: password,
     };
     await axios({
@@ -79,27 +79,7 @@ function Login(props) {
   };
   const [html, setHtml] = useState("");
   
-  const handleGoogleLogin = (e) => {
-    e.preventDefault();
 
-    axios({
-      method: "GET",
-      url: `https://apiwl.novajobs.us/api/jobseeker/auth/google?domain=${url}`,
-      headers: {
-        "Content-Type": "application/json",
-      },
-
-      maxRedirects: 5,
-    })
-      .then((res) => {
-        console.log("Response Data:", res.data);
-        console.log("Response Headers:", res.headers);
-      })
-      .catch((error, res) => {
-        console.error("Error during API request:", error);
-        showToastError(error?.response?.data?.message);
-      });
-  };
   const startTimer = () => {
     setTimer(60);
     const interval = setInterval(() => {
@@ -166,7 +146,7 @@ function Login(props) {
     }
   };
   const handleGoogleSignin = async () => {
-    const url = `https://apiwl.novajobs.us/api/jobseeker/auth/googledomain=${url}`;
+    const url = `https://apiwl.novajobs.us/api/jobseeker/auth/google?domain=${domain}`;
 
     try {
       const response = await axios.get(
