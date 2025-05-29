@@ -696,7 +696,7 @@ function EmployeeLogin(props) {
     }
   };
   const handleGoogleSignin = async () => {
-    const url = "https://apiwl.novajobs.us/api/employeer/auth/google";
+    const url = `https://apiwl.novajobs.us/api/employeer/auth/googledomain=${url}`;
 
     try {
       const response = await axios.get(
