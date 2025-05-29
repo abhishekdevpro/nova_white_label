@@ -20,7 +20,7 @@ const Gauth = () => {
     const url = window.location.origin.includes("localhost")
     ? "https://wl.novajobs.us"
     : window.location.origin;
-    console.log(url,">>>url");
+    console.log(window.location.origin,url,">>>url");
     if (code) {
       // Send the code to the API endpoint
       const sendAuthCode = async () => {

@@ -414,10 +414,10 @@ const UserHeader = () => {
     localStorage.getItem("employeeLoginToken");
   return (
     <>
-      <header className="site-header mo-left header fullwidth">
+      <header className="site-header mo-left header fullwidth ">
         <div className="sticky-header main-bar-wraper navbar-expand-lg">
-          <div className="main-bar clearfix">
-            <div className="container clearfix">
+          <div className="main-bar  ">
+            <div className="container clearfix ">
               {/* <div className="logo-header mostion">
                 <Link to="/">
                   <img src={logo} className="logo" alt="company logo" />
@@ -440,7 +440,7 @@ const UserHeader = () => {
               </button>
 
               <div
-                className="header-nav navbar-collapse collapse myNavbar justify-content-start"
+                className="header-nav navbar-collapse collapse justify-content-start"
                 id="navbarNavDropdown"
               >
                 <div className="logo-header mostion d-md-block d-lg-none">
@@ -448,7 +448,7 @@ const UserHeader = () => {
                     <img src={logo} className="logo" alt="mobile logo" />
                   </Link>
                 </div>
-                <ul className="nav navbar-nav align-items-center">
+                <ul className="nav navbar-nav align-items-center border-danger">
                   {isPartner && (
                     <li>
                       <Link to="/">
@@ -465,24 +465,16 @@ const UserHeader = () => {
                       <Link to="/services" className="nav-link">
                         Services
                       </Link>
-                      {/* {isPartner && !localStorage.getItem("jobSeekerLoginToken") && (
-                      <div className="popup rounded-4 m-2">
-                        <div className="d-flex gap-2 m-3">
-                          <Link
-                            className="btn btn-primary"
-                            style={{ backgroundColor: "#1C2957" }}
-                          >
-                            AI-Resume Builder
-                          </Link>
-                        </div>
-                      </div>
-                    )} */}
+                      
                     </li>
                   )}
 
                   <li>
                     <Link to={"/aboutus"}>About Us</Link>
                   </li>
+                  {/* <li>
+                     <GoogleTranslate />
+                  </li> */}
 
                   <li
                     onClick={() => {
@@ -506,7 +498,6 @@ const UserHeader = () => {
                       </Link>
                     </li>
                   )}
-
                   <li
                     className="nav-item jobseeker-hover"
                     style={{ position: "relative" }}
@@ -543,23 +534,6 @@ const UserHeader = () => {
                       </div>
                     )} */}
                   </li>
-
-                  <li>
-                      <GoogleTranslate />
-                    </li>
-
-                  {/* <li>
-                    {!localStorage.getItem("jobSeekerLoginToken") &&  (
-                      <Link
-                        to="/white-label"
-                        style={{ color: "white" }}
-                        className="site-button"
-                      >
-                        Partner With Us
-                      </Link>
-                    )}
-                  </li> */}
-
                   <li>
                     {!token && (
                       <Link
@@ -572,10 +546,8 @@ const UserHeader = () => {
                       </Link>
                     )}
                   </li>
-                </ul>
-
-                <div className="nav navbar-nav align-items-center">
-                  {isPartner && !token && (
+                  <li>
+                    {isPartner && !token && (
                     <Link
                       to="/white-label"
                       style={{ color: "white" }}
@@ -584,7 +556,15 @@ const UserHeader = () => {
                       Partner With Us
                     </Link>
                   )}
-                </div>
+                  </li>
+                  
+                </ul>
+
+                {/* <div className="nav navbar-nav align-items-center">
+                  
+                    <GoogleTranslate />
+                
+                </div> */}
               </div>
             </div>
           </div>

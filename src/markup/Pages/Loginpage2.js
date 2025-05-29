@@ -70,11 +70,7 @@ function Login(props) {
         } else {
           toast.error("Failed to sent otp");
         }
-        // localStorage.setItem(
-        //   "jobSeekerLoginToken",
-        //   response?.data?.data?.token
-        // );
-        // navigate("/user/jobs-profile");
+        
       })
       .catch((err) => {
         console.log(err.response.data.message);
@@ -82,12 +78,13 @@ function Login(props) {
       });
   };
   const [html, setHtml] = useState("");
+  
   const handleGoogleLogin = (e) => {
     e.preventDefault();
 
     axios({
       method: "GET",
-      url: "https://apiwl.novajobs.us/api/jobseeker/auth/google",
+      url: `https://apiwl.novajobs.us/api/jobseeker/auth/google?domain=${url}`,
       headers: {
         "Content-Type": "application/json",
       },
@@ -169,7 +166,7 @@ function Login(props) {
     }
   };
   const handleGoogleSignin = async () => {
-    const url = "https://apiwl.novajobs.us/api/jobseeker/auth/google";
+    const url = `https://apiwl.novajobs.us/api/jobseeker/auth/googledomain=${url}`;
 
     try {
       const response = await axios.get(
@@ -183,7 +180,7 @@ function Login(props) {
       );
 
       if (response.status === 200) {
-        console.log("Google sign-in token: ", response.data.data);
+        // console.log("Google sign-in token: ", response.data.data);
         window.open(response.data.data);
       } else {
         toast.error("Google sign-in failed.");
