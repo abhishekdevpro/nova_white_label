@@ -559,7 +559,7 @@ function EmployeeLogin(props) {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const url = window.location.origin.includes("localhost")
+  const domain = window.location.origin.includes("localhost")
   ? "https://novajobs.us"
   : window.location.origin;
   const notify = (data) => toast.warning(data);
@@ -574,7 +574,7 @@ function EmployeeLogin(props) {
 
     const reqBody = {
       email: email,
-      domain:url,
+      domain:domain,
       // password: password,
     };
     await axios({
@@ -696,7 +696,7 @@ function EmployeeLogin(props) {
     }
   };
   const handleGoogleSignin = async () => {
-    const url = `https://apiwl.novajobs.us/api/employeer/auth/googledomain=${url}`;
+    const url = `https://apiwl.novajobs.us/api/employeer/auth/google?domain=${domain}`;
 
     try {
       const response = await axios.get(
