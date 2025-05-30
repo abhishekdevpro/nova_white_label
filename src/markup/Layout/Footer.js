@@ -235,6 +235,17 @@ function Footer() {
                         Support
                       </Link>
                     </li>
+                    <li
+                      onClick={() =>
+                        window.scrollTo({ top: 0, behavior: "smooth" })
+                      }
+                    >
+                      <Link
+                      to={"/community"}
+                      >
+                        Community
+                      </Link>
+                    </li>
                   </ul>
                 </div>
               </div>
