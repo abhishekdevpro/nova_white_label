@@ -12,8 +12,10 @@ import ConsultancyPopup from "./ConsultancyPopup";
 function Footer() {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
-    const [isSupportOpen, setIsSupportOpen] = useState(false);
-    const [showConsultancyModal, setShowConsultancyModal] = useState(false);
+
+   const [isSupportOpen, setIsSupportOpen] = useState(false);
+   const [showConsultancyModal, setShowConsultancyModal] = useState(false);
+
 
   const [logo, setLogo] = useState(
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUhQJ-44yDYIuo8Hj-L1ezQSKAkkK4CqlecQ&s"
@@ -102,22 +104,14 @@ function Footer() {
                         window.scrollTo({ top: 0, behavior: "smooth" })
                       }
                     >
-                      <Link
-                       to={"/user/job/1"}
-                      >
-                        Search Jobs
-                      </Link>
+                      <Link to={"/user/job/1"}>Search Jobs</Link>
                     </li>
                     <li
                       onClick={() =>
                         window.scrollTo({ top: 0, behavior: "smooth" })
                       }
                     >
-                      <Link
-                      to={"/user/login"}
-                      >
-                        Create Free account
-                      </Link>
+                      <Link to={"/user/login"}>Create Free account</Link>
                     </li>
                     {/* <li
                       onClick={() =>
@@ -136,21 +130,17 @@ function Footer() {
                       }
                     >
                       <Link
-                      // onClick={handleBuilder}
-                      to={`/novajobs#tab2`}
+                        // onClick={handleBuilder}
+                        to={`/novajobs#tab2`}
 
-                      // to={`https://airesume.novajobs.us/?tokenbyurl=${token}`}
+                        // to={`https://airesume.novajobs.us/?tokenbyurl=${token}`}
                       >
                         Build AI resume
                       </Link>
                     </li>
 
                     <li>
-                      <Link
-                      to={"/novajobs#tab3"}
-                      >
-                        Skill Test
-                      </Link>
+                      <Link to={"/novajobs#tab3"}>Skill Test</Link>
                     </li>
                   </ul>
                 </div>
@@ -167,7 +157,11 @@ function Footer() {
                       }
                     >
                       <Link
-                      to={localStorage.getItem("employeeLoginToken")?"employer/company-profile":"/employer/login"}
+                        to={
+                          localStorage.getItem("employeeLoginToken")
+                            ? "employer/company-profile"
+                            : "/employer/login"
+                        }
                       >
                         Post Jobs
                       </Link>
@@ -178,7 +172,11 @@ function Footer() {
                       }
                     >
                       <Link
-                       to={localStorage.getItem("employeeLoginToken")?"/employer/browse-candidates":"/employer/login"}
+                        to={
+                          localStorage.getItem("employeeLoginToken")
+                            ? "/employer/browse-candidates"
+                            : "/employer/login"
+                        }
                       >
                         Browse Applicants
                       </Link>
@@ -208,11 +206,14 @@ function Footer() {
                         window.scrollTo({ top: 0, behavior: "smooth" })
                       }
                     >
-                      <Link
-                      to={"/cookies-policy"}
-                      >
-                        Cookies Policy
-                      </Link>
+                      <Link to={"/cookies-policy"}>Cookies Policy</Link>
+                    </li>
+                    <li
+                      onClick={() =>
+                        window.scrollTo({ top: 0, behavior: "smooth" })
+                      }
+                    >
+                      <Link to={"/privacy-policy"}>Privacy Policy</Link>
                     </li>
                     <li
                       onClick={() =>
@@ -220,19 +221,10 @@ function Footer() {
                       }
                     >
                       <Link
-                      to={"/privacy-policy"}
-                      >
-                        Privacy Policy
-                      </Link>
-                    </li>
-                    <li
-                      onClick={() =>
-                        window.scrollTo({ top: 0, behavior: "smooth" })
-                      }
-                    >
-                      <Link
-                      
-                      onClick={e => { e.preventDefault(); setIsSupportOpen(true); }}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setIsSupportOpen(true);
+                        }}
                       >
                         Support
                       </Link>
@@ -242,11 +234,7 @@ function Footer() {
                         window.scrollTo({ top: 0, behavior: "smooth" })
                       }
                     >
-                      <Link
-                      to={"/community"}
-                      >
-                        Community
-                      </Link>
+                       <Link to={"/user/community"}>Community</Link>
                     </li>
                     <li>
                       <button className="site-button bg-primary"
@@ -351,7 +339,7 @@ function Footer() {
         </div>
       </div>
        <SupportPopup isOpen={isSupportOpen} onClose={() => setIsSupportOpen(false)} />
-        <ConsultancyPopup isOpen={showConsultancyModal} onClose={() => setShowConsultancyModal(false)} />
+       <ConsultancyPopup isOpen={showConsultancyModal} onClose={() => setShowConsultancyModal(false)} />
 
     </footer>
   );

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaLinkedin, FaWhatsapp } from "react-icons/fa";
 
 import { Link, useNavigate } from "react-router-dom";
-import { Navbar, Nav, Badge } from 'react-bootstrap';
+import { Navbar, Nav, Badge } from "react-bootstrap";
 import { Modal } from "react-bootstrap";
 import VendorCompanySideBar from "./Vendorsidebar";
 import axios from "axios";
@@ -44,7 +44,7 @@ function VendorCompanymanage() {
       .then((response) => {
         const jobData = response.data.data;
         console.log(jobData, "published");
-        
+
         if (jobData && jobData.length > 0) {
           setData(jobData);
           setRecordsAvailable(true);
@@ -65,8 +65,7 @@ function VendorCompanymanage() {
   useEffect(() => {
     fetchPublishedJobs();
   }, []);
-  
-  
+
   const handleRepostJob = (id) => {
     const currentDate = new Date().toISOString();
 
@@ -84,12 +83,17 @@ function VendorCompanymanage() {
       .then((response) => {
         const updatedData = data.map((job) =>
           job.job_detail.id === id
-            ? { ...job, job_detail: { ...job.job_detail, reposted_at: currentDate } }
+            ? {
+                ...job,
+                job_detail: { ...job.job_detail, reposted_at: currentDate },
+              }
             : job
         );
 
         // Move the reposted job to the top of the list
-        const repostedJobIndex = updatedData.findIndex(job => job.job_detail.id === id);
+        const repostedJobIndex = updatedData.findIndex(
+          (job) => job.job_detail.id === id
+        );
         if (repostedJobIndex !== -1) {
           const repostedJob = updatedData.splice(repostedJobIndex, 1)[0];
           updatedData.unshift(repostedJob);
@@ -131,16 +135,14 @@ function VendorCompanymanage() {
     setSelectedJobId(jobId);
     setShowModal(true);
   };
-  
+
   const closeModal = () => {
     setShowModal(false);
   };
 
-
-
   return (
     <div className="position-relative">
-       {/* <Navbar bg="white" variant="white" className='py-3 border-bottom'>
+      {/* <Navbar bg="white" variant="white" className='py-3 border-bottom'>
       <Navbar.Brand as={Link} to="/">
         <img
           style={{ width: "110px" }}
@@ -158,7 +160,7 @@ function VendorCompanymanage() {
         </Nav>
     
     </Navbar> */}
-    <VendorHeader/>
+      <VendorHeader />
       <div className="page-content bg-white ">
         <div className="content-block">
           <div className="section-full bg-white p-t50 p-b20">
@@ -176,7 +178,7 @@ function VendorCompanymanage() {
                           style={{ gap: "7px" }}
                           className="d-flex align-items-center justify-content-center "
                         >
-                        {/*<button
+                          {/*<button
                           onClick={fetchDraftJobs}
                           className="site-button"
                           style={{ fontSize: "14px" }}
@@ -194,169 +196,248 @@ function VendorCompanymanage() {
                       </div>
                     </div>
                     <div>
-      {skeleton ? (
-        <JobPageSkeleton />
-      ) : recordsAvailable ? (
-        <ul className="post-job-bx browse-job">
-          {data.map((item, index) => {
-            const formattedDate = moment(item.job_detail.created_at).format("MMMM-DD-YYYY");
-            return (
-              <li key={index} className="position-relative">
-                <div className="post-bx d-flex w-100 justify-content-between">
-                  <div className="job-post-info m-a0">
-                    {console.log('yehi h console', item.job_detail)}
-                    {item.job_detail.job_title && (
-                      <h4 className="mb-0">
-                        <a href="/react/demo/job-detail">
-                          {item.job_detail.job_title}
-                        </a>
-                      </h4>
-                    )}
-                    {(item.job_category.name || item.job_type.name || item.job_workplace_types.name) && (
-                      <div className="d-flex">
-                        {item.job_category.name && (
-                          <p>{item.job_category.name}{" | "}</p>
-                        )}
-                        {item.job_type.name && (
-                          <p>{item.job_type.name}{" | "}</p>
-                        )}
-                        {item.job_detail.skills_arr && (
-                          <div className="mx-1">
-                            {item.job_detail.skills_arr.map((skill, index) => (
-                              <span key={index} className="badge badge-primary mr-1 mb-1">
-                                {skill}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-                        {item.job_workplace_types.name && (
-                          <p>{item.job_workplace_types.name}</p>
-                        )}
-                      </div>
-                    )}
-                    {item.experience_level.name && (
-                      <p className="mb-2">
-                        Experience: {item.experience_level.name}
-                      </p>
-                    )}
-                    {(item.cities.name || item.states.name || item.countries.name) && (
-                      <p style={{ color: "#232323" }} className="mb-2">
-                        <i className="fa fa-map-marker"></i>{" "}
-                        {item.cities.name && <span>{item.cities.name}{" | "}</span>}
-                        {item.states.name && <span>{item.states.name}{" | "}</span>}
-                        {item.countries.name && <span>{item.countries.name}</span>}
-                      </p>
-                    )}
-                    {item.job_detail.reposted_at ? (
-                      <p className="mb-0">
-                        <span className="text-black mr-2">Posted on* </span>
-                        {moment(item.job_detail.reposted_at).format("MMMM DD, YYYY")}
-                      </p>
-                    ) : (
-                      <p className="mb-0">
-                        <span className="text-black mr-2">Posted on* </span>
-                        {moment(item.job_detail.created_at).format("MMMM DD, YYYY")}
-                      </p>
-                    )}
-                  </div>
-                  <div className="d-flex flex-row justify-content-center align-items-center" style={{ gap: "12px" }}>
-                    <button
-                      onClick={() => navigate(`/vendor/vendorcomponypostjobs/${item.job_detail.id}`)}
-                      className="px-3 py-2 site-button text-white border-0"
-                      style={{ cursor: "pointer" }}
-                    >Edit Jobs
-                      {btn}
-                    </button>
-                    <button
-                      onClick={() => navigate(`/vendor/vendorapplicant/${item.job_detail.id}`)}
-                      className="px-3 py-2 site-button text-white border-0"
-                      style={{ cursor: "pointer" }}
-                    ><i className="fa fa-id-card-o mr-1" aria-hidden="true"></i>
-                      <span>Applicants</span>
-                      {btn}
-                    </button>
-                    <button
-                      className="px-3 py-2 site-button text-white border-0 bg-danger"
-                      style={{ cursor: "pointer", backgroundColor: "red" }}
-                      onClick={() => handleRepostJob(item.job_detail.id)}
-                    >
-                      Refresh
-                    </button>
-                  </div>
-                </div>
-                <button
-                  className="px-3 py-2 site-button text-white border-0 float-right mb-2"
-                  style={{ cursor: "pointer" }}
-                  onClick={() => handleShareClick(item.job_detail.id)}
-                >
-                  Share
-                </button>
-                {showModal && selectedJobId === item.job_detail.id && (
-                  <div className="modal">
-                    <div className="modal-content text-white text-center" style={{ backgroundColor: "#1C2957" }}>
-                      <div>
-                        Share on
-                        <span className="close float-right" onClick={closeModal}>
-                          &times;
-                        </span>
-                      </div>
-                      <br />
-                      <div className="d-flex justify-content-evenly">
-                        <a
-                          href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-                            `${window.location.origin}/user/job/${item.job_detail.id}`
-                          )}`}
-                          className="text-white text-center"
-                          style={{ width: '40px' }}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <FaLinkedin size={40} style={{ marginRight: '5px' }} />
-                          LinkedIn
-                        </a>
-                        <a
-                          href={`https://api.whatsapp.com/send?text=${encodeURIComponent(
-                            `${window.location.origin}/user/job/${item.job_detail.id}`
-                          )}`}
-                          className="text-white text-center"
-                          style={{ width: '40px' }}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <FaWhatsapp size={40} style={{ marginRight: '5px' }} />
-                          WhatsApp
-                        </a>
-                      </div>
-                      <br />
-                      <div>
-                        <input
-                          style={{ width: '300px' }}
-                          type="text"
-                          value={`${window.location.origin}/user/job/${item.job_detail.id}`}
-                          readOnly
-                        />
-                        <button
-                          onClick={() => {
-                            navigator.clipboard.writeText(
-                              `${window.location.origin}/user/job/${item.job_detail.id}`
+                      {skeleton ? (
+                        <JobPageSkeleton />
+                      ) : recordsAvailable ? (
+                        <ul className="post-job-bx browse-job">
+                          {data.map((item, index) => {
+                            const formattedDate = moment(
+                              item.job_detail.created_at
+                            ).format("MMMM-DD-YYYY");
+                            return (
+                              <li key={index} className="position-relative">
+                                <div className="post-bx d-flex w-100 justify-content-between">
+                                  <div className="job-post-info m-a0">
+                                    {console.log(
+                                      "yehi h console",
+                                      item.job_detail
+                                    )}
+                                    {item.job_detail.job_title && (
+                                      <h4 className="mb-0">
+                                        <a href="/react/demo/job-detail">
+                                          {item.job_detail.job_title}
+                                        </a>
+                                      </h4>
+                                    )}
+                                    {(item.job_category.name ||
+                                      item.job_type.name ||
+                                      item.job_workplace_types.name) && (
+                                      <div className="d-flex">
+                                        {item.job_category.name && (
+                                          <p>
+                                            {item.job_category.name}
+                                            {" | "}
+                                          </p>
+                                        )}
+                                        {item.job_type.name && (
+                                          <p>
+                                            {item.job_type.name}
+                                            {" | "}
+                                          </p>
+                                        )}
+                                        {item.job_detail.skills_arr && (
+                                          <div className="mx-1">
+                                            {item.job_detail.skills_arr.map(
+                                              (skill, index) => (
+                                                <span
+                                                  key={index}
+                                                  className="badge badge-primary mr-1 mb-1"
+                                                >
+                                                  {skill}
+                                                </span>
+                                              )
+                                            )}
+                                          </div>
+                                        )}
+                                        {item.job_workplace_types.name && (
+                                          <p>{item.job_workplace_types.name}</p>
+                                        )}
+                                      </div>
+                                    )}
+                                    {item.experience_level.name && (
+                                      <p className="mb-2">
+                                        Experience: {item.experience_level.name}
+                                      </p>
+                                    )}
+                                    {(item.cities.name ||
+                                      item.states.name ||
+                                      item.countries.name) && (
+                                      <p
+                                        style={{ color: "#232323" }}
+                                        className="mb-2"
+                                      >
+                                        <i className="fa fa-map-marker"></i>{" "}
+                                        {item.cities.name && (
+                                          <span>
+                                            {item.cities.name}
+                                            {" | "}
+                                          </span>
+                                        )}
+                                        {item.states.name && (
+                                          <span>
+                                            {item.states.name}
+                                            {" | "}
+                                          </span>
+                                        )}
+                                        {item.countries.name && (
+                                          <span>{item.countries.name}</span>
+                                        )}
+                                      </p>
+                                    )}
+                                    {item.job_detail.reposted_at ? (
+                                      <p className="mb-0">
+                                        <span className="text-black mr-2">
+                                          Posted on*{" "}
+                                        </span>
+                                        {moment(
+                                          item.job_detail.reposted_at
+                                        ).format("MMMM DD, YYYY")}
+                                      </p>
+                                    ) : (
+                                      <p className="mb-0">
+                                        <span className="text-black mr-2">
+                                          Posted on*{" "}
+                                        </span>
+                                        {moment(
+                                          item.job_detail.created_at
+                                        ).format("MMMM DD, YYYY")}
+                                      </p>
+                                    )}
+                                  </div>
+                                  <div
+                                    className="d-flex flex-row justify-content-center align-items-center"
+                                    style={{ gap: "12px" }}
+                                  >
+                                    <button
+                                      onClick={() =>
+                                        navigate(
+                                          `/vendor/vendorcomponypostjobs/${item.job_detail.id}`
+                                        )
+                                      }
+                                      className="px-3 py-2 site-button text-white border-0"
+                                      style={{ cursor: "pointer" }}
+                                    >
+                                      Edit Jobs
+                                      {btn}
+                                    </button>
+                                    <button
+                                      onClick={() =>
+                                        navigate(
+                                          `/vendor/vendorapplicant/${item.job_detail.id}`
+                                        )
+                                      }
+                                      className="px-3 py-2 site-button text-white border-0"
+                                      style={{ cursor: "pointer" }}
+                                    >
+                                      <i
+                                        className="fa fa-id-card-o mr-1"
+                                        aria-hidden="true"
+                                      ></i>
+                                      <span>Applicants</span>
+                                      {btn}
+                                    </button>
+                                    <button
+                                      className="px-3 py-2 site-button text-white border-0 bg-danger"
+                                      style={{
+                                        cursor: "pointer",
+                                        backgroundColor: "red",
+                                      }}
+                                      onClick={() =>
+                                        handleRepostJob(item.job_detail.id)
+                                      }
+                                    >
+                                      Refresh
+                                    </button>
+                                  </div>
+                                </div>
+                                <button
+                                  className="px-3 py-2 site-button text-white border-0 float-right mb-2"
+                                  style={{ cursor: "pointer" }}
+                                  onClick={() =>
+                                    handleShareClick(item.job_detail.id)
+                                  }
+                                >
+                                  Share
+                                </button>
+                                {showModal &&
+                                  selectedJobId === item.job_detail.id && (
+                                    <div className="modal">
+                                      <div
+                                        className="modal-content text-white text-center"
+                                        style={{ backgroundColor: "#1C2957" }}
+                                      >
+                                        <div>
+                                          Share on
+                                          <span
+                                            className="close float-right"
+                                            onClick={closeModal}
+                                          >
+                                            &times;
+                                          </span>
+                                        </div>
+                                        <br />
+                                        <div className="d-flex justify-content-evenly">
+                                          <a
+                                            href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+                                              `${window.location.origin}/user/job/${item.job_detail.id}`
+                                            )}`}
+                                            className="text-white text-center"
+                                            style={{ width: "40px" }}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                          >
+                                            <FaLinkedin
+                                              size={40}
+                                              style={{ marginRight: "5px" }}
+                                            />
+                                            LinkedIn
+                                          </a>
+                                          <a
+                                            href={`https://api.whatsapp.com/send?text=${encodeURIComponent(
+                                              `${window.location.origin}/user/job/${item.job_detail.id}`
+                                            )}`}
+                                            className="text-white text-center"
+                                            style={{ width: "40px" }}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                          >
+                                            <FaWhatsapp
+                                              size={40}
+                                              style={{ marginRight: "5px" }}
+                                            />
+                                            WhatsApp
+                                          </a>
+                                        </div>
+                                        <br />
+                                        <div>
+                                          <input
+                                            style={{ width: "300px" }}
+                                            type="text"
+                                            value={`${window.location.origin}/user/job/${item.job_detail.id}`}
+                                            readOnly
+                                          />
+                                          <button
+                                            onClick={() => {
+                                              navigator.clipboard.writeText(
+                                                `${window.location.origin}/user/job/${item.job_detail.id}`
+                                              );
+                                              alert("Link copied!");
+                                            }}
+                                          >
+                                            Copy Link
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  )}
+                              </li>
                             );
-                            alert("Link copied!");
-                          }}
-                        >
-                          Copy Link
-                        </button>
-                      </div>
+                          })}
+                        </ul>
+                      ) : (
+                        <p>Records not available</p>
+                      )}
                     </div>
-                  </div>
-                )}
-              </li>
-            );
-          })}
-        </ul>
-      ) : (
-        <p>Records not available</p>
-      )}
-    </div>
 
                     <div className="pagination-bx m-t30 float-right">
                       <ul className="pagination">
@@ -390,9 +471,7 @@ function VendorCompanymanage() {
                       <div className="modal-dialog my-0" role="document">
                         <div className="modal-content">
                           <div className="modal-header">
-                            <div className="logo-img">
-                              
-                            </div>
+                            <div className="logo-img"></div>
                             <h5 className="modal-title">Company Name</h5>
                             <button
                               type="button"

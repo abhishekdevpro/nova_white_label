@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -17,25 +16,24 @@ import Profilesidebar from '../Element/Profilesidebar';
 
 // Assuming these components are already defined elsewhere in your project
 
-
 // Color scheme based on the image
 const colors = {
-  primary: '#1a237e', // Dark blue from NOVA logo
-  secondary: '#e4e7ff', // Light blue for highlights
-  accent: '#c5103a', // Red from the logo star
-  white: '#ffffff',
-  lightGray: '#f5f6fa',
-  darkGray: '#4a4a4a',
+  primary: "#1a237e", // Dark blue from NOVA logo
+  secondary: "#e4e7ff", // Light blue for highlights
+  accent: "#c5103a", // Red from the logo star
+  white: "#ffffff",
+  lightGray: "#f5f6fa",
+  darkGray: "#4a4a4a",
 };
 
 // Styled Components
 const DashboardContainer = styled.div`
   display: flex;
   width: 100%;
-  max-width:1140px;
-  margin:auto;
-  padding-top:1rem;
-  
+  max-width: 1140px;
+  margin: auto;
+  padding-top: 1rem;
+
   @media (max-width: 768px) {
     flex-direction: column;
   }
@@ -44,9 +42,9 @@ const DashboardContainer = styled.div`
 const ContentContainer = styled.div`
   flex: 1;
   padding: 20px;
-  font-family: 'Segoe UI', 'Roboto', sans-serif;
+  font-family: "Segoe UI", "Roboto", sans-serif;
   margin-left: 20px;
-  
+
   @media (max-width: 768px) {
     margin-left: 0;
     margin-top: 20px;
@@ -66,11 +64,11 @@ const CardsContainer = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
   margin-top: 20px;
-  
+
   @media (max-width: 768px) {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
-  
+
   @media (max-width: 480px) {
     grid-template-columns: 1fr;
   }
@@ -96,7 +94,7 @@ const Card = styled.div`
   align-items: center;
   justify-content: center;
   min-height: 180px;
-  
+
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
@@ -142,12 +140,12 @@ const ActionButton = styled.button`
   color: ${colors.white};
   border: none;
   padding: 10px 15px;
-  border-radius: .25rem;
+  border-radius: 0.25rem;
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.2s;
   margin-top: 12px;
-  
+
   &:hover {
     background-color: #0e1451;
   }
@@ -161,7 +159,7 @@ const StatusBar = styled.div`
   padding: 15px 20px;
   border-radius: 8px;
   margin-bottom: 20px;
-  
+
   @media (max-width: 640px) {
     flex-direction: column;
     align-items: flex-start;
@@ -171,7 +169,7 @@ const StatusBar = styled.div`
 const StatusItem = styled.div`
   display: flex;
   align-items: center;
-  
+
   @media (max-width: 640px) {
     margin-bottom: 10px;
   }
@@ -210,28 +208,31 @@ const location = useLocation();
 
  
   // Define card data with routes
-  const token = localStorage.getItem("jobSeekerLoginToken")
+  const token = localStorage.getItem("jobSeekerLoginToken");
   const cardData = [
     {
       icon: <FileText size={36} color={colors.primary} />,
       title: "Create Resume",
-      description: "Build a professional resume with our AI-powered resume builder.",
+      description:
+        "Build a professional resume with our AI-powered resume builder.",
       buttonText: "Create Now",
-      route: `https://airesume.novajobs.us/?tokenbyurl=${token}`
+      route: `https://airesume.novajobs.us/?tokenbyurl=${token}`,
     },
     {
       icon: <FileSignature size={36} color={colors.primary} />,
       title: "Cover Letters",
-      description: "Craft compelling cover letters tailored to specific positions.",
+      description:
+        "Craft compelling cover letters tailored to specific positions.",
       buttonText: "Get Started",
-      route: `https://airesume.novajobs.us/?tokenbyurl=${token}`
+      route: `https://airesume.novajobs.us/?tokenbyurl=${token}`,
     },
     {
       icon: <Brain size={36} color={colors.primary} />,
       title: "Skill Tests",
-      description: "Take skill assessments to showcase your abilities to employers.",
+      description:
+        "Take skill assessments to showcase your abilities to employers.",
       buttonText: "Start Test",
-      route: "/user/skill-test"
+      route: "/user/skill-test",
     },
     // {
     //   icon: <TrendingUp size={36} color={colors.primary} />,
@@ -245,7 +246,7 @@ const location = useLocation();
       title: "Saved Jobs",
       description: "View and manage your saved job listings.",
       buttonText: "View List",
-      route: "/user/jobs-saved-jobs"
+      route: "/user/jobs-saved-jobs",
     },
     // {
     //   icon: <BarChart2 size={36} color={colors.primary} />,
@@ -259,15 +260,16 @@ const location = useLocation();
       title: "Community",
       description: "Connect with other job seekers and professionals.",
       buttonText: "Join Now",
-      route: "/user/community"
+      route: "/user/community",
     },
     {
       icon: <MessageSquare size={36} color={colors.primary} />,
       title: "Messages",
-      description: "Check your inbox for messages from employers and recruiters.",
+      description:
+        "Check your inbox for messages from employers and recruiters.",
       buttonText: "Open Inbox",
-      route: "/user/messages"
-    }
+      route: "/user/messages",
+    },
   ];
 console.log("hi from dashboard")
   return (
@@ -277,15 +279,15 @@ console.log("hi from dashboard")
         <Profilesidebar data={"dashboard"} />
         <ContentContainer>
           {/* <Title>My Dashboard</Title> */}
-          
+
           <WelcomeSection>
             <WelcomeTitle>Welcome back!</WelcomeTitle>
             <WelcomeText>
-              Here you can manage your job search activities, create and update your resumes, 
-              and improve your skills to stand out to employers.
+              Here you can manage your job search activities, create and update
+              your resumes, and improve your skills to stand out to employers.
             </WelcomeText>
           </WelcomeSection>
-          
+
           {/* <StatusBar>
             <StatusItem>
               <StatusLabel>Resume Completion:</StatusLabel>
@@ -300,14 +302,12 @@ console.log("hi from dashboard")
               <StatusValue>3</StatusValue>
             </StatusItem>
           </StatusBar> */}
-          
+
           <CardsContainer>
             {cardData.map((card, index) => (
               <CardLink to={card.route} key={index}>
                 <Card>
-                  <CardIcon>
-                    {card.icon}
-                  </CardIcon>
+                  <CardIcon>{card.icon}</CardIcon>
                   <CardTitle>{card.title}</CardTitle>
                   <CardDescription>{card.description}</CardDescription>
                   <ActionButton>{card.buttonText}</ActionButton>
