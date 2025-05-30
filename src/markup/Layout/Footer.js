@@ -234,7 +234,7 @@ function Footer() {
                         window.scrollTo({ top: 0, behavior: "smooth" })
                       }
                     >
-                       <Link to={"/user/community"}>Community</Link>
+                       <Link to={"/community"}>Community</Link>
                     </li>
                     <li>
                       <button className="site-button bg-primary"
