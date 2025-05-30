@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import Logout from "./Logout";
-import axios from 'axios';
+import axios from "axios";
 import LogoWrapper from "./LogoWrapper";
 import { Home } from "lucide-react";
 
@@ -11,14 +11,14 @@ var bnr3 = require("./../../images/background/bg3.jpg");
 const UserHeader2 = () => {
   const [show, setShow] = useState(false);
   const [resume, setResume] = useState(null);
-  const [logo, setLogo] = useState("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUhQJ-44yDYIuo8Hj-L1ezQSKAkkK4CqlecQ&s");
+  const [logo, setLogo] = useState(
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUhQJ-44yDYIuo8Hj-L1ezQSKAkkK4CqlecQ&s"
+  );
   const [isPartner, setIsPartner] = useState(false);
- 
 
   const handleClose = () => {
     setShow(false);
   };
-
 
   // useEffect(() => {
   //   // Fetch logo from API
@@ -55,7 +55,7 @@ const UserHeader2 = () => {
     const navUl = [].slice.call(
       document.querySelectorAll(".navbar-nav > li > a, .sub-menu > li > a")
     );
-    
+
     function checkLi(current) {
       current.parentElement.parentElement
         .querySelectorAll("li")
@@ -76,8 +76,8 @@ const UserHeader2 = () => {
     // Cleanup function
     return () => {
       Navicon.removeEventListener("click", toggleFunc);
-      navUl.forEach(item => {
-        item.removeEventListener("click", function() {
+      navUl.forEach((item) => {
+        item.removeEventListener("click", function () {
           checkLi(this);
         });
       });
@@ -108,7 +108,8 @@ const UserHeader2 = () => {
                 data-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown"
                 aria-expanded="false"
-                aria-label="Toggle navigation">
+                aria-label="Toggle navigation"
+              >
                 <span></span>
                 <span></span>
                 <span></span>
@@ -135,10 +136,14 @@ const UserHeader2 = () => {
 
               <div
                 className="header-nav navbar-collapse collapse myNavbar justify-content-start"
-                id="navbarNavDropdown">
+                id="navbarNavDropdown"
+              >
                 <ul className="nav navbar-nav">
                   <li className="">
-                    <Link to={"/"}> <Home /> </Link>
+                    <Link to={"/"}>
+                      {" "}
+                      <Home />{" "}
+                    </Link>
                   </li>
                   <li className="">
                     <Link>services </Link>
@@ -148,17 +153,18 @@ const UserHeader2 = () => {
                       localStorage.removeItem("selectedLocation");
                       localStorage.removeItem("title_keyword");
                     }}
-                    className="">
-                    <Link>Job Page</Link>
+                    className=""
+                  >
+                    <Link to="/user/job/1">Job Page</Link>
                   </li>
 
-                  {localStorage.getItem('jobSeekerLoginToken') ? (
+                  {localStorage.getItem("jobSeekerLoginToken") ? (
                     <li>
-                      <Link to={'/user/dashboard'}>
-                        Dashboard
-                      </Link>
+                      <Link to={"/user/dashboard"}>Dashboard</Link>
                     </li>
-                  ) : ("")}
+                  ) : (
+                    ""
+                  )}
                 </ul>
               </div>
             </div>
@@ -170,13 +176,11 @@ const UserHeader2 = () => {
         show={show}
         onHide={handleClose}
         className="lead-form-modal"
-        centered>
+        centered
+      >
         <div className="modal-dialog" role="document">
           <div className="modal-content">
-            <button
-              type="button"
-              className="close"
-              onClick={handleClose}>
+            <button type="button" className="close" onClick={handleClose}>
               <span aria-hidden="true">&times;</span>
             </button>
             <div className="modal-body row m-a0 clearfix">
@@ -186,7 +190,8 @@ const UserHeader2 = () => {
                   backgroundImage: "url(" + bnr3 + ")",
                   backgroundPosition: "center",
                   backgroundSize: "cover",
-                }}>
+                }}
+              >
                 <div className="form-info text-white align-self-center">
                   <h3 className="m-b15">Login To You Now</h3>
                   <p className="m-b15">
@@ -225,9 +230,7 @@ const UserHeader2 = () => {
               <div className="col-lg-6 col-md-6 p-a0">
                 <div className="lead-form browse-job text-left">
                   <form>
-                    <h3 className="m-t0">
-                      Personal Details{" "}
-                    </h3>
+                    <h3 className="m-t0">Personal Details </h3>
                     <div className="form-group">
                       <input
                         value=""
@@ -245,7 +248,8 @@ const UserHeader2 = () => {
                     <div className="clearfix">
                       <button
                         type="button"
-                        className="btn-primary site-button btn-block">
+                        className="btn-primary site-button btn-block"
+                      >
                         Submit{" "}
                       </button>
                     </div>

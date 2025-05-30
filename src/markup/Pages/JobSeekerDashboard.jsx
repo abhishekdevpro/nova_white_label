@@ -15,7 +15,7 @@
 
 // // // Styled Components
 // // const DashboardContainer = styled.div`
-  
+
 // //   max-width: 1200px;
 // //   margin: 0 auto;
 // //   padding: 20px;
@@ -35,11 +35,11 @@
 // //   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 // //   gap: 20px;
 // //   margin-top: 20px;
-  
+
 // //   @media (max-width: 768px) {
 // //     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 // //   }
-  
+
 // //   @media (max-width: 480px) {
 // //     grid-template-columns: 1fr;
 // //   }
@@ -58,7 +58,7 @@
 // //   align-items: center;
 // //   justify-content: center;
 // //   min-height: 180px;
-  
+
 // //   &:hover {
 // //     transform: translateY(-5px);
 // //     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
@@ -110,7 +110,7 @@
 // //   cursor: pointer;
 // //   transition: background-color 0.2s;
 // //   margin-top: 12px;
-  
+
 // //   &:hover {
 // //     background-color: #0e1451;
 // //   }
@@ -124,7 +124,7 @@
 // //   padding: 15px 20px;
 // //   border-radius: 8px;
 // //   margin-bottom: 20px;
-  
+
 // //   @media (max-width: 640px) {
 // //     flex-direction: column;
 // //     align-items: flex-start;
@@ -134,7 +134,7 @@
 // // const StatusItem = styled.div`
 // //   display: flex;
 // //   align-items: center;
-  
+
 // //   @media (max-width: 640px) {
 // //     margin-bottom: 10px;
 // //   }
@@ -153,20 +153,20 @@
 // // // Main Component
 // // const JobSeekerDashboard = () => {
 // //   return (
-// //     <> 
+// //     <>
 // //     <UserHeader2 />
 // //        <DashboardContainer>
 // //        <Profilesidebar data={"dashboard"} />
 // //       <Title>My Dashboard</Title>
-      
+
 // //       <WelcomeSection>
 // //         <WelcomeTitle>Welcome back!</WelcomeTitle>
 // //         <WelcomeText>
-// //           Here you can manage your job search activities, create and update your resumes, 
+// //           Here you can manage your job search activities, create and update your resumes,
 // //           and improve your skills to stand out to employers.
 // //         </WelcomeText>
 // //       </WelcomeSection>
-      
+
 // //       <StatusBar>
 // //         <StatusItem>
 // //           <StatusLabel>Resume Completion:</StatusLabel>
@@ -181,7 +181,7 @@
 // //           <StatusValue>3</StatusValue>
 // //         </StatusItem>
 // //       </StatusBar>
-      
+
 // //       <CardsContainer>
 // //         <Card>
 // //           <CardIcon>📝</CardIcon>
@@ -189,49 +189,49 @@
 // //           <CardDescription>Build a professional resume with our AI-powered resume builder.</CardDescription>
 // //           <ActionButton>Create Now</ActionButton>
 // //         </Card>
-        
+
 // //         <Card>
 // //           <CardIcon>📋</CardIcon>
 // //           <CardTitle>Cover Letters</CardTitle>
 // //           <CardDescription>Craft compelling cover letters tailored to specific positions.</CardDescription>
 // //           <ActionButton>Get Started</ActionButton>
 // //         </Card>
-        
+
 // //         <Card>
 // //           <CardIcon>🧠</CardIcon>
 // //           <CardTitle>Skill Tests</CardTitle>
 // //           <CardDescription>Take skill assessments to showcase your abilities to employers.</CardDescription>
 // //           <ActionButton>Start Test</ActionButton>
 // //         </Card>
-        
+
 // //         <Card>
 // //           <CardIcon>📈</CardIcon>
 // //           <CardTitle>Upgrade Skills</CardTitle>
 // //           <CardDescription>Explore courses and resources to enhance your professional skills.</CardDescription>
 // //           <ActionButton>Explore</ActionButton>
 // //         </Card>
-        
+
 // //         <Card>
 // //           <CardIcon>❤️</CardIcon>
 // //           <CardTitle>Saved Jobs</CardTitle>
 // //           <CardDescription>View and manage your saved job listings.</CardDescription>
 // //           <ActionButton>View List</ActionButton>
 // //         </Card>
-        
+
 // //         <Card>
 // //           <CardIcon>📊</CardIcon>
 // //           <CardTitle>Application Status</CardTitle>
 // //           <CardDescription>Track the status of your job applications.</CardDescription>
 // //           <ActionButton>Track Now</ActionButton>
 // //         </Card>
-        
+
 // //         <Card>
 // //           <CardIcon>👥</CardIcon>
 // //           <CardTitle>Community</CardTitle>
 // //           <CardDescription>Connect with other job seekers and professionals.</CardDescription>
 // //           <ActionButton>Join Now</ActionButton>
 // //         </Card>
-        
+
 // //         <Card>
 // //           <CardIcon>💬</CardIcon>
 // //           <CardTitle>Messages</CardTitle>
@@ -248,15 +248,15 @@
 
 // import React from 'react';
 // import styled from 'styled-components';
-// import { 
-//   FileText, 
-//   FileSignature, 
-//   Brain, 
-//   TrendingUp, 
-//   Heart, 
-//   BarChart2, 
-//   Users, 
-//   MessageSquare 
+// import {
+//   FileText,
+//   FileSignature,
+//   Brain,
+//   TrendingUp,
+//   Heart,
+//   BarChart2,
+//   Users,
+//   MessageSquare
 // } from 'lucide-react';
 // import Profilesidebar from '../Element/Profilesidebar';
 // import UserHeader2 from '../Layout/Header2';
@@ -281,7 +281,7 @@
 //   max-width:1140px;
 //   margin:auto;
 //   justify-content:center;
-  
+
 //   @media (max-width: 768px) {
 //     flex-direction: column;
 //   }
@@ -292,7 +292,7 @@
 //   padding: 20px;
 //   font-family: 'Segoe UI', 'Roboto', sans-serif;
 //   margin-left: 20px;
-  
+
 //   @media (max-width: 768px) {
 //     margin-left: 0;
 //     margin-top: 20px;
@@ -312,11 +312,11 @@
 //   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 //   gap: 20px;
 //   margin-top: 20px;
-  
+
 //   @media (max-width: 768px) {
 //     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 //   }
-  
+
 //   @media (max-width: 480px) {
 //     grid-template-columns: 1fr;
 //   }
@@ -335,7 +335,7 @@
 //   align-items: center;
 //   justify-content: center;
 //   min-height: 180px;
-  
+
 //   &:hover {
 //     transform: translateY(-5px);
 //     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
@@ -386,7 +386,7 @@
 //   cursor: pointer;
 //   transition: background-color 0.2s;
 //   margin-top: 12px;
-  
+
 //   &:hover {
 //     background-color: #0e1451;
 //   }
@@ -400,7 +400,7 @@
 //   padding: 15px 20px;
 //   border-radius: 8px;
 //   margin-bottom: 20px;
-  
+
 //   @media (max-width: 640px) {
 //     flex-direction: column;
 //     align-items: flex-start;
@@ -410,7 +410,7 @@
 // const StatusItem = styled.div`
 //   display: flex;
 //   align-items: center;
-  
+
 //   @media (max-width: 640px) {
 //     margin-bottom: 10px;
 //   }
@@ -493,15 +493,15 @@
 //         <Profilesidebar data={"dashboard"} />
 //         <ContentContainer>
 //           {/* <Title>My Dashboard</Title> */}
-          
+
 //           <WelcomeSection>
 //             <WelcomeTitle>Welcome back!</WelcomeTitle>
 //             <WelcomeText>
-//               Here you can manage your job search activities, create and update your resumes, 
+//               Here you can manage your job search activities, create and update your resumes,
 //               and improve your skills to stand out to employers.
 //             </WelcomeText>
 //           </WelcomeSection>
-          
+
 //           {/* <StatusBar>
 //             <StatusItem>
 //               <StatusLabel>Resume Completion:</StatusLabel>
@@ -516,7 +516,7 @@
 //               <StatusValue>3</StatusValue>
 //             </StatusItem>
 //           </StatusBar> */}
-          
+
 //           {/* <CardsContainer>
 //             <Card>
 //               <CardIcon>
@@ -526,7 +526,7 @@
 //               <CardDescription>Build a professional resume with our AI-powered resume builder.</CardDescription>
 //               <ActionButton>Create Now</ActionButton>
 //             </Card>
-            
+
 //             <Card>
 //               <CardIcon>
 //                 <FileSignature size={36} color={colors.primary} />
@@ -535,7 +535,7 @@
 //               <CardDescription>Craft compelling cover letters tailored to specific positions.</CardDescription>
 //               <ActionButton>Get Started</ActionButton>
 //             </Card>
-            
+
 //             <Card>
 //               <CardIcon>
 //                 <Brain size={36} color={colors.primary} />
@@ -544,7 +544,7 @@
 //               <CardDescription>Take skill assessments to showcase your abilities to employers.</CardDescription>
 //               <ActionButton>Start Test</ActionButton>
 //             </Card>
-            
+
 //             <Card>
 //               <CardIcon>
 //                 <TrendingUp size={36} color={colors.primary} />
@@ -553,7 +553,7 @@
 //               <CardDescription>Explore courses and resources to enhance your professional skills.</CardDescription>
 //               <ActionButton>Explore</ActionButton>
 //             </Card>
-            
+
 //             <Card>
 //               <CardIcon>
 //                 <Heart size={36} color={colors.primary} />
@@ -562,7 +562,7 @@
 //               <CardDescription>View and manage your saved job listings.</CardDescription>
 //               <ActionButton>View List</ActionButton>
 //             </Card>
-            
+
 //             <Card>
 //               <CardIcon>
 //                 <BarChart2 size={36} color={colors.primary} />
@@ -571,7 +571,7 @@
 //               <CardDescription>Track the status of your job applications.</CardDescription>
 //               <ActionButton>Track Now</ActionButton>
 //             </Card>
-            
+
 //             <Card>
 //               <CardIcon>
 //                 <Users size={36} color={colors.primary} />
@@ -580,7 +580,7 @@
 //               <CardDescription>Connect with other job seekers and professionals.</CardDescription>
 //               <ActionButton>Join Now</ActionButton>
 //             </Card>
-            
+
 //             <Card>
 //               <CardIcon>
 //                 <MessageSquare size={36} color={colors.primary} />
@@ -612,43 +612,42 @@
 
 // export default JobSeekerDashboard;
 
-import React from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { 
-  FileText, 
-  FileSignature, 
-  Brain, 
-  TrendingUp, 
-  Heart, 
-  BarChart2, 
-  Users, 
-  MessageSquare 
-} from 'lucide-react';
-import UserHeader2 from '../Layout/Header2';
-import Profilesidebar from '../Element/Profilesidebar';
+import React from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import {
+  FileText,
+  FileSignature,
+  Brain,
+  TrendingUp,
+  Heart,
+  BarChart2,
+  Users,
+  MessageSquare,
+} from "lucide-react";
+import UserHeader2 from "../Layout/Header2";
+import Profilesidebar from "../Element/Profilesidebar";
 
 // Assuming these components are already defined elsewhere in your project
 
-
 // Color scheme based on the image
 const colors = {
-  primary: '#1a237e', // Dark blue from NOVA logo
-  secondary: '#e4e7ff', // Light blue for highlights
-  accent: '#c5103a', // Red from the logo star
-  white: '#ffffff',
-  lightGray: '#f5f6fa',
-  darkGray: '#4a4a4a',
+  primary: "#1a237e", // Dark blue from NOVA logo
+  secondary: "#e4e7ff", // Light blue for highlights
+  accent: "#c5103a", // Red from the logo star
+  white: "#ffffff",
+  lightGray: "#f5f6fa",
+  darkGray: "#4a4a4a",
 };
 
 // Styled Components
 const DashboardContainer = styled.div`
   display: flex;
   width: 100%;
-  max-width:1140px;
-  margin:auto;
-  padding-top:1rem;
-  
+  max-width: 1140px;
+  margin: auto;
+  padding-top: 1rem;
+
   @media (max-width: 768px) {
     flex-direction: column;
   }
@@ -657,9 +656,9 @@ const DashboardContainer = styled.div`
 const ContentContainer = styled.div`
   flex: 1;
   padding: 20px;
-  font-family: 'Segoe UI', 'Roboto', sans-serif;
+  font-family: "Segoe UI", "Roboto", sans-serif;
   margin-left: 20px;
-  
+
   @media (max-width: 768px) {
     margin-left: 0;
     margin-top: 20px;
@@ -679,11 +678,11 @@ const CardsContainer = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
   margin-top: 20px;
-  
+
   @media (max-width: 768px) {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
-  
+
   @media (max-width: 480px) {
     grid-template-columns: 1fr;
   }
@@ -709,7 +708,7 @@ const Card = styled.div`
   align-items: center;
   justify-content: center;
   min-height: 180px;
-  
+
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
@@ -755,12 +754,12 @@ const ActionButton = styled.button`
   color: ${colors.white};
   border: none;
   padding: 10px 15px;
-  border-radius: .25rem;
+  border-radius: 0.25rem;
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.2s;
   margin-top: 12px;
-  
+
   &:hover {
     background-color: #0e1451;
   }
@@ -774,7 +773,7 @@ const StatusBar = styled.div`
   padding: 15px 20px;
   border-radius: 8px;
   margin-bottom: 20px;
-  
+
   @media (max-width: 640px) {
     flex-direction: column;
     align-items: flex-start;
@@ -784,7 +783,7 @@ const StatusBar = styled.div`
 const StatusItem = styled.div`
   display: flex;
   align-items: center;
-  
+
   @media (max-width: 640px) {
     margin-bottom: 10px;
   }
@@ -803,28 +802,31 @@ const StatusValue = styled.span`
 // Main Component
 const JobSeekerDashboard = () => {
   // Define card data with routes
-  const token = localStorage.getItem("jobSeekerLoginToken")
+  const token = localStorage.getItem("jobSeekerLoginToken");
   const cardData = [
     {
       icon: <FileText size={36} color={colors.primary} />,
       title: "Create Resume",
-      description: "Build a professional resume with our AI-powered resume builder.",
+      description:
+        "Build a professional resume with our AI-powered resume builder.",
       buttonText: "Create Now",
-      route: `https://airesume.novajobs.us/?tokenbyurl=${token}`
+      route: `https://airesume.novajobs.us/?tokenbyurl=${token}`,
     },
     {
       icon: <FileSignature size={36} color={colors.primary} />,
       title: "Cover Letters",
-      description: "Craft compelling cover letters tailored to specific positions.",
+      description:
+        "Craft compelling cover letters tailored to specific positions.",
       buttonText: "Get Started",
-      route: `https://airesume.novajobs.us/?tokenbyurl=${token}`
+      route: `https://airesume.novajobs.us/?tokenbyurl=${token}`,
     },
     {
       icon: <Brain size={36} color={colors.primary} />,
       title: "Skill Tests",
-      description: "Take skill assessments to showcase your abilities to employers.",
+      description:
+        "Take skill assessments to showcase your abilities to employers.",
       buttonText: "Start Test",
-      route: "/user/skill-test"
+      route: "/user/skill-test",
     },
     // {
     //   icon: <TrendingUp size={36} color={colors.primary} />,
@@ -838,7 +840,7 @@ const JobSeekerDashboard = () => {
       title: "Saved Jobs",
       description: "View and manage your saved job listings.",
       buttonText: "View List",
-      route: "/user/jobs-saved-jobs"
+      route: "/user/jobs-saved-jobs",
     },
     // {
     //   icon: <BarChart2 size={36} color={colors.primary} />,
@@ -852,15 +854,16 @@ const JobSeekerDashboard = () => {
       title: "Community",
       description: "Connect with other job seekers and professionals.",
       buttonText: "Join Now",
-      route: "/user/community"
+      route: "/user/community",
     },
     {
       icon: <MessageSquare size={36} color={colors.primary} />,
       title: "Messages",
-      description: "Check your inbox for messages from employers and recruiters.",
+      description:
+        "Check your inbox for messages from employers and recruiters.",
       buttonText: "Open Inbox",
-      route: "/user/messages"
-    }
+      route: "/user/messages",
+    },
   ];
 
   return (
@@ -870,15 +873,15 @@ const JobSeekerDashboard = () => {
         <Profilesidebar data={"dashboard"} />
         <ContentContainer>
           {/* <Title>My Dashboard</Title> */}
-          
+
           <WelcomeSection>
             <WelcomeTitle>Welcome back!</WelcomeTitle>
             <WelcomeText>
-              Here you can manage your job search activities, create and update your resumes, 
-              and improve your skills to stand out to employers.
+              Here you can manage your job search activities, create and update
+              your resumes, and improve your skills to stand out to employers.
             </WelcomeText>
           </WelcomeSection>
-          
+
           {/* <StatusBar>
             <StatusItem>
               <StatusLabel>Resume Completion:</StatusLabel>
@@ -893,14 +896,12 @@ const JobSeekerDashboard = () => {
               <StatusValue>3</StatusValue>
             </StatusItem>
           </StatusBar> */}
-          
+
           <CardsContainer>
             {cardData.map((card, index) => (
               <CardLink to={card.route} key={index}>
                 <Card>
-                  <CardIcon>
-                    {card.icon}
-                  </CardIcon>
+                  <CardIcon>{card.icon}</CardIcon>
                   <CardTitle>{card.title}</CardTitle>
                   <CardDescription>{card.description}</CardDescription>
                   <ActionButton>{card.buttonText}</ActionButton>
