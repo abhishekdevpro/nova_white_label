@@ -16,7 +16,9 @@ const Gauth = () => {
     // Extract the code from the URL
     const queryParams = getQueryParams(window.location.href);
     const code = queryParams.code;
-    const state = queryParams.get("state");
+    const state = queryParams.state;
+
+    console.log(code,state,"code,state");
     // const url = window.location.origin;
     const url = window.location.origin.includes("localhost")
     ? "https://wl.novajobs.us"
