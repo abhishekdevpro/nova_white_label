@@ -47,7 +47,7 @@ const Gauth = () => {
             toast.success(message || "Login successful!");
             setTimeout(() => {
               window.location.href = `${response.data?.data?.domain}user/dashboard?token=${token}`;
-            }, 10000);
+            }, 100);
           }
           // navigate("/user/dashboard");
 
