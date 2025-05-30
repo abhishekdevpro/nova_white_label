@@ -46,7 +46,7 @@ const Gauth = () => {
             localStorage.setItem("jobSeekerLoginToken", token);
             toast.success(message || "Login successful!");
             setTimeout(() => {
-              window.location.href = `${response.data?.data?.domain}user/dashboard`;
+              window.location.href = `${response.data?.data?.domain}user/dashboard?token=${token}`;
             }, 10000);
           }
           // navigate("/user/dashboard");
