@@ -812,7 +812,7 @@ const location = useLocation();
     if (token) {
       // Save token to localStorage
       localStorage.setItem('jobSeekerLoginToken', token);
-
+      console.log(token,"token form utl")
       // Remove the token from the URL (keep the same path)
       params.delete('token');
       const newSearch = params.toString();
