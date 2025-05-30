@@ -16,17 +16,18 @@ const Gauth = () => {
     // Extract the code from the URL
     const queryParams = getQueryParams(window.location.href);
     const code = queryParams.code;
+    const state = queryParams.get("state");
     // const url = window.location.origin;
     const url = window.location.origin.includes("localhost")
     ? "https://wl.novajobs.us"
     : window.location.origin;
     console.log(window.location.origin,url,">>>url");
-    if (code) {
+    if (code && state) {
       // Send the code to the API endpoint
       const sendAuthCode = async () => {
         try {
           const response = await axios.get(
-            `https://apiwl.novajobs.us/api/jobseeker/auth/callback?code=${code}&domain=${url}`
+            `https://apiwl.novajobs.us/api/jobseeker/auth/callback?code=${code}&state=${state}&domain=${url}`
           );
           const token = response.data.data.token;
           const message = response.data.message;
