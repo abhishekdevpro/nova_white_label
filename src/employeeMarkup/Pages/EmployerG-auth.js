@@ -156,12 +156,13 @@ const EmployerGauth = () => {
 
     const queryParams = getQueryParams(window.location.href);
     const code = queryParams.code;
+    const state = queryParams.get("state");
 
-    if (code) {
+    if (code && state) {
       const sendAuthCode = async () => {
         try {
           const response = await axios.get(
-            `https://apiwl.novajobs.us/api/employeer/auth/callback?code=${code}&domain=${url}`
+            `https://apiwl.novajobs.us/api/employeer/auth/callback?code=${code}&state=${state}&domain=${url}`
           );
           const token = response.data.data.token;
           const message = response.data.message; // Get the success message from API
