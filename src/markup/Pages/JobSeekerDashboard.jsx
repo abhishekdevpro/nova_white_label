@@ -811,7 +811,7 @@ const location = useLocation();
 
     if (token) {
       // Save token to localStorage
-      localStorage.setItem('token', token);
+      localStorage.setItem('jobSeekerLoginToken', token);
 
       // Remove the token from the URL (keep the same path)
       params.delete('token');
