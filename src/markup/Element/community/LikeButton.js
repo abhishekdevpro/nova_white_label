@@ -38,7 +38,9 @@ function isValidJWT(token) {
 const LikeButton = ({ post }) => {
   const [localLiked, setLocalLiked] = useState(post.feed_likes && post.feed_likes.id > 0);
   const [localLikesCount, setLocalLikesCount] = useState(post.feed_likes_count || 0);
-  const token = localStorage.getItem("employeeLoginToken");
+   const token =
+    localStorage.getItem("jobSeekerLoginToken") ||
+    localStorage.getItem("employeeLoginToken")
 
   useEffect(() => {
     setLocalLiked(post.feed_likes && post.feed_likes.id > 0);

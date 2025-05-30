@@ -215,19 +215,20 @@ import PaymentPlans from "./markup/Pages/Payments/PaymentPlans";
 import PaymentPage from "./markup/Pages/Payments/PaymentDetails";
 import PaymentFailurePage from "./markup/Pages/Payments/payment-failed";
 import PaymentSuccessPage from "./markup/Pages/Payments/Payment-success";
+import SinglePostPage from "./markup/Element/community/SinglePost";
 
 function App() {
   const dispatch = useDispatch();
 
   const updateFavicon = (faviconUrl) => {
     let link = document.querySelector("link[rel~='icon']");
-    
+
     if (!link) {
       link = document.createElement("link");
       link.rel = "icon";
       document.head.appendChild(link);
     }
-  
+
     link.href = faviconUrl;
   };
   const url = window.location.origin.includes("localhost")
@@ -236,19 +237,22 @@ function App() {
   useEffect(() => {
     const fetchFavicon = async () => {
       try {
-        const response = await axios.get(`https://apiwl.novajobs.us/api/jobseeker/general-info?domain=${url}`); // Replace with your actual API
-         if(response.data.data.success ==="sucsess" || response.data.data.code ===200){
-          updateFavicon(response.data.data.favicon.image)
-         }
-
-        
+        const response = await axios.get(
+          `https://apiwl.novajobs.us/api/jobseeker/general-info?domain=${url}`
+        ); // Replace with your actual API
+        if (
+          response.data.data.success === "sucsess" ||
+          response.data.data.code === 200
+        ) {
+          updateFavicon(response.data.data.favicon.image);
+        }
       } catch (error) {
         console.error("Error fetching favicon:", error);
       }
     };
 
     fetchFavicon();
-  }, []);  
+  }, []);
 
   return (
     <Routes>
@@ -630,6 +634,8 @@ function App() {
       <Route path="gauth" element={<Gauth />} />
       <Route path="payment-success" element={<PaymentSuccessPage />} />
       <Route path="payment-failed" element={<PaymentFailurePage />} />
+      <Route path="community" element={<Community />} />
+      <Route path="community/:postId" element={<SinglePostPage />} />
       <Route path="/user">
         <Route path="" element={<Homepage />} />
         <Route path="login" element={<Loginpage2 />} />
@@ -643,7 +649,7 @@ function App() {
           path="subscription"
           element={
             <UserPrivateRoute>
-              <Subscription  />
+              <Subscription />
             </UserPrivateRoute>
           }
         />
@@ -651,7 +657,7 @@ function App() {
           path="payment-plans"
           element={
             <UserPrivateRoute>
-              <PaymentPlans  />
+              <PaymentPlans />
             </UserPrivateRoute>
           }
         />
@@ -659,7 +665,7 @@ function App() {
           path="plan-details"
           element={
             <UserPrivateRoute>
-              <PaymentPage  />
+              <PaymentPage />
             </UserPrivateRoute>
           }
         />
@@ -667,7 +673,7 @@ function App() {
           path="jobs-profile"
           element={
             <UserPrivateRoute>
-              <Jobprofile /> 
+              <Jobprofile />
             </UserPrivateRoute>
           }
         />
@@ -776,6 +782,14 @@ function App() {
           element={
             <UserPrivateRoute>
               <Community />
+            </UserPrivateRoute>
+          }
+        />
+        <Route
+          path="community/:postId"
+          element={
+            <UserPrivateRoute>
+              <SinglePostPage />
             </UserPrivateRoute>
           }
         />
@@ -1061,7 +1075,10 @@ function App() {
         <Route path="gauth" element={<EmployerGauth />} />
         <Route path="verify/:token" element={<VerifyEmailemployee />} />
         <Route path="forgot-password" element={<ForgotPasswordemployee />} />
-        <Route path="reset-password/:token" element={<ResetPasswordemployee />} />
+        <Route
+          path="reset-password/:token"
+          element={<ResetPasswordemployee />}
+        />
         <Route path="showcase" element={<ShowcaseView />} />
         <Route path="login" element={<EmployeeLogin />} />
         <Route path="login-code" element={<LoginEmployerCode />} />
@@ -1553,7 +1570,6 @@ function App() {
 }
 
 export default App;
-
 
 // docker build . -t abhishekdevpro/novawl_fe:1.0
 // docker push abhishekdevpro/novawl_fe:1.0
