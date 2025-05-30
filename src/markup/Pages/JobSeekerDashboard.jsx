@@ -612,9 +612,9 @@
 
 // export default JobSeekerDashboard;
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   FileText, 
   FileSignature, 
@@ -802,6 +802,26 @@ const StatusValue = styled.span`
 
 // Main Component
 const JobSeekerDashboard = () => {
+const location = useLocation();
+  const navigate = useNavigate();
+
+    useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const token = params.get('token');
+
+    if (token) {
+      // Save token to localStorage
+      localStorage.setItem('token', token);
+
+      // Remove the token from the URL (keep the same path)
+      params.delete('token');
+      const newSearch = params.toString();
+      const newPath = location.pathname + (newSearch ? `?${newSearch}` : '');
+      navigate(newPath, { replace: true }); // replace prevents adding to history
+    }
+  }, [location, navigate]);
+
+ 
   // Define card data with routes
   const token = localStorage.getItem("jobSeekerLoginToken")
   const cardData = [

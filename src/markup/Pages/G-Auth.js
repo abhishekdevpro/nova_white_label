@@ -34,7 +34,7 @@ const Gauth = () => {
           const token = response.data.data.token;
           const message = response.data.message;
           // Save the token in localStorage
-          localStorage.setItem("jobSeekerLoginToken", token);
+
           console.log(
             response,
             response.data?.data?.domain,
@@ -42,11 +42,13 @@ const Gauth = () => {
             "response.data?.data?.domain"
           );
           console.log(message, ">>>>message");
-          toast.success(message || "Login successful!");
-          //   window.open='http://localhost:3000/user/jobs-profile'
-          setTimeout(() => {
-            window.location.href = `${response.data?.data?.domain}user/dashboard`;
-          }, 10000);
+          if (token) {
+            localStorage.setItem("jobSeekerLoginToken", token);
+            toast.success(message || "Login successful!");
+            setTimeout(() => {
+              window.location.href = `${response.data?.data?.domain}user/dashboard?token=${token}`;
+            }, 10000);
+          }
           // navigate("/user/dashboard");
 
           // Redirect to the success URL with the token

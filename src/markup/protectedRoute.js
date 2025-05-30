@@ -10,7 +10,7 @@ const UserPrivateRoute = ({ children }) => {
     return <div>{children}</div>;
   } else {
     return 
-    // <Navigate to="/user/login" />;
+    <Navigate to="/user/login" />;
   }
 };
 
