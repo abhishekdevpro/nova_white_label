@@ -8,10 +8,12 @@ import { showToastError, showToastSuccess } from "../../utils/toastify";
 import { FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 import LogoWrapper from "./LogoWrapper";
 import SupportPopup from "./SupportPopup";
+import ConsultancyPopup from "./ConsultancyPopup";
 function Footer() {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
     const [isSupportOpen, setIsSupportOpen] = useState(false);
+    const [showConsultancyModal, setShowConsultancyModal] = useState(false);
 
   const [logo, setLogo] = useState(
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUhQJ-44yDYIuo8Hj-L1ezQSKAkkK4CqlecQ&s"
@@ -246,6 +248,13 @@ function Footer() {
                         Community
                       </Link>
                     </li>
+                    <li>
+                      <button className="site-button bg-primary"
+                       onClick={e => { e.preventDefault(); setShowConsultancyModal(true); }}
+                      >
+                          Book Free Consultation
+                      </button>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -342,6 +351,8 @@ function Footer() {
         </div>
       </div>
        <SupportPopup isOpen={isSupportOpen} onClose={() => setIsSupportOpen(false)} />
+        <ConsultancyPopup isOpen={showConsultancyModal} onClose={() => setShowConsultancyModal(false)} />
+
     </footer>
   );
 }
