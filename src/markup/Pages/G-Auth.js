@@ -23,7 +23,7 @@ const Gauth = () => {
     const url = window.location.origin.includes("localhost")
       ? "https://wl.novajobs.us"
       : window.location.origin;
-    console.log(window.location.origin, url, ">>>url");
+    // console.log(window.location.origin, url, ">>>url");
     if (code && state) {
       // Send the code to the API endpoint
       const sendAuthCode = async () => {
@@ -35,11 +35,18 @@ const Gauth = () => {
           const message = response.data.message;
           // Save the token in localStorage
           localStorage.setItem("jobSeekerLoginToken", token);
-          console.log(response,response.data?.data?.domain,"response.data?.data?.domain");
+          console.log(
+            response,
+            response.data?.data?.domain,
+            token,
+            "response.data?.data?.domain"
+          );
           console.log(message, ">>>>message");
           toast.success(message || "Login successful!");
           //   window.open='http://localhost:3000/user/jobs-profile'
-          window.location.href =`${response.data?.data?.domain}user/dashboard`;
+          setTimeout(() => {
+            window.location.href = `${response.data?.data?.domain}user/dashboard`;
+          }, 10000);
           // navigate("/user/dashboard");
 
           // Redirect to the success URL with the token
