@@ -172,7 +172,7 @@ const EmployerGauth = () => {
 
           // ✅ Show success toast message
           toast.success(message || "Login successful!");
-          window.open(response.data?.data?.domain)
+          window.open(`${response.data?.data?.domain}/employer/company-profile`)
           // Navigate to company profile page
           // navigate("/employer/company-profile");
         } catch (error) {
