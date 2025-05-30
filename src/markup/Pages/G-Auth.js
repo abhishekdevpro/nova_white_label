@@ -18,12 +18,12 @@ const Gauth = () => {
     const code = queryParams.code;
     const state = queryParams.state;
 
-    console.log(code,state,"code,state");
+    console.log(code, state, "code,state");
     // const url = window.location.origin;
     const url = window.location.origin.includes("localhost")
-    ? "https://wl.novajobs.us"
-    : window.location.origin;
-    console.log(window.location.origin,url,">>>url");
+      ? "https://wl.novajobs.us"
+      : window.location.origin;
+    console.log(window.location.origin, url, ">>>url");
     if (code && state) {
       // Send the code to the API endpoint
       const sendAuthCode = async () => {
@@ -39,8 +39,8 @@ const Gauth = () => {
           console.log(message, ">>>>message");
           toast.success(message || "Login successful!");
           //   window.open='http://localhost:3000/user/jobs-profile'
-
-          navigate("/user/dashboard");
+          window.open(response.data?.data?.domain);
+          // navigate("/user/dashboard");
 
           // Redirect to the success URL with the token
           //   window.open = `https://abroadium-arbuild-dev-fe.vercel.app/dashboard/?${token}`;

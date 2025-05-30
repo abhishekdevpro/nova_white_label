@@ -172,9 +172,9 @@ const EmployerGauth = () => {
 
           // ✅ Show success toast message
           toast.success(message || "Login successful!");
-
+          window.open(response.data?.data?.domain)
           // Navigate to company profile page
-          navigate("/employer/company-profile");
+          // navigate("/employer/company-profile");
         } catch (error) {
           console.error("Error while sending auth code:", error);
 
