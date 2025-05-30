@@ -156,7 +156,7 @@ const EmployerGauth = () => {
 
     const queryParams = getQueryParams(window.location.href);
     const code = queryParams.code;
-    const state = queryParams.get("state");
+    const state = queryParams.state;
 
     if (code && state) {
       const sendAuthCode = async () => {
