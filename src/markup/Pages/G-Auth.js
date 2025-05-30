@@ -39,7 +39,7 @@ const Gauth = () => {
           console.log(message, ">>>>message");
           toast.success(message || "Login successful!");
           //   window.open='http://localhost:3000/user/jobs-profile'
-          window.open(`${response.data?.data?.domain}/user/dashboard`);
+          window.open(`${response.data?.data?.domain}user/dashboard`);
           // navigate("/user/dashboard");
 
           // Redirect to the success URL with the token
