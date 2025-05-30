@@ -156,12 +156,13 @@ const EmployerGauth = () => {
 
     const queryParams = getQueryParams(window.location.href);
     const code = queryParams.code;
+    const state = queryParams.state;
 
-    if (code) {
+    if (code && state) {
       const sendAuthCode = async () => {
         try {
           const response = await axios.get(
-            `https://apiwl.novajobs.us/api/employeer/auth/callback?code=${code}&domain=${url}`
+            `https://apiwl.novajobs.us/api/employeer/auth/callback?code=${code}&state=${state}&domain=${url}`
           );
           const token = response.data.data.token;
           const message = response.data.message; // Get the success message from API
@@ -171,9 +172,9 @@ const EmployerGauth = () => {
 
           // ✅ Show success toast message
           toast.success(message || "Login successful!");
-
+          window.location.href = `${response.data?.data?.domain}employer/company-profile`
           // Navigate to company profile page
-          navigate("/employer/company-profile");
+          // navigate("/employer/company-profile");
         } catch (error) {
           console.error("Error while sending auth code:", error);
 

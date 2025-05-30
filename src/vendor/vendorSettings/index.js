@@ -10,6 +10,7 @@ import TestimonialManagementForm from "./TestimonialManagement";
 import BulkUploadForm from "./BulkUploadForm";
 import Popup from "./Popup";
 import Pricing from "./Pricing";
+import AboutUsForm from "./AboutUs";
 // Animation for tab transition
 const fadeIn = keyframes`
   from {
@@ -214,6 +215,8 @@ function VendorSetting() {
         return <FooterManagementForm />;
       case "testimonial":
         return <TestimonialManagementForm />;
+      case "about-us":
+        return <AboutUsForm />;
       case "bulkUpload":
         return <BulkUploadForm />;
       case "popup":
@@ -229,6 +232,7 @@ function VendorSetting() {
     { key: "header", label: "Header" },
     { key: "footer", label: "Footer" },
     { key: "testimonial", label: "Testimonial" },
+    { key: "about-us", label: "About Us" },
     { key: "bulkUpload", label: "Bulk Upload" },
     { key: "popup", label: "Form" },
 

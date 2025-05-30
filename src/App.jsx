@@ -216,6 +216,7 @@ import PaymentPage from "./markup/Pages/Payments/PaymentDetails";
 import PaymentFailurePage from "./markup/Pages/Payments/payment-failed";
 import PaymentSuccessPage from "./markup/Pages/Payments/Payment-success";
 import PopupLanding from "./popup";
+import SinglePostPage from "./markup/Element/community/SinglePost";
 
 function App() {
   const dispatch = useDispatch();
@@ -280,6 +281,205 @@ function App() {
               {" "}
               <Dashboard />{" "}
             </PrivateRouteadmin>
+              <Branding />{" "}
+            </PrivateRoutevendor>
+          }
+        />
+        <Route
+          path="form"
+          element={
+            <PrivateRoutevendor>
+              {" "}
+              <WhiteLabelForm />{" "}
+            </PrivateRoutevendor>
+          }
+        />
+        <Route
+          path="setting"
+          element={
+            <PrivateRoutevendor>
+              {" "}
+              <VendorSetting />{" "}
+            </PrivateRoutevendor>
+          }
+        />
+        <Route
+          path="vendorcompanySideBar"
+          element={
+            <PrivateRoutevendor>
+              <VendorCompanySideBar />{" "}
+            </PrivateRoutevendor>
+          }
+        />
+        <Route
+          path="vendorcomponypostjobs/:id"
+          element={
+            <PrivateRoutevendor>
+              <VendorComponypostjobs />
+            </PrivateRoutevendor>
+          }
+        />
+        <Route
+          path="vendorwallet"
+          element={
+            <PrivateRoutevendor>
+              <Vendorwallet />
+            </PrivateRoutevendor>
+          }
+        />
+        <Route
+          path="vendorcompanymanage/:id"
+          element={
+            <PrivateRoutevendor>
+              <VendorCompanymanage />
+            </PrivateRoutevendor>
+          }
+        />
+        <Route
+          path="vendorapplicant/:id"
+          element={
+            <PrivateRoutevendor>
+              <Vendorapplicant />
+            </PrivateRoutevendor>
+          }
+        />
+        <Route
+          path="vendorchangepasswordpage"
+          element={
+            <PrivateRoutevendor>
+              <VendorChangepasswordpage />
+            </PrivateRoutevendor>
+          }
+        />
+        <Route
+          path="vendorbulkuploadjobopeneing"
+          element={
+            <PrivateRoutevendor>
+              <Vendorbulkuploadjobopeneing />
+            </PrivateRoutevendor>
+          }
+        />
+        <Route
+          path="vendorbulkuploadjobseeker"
+          element={
+            <PrivateRoutevendor>
+              <Vendorbulkuploadjobseeker />
+            </PrivateRoutevendor>
+          }
+        />
+        <Route
+          path="editors"
+          element={
+            <PrivateRoutevendor>
+              <Editor />
+            </PrivateRoutevendor>
+          }
+        />
+        <Route
+          path="vendorplan"
+          element={
+            <PrivateRoutevendor>
+              <Vendorplan />
+            </PrivateRoutevendor>
+          }
+        />
+        <Route path="vendorregistration" element={<Vendorregistration />} />
+      </Route>
+      <Route path="gauth" element={<Gauth />} />
+      <Route path="payment-success" element={<PaymentSuccessPage />} />
+      <Route path="payment-failed" element={<PaymentFailurePage />} />
+      <Route path="community" element={<Community />} />
+      <Route path="community/:postId" element={<SinglePostPage />} />
+      <Route path="/user">
+        <Route path="" element={<Homepage />} />
+        <Route path="login" element={<Loginpage2 />} />
+        <Route path="login-code" element={<LoginCode />} />
+        <Route path="forgot-password" element={<ForgotPassword />} />
+        <Route path="reset-password/:token" element={<ResetPassword />} />
+        <Route path="register" element={<Register1 />} />
+        <Route path="register-2" element={<Register2 />} />
+        <Route path="verify/:token" element={<Verifyemail />} />
+        <Route
+          path="subscription"
+          element={
+            <UserPrivateRoute>
+              <Subscription />
+            </UserPrivateRoute>
+          }
+        />
+        <Route
+          path="payment-plans"
+          element={
+            <UserPrivateRoute>
+              <PaymentPlans />
+            </UserPrivateRoute>
+          }
+        />
+        <Route
+          path="plan-details"
+          element={
+            <UserPrivateRoute>
+              <PaymentPage />
+            </UserPrivateRoute>
+          }
+        />
+        <Route
+          path="jobs-profile"
+          element={
+            <UserPrivateRoute>
+              <Jobprofile />
+            </UserPrivateRoute>
+          }
+        />
+        <Route
+          path="dashboard"
+          element={
+            <UserPrivateRoute>
+              <JobSeekerDashboard />
+            </UserPrivateRoute>
+          }
+        />
+        <Route
+          path="skill-test"
+          element={
+            <UserPrivateRoute>
+              <SkillTest />
+            </UserPrivateRoute>
+          }
+        />
+        <Route
+          path="skill-test-history"
+          element={
+            <UserPrivateRoute>
+              <SkillTestHistory />
+            </UserPrivateRoute>
+          }
+        />
+        <Route
+          path="education-page"
+          element={
+            <UserPrivateRoute>
+              <EducationPage />
+            </UserPrivateRoute>
+          }
+        />
+        {/* <Route path="job/:id" element={<JobPage2 />} /> */}
+        <Route path="job/:id" element={<JobPage />} />
+        <Route path="jobthirdparty" element={<JobPagethirdparty />} />
+        <Route
+          path="applicant-job"
+          element={
+            <UserPrivateRoute>
+              <ApplicantsJobPage />
+            </UserPrivateRoute>
+          }
+        />{" "}
+        <Route
+          path="category-company-jobs"
+          element={
+            <UserPrivateRoute>
+              <Categorycompanyjob />
+            </UserPrivateRoute>
           }
         />
         <Route
@@ -339,7 +539,15 @@ function App() {
           }
         />
         <Route
-          path="/admin/assignrole"
+          path="community/:postId"
+          element={
+            <UserPrivateRoute>
+              <SinglePostPage />
+            </UserPrivateRoute>
+          }
+        />
+        <Route
+          path="jobs-saved-jobs"
           element={
             <PrivateRouteadmin>
               <AssignRole />
@@ -1061,7 +1269,19 @@ function App() {
           <Route path="*" element={<Error404 />} />
         </Route>
 
-        {/* routes for empployees */}
+      <Route path="/employer">
+        <Route path="gauth" element={<EmployerGauth />} />
+        <Route path="verify/:token" element={<VerifyEmailemployee />} />
+        <Route path="forgot-password" element={<ForgotPasswordemployee />} />
+        <Route
+          path="reset-password/:token"
+          element={<ResetPasswordemployee />}
+        />
+        <Route path="showcase" element={<ShowcaseView />} />
+        <Route path="login" element={<EmployeeLogin />} />
+        <Route path="login-code" element={<LoginEmployerCode />} />
+        <Route path="register" element={<EmployeeRegister1 />} />
+        <Route path="register-2" element={<EmployeeRegister2 />} />
 
         <Route path="/employer">
           <Route path="gauth" element={<EmployerGauth />} />

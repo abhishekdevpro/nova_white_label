@@ -19,6 +19,7 @@ import styled from "styled-components";
 import LikeButton from "./LikeButton";
 import LinkedInShareButton from "./ShareButton";
 import ConfirmationDialog from "./ConformationDialog";
+import { toast } from "react-toastify";
 
 // Styled Components
 const Container = styled.div`
@@ -163,7 +164,8 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
 
   const saveEditedComment = async () => {
     if (!token) {
-      setLoginModal(true);
+      // setLoginModal(true);
+      toast.warn("Login First to Edit comments")
       return;
     }
 
@@ -265,8 +267,9 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
   };
 
   const addPost = async () => {
-    if (!token) {
-      setLoginModal(true);
+   if (!token) {
+      toast.warn("Login First to add Post")
+      // setLoginModal(true);
       return;
     }
     if (content.trim()) {
@@ -305,9 +308,10 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
   };
 
   const fetchPosts = async () => {
+    const API = token ? "https://apiwl.novajobs.us/api/feed/pro/feeds":"https://apiwl.novajobs.us/api/feed/feeds"
     try {
       const response = await axios.get(
-        "https://apiwl.novajobs.us/api/feed/pro/feeds",
+        API,
         {
           headers: {
             Authorization: token,
@@ -330,7 +334,8 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
 
   const addComment = (postId) => {
     if (!token) {
-      setLoginModal(true);
+      toast.warn("Login First to add comment")
+      // setLoginModal(true);
       return;
     }
 
@@ -397,6 +402,11 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
   };
 
   const deletePost = async () => {
+    if (!token) {
+      toast.warn("Login First to delete the post")
+      // setLoginModal(true);
+      return;
+    }
     const { type, id, commentId } = confirmationDialog;
 
     try {
@@ -476,7 +486,8 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
 
   const saveEditedPost = async (postId) => {
     if (!token) {
-      setLoginModal(true);
+      toast.warn("Login First to save the post")
+      // setLoginModal(true);
       return;
     }
     if (editedContent.trim()) {

@@ -9,7 +9,8 @@ const UserPrivateRoute = ({ children }) => {
   if (authStatus) {
     return <div>{children}</div>;
   } else {
-    return <Navigate to="/user/login" />;
+    return 
+    <Navigate to="/user/login" />;
   }
 };
 

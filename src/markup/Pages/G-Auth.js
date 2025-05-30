@@ -16,28 +16,40 @@ const Gauth = () => {
     // Extract the code from the URL
     const queryParams = getQueryParams(window.location.href);
     const code = queryParams.code;
+    const state = queryParams.state;
+
+    console.log(code, state, "code,state");
     // const url = window.location.origin;
     const url = window.location.origin.includes("localhost")
-    ? "https://wl.novajobs.us"
-    : window.location.origin;
-    console.log(url,">>>url");
-    if (code) {
+      ? "https://wl.novajobs.us"
+      : window.location.origin;
+    // console.log(window.location.origin, url, ">>>url");
+    if (code && state) {
       // Send the code to the API endpoint
       const sendAuthCode = async () => {
         try {
           const response = await axios.get(
-            `https://apiwl.novajobs.us/api/jobseeker/auth/callback?code=${code}&domain=${url}`
+            `https://apiwl.novajobs.us/api/jobseeker/auth/callback?code=${code}&state=${state}&domain=${url}`
           );
           const token = response.data.data.token;
           const message = response.data.message;
           // Save the token in localStorage
-          localStorage.setItem("jobSeekerLoginToken", token);
-          console.log(response);
-          console.log(message, ">>>>message");
-          toast.success(message || "Login successful!");
-          //   window.open='http://localhost:3000/user/jobs-profile'
 
-          navigate("/user/dashboard");
+          console.log(
+            response,
+            response.data?.data?.domain,
+            token,
+            "response.data?.data?.domain"
+          );
+          console.log(message, ">>>>message");
+          if (token) {
+            localStorage.setItem("jobSeekerLoginToken", token);
+            toast.success(message || "Login successful!");
+            setTimeout(() => {
+              window.location.href = `${response.data?.data?.domain}user/dashboard?token=${token}`;
+            }, 100);
+          }
+          // navigate("/user/dashboard");
 
           // Redirect to the success URL with the token
           //   window.open = `https://abroadium-arbuild-dev-fe.vercel.app/dashboard/?${token}`;

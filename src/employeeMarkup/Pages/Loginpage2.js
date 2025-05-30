@@ -538,11 +538,11 @@ import axios from "axios";
 import { showToastError } from "../../utils/toastify";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Footer from "../Layout/Footer";
 
 import { Modal } from "react-bootstrap";
 import UserHeader from "../../markup/Layout/Header";
 import CookiesBanner from "../../markup/Layout/CookiesBanner";
+import Footer from "../../markup/Layout/Footer";
 
 const bnr3 = require("./../../images/background/bg3.jpg");
 function EmployeeLogin(props) {
@@ -559,7 +559,7 @@ function EmployeeLogin(props) {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const url = window.location.origin.includes("localhost")
+  const domain = window.location.origin.includes("localhost")
   ? "https://novajobs.us"
   : window.location.origin;
   const notify = (data) => toast.warning(data);
@@ -574,7 +574,7 @@ function EmployeeLogin(props) {
 
     const reqBody = {
       email: email,
-      domain:url,
+      domain:domain,
       // password: password,
     };
     await axios({
@@ -696,7 +696,7 @@ function EmployeeLogin(props) {
     }
   };
   const handleGoogleSignin = async () => {
-    const url = "https://apiwl.novajobs.us/api/employeer/auth/google";
+    const url = `https://apiwl.novajobs.us/api/employeer/auth/google?domain=${domain}`;
 
     try {
       const response = await axios.get(
