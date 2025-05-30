@@ -35,11 +35,11 @@ const Gauth = () => {
           const message = response.data.message;
           // Save the token in localStorage
           localStorage.setItem("jobSeekerLoginToken", token);
-          console.log(response);
+          console.log(response,response.data?.data?.domain,"response.data?.data?.domain");
           console.log(message, ">>>>message");
           toast.success(message || "Login successful!");
           //   window.open='http://localhost:3000/user/jobs-profile'
-          window.open(`${response.data?.data?.domain}user/dashboard`);
+          window.location.href =`${response.data?.data?.domain}user/dashboard`;
           // navigate("/user/dashboard");
 
           // Redirect to the success URL with the token
