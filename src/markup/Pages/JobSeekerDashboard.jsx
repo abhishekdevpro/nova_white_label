@@ -195,7 +195,7 @@ const location = useLocation();
     useEffect(() => {
     const params = new URLSearchParams(location.search);
     const token = params.get('token');
-
+     console.log(token,"from params ");
     if (token) {
       // Save token to localStorage
       localStorage.setItem('jobSeekerLoginToken', token);
@@ -269,7 +269,7 @@ const location = useLocation();
       route: "/user/messages"
     }
   ];
-
+console.log("hi from dashboard")
   return (
     <>
       <UserHeader2 />
