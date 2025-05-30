@@ -538,11 +538,11 @@ import axios from "axios";
 import { showToastError } from "../../utils/toastify";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Footer from "../Layout/Footer";
 
 import { Modal } from "react-bootstrap";
 import UserHeader from "../../markup/Layout/Header";
 import CookiesBanner from "../../markup/Layout/CookiesBanner";
+import Footer from "../../markup/Layout/Footer";
 
 const bnr3 = require("./../../images/background/bg3.jpg");
 function EmployeeLogin(props) {

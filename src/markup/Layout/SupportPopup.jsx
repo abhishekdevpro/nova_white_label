@@ -40,7 +40,7 @@ const CloseButtonStyled = styled.button`
 const Title = styled.h2`
   margin-bottom: 1rem;
   font-size: 1.75rem;
-  color: #5c3c92;
+  color: #1C2957;
   text-align: center;
 `;
 const Form = styled.form`
@@ -217,9 +217,9 @@ const SupportPopup = ({ isOpen, onClose }) => {
             <LabelStyled>Description</LabelStyled>
             <TextareaStyled name="description" value={formData.description} onChange={handleChange} placeholder="Describe your issue" />
           </FieldGroup>
-          <SubmitButtonStyled type="submit" disabled={loading}>
+          <button type="submit" disabled={loading} className="site-button w-100">
             {loading ? "Submitting..." : "Submit Form"}
-          </SubmitButtonStyled>
+          </button>
         </Form>
       </ModalContainer>
     </Overlay>
