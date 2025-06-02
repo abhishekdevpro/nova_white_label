@@ -300,6 +300,7 @@ const LabelStyled = styled.label`
 `;
 const SelectStyled = styled.select`
   padding: 0.75rem;
+  width:100%;
   border: 1px solid #ccd0d5;
   border-radius: 6px;
   font-size: 1rem;
@@ -357,7 +358,7 @@ const ConsultancyPopup = ({ isOpen, onClose }) => {
         <Title>Book a Consultancy Meeting</Title>
         <Form onSubmit={handleSubmit}>
           <div className="d-flex gap-2 justify-content-center align-items-center">
-            <LabelStyled>Duration (in minutes)</LabelStyled>
+            {/* <LabelStyled>Duration (in minutes)</LabelStyled> */}
             <SelectStyled value={duration} onChange={(e) => setDuration(e.target.value)}>
               <option value="15">15 minutes</option>
               <option value="30">30 minutes</option>
