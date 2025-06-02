@@ -25,7 +25,7 @@ import { toast } from "react-toastify";
 const Container = styled.div`
   max-width: 640px;
   margin: auto;
-  padding: 24px;
+  // padding: 24px;
   background-color: #f9fafb; /* Light gray background */
 `;
 
@@ -67,11 +67,33 @@ const Button = styled.button`
   }
 `;
 
+// const PostSection = styled.div`
+//   margin-top: 16px;
+//   display: flex;
+//   flex-direction: column;
+//   gap: 16px;
+
+// `;
 const PostSection = styled.div`
   margin-top: 16px;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  max-height: 700px; /* or whatever height you need */
+  overflow-y: auto;
+  padding-right: 4px; /* Prevents content from being hidden under hidden scrollbar */
+
+  /* Hide scrollbar for WebKit browsers */
+  &::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
+
+  /* Hide scrollbar for Firefox */
+  scrollbar-width: none;
+
+  /* Hide scrollbar for IE/Edge */
+  -ms-overflow-style: none;
 `;
 
 const PostCard = styled.div`
@@ -104,20 +126,30 @@ const CommentCard = styled.div`
   display: flex;
   align-items: center;
   justify-center: between;
-  gap: 1rem;
+  gap: 0.5rem;
 `;
 
 const CommentTextArea = styled.textarea`
   width: 100%;
-  padding: 8px;
-  border-radius: 6px; /* Rounded corners */
-  background-color: #f9fafb; /* Light gray background */
-  // resize: none;
-  border: 1px solid #d1d5db; /* Light gray border */
+  padding: 10px 12px;
+  border-radius: 8px;
+  background-color: #f9fafb;
+  border: 1px solid #d1d5db;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  resize: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
   &:focus {
     outline: none;
-    border-color: #3b82f6; /* Blue border on focus */
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5); /* Blue shadow */
+    border-color: #2563eb; /* Slightly deeper blue */
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3); /* Softer blue shadow */
+    background-color: #ffffff;
+  }
+
+  &::placeholder {
+    color: #9ca3af;
+    font-style: italic;
   }
 `;
 
@@ -165,7 +197,7 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
   const saveEditedComment = async () => {
     if (!token) {
       // setLoginModal(true);
-      toast.warn("Login First to Edit comments")
+      toast.warn("Login First to Edit comments");
       return;
     }
 
@@ -267,8 +299,8 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
   };
 
   const addPost = async () => {
-   if (!token) {
-      toast.warn("Login First to add Post")
+    if (!token) {
+      toast.warn("Login First to add Post");
       // setLoginModal(true);
       return;
     }
@@ -308,16 +340,15 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
   };
 
   const fetchPosts = async () => {
-    const API = token ? "https://apiwl.novajobs.us/api/feed/pro/feeds":"https://apiwl.novajobs.us/api/feed/feeds"
+    const API = token
+      ? "https://apiwl.novajobs.us/api/feed/pro/feeds"
+      : "https://apiwl.novajobs.us/api/feed/feeds";
     try {
-      const response = await axios.get(
-        API,
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
+      const response = await axios.get(API, {
+        headers: {
+          Authorization: token,
+        },
+      });
       if (response.data && Array.isArray(response.data.data.feed_data)) {
         setPosts(response.data.data.feed_data);
       } else {
@@ -334,7 +365,7 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
 
   const addComment = (postId) => {
     if (!token) {
-      toast.warn("Login First to add comment")
+      toast.warn("Login to join the conversation");
       // setLoginModal(true);
       return;
     }
@@ -403,7 +434,7 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
 
   const deletePost = async () => {
     if (!token) {
-      toast.warn("Login First to delete the post")
+      toast.warn("Login First to delete the post");
       // setLoginModal(true);
       return;
     }
@@ -486,7 +517,7 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
 
   const saveEditedPost = async (postId) => {
     if (!token) {
-      toast.warn("Login First to save the post")
+      toast.warn("Login First to save the post");
       // setLoginModal(true);
       return;
     }
@@ -563,7 +594,9 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
             </label>
           </div>
 
-          <Button onClick={addPost}>Post</Button>
+          <button className="site-button rounded-2" onClick={addPost}>
+            Post
+          </button>
         </div>
 
         {image && (
@@ -811,7 +844,12 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
                   }
                 >
                   <FaComment style={{ marginRight: "8px" }} />
-                  <span className="comment-text">Comment</span>
+                  <span className="comment-text text-secondary fw-semibold small px-2 py-1 rounded hover-effect">
+                    Comment{" "}
+                    {post?.feed_comments?.length > 0
+                      ? post?.feed_comments?.length
+                      : ""}
+                  </span>
                 </button>
 
                 <style>
@@ -842,42 +880,12 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
                         alignItems: "center",
                       }}
                     >
-                      {/* <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <input
-                          type="checkbox"
-                          id={`comment-anonymous-${post.id}`}
-                          checked={isCommentAnonymous}
-                          onChange={(e) =>
-                            setIsCommentAnonymous(e.target.checked)
-                          }
-                          style={{ display: 'none' }}
-                        />
-                        <label
-                          htmlFor={`comment-anonymous-${post.id}`}
-                          style={{ cursor: 'pointer', color: '#4b5563' }}
-                        >
-                          <span
-                            style={{
-                              width: '20px',
-                              height: '20px',
-                              marginRight: '8px',
-                              border: '1px solid #d1d5db',
-                              borderRadius: '4px',
-                              backgroundColor: isCommentAnonymous ? '#1e3a8a' : '#ffffff',
-                              display: 'inline-block',
-                              position: 'relative',
-                            }}
-                          >
-                            {isCommentAnonymous && (
-                              <i className="fas fa-check" style={{ color: '#ffffff', fontSize: '12px', position: 'absolute', top: '2px', left: '2px' }}></i>
-                            )}
-                          </span>
-                          Comment Anonymously
-                        </label>
-                      </div> */}
-                      <Button onClick={() => addComment(post.id)}>
-                        Post Comment
-                      </Button>
+                      <button
+                        className="site-button"
+                        onClick={() => addComment(post.id)}
+                      >
+                        Comment
+                      </button>
                     </div>
                   </CommentCard>
 
@@ -889,7 +897,7 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
                         gap: "8px",
                       }}
                     >
-                      {post.feed_comments.map((comment, index) => (
+                      {post.feed_comments?.map((comment, index) => (
                         <CommentCard key={index}>
                           <ProfileImage
                             src={
@@ -968,8 +976,9 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
                                   onClick={() => toggleDropdown(comment.id)}
                                   style={{
                                     padding: "8px",
-                                    color: "#4b5563",
+                                    backgroundColor: "transparent",
                                     cursor: "pointer",
+                                    border: "none",
                                   }}
                                 >
                                   <FaEllipsisV />

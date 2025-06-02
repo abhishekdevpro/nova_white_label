@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import WatchWhatWeSaySection from "./WTS";
 import TeamMemberManager from "./Teams";
 import Header2 from "../Layout/Header2";
-import Footer from "../Layout/Footer";
+import Footer from "../../markup/Layout/Footer";
 import CompanySideBar from "../Layout/companySideBar";
 
 const SocialNetworkBox = () => {

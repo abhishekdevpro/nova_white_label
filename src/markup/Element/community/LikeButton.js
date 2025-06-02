@@ -63,7 +63,7 @@ const LikeButton = ({ post }) => {
       let response;
       if (newLikedState) {
         response = await axios.post(
-          `https://api.sentryspot.co.uk/api/feed/feed/like/${postId}`,
+          `https://apiwl.novajobs.us/api/feed/feed/like/${postId}`,
           {},
           { headers: { Authorization: `${token}` } }
         );
