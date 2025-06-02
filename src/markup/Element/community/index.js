@@ -20,20 +20,16 @@ function Community() {
       <div className="page-content bg-light">
         <div className="content-block">
           <div className="section-full bg-white p-t50 p-b20 shadow-sm">
-            <div className="container">
+            <div className="container w">
               <div className="row">
                 <div className="col-xl-3 col-lg-4 d-none d-lg-block">
                   {/* <Profilesidebar data={"community"} /> */}
                   <FilterSidebar />
                 </div>
                 <div className="col-xl-6 m-b30">
-                  
-                  <div className="mt-4 text-center">
+         
                     <FeedSection />
-                   
-                  </div>
-                  
-                  
+           
                 </div>
                 <div className="col-xl-3 col-lg-4 d-none d-lg-block">
                     <FilterLeftSidebar />
