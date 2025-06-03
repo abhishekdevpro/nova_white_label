@@ -267,7 +267,7 @@ function Jobsection() {
                         <div className="job-post-info">
                           <h4>
                             <Link
-                              to={`/user/job/${item.job_detail.id}`}
+                              to={`/user/jobs/${item.job_detail.id}`}
                               onClick={() =>
                                 window.scrollTo({ top: 0, behavior: "smooth" })
                               }
