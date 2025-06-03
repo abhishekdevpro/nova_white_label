@@ -187,7 +187,6 @@ import Transactions from "./markup/Pages/Transactions";
 import Vendorplan from "./vendor/Vendorplan";
 import Jobadd from "./adminPanel/Jobadd";
 import Community from "./markup/Element/community/index";
-import JobPage2 from "./markup/Element/Jobsection/JobPage";
 import NotificationPage from "./markup/Element/notifications-history";
 import SkillTestHistory from "./markup/Element/skill-test-history";
 
@@ -216,7 +215,8 @@ import PaymentPage from "./markup/Pages/Payments/PaymentDetails";
 import PaymentFailurePage from "./markup/Pages/Payments/payment-failed";
 import PaymentSuccessPage from "./markup/Pages/Payments/Payment-success";
 import SinglePostPage from "./markup/Element/community/SinglePost";
-
+import JobPage2 from "../src/markup/Pages/JobPageV2/JobPage"   
+import JobDetails from "../src/markup/Pages/JobPageV2/JobDetails"
 function App() {
   const dispatch = useDispatch();
 
@@ -632,6 +632,8 @@ function App() {
         />
         <Route path="vendorregistration" element={<Vendorregistration />} />
       </Route>
+
+
       <Route path="gauth" element={<Gauth />} />
       <Route path="payment-success" element={<PaymentSuccessPage />} />
       <Route path="payment-failed" element={<PaymentFailurePage />} />
@@ -711,7 +713,9 @@ function App() {
           }
         />
         {/* <Route path="job/:id" element={<JobPage2 />} /> */}
-        <Route path="job/:id" element={<JobPage />} />
+        {/* <Route path="job/:id" element={<JobPage />} /> */}
+        <Route path="jobs" element={<JobPage2 />} />
+        <Route path="jobs/:jobId" element={<JobDetails />} />
         <Route path="jobthirdparty" element={<JobPagethirdparty />} />
         <Route
           path="applicant-job"
