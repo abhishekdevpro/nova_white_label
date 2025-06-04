@@ -403,7 +403,7 @@ const CareerAdvisorPage = () => {
   const options = [
     "Jobseeker",
     "Employer",
-    ...(isPartner ? ["A Partner"] : []), // Only add "A Partner" if isPartner is true
+    "A Partner", // Only add "A Partner" if isPartner is true
   ];
 
   // Helper function to check file type

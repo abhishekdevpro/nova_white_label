@@ -19,7 +19,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import ShareJobModal from './ShareModal'
+import ShareJobModal from "./ShareModal";
 function JobDetailsPage() {
   const [jobData, setJobData] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -102,7 +102,7 @@ function JobDetailsPage() {
 
   const handleToggleFavorite = async () => {
     if (!token) {
-      toast.warning("Login required!");
+      toast.error("Login required!");
       setTimeout(() => {
         navigate("/user/login");
       }, 2000);
@@ -176,7 +176,8 @@ function JobDetailsPage() {
   if (!jobData) return null;
 
   const job = jobData;
-  const shareUrl = `https://novajobs.us/user/jobs/${job.job_detail.id}`
+  // console.log(job, "job");
+  const shareUrl = `https://novajobs.us/user/jobs/${job.job_detail.id}`;
   return (
     <>
       <UserHeader />
@@ -195,7 +196,7 @@ function JobDetailsPage() {
                 />
                 <div>
                   <h1 className="job-title">{job.job_detail?.job_title}</h1>
-                  <Link href="#" className="company-name">
+                  <Link to={`/company-details/${job.companies?.id}`} className="company-name">
                     {job.companies?.company_name}
                   </Link>
                   <div className="job-meta">
@@ -213,7 +214,10 @@ function JobDetailsPage() {
               </div>
 
               <div className="action-buttons">
-                <button className="site-button btn-primary" onClick={() => setShowModal(true)}>
+                <button
+                  className="site-button btn-primary"
+                  onClick={() => setShowModal(true)}
+                >
                   {/* <FaShare />  */}
                   Share
                 </button>
@@ -280,31 +284,21 @@ function JobDetailsPage() {
                 </div>
               </div>
 
-              <div className="sidebar-section">
-                <h6 className="sidebar-title">Required Skills</h6>
-                <div className="skills-grid">
-                  {job.job_detail?.skills_arr &&
-                  job.job_detail.skills_arr.length > 0 &&
-                  job.job_detail.skills_arr[0] !== "" ? (
-                    job.job_detail.skills_arr.map((skill, index) => (
-                      <span key={index} className="skill-tag">
-                        {skill}
-                      </span>
-                    ))
-                  ) : (
-                    <>
-                      <span className="skill-tag">React</span>
-                      <span className="skill-tag">JavaScript</span>
-                      <span className="skill-tag">Frontend</span>
-                    </>
-                  )}
-                </div>
-              </div>
+              {job?.job_detail?.skills_arr?.length > 0 &&
+                job.job_detail.skills_arr[0] !== "" && (
+                  <div className="sidebar-section">
+                    <h6 className="sidebar-title">Required Skills</h6>
+                    <div className="skills-grid">
+                      {job.job_detail.skills_arr.map((skill, index) => (
+                        <span key={index} className="skill-tag">
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
-              <div className="sidebar-section">
-                <h6 className="sidebar-title">Education</h6>
-                <div className="sidebar-content">Graduate</div>
-              </div>
+              
 
               <div className="sidebar-section">
                 <h6 className="sidebar-title">Location</h6>
@@ -313,15 +307,7 @@ function JobDetailsPage() {
                 </div>
               </div>
 
-              <div className="sidebar-section">
-                <h6 className="sidebar-title">Perks and Benefits</h6>
-                <div className="benefits-grid">
-                  <span className="benefit-tag">Health Insurance</span>
-                  <span className="benefit-tag">401k Match</span>
-                  <span className="benefit-tag">PTO</span>
-                  <span className="benefit-tag">Remote Work</span>
-                </div>
-              </div>
+              
             </div>
 
             {/* Main Content */}
@@ -355,7 +341,7 @@ function JobDetailsPage() {
                     </div>
                     <div className="highlight-info">
                       <h4>Experience</h4>
-                      <p>{job.experience_level?.name || "Mid-Level"}</p>
+                      <p>{job.experience_level?.name || "Not-Mentioned"}</p>
                     </div>
                   </div>
                   <div className="highlight-item">
@@ -410,7 +396,7 @@ function JobDetailsPage() {
                     <div className="company-card">
                       <img
                         src={
-                          job.companies?.logo ||
+                          `https://apiwl.novajobs.us${job.companies?.logo}` ||
                           "https://via.placeholder.com/60"
                         }
                         alt={job.companies?.company_name}
@@ -420,27 +406,19 @@ function JobDetailsPage() {
                         <h3>{job.companies?.company_name}</h3>
                         <p>
                           <FaUsers style={{ marginRight: "0.5rem" }} />
-                          {job.company_size?.range || "1000+ employees"}
+                          {job.company_size?.range || "N.A"}
                         </p>
                       </div>
-                      <button className="btn explore-btn">Explore More</button>
+                      <button className="site-button explore-btn">Explore More</button>
                     </div>
 
                     <div className="job-description">
-                      {job.companies?.about ? (
+                      {job.companies?.about && (
                         <div
                           dangerouslySetInnerHTML={{
                             __html: job.companies.about,
                           }}
                         />
-                      ) : (
-                        <p>
-                          We are one of the leading companies in our industry,
-                          committed to delivering exceptional services and
-                          creating value for our clients and employees. Join our
-                          team and be part of our exciting journey towards
-                          continued growth and success.
-                        </p>
                       )}
                     </div>
 

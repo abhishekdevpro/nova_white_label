@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { IoBagHandleOutline, IoPlay } from "react-icons/io5";
 import { CiLocationOn } from "react-icons/ci";
 import {
@@ -38,6 +38,9 @@ import CompanyBenefits from "./CompanyBenefits";
 import JobListings from "./HiringSection";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+const url = window.location.origin.includes("localhost")
+  ? "https://novajobs.us"
+  : window.location.origin;
 
 const styles = {
   container: {
@@ -60,7 +63,8 @@ const styles = {
       left: 0,
       right: 0,
       bottom: 0,
-      background: "radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%)",
+      background:
+        "radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%)",
       zIndex: 1,
     },
   },
@@ -531,40 +535,42 @@ const FALLBACK_IMAGES = {
   gallery: [
     "https://placehold.co/400x300/1e40af/ffffff?text=Gallery+1",
     "https://placehold.co/400x300/1e40af/ffffff?text=Gallery+2",
-    "https://placehold.co/400x300/1e40af/ffffff?text=Gallery+3"
+    "https://placehold.co/400x300/1e40af/ffffff?text=Gallery+3",
   ],
   team: [
     {
       image: "https://placehold.co/200x200/1e40af/ffffff?text=Team+1",
       name: "John Doe",
       position: "CEO & Founder",
-      bio: "Visionary leader with 20+ years of industry experience"
+      bio: "Visionary leader with 20+ years of industry experience",
     },
     {
       image: "https://placehold.co/200x200/1e40af/ffffff?text=Team+2",
       name: "Jane Smith",
       position: "CTO",
-      bio: "Technology innovator driving digital transformation"
+      bio: "Technology innovator driving digital transformation",
     },
     {
       image: "https://placehold.co/200x200/1e40af/ffffff?text=Team+3",
       name: "Sarah Johnson",
       position: "COO",
-      bio: "Operations expert with a passion for efficiency"
-    }
+      bio: "Operations expert with a passion for efficiency",
+    },
   ],
   testimonials: [
     {
       image: "https://placehold.co/400x300/1e40af/ffffff?text=Testimonial+1",
       title: "Amazing Company Culture",
-      description: "Working here has been an incredible experience. The team is supportive and the work environment is fantastic."
+      description:
+        "Working here has been an incredible experience. The team is supportive and the work environment is fantastic.",
     },
     {
       image: "https://placehold.co/400x300/1e40af/ffffff?text=Testimonial+2",
       title: "Great Growth Opportunities",
-      description: "The company provides excellent opportunities for professional development and career growth."
-    }
-  ]
+      description:
+        "The company provides excellent opportunities for professional development and career growth.",
+    },
+  ],
 };
 
 const ShowcaseComponent = () => {
@@ -579,17 +585,21 @@ const ShowcaseComponent = () => {
   const token = localStorage.getItem("employeeLoginToken");
   const BASE_IMAGE_URL = "https://apiwl.novajobs.us";
   const navigate = useNavigate();
-  const {userInfo} = useSelector((state)=>state.auth);
-  
+  const { userInfo } = useSelector((state) => state.auth);
+  const { companyId } = useParams();
+  const isEdit = token ? true : false;
+
   // console.log(userInfo,"user hu main");
 
   // Add dummy image constants
-  const DUMMY_COVER_IMAGE = "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&h=500&fit=crop";
-  const DUMMY_LOGO = "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=150&h=150&fit=crop";
+  const DUMMY_COVER_IMAGE =
+    "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&h=500&fit=crop";
+  const DUMMY_LOGO =
+    "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=150&h=150&fit=crop";
   const DUMMY_ABOUT_IMAGES = [
     "https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=400&h=300&fit=crop",
     "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=400&h=250&fit=crop",
-    "https://images.unsplash.com/photo-1497215842964-222b430dc094?w=400&h=250&fit=crop"
+    "https://images.unsplash.com/photo-1497215842964-222b430dc094?w=400&h=250&fit=crop",
   ];
 
   const [formData, setFormData] = useState({
@@ -612,36 +622,41 @@ const ShowcaseComponent = () => {
     facebook_link: "#",
     youtube_link: "#",
     instagram_link: "#",
-    about: "We are a forward-thinking company dedicated to innovation and excellence. Our mission is to create meaningful solutions that make a difference in people's lives.",
-    summery: "Join us in our journey to transform the future of work. We offer exciting opportunities for growth, learning, and making an impact.",
+    about:
+      "We are a forward-thinking company dedicated to innovation and excellence. Our mission is to create meaningful solutions that make a difference in people's lives.",
+    summery:
+      "Join us in our journey to transform the future of work. We offer exciting opportunities for growth, learning, and making an impact.",
     benefits: [
       {
         title: "Competitive Benefits",
-        description: "Comprehensive health coverage, retirement plans, and wellness programs"
+        description:
+          "Comprehensive health coverage, retirement plans, and wellness programs",
       },
       {
         title: "Work-Life Balance",
-        description: "Flexible work arrangements and generous time-off policies"
+        description:
+          "Flexible work arrangements and generous time-off policies",
       },
       {
         title: "Career Growth",
-        description: "Continuous learning opportunities and clear career progression paths"
-      }
+        description:
+          "Continuous learning opportunities and clear career progression paths",
+      },
     ],
     leadership: [
       {
         name: "John Doe",
         position: "CEO & Founder",
         image: DUMMY_LOGO,
-        bio: "Visionary leader with 20+ years of industry experience"
+        bio: "Visionary leader with 20+ years of industry experience",
       },
       {
         name: "Jane Smith",
         position: "CTO",
         image: DUMMY_LOGO,
-        bio: "Technology innovator driving digital transformation"
-      }
-    ]
+        bio: "Technology innovator driving digital transformation",
+      },
+    ],
   };
 
   const [jobs, setJobs] = useState([]);
@@ -651,7 +666,7 @@ const ShowcaseComponent = () => {
       try {
         // Fetch company data
         const companyResponse = await axios.get(
-          `${BASE_IMAGE_URL}/api/employeer/company`,
+          `${BASE_IMAGE_URL}/api/jobseeker/company/${companyId}?domain=${url}`,
           {
             headers: {
               Authorization: token,
@@ -662,7 +677,7 @@ const ShowcaseComponent = () => {
 
         // Fetch teams data
         const teamsResponse = await axios.get(
-          `${BASE_IMAGE_URL}/api/employeer/company-teams`,
+          `${BASE_IMAGE_URL}/api/jobseeker/company-teams/${companyId}?domain=${url}`,
           {
             headers: {
               Authorization: token,
@@ -673,7 +688,7 @@ const ShowcaseComponent = () => {
 
         // Fetch WTS data
         const wtsResponse = await axios.get(
-          `${BASE_IMAGE_URL}/api/employeer/company-wts`,
+          `${BASE_IMAGE_URL}/api/jobseeker/company-wts/${companyId}?domain=${url}`,
           {
             headers: {
               Authorization: token,
@@ -684,7 +699,7 @@ const ShowcaseComponent = () => {
 
         // Fetch jobs
         const jobsResponse = await axios.get(
-          "https://apiwl.novajobs.us/api/employeer/job-lists?is_publish=1",
+          `https://apiwl.novajobs.us/api/jobseeker/job-lists?is_publish=1&company_id=${companyId}&domain=${url}`,
           {
             headers: {
               Authorization: token,
@@ -706,131 +721,19 @@ const ShowcaseComponent = () => {
   const handleEditClick = (section) => {
     // Map showcase sections to BrandingCompany tabs
     const sectionToTab = {
-      'hero': 'company-info',
-      'about': 'about-company',
-      'benefits': 'benefits',
-      'gallery': 'gallery',
-      'join': 'join-us',
-      'teams': 'leadership-team',
-      'wts': 'testimonials',
-      'social': 'social-links',
-      'jobs': 'jobs'
+      hero: "company-info",
+      about: "about-company",
+      benefits: "benefits",
+      gallery: "gallery",
+      join: "join-us",
+      teams: "leadership-team",
+      wts: "testimonials",
+      social: "social-links",
+      jobs: "jobs",
     };
 
-    const tab = sectionToTab[section] || 'company-info';
+    const tab = sectionToTab[section] || "company-info";
     navigate(`/employer/branding-company?tab=${tab}`);
-  };
-
-  const handleClosePopup = () => {
-    setIsPopupOpen(false);
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevState) => ({ ...prevState, [name]: value }));
-  };
-
-  const handleImageChange = (e) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      image: URL.createObjectURL(e.target.files[0]),
-    }));
-  };
-
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const token = localStorage.getItem("employeeLoginToken");
-      const response = await axios.put(
-        "https://apiwl.novajobs.us/api/employeer/company",
-        formData,
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
-      console.log("Update Successful", response.data);
-      setIsPopupOpen(false);
-    } catch (error) {
-      console.error("Error updating data", error);
-    }
-  };
-
-  const handleImageChange2 = (e) => {
-    const files = Array.from(e.target.files);
-    if (files.length > 3) {
-      alert("You can upload a maximum of 3 images.");
-    } else {
-      setSelectedImages(files);
-    }
-  };
-
-  const handleSave2 = async () => {
-    if (selectedImages.length > 3) {
-      alert("Please ensure only 3 images are selected.");
-      return;
-    }
-
-    const formData = new FormData();
-
-    formData.append("title", companyData.title);
-    formData.append("about", companyData.about);
-    selectedImages.forEach((image) =>
-      formData.append("about_images_upload", image)
-    );
-
-    try {
-      const response = await axios.patch(
-        "https://apiwl.novajobs.us/api/employeer/company-about",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: token,
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        toast.success("Content updated successfully!");
-        setIsPopupOpen(false);
-      } else {
-        alert("Failed to update content. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error updating content:", error);
-      toast.error("An error occurred. Please try again.");
-    }
-  };
-  const handleSave3 = async () => {
-    const formData = new FormData();
-
-    // formData.append("title", companyData.title)
-    formData.append("summery", companyData.summery);
-
-    try {
-      const response = await axios.patch(
-        "https://apiwl.novajobs.us/api/employeer/company-about",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: token,
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        toast.success("Content updated successfully!");
-        setIsPopupOpen(false);
-      } else {
-        alert("Failed to update content. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error updating content:", error);
-      toast.error("An error occurred. Please try again.");
-    }
   };
 
   const scrollToSection = (sectionId) => {
@@ -842,7 +745,7 @@ const ShowcaseComponent = () => {
 
       window.scrollTo({
         top: offsetPosition,
-        behavior: "smooth"
+        behavior: "smooth",
       });
       setActiveSection(sectionId);
     }
@@ -858,7 +761,10 @@ const ShowcaseComponent = () => {
         const element = document.getElementById(section);
         if (element) {
           const { offsetTop, offsetHeight } = element;
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+          if (
+            scrollPosition >= offsetTop &&
+            scrollPosition < offsetTop + offsetHeight
+          ) {
             setActiveSection(section);
             break;
           }
@@ -873,13 +779,23 @@ const ShowcaseComponent = () => {
   // Add error handling for images
   const handleImageError = (e) => {
     e.target.onerror = null; // Prevent infinite loop
-    e.target.src = "https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=400&h=300&fit=crop";
+    e.target.src =
+      "https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=400&h=300&fit=crop";
   };
 
   if (loading) {
     return (
-      <div style={styles.loadingSpinner}>
-        <div style={styles.spinner}></div>
+      <div className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
+        <div className="text-center">
+          <div
+            className="spinner-border text-primary"
+            role="status"
+            style={{ width: "3rem", height: "3rem" }}
+          >
+            <span className="visually-hidden">Loading...</span>
+          </div>
+          <p className="mt-3 fs-5 text-secondary">Loading companies info...</p>
+        </div>
       </div>
     );
   }
@@ -889,13 +805,15 @@ const ShowcaseComponent = () => {
       {/* Header Section */}
       <div style={styles.header}>
         <div style={styles.headerContent}>
-          <button 
-            style={styles.editButton}
-            onClick={() => handleEditClick('hero')}
-          >
-            <MdEdit size={18} />
-            Edit Hero
-          </button>
+          {isEdit && (
+            <button
+              style={styles.editButton}
+              onClick={() => handleEditClick("hero")}
+            >
+              <MdEdit size={18} />
+              Edit Hero
+            </button>
+          )}
           <img
             src={companyData?.logo || FALLBACK_IMAGES.logo}
             alt="Company Logo"
@@ -903,8 +821,12 @@ const ShowcaseComponent = () => {
             onError={handleImageError}
           />
           <div style={styles.headerText}>
-            <h1 style={styles.companyName}>{companyData?.company_name || "Company Name"}</h1>
-            <p style={styles.tagline}>{companyData?.tagline || "Company Tagline"}</p>
+            <h1 style={styles.companyName}>
+              {companyData?.company_name || "Company Name"}
+            </h1>
+            <p style={styles.tagline}>
+              {companyData?.tagline || "Company Tagline"}
+            </p>
             <div style={styles.companyInfo}>
               <div style={styles.infoItem}>
                 <MdLocationOn size={28} />
@@ -926,37 +848,51 @@ const ShowcaseComponent = () => {
       {/* Sticky Navigation - Moved below header */}
       <div style={styles.stickyNav}>
         <div style={styles.navContainer}>
-          <a 
-            style={{...styles.navLink, ...(activeSection === 'about' ? styles.activeNavLink : {})}}
-            onClick={() => scrollToSection('about')}
+          <a
+            style={{
+              ...styles.navLink,
+              ...(activeSection === "about" ? styles.activeNavLink : {}),
+            }}
+            onClick={() => scrollToSection("about")}
           >
             About
           </a>
-          <a 
-            style={{...styles.navLink, ...(activeSection === 'benefits' ? styles.activeNavLink : {})}}
-            onClick={() => scrollToSection('benefits')}
+          <a
+            style={{
+              ...styles.navLink,
+              ...(activeSection === "benefits" ? styles.activeNavLink : {}),
+            }}
+            onClick={() => scrollToSection("benefits")}
           >
             Benefits
           </a>
-          <a 
-            style={{...styles.navLink, ...(activeSection === 'jobs' ? styles.activeNavLink : {})}}
-            onClick={() => scrollToSection('jobs')}
+          <a
+            style={{
+              ...styles.navLink,
+              ...(activeSection === "jobs" ? styles.activeNavLink : {}),
+            }}
+            onClick={() => scrollToSection("jobs")}
           >
             Jobs
           </a>
-          <a 
-            style={{...styles.navLink, ...(activeSection === 'gallery' ? styles.activeNavLink : {})}}
-            onClick={() => scrollToSection('gallery')}
+          <a
+            style={{
+              ...styles.navLink,
+              ...(activeSection === "gallery" ? styles.activeNavLink : {}),
+            }}
+            onClick={() => scrollToSection("gallery")}
           >
             Gallery
           </a>
-          <a 
-            style={{...styles.navLink, ...(activeSection === 'teams' ? styles.activeNavLink : {})}}
-            onClick={() => scrollToSection('teams')}
+          <a
+            style={{
+              ...styles.navLink,
+              ...(activeSection === "teams" ? styles.activeNavLink : {}),
+            }}
+            onClick={() => scrollToSection("teams")}
           >
             Team
           </a>
-         
         </div>
       </div>
 
@@ -964,104 +900,129 @@ const ShowcaseComponent = () => {
       <div style={styles.mainContent}>
         {/* About Section */}
         <section id="about" style={styles.section}>
-          <button 
-            style={styles.editButton}
-            onClick={() => handleEditClick('about')}
-          >
-            <MdEdit size={18} />
-            Edit About
-          </button>
+          {isEdit && (
+            <button
+              style={styles.editButton}
+              onClick={() => handleEditClick("about")}
+            >
+              <MdEdit size={18} />
+              Edit About
+            </button>
+          )}
           <h2 style={styles.sectionTitle}>About Us</h2>
-          <div 
+         {companyData?.about ? <div
             style={styles.aboutContent}
-            dangerouslySetInnerHTML={{ 
-              __html: DOMPurify.sanitize(companyData?.about || "") 
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(companyData?.about || ""),
             }}
-          />
+          />:
+           <div >
+              No Summary at the moment. Please check back later.
+            </div>
+          }
         </section>
 
         {/* Benefits Section */}
         <section id="benefits" style={styles.section}>
-          <button 
-            style={styles.editButton}
-            onClick={() => handleEditClick('benefits')}
-          >
-            <MdEdit size={18} />
-            Edit Benefits
-          </button>
+          {isEdit && (
+            <button
+              style={styles.editButton}
+              onClick={() => handleEditClick("benefits")}
+            >
+              <MdEdit size={18} />
+              Edit Benefits
+            </button>
+          )}
           <h2 style={styles.sectionTitle}>What Makes Us Unique</h2>
           <div style={styles.benefitsContainer}>
-           
-              <div style={styles.benefitItem}>
-                <MdOutlineHealthAndSafety style={styles.benefitIcon} />
-                <div style={styles.benefitContent}>
-                  <h3 style={styles.benefitTitle}>Health Insurance</h3>
-                  <p style={styles.benefitDescription}>{companyData?.health_insurance_value}</p>
-                </div>
+            <div style={styles.benefitItem}>
+              <MdOutlineHealthAndSafety style={styles.benefitIcon} />
+              <div style={styles.benefitContent}>
+                <h3 style={styles.benefitTitle}>Health Insurance</h3>
+                <p style={styles.benefitDescription}>
+                  {companyData?.health_insurance_value}
+                </p>
               </div>
-          
-          
-              <div style={styles.benefitItem}>
-                <MdLocalCafe style={styles.benefitIcon} />
-                <div style={styles.benefitContent}>
-                  <h3 style={styles.benefitTitle}>Cafeteria</h3>
-                  <p style={styles.benefitDescription}>{companyData?.cafeteria_value}</p>
-                </div>
+            </div>
+
+            <div style={styles.benefitItem}>
+              <MdLocalCafe style={styles.benefitIcon} />
+              <div style={styles.benefitContent}>
+                <h3 style={styles.benefitTitle}>Cafeteria</h3>
+                <p style={styles.benefitDescription}>
+                  {companyData?.cafeteria_value}
+                </p>
               </div>
-         
-          
-              <div style={styles.benefitItem}>
-                <MdOutlineHealthAndSafety style={styles.benefitIcon} />
-                <div style={styles.benefitContent}>
-                  <h3 style={styles.benefitTitle}>Recreational Area</h3>
-                  <p style={styles.benefitDescription}>{companyData?.recreational_area_value}</p>
-                </div>
+            </div>
+
+            <div style={styles.benefitItem}>
+              <MdOutlineHealthAndSafety style={styles.benefitIcon} />
+              <div style={styles.benefitContent}>
+                <h3 style={styles.benefitTitle}>Recreational Area</h3>
+                <p style={styles.benefitDescription}>
+                  {companyData?.recreational_area_value}
+                </p>
               </div>
-            
-           
-              <div style={styles.benefitItem}>
-                <MdOutlineHealthAndSafety style={styles.benefitIcon} />
-                <div style={styles.benefitContent}>
-                  <h3 style={styles.benefitTitle}>Personal Accident Insurance</h3>
-                  <p style={styles.benefitDescription}>{companyData?.personal_accident_insurance_value}</p>
-                </div>
+            </div>
+
+            <div style={styles.benefitItem}>
+              <MdOutlineHealthAndSafety style={styles.benefitIcon} />
+              <div style={styles.benefitContent}>
+                <h3 style={styles.benefitTitle}>Personal Accident Insurance</h3>
+                <p style={styles.benefitDescription}>
+                  {companyData?.personal_accident_insurance_value}
+                </p>
               </div>
-           
-            
-              <div style={styles.benefitItem}>
-                <MdOutlineHealthAndSafety style={styles.benefitIcon} />
-                <div style={styles.benefitContent}>
-                  <h3 style={styles.benefitTitle}>Life Insurance</h3>
-                  <p style={styles.benefitDescription}>{companyData?.life_insurance_value}</p>
-                </div>
+            </div>
+
+            <div style={styles.benefitItem}>
+              <MdOutlineHealthAndSafety style={styles.benefitIcon} />
+              <div style={styles.benefitContent}>
+                <h3 style={styles.benefitTitle}>Life Insurance</h3>
+                <p style={styles.benefitDescription}>
+                  {companyData?.life_insurance_value}
+                </p>
               </div>
-           
-           
-              <div style={styles.benefitItem}>
-                <MdOutlineHealthAndSafety style={styles.benefitIcon} />
-                <div style={styles.benefitContent}>
-                  <h3 style={styles.benefitTitle}>Wellness Center</h3>
-                  <p style={styles.benefitDescription}>{companyData?.wellness_center_value}</p>
-                </div>
+            </div>
+
+            <div style={styles.benefitItem}>
+              <MdOutlineHealthAndSafety style={styles.benefitIcon} />
+              <div style={styles.benefitContent}>
+                <h3 style={styles.benefitTitle}>Wellness Center</h3>
+                <p style={styles.benefitDescription}>
+                  {companyData?.wellness_center_value}
+                </p>
               </div>
-           
+            </div>
           </div>
         </section>
 
         {/* Job Openings Section */}
         <section id="jobs" style={styles.jobOpeningsSection}>
-          <button 
-            style={styles.editButton}
-            onClick={() => handleEditClick('jobs')}
-          >
-            <MdEdit size={18} />
-            Edit Jobs
-          </button>
+          {isEdit && (
+            <button
+              style={styles.editButton}
+              onClick={() => handleEditClick("jobs")}
+            >
+              <MdEdit size={18} />
+              Edit Jobs
+            </button>
+          )}
           <h2 style={styles.sectionTitle}>Open Positions</h2>
           {jobs.length > 0 ? (
             jobs.map((job, index) => (
               <div key={index} style={styles.jobCard}>
-                <h3 style={styles.jobTitle}>{job.job_detail.job_title}</h3>
+                <div className="w-100 d-flex justify-content-between align-items-center flex-wrap mb-3">
+                  <h3 className="mb-0 me-3 text-dark fw-semibold">
+                    {job.job_detail.job_title}
+                  </h3>
+                  <button className="site-button text-white btn-outline-primary btn-md"
+                  onClick={()=>navigate(`/user/jobs/${job.job_detail.id}`)}
+                  >
+                    View
+                  </button>
+                </div>
+
                 <div style={styles.jobDetails}>
                   <div style={styles.jobDetail}>
                     <MdBusiness size={20} />
@@ -1076,18 +1037,22 @@ const ShowcaseComponent = () => {
                     <span>{job.experience_level.name}</span>
                   </div>
                 </div>
-                <div 
+                {/* <div
                   style={styles.jobDescription}
-                  dangerouslySetInnerHTML={{ 
-                    __html: DOMPurify.sanitize(job.job_detail.job_description) 
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(job.job_detail.job_description),
                   }}
                 />
                 <div style={styles.jobDetails}>
-                  <span style={styles.jobType}>{job.job_workplace_types.name}</span>
+                  <span style={styles.jobType}>
+                    {job.job_workplace_types.name}
+                  </span>
                   {job.job_detail.salary && (
-                    <span style={styles.jobSalary}>{job.job_detail.salary}</span>
+                    <span style={styles.jobSalary}>
+                      {job.job_detail.salary}
+                    </span>
                   )}
-                </div>
+                </div> */}
               </div>
             ))
           ) : (
@@ -1099,22 +1064,31 @@ const ShowcaseComponent = () => {
 
         {/* Gallery Section */}
         <section id="gallery" style={styles.section}>
-          <button 
-            style={styles.editButton}ad
-            onClick={() => handleEditClick('gallery')}
-          >
-            <MdEdit size={18} />
-            Edit Gallery
-          </button>
-          <h2 style={styles.sectionTitle}>Life at {companyData?.company_name}</h2>
+          {isEdit && (
+            <button
+              style={styles.editButton}
+              ad
+              onClick={() => handleEditClick("gallery")}
+            >
+              <MdEdit size={18} />
+              Edit Gallery
+            </button>
+          )}
+          <h2 style={styles.sectionTitle}>
+            Life at {companyData?.company_name}
+          </h2>
           <div style={styles.galleryContainer}>
-            {(companyData?.inside_culture_images?.length > 0 
-              ? companyData.inside_culture_images 
+            {(companyData?.inside_culture_images?.length > 0
+              ? companyData.inside_culture_images
               : FALLBACK_IMAGES.gallery
             ).map((image, index) => (
               <img
                 key={index}
-                src={typeof image === 'string' ? `${BASE_IMAGE_URL}${image}` : image}
+                src={
+                  typeof image === "string"
+                    ? `${BASE_IMAGE_URL}${image}`
+                    : image
+                }
                 alt={`Company Culture ${index + 1}`}
                 style={styles.galleryImage}
                 onError={handleImageError}
@@ -1126,28 +1100,32 @@ const ShowcaseComponent = () => {
         {/* Teams Section */}
         {teamsData.length > 0 && (
           <section id="teams" style={styles.section}>
-            <button 
-              style={styles.editButton}
-              onClick={() => handleEditClick('teams')}
-            >
-              <MdEdit size={18} />
-              Edit Team
-            </button>
+            {isEdit && (
+              <button
+                style={styles.editButton}
+                onClick={() => handleEditClick("teams")}
+              >
+                <MdEdit size={18} />
+                Edit Team
+              </button>
+            )}
             <h2 style={styles.sectionTitle}>Our Leadership Team</h2>
             <div style={styles.teamsContainer}>
-              {(teamsData.length > 0 ? teamsData : FALLBACK_IMAGES.team).map((team, index) => (
-                <div key={index} style={styles.teamMember}>
-                  <img
-                    src={typeof team.image === 'string' ? `${BASE_IMAGE_URL}${team.image}` : team.image}
-                    alt={team.name}
-                    style={styles.teamImage}
-                    onError={handleImageError}
-                  />
-                  <h3 style={styles.teamName}>{team.name}</h3>
-                  <p style={styles.teamPosition}>{team.position}</p>
-                  <p style={styles.teamBio}>{team.bio}</p>
-                </div>
-              ))}
+              {(teamsData.length > 0 ? teamsData : FALLBACK_IMAGES.team).map(
+                (team, index) => (
+                  <div key={index} style={styles.teamMember}>
+                    <img
+                      src={`${BASE_IMAGE_URL}${team.image}`}
+                      alt={team.name}
+                      style={styles.teamImage}
+                      onError={handleImageError}
+                    />
+                    <h3 style={styles.teamName}>{team.name}</h3>
+                    <p style={styles.teamPosition}>{team.position}</p>
+                    <p style={styles.teamBio}>{team.bio}</p>
+                  </div>
+                )
+              )}
             </div>
           </section>
         )}
@@ -1155,19 +1133,28 @@ const ShowcaseComponent = () => {
         {/* WTS Section */}
         {wtsData.length > 0 && (
           <section id="wts" style={styles.section}>
-            <button 
-              style={styles.editButton}
-              onClick={() => handleEditClick('wts')}
-            >
-              <MdEdit size={18} />
-              Edit Testimonials
-            </button>
+            {isEdit && (
+              <button
+                style={styles.editButton}
+                onClick={() => handleEditClick("wts")}
+              >
+                <MdEdit size={18} />
+                Edit Testimonials
+              </button>
+            )}
             <h2 style={styles.sectionTitle}>What They Say</h2>
             <div style={styles.wtsContainer}>
-              {(wtsData.length > 0 ? wtsData : FALLBACK_IMAGES.testimonials).map((wts, index) => (
+              {(wtsData.length > 0
+                ? wtsData
+                : FALLBACK_IMAGES.testimonials
+              ).map((wts, index) => (
                 <div key={index} style={styles.wtsItem}>
                   <img
-                    src={typeof wts.image === 'string' ? `${BASE_IMAGE_URL}${wts.image}` : wts.image}
+                    src={
+                      typeof wts.image === "string"
+                        ? `${BASE_IMAGE_URL}${wts.image}`
+                        : wts.image
+                    }
                     alt={wts.title}
                     style={styles.wtsImage}
                     onError={handleImageError}
@@ -1187,10 +1174,12 @@ const ShowcaseComponent = () => {
 
         {/* Social Links Section */}
         <section style={styles.socialSection}>
-         
           <div style={styles.socialContainer}>
             <h2 style={styles.socialTitle}>Connect With Us</h2>
-            <p style={styles.socialSubtitle}>Follow us on social media to stay updated with our latest news and opportunities</p>
+            <p style={styles.socialSubtitle}>
+              Follow us on social media to stay updated with our latest news and
+              opportunities
+            </p>
             <div style={styles.socialLinks}>
               {companyData?.website_link && (
                 <a
