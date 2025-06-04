@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import JobCard from "./JobCard"
+import './JobPage.css'
 
 function JobListing({ jobs, loading, currentPage, totalPages, onPageChange }) {
   const [sortBy, setSortBy] = useState("recently_posted")

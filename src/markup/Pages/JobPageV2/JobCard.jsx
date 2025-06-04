@@ -1,94 +1,7 @@
-// "use client"
-// import { FaMapMarkerAlt, FaRegClock, FaRupeeSign, FaRegHeart, FaHeart } from "react-icons/fa"
-// import moment from "moment"
 
-// function JobCard({ job, onSelect }) {
-//   const defaultLogo = "https://www.shutterstock.com/image-vector/circle-business-logo-company-name-260nw-1922534714.jpg"
-// console.log(`https://apiwl.novajobs.us${job.companies?.logo}`,job,"job hu")
-//   return (
-//     <div className="job-card bg-white p-3 mb-3 rounded shadow-sm">
-//       <div className="d-flex justify-content-between">
-//         <div className="d-flex">
-//           <div className="company-logo me-3">
-//             <img
-//               src={`https://apiwl.novajobs.us${job.companies?.logo}` || defaultLogo}
-//               alt={job.companies?.company_name}
-//               className="rounded"
-//               style={{ width: "50px", height: "50px", objectFit: "contain" }}
-//             />
-//           </div>
-//           <div className="job-info">
-//             <h5 className="job-title mb-1" style={{ fontSize: "16px", fontWeight: "500" }}>
-//               {job.job_detail?.job_title}
-//             </h5>
-//             <p className="company-name mb-1" style={{ fontSize: "14px", color: "#666" }}>
-//               {job.companies?.company_name}
-//             </p>
-//             <div className="job-location d-flex align-items-center mb-1" style={{ fontSize: "13px", color: "#666" }}>
-//               <FaMapMarkerAlt className="me-1" size={12} />
-//               <span>
-//                 {job.cities?.name}, {job.states?.name}, {job.companies?.countries?.name}
-//               </span>
-//             </div>
-//             <div className="job-meta d-flex flex-wrap" style={{ fontSize: "13px" }}>
-//               {job.job_detail?.experience_level && (
-//                 <div className="me-3 d-flex align-items-center">
-//                   <FaRegClock className="me-1" size={12} />
-//                   <span>{job.job_detail?.experience_level}</span>
-//                 </div>
-//               )}
-//               {job.job_detail?.salary_range && (
-//                 <div className="me-3 d-flex align-items-center">
-//                   <FaRupeeSign className="me-1" size={12} />
-//                   <span>{job.job_detail?.salary_range}</span>
-//                 </div>
-//               )}
-//               <div className="posted-time ms-auto text-muted">{moment(job.job_detail?.created_at).fromNow()}</div>
-//             </div>
-//           </div>
-//         </div>
-//         <div className="favorite-icon">
-//           {job.job_detail?.is_job_favorite ? <FaHeart color="#dc3545" /> : <FaRegHeart />}
-//         </div>
-//       </div>
-
-//       <div className="job-tags mt-2">
-//         {job.job_workplace_types?.name && (
-//           <span className="badge bg-light text-dark me-2">{job.job_workplace_types?.name}</span>
-//         )}
-//         {job.job_type?.name && <span className="badge bg-light text-dark me-2">{job.job_type?.name}</span>}
-//         {job.job_category?.name && <span className="badge bg-light text-dark me-2">{job.job_category?.name}</span>}
-//       </div>
-
-//       <div className="job-skills mt-2">
-//         {job.job_detail?.skills_arr &&
-//           job.job_detail?.skills_arr.slice(0, 3).map((skill, index) => (
-//             <span key={index} className="badge bg-primary me-1">
-//               {skill}
-//             </span>
-//           ))}
-//         {job.job_detail?.skills_arr && job.job_detail?.skills_arr.length > 3 && (
-//           <span className="badge bg-secondary">+{job.job_detail?.skills_arr.length - 3}</span>
-//         )}
-//       </div>
-
-//       <div className="job-actions d-flex justify-content-between mt-3">
-//         <button className="btn btn-outline-primary btn-sm" onClick={() => onSelect(job)}>
-//           View Job
-//         </button>
-//         <button className="btn btn-danger btn-sm">Quick Apply</button>
-//       </div>
-//     </div>
-//   )
-// }
-
-// export default JobCard
-
-
-"use client"
 import { FaMapMarkerAlt, FaRegClock, FaRupeeSign, FaRegHeart, FaHeart } from "react-icons/fa"
 import moment from "moment"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import axios from "axios"
 import { useSelector } from "react-redux"
@@ -131,6 +44,32 @@ function JobCard({ job, onSelect }) {
       toast.error("Failed to submit application. Please try again.");
     }
   };
+
+    const handleToggleFavorite = async (JobId) => {
+    if (!token) {
+      toast.error("Login required!");
+      setTimeout(() => {
+        navigate("/user/login");
+      }, 2000);
+    }
+    try {
+      const response = await axios({
+        url: "https://apiwl.novajobs.us/api/jobseeker/job-favorites",
+        method: "POST",
+        headers: { Authorization: token },
+        data: {
+          job_id: JobId,
+        },
+      });
+      // console.log(response.message,"meassg");
+      if (response)
+        toast.success(response.data.message || "job added to favorites");
+      else toast.error(response.message);
+    } catch (error) {
+      console.log(error);
+      // toast.error(error.message || "Failed to add job to favorites. Try again! ")
+    }
+  };
   return (
    <div className="job-card mb-3 rounded-3 shadow-sm position-relative transition"
       style={{ 
@@ -147,9 +86,9 @@ function JobCard({ job, onSelect }) {
             <div 
               className="rounded-circle d-flex align-items-center justify-content-center"
               style={{ 
-                width: "40px", 
-                height: "40px",
-                backgroundColor: '#ff4757',
+                width: "auto", 
+                height: "auto",
+                // backgroundColor: '#ff4757',
                 overflow: 'hidden'
               }}
             >
@@ -158,7 +97,7 @@ function JobCard({ job, onSelect }) {
                 alt={job.companies?.company_name}
                 className="w-100 h-100 rounded-circle"
                 style={{ 
-                  objectFit: "cover"
+                  objectFit: "contain"
                 }}
               />
             </div>
@@ -166,7 +105,7 @@ function JobCard({ job, onSelect }) {
 
           {/* Company Info */}
           <div className="company-info">
-            <h6 
+            <Link to={`/company-details/${job.companies?.id}`} 
               className="company-name mb-1 fw-medium"
               style={{ 
                 fontSize: '14px',
@@ -175,7 +114,7 @@ function JobCard({ job, onSelect }) {
               }}
             >
               {job.companies?.company_name}
-            </h6>
+            </Link>
             <p 
               className="posted-time mb-0"
               style={{ 
@@ -192,6 +131,7 @@ function JobCard({ job, onSelect }) {
         {/* Favorite Icon */}
         <div className="favorite-icon">
           <button 
+          onClick={()=>handleToggleFavorite(job.job_detail?.id)}
             className="btn btn-link p-0 border-0"
             style={{ 
               color: '#ccc',

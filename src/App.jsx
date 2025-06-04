@@ -217,6 +217,7 @@ import PaymentSuccessPage from "./markup/Pages/Payments/Payment-success";
 import SinglePostPage from "./markup/Element/community/SinglePost";
 import JobPage2 from "../src/markup/Pages/JobPageV2/JobPage"   
 import JobDetails from "../src/markup/Pages/JobPageV2/JobDetails"
+import CompanyList from "./markup/Pages/CompaniesListing/index.jsx";
 function App() {
   const dispatch = useDispatch();
 
@@ -639,6 +640,8 @@ function App() {
       <Route path="payment-failed" element={<PaymentFailurePage />} />
       <Route path="community" element={<Community />} />
       <Route path="community/:postId" element={<SinglePostPage />} />
+      <Route path="company-list" element={<CompanyList />} />
+      <Route path="company-details/:companyId" element={<ShowcaseView />} />
       <Route path="/user">
         <Route path="" element={<Homepage />} />
         <Route path="login" element={<Loginpage2 />} />
@@ -716,6 +719,8 @@ function App() {
         {/* <Route path="job/:id" element={<JobPage />} /> */}
         <Route path="jobs" element={<JobPage2 />} />
         <Route path="jobs/:jobId" element={<JobDetails />} />
+        
+
         <Route path="jobthirdparty" element={<JobPagethirdparty />} />
         <Route
           path="applicant-job"
@@ -1085,6 +1090,7 @@ function App() {
           element={<ResetPasswordemployee />}
         />
         <Route path="showcase" element={<ShowcaseView />} />
+        
         <Route path="login" element={<EmployeeLogin />} />
         <Route path="login-code" element={<LoginEmployerCode />} />
         <Route path="register" element={<EmployeeRegister1 />} />

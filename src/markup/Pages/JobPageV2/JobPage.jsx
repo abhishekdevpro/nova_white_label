@@ -119,6 +119,38 @@ function JobPage() {
     setSearchParams(newSearchParams)
     setPage(1) // Reset to first page when searching
   }
+const handleClearFilters = () => {
+  // 1. Clear Redux values
+  dispatch(setJobApplicationValues({
+    category: '',
+    state_id: '',
+    city_id: '',
+    workplace_type: '',
+    job_type: '',
+    experience_level: '',
+    title_keywords: '',
+  }));
+
+  // 2. Clear searchParams state
+  setSearchParams({
+    category: '',
+    state_id: '',
+    city_id: '',
+    workplace_type: '',
+    job_type: '',
+    experience_level: '',
+    title_keywords: '',
+  });
+
+  // 3. Reset pagination
+  // setPage(1);
+
+  // 4. Trigger search with cleared filters
+    handleSearch(); // you could pass empty values explicitly too if needed
+};
+
+
+
 
   const handleSearchBarChange = (e) => {
     const { name, value } = e.target
@@ -178,7 +210,7 @@ function JobPage() {
   return (
     <>
       <UserHeader />
-      {token ? <FixedHeader /> : null}
+      {/* {token ? <FixedHeader /> : null} */}
       <div>
         {showSkeleton ? (
           <div className="bg-white w-100">
@@ -205,6 +237,7 @@ function JobPage() {
                         jobApplicationValues={jobApplicationValues}
                         handleChange={handleFilterChange}
                         handleSearch={handleSearch}
+                        handleClear={handleClearFilters}
                       />
                     </div>
 

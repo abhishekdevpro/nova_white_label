@@ -42,6 +42,18 @@
   border-color: #0d6efd; /* Bootstrap primary */
 }
 
+.job-cards-container {
+  max-height: 100vh; /* Adjust based on your layout */
+  overflow-y: auto;
+  padding-right: 12px; 
+  padding-top: 12px;
+  scrollbar-width: none; /* Firefox */
+}
+
+.job-cards-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
+
 
 .job-title {
   color: #333;
