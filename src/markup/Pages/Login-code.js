@@ -13,7 +13,7 @@ const LoginCode = () => {
   //   const router = useRouter();
   const [otp, setOtp] = useState("");
   const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const BASE_URL = "https://apiwl.novajobs.us";
   const handleOtpChange = (e) => {
@@ -48,7 +48,7 @@ const LoginCode = () => {
       toast.success("Login successful!");
       localStorage.setItem("jobSeekerLoginToken", token);
 
-      navigate(`/user/dashboard`);
+      navigate(`/user/jobs-profile`);
     } catch (error) {
       toast.error(
         error.response?.data?.message || "Invalid OTP. Please try again."
@@ -120,7 +120,7 @@ const LoginCode = () => {
         {/* Sign In Button */}
         <button
           onClick={handleSignIn}
-          className="btn btn-primary w-100 d-flex justify-content-center align-items-center"
+          className="site-button w-100 d-flex justify-content-center align-items-center"
         >
           {loading ? "Loading..." : "Sign In"}
         </button>

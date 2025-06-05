@@ -207,7 +207,7 @@ import axios from "axios";
 import Payment from "./vendor/Payments/Payemnts";
 import PlansPage from "./vendor/Payments/Plans";
 import ResumeList from "./adminPanel/ResumeList";
-import BrandingCompany from "./employeeMarkup/Pages/BrandingCompany";
+import BrandingCompany from "./employeeMarkup/Pages/BrandingCompany/SocialNetworkBox.jsx";
 import Branding from "./vendor/Branding";
 import Subscription from "./markup/Pages/Payments/Subscription";
 import PaymentPlans from "./markup/Pages/Payments/PaymentPlans";
@@ -215,7 +215,7 @@ import PaymentPage from "./markup/Pages/Payments/PaymentDetails";
 import PaymentFailurePage from "./markup/Pages/Payments/payment-failed";
 import PaymentSuccessPage from "./markup/Pages/Payments/Payment-success";
 import SinglePostPage from "./markup/Element/community/SinglePost";
-import JobPage2 from "../src/markup/Pages/JobPageV2/JobPage"   
+import JobPage2 from "../src/markup/Pages/JobPageV2/index.jsx"   
 import JobDetails from "../src/markup/Pages/JobPageV2/JobDetails"
 import CompanyList from "./markup/Pages/CompaniesListing/index.jsx";
 function App() {

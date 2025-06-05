@@ -20,6 +20,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import ShareJobModal from "./ShareModal";
+import RecommendedJobs from "./RecommendedJobs";
 function JobDetailsPage() {
   const [jobData, setJobData] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -27,6 +28,8 @@ function JobDetailsPage() {
   const [error, setError] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [activeTab, setActiveTab] = useState("description");
+  const [isApplied, setIsApplied] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
   const { jobId } = useParams();
   const navigate = useNavigate();
   //   const jobId = "27790";
@@ -92,10 +95,12 @@ function JobDetailsPage() {
 
       if (response?.data) {
         console.log(response, "appli");
+        setIsApplied(true);
         toast.success("Application submitted successfully!");
       }
     } catch (error) {
       console.error(error);
+      setIsApplied(false);
       toast.error("Failed to submit application. Please try again.");
     }
   };
@@ -117,9 +122,10 @@ function JobDetailsPage() {
         },
       });
       // console.log(response.message,"meassg");
-      if (response)
+      if (response) {
         toast.success(response.data.message || "job added to favorites");
-      else toast.error(response.message);
+        setIsSaved((prev) => !prev);
+      } else toast.error(response.message);
     } catch (error) {
       console.log(error);
       // toast.error(error.message || "Failed to add job to favorites. Try again! ")
@@ -176,7 +182,7 @@ function JobDetailsPage() {
   if (!jobData) return null;
 
   const job = jobData;
-  // console.log(job, "job");
+  console.log(job,`https://api.novajobs.us${job.companies?.logo}`, "job");
   const shareUrl = `https://novajobs.us/user/jobs/${job.job_detail.id}`;
   return (
     <>
@@ -188,7 +194,7 @@ function JobDetailsPage() {
               <div className="job-info">
                 <img
                   src={
-                    `https://api.novajobs.us${job.companies?.logo}` ||
+                    `https://apiwl.novajobs.us${job.companies?.logo}` ||
                     "https://via.placeholder.com/80"
                   }
                   alt={job.companies?.company_name}
@@ -196,7 +202,10 @@ function JobDetailsPage() {
                 />
                 <div>
                   <h1 className="job-title">{job.job_detail?.job_title}</h1>
-                  <Link to={`/company-details/${job.companies?.id}`} className="company-name">
+                  <Link
+                    to={`/company-details/${job.companies?.id}`}
+                    className="company-name"
+                  >
                     {job.companies?.company_name}
                   </Link>
                   <div className="job-meta">
@@ -218,42 +227,44 @@ function JobDetailsPage() {
                   className="site-button btn-primary"
                   onClick={() => setShowModal(true)}
                 >
-                  {/* <FaShare />  */}
                   Share
                 </button>
-                {isLoggedIn ? (
-                  job.job_detail?.is_job_favorite ? (
-                    <button className="site-button btn-danger">Saved</button>
-                  ) : (
-                    <button
-                      className="site-button btn-secondary"
-                      onClick={handleToggleFavorite}
-                    >
-                      Save
-                    </button>
-                  )
-                ) : (
-                  <button
-                    className="btn btn-primary"
-                    onClick={handleToggleFavorite}
-                  >
-                    Save Job
-                  </button>
-                )}
+                <button
+                  onClick={handleToggleFavorite}
+                  className={`site-button flex-grow-1 fw-medium text-white ${
+                    isSaved || job.job_detail?.is_job_favorite
+                      ? "bg-danger opacity-75"
+                      : "btn-secondary"
+                  }`}
+                >
+                  {isSaved || job.job_detail?.is_job_favorite
+                    ? "Saved"
+                    : "Save Job"}
+                </button>
 
-                {isLoggedIn ? (
-                  job.job_detail?.is_job_applied ? (
-                    <button className="site-button btn-success">Applied</button>
-                  ) : (
-                    <button className="site-button" onClick={handleApply}>
-                      Apply
-                    </button>
-                  )
-                ) : (
-                  <button className="btn btn-primary" onClick={handleApply}>
-                    Apply Now
-                  </button>
-                )}
+                <button
+                  disabled={isApplied || job.job_detail.is_job_applied}
+                  onClick={() => handleApply(job.job_detail.id)}
+                  className={`site-button flex-grow-1 fw-medium text-white ${
+                    isApplied || job.job_detail.is_job_applied
+                      ? "bg-success opacity-75"
+                      : "bg-danger"
+                  }`}
+                  style={{
+                    cursor:
+                      isApplied || job.job_detail.is_job_applied
+                        ? "not-allowed"
+                        : "pointer",
+                    pointerEvents:
+                      isApplied || job.job_detail.is_job_applied
+                        ? "none"
+                        : "auto",
+                  }}
+                >
+                  {isApplied || job.job_detail.is_job_applied
+                    ? "Applied"
+                    : "Quick Apply"}
+                </button>
               </div>
             </div>
           </div>
@@ -298,16 +309,12 @@ function JobDetailsPage() {
                   </div>
                 )}
 
-              
-
               <div className="sidebar-section">
                 <h6 className="sidebar-title">Location</h6>
                 <div className="sidebar-content">
                   {job.cities?.name}, {job.states?.name}, {job.countries?.name}
                 </div>
               </div>
-
-              
             </div>
 
             {/* Main Content */}
@@ -409,7 +416,11 @@ function JobDetailsPage() {
                           {job.company_size?.range || "N.A"}
                         </p>
                       </div>
-                      <button className="site-button explore-btn">Explore More</button>
+                      <button 
+                      onClick={()=>navigate(`/company-details/${job.companies.id}`)}
+                      className="site-button explore-btn">
+                        Explore More
+                      </button>
                     </div>
 
                     <div className="job-description">
@@ -433,53 +444,47 @@ function JobDetailsPage() {
 
               {/* Bottom Actions */}
               <div className="bottom-actions">
-                {isLoggedIn ? (
-                  job.job_detail?.is_job_applied ? (
-                    <button className="site-button btn-success ">
-                      Already Applied
-                    </button>
-                  ) : (
-                    <button
-                      className="site-button flex-1"
-                      onClick={handleApply}
-                    >
-                      Apply Now
-                    </button>
-                  )
-                ) : (
-                  <button
-                    className="btn btn-primary flex-1"
-                    onClick={handleApply}
-                  >
-                    Apply Now
-                  </button>
-                )}
-                {isLoggedIn ? (
-                  job.job_detail?.is_job_favorite ? (
-                    <button className="site-button btn-danger">
-                      {/* <FaHeart /> */} Saved
-                    </button>
-                  ) : (
-                    <button
-                      className="site-button btn-secondary"
-                      onClick={handleToggleFavorite}
-                    >
-                      {/* <FaHeart /> */} Save Job
-                    </button>
-                  )
-                ) : (
-                  <button
-                    className="btn btn-primary"
-                    onClick={handleToggleFavorite}
-                  >
-                    {/* <FaHeart /> */} Save Job
-                  </button>
-                )}
+                <button
+                  disabled={isApplied || job.job_detail.is_job_applied}
+                  onClick={() => handleApply(job.job_detail.id)}
+                  className={`site-button flex-grow-1 fw-medium text-white ${
+                    isApplied || job.job_detail.is_job_applied
+                      ? "bg-success opacity-75"
+                      : "bg-danger"
+                  }`}
+                  style={{
+                    cursor:
+                      isApplied || job.job_detail.is_job_applied
+                        ? "not-allowed"
+                        : "pointer",
+                    pointerEvents:
+                      isApplied || job.job_detail.is_job_applied
+                        ? "none"
+                        : "auto",
+                  }}
+                >
+                  {isApplied || job.job_detail.is_job_applied
+                    ? "Applied"
+                    : "Quick Apply"}
+                </button>
+                <button
+                  onClick={handleToggleFavorite}
+                  className={`site-button flex-grow-1 fw-medium text-white ${
+                    isSaved || job.job_detail?.is_job_favorite
+                      ? "bg-danger opacity-75"
+                      : "btn-secondary"
+                  }`}
+                >
+                  {isSaved || job.job_detail?.is_job_favorite
+                    ? "Saved"
+                    : "Save Job"}
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <RecommendedJobs />
       <ShareJobModal
         show={showModal}
         onClose={() => setShowModal(false)}

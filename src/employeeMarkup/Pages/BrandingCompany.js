@@ -741,23 +741,15 @@ const SocialNetworkBox = () => {
                             style={{
                               maxWidth: 700,
                               margin: "0 auto",
-                              background:
-                                "linear-gradient(135deg, #f8fbff 0%, #eaf1fb 100%)",
-                              borderRadius: 20,
-                              boxShadow: "0 8px 32px rgba(25,103,210,0.10)",
-                              padding: 44,
-                              marginTop: 40,
-                              marginBottom: 40,
                               animation: "fadeInUp 0.7s",
-                              border: "1px solid #e3eaf5",
                               transition: "box-shadow 0.2s",
                             }}
                           >
                             <h4
                               style={{
                                 fontWeight: 800,
-                                fontSize: 30,
-                                marginBottom: 36,
+                                fontSize: 15,
+                                marginBottom: 5,
                                 color: "#1a237e",
                                 letterSpacing: 0.3,
                               }}

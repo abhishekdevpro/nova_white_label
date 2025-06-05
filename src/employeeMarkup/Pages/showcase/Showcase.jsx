@@ -38,6 +38,8 @@ import CompanyBenefits from "./CompanyBenefits";
 import JobListings from "./HiringSection";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import ReactPlayer from "react-player";
+import PDFViewer from "./PdfVeiwer";
 const url = window.location.origin.includes("localhost")
   ? "https://novajobs.us"
   : window.location.origin;
@@ -582,7 +584,7 @@ const ShowcaseComponent = () => {
   const [loading, setLoading] = useState(true);
   const [teamsData, setTeamsData] = useState([]);
   const [wtsData, setWtsData] = useState([]);
-  const token = localStorage.getItem("employeeLoginToken");
+  const token = localStorage.getItem("employeeLoginToken" || "vendorToken");
   const BASE_IMAGE_URL = "https://apiwl.novajobs.us";
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth);
@@ -663,49 +665,49 @@ const ShowcaseComponent = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      const API = companyId
+        ? `${BASE_IMAGE_URL}/api/jobseeker/company/${companyId}?domain=${url}`
+        : `${BASE_IMAGE_URL}/api/employeer/company?domain=${url}`;
       try {
         // Fetch company data
-        const companyResponse = await axios.get(
-          `${BASE_IMAGE_URL}/api/jobseeker/company/${companyId}?domain=${url}`,
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
-        );
+        const companyResponse = await axios.get(API, {
+          headers: {
+            Authorization: token,
+          },
+        });
         setCompanyData(companyResponse.data.data);
 
         // Fetch teams data
-        const teamsResponse = await axios.get(
-          `${BASE_IMAGE_URL}/api/jobseeker/company-teams/${companyId}?domain=${url}`,
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
-        );
+        const TEAMAPI = companyId
+          ? `${BASE_IMAGE_URL}/api/jobseeker/company-teams/${companyId}?domain=${url}`
+          : `${BASE_IMAGE_URL}/api/employeer/company-teams?domain=${url}`;
+        const teamsResponse = await axios.get(TEAMAPI, {
+          headers: {
+            Authorization: token,
+          },
+        });
         setTeamsData(teamsResponse.data.data || []);
 
         // Fetch WTS data
-        const wtsResponse = await axios.get(
-          `${BASE_IMAGE_URL}/api/jobseeker/company-wts/${companyId}?domain=${url}`,
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
-        );
+        const WTSAPI = companyId
+          ? `${BASE_IMAGE_URL}/api/jobseeker/company-wts/${companyId}?domain=${url}`
+          : `${BASE_IMAGE_URL}/api/employeer/company-wts?domain=${url}`;
+        const wtsResponse = await axios.get(WTSAPI, {
+          headers: {
+            Authorization: token,
+          },
+        });
         setWtsData(wtsResponse.data.data || []);
 
         // Fetch jobs
-        const jobsResponse = await axios.get(
-          `https://apiwl.novajobs.us/api/jobseeker/job-lists?is_publish=1&company_id=${companyId}&domain=${url}`,
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
-        );
+        const JOBAPI = companyId
+          ? `https://apiwl.novajobs.us/api/jobseeker/job-lists?page_no=1&page_size=10&is_publish=1&company_id=${companyId}&domain=${url}`
+          : `https://apiwl.novajobs.us/api/employeer/job-lists`;
+        const jobsResponse = await axios.get(JOBAPI, {
+          headers: {
+            Authorization: token,
+          },
+        });
         setJobs(jobsResponse.data.data || []);
 
         setLoading(false);
@@ -910,17 +912,49 @@ const ShowcaseComponent = () => {
             </button>
           )}
           <h2 style={styles.sectionTitle}>About Us</h2>
-         {companyData?.about ? <div
-            style={styles.aboutContent}
-            dangerouslySetInnerHTML={{
-              __html: DOMPurify.sanitize(companyData?.about || ""),
-            }}
-          />:
-           <div >
-              No Summary at the moment. Please check back later.
-            </div>
-          }
+          {companyData?.about ? (
+            <div
+              style={styles.aboutContent}
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(companyData?.about || ""),
+              }}
+            />
+          ) : (
+            <div>No Summary at the moment. Please check back later.</div>
+          )}
         </section>
+
+        <section id="about" style={styles.section}>
+          {isEdit && (
+            <button
+              style={styles.editButton}
+              onClick={() => handleEditClick("about")}
+            >
+              <MdEdit size={18} />
+              Edit About
+            </button>
+          )}
+
+          {companyData?.video_urls?.[0]?.trim() ? (
+            <div style={{ marginBottom: "20px" }}>
+              <ReactPlayer
+                url={companyData.video_urls[0]}
+                controls
+                width="100%"
+                height="500px"
+              />
+            </div>
+          ) : (
+            <div>No video at the moment. Please check back later.</div>
+          )}
+        </section>
+        {companyData?.pdf_urls ? (
+          <section id="about" style={styles.section}>
+            <PDFViewer fileUrl={companyData?.pdf_urls} />
+          </section>
+        ) : (
+          ""
+        )}
 
         {/* Benefits Section */}
         <section id="benefits" style={styles.section}>
@@ -1016,8 +1050,9 @@ const ShowcaseComponent = () => {
                   <h3 className="mb-0 me-3 text-dark fw-semibold">
                     {job.job_detail.job_title}
                   </h3>
-                  <button className="site-button text-white btn-outline-primary btn-md"
-                  onClick={()=>navigate(`/user/jobs/${job.job_detail.id}`)}
+                  <button
+                    className="site-button text-white btn-outline-primary btn-md"
+                    onClick={() => navigate(`/user/jobs/${job.job_detail.id}`)}
                   >
                     View
                   </button>

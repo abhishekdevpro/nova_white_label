@@ -1,20 +1,29 @@
-
-import { FaMapMarkerAlt, FaRegClock, FaRupeeSign, FaRegHeart, FaHeart } from "react-icons/fa"
-import moment from "moment"
-import { Link, useNavigate } from "react-router-dom"
-import { toast } from "react-toastify"
-import axios from "axios"
-import { useSelector } from "react-redux"
+import {
+  FaMapMarkerAlt,
+  FaRegClock,
+  FaRupeeSign,
+  FaRegHeart,
+  FaHeart,
+} from "react-icons/fa";
+import moment from "moment";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { useState } from "react";
 
 function JobCard({ job, onSelect }) {
-  const defaultLogo = "https://www.shutterstock.com/image-vector/circle-business-logo-company-name-260nw-1922534714.jpg"
-  const navigate = useNavigate()
-  const token = localStorage.getItem("jobSeekerLoginToken")
+  const [isApplied, setIsApplied] = useState(job.job_detail?.is_job_applied);
+  const [isSaved, setIsSaved] = useState(job.job_detail?.is_job_favorite);
+
+  const defaultLogo =
+    "https://www.shutterstock.com/image-vector/circle-business-logo-company-name-260nw-1922534714.jpg";
+  const navigate = useNavigate();
+  const token = localStorage.getItem("jobSeekerLoginToken");
   const screeningQuestion = useSelector(
-        (state) => state.jobApplicationScreeningQues.selectedScreeningQuestions
-      );
+    (state) => state.jobApplicationScreeningQues.selectedScreeningQuestions
+  );
   const handleApply = async (jobId) => {
-    
     if (!token) {
       toast.error("Please login to apply for this job");
       navigate("/user/login");
@@ -38,6 +47,7 @@ function JobCard({ job, onSelect }) {
       if (response?.data) {
         console.log(response, "appli");
         toast.success("Application submitted successfully!");
+        setIsApplied(true)
       }
     } catch (error) {
       console.error(error);
@@ -45,7 +55,7 @@ function JobCard({ job, onSelect }) {
     }
   };
 
-    const handleToggleFavorite = async (JobId) => {
+  const handleToggleFavorite = async (JobId) => {
     if (!token) {
       toast.error("Login required!");
       setTimeout(() => {
@@ -62,8 +72,9 @@ function JobCard({ job, onSelect }) {
         },
       });
       // console.log(response.message,"meassg");
-      if (response)
+      if (response){
         toast.success(response.data.message || "job added to favorites");
+      setIsSaved((prev) => !prev);}
       else toast.error(response.message);
     } catch (error) {
       console.log(error);
@@ -71,11 +82,12 @@ function JobCard({ job, onSelect }) {
     }
   };
   return (
-   <div className="job-card mb-3 rounded-3 shadow-sm position-relative transition"
-      style={{ 
-        padding: '20px',
-        backgroundColor: '#f4f9ff',
-        borderRadius: '16px !important'
+    <div
+      className="job-card mb-3 rounded-3 shadow-sm position-relative transition"
+      style={{
+        padding: "20px",
+        backgroundColor: "#f4f9ff",
+        borderRadius: "16px !important",
       }}
     >
       {/* Header Section */}
@@ -83,21 +95,24 @@ function JobCard({ job, onSelect }) {
         <div className="d-flex align-items-start">
           {/* Company Logo */}
           <div className="company-logo me-3 flex-shrink-0">
-            <div 
+            <div
               className="rounded-circle d-flex align-items-center justify-content-center"
-              style={{ 
-                width: "auto", 
+              style={{
+                width: "auto",
                 height: "auto",
                 // backgroundColor: '#ff4757',
-                overflow: 'hidden'
+                overflow: "hidden",
               }}
             >
               <img
-                src={`https://apiwl.novajobs.us${job.companies?.logo}` || defaultLogo}
+                src={
+                  `https://apiwl.novajobs.us${job.companies?.logo}` ||
+                  defaultLogo
+                }
                 alt={job.companies?.company_name}
                 className="w-100 h-100 rounded-circle"
-                style={{ 
-                  objectFit: "contain"
+                style={{
+                  objectFit: "contain",
                 }}
               />
             </div>
@@ -105,22 +120,23 @@ function JobCard({ job, onSelect }) {
 
           {/* Company Info */}
           <div className="company-info">
-            <Link to={`/company-details/${job.companies?.id}`} 
+            <Link
+              to={`/company-details/${job.companies?.id}`}
               className="company-name mb-1 fw-medium"
-              style={{ 
-                fontSize: '14px',
-                color: '#333',
-                fontWeight: '500'
+              style={{
+                fontSize: "14px",
+                color: "#333",
+                fontWeight: "500",
               }}
             >
               {job.companies?.company_name}
             </Link>
-            <p 
+            <p
               className="posted-time mb-0"
-              style={{ 
-                fontSize: '12px',
-                color: '#999',
-                margin: '0'
+              style={{
+                fontSize: "12px",
+                color: "#999",
+                margin: "0",
               }}
             >
               {moment(job.job_detail?.created_at).fromNow()}
@@ -129,32 +145,34 @@ function JobCard({ job, onSelect }) {
         </div>
 
         {/* Favorite Icon */}
-        <div className="favorite-icon">
-          <button 
-          onClick={()=>handleToggleFavorite(job.job_detail?.id)}
+        <div className="">
+          <button
+            onClick={() => handleToggleFavorite(job.job_detail?.id)}
             className="btn btn-link p-0 border-0"
-            style={{ 
-              color: '#ccc',
-              fontSize: '18px'
+            style={{
+              color: "#ccc",
+              fontSize: "18px",
+              border:"none",
             }}
           >
-            {job.job_detail?.is_job_favorite ? 
-              <FaHeart color="#ff4757" /> : 
+            {isSaved || job.job_detail?.is_job_favorite ? (
+              <FaHeart color="#ff4757" />
+            ) : (
               <FaRegHeart color="#ccc" />
-            }
+            )}
           </button>
         </div>
       </div>
 
       {/* Job Title */}
       <div className="mb-3">
-        <h4 
+        <h4
           className="job-title mb-0 fw-bold"
-          style={{ 
-            fontSize: '20px',
-            color: '#333',
-            fontWeight: '600',
-            lineHeight: '1.3'
+          style={{
+            fontSize: "20px",
+            color: "#333",
+            fontWeight: "600",
+            lineHeight: "1.3",
           }}
         >
           {job.job_detail?.job_title}
@@ -163,16 +181,21 @@ function JobCard({ job, onSelect }) {
 
       {/* Location */}
       <div className="mb-3">
-        <div 
+        <div
           className="d-flex align-items-center"
-          style={{ 
-            fontSize: '14px',
-            color: '#666'
+          style={{
+            fontSize: "14px",
+            color: "#666",
           }}
         >
-          <FaMapMarkerAlt className="me-2" size={14} style={{ color: '#999' }} />
+          <FaMapMarkerAlt
+            className="me-2"
+            size={14}
+            style={{ color: "#999" }}
+          />
           <span>
-            {job.cities?.name}, {job.states?.name}, {job.companies?.countries?.name}
+            {job.cities?.name}, {job.states?.name},{" "}
+            {job.companies?.countries?.name}
           </span>
         </div>
       </div>
@@ -181,21 +204,29 @@ function JobCard({ job, onSelect }) {
       <div className="mb-4">
         <div className="d-flex align-items-center flex-wrap">
           {job.job_detail?.experience_level && (
-            <div 
+            <div
               className="d-flex align-items-center me-4"
-              style={{ fontSize: '14px', color: '#666' }}
+              style={{ fontSize: "14px", color: "#666" }}
             >
-              <FaRegClock className="me-2" size={14} style={{ color: '#999' }} />
+              <FaRegClock
+                className="me-2"
+                size={14}
+                style={{ color: "#999" }}
+              />
               <span>{job.job_detail?.experience_level}</span>
             </div>
           )}
-          
+
           {job.job_detail?.salary_range && (
-            <div 
+            <div
               className="d-flex align-items-center"
-              style={{ fontSize: '14px', color: '#666' }}
+              style={{ fontSize: "14px", color: "#666" }}
             >
-              <FaRupeeSign className="me-1" size={14} style={{ color: '#999' }} />
+              <FaRupeeSign
+                className="me-1"
+                size={14}
+                style={{ color: "#999" }}
+              />
               <span>{job.job_detail?.salary_range} / month</span>
             </div>
           )}
@@ -207,16 +238,16 @@ function JobCard({ job, onSelect }) {
         <div className="d-flex flex-wrap gap-2">
           {/* Job Category */}
           {job.job_category?.name && (
-            <span 
+            <span
               className="badge"
               style={{
-                backgroundColor: '#e3f2fd',
-                color: '#1976d2',
-                fontSize: '12px',
-                fontWeight: '400',
-                padding: '6px 12px',
-                borderRadius: '20px',
-                border: 'none'
+                backgroundColor: "#e3f2fd",
+                color: "#1976d2",
+                fontSize: "12px",
+                fontWeight: "400",
+                padding: "6px 12px",
+                borderRadius: "20px",
+                border: "none",
               }}
             >
               {job.job_category?.name}
@@ -225,16 +256,16 @@ function JobCard({ job, onSelect }) {
 
           {/* Job Type */}
           {job.job_type?.name && (
-            <span 
+            <span
               className="badge"
               style={{
-                backgroundColor: '#e3f2fd',
-                color: '#1976d2',
-                fontSize: '12px',
-                fontWeight: '400',
-                padding: '6px 12px',
-                borderRadius: '20px',
-                border: 'none'
+                backgroundColor: "#e3f2fd",
+                color: "#1976d2",
+                fontSize: "12px",
+                fontWeight: "400",
+                padding: "6px 12px",
+                borderRadius: "20px",
+                border: "none",
               }}
             >
               {job.job_type?.name}
@@ -244,17 +275,17 @@ function JobCard({ job, onSelect }) {
           {/* Skills */}
           {job.job_detail?.skills_arr &&
             job.job_detail?.skills_arr.slice(0, 2).map((skill, index) => (
-              <span 
+              <span
                 key={index}
                 className="badge"
                 style={{
-                  backgroundColor: '#e3f2fd',
-                  color: '#1976d2',
-                  fontSize: '12px',
-                  fontWeight: '400',
-                  padding: '6px 12px',
-                  borderRadius: '20px',
-                  border: 'none'
+                  backgroundColor: "#e3f2fd",
+                  color: "#1976d2",
+                  fontSize: "12px",
+                  fontWeight: "400",
+                  padding: "6px 12px",
+                  borderRadius: "20px",
+                  border: "none",
                 }}
               >
                 {skill}
@@ -262,17 +293,17 @@ function JobCard({ job, onSelect }) {
             ))}
 
           {/* More indicator */}
-          {((job.job_detail?.skills_arr?.length || 0) > 2) && (
-            <span 
+          {(job.job_detail?.skills_arr?.length || 0) > 2 && (
+            <span
               className="badge"
               style={{
-                backgroundColor: '#e3f2fd',
-                color: '#1976d2',
-                fontSize: '12px',
-                fontWeight: '400',
-                padding: '6px 12px',
-                borderRadius: '20px',
-                border: 'none'
+                backgroundColor: "#e3f2fd",
+                color: "#1976d2",
+                fontSize: "12px",
+                fontWeight: "400",
+                padding: "6px 12px",
+                borderRadius: "20px",
+                border: "none",
               }}
             >
               +{(job.job_detail?.skills_arr?.length || 0) - 2} More
@@ -283,23 +314,31 @@ function JobCard({ job, onSelect }) {
 
       {/* Action Buttons */}
       <div className="d-flex gap-3">
-        <button 
+        <button
           className="site-button flex-grow-1 fw-medium"
           onClick={() => navigate(`/user/jobs/${job.job_detail.id}`)}
         >
           View Job
         </button>
-        
+
         <button
-        onClick={()=>handleApply(job.job_detail.id)} 
-          className="site-button bg-danger flex-grow-1 fw-medium"
-          
+          disabled={isApplied || job.job_detail.is_job_applied}
+          onClick={() => handleApply(job.job_detail.id)}
+          className={`site-button flex-grow-1 fw-medium text-white ${
+            isApplied || job.job_detail.is_job_applied
+              ? "bg-success opacity-75"
+              : "bg-danger"
+          }`}
+          style={{
+            cursor: isApplied || job.job_detail.is_job_applied ? "not-allowed" : "pointer",
+            pointerEvents: isApplied || job.job_detail.is_job_applied ? "none" : "auto",
+          }}
         >
-         {job.job_detail.is_job_applied ?" Applied"  :" Quick Apply"}
+          {isApplied || job.job_detail.is_job_applied ? "Applied" : "Quick Apply"}
         </button>
       </div>
     </div>
-  )
+  );
 }
 
-export default JobCard
+export default JobCard;

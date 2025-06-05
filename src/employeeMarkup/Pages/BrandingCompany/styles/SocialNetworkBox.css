@@ -1,0 +1,98 @@
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.modern-label {
+  font-weight: 600;
+  font-size: 1.08rem;
+  color: #3a4664;
+  letter-spacing: 0.03em;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.modern-input:focus,
+.modern-file:focus {
+  border: 1.5px solid #1967d2 !important;
+  outline: none;
+  box-shadow: 0 0 0 2px #e3eaf5;
+}
+
+.modern-divider {
+  border-bottom: 1px solid #e3eaf5;
+  margin: 32px 0 24px 0;
+}
+
+.modern-save-btn {
+  background: linear-gradient(90deg, #1967d2 0%, #3b82f6 100%);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 15px 38px;
+  font-weight: 700;
+  font-size: 1.13rem;
+  box-shadow: 0 4px 16px rgba(25, 103, 210, 0.1);
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.modern-save-btn:hover {
+  background: linear-gradient(90deg, #155ab6 0%, #2563eb 100%);
+  box-shadow: 0 8px 24px rgba(25, 103, 210, 0.13);
+  transform: translateY(-2px) scale(1.03);
+}
+
+/* Bootstrap overrides and custom styles */
+.space-y-6 > * + * {
+  margin-top: 1.5rem;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.text-gray-800 {
+  color: #1f2937;
+}
+
+.mb-6 {
+  margin-bottom: 1.5rem;
+}
+
+.border-b {
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: #e5e7eb;
+}
+
+.pb-2 {
+  padding-bottom: 0.5rem;
+}
+
+.mb-8 {
+  margin-bottom: 2rem;
+}
+
+.h-48 {
+  height: 12rem;
+}
+
+.mb-12 {
+  margin-bottom: 3rem;
+}

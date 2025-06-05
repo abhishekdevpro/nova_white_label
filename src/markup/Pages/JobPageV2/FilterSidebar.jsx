@@ -163,13 +163,13 @@ function FiltersSidebar({ jobApplicationValues, handleChange, handleSearch,handl
     }
   }
 
-  console.log(category, experience, "experience", job_type, "job_type", workplace_type, "workplace_type")
-  console.log("Current jobApplicationValues:", jobApplicationValues)
+  // console.log(category, experience, "experience", job_type, "job_type", workplace_type, "workplace_type")
+  // console.log("Current jobApplicationValues:", jobApplicationValues)
 
   return (
     <div className="filters-sidebar bg-white p-3 rounded shadow-sm">
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <h5 className="m-0">All Filters</h5>
+        <h5 className="m-0 ">All Filters</h5>
         <button className="site-button text-white btn-sm btn-outline-primary" 
          onClick={handleClear}
         >Clear</button>
