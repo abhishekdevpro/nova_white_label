@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import UserHeader from '../../Layout/Header';
 import Footer from '../../Layout/Footer';
+import { useNavigate } from 'react-router-dom';
 
 const CompanyList = () => {
   const [companies, setCompanies] = useState([]);
@@ -14,6 +15,8 @@ const CompanyList = () => {
   useEffect(() => {
     fetchCompanies();
   }, []);
+
+  const navigate = useNavigate()
 
   const fetchCompanies = async () => {
     try {
@@ -88,7 +91,8 @@ const CompanyList = () => {
     marginBottom: '15px',
     textAlign: 'center',
     transition: 'all 0.3s ease',
-    height: '200px',
+    height: '250px',
+    width:'250px',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
@@ -125,7 +129,8 @@ const CompanyList = () => {
     fontWeight: '500',
     textDecoration: 'none',
     cursor: 'pointer',
-    padding: '5px 0'
+    padding: '5px 0',
+    marginBottom:'2px',
   };
 
   const loadingStyle = {
@@ -200,19 +205,19 @@ const CompanyList = () => {
         </div>
 
         {/* Header */}
-        <div style={headerStyle}>
+        {/* <div style={headerStyle}>
           <h4 className="mb-1" style={{ color: '#333', fontWeight: '600' }}>
             Trending Companies
           </h4>
           <p className="mb-0" style={{ color: '#6c757d', fontSize: '14px' }}>
             {filteredCompanies.length} Companies found
           </p>
-        </div>
+        </div> */}
 
         {/* Companies Grid */}
         <div className="row">
           {filteredCompanies.map((company, index) => (
-            <div key={company.id || index} className="col-lg-2 col-md-3 col-sm-4 col-6">
+            <div key={company.id || index} className="col-6 col-sm-4 col-md-3 col-lg-3 mb-4">
               <div 
                 style={companyCardStyle}
                 onMouseEnter={(e) => {
@@ -224,7 +229,7 @@ const CompanyList = () => {
                   e.currentTarget.style.boxShadow = '0 2px 4px rgba(0,0,0,0.05)';
                 }}
               >
-                <div>
+                <div >
                   <div style={companyLogoStyle}>
                     {company.logo ? (
                       <img 
@@ -257,11 +262,16 @@ const CompanyList = () => {
                     e.target.style.textDecoration = 'none';
                   }}
                   onClick={() => {
-                    // Handle view jobs click
-                    console.log('View jobs for:', company.company_name);
+                    navigate(`/user/jobs?company_id=${company.id}`)
                   }}
                 >
                   View Jobs
+                </button>
+                <button 
+                className='site-button w-100'
+                 onClick={()=>navigate(`/company-details/${company.id}`)}
+                >
+                  Explore Now
                 </button>
               </div>
             </div>

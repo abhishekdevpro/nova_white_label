@@ -45,6 +45,7 @@ function JobPage() {
     job_type: queryParams.get("job_type") || "",
     experience_level: queryParams.get("experience_level") || "",
     title_keywords: queryParams.get("title_keywords") || "",
+    company_id :queryParams.get("company_id")|| ""
   }
 
   const [searchParams, setSearchParams] = useState(initialSearchParams)
@@ -72,6 +73,7 @@ function JobPage() {
         if (searchParams.job_type) params.append("job_type", searchParams.job_type)
         if (searchParams.experience_level) params.append("experience_level", searchParams.experience_level)
         if (searchParams.title_keywords) params.append("title_keywords", searchParams.title_keywords)
+        if (searchParams.company_id) params.append("company_id", searchParams.company_id)
 
         const response = await axios.get(`${BaseApi}?${params.toString()}`, {
           headers: {
@@ -114,6 +116,7 @@ function JobPage() {
       job_type,
       experience_level,
       title_keywords,
+      // company_id,
     }
 
     setSearchParams(newSearchParams)
@@ -209,7 +212,6 @@ const handleClearFilters = () => {
 
   return (
     <>
-      <UserHeader />
       {/* {token ? <FixedHeader /> : null} */}
       <div>
         {showSkeleton ? (
@@ -260,7 +262,6 @@ const handleClearFilters = () => {
           </div>
         )}
       </div>
-      <Footer />
     </>
   )
 }

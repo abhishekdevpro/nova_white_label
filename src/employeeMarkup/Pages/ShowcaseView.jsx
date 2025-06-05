@@ -1,8 +1,8 @@
 import React from 'react';
 import ShowcaseComponent from './showcase/Showcase';
 import Header from '../Layout/Header';
-import Footer from '../Layout/Footer';
 import UserHeader from '../../markup/Layout/Header';
+import Footer from '../../markup/Layout/Footer';
 
 const ShowcaseView = () => {
   const token = localStorage.getItem("employeeLoginToken")

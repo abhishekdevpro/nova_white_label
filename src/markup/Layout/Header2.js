@@ -432,7 +432,7 @@ const UserHeader2 = () => {
                   
                   <li className="">
                     <Link 
-                      to="/user/job/1"
+                      to="/user/jobs"
                       onClick={() => {
                         localStorage.removeItem("selectedLocation");
                         localStorage.removeItem("title_keyword");

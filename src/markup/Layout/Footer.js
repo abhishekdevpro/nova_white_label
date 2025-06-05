@@ -181,17 +181,18 @@ function Footer() {
                         Browse Applicants
                       </Link>
                     </li>
-                    {/* <li
+                    <li
                       onClick={() =>
                         window.scrollTo({ top: 0, behavior: "smooth" })
                       }
                     >
                       <Link
-                      //  to={"/employer/login"}
+                        to={"/company-list"}
                       >
-                        Schedule Interviews
+                        Companies
                       </Link>
-                    </li> */}
+                    </li>
+                   
                   </ul>
                 </div>
               </div>
