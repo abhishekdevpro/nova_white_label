@@ -17,7 +17,10 @@ function Vendorprofile() {
   const companyData = useSelector(
     (state) => state.companyDataSlice.companyData
   );
+
+  // console.log(companyData,"company");
   let companyDetail = companyData?.company_detail;
+  let vendorDetail =  companyData?.vendors_detail;
   let employeerDetail = companyData?.employeer_detail;
 
   const [countries, setCountries] = useState([]);
@@ -43,7 +46,7 @@ function Vendorprofile() {
   const [industries, setIndustries] = useState([]);
   const [file, setFile] = useState(null);
 
-  const token = localStorage.getItem("employeeLoginToken");
+  const token = localStorage.getItem("vendorToken");
 
   // const handleChange = (content, delta, source, editor) => {
   //   const plainText = editor.getText();
@@ -102,7 +105,7 @@ function Vendorprofile() {
   useEffect(() => {
     setCompanyName(companyDetail?.company_name || "");
     setTagline(companyDetail?.tagline || "");
-    setEmail(employeerDetail?.email || "");
+    setEmail(employeerDetail?.email || vendorDetail?.email);
     setWebsite(companyDetail?.website_link || "");
     setFoundedYear(companyDetail?.founded_date || "");
     setDescription(companyDetail?.about || "");
@@ -361,7 +364,7 @@ function Vendorprofile() {
                       <h5 className="font-weight-700 pull-left text-uppercase">
                         Company Profile
                       </h5>
-                      <Link
+                      {/* <Link
                         to={
                           companyDetail?.id
                             ? `/user/company/${companyDetail.id}`
@@ -375,7 +378,7 @@ function Vendorprofile() {
                         disabled={!companyDetail?.id}
                       >
                         View Company Page
-                      </Link>
+                      </Link> */}
                     </div>
                     <form
                       onSubmit={(e) => {
@@ -424,6 +427,7 @@ function Vendorprofile() {
                               onChange={(e) => setEmail(e.target.value)}
                               value={email}
                               required
+                              readOnly
                             />
                           </div>
                           {/* <div
@@ -746,11 +750,11 @@ function Vendorprofile() {
                           </div>
                         </div> */}
 
-                        <div className="col-lg-12 col-md-12">
+                        <div className="col-lg-12 col-md-12 mt-4">
                           <div className="clearfix font-bold">
                             <button
                               type="submit"
-                              className="site-button button-sm px-4 py-2 text-bolder"
+                              className="site-button w-100 text-bolder"
                             >
                               Save
                             </button>

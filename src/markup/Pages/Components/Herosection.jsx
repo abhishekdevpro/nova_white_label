@@ -540,7 +540,7 @@ const CareerAdvisorPage = () => {
       case "Employer":
         return <EmployeeForm />;
       case "A Partner":
-        return isPartner?window.location.href = "https://novajobs.us/white-label" :<PartnerForm />;
+        return window.location.origin === "https://novajobs.us" ?<PartnerForm /> :window.location.href = "https://novajobs.us/white-label" ;
       default:
         return null;
     }

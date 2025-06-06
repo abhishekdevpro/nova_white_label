@@ -156,13 +156,15 @@ import MoreServices from "./MoreServices";
 function AdminAboutus({ projectName }) {
   const [sections, setSections] = useState([]);
   const [activeSection, setActiveSection] = useState(null);
-
+ const domain = window.location.origin.includes("localhost")
+  ? "https://novajobs.us"
+  : window.location.origin;
   // Fetch data from the GET API
   const fetchContent = async () => {
     try {
       const url = `https://apiwl.novajobs.us/api/admin${
         projectName || ""
-      }/get-aboutus-content`;
+      }/get-aboutus-content?domain=${domain}`;
       console.log("Fetching from URL:", url);
 
       const response = await axios.get(url);
@@ -173,7 +175,7 @@ function AdminAboutus({ projectName }) {
         setSections([]); // Ensuring sections is always an array
         return;
       }
-
+      // console.log(response.data.data);
       setSections(response.data.data);
     } catch (error) {
       console.error("Error fetching content:", error);
@@ -195,13 +197,14 @@ function AdminAboutus({ projectName }) {
       console.error(`Section with id ${id} not found!`);
       return { title: "Not Found", content: "Data unavailable." };
     }
+    console.log(section,"sectionq");
     return section;
   };
 
   const toggleSection = (id) => {
     setActiveSection(activeSection === id ? null : id);
   };
-
+console.log(sections,"sections");
   return (
     <div className="page-content bg-white">
       <div className="content-block">
@@ -212,7 +215,9 @@ function AdminAboutus({ projectName }) {
                 <div className="accordion-container">
                   {sections.length > 0 ? (
                     sections.map((section) => (
+                      
                       <div key={section.id} className="accordion-item">
+                        {console.log(section,"sectionsection")}
                         <button
                           className="accordion-title"
                           onClick={() => toggleSection(section.id)}

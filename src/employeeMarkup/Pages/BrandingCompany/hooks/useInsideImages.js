@@ -9,7 +9,7 @@ export const useInsideImages = () => {
   const [insideWorkplaceImages, setInsideWorkplaceImages] = useState([])
   const [insidePeopleImages, setInsidePeopleImages] = useState([])
 
-  const token = localStorage.getItem("employeeLoginToken")
+  const token = localStorage.getItem("employeeLoginToken") || localStorage.getItem("vendorToken")
 
   const handleInsideImageUpload = (e, type) => {
     const files = Array.from(e.target.files)

@@ -528,8 +528,17 @@ function App() {
           path="branding"
           element={
             <PrivateRoutevendor>
-              {" "}
-              <Branding />{" "}
+              <BrandingCompany />
+
+            </PrivateRoutevendor>
+          }
+        />
+        <Route
+          path="branding-company"
+          element={
+            <PrivateRoutevendor>
+              <ShowcaseView />
+
             </PrivateRoutevendor>
           }
         />

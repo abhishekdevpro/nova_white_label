@@ -14,7 +14,7 @@ export const useTeamMembers = () => {
   })
   const [, forceUpdate] = useReducer((x) => x + 1, 0)
 
-  const token = localStorage.getItem("employeeLoginToken")
+  const token = localStorage.getItem("employeeLoginToken") || localStorage.getItem("vendorToken")
 
   const addTeamMember = () => {
     setEditingId("new")

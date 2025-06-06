@@ -52,7 +52,7 @@
 //     setParagraph1Content(novaJobsusData.paragraph1 || paragraph1Content);
 
 //     if (novaJobsusData.images) {
-//       const imgData = JSON.parse(novaJobsusData.images);
+//       const imgData = (novaJobsusData.images);
 //       const updatedImages = imgData.map((img) => ({
 //         file: null,
 //         preview: "https://apiwl.novajobs.us" + img,
@@ -308,7 +308,7 @@
 //     setParagraph1Content(novaJobsusData.paragraph1 || paragraph1Content);
 
 //     if (novaJobsusData.images) {
-//       const imgData = JSON.parse(novaJobsusData.images);
+//       const imgData = (novaJobsusData.images);
 //       const updatedImages = imgData.map((img) => ({
 //         file: null,
 //         preview: "https://apiwl.novajobs.us" + img,
@@ -607,7 +607,7 @@ function Novajobsus({ novaJobsusData, projectName }) {
     // setShowImages(novaJobsusData.is_images_display);
 
     if (novaJobsusData.images) {
-      const imgData = JSON.parse(novaJobsusData.images);
+      const imgData = (novaJobsusData.images);
 
       const updatedImages = imgData.map((img, index) => ({
         file: null,
@@ -619,8 +619,8 @@ function Novajobsus({ novaJobsusData, projectName }) {
         //     : true, // Default to true if no specific visibility info is available
         isVisible: (() => {
           try {
-            const parsedData = JSON.parse(novaJobsusData.is_images_display); // First parse
-            const actualArray = JSON.parse(parsedData[0]); // Second parse to get actual array
+            const parsedData = (novaJobsusData.is_images_display); // First parse
+            const actualArray = (parsedData[0]); // Second parse to get actual array
             return actualArray[index] === true; // Check for boolean true/false
           } catch (error) {
             console.error("Error parsing is_images_display:", error);
@@ -694,7 +694,8 @@ function Novajobsus({ novaJobsusData, projectName }) {
     });
 
     try {
-      const token = localStorage.getItem("authToken");
+        const authToken = localStorage.getItem("authToken") || localStorage.getItem("vendorToken");
+
       const response = await axios.patch(
         `https://apiwl.novajobs.us/api/admin/${
           projectName ? projectName : ""
@@ -702,7 +703,7 @@ function Novajobsus({ novaJobsusData, projectName }) {
         formData,
         {
           headers: {
-            Authorization: token,
+            Authorization: authToken,
             "Content-Type": "multipart/form-data",
           },
         }
@@ -716,7 +717,8 @@ function Novajobsus({ novaJobsusData, projectName }) {
     }
   };
 
-  const authToken = localStorage.getItem("authToken");
+    const authToken = localStorage.getItem("authToken") || localStorage.getItem("vendorToken");
+
 
   const handleDelete = (field) => {
     switch (field) {

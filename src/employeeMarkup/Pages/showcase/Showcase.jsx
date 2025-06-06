@@ -53,7 +53,7 @@ const styles = {
   header: {
     backgroundColor: "#1e40af",
     background: "linear-gradient(135deg, #1e40af 0%, #3b82f6 100%)",
-    padding: "8rem 2rem",
+    padding: "4rem 2rem",
     textAlign: "center",
     position: "relative",
     color: "#ffffff",
@@ -116,8 +116,8 @@ const styles = {
     backgroundColor: "#1e40af",
   },
   logo: {
-    width: "140px",
-    height: "140px",
+    width: "100px",
+    height: "100px",
     borderRadius: "20px",
     objectFit: "cover",
     boxShadow: "0 8px 16px rgba(0,0,0,0.2)",
@@ -584,12 +584,14 @@ const ShowcaseComponent = () => {
   const [loading, setLoading] = useState(true);
   const [teamsData, setTeamsData] = useState([]);
   const [wtsData, setWtsData] = useState([]);
-  const token = localStorage.getItem("employeeLoginToken" || "vendorToken");
+  const token =
+    localStorage.getItem("employeeLoginToken") ||
+    localStorage.getItem("vendorToken");
   const BASE_IMAGE_URL = "https://apiwl.novajobs.us";
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth);
   const { companyId } = useParams();
-  const isEdit = token ? true : false;
+  const isEdit = token && !companyId ? true : false;
 
   // console.log(userInfo,"user hu main");
 
@@ -733,9 +735,16 @@ const ShowcaseComponent = () => {
       social: "social-links",
       jobs: "jobs",
     };
+    const Employeetoken = localStorage.getItem("employeeLoginToken");
+    const vendorToken = localStorage.getItem("vendorToken");
+
+    const path = window.location.pathname;
+
+    // const showVendorHeader = path.includes("/vendor") && vendorToken;
+    const showEmployee = Employeetoken && path.includes("/employer");
 
     const tab = sectionToTab[section] || "company-info";
-    navigate(`/employer/branding-company?tab=${tab}`);
+    {showEmployee ? navigate(`/employer/branding-company?tab=${tab}`) :navigate(`/vendor/branding?tab=${tab}`)};
   };
 
   const scrollToSection = (sectionId) => {

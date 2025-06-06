@@ -35,7 +35,7 @@ export const useCompanyData = () => {
     inside_people_images: [],
   })
 
-  const token = localStorage.getItem("employeeLoginToken")
+  const token = localStorage.getItem("employeeLoginToken") || localStorage.getItem("vendorToken")
   const BASE_IMAGE_URL = "https://apiwl.novajobs.us"
 
   const handleInputChange = (e) => {
@@ -196,7 +196,7 @@ export const useCompanyData = () => {
 
   const handleSave = async (event, makesUsUnique) => {
     event.preventDefault()
-
+    console.log(makesUsUnique,"vendor company branding page summary ");
     const dataToUpdate = {
       company_name: companyData.company_name,
       summery: companyData.summery,
@@ -218,16 +218,27 @@ export const useCompanyData = () => {
       twitter_link: companyData.twitter_link,
       google_link: companyData.google_link,
       linkedin_link: companyData.linkedin_link,
-      company_industry_id: companyData.company_industry_id,
+      // company_industry_id: companyData.company_industry_id,
       join_us: companyData.join_us,
-      ...makesUsUnique.reduce(
-        (acc, item) => ({
-          ...acc,
-          [item.key]: item.toogle,
-          [`${item.key}_value`]: item.value,
-        }),
-        {},
-      ),
+      // ...makesUsUnique.reduce(
+      //   (acc, item) => ({
+      //     ...acc,
+      //     [item.key]: item.toogle,
+      //     [`${item.key}_value`]: item.value,
+      //   }),
+      //   {},
+      // ),
+      ...(Array.isArray(makesUsUnique)
+  ? makesUsUnique.reduce(
+      (acc, item) => ({
+        ...acc,
+        [item.key]: item.toogle,
+        [`${item.key}_value`]: item.value,
+      }),
+      {},
+    )
+  : {}),
+
     }
 
     try {
