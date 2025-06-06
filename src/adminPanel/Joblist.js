@@ -245,7 +245,9 @@ const Jobslist = () => {
       };
 
       // Get current domain URL for the API
-      const url = window.location.hostname;
+      const url = window.location.origin.includes("localhost")
+    ? "https://novajobs.us"
+    : window.location.origin;
       
       const jobsEndpoint = `https://apiwl.novajobs.us/api/admin/job-lists?page_no=${page}&page_size=${pageSize}&is_publish=1&domain=${url}`;
 

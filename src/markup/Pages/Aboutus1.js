@@ -111,10 +111,10 @@ function AboutUs() {
     window.scrollTo(0, 0);
   }, []);
 
-  // const url = window.location.origin.includes("localhost")
-  //   ? "https://novajobs.us"
-  //   : window.location.origin;
-  const url = "https://toder231.novajobs.us/"
+  const url = window.location.origin.includes("localhost")
+    ? "https://novajobs.us"
+    : window.location.origin;
+  // const url = "https://toder231.novajobs.us/"
   const ApiUrl = `https://apiwl.novajobs.us/api/admin/get-aboutus-content?domain=${url}`
     
 
