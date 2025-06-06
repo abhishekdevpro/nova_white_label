@@ -35,7 +35,7 @@ function MoreServices({ moreServicesData, projectName }) {
   const [showParagraph2, setShowParagraph2] = useState(true);
   const [showParagraph3, setShowParagraph3] = useState(true);
 
-  const authToken = localStorage.getItem("authToken"); // Retrieve auth token
+  const authToken = localStorage.getItem("authToken") || localStorage.getItem("vendorToken");
 
   // Fetch data from the GET API
   useEffect(() => {
@@ -56,10 +56,10 @@ function MoreServices({ moreServicesData, projectName }) {
     setIsSubHeadingVisible(moreServicesData.is_paragraph4_display);
     // setIsImageVisible(moreServicesData.is_images_display);
     setIsImageVisible(
-      JSON.parse(moreServicesData.is_images_display)[0] === "true"
+      (moreServicesData.is_images_display)[0] === "true"
     );
-    if (moreServicesData.images && JSON.parse(moreServicesData.images)) {
-      const imgData = JSON.parse(moreServicesData.images);
+    if (moreServicesData.images && (moreServicesData.images)) {
+      const imgData = (moreServicesData.images);
       setImagePreview(
         imgData[0] ? "https://apiwl.novajobs.us" + imgData[0] : logo5
       );

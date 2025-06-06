@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import VendorCompanySideBar from "../Vendorsidebar";
 import Footer from "../../markup/Layout/Footer";
@@ -11,6 +11,8 @@ import BulkUploadForm from "./BulkUploadForm";
 import Popup from "./Popup";
 import Pricing from "./Pricing";
 import AboutUsForm from "./AboutUs";
+import AboutusForm from "../../adminPanel/CMS/About";
+import { useNavigate, useSearchParams } from "react-router-dom";
 // Animation for tab transition
 const fadeIn = keyframes`
   from {
@@ -201,9 +203,102 @@ const MobileMenuButton = styled.button`
   }
 `;
 
+// function VendorSetting() {
+//   const [activeTab, setActiveTab] = useState("navbar");
+//   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+
+//   const renderForm = () => {
+//     switch (activeTab) {
+//       case "navbar":
+//         return <NavbarManagementForm />;
+//       case "header":
+//         return <HeaderManagementForm />;
+//       case "footer":
+//         return <FooterManagementForm />;
+//       case "testimonial":
+//         return <TestimonialManagementForm />;
+//       case "about-us":
+//         return <AboutusForm />;
+//       case "bulkUpload":
+//         return <BulkUploadForm />;
+//       case "popup":
+//         return <Popup />;
+      
+//       default:
+//         return <NavbarManagementForm />;
+//     }
+//   };
+
+//   const tabs = [
+//     { key: "navbar", label: "Navbar" },
+//     { key: "header", label: "Header" },
+//     { key: "footer", label: "Footer" },
+//     { key: "testimonial", label: "Testimonial" },
+//     { key: "about-us", label: "About Us" },
+//     { key: "bulkUpload", label: "Bulk Upload" },
+//     { key: "popup", label: "Form" },
+
+//   ];
+
+//   return (
+//     <>
+//       <VendorHeader />
+//       <PageWrapper>
+//         <ContentBlock>
+//           <Section>
+//             <Container>
+//               <Row>
+               
+                
+//                     <VendorCompanySideBar active="setting" />
+                
+//                 <ChatWrapper>
+//                   <TabContainer>
+//                     {tabs.map((tab) => (
+//                       <TabButton
+//                         key={tab.key}
+//                         active={activeTab === tab.key}
+//                         onClick={() => setActiveTab(tab.key)}
+//                       >
+//                         {tab.label}
+//                       </TabButton>
+//                     ))}
+//                   </TabContainer>
+                  
+//                   <AnimatedFormContainer key={activeTab}>
+//                     {renderForm()}
+//                   </AnimatedFormContainer>
+//                 </ChatWrapper>
+//               </Row>
+//             </Container>
+//           </Section>
+//         </ContentBlock>
+//       </PageWrapper>
+//       <Footer />
+//     </>
+//   );
+// }
+
 function VendorSetting() {
-  const [activeTab, setActiveTab] = useState("navbar");
-  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+
+  const queryTab = searchParams.get("tab");
+  const defaultTab = queryTab || "navbar";
+
+  const [activeTab, setActiveTab] = useState(defaultTab);
+
+  useEffect(() => {
+    // Sync tab if query param changes from outside
+    if (queryTab && queryTab !== activeTab) {
+      setActiveTab(queryTab);
+    }
+  }, [queryTab]);
+
+  const handleTabClick = (tabKey) => {
+    setActiveTab(tabKey);
+    setSearchParams({ tab: tabKey }); // Updates URL query string
+  };
 
   const renderForm = () => {
     switch (activeTab) {
@@ -216,12 +311,11 @@ function VendorSetting() {
       case "testimonial":
         return <TestimonialManagementForm />;
       case "about-us":
-        return <AboutUsForm />;
+        return <AboutusForm />;
       case "bulkUpload":
         return <BulkUploadForm />;
       case "popup":
         return <Popup />;
-      
       default:
         return <NavbarManagementForm />;
     }
@@ -235,7 +329,6 @@ function VendorSetting() {
     { key: "about-us", label: "About Us" },
     { key: "bulkUpload", label: "Bulk Upload" },
     { key: "popup", label: "Form" },
-
   ];
 
   return (
@@ -246,23 +339,20 @@ function VendorSetting() {
           <Section>
             <Container>
               <Row>
-               
-                
-                    <VendorCompanySideBar active="form" />
-                
+                <VendorCompanySideBar active="setting" />
                 <ChatWrapper>
                   <TabContainer>
                     {tabs.map((tab) => (
                       <TabButton
                         key={tab.key}
                         active={activeTab === tab.key}
-                        onClick={() => setActiveTab(tab.key)}
+                        onClick={() => handleTabClick(tab.key)}
                       >
                         {tab.label}
                       </TabButton>
                     ))}
                   </TabContainer>
-                  
+
                   <AnimatedFormContainer key={activeTab}>
                     {renderForm()}
                   </AnimatedFormContainer>
@@ -276,5 +366,6 @@ function VendorSetting() {
     </>
   );
 }
+
 
 export default VendorSetting;

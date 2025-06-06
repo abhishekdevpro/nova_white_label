@@ -63,7 +63,7 @@ const VendorCompanySideBar = ({ active }) => {
       });
       const vendorDetails = response.data.data.company_detail;
       setLogo(vendorDetails.logo); // Set the logo
-      setdomainName(vendorDetails.domain); // Set the domain dynamically
+      setdomainName(response.data?.data?.vendors_detail?.domain);
     } catch (error) {
       console.error("Error fetching vendor details:", error);
     }
@@ -83,7 +83,7 @@ const VendorCompanySideBar = ({ active }) => {
 
   useEffect(() => {
     getLogo();
-  }, [token, getLogo]); // Added getLogo to dependencies
+  }, [token]); // Added getLogo to dependencies
 
   const companyData = useSelector(
     (state) => state.companyDataSlice.companyData
@@ -338,8 +338,8 @@ const VendorCompanySideBar = ({ active }) => {
                   )}
                 </li>
                 <li>
-                  <Link
-                    to={domainName ? `https://${domainName}` : "#"}
+                  {/* <Link
+                    to={domainName && `https://${domainName}`}
                     target="_blank"
                     className={active === "editors" ? "active" : null}
                   >
@@ -352,7 +352,47 @@ const VendorCompanySideBar = ({ active }) => {
                         style={{ marginLeft: "5px" }}
                       ></i>
                     </span>
-                  </Link>
+                  </Link> */}
+                  {console.log(domainName, "domain")}
+                  {domainName ? (
+                    // If domain exists → external link
+                    <a
+                      href={`https://${domainName}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={active === "editors" ? "active" : ""}
+                    >
+                       <i
+                          className="fa fa-external-link"
+                          aria-hidden="true"
+                          style={{ marginLeft: "5px" }}
+                        ></i>
+                      <span>
+                        Vendor Website
+                       
+                      </span>
+                    </a>
+                  ) : (
+                    // If domain doesn't exist → internal link to /vendor
+                    <Link
+                      to="/vendor/setting?tab=popup"
+                      className="text-gray-400 pointer-events-auto hover:text-gray-600"
+                      title="Activate your vendor subdomain"
+                    >
+                      <FontAwesomeIcon
+                        icon={faCloudUploadAlt}
+                        className="me-2"
+                      />
+                      <span>
+                        Activate Subdomain
+                        <i
+                          className="fa fa-link"
+                          aria-hidden="true"
+                          style={{ marginLeft: "5px" }}
+                        ></i>
+                      </span>
+                    </Link>
+                  )}
                 </li>
                 <li>
                   <Link

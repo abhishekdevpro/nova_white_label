@@ -26,8 +26,9 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { showToastError } from "../../utils/toastify";
 
-const token = localStorage.getItem("employeeLoginToken") || localStorage.getItem("vendorToken");
-
+const token = localStorage.getItem("employeeLoginToken") 
+const vendorToken = localStorage.getItem("vendorToken");
+  const API = vendorToken ? "https://apiwl.novajobs.us/api/admin/vendor/user-profile" :"https://apiwl.novajobs.us/api/employeer/employeer-profile"
 
 export const fetchCompanyInfo = createAsyncThunk(
   "company/fetchCompanyInfo",
@@ -35,9 +36,9 @@ export const fetchCompanyInfo = createAsyncThunk(
     try {
       const response = await axios({
         method: "get",
-        url: "https://apiwl.novajobs.us/api/employeer/employeer-profile",
+        url: API,
         headers: {
-          Authorization: token,  
+          Authorization: vendorToken ?vendorToken:token,  
         },
       });
       return response.data.data;  // Return the response data as action payload

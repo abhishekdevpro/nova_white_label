@@ -8,6 +8,7 @@ import "react-quill/dist/quill.snow.css";
 import logo1 from "../../../assests/logo1.jpg";
 
 function Introductions({ introductionData, projectName }) {
+  console.log(introductionData,"introductionData");
   const [isEditing, setIsEditing] = useState(false);
   const [heading, setHeading] = useState("Introduction");
   const [paragraph1Content, setParagraph1Content] = useState(`
@@ -47,12 +48,12 @@ function Introductions({ introductionData, projectName }) {
   const [pdfPreview, setPdfPreview] = useState(null);
   const [showPdf, setShowPdf] = useState(true);
 
-  const authToken = localStorage.getItem("authToken");
+  const authToken = localStorage.getItem("authToken") || localStorage.getItem("vendorToken");
   useEffect(() => {
     if (!introductionData) return;
 
-    if (introductionData.pdf && JSON.parse(introductionData.pdf)) {
-      const pdfData = JSON.parse(introductionData.pdf);
+    if (introductionData.pdf && (introductionData.pdf)) {
+      const pdfData = (introductionData.pdf);
 
       setPdfPreview(
         pdfData[0] ? "https://apiwl.novajobs.us" + pdfData[0] : null
@@ -87,14 +88,14 @@ function Introductions({ introductionData, projectName }) {
     setShowPdfHeading(introductionData.is_paragraph4_display);
     setShowVideo(introductionData.is_urls_display);
     // setShowImage(introductionData.is_images_display);
-    setShowImage(JSON.parse(introductionData.is_images_display)[0] === "true");
+    setShowImage((introductionData.is_images_display)[0] === "true");
     setShowPdf(introductionData.is_pdf_display);
-    if (introductionData.urls && JSON.parse(introductionData.urls)) {
-      const urlData = JSON.parse(introductionData.urls);
+    if (introductionData.urls && (introductionData.urls)) {
+      const urlData = (introductionData.urls);
       setVideoUrl(urlData[0] || videoUrl);
     }
-    if (introductionData.images && JSON.parse(introductionData.images)) {
-      const imgData = JSON.parse(introductionData.images);
+    if (introductionData.images && (introductionData.images)) {
+      const imgData = (introductionData.images);
       setImagePreview(
         imgData[0] ? "https://apiwl.novajobs.us" + imgData[0] : logo1
       );

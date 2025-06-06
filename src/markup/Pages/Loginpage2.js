@@ -17,7 +17,7 @@ import { Modal } from "react-bootstrap";
 import { FcGoogle } from "react-icons/fc";
 const bnr3 = require("./../../images/background/bg3.jpg");
 function Login(props) {
-  const [email, setEmail] = useState("demo@example.com");
+  const [email, setEmail] = useState("");
   let errorsObj = { email: "", password: "" };
   const [errors, setErrors] = useState(errorsObj);
   const [password, setPassword] = useState("123456");
@@ -304,7 +304,7 @@ function Login(props) {
                       <div className="text-center">
                         <button
                           onClick={handlePostRequest}
-                          className="site-button float-center"
+                          className="site-button w-100"
                         >
                           Send Otp
                         </button>

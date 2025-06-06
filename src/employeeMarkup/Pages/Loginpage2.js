@@ -546,7 +546,7 @@ import Footer from "../../markup/Layout/Footer";
 
 const bnr3 = require("./../../images/background/bg3.jpg");
 function EmployeeLogin(props) {
-  const [email, setEmail] = useState("demo@example.com");
+  const [email, setEmail] = useState("");
   let errorsObj = { email: "", password: "" };
   const [errors, setErrors] = useState(errorsObj);
   const [password, setPassword] = useState("123456");
@@ -937,7 +937,7 @@ function EmployeeLogin(props) {
                       <div className="text-center mt-4">
                         <button
                           onClick={handlePostRequest}
-                          className="site-button float-center"
+                          className="site-button w-100"
                         >
                           Send Otp
                         </button>

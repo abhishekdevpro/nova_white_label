@@ -1,14 +1,21 @@
-import React from 'react';
-import ShowcaseComponent from './showcase/Showcase';
-import Header from '../Layout/Header';
-import UserHeader from '../../markup/Layout/Header';
-import Footer from '../../markup/Layout/Footer';
+import React from "react";
+import ShowcaseComponent from "./showcase/Showcase";
+import Header from "../Layout/Header";
+import UserHeader from "../../markup/Layout/Header";
+import Footer from "../../markup/Layout/Footer";
+import VendorHeader from "../../markup/Layout/VendorHeader";
 
 const ShowcaseView = () => {
-  const token = localStorage.getItem("employeeLoginToken")
+  const Employeetoken = localStorage.getItem("employeeLoginToken");
+  const vendorToken = localStorage.getItem("vendorToken");
+
+  const path = window.location.pathname;
+
+  const showVendorHeader = path.includes("/vendor") && vendorToken;
+  const showEmployeeHeader = Employeetoken && path.includes("/employer");
   return (
     <>
-     {token ? <Header /> : <UserHeader />}
+      {showVendorHeader ? <VendorHeader /> : showEmployeeHeader ? <Header /> : <UserHeader />}
       <div className="min-h-screen bg-gray-50">
         <ShowcaseComponent />
       </div>
@@ -17,4 +24,4 @@ const ShowcaseView = () => {
   );
 };
 
-export default ShowcaseView; 
+export default ShowcaseView;
