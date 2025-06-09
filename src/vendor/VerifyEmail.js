@@ -1,47 +1,52 @@
 import React, { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
-
 import { showToastError, showToastSuccess } from "../utils/toastify";
 
 const VerifyEmail = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
 
   useEffect(() => {
     const verifyEmail = async () => {
+      const queryParams = new URLSearchParams(location.search);
       const token = queryParams.get("token");
+      const isVendor = location.pathname.includes("vendor");
 
-      // console.log("Token:", token);
+      if (!token) {
+        showToastError("Token not found in URL");
+        return;
+      }
 
       try {
         const response = await axios.get(
           `https://apiwl.novajobs.us/api/admin/verify-account/${token}`
         );
-        console.log(response);
-        if (response) {
+
+        if (response?.status === 200) {
           showToastSuccess("Email verified successfully");
-          navigate("/user/login");
+          navigate(isVendor ? "/vendor/login" : "/user/login");
         } else {
           showToastError("Email verification failed");
-          navigate("/vendor/login");
         }
       } catch (error) {
         console.error("Verification Error:", error);
         showToastError("Invalid token or email");
-        navigate("/vendor/login");
+        navigate(isVendor ? "/vendor/login" : "/user/login");
       }
     };
 
     verifyEmail();
-  }, [queryParams, navigate]);
+  }, [location, navigate]);
 
   return (
-    <div>
-      Verifying...
-      
-    </div>
+    <div className="d-flex flex-column justify-content-center align-items-center text-center" style={{ minHeight: "100vh" }}>
+  <div className="spinner-border text-primary" role="status" style={{ width: "3rem", height: "3rem" }}>
+    <span className="visually-hidden">Loading...</span>
+  </div>
+  <p className="mt-3 fw-semibold text-secondary">Verifying...</p>
+</div>
+
   );
 };
 

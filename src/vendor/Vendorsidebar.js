@@ -353,7 +353,7 @@ const VendorCompanySideBar = ({ active }) => {
                       ></i>
                     </span>
                   </Link> */}
-                  {console.log(domainName, "domain")}
+                  {/* {console.log(domainName, "domain")} */}
                   {domainName ? (
                     // If domain exists → external link
                     <a
@@ -385,11 +385,7 @@ const VendorCompanySideBar = ({ active }) => {
                       />
                       <span>
                         Activate Subdomain
-                        <i
-                          className="fa fa-link"
-                          aria-hidden="true"
-                          style={{ marginLeft: "5px" }}
-                        ></i>
+                        
                       </span>
                     </Link>
                   )}
