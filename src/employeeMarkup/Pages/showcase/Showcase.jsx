@@ -27,19 +27,11 @@ import {
 import { TbTargetArrow } from "react-icons/tb";
 import { FaCarBurst } from "react-icons/fa6";
 import DOMPurify from "dompurify";
-import InsideCognizant from "./InsideCognizant ";
-import { Constant } from "../../../utils/constant/constant";
-import ReactQuill from "react-quill";
-import CompanyWTSSection from "./WtsSection";
-import LeadershipTeam from "./LeaderShipTeams";
-import AboutSection from "./AboutSection";
-import WhyChooseUsSection from "./WhyCompanySection";
-import CompanyBenefits from "./CompanyBenefits";
-import JobListings from "./HiringSection";
+
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import ReactPlayer from "react-player";
-import PDFViewer from "./PdfVeiwer";
+import PDFViewer from "./components/PdfVeiwer";
 const url = window.location.origin.includes("localhost")
   ? "https://novajobs.us"
   : window.location.origin;
@@ -88,6 +80,7 @@ const styles = {
     zIndex: 1000,
     padding: "1rem 0",
     marginTop: "-1rem",
+
   },
   navContainer: {
     maxWidth: "1200px",
@@ -96,6 +89,10 @@ const styles = {
     justifyContent: "center",
     gap: "2rem",
     padding: "0 2rem",
+    
+    "@media (max-width: 767px)": {
+    display: "none",
+  },
   },
   navLink: {
     color: "#1e40af",
@@ -221,10 +218,49 @@ const styles = {
     maxWidth: "800px",
     margin: "0 auto",
   },
+  // benefitsContainer: {
+  //   display: "grid",
+  //   gridTemplateColumns: "repeat(2, 1fr)",
+  //   gap: "3rem",
+  //   maxWidth: "1000px",
+  //   margin: "0 auto",
+  // },
+  // benefitItem: {
+  //   display: "flex",
+  //   gap: "1.5rem",
+  //   alignItems: "flex-start",
+  //   padding: "2rem",
+  //   backgroundColor: "#f8fafc",
+  //   borderRadius: "12px",
+  //   transition: "all 0.3s",
+  //   "&:hover": {
+  //     backgroundColor: "#f0f7ff",
+  //     transform: "translateY(-4px)",
+  //   },
+  // },
+  // benefitIcon: {
+  //   fontSize: "2rem",
+  //   color: "#1e40af",
+  //   flexShrink: 0,
+  // },
+  // benefitContent: {
+  //   flex: 1,
+  // },
+  // benefitTitle: {
+  //   fontSize: "1.5rem",
+  //   fontWeight: 600,
+  //   color: "#1e40af",
+  //   marginBottom: "0.5rem",
+  // },
+  // benefitDescription: {
+  //   color: "#6b7280",
+  //   fontSize: "1rem",
+  //   lineHeight: "1.6",
+  // },
   benefitsContainer: {
     display: "grid",
     gridTemplateColumns: "repeat(2, 1fr)",
-    gap: "3rem",
+    gap: "2rem",
     maxWidth: "1000px",
     margin: "0 auto",
   },
@@ -235,11 +271,7 @@ const styles = {
     padding: "2rem",
     backgroundColor: "#f8fafc",
     borderRadius: "12px",
-    transition: "all 0.3s",
-    "&:hover": {
-      backgroundColor: "#f0f7ff",
-      transform: "translateY(-4px)",
-    },
+    transition: "all 0.3s ease",
   },
   benefitIcon: {
     fontSize: "2rem",
@@ -250,7 +282,7 @@ const styles = {
     flex: 1,
   },
   benefitTitle: {
-    fontSize: "1.5rem",
+    fontSize: "1.25rem",
     fontWeight: 600,
     color: "#1e40af",
     marginBottom: "0.5rem",
@@ -259,6 +291,18 @@ const styles = {
     color: "#6b7280",
     fontSize: "1rem",
     lineHeight: "1.6",
+  },
+
+  // Responsive styles with media queries
+  "@media(min-width: 600px)": {
+    benefitsContainer: {
+      gridTemplateColumns: "repeat(2, 1fr)",
+    },
+  },
+  "@media(min-width: 992px)": {
+    benefitsContainer: {
+      gridTemplateColumns: "repeat(3, 1fr)",
+    },
   },
   galleryContainer: {
     display: "grid",
@@ -744,7 +788,11 @@ const ShowcaseComponent = () => {
     const showEmployee = Employeetoken && path.includes("/employer");
 
     const tab = sectionToTab[section] || "company-info";
-    {showEmployee ? navigate(`/employer/branding-company?tab=${tab}`) :navigate(`/vendor/branding?tab=${tab}`)};
+    {
+      showEmployee
+        ? navigate(`/employer/branding-company?tab=${tab}`)
+        : navigate(`/vendor/branding?tab=${tab}`);
+    }
   };
 
   const scrollToSection = (sectionId) => {
@@ -810,7 +858,47 @@ const ShowcaseComponent = () => {
       </div>
     );
   }
-
+  const benefitItems = [
+    {
+      key: "health_insurance",
+      title: "Health Insurance",
+      icon: <MdOutlineHealthAndSafety />,
+      valueKey: "health_insurance_value",
+    },
+    {
+      key: "cafeteria",
+      title: "Cafeteria",
+      icon: <MdLocalCafe />,
+      valueKey: "cafeteria_value",
+    },
+    {
+      key: "recreational_area",
+      title: "Recreational Area",
+      icon: <MdOutlineHealthAndSafety />,
+      valueKey: "recreational_area_value",
+    },
+    {
+      key: "personal_accident_insurance",
+      title: "Personal Accident Insurance",
+      icon: <MdOutlineHealthAndSafety />,
+      valueKey: "personal_accident_insurance_value",
+    },
+    {
+      key: "life_insurance",
+      title: "Life Insurance",
+      icon: <MdOutlineHealthAndSafety />,
+      valueKey: "life_insurance_value",
+    },
+    {
+      key: "wellness_center",
+      title: "Wellness Center",
+      icon: <MdOutlineHealthAndSafety />,
+      valueKey: "wellness_center_value",
+    },
+  ];
+  const renderedBenefits = benefitItems.filter(
+    (item) => companyData?.[item.key]
+  );
   return (
     <div style={styles.container}>
       {/* Header Section */}
@@ -932,7 +1020,7 @@ const ShowcaseComponent = () => {
             <div>No Summary at the moment. Please check back later.</div>
           )}
         </section>
-
+        {/* video section */}
         <section id="about" style={styles.section}>
           {isEdit && (
             <button
@@ -943,7 +1031,7 @@ const ShowcaseComponent = () => {
               Edit About
             </button>
           )}
-
+           {/* <h2 style={styles.sectionTitle}>Company Video</h2> */}
           {companyData?.video_urls?.[0]?.trim() ? (
             <div style={{ marginBottom: "20px" }}>
               <ReactPlayer
@@ -957,6 +1045,7 @@ const ShowcaseComponent = () => {
             <div>No video at the moment. Please check back later.</div>
           )}
         </section>
+        {/* Pdf Section.. */}
         {companyData?.pdf_urls ? (
           <section id="about" style={styles.section}>
             <PDFViewer fileUrl={companyData?.pdf_urls} />
@@ -965,7 +1054,6 @@ const ShowcaseComponent = () => {
           ""
         )}
 
-        {/* Benefits Section */}
         <section id="benefits" style={styles.section}>
           {isEdit && (
             <button
@@ -978,65 +1066,25 @@ const ShowcaseComponent = () => {
           )}
           <h2 style={styles.sectionTitle}>What Makes Us Unique</h2>
           <div style={styles.benefitsContainer}>
-            <div style={styles.benefitItem}>
-              <MdOutlineHealthAndSafety style={styles.benefitIcon} />
-              <div style={styles.benefitContent}>
-                <h3 style={styles.benefitTitle}>Health Insurance</h3>
-                <p style={styles.benefitDescription}>
-                  {companyData?.health_insurance_value}
-                </p>
+            {renderedBenefits.length > 0 ? (
+              renderedBenefits.map((item) => (
+                <div key={item.key} style={styles.benefitItem}>
+                  <div style={styles.benefitIcon}>{item.icon}</div>
+                  <div style={styles.benefitContent}>
+                    <h3 style={styles.benefitTitle}>{item.title}</h3>
+                    <p style={styles.benefitDescription}>
+                      {companyData?.[item.valueKey]}
+                    </p>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div
+                
+              >
+                No unique benefits added yet.
               </div>
-            </div>
-
-            <div style={styles.benefitItem}>
-              <MdLocalCafe style={styles.benefitIcon} />
-              <div style={styles.benefitContent}>
-                <h3 style={styles.benefitTitle}>Cafeteria</h3>
-                <p style={styles.benefitDescription}>
-                  {companyData?.cafeteria_value}
-                </p>
-              </div>
-            </div>
-
-            <div style={styles.benefitItem}>
-              <MdOutlineHealthAndSafety style={styles.benefitIcon} />
-              <div style={styles.benefitContent}>
-                <h3 style={styles.benefitTitle}>Recreational Area</h3>
-                <p style={styles.benefitDescription}>
-                  {companyData?.recreational_area_value}
-                </p>
-              </div>
-            </div>
-
-            <div style={styles.benefitItem}>
-              <MdOutlineHealthAndSafety style={styles.benefitIcon} />
-              <div style={styles.benefitContent}>
-                <h3 style={styles.benefitTitle}>Personal Accident Insurance</h3>
-                <p style={styles.benefitDescription}>
-                  {companyData?.personal_accident_insurance_value}
-                </p>
-              </div>
-            </div>
-
-            <div style={styles.benefitItem}>
-              <MdOutlineHealthAndSafety style={styles.benefitIcon} />
-              <div style={styles.benefitContent}>
-                <h3 style={styles.benefitTitle}>Life Insurance</h3>
-                <p style={styles.benefitDescription}>
-                  {companyData?.life_insurance_value}
-                </p>
-              </div>
-            </div>
-
-            <div style={styles.benefitItem}>
-              <MdOutlineHealthAndSafety style={styles.benefitIcon} />
-              <div style={styles.benefitContent}>
-                <h3 style={styles.benefitTitle}>Wellness Center</h3>
-                <p style={styles.benefitDescription}>
-                  {companyData?.wellness_center_value}
-                </p>
-              </div>
-            </div>
+            )}
           </div>
         </section>
 
@@ -1300,3 +1348,4 @@ const ShowcaseComponent = () => {
 };
 
 export default ShowcaseComponent;
+

@@ -71,7 +71,7 @@ const VendorHeader = () => {
                       localStorage.removeItem("title_keyword");
                     }}
                   >
-                    <Link to={"/user/job/1"}>Job Page</Link>
+                    <Link to={"/user/jobs"}>Job Page</Link>
                   </li>
                   {localStorage.getItem("vendorToken") && (
                     <li>

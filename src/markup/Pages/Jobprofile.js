@@ -16,6 +16,7 @@ import { FaImage } from "react-icons/fa";
 import Resizer from "react-image-file-resizer";
 import styled from "styled-components";
 import { toast } from "react-toastify";
+import PDFViewer from "../../employeeMarkup/Pages/showcase/components/PdfVeiwer";
 
 const ToggleSwitch = styled.div`
   display: flex;
@@ -80,6 +81,9 @@ const ToggleSwitch = styled.div`
 function Jobprofile() {
   const [basicdetails, setBasicDetails] = useState(false);
   const [isToggled, setIsToggled] = useState(false);
+  const [documentTypeId, setDocumentTypeId] = useState("");
+  const [documentFile, setDocumentFile] = useState(null);
+  const [uploadStatus, setUploadStatus] = useState("");
 
   const handleToggle = () => {
     setIsToggled(!isToggled);
@@ -223,6 +227,11 @@ function Jobprofile() {
             // photo: data.photo,
           })
         );
+        setDocumentTypeId(data.document_type_id);
+        setDocumentFile(data.document_type);
+        if (data.is_document_verified === true) {
+          setUploadStatus("verified");
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -412,7 +421,43 @@ function Jobprofile() {
       setFileError("No file selected");
     }
   };
+  const handleDocumnet = async (e) => {
+    e.preventDefault();
 
+    if (!documentTypeId || !documentFile) {
+      // setUploadStatus("Please select a document type and choose a file.");
+      return;
+    }
+    setUploadStatus("pending");
+    const formData = new FormData();
+    formData.append("document_type_id", documentTypeId);
+    formData.append("document_type_upload", documentFile);
+
+    try {
+      const response = await axios.put(
+        "https://apiwl.novajobs.us/api/jobseeker/upload-document",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: token,
+          },
+        }
+      );
+      if (response) {
+        toast.success("Uploaded SuccesFully");
+      }
+      console.log(documentTypeId, documentFile);
+
+      // setUploadStatus("Document uploaded successfully!");
+    } catch (error) {
+      console.error(error);
+      toast.error("Error while uploading");
+      // setUploadStatus("Failed to upload document.");
+    }
+  };
+  const PreviewDocument = `https://apiwl.novajobs.us${documentFile}`;
+  console.log(documentFile,uploadStatus, "documentFile");
   return (
     <>
       <Header2 />
@@ -486,7 +531,7 @@ function Jobprofile() {
                           <div className="d-flex flex-column flex-md-row align-items-center justify-content-center gap-3">
                             {/* File input */}
                             {previewImage && (
-                              <div style={{ }}>
+                              <div style={{}}>
                                 <img
                                   src={previewImage}
                                   alt="Preview"
@@ -523,6 +568,92 @@ function Jobprofile() {
                           {fileError && (
                             <span style={{ color: "red" }}>{fileError}</span>
                           )}
+                        </div>
+                        <div className="d-flex gap-3 ">
+                          <div className="d-flex flex-column flex-md-row align-items-center justify-content-center gap-3">
+                            <label htmlFor="documents">Upload Documents:</label>
+                            <select
+                              id="documents"
+                              name="documents"
+                              value={documentTypeId}
+                              onChange={(e) =>
+                                setDocumentTypeId(e.target.value)
+                              }
+                            >
+                              <option value="">Select Document Type</option>
+                              <option value="1">SSN</option>
+                              <option value="2">PassBook</option>
+                              <option value="3">Resume</option>
+                              <option value="4">Experience Letter</option>
+                              <option value="5">Cover Letter</option>
+                              <option value="6">Education</option>
+                              <option value="7">Certificate</option>
+                            </select>
+                          </div>
+
+                          <div className="d-flex flex-column flex-md-row align-items-center gap-1 w-100">
+                            {/* <label
+                              htmlFor="documentFile"
+                              className="form-label mb-0"
+                              // style={{ minWidth: "150px" }}
+                            >
+                              Choose File:
+                            </label> */}
+
+                            {documentFile ? (
+                              <div
+                                className="form-control bg-light"
+                                style={{
+                                  maxWidth: "300px",
+                                  overflow: "hidden",
+                                  whiteSpace: "nowrap",
+                                  textOverflow: "ellipsis",
+                                }}
+                              >
+                                {documentFile.split("/").pop()}
+                              </div>
+                            ) : (
+                              <input
+                                type="file"
+                                className="form-control"
+                                id="documentFile"
+                                disabled={!documentTypeId}
+                                style={{ maxWidth: "300px" }}
+                                onChange={(e) =>
+                                  setDocumentFile(e.target.files[0])
+                                }
+                              />
+                            )}
+                          </div>
+
+                          <div className="text-center w-100">
+                            {uploadStatus === "verified" ? (
+                              <button
+                                className="site-button btn-success px-4"
+                                style={{ minWidth: "150px" }}
+                                disabled
+                              >
+                                Verified
+                              </button>
+                            ) : uploadStatus === "pending" ? (
+                              <button
+                                className="site-button btn-warning px-4"
+                                style={{ minWidth: "150px" }}
+                                disabled
+                              >
+                                Pending
+                              </button>
+                            ) : (
+                              <button
+                                disabled={!documentFile || !documentTypeId}
+                                onClick={handleDocumnet}
+                                className="site-button"
+                                style={{ minWidth: "150px" }}
+                              >
+                                Upload
+                              </button>
+                            )}
+                          </div>
                         </div>
 
                         <div className="col-lg-6 col-md-6">
@@ -705,7 +836,6 @@ function Jobprofile() {
                               onChange={handleChange}
                               value={jobProfileValues.email}
                               readOnly
-                              
                             />
                           </div>
                           {errors.email && (
