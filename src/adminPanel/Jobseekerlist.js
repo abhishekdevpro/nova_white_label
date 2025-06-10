@@ -10,47 +10,46 @@ import { toast } from "react-toastify";
 
 const Jobseekerlist = () => {
   const [jobs, setJobs] = useState([]);
-  const [isViewerOpen, setIsViewerOpen] = useState(false);
+  // Changed to store the selected PDF info instead of just boolean
+  const [isVerified, setIsVerified] = useState(false);
+  const [selectedPDF, setSelectedPDF] = useState(null);
   const queryParams = new URLSearchParams(window.location.search);
   const jobID = queryParams.get("jobID");
 
   useEffect(() => {
-  const fetchJobs = async () => {
-    try {
-      const authToken = localStorage.getItem("authToken");
-      if (!authToken) throw new Error("Auth token not found");
+    const fetchJobs = async () => {
+      try {
+        const authToken = localStorage.getItem("authToken");
+        if (!authToken) throw new Error("Auth token not found");
 
-      const headers = {
-        "Content-Type": "application/json",
-        Authorization: authToken,
-      };
+        const headers = {
+          "Content-Type": "application/json",
+          Authorization: authToken,
+        };
 
-      const jobsEndpoint = jobID
-        ? `https://apiwl.novajobs.us/api/admin/job-applicants/${jobID}`
-        : "https://apiwl.novajobs.us/api/admin/job-seekers";
+        const jobsEndpoint = jobID
+          ? `https://apiwl.novajobs.us/api/admin/job-applicants/${jobID}`
+          : "https://apiwl.novajobs.us/api/admin/job-seekers";
 
-      const response = await fetch(jobsEndpoint, { headers });
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        const response = await fetch(jobsEndpoint, { headers });
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (jobID) {
+          setJobs(data.data.job_applicants_info);
+        } else {
+          setJobs(data.data);
+        }
+      } catch (error) {
+        console.error("Error fetching job data:", error);
       }
+    };
 
-      const data = await response.json();
-
-      if (jobID) {
-        setJobs(data.data.job_applicants_info); // ✅ when jobID is present
-      } else {
-        setJobs(data.data); // ✅ when jobID is NOT present
-      }
-    } catch (error) {
-      console.error("Error fetching job data:", error);
-    }
-  };
-
-  fetchJobs();
-}, [jobID]); // ✅ Add jobID to dependency array
-
-
-  console.log(jobs,"lll");
+    fetchJobs();
+  }, [jobID]);
 
   const handleStatusChange = async (jobId, status) => {
     const authToken = localStorage.getItem("authToken");
@@ -66,7 +65,7 @@ const Jobseekerlist = () => {
           {
             method: "PUT",
             headers,
-            body: JSON.stringify({ status: 1 }), // Sending 1 for active
+            body: JSON.stringify({ status: 1 }),
           }
         );
       } else if (status === "inactive") {
@@ -75,18 +74,17 @@ const Jobseekerlist = () => {
           {
             method: "PUT",
             headers,
-            body: JSON.stringify({ status: 0 }), // Sending 0 for inactive
+            body: JSON.stringify({ status: 0 }),
           }
         );
       }
-      // Optionally refetch the jobs to update the list after status change
     } catch (error) {
       console.error("Error updating job status:", error);
     }
   };
+
   const verifyDocument = async (jobId) => {
     const authToken = localStorage.getItem("authToken");
-    console.log(jobId, "llll");
     if (!jobId) return;
 
     try {
@@ -95,17 +93,35 @@ const Jobseekerlist = () => {
         { job_seekerid: jobId },
         {
           headers: {
-            Authorization: `${authToken}`, // 🛡️ Add "Bearer" if required
+            Authorization: `${authToken}`,
           },
         }
       );
-      toast.success(response.data.message || "Document verified successfully");
-      // console.log("Document verified successfully:", response.data);
-      // Optionally: show success toast, update UI state, etc.
+      if (response.data.status === "success" || response.data.code === 200) {
+        setIsVerified(true);
+        toast.success(
+          response.data.message || "Document verified successfully"
+        );
+      }
     } catch (error) {
       toast.error("Error verifying document");
-      // Optionally: show error toast
     }
+  };
+
+  // Function to handle opening PDF viewer
+  const handleViewDocument = (job) => {
+    if (job.jobskkers_detail?.document_type) {
+      const fileUrl = `https://apiwl.novajobs.us${job.jobskkers_detail.document_type}`;
+      setSelectedPDF({
+        url: fileUrl,
+        name: `${job.jobskkers_detail.first_name} ${job.jobskkers_detail.last_name} - Document`,
+      });
+    }
+  };
+
+  // Function to close PDF viewer
+  const handleClosePDF = () => {
+    setSelectedPDF(null);
   };
 
   return (
@@ -124,111 +140,153 @@ const Jobseekerlist = () => {
               <Col md={12}>
                 <div
                   style={{
-                    overflowX: "auto",
-                    overflowY: "auto",
-                    maxHeight: "500px",
+                    // overflowX: "auto",
+                    // overflowY: "auto",
+                    // maxHeight: "500px",
+                    loading: "lazy",
                   }}
                 >
-                  <table className="table">
-                    <thead className="text-center">
-                      <tr>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Account Status</th>
-                        <th>Documents</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody className="text-center">
-                      {jobs?.map((job) => (
-                        <tr key={job}>
-                          <td>{job.jobskkers_detail.first_name}</td>
-                          <td>{job.jobskkers_detail.last_name}</td>
-                          <td>{job.jobskkers_detail.email}</td>
-                          <td>{job.jobskkers_detail.phone}</td>
-
-                          <td>
-                            {job.jobskkers_detail.is_verified === 1
-                              ? "Active"
-                              : "Inactive"}
-                          </td>
-                          <td>
-                            <Button
-                              variant="primary"
-                              disabled={!job.jobskkers_detail.document_type}
-                              className="site-button"
-                              onClick={() => setIsViewerOpen(true)}
-                            >
-                              View Documents
-                            </Button>
-                            <PDFPopupViewer
-                              show={isViewerOpen}
-                              onClose={() => setIsViewerOpen(false)}
-                              fileUrl={`https://apiwl.novajobs.us${job.jobskkers_detail?.document_type}`}
-                            />
-                          </td>
-                          <td>
-                            <div className="d-flex gap-2">
-                              {job.jobskkers_detail.is_verified === 1 ? (
-                                <Button
-                                  variant="warning"
-                                  className="site-button"
-                                  onClick={() =>
-                                    handleStatusChange(job.id, "inactive")
-                                  }
+                  {jobs.length > 0 ? (
+                    <table className="w-full table table-bordered table-hover table-responsive">
+                      <thead className="text-center bg-light">
+                        <tr>
+                          <th>S.No.</th>
+                          {/* <th>Profile Image</th> */}
+                          <th>First Name</th>
+                          <th>Last Name</th>
+                          <th>Email</th>
+                          <th>Phone</th>
+                          <th>Account Status</th>
+                          <th>Documents</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody className="text-center align-middle">
+                        {jobs?.map((job, index) => {
+                          const detail = job.jobskkers_detail || {};
+                          return (
+                            <tr key={job.id || index}>
+                              <td>{index + 1}</td>
+                              {/* <td>
+                                {detail.image ? (
+                                  <img
+                                    src={`https://apiwl.novajobs.us${detail.image}`}
+                                    alt="Profile"
+                                    style={{
+                                      width: "40px",
+                                      height: "40px",
+                                      borderRadius: "50%",
+                                      objectFit: "cover",
+                                    }}
+                                  />
+                                ) : (
+                                  <span className="text-muted">N/A</span>
+                                )}
+                              </td> */}
+                              <td>{detail.first_name || "N/A"}</td>
+                              <td>{detail.last_name || "N/A"}</td>
+                              <td>{detail.email || "N/A"}</td>
+                              <td>{detail.phone || "N/A"}</td>
+                              <td>
+                                <span
+                                  className={`badge ${
+                                    detail.is_verified === 1
+                                      ? "bg-success p-2"
+                                      : "bg-danger p-2"
+                                  }`}
                                 >
-                                  Set Inactive
-                                </Button>
-                              ) : (
-                                <Button
-                                  variant="success"
-                                  className="site-button"
-                                  onClick={() =>
-                                    handleStatusChange(job.id, "active")
-                                  }
-                                >
-                                  Set Active
-                                </Button>
-                              )}
-                              {job.jobskkers_detail.is_document_verified ===
-                              false ? (
-                                <Button
-                                  variant="info"
-                                  className="site-button"
-                                  disabled={
-                                    !job.jobskkers_detail?.document_type
-                                  }
-                                  onClick={() =>
-                                    verifyDocument(job.jobskkers_detail.id)
-                                  }
-                                >
-                                  Verify
-                                </Button>
-                              ) : (
+                                  {detail.is_verified === 1
+                                    ? "Active"
+                                    : "Deactive"}
+                                </span>
+                              </td>
+                              <td>
                                 <Button
                                   variant="primary"
+                                  size="sm"
+                                  disabled={!detail.document_type}
                                   className="site-button"
-                                  // onClick={() =>
-                                  //   verifyDocument(job.id, "verify")
-                                  // }
+                                  onClick={() => handleViewDocument(job)}
                                 >
-                                  Verified
+                                  View Documents
                                 </Button>
-                              )}
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                              </td>
+                              <td>
+                                <div className="d-flex flex-column gap-2">
+                                  {/* {detail.is_verified === 1 ? (
+                                    <Button
+                                      variant="warning"
+                                      size="sm"
+                                      onClick={() =>
+                                        handleStatusChange(
+                                          detail.id,
+                                          "inactive"
+                                        )
+                                      }
+                                    >
+                                      Set Inactive
+                                    </Button>
+                                  ) : (
+                                    <Button
+                                      variant="success"
+                                      size="sm"
+                                      onClick={() =>
+                                        handleStatusChange(detail.id, "active")
+                                      }
+                                    >
+                                      Set Active
+                                    </Button>
+                                  )} */}
+
+                                  {!detail.is_document_verified ? (
+                                    <Button
+                                      variant="info"
+                                      size="sm"
+                                      disabled={!detail.document_type}
+                                      onClick={() => verifyDocument(detail.id)}
+                                    >
+                                      Verify Document
+                                    </Button>
+                                  ) : (
+                                    <Button
+                                      variant="success"
+                                      size="sm"
+                                      disabled
+                                      style={{
+                                        opacity: 1,
+                                        pointerEvents: "none",
+                                        cursor: "not-allowed",
+                                      }}
+                                    >
+                                      Verified
+                                    </Button>
+                                  )}
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  ) : (
+                    <div className="text-center my-5">
+                      <h5 className="text-muted">No Applicants Found</h5>
+                    </div>
+                  )}
                 </div>
               </Col>
             </Row>
           </Col>
         </Row>
       </Container>
+
+      {/* PDF Popup Viewer - moved outside the table */}
+      <PDFPopupViewer
+        show={selectedPDF !== null}
+        onClose={handleClosePDF}
+        fileUrl={selectedPDF?.url}
+        fileName={selectedPDF?.name}
+      />
     </div>
   );
 };
