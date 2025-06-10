@@ -44,6 +44,7 @@ import reportWebVitals from "./reportWebVitals";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { ToastContainer } from 'react-toastify';
 import { LogoProvider } from './Context/LogoContext';
+import CookiesBanner from './markup/Layout/CookiesBanner';
 
 // Create root instead of using ReactDOM.render
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -54,6 +55,7 @@ root.render(
       <LogoProvider>
         <Router>
           <App />
+          <CookiesBanner />
           <ToastContainer position="top-right" autoClose={3000}/>
         </Router>
       </LogoProvider>

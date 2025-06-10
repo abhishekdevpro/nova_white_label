@@ -541,7 +541,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { Modal } from "react-bootstrap";
 import UserHeader from "../../markup/Layout/Header";
-import CookiesBanner from "../../markup/Layout/CookiesBanner";
+// import CookiesBanner from "../../markup/Layout/CookiesBanner";
 import Footer from "../../markup/Layout/Footer";
 
 const bnr3 = require("./../../images/background/bg3.jpg");
@@ -746,12 +746,13 @@ function EmployeeLogin(props) {
                       />
                     </Link> */}
                   </div>
-                  <h2 className="m-b10 text-white"> Login To Dashboard</h2>
+                  <h2 className="m-b10 text-white text-center"> Login As Employer </h2>
                   <p
                     className="m-b30"
                     style={{
                       fontWeight: "bolder",
                       color: "white",
+                     textAlign:"center",
                     }}
                   >
                     Welcome To One Stop AI Powered Staffing Solution
@@ -773,11 +774,11 @@ function EmployeeLogin(props) {
                         <i className="fa fa-google-plus"></i>
                       </Link>
                   </li>*/}
-                    <li>
+                    {/* <li>
                       <Link to={""} className="m-r10 text-white">
                         <i className="fa fa-linkedin"></i>
                       </Link>
-                    </li>
+                    </li> */}
                     {/* <li>
                       <Link to={""} className="m-r10 text-white ">
                         <i className="fa fa-instagram"></i>
@@ -811,6 +812,9 @@ function EmployeeLogin(props) {
                           {props.successMessage}
                         </div>
                       )}
+                     { 
+                     window.location.origin === "https://novajobs.us"  &&
+                      <>
                       <div>
                         <button
                           onClick={handleGoogleSignin}
@@ -824,6 +828,7 @@ function EmployeeLogin(props) {
                       <div className=" d-flex justify-content-center align-items-center">
                         <p> OR</p>
                       </div>
+                      </>}
 
                       <div className="form-group ">
                         <label>E-Mail Address*</label>
@@ -843,71 +848,10 @@ function EmployeeLogin(props) {
                         </div>
                       </div>
 
-                      {/* <div className="form-group">
-                        <label>Password *</label>
-                        <div className="input-group d-flex align-items-center">
-                          <span
-                            className="input-group-addon position-absolute"
-                            onClick={() => setShowPassword(!showPassword)}
-                            style={{
-                              cursor: "pointer",
-                              right: "0px",
-                              zIndex: "11",
-                              position: "absolute",
-                            }}
-                          >
-                            <i
-                              className={
-                                showPassword ? "fa fa-eye-slash " : "fa fa-eye"
-                              }
-                            ></i>
-                          </span>
-                          <input
-                            type={showPassword ? "text" : "password"} // Toggle password visibility
-                            className="form-control position-relative"
-                            value={password}
-                            placeholder="Type Your Password"
-                            onChange={(e) => setPassword(e.target.value)}
-                          />
-                        </div>
-
-                        {errors.password && (
-                          <div className="text-danger fs-12">
-                            {errors.password}
-                          </div>
-                        )}
-                      </div>
-                      <div className="form-group text-center">
-                        <Link
-                          data-toggle="tab"
-                          to={"/employer/forgot-password"}
-                          className="forget-pass m-l5"
-                        >
-                          <i className="fa fa-unlock-alt"></i> Forgot Password
-                        </Link>
-
-                      </div> */}
+                     
 
                       <div className="dz-social clearfix">
-                        {/* <h5 className="form-title m-t5 pull-left">
-                          Sign In With
-                        </h5> */}
-                        {/*<ul className="dez-social-icon dez-border pull-right dez-social-icon-lg text-white">
-                          <li>
-                            <Link
-                              to={""}
-                              className="fa fa-linkedin link-btn mr-1"
-                              target="bank"
-                            ></Link>
-                          </li>
-                          <li onClick="">
-                            <Link
-                              to={""}
-                              className="fa fa-google link-btn mr-1"
-                              target="bank"
-                            ></Link>
-                          </li>
-                        </ul> */}
+                       
                         <span className="custom-control custom-checkbox mt-3">
                           <input
                             type="checkbox"
@@ -1091,7 +1035,7 @@ function EmployeeLogin(props) {
           </div>
         </div>
       </Modal>
-      <CookiesBanner/>
+      {/* <CookiesBanner/> */}
     </div>
   );
 }

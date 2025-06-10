@@ -192,13 +192,14 @@ function Login(props) {
                   <div className="logo">
                     
                   </div>
-                  <h2 className="m-b10 text-white"> Login To Dashboard</h2>
+                  <h2 className="m-b10 text-white text-center"> Login As Jobseeker</h2>
                   <p
                     className="m-b30"
                     style={{
                       fontWeight: "bolder",
                       color: "white",
-                      fontSize: "20px",
+                      fontSize: "16px",
+                      textAlign:"center"
                     }}
                   >
                     Welcome To One Stop AI Powered Staffing Solution
@@ -224,7 +225,7 @@ function Login(props) {
               <div className="col-lg-6 col-md-6">
                 <div className="login-2 submit-resume p-a30 seth">
                   <div className="d-flex justify-content-center align-items-center">
-                    <h2 className="text-center">JobSeeker Login</h2>
+                    <h2 className="text-center mb10">Jobseeker Login</h2>
                   </div>
                   <div className="nav">
                     <form className="col-12 p-a0 ">
@@ -239,6 +240,8 @@ function Login(props) {
                           {props.successMessage}
                         </div>
                       )}
+                      {
+                         window.location.origin === "https://novajobs.us"  && <>
                       <div>
                         <button
                           onClick={handleGoogleSignin}
@@ -252,6 +255,7 @@ function Login(props) {
                       <div className=" d-flex justify-content-center align-items-center">
                         <p> OR</p>
                       </div>
+                      </>}
                       <div className="form-group ">
                         <label>E-Mail Address*</label>
                         <div className="input-group">
@@ -312,11 +316,11 @@ function Login(props) {
                       </div>
                     </form>
 
-                    <div className="form-group text-center">
+                    {/* <div className="form-group text-center">
                       <Link to="/" className="site-button-link  m-t15 ">
                         Back to Home
                       </Link>
-                    </div>
+                    </div> */}
                     <div className="form-group text-center">
                       <Link
                         to="mailto:mailto:contact@novajobs.us"

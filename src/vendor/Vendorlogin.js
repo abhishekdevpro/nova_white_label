@@ -118,9 +118,9 @@ console.log("Vendor ID:", localStorage.getItem("vendorId")); // Log the vendor I
 
               {error && <p className="text-danger mt-3">{error}</p>}
               <Button
-                variant="primary"
+                // variant="primary"
                 type="submit"
-                className="my-1 w-100"
+                className=" site-button my-1 w-100"
                 style={{ backgroundColor: "#1C2957" }}
               >
                 Login

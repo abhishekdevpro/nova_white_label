@@ -11,7 +11,7 @@ import UserHeader from "../markup/Layout/Header"
 import Footer from "../markup/Layout/Footer"
 import { useLogo } from "../Context/LogoContext"
 import { Link, useNavigate } from "react-router-dom"
-import CookiesBanner from "../markup/Layout/CookiesBanner"
+// import CookiesBanner from "../markup/Layout/CookiesBanner"
 
 const VendorRegistration = () => {
   const {logo} = useLogo()
@@ -127,7 +127,7 @@ const VendorRegistration = () => {
         </Form>
       </Container>
       <Footer />
-      <CookiesBanner />
+      {/* <CookiesBanner /> */}
     </>
   )
 }

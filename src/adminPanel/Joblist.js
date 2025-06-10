@@ -140,20 +140,20 @@ const Jobslist = () => {
     try {
       if (status === "active") {
         await fetch(
-          `https://apiwl.novajobs.us/api/admin/jobseeker-active/${jobId}`,
+          `https://apiwl.novajobs.us/api/admin/job-inactive/${jobId}`,
           {
             method: "PUT",
             headers,
-            body: JSON.stringify({ status: 1 }), // Send 1 for active
+            // body: JSON.stringify({ status: 1 }), // Send 1 for active
           }
         );
       } else if (status === "inactive") {
         await fetch(
-          `https://apiwl.novajobs.us/api/admin/jobseeker-inactive/${jobId}`,
+          `https://apiwl.novajobs.us/api/admin/job-active/${jobId}`,
           {
             method: "PUT",
             headers,
-            body: JSON.stringify({ status: 0 }), // Send 0 for inactive
+            // body: JSON.stringify({ status: 0 }), // Send 0 for inactive
           }
         );
       }
@@ -193,125 +193,124 @@ const Jobslist = () => {
                       </div>
                     </div>
                   ) : (
-                    <table className="table">
+                    <table className="table table-bordered table-hover table-responsive">
                       <thead>
                         <tr className="text-center">
-                          <th
-                            style={{
-                              backgroundColor: "#1C2957",
-                              color: "white",
-                            }}
-                          >
-                            No.
-                          </th>
-                          <th
-                            style={{
-                              backgroundColor: "#1C2957",
-                              color: "white",
-                            }}
-                          >
-                            Job Title
-                          </th>
-                          <th
-                            style={{
-                              backgroundColor: "#1C2957",
-                              color: "white",
-                            }}
-                          >
-                            Created Date
-                          </th>
-                          <th
-                            style={{
-                              backgroundColor: "#1C2957",
-                              color: "white",
-                            }}
-                          >
-                            Company
-                          </th>
-                          <th
-                            style={{
-                              backgroundColor: "#1C2957",
-                              color: "white",
-                            }}
-                          >
-                            Location
-                          </th>
-                          <th
-                            style={{
-                              backgroundColor: "#1C2957",
-                              color: "white",
-                            }}
-                          >
-                            Edit
-                          </th>
-                          <th
-                            style={{
-                              backgroundColor: "#1C2957",
-                              color: "white",
-                            }}
-                          >
-                            Action
-                          </th>
-                          <th
-                            style={{
-                              backgroundColor: "#1C2957",
-                              color: "white",
-                            }}
-                          >
-                            Applicants
-                          </th>
+                          {[
+                            "S.No.",
+                            "Job Title",
+                            "Created Date",
+                            "Company",
+                            "Location",
+                            "Status",
+                            "Edit",
+                            "Action",
+                            "Applicants",
+                          ].map((heading, index) => (
+                            <th
+                              key={index}
+                              style={{
+                                backgroundColor: "#1C2957",
+                                color: "white",
+                                verticalAlign: "middle",
+                              }}
+                            >
+                              {heading}
+                            </th>
+                          ))}
                         </tr>
                       </thead>
                       <tbody>
-                        {jobs.map((job) => (
-                          <tr key={job.id} className="text-center">
-                            <td>{job.s_no}</td>
-                            <td>{job.job_detail.job_title}</td>
-                            <td>{job.job_detail.created_at}</td>
-                            <td>{job.companies.company_name}</td>
-                            <td>{job.countries.name}</td>
-                            <td>
-                              <button
-                                onClick={() => {
-                                  navigate(
-                                    `/admin/addjob/${job.job_detail.id}`
-                                  );
-                                }}
-                                className="px-3 py-2 site-button text-white border-0"
-                                style={{ cursor: "pointer" }}
-                              >
-                                Edit Job
-                              </button>
-                            </td>
-                            <td className="text-center">
-                              {job.is_published === 1 ? (
-                                <Button
-                                  variant="warning"
+                        {jobs.length > 0 ? (
+                          jobs.map((job, index) => (
+                            <tr
+                              key={job.id}
+                              className="text-center align-middle"
+                            >
+                              <td>{index + 1}</td>
+                              <td>{job?.job_detail?.job_title || "N/A"}</td>
+                              <td>{job?.job_detail?.created_at || "N/A"}</td>
+                              <td>{job?.companies?.company_name || "N/A"}</td>
+                              <td>{job?.countries?.name || "N/A"}</td>
+                              <td> <span
+                                  className={`badge ${
+                                    job?.job_detail?.is_publish=== 1
+                                      ? "bg-success p-2"
+                                      : "bg-secondary p-2"
+                                  }`}
+                                >
+                                  {job?.job_detail?.is_publish=== 1
+                                    ? "Published"
+                                    : "UnPublished"}
+                                </span></td>
+                              <td>
+                                <button
                                   onClick={() =>
-                                    handleStatusChange(job.id, "inactive")
+                                    navigate(
+                                      `/admin/addjob/${job?.job_detail?.id}`
+                                    )
+                                  }
+                                  className="site-button text-white border-0"
+                                  style={{
+                                    backgroundColor: "#0d6efd",
+                                    cursor: "pointer",
+                                    borderRadius: "5px",
+                                  }}
+                                >
+                                  Edit Job
+                                </button>
+                              </td>
+                              <td>
+                                {job?.job_detail?.is_active === 1 ? (
+                                  <Button
+                                  className="site-button"
+                                    variant="success"
+                                    // size="sm"
+                                    onClick={() =>
+                                      handleStatusChange(job?.job_detail?.id, "active")
+                                    }
+                                  >
+                                   Deactivate
+                                  </Button>
+                                ) : (
+                                  <Button
+                                   className="site-button"
+                                    variant="danger"
+                                    // size="sm"
+                                    onClick={() =>
+                                      handleStatusChange(job?.job_detail?.id, "inactive")
+                                    }
+                                  >
+                                    Activate
+                                  </Button>
+                                )}
+                              </td>
+                              <td>
+                                <Button
+                                  variant="info"
+                                  // size="sm"
+                                   className="site-button"
+                                  onClick={() =>
+                                    navigate(
+                                      `/admin/listalljobseeker?jobID=${job.job_detail?.id}`
+                                    )
                                   }
                                 >
-                                  Set Inactive
+                                  View Applicants
                                 </Button>
-                              ) : (
-                                <Button
-                                  variant="success"
-                                  onClick={() =>
-                                    handleStatusChange(job.id, "active")
-                                  }
-                                >
-                                  Set Active
-                                </Button>
-                              )}
-                            </td>
-                            <td>
-                              <Button
-                              onClick={()=>navigate(`/admin/listalljobseeker?jobID=${job.job_detail.id}`)}>
-                                View Applicants
-                              </Button>
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td
+                              colSpan="8"
+                              className="text-center py-4 text-muted"
+                            >
+                              No jobs found.
                             </td>
                           </tr>
-                        ))}
+                        )}
                       </tbody>
                     </table>
                   )}
