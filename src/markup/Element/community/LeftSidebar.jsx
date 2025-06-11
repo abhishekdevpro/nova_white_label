@@ -220,19 +220,13 @@ const ActionButton = styled.button`
 
 // Main Component
 const FilterSidebar = () => {
-  const [userData, setUserData] = useState({
-    first_name: "",
-    last_name: "",
-    photo: "",
-  });
+  const [userData, setUserData] = useState();
   const navigate = useNavigate();
-
+  const jobSeekerToken = localStorage.getItem("jobSeekerLoginToken");
+  const employerToken = localStorage.getItem("employeeLoginToken");
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const jobSeekerToken = localStorage.getItem("jobSeekerLoginToken");
-        const employerToken = localStorage.getItem("employeeLoginToken");
-
         let apiUrl = "";
         let token = "";
 
@@ -258,17 +252,9 @@ const FilterSidebar = () => {
         const data = response.data.data;
 
         if (data.company_detail) {
-          setUserData({
-            first_name: data.company_detail.company_name,
-            last_name: data.company_detail.last_name,
-            photo: data.company_detail?.logo || "",
-          });
+          setUserData(data.company_detail);
         } else {
-          setUserData({
-            first_name: data.first_name,
-            last_name: data.last_name,
-            photo: data.photo || "",
-          });
+          setUserData(data);
         }
       } catch (error) {
         console.error("Error fetching user profile:", error);
@@ -280,17 +266,25 @@ const FilterSidebar = () => {
 
   console.log(userData, "ududdud");
 
+  const username =
+    userData?.first_name && userData?.last_name
+      ? `${userData.first_name} ${userData.last_name}`
+      : employerToken
+      ? "Employer"
+      : "Guest";
+  //  console.log(username,"jjjj");
   return (
     <SidebarContainer>
       <FilterOuter>
         <ProfileImage
           src={
-            userData.photo ||
+            userData?.photo ||
             "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLMI5YxZE03Vnj-s-sth2_JxlPd30Zy7yEGg&s"
           }
-          alt={`${userData.first_name} ${userData?.last_name}`}
+          alt={`${userData?.first_name} ${userData?.last_name}`}
         />
-        <Title>{`${userData.first_name} ${userData?.last_name === undefined?"" :<span>{userData.last_name}</span>}`}</Title>
+        <Title> {username}</Title>
+        <p> {userData?.job_title}</p>
       </FilterOuter>
 
       <FilterOuter>

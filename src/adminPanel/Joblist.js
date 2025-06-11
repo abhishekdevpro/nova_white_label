@@ -4,6 +4,7 @@ import { FaStore } from "react-icons/fa";
 import CustomNavbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Jobslist = () => {
   const [jobs, setJobs] = useState([]);
@@ -11,6 +12,8 @@ const Jobslist = () => {
   const [itemsPerPage] = useState(10);
   const [totalRecords, setTotalRecords] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [domainList, setDomainList] = useState([]);
+  const [selectedDomain, setSelectedDomain] = useState(null);
   const totalPages = Math.ceil(totalRecords / itemsPerPage);
   const navigate = useNavigate();
   const url = window.location.origin.includes("localhost")
@@ -62,7 +65,7 @@ const Jobslist = () => {
           Authorization: authToken,
         };
 
-        const jobsEndpoint = `https://apiwl.novajobs.us/api/admin/job-lists?page_no=${page}&page_size=${size}&is_publish=1&domain=${url}`;
+        const jobsEndpoint = selectedDomain ? `https://apiwl.novajobs.us/api/admin/job-lists?page_no=${page}&page_size=${size}&is_publish=1&domain=${url}&domain_filter=${selectedDomain}`:`https://apiwl.novajobs.us/api/admin/job-lists?page_no=${page}&page_size=${size}&is_publish=1&domain=${url}`;
 
         const response = await fetch(jobsEndpoint, { headers });
         if (!response.ok) {
@@ -80,7 +83,8 @@ const Jobslist = () => {
     };
 
     fetchJobs(currentPage, itemsPerPage); // Use current page
-  }, [currentPage, itemsPerPage]); // <- Listen for currentPage or itemsPerPage change
+    fetchDomains()
+  }, [currentPage, itemsPerPage,selectedDomain]); // <- Listen for currentPage or itemsPerPage change
 
   const handlePageChange = (pageNumber) => {
     if (pageNumber > 0 && pageNumber <= totalPages) {
@@ -148,17 +152,35 @@ const Jobslist = () => {
           }
         );
       } else if (status === "inactive") {
-        await fetch(
-          `https://apiwl.novajobs.us/api/admin/job-active/${jobId}`,
-          {
-            method: "PUT",
-            headers,
-            // body: JSON.stringify({ status: 0 }), // Send 0 for inactive
-          }
-        );
+        await fetch(`https://apiwl.novajobs.us/api/admin/job-active/${jobId}`, {
+          method: "PUT",
+          headers,
+          // body: JSON.stringify({ status: 0 }), // Send 0 for inactive
+        });
       }
     } catch (error) {
       console.error("Error updating job status:", error);
+    }
+  };
+
+  const fetchDomains = async () => {
+    const authToken = localStorage.getItem("authToken");
+    try {
+      const response = await axios.get(
+        `https://apiwl.novajobs.us/api/admin/domain-list`,
+        {
+          headers: {
+            Authorization: authToken,
+          },
+        }
+      );
+
+      if (response.data.status === "success" || response.data.code === 200) {
+        setDomainList(response?.data?.data);
+        //  console.log(response);
+      }
+    } catch (error) {
+      console.log(error, "Error while fetching domains");
     }
   };
 
@@ -171,18 +193,51 @@ const Jobslist = () => {
             <Sidebar />
           </Col>
           <Col md={10}>
-            <p>
-              <FaStore className="mx-1" /> Jobs List
-            </p>
+            <Row className="align-items-center my-3">
+              <Col xs={12} md={6} className="mb-2 mb-md-0">
+                <h4 className="text-dark fw-semibold mb-0">
+                  Jobs List
+                </h4>
+              </Col>
+              <Col xs={12} md={6}>
+                <div className="d-flex gap-2 justify-content-md-end">
+                  <select
+                    className="form-select"
+                    style={{
+                      width: "250px",
+                      maxWidth: "100%",
+                    }}
+                    value={selectedDomain}
+                    onChange={(e) => setSelectedDomain(e.target.value)}
+                  >
+                    <option
+                      value=""
+                      style={{
+                        height: "250px",
+                      }}
+                    >
+                    Search by vendor domain
+                    </option>
+                    {domainList.map((domain, index) => (
+                      <option key={index} value={domain}>
+                        {domain}
+                      </option>
+                    ))}
+                  </select>
+
+                  <Button
+                    className="site-button btn-sm "
+                    variant="danger"
+                    onClick={() => setSelectedDomain("")}
+                  >
+                    Clear
+                  </Button>
+                </div>
+              </Col>
+            </Row>
             <Row>
               <Col md={12}>
-                <div
-                // style={{
-                //   overflowX: "auto",
-                //   overflowY: "auto",
-                //   maxHeight: "500px",
-                // }}
-                >
+                <div>
                   {loading ? (
                     <div className="text-center my-5">
                       <div
@@ -193,7 +248,7 @@ const Jobslist = () => {
                       </div>
                     </div>
                   ) : (
-                    <table className="table table-bordered table-hover table-responsive">
+                    <table className="table table-bordered table-hover table-responsive ">
                       <thead>
                         <tr className="text-center">
                           {[
@@ -221,7 +276,7 @@ const Jobslist = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {jobs.length > 0 ? (
+                        {jobs && jobs?.length > 0 ? (
                           jobs.map((job, index) => (
                             <tr
                               key={job.id}
@@ -232,53 +287,58 @@ const Jobslist = () => {
                               <td>{job?.job_detail?.created_at || "N/A"}</td>
                               <td>{job?.companies?.company_name || "N/A"}</td>
                               <td>{job?.countries?.name || "N/A"}</td>
-                              <td> <span
+                              <td>
+                                {" "}
+                                <span
                                   className={`badge ${
-                                    job?.job_detail?.is_publish=== 1
-                                      ? "bg-success p-2"
-                                      : "bg-secondary p-2"
+                                    job?.job_detail?.is_publish === 1
+                                      ? "bg-success px-2 py-2 "
+                                      : "bg-secondary px-2 py-2 "
                                   }`}
                                 >
-                                  {job?.job_detail?.is_publish=== 1
+                                  {job?.job_detail?.is_publish === 1
                                     ? "Published"
                                     : "UnPublished"}
-                                </span></td>
+                                </span>
+                              </td>
                               <td>
-                                <button
+                                <Button
                                   onClick={() =>
                                     navigate(
                                       `/admin/addjob/${job?.job_detail?.id}`
                                     )
                                   }
-                                  className="site-button text-white border-0"
-                                  style={{
-                                    backgroundColor: "#0d6efd",
-                                    cursor: "pointer",
-                                    borderRadius: "5px",
-                                  }}
+                                  className="site-button"
+                                  variant="primary"
                                 >
                                   Edit Job
-                                </button>
+                                </Button>
                               </td>
                               <td>
                                 {job?.job_detail?.is_active === 1 ? (
                                   <Button
-                                  className="site-button"
+                                    className="site-button"
                                     variant="success"
                                     // size="sm"
                                     onClick={() =>
-                                      handleStatusChange(job?.job_detail?.id, "active")
+                                      handleStatusChange(
+                                        job?.job_detail?.id,
+                                        "active"
+                                      )
                                     }
                                   >
-                                   Deactivate
+                                    Deactivate
                                   </Button>
                                 ) : (
                                   <Button
-                                   className="site-button"
+                                    className="site-button"
                                     variant="danger"
                                     // size="sm"
                                     onClick={() =>
-                                      handleStatusChange(job?.job_detail?.id, "inactive")
+                                      handleStatusChange(
+                                        job?.job_detail?.id,
+                                        "inactive"
+                                      )
                                     }
                                   >
                                     Activate
@@ -289,14 +349,15 @@ const Jobslist = () => {
                                 <Button
                                   variant="info"
                                   // size="sm"
-                                   className="site-button"
+                                  disabled={job.job_detail?.applicant_count===0}
+                                  className="site-button"
                                   onClick={() =>
                                     navigate(
                                       `/admin/listalljobseeker?jobID=${job.job_detail?.id}`
                                     )
                                   }
                                 >
-                                  View Applicants
+                                  View Applicants {job.job_detail?.applicant_count? job.job_detail?.applicant_count:"" }
                                 </Button>
                               </td>
                             </tr>
@@ -304,7 +365,7 @@ const Jobslist = () => {
                         ) : (
                           <tr>
                             <td
-                              colSpan="8"
+                              colSpan="12"
                               className="text-center py-4 text-muted"
                             >
                               No jobs found.

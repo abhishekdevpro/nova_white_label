@@ -551,12 +551,13 @@ const CareerAdvisorPage = () => {
     const params = new URLSearchParams();
     if (searchJob) params.append("title_keywords", searchJob);
     if (sector) params.append("sector", sector);
-    if (location) params.append("location", location);
+    if (location) params.append("state_id", location);
 
-    const searchUrl = `/user/job/1?${params.toString()}`;
+    const searchUrl = `/user/jobs?${params.toString()}`;
     console.log(searchUrl, "urrrrrlllll");
     navigate(searchUrl);
   };
+    console.log(location,"loooo");
 
   if (loading) {
     return <Container>Loading...</Container>;
@@ -612,7 +613,7 @@ const CareerAdvisorPage = () => {
             >
               <option value="">Select Location</option>
               {states.map((state) => (
-                <option key={state.id} value={state.name}>
+                <option key={state.id} value={state.id}>
                   {state.name}
                 </option>
               ))}
