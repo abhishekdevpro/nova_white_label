@@ -52,8 +52,16 @@ function EmployeeBrowsecandidates() {
   const [show, setShow] = useState(false);
   const [activeTab, setActiveTab] = useState("contact-info"); // Initial active tab
   const dispatch = useDispatch();
-   const [showPhone, setShowPhone] = useState(false);
-  const [showEmail, setShowEmail] = useState(false);
+  const [showPhone, setShowPhone] = useState(null);
+  const [visibleEmailId, setVisibleEmailId] = useState(null);
+
+  const handleToggleEmail = (id) => {
+    setVisibleEmailId((prevId) => (prevId === id ? null : id));
+  };
+
+  const handleTogglePhone =(id)=>{
+    setShowPhone((prevId)=>(prevId===id ? null : id))
+  }
   const [countries, setCountries] = useState([
     {
       id: 0,
@@ -538,17 +546,8 @@ function EmployeeBrowsecandidates() {
                                             }`}
                                           >
                                             <button
-                                              className="site-button btn btn-primary btn-sm"
-                                              style={{
-                                                backgroundColor: "#1c2957",
-                                                border: "none",
-                                                borderRadius: "4px",
-                                                padding: "6px 16px",
-                                                fontFamily:
-                                                  "'Poppins', sans-serif",
-                                                fontWeight: "500",
-                                                fontSize: "14px",
-                                              }}
+                                              className="site-button btn-sm"
+                                              
                                             >
                                               View Profile
                                             </button>
@@ -936,42 +935,30 @@ function EmployeeBrowsecandidates() {
                                       <div className="d-flex gap-3">
                                         {/* View Phone Button */}
                                         <button
+                                        key={item?.jobskkers_detail.id}
                                           onClick={() =>
-                                            setShowPhone(!showPhone)
+                                            handleTogglePhone(item?.jobskkers_detail.id)
                                           }
-                                          className="btn btn-primary btn-sm"
-                                          style={{
-                                            backgroundColor: "#1c2957",
-                                            border: "none",
-                                            borderRadius: "4px",
-                                            padding: "6px 16px",
-                                            fontWeight: "500",
-                                            fontSize: "14px",
-                                          }}
+                                          className="site-button btn-sm"
+                                          
                                         >
-                                          {showPhone
-                                            ? item?.jobskkers_detail
-                                                  ?.phone
+                                          {showPhone === item?.jobskkers_detail.id
+                                            ? item?.jobskkers_detail?.phone
                                             : "View Phone Number"}
                                         </button>
 
                                         {/* View Email Button */}
                                         <button
+                                          key={item?.jobskkers_detail.id}
                                           onClick={() =>
-                                            setShowEmail(!showEmail)
+                                            handleToggleEmail(item?.jobskkers_detail.id)
                                           }
-                                          className="btn btn-primary btn-sm"
-                                          style={{
-                                            backgroundColor: "#1c2957",
-                                            border: "none",
-                                            borderRadius: "4px",
-                                            padding: "6px 16px",
-                                            fontWeight: "500",
-                                            fontSize: "14px",
-                                          }}
+                                          className="site-button btn-sm"
+                                         
                                         >
-                                          {showEmail ? item?.jobskkers_detail
-                                                  ?.email : "View Email"}
+                                          {visibleEmailId === item?.jobskkers_detail.id
+                                            ? item?.jobskkers_detail?.email
+                                            : "View Email"}
                                         </button>
                                       </div>
 

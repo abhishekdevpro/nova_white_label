@@ -1,6 +1,5 @@
 import React from "react";
-import { Card, Container, Row, Col, Dropdown, Button } from "react-bootstrap";
-import { FaStore } from "react-icons/fa";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import CustomNavbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import { useEffect, useState } from "react";
@@ -13,11 +12,15 @@ const Jobseekerlist = () => {
   // Changed to store the selected PDF info instead of just boolean
   const [isVerified, setIsVerified] = useState(false);
   const [selectedPDF, setSelectedPDF] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [domainList, setDomainList] = useState([]);
+  const [selectedDomain, setSelectedDomain] = useState(null);
   const queryParams = new URLSearchParams(window.location.search);
   const jobID = queryParams.get("jobID");
 
   useEffect(() => {
     const fetchJobs = async () => {
+      setLoading(true);
       try {
         const authToken = localStorage.getItem("authToken");
         if (!authToken) throw new Error("Auth token not found");
@@ -29,7 +32,7 @@ const Jobseekerlist = () => {
 
         const jobsEndpoint = jobID
           ? `https://apiwl.novajobs.us/api/admin/job-applicants/${jobID}`
-          : "https://apiwl.novajobs.us/api/admin/job-seekers";
+          : selectedDomain ? `https://apiwl.novajobs.us/api/admin/job-seekers?domain_filter=${selectedDomain}` :`https://apiwl.novajobs.us/api/admin/job-seekers`;
 
         const response = await fetch(jobsEndpoint, { headers });
         if (!response.ok) {
@@ -45,11 +48,14 @@ const Jobseekerlist = () => {
         }
       } catch (error) {
         console.error("Error fetching job data:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchJobs();
-  }, [jobID]);
+    fetchDomains();
+  }, [jobID, selectedDomain]);
 
   const handleStatusChange = async (jobId, status) => {
     const authToken = localStorage.getItem("authToken");
@@ -109,12 +115,16 @@ const Jobseekerlist = () => {
   };
 
   // Function to handle opening PDF viewer
-  const handleViewDocument = (job) => {
-    if (job.jobskkers_detail?.document_type) {
-      const fileUrl = `https://apiwl.novajobs.us${job.jobskkers_detail.document_type}`;
+  const handleViewDocument = (job, status) => {
+    const file =
+      status === "document"
+        ? job.jobskkers_detail?.document_type
+        : job.jobskkers_detail?.resume_file_path;
+    if (file) {
+      const fileUrl = `https://apiwl.novajobs.us${file}`;
       setSelectedPDF({
         url: fileUrl,
-        name: `${job.jobskkers_detail.first_name} ${job.jobskkers_detail.last_name} - Document`,
+        name: `${job.jobskkers_detail.first_name} ${job.jobskkers_detail.last_name} - ${status}`,
       });
     }
   };
@@ -124,6 +134,28 @@ const Jobseekerlist = () => {
     setSelectedPDF(null);
   };
 
+  const fetchDomains = async () => {
+    const authToken = localStorage.getItem("authToken");
+    try {
+      const response = await axios.get(
+        `https://apiwl.novajobs.us/api/admin/domain-list`,
+        {
+          headers: {
+            Authorization: authToken,
+          },
+        }
+      );
+
+      if (response.data.status === "success" || response.data.code === 200) {
+        setDomainList(response?.data?.data);
+        //  console.log(response);
+      }
+    } catch (error) {
+      console.log(error, "Error while fetching domains");
+    }
+  };
+
+  // console.log(selectedDomain,"lllllshdhbd");
   return (
     <div>
       <CustomNavbar />
@@ -133,20 +165,59 @@ const Jobseekerlist = () => {
             <Sidebar />
           </Col>
           <Col md={10}>
-            <p>
-              <FaStore className="mx-1" /> / Jobs
-            </p>
+          
+            <Row className="align-items-center my-3">
+              <Col xs={12} md={6} className="mb-2 mb-md-0">
+                <h4 className="text-dark fw-semibold mb-0">
+                  Jobseeker List
+                </h4>
+              </Col>
+              <Col xs={12} md={6}>
+                <div className="d-flex gap-2 justify-content-md-end">
+                  <select
+                  // size={5}
+                    className="form-select"
+                    style={{
+                      width: "250px",
+                      maxWidth: "100%",
+                    }}
+                    value={selectedDomain}
+                    onChange={(e) => setSelectedDomain(e.target.value)}
+                  >
+                    <option value=""
+                   
+                    >Search by vendor domain</option>
+                    {domainList.map((domain, index) => (
+                      <option key={index} value={domain}>
+                        {domain}
+                      </option>
+                    ))}
+                  </select>
+
+                  <Button
+                   className="site-button btn-sm "
+                   variant="danger"
+                   onClick={()=>setSelectedDomain("")}
+                  >
+                    Clear
+                  </Button>
+                </div>
+              </Col>
+            </Row>
+
             <Row>
               <Col md={12}>
-                <div
-                  style={{
-                    // overflowX: "auto",
-                    // overflowY: "auto",
-                    // maxHeight: "500px",
-                    loading: "lazy",
-                  }}
-                >
-                  {jobs.length > 0 ? (
+                <div>
+                  {loading ? (
+                    <div className="text-center my-5">
+                      <div
+                        className="spinner-border text-primary"
+                        role="status"
+                      >
+                        <span className="visually-hidden">Loading...</span>
+                      </div>
+                    </div>
+                  ) : jobs && jobs?.length > 0 ? (
                     <table className="w-full table table-bordered table-hover table-responsive">
                       <thead className="text-center bg-light">
                         <tr>
@@ -158,6 +229,7 @@ const Jobseekerlist = () => {
                           <th>Phone</th>
                           <th>Account Status</th>
                           <th>Documents</th>
+                          <th>Resume</th>
                           <th>Action</th>
                         </tr>
                       </thead>
@@ -206,9 +278,24 @@ const Jobseekerlist = () => {
                                   size="sm"
                                   disabled={!detail.document_type}
                                   className="site-button"
-                                  onClick={() => handleViewDocument(job)}
+                                  onClick={() =>
+                                    handleViewDocument(job, "document")
+                                  }
                                 >
                                   View Documents
+                                </Button>
+                              </td>
+                              <td>
+                                <Button
+                                  variant="dark"
+                                  size="sm"
+                                  disabled={!detail.resume_file_path}
+                                  className="site-button"
+                                  onClick={() =>
+                                    handleViewDocument(job, "resume")
+                                  }
+                                >
+                                  View Resume
                                 </Button>
                               </td>
                               <td>
