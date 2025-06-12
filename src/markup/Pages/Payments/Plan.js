@@ -2,11 +2,12 @@
 export const plans = [
   {
     id: "freemium",
-    name: "Launch Plan",
+    name: "Explore",
     price: "18.95",
     isPopular: false,
     isDark: false,
     features: [
+      "Discover your potential",
       "AI Resume + Cover Letter Builder",
       "Profile Listing",
       "Search & Apply to Jobs",
@@ -41,12 +42,13 @@ export const plans = [
   },
   {
     id: "elevate",
-    name: "Lift Plan",
+    name: "Elevate",
     price: "38.95",
     isPopular: false,
     isDark: false,
     features: [
-      "Everything in Launch, plus",
+      "Rise with purpose and power",
+      "Everything in Explore, plus",
       "Job Suggestions",
       "Resume Score",
       "ATS & Resume Score",
@@ -81,12 +83,13 @@ export const plans = [
   },
   {
     id: "promax",
-    name: "Thrive Plan",
+    name: "Excel",
     price: "78.95",
     isPopular: true,
     isDark: false,
     features: [
-      "Everything in Thrive, plus",
+      "Master your skills. Dominate your field",
+      "Everything in Excel, plus",
       "Connect to Trainer",
       "More connects with Career Coach",
       "More AI Credits",
@@ -117,12 +120,13 @@ export const plans = [
   },
   {
     id: "ultraelite",
-    name: "Ultimate ",
+    name: "Elite ",
     price: "148.95",
     isPopular: false,
     isDark: true,
     features: [
-      "Everything in Thrive, plus",
+      "Where ambition meets unlimited opportunity",
+      "Everything in EXcel, plus",
       "AI Resume & Cover Letter Builder",
       "Comprehensive Career Dashboard",
       "Advanced AI Tools",

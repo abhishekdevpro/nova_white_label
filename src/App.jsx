@@ -264,7 +264,7 @@ function App() {
       {/* <Route path="aboutus-form" element={<AboutusForm />} /> */}
       <Route path="aboutus" element={<Aboutus1 />} />
       <Route path="Profilepagehome" element={<Profilepagehome />} />
-      <Route path="/*" element={<Error404 />} />
+      {/* <Route path="/*" element={<Error404 />} /> */}
       <Route path="about-us" element={<Aboutus />} />
       <Route path="privacy-policy" element={<PrivacyRights />} />
       <Route path="cookies-policy" element={<CookiesDigitalAdvertising />} />

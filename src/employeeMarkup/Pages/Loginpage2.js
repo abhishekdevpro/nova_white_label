@@ -711,7 +711,7 @@ function EmployeeLogin(props) {
 
       if (response.status === 200) {
         console.log("Google sign-in token: ", response.data.data);
-        window.open(response.data.data);
+        window.location.href = response.data.data
       } else {
         toast.error("Google sign-in failed.");
       }
@@ -916,30 +916,7 @@ function EmployeeLogin(props) {
             </div>
           </div>
         </div>
-        {/* <footer className="login-footer">
-          <div className="container">
-            <div className="row">
-              <div className="col-lg-12 text-center text-white">
-                <span className="float-left ">
-                  © Copyright by{" "}
-                  <img
-                    src="../../images/WhatsApp_Image_2024-05-11_at_19.51.05-removebg-preview.png"
-                    alt=""
-                    style={{
-                      width: "40px",
-                    }}
-                  />{" "}
-                  <Link to={"#"} style={{ color: "white", fontWeight: "bold" }}>
-                    Nova Jobs{" "}
-                  </Link>{" "}
-                </span>
-                <span className="float-right">
-                  “Hyper V Solutions” | All Rights Reserved
-                </span>
-              </div>
-            </div>
-          </div>
-        </footer> */}
+        
       </div>
       <Footer />
       <Modal
