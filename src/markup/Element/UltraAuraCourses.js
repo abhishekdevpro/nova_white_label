@@ -258,8 +258,8 @@ const UltraAuraCourses = () => {
     const fetchData = async () => {
       try {
         const [coursesResponse, levelsResponse] = await Promise.all([
-          axios.get("https://apiwl.novajobs.us/api/trainers/all-courses"),
-          axios.get("https://apiwl.novajobs.us/api/trainers/course-level"),
+          axios.get("https://api.novajobs.us/api/trainers/all-courses"),
+          axios.get("https://api.novajobs.us/api/trainers/course-level"),
         ]);
         setCourses(coursesResponse.data.data);
         setLevels([{ id: "ALL", name: "ALL" }, ...levelsResponse.data.data]);
@@ -382,10 +382,10 @@ const UltraAuraCourses = () => {
                   </ClaimCoupon>
                   : <></>} */}
                               <Link
-                                to={`https://ultraaura.education/course-info/${course.id}`}
+                                // to={`https://ultraaura.education/course-info/${course.id}`}
                               >
                                 <CourseImage
-                                  src={`https://apiwl.novajobs.us${course.course_banner_image}`}
+                                  src={`https://api.novajobs.us${course.course_banner_image}`}
                                   alt={course.course_title}
                                 />
                               </Link>

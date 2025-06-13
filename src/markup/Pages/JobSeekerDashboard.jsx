@@ -216,7 +216,7 @@ const location = useLocation();
       description:
         "Build a professional resume with our AI-powered resume builder.",
       buttonText: "Create Now",
-      route: `https://airesume.novajobs.us/?tokenbyurl=${token}`,
+      route: `/airesume/?tokenbyurl=${token}`,
     },
     {
       icon: <FileSignature size={36} color={colors.primary} />,
@@ -224,7 +224,7 @@ const location = useLocation();
       description:
         "Craft compelling cover letters tailored to specific positions.",
       buttonText: "Get Started",
-      route: `https://airesume.novajobs.us/?tokenbyurl=${token}`,
+      route: `/airesume/?tokenbyurl=${token}`,
     },
     {
       icon: <Brain size={36} color={colors.primary} />,

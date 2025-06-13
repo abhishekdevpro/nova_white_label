@@ -12,6 +12,7 @@ import {
 import {
   Bell,
   Briefcase,
+  DockIcon,
   File,
   FileTextIcon,
   Heart,
@@ -109,16 +110,27 @@ function Profilesidebar({ data }) {
               </li>
               <li>
                 <Link
-                  // ${token}
-                  to={`/airesume/?tokenbyurl=${token}`}
-                  // to={`http://localhost:3001/?tokenbyurl=${token}`}
+                  to={"/user/upload-documents"}
+                  className={data === "profile" ? "active" : null}
+                  onClick={() => setSidebarOpen(false)}
+                >
+                  <DockIcon className="me-2" />
+                  <span>Upload Documents</span>
+                </Link>
+              </li>
+              <li>
+                <a
+                  href={`/airesume/?tokenbyurl=${token}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className={data === "resume" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
                 >
                   <FileTextIcon className="me-2" />
                   <span>AI Resume Builder</span>
-                </Link>
+                </a>
               </li>
+
               <li>
                 <Link
                   to={"/user/resume-list"}

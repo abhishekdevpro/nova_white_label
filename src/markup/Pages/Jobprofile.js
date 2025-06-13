@@ -115,7 +115,7 @@ function Jobprofile() {
       if (!/^\d{0,10}$/.test(value)) {
         setErrors({
           ...errors,
-          phone: "Please add only numeric value and max length is 10.",
+          phone: "Please add only 10 digits valid phone number.",
         });
       } else {
         setErrors({ ...errors, phone: "" });
@@ -243,8 +243,19 @@ function Jobprofile() {
     getReq();
   }, []);
 
+const validatePhone = (number) => {
+  const phoneRegex = /^[0-9]{10}$/;
+  return phoneRegex.test(number);
+};
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!validatePhone(jobProfileValues.phone)) {
+    toast.error("Please enter a valid 10-digit phone number.");
+    return;
+  }
+
     const formData = new FormData();
     formData.append("first_name", jobProfileValues.first_name);
     formData.append("last_name", jobProfileValues.last_name);
@@ -810,11 +821,13 @@ function Jobprofile() {
                           <div className="form-group">
                             <label htmlFor="phone">Phone:</label>
                             <input
-                              type="text"
+                              type="tel"
                               className="form-control"
                               placeholder="+1 123 456 7890"
                               name="phone"
                               id="phone"
+                              pattern="[0-9]*"
+                               inputMode="numeric"
                               onChange={handleChange}
                               value={jobProfileValues.phone}
                             />

@@ -200,7 +200,7 @@ const FilterLeftSidebar = () => {
         </Description>
         <button
         className="site-button w-100"
-          onClick={() => navigate("https://novajobs.us/user/job/1")}
+          onClick={() => window.open("https://novajobs.us/user/job/1")}
         >
           Check Jobs
         </button>
@@ -217,7 +217,7 @@ const FilterLeftSidebar = () => {
         </Description>
         <button
         className="site-button w-100"
-          onClick={() => navigate("https://novajobs.us/user/login")}
+          onClick={() => window.open("https://novajobs.us/user/login")}
         >
           Join Now
         </button>
@@ -234,7 +234,7 @@ const FilterLeftSidebar = () => {
         </Description>
         <button
         className="site-button w-100"
-          onClick={() => navigate("https://novajobs.us/user/login")}
+          onClick={() => navigate("/company-list")}
         >
           Explore Now
         </button>

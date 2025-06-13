@@ -20,12 +20,13 @@ import Footer from "../../../markup/Layout/Footer";
 import VendorHeader from "../../../markup/Layout/VendorHeader";
 import VendorCompanySideBar from "../../../vendor/Vendorsidebar";
 import { Link } from "react-router-dom";
+import EmployeeHeader2 from "../../Layout/Header2";
 
 const SocialNetworkBox = () => {
   const [activeTab, setActiveTab] = useState("basic");
   const [selectedImages, setSelectedImages] = useState([]);
   const [selectedPdf, setSelectedPdf] = useState(null);
-
+ const isEmployer = window.location.href.includes("employer")
   const {
     companyData,
     setCompanyData,
@@ -105,10 +106,11 @@ const SocialNetworkBox = () => {
       setSelectedImages
     );
   }, []);
+  console.log(isEmployer, "isEmployer");
   return (
     <>
-      {localStorage.getItem("employeeLoginToken") ? (
-        <UserHeader2 />
+      {isEmployer ? (
+        <EmployeeHeader2 />
       ) : (
         <VendorHeader />
       )}

@@ -218,6 +218,7 @@ import SinglePostPage from "./markup/Element/community/SinglePost";
 import JobPage2 from "../src/markup/Pages/JobPageV2/index.jsx"   
 import JobDetails from "../src/markup/Pages/JobPageV2/JobDetails"
 import CompanyList from "./markup/Pages/CompaniesListing/index.jsx";
+import UploadDocuments from "./markup/Pages/UploadedDocuments.jsx";
 function App() {
   const dispatch = useDispatch();
 
@@ -673,6 +674,14 @@ function App() {
           element={
             <UserPrivateRoute>
               <PaymentPlans />
+            </UserPrivateRoute>
+          }
+        />
+        <Route
+          path="upload-documents"
+          element={
+            <UserPrivateRoute>
+              <UploadDocuments />
             </UserPrivateRoute>
           }
         />

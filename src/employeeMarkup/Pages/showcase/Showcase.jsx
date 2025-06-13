@@ -32,6 +32,7 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import ReactPlayer from "react-player";
 import PDFViewer from "./components/PdfVeiwer";
+import TeamSection from "./components/TeamsSection";
 const url = window.location.origin.includes("localhost")
   ? "https://novajobs.us"
   : window.location.origin;
@@ -90,9 +91,7 @@ const styles = {
     gap: "2rem",
     padding: "0 2rem",
     
-    "@media (max-width: 767px)": {
-    display: "none",
-  },
+    
   },
   navLink: {
     color: "#1e40af",
@@ -324,10 +323,12 @@ const styles = {
   },
   teamsContainer: {
     display: "grid",
-    gridTemplateColumns: "repeat(3, 1fr)",
-    gap: "3rem",
-    maxWidth: "1200px",
+    gridTemplateColumns: "repeat(2, 1fr)",
+    gap: "1rem",
+    // maxWidth: "1200px",
     margin: "0 auto",
+
+    
   },
   teamMember: {
     textAlign: "center",
@@ -945,7 +946,7 @@ const ShowcaseComponent = () => {
       </div>
 
       {/* Sticky Navigation - Moved below header */}
-      <div style={styles.stickyNav}>
+      <div style={styles.stickyNav} className=" d-none d-md-block">
         <div style={styles.navContainer}>
           <a
             style={{
@@ -1190,7 +1191,7 @@ const ShowcaseComponent = () => {
         </section>
 
         {/* Teams Section */}
-        {teamsData.length > 0 && (
+        {/* {teamsData.length > 0 && (
           <section id="teams" style={styles.section}>
             {isEdit && (
               <button
@@ -1220,6 +1221,16 @@ const ShowcaseComponent = () => {
               )}
             </div>
           </section>
+        )} */}
+         {teamsData.length > 0 && (
+          <TeamSection
+            teamsData={teamsData}
+            isEdit={isEdit}
+            handleEditClick={handleEditClick}
+            handleImageError={handleImageError}
+            BASE_IMAGE_URL={BASE_IMAGE_URL}
+            FALLBACK_IMAGES={FALLBACK_IMAGES}
+          />
         )}
 
         {/* WTS Section */}
