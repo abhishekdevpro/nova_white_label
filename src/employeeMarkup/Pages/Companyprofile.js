@@ -97,7 +97,7 @@ function EmployeeCompanyprofile() {
 
   useEffect(() => {
     dispatch(fetchCompanyInfo());
-  }, [dispatch]);
+  }, [token]);
 
   useEffect(() => {
     setCompanyName(companyDetail?.company_name || "");
@@ -356,7 +356,7 @@ function EmployeeCompanyprofile() {
                       <Link
                         to={
                           companyDetail?.id
-                            ? `/user/company/${companyDetail.id}`
+                            ? `/employer/showcase`
                             : "#"
                         }
                         className={`site-button right-arrow button-sm float-right ${

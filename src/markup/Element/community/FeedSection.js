@@ -802,10 +802,10 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
                   {post.content}
                 </p>
               )}
-
+              {/* {console.log(`https://apiwl.novajobs.us/api${post.feed_image}`)} */}
               {post.feed_image && (
                 <img
-                  src={`https://apiwl.novajobs.us${post.feed_image}`}
+                  src={`https://apiwl.novajobs.us/api${post.feed_image}`}
                   alt="Post"
                   style={{
                     width: "100%",

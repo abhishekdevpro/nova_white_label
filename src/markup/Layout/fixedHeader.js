@@ -9,6 +9,7 @@ import { setFixedHeaderValues } from "../../store/reducers/fixedHeaderSlice";
 import { showToastSuccess, showToastError } from "../../utils/toastify";
 import processVid from "../../gif process.mp4";
 import '../../css/fixedheader.css'
+import { toast } from "react-toastify";
 
 var bnr = require("./../../images/banner/bnr1.jpg");
 
@@ -82,7 +83,7 @@ const FixedHeader = () => {
             phone: data.phone,
             photo: data.photo,
             n_profile_strength: data.n_profile_strength,
-            file_path: data.job_seeker_resumes.file_path,
+            file_path: data.job_seeker_resumes?.file_path,
           })
         );
         setResumeId(data.job_seeker_resumes?.id || 0);
@@ -226,8 +227,13 @@ const FixedHeader = () => {
   }
 
   function handleSubmit(event) {
-    setSpinner(true);
     event.preventDefault();
+    if(!file){
+      toast.error("Please select a file to upload.");
+      return;
+    }
+    setSpinner(true);
+    
 
     const formData = new FormData();
     if (file) {

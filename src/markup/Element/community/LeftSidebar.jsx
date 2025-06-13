@@ -293,7 +293,7 @@ const FilterSidebar = () => {
         <Description>Learn job-ready skills & earn certificates</Description>
         <button
           className="site-button w-100"
-          onClick={() => navigate("https://ultraaura.education/home")}
+          onClick={() => window.open("https://ultraaura.education/home")}
         >
           Start Learning
         </button>
@@ -307,7 +307,7 @@ const FilterSidebar = () => {
         </Description>
         <button
           className="site-button w-100"
-          onClick={() => navigate("https://novajobs.us/user/login")}
+          onClick={() => window.open("https://novajobs.us/user/login")}
         >
           Build Resume
         </button>

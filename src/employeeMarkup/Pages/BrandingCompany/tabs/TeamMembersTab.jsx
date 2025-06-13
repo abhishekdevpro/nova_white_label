@@ -1,10 +1,12 @@
 "use client"
+import axios from "axios"
+import { useEffect, useState } from "react"
 import ReactQuill from "react-quill"
 import "react-quill/dist/quill.snow.css"
 
 const TeamMembersTab = ({
   activeTab,
-  teamMembers,
+  // teamMembers,
   editingId,
   tempMember,
   setTempMember,
@@ -12,8 +14,45 @@ const TeamMembersTab = ({
   saveTeamMember,
   cancelEdit,
 }) => {
-  if (activeTab !== "team") return null
 
+  const [teamMembers, setTeamMembers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (activeTab === "team") {
+      fetchTeamMembers();
+    }
+  }, [activeTab]);
+
+  const fetchTeamMembers = async () => {
+    try {
+      setLoading(true);
+      const token = localStorage.getItem("employeeLoginToken") || localStorage.getItem("vendorToken");
+
+      const response = await axios.get(
+        "https://apiwl.novajobs.us/api/employeer/company-teams",
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+
+      const result = response.data;
+
+      if (result.status === "success" && result.data) {
+        setTeamMembers(result.data);
+      } else {
+        setError(result.message || "Failed to fetch team members");
+      }
+    } catch (err) {
+      setError("Error fetching team members: " + err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  // if (activeTab !== "team") return null
   return (
     <div className="tab-pane fade show active">
       <div style={{ maxWidth: 420, margin: "0 auto", paddingTop: 32 }}>
@@ -166,6 +205,43 @@ const TeamMembersTab = ({
           Add New Team Member
         </button>
       </div>
+
+      {/* Team Member List */}
+        {loading ? (
+          <div className="text-center text-muted">Loading team members...</div>
+        ) : error ? (
+          <div className="alert alert-danger">{error}</div>
+        ) : teamMembers.length > 0 ? (
+          <div className="d-flex flex-column flex-lg-row flex-wrap gap-3 justify-content-center">
+            {teamMembers.map((member) => (
+              <div
+                className="card flex-fill"
+                key={member.id}
+                style={{ minWidth: 280, maxWidth: 320 }}
+              >
+                <div className="card-body d-flex flex-column align-items-center text-center">
+                  <img
+                    src={`https://apiwl.novajobs.us${member.media}`}
+                    alt={member.name}
+                    className="rounded-circle mb-3"
+                    style={{
+                      width: 100,
+                      height: 100,
+                      objectFit: "cover",
+                    }}
+                  />
+                  <h5 className="card-title">{member.name}</h5>
+                  <div
+                    className="card-text text-muted"
+                    dangerouslySetInnerHTML={{ __html: member.description }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center text-muted">No team members found.</div>
+        )}
     </div>
   )
 }

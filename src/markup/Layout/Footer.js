@@ -104,7 +104,7 @@ function Footer() {
                         window.scrollTo({ top: 0, behavior: "smooth" })
                       }
                     >
-                      <Link to={"/user/job/1"}>Search Jobs</Link>
+                      <Link to={"/user/jobs"}>Search Jobs</Link>
                     </li>
                     <li
                       onClick={() =>
