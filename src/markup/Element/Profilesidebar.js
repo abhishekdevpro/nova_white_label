@@ -110,7 +110,7 @@ function Profilesidebar({ data }) {
               <li>
                 <Link
                   // ${token}
-                  to={`/airesume?tokenbyurl=${token}`}
+                  to={`/airesume/?tokenbyurl=${token}`}
                   // to={`http://localhost:3001/?tokenbyurl=${token}`}
                   className={data === "resume" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
