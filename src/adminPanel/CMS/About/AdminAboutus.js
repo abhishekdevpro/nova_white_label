@@ -159,15 +159,23 @@ function AdminAboutus({ projectName }) {
  const domain = window.location.origin.includes("localhost")
   ? "https://novajobs.us"
   : window.location.origin;
+
+  const token = localStorage.getItem("vendorToken") || localStorage.getItem("authToken");
+
+ 
   // Fetch data from the GET API
   const fetchContent = async () => {
     try {
-      const url = `https://apiwl.novajobs.us/api/admin${
+      const url = token ? `https://apiwl.novajobs.us/api/admin/aboutus-content?domain=${domain}` :`https://apiwl.novajobs.us/api/admin${
         projectName || ""
       }/get-aboutus-content?domain=${domain}`;
       console.log("Fetching from URL:", url);
 
-      const response = await axios.get(url);
+      const response = await axios.get(url,{
+        headers:{
+          Authorization: token ? `${token}` : "",
+        }
+      });
       console.log("API Response:", response.data);
 
       if (!response.data || !Array.isArray(response.data.data)) {
