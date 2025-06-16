@@ -547,6 +547,7 @@ import Footer from "../../markup/Layout/Footer";
 const bnr3 = require("./../../images/background/bg3.jpg");
 function EmployeeLogin(props) {
   const [email, setEmail] = useState("");
+  const [termsChecked, setTermsChecked] = useState(false);
   let errorsObj = { email: "", password: "" };
   const [errors, setErrors] = useState(errorsObj);
   const [password, setPassword] = useState("123456");
@@ -566,6 +567,10 @@ function EmployeeLogin(props) {
   
   const handlePostRequest = async (e) => {
     e.preventDefault();
+    if (!termsChecked) {
+          toast.warn("You must agree to the Privacy Policy and Terms & Conditions before continuing.");
+          return;
+        }
 
     if (email === "") {
       notify("Email is required");
@@ -859,6 +864,8 @@ function EmployeeLogin(props) {
                             id="terms"
                             name="terms"
                             required
+                            checked={termsChecked}
+                            onChange={e => setTermsChecked(e.target.checked)}
                           />
                           <label
                             className="custom-control-label"

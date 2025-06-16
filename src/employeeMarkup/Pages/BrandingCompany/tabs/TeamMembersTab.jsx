@@ -52,7 +52,7 @@ const TeamMembersTab = ({
       setLoading(false);
     }
   };
-  // if (activeTab !== "team") return null
+  if (activeTab !== "team") return null
   return (
     <div className="tab-pane fade show active">
       <div style={{ maxWidth: 420, margin: "0 auto", paddingTop: 32 }}>
@@ -179,29 +179,10 @@ const TeamMembersTab = ({
           type="button"
           onClick={addTeamMember}
           style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: 320,
-            margin: "0 auto",
-            padding: "16px 0",
-            background: "#3b82f6",
-            borderRadius: 10,
-            color: "white",
-            fontWeight: 700,
-            fontSize: 20,
-            boxShadow: "0 4px 16px rgba(59,130,246,0.10)",
-            transition: "background 0.2s, box-shadow 0.2s, transform 0.1s",
-            marginTop: 32,
-            marginBottom: 32,
-            border: "none",
-            cursor: "pointer",
-            gap: 12,
+            marginBottom:"1rem",
           }}
+          className="site-button bg-primary text-white d-flex align-items-center gap-2"
         >
-          <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
-            <path stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M12 5v14m7-7H5" />
-          </svg>
           Add New Team Member
         </button>
       </div>

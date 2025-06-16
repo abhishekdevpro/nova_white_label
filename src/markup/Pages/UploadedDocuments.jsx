@@ -87,6 +87,22 @@ const DocumentUpload = () => {
     }
   };
 
+   const getFileName = (file) => {
+    if (!file) return "";
+    
+    // If it's a File object (newly selected file)
+    if (file instanceof File) {
+      return file.name;
+    }
+    
+    // If it's a string (URL from API)
+    if (typeof file === 'string') {
+      return file.split("/").pop();
+    }
+    
+    return "";
+  };
+
   return (
     <>
       <Header2 />
@@ -143,7 +159,7 @@ const DocumentUpload = () => {
                             className="form-control bg-light text-truncate"
                             style={{ height: "38px" }}
                           >
-                             {documentFile.split("/").pop()}
+                             {getFileName(documentFile)}
                           </div>
                         ) : (
                           <input
@@ -155,7 +171,7 @@ const DocumentUpload = () => {
                           />
                         )}
                       </div>
-
+{/* {console.log(uploadStatus, "uploadStatus")} */}
                       <div className="col-12 mt-3">
                         {uploadStatus === "verified" ? (
                           <button className="btn btn-success w-100" disabled>
@@ -190,3 +206,4 @@ const DocumentUpload = () => {
 };
 
 export default DocumentUpload;
+
