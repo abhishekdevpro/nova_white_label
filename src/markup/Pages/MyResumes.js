@@ -223,7 +223,7 @@ function MyResumes() {
                                   data-bs-toggle="modal"
                                   data-bs-target="#modalPopup"
                                 >
-                                  {scores[resume.id] || "View Score"}
+                                  {scores[resume.resume_id] || "View Score"}
                                 </button>
                               </td>
                               <td className="py-2 px-4">
@@ -274,7 +274,7 @@ function MyResumes() {
                                 <p
                                   className="text-primary fw-bold mb-0 px-2 py-1 rounded"
                                   onClick={() => {
-                                    setEditingResumeId(resume.id);
+                                    setEditingResumeId(resume.resume_id);
                                     setNewResumeName(resume.resume_title || "");
                                     setIsDefault(resume.is_default === 1);
                                     setModalType("edit");
@@ -292,7 +292,7 @@ function MyResumes() {
                                 <i
                                   className="fa fa-trash-alt text-danger px-2 py-1 rounded "
                                   onClick={() => {
-                                    setDeleteresumeid(resume.id);
+                                    setDeleteresumeid(resume.resume_id);
                                     setModalType("delete");
                                   }}
                                   data-bs-toggle="modal"

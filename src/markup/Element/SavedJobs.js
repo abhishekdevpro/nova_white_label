@@ -202,7 +202,7 @@ const SavedJobs = () => {
                           </div>
                           <div className="job-post-info">
                             <h4>
-                              <Link to={`/user/job/${item.job_detail.id}`}>
+                              <Link to={`/user/jobs/${item.job_detail.id}`}>
                                 {item.job_detail.job_title}
                               </Link>
                             </h4>

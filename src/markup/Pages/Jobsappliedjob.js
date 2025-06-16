@@ -163,7 +163,7 @@ function Jobsappliedjob() {
                                   <div className="job-post-info m-a0">
                                     <h4>
                                       <Link
-                                        to={`/user/job/${item.job_detail.id}`}
+                                        to={`/user/jobs/${item.job_detail.id}`}
                                       >
                                         {item.job_detail.job_title}
                                       </Link>

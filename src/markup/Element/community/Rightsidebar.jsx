@@ -200,7 +200,7 @@ const FilterLeftSidebar = () => {
         </Description>
         <button
         className="site-button w-100"
-          onClick={() => window.open("https://novajobs.us/user/job/1")}
+          onClick={() => navigate("/user/jobs")}
         >
           Check Jobs
         </button>
