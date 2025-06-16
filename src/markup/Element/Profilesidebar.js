@@ -111,7 +111,7 @@ function Profilesidebar({ data }) {
               <li>
                 <Link
                   to={"/user/upload-documents"}
-                  className={data === "profile" ? "active" : null}
+                  className={data === "upload-documents" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
                 >
                   <DockIcon className="me-2" />

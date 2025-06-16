@@ -24,6 +24,7 @@ const Adminlogin = () => {
 
       if (response.data.data.token) {
         localStorage.setItem('authToken', response.data.data.token);
+        localStorage.removeItem(`vendorToken`)
         navigate('/admin/dashboard');
       }
     } catch (err) {

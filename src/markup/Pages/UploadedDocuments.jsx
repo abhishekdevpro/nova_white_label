@@ -90,14 +90,14 @@ const DocumentUpload = () => {
   return (
     <>
       <Header2 />
-      <FixedHeader />
-      <ToastContainer />
+      {/* <FixedHeader /> */}
+      {/* <ToastContainer /> */}
 
       <div className="page-content bg-white">
         <div className="section-full bg-white py-5">
           <div className="container">
             <div className="row g-4">
-              <Profilesidebar data={"document-upload"} />
+              <Profilesidebar data={"upload-documents"} />
 
               <div className="col-xl-9 col-lg-8 mb-4">
                 <div className="job-bx table-job-bx clearfix p-4 bg-light rounded shadow-sm">
