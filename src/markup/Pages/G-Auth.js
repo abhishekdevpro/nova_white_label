@@ -45,11 +45,11 @@ const Gauth = () => {
           if (token) {
             localStorage.setItem("jobSeekerLoginToken", token);
             toast.success(message || "Login successful!");
-            setTimeout(() => {
-              window.location.href = `${response.data?.data?.domain}user/dashboard?token=${token}`;
-            }, 100);
+            // setTimeout(() => {
+            //   window.location.href = `${response.data?.data?.domain}user/dashboard?token=${token}`;
+            // }, 100);
           }
-          // navigate("/user/dashboard");
+          navigate("/user/jobs-profile");
 
           // Redirect to the success URL with the token
           //   window.open = `https://abroadium-arbuild-dev-fe.vercel.app/dashboard/?${token}`;

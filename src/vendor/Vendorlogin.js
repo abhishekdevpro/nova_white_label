@@ -31,6 +31,7 @@ const Vendorlogin = () => {
       if (response.data.data.token) {
         localStorage.setItem("vendorToken", response.data.data.token);
         localStorage.setItem("vendorId", response.data.data.id);
+        localStorage.removeItem("authToken");
         toast.success(response.data.message || "User Logged In Successfully!")
         navigate("/white-label");
       }
