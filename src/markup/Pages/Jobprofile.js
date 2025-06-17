@@ -592,6 +592,7 @@ const validatePhone = (number) => {
                               id="first_name"
                               onChange={handleChange}
                               value={jobProfileValues.first_name}
+                              maxLength={20}
                               // placeholder="Alexander Weir"
                             />
                           </div>
@@ -609,6 +610,7 @@ const validatePhone = (number) => {
                               name="last_name"
                               onChange={handleChange}
                               value={jobProfileValues.last_name}
+                              maxLength={30}
                               // placeholder="Alexander Weir"
                             />
                           </div>
@@ -629,6 +631,7 @@ const validatePhone = (number) => {
                               id="professional_title"
                               name="professional_title"
                               value={jobProfileValues.professional_title}
+                              maxLength={30}
                             />
                           </div>
                           {errors.professional_title && (
@@ -648,6 +651,7 @@ const validatePhone = (number) => {
                               name="languages"
                               onChange={handleChange}
                               value={jobProfileValues.languages}
+                              maxLength={30}
                             />
                           </div>
                           {errors.languages && (
@@ -677,7 +681,7 @@ const validatePhone = (number) => {
                               Current Salary/month($):
                             </label>
                             <input
-                              type="text"
+                              type="number"
                               className="form-control"
                               // placeholder="2000$"
                               id="current_salary"
@@ -698,7 +702,7 @@ const validatePhone = (number) => {
                               Expected Salary/month($):
                             </label>
                             <input
-                              type="text"
+                              type="number"
                               className="form-control"
                               // placeholder="2500$"
                               id="expected_salary"
@@ -745,6 +749,7 @@ const validatePhone = (number) => {
                                inputMode="numeric"
                               onChange={handleChange}
                               value={jobProfileValues.phone}
+                              maxLength={10}
                             />
                           </div>
                           {errors.phone && (

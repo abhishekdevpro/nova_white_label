@@ -272,6 +272,12 @@ const location = useLocation();
     },
   ];
 console.log("hi from dashboard")
+const handleClick = (card) => {
+    if (card.route.includes("airesume")) {
+      window.location.href = `https://novajobs.us${card.route}`;
+    }
+    navigate(card.route)
+  };
   return (
     <>
       <UserHeader2 />
@@ -305,7 +311,7 @@ console.log("hi from dashboard")
 
           <CardsContainer>
             {cardData.map((card, index) => (
-              <CardLink to={card.route} key={index}>
+              <CardLink onClick={()=>handleClick(card)} key={index}>
                 <Card>
                   <CardIcon>{card.icon}</CardIcon>
                   <CardTitle>{card.title}</CardTitle>

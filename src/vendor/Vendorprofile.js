@@ -37,6 +37,7 @@ function Vendorprofile() {
   const [industry, setIndustry] = useState(""); // State variable to hold selected industry ID
   const [description, setDescription] = useState("");
   const [number, setNumber] = useState("");
+  const [phoneError, setPhoneError] = useState("");
   const [address, setAddress] = useState("");
   const [linkdin, setlinkdin] = useState("");
   const [twitter, setTwitter] = useState("");
@@ -54,6 +55,7 @@ function Vendorprofile() {
   //   // Extract plain text from the editor
   //   setDescription(plainText); // Set the plain text in the state
   // };
+  
   const handleChange = (content) => {
     // Extract plain text from the editor
     setDescription(content); // Set the plain text in the state
@@ -75,25 +77,19 @@ function Vendorprofile() {
         showToastError(err?.response?.data?.message);
       });
   }, [token]); // Added token as dependency to ensure useEffect runs on token change
-
+const validatePhone = (number) => {
+    const phoneRegex = /^[0-9]{10}$/;
+    return phoneRegex.test(number);
+  };
   // Function to update company data
-  const handlePhoneNumberChange = (e) => {
+  const handlePhoneChange = (e) => {
     const value = e.target.value;
-
-    // Check if the input is numeric
-    if (!/^\d*$/.test(value)) {
-      showToastError("Phone number must contain only numeric characters.");
-      return;
-    }
-
-    // Check if the input length exceeds 10 digits
-    if (value.length > 10) {
-      showToastError("Phone number cannot exceed 10 digits.");
-      return;
-    }
-
-    // Update the state only if input is valid
     setNumber(value);
+    if (!validatePhone(value)) {
+      setPhoneError("Phone number must be 10 digits.");
+    } else {
+      setPhoneError("");
+    }
   };
 
   const dispatch = useDispatch();
@@ -398,6 +394,7 @@ function Vendorprofile() {
                               placeholder="Enter Company Name"
                               onChange={(e) => setCompanyName(e.target.value)}
                               value={companyName}
+                              maxLength={50}
                               required
                             />
                           </div>
@@ -412,6 +409,7 @@ function Vendorprofile() {
                               placeholder="Enter Company Tagline"
                               onChange={(e) => setTagline(e.target.value)}
                               value={tagline}
+                              maxLength={50}
                               required
                             />
                           </div>
@@ -470,6 +468,7 @@ function Vendorprofile() {
                               placeholder="Website Link"
                               onChange={(e) => setWebsite(e.target.value)}
                               value={website}
+                              maxLength={50}
                               required
                             />
                           </div>
@@ -478,7 +477,7 @@ function Vendorprofile() {
                           <div className="form-group">
                             <label>Founded Year</label>
                             <input
-                              type="text" // Allows the user to select year and month
+                              type="number" // Allows the user to select year and month
                               className="form-control"
                               placeholder="Founded Year"
                               onChange={(e) => setFoundedYear(e.target.value)}
@@ -616,10 +615,16 @@ function Vendorprofile() {
                               className="form-control"
                               placeholder="Phone Number"
                               // onChange={(e) => setNumber(e.target.value)}
-                              onChange={(e) => handlePhoneNumberChange(e)}
+                              onChange={(e) => handlePhoneChange(e)}
                               value={number}
                               required
+                              maxLength={10}
                             />
+                            {phoneError && (
+                          <div className="invalid-feedback d-block">
+                            {phoneError}
+                          </div>
+                        )}
                           </div>
                         </div>
                         <div className="col-lg-6 col-md-6">
