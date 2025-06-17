@@ -114,10 +114,11 @@ const VendorCompanySideBar = ({ active }) => {
     })
       .then((res) => {
         console.log(res);
-        showToastSuccess(res?.data?.message);
+        toast.success(res?.data?.message || "Logo updated successfully");
       })
       .catch((err) => {
         console.log(err);
+        toast.error(err?.response?.data?.message || "Failed to update logo");
       });
   };
 

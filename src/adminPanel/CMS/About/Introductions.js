@@ -88,14 +88,14 @@ function Introductions({ introductionData, projectName }) {
     setShowPdfHeading(introductionData.is_paragraph4_display);
     setShowVideo(introductionData.is_urls_display);
     // setShowImage(introductionData.is_images_display);
-    setShowImage((introductionData.is_images_display)[0] === "true");
+    setShowImage((introductionData?.is_images_display)?.[0] === "true");
     setShowPdf(introductionData.is_pdf_display);
     if (introductionData.urls && (introductionData.urls)) {
       const urlData = (introductionData.urls);
       setVideoUrl(urlData[0] || videoUrl);
     }
-    if (introductionData.images && (introductionData.images)) {
-      const imgData = (introductionData.images);
+    if (introductionData?.images && (introductionData?.images)) {
+      const imgData = (introductionData?.images);
       setImagePreview(
         imgData[0] ? "https://apiwl.novajobs.us" + imgData[0] : logo1
       );

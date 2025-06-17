@@ -81,7 +81,7 @@ const DocumentUpload = () => {
         toast.error("Upload failed. Please try again.");
       }
     } catch (error) {
-      toast.error("An error occurred during upload.");
+      toast.error(error?.response?.data?.message || "An error occurred during upload.");
     } finally {
       setUploadStatus("");
     }

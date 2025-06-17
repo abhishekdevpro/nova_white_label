@@ -687,7 +687,7 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
                 </div>
 
                 <div style={{ position: "relative" }}>
-                  <button
+                  {post.is_edit && editingPostId !== post.id && <button
                     onClick={() => toggleDropdown(post.id)}
                     style={{
                       padding: "8px",
@@ -697,9 +697,9 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
                     }}
                   >
                     <FaEllipsisV />
-                  </button>
+                  </button>}
 
-                  {openDropdownId === post.id && (
+                  {openDropdownId === post.id && post.is_edit && editingPostId !== post.id && (
                     <div
                       style={{
                         position: "absolute",
@@ -734,7 +734,7 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
                           <FaEdit style={{ marginRight: "8px" }} /> Edit
                         </button>
                       )}
-                      <button
+                      {post.is_edit && editingPostId !== post.id && <button
                         onClick={() => {
                           confirmDeletePost(post.id);
                           setOpenDropdownId(null);
@@ -752,7 +752,7 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
                         }}
                       >
                         <FaTrash style={{ marginRight: "8px" }} /> Delete
-                      </button>
+                      </button>}
                     </div>
                   )}
                 </div>
@@ -805,7 +805,7 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
               {/* {console.log(`https://apiwl.novajobs.us/api${post.feed_image}`)} */}
               {post.feed_image && (
                 <img
-                  src={`https://apiwl.novajobs.us/api${post.feed_image}`}
+                  src={`https://apiwl.novajobs.us${post.feed_image}`}
                   alt="Post"
                   style={{
                     width: "100%",

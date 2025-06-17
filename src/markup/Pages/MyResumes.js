@@ -8,6 +8,7 @@ import Header2 from "./../Layout/Header2";
 import Footer from "./../Layout/Footer";
 import FixedHeader from "../Layout/fixedHeader";
 import Profilesidebar from "../Element/Profilesidebar";
+import { use } from "react";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 function MyResumes() {
   const [resumes, setResumes] = useState([]);
@@ -23,30 +24,33 @@ function MyResumes() {
   const [newResumeName, setNewResumeName] = useState("");
   const [isDefault, setIsDefault] = useState(false); // New state for is_default
   const token = localStorage.getItem("jobSeekerLoginToken");
-  useEffect(() => {
-    setIsResumeList(true);
-    if (token) {
-      axios
-        .get("https://apiwl.novajobs.us/api/user/resume-list", {
-          headers: { Authorization: token },
-        })
-        .then((response) => {
-          const resumes = response.data.data || [];
-          if (resumes.length === 0) {
-            toast.info("No resumes available.");
-          }
-          setResumes(resumes);
-          setIsResumeList(false);
-        })
-        .catch((error) => {
-          console.error("Error fetching resume list:", error);
-          toast.error("Failed to fetch resumes.");
-          setIsResumeList(false);
-        });
-    } else {
-      console.error("Token not found in localStorage");
-    }
-  }, []);
+ const fetchResumeList = () => {
+  setIsResumeList(true);
+  if (token) {
+    axios
+      .get("https://apiwl.novajobs.us/api/user/resume-list", {
+        headers: { Authorization: token },
+      })
+      .then((response) => {
+        const resumes = response.data.data || [];
+        if (resumes.length === 0) {
+          toast.info("No resumes available.");
+        }
+        setResumes(resumes);
+        setIsResumeList(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching resume list:", error);
+        toast.error("Failed to fetch resumes.");
+        setIsResumeList(false);
+      });
+  } else {
+    console.error("Token not found in localStorage");
+  }
+};
+useEffect(() => {
+  fetchResumeList();
+}, []);
 
   const handleGetScore = (resume) => {
     const token = localStorage.getItem("token");
@@ -155,7 +159,11 @@ function MyResumes() {
           }
         );
         toast.success("Your Resume Deleted Successfully");
-        setResumes(resumes.filter((resume) => resume.id !== deleteresumeid));
+        fetchResumeList()
+        setResumes((prevResumes) =>
+        prevResumes.filter((resume) => resume.id !== deleteresumeid)
+      );
+
         setModalType(""); // Close modal
       } catch (error) {
         console.error("Error deleting resume:", error);
@@ -165,6 +173,8 @@ function MyResumes() {
       console.error("Token not found in localStorage");
     }
   };
+
+  console.log(resumes, "Resumes list");
 
   return (
     <>
@@ -214,7 +224,7 @@ function MyResumes() {
                               <td className="py-2 px-4">{index + 1}</td>
 
                               <td className="py-2 px-4">
-                                {resume.resume_title || "No Name"}
+                                {resume.resume_title || `${resume.job_seeker_first_name}-resume${index+1}`}
                               </td>
                               <td className="py-2 px-4">
                                 <button
