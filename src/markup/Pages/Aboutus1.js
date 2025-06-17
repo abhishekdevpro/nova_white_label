@@ -25,7 +25,7 @@ function AboutUs() {
   }, []);
 
   const url = window.location.origin.includes("localhost")
-    ? "https://hallandalebeach.novajobs.us"
+    ? "https://novajobs.us"
     : window.location.origin;
   // const url = "https://toder231.novajobs.us/"
   const ApiUrl = `https://apiwl.novajobs.us/api/admin/get-aboutus-content?domain=${url}`
