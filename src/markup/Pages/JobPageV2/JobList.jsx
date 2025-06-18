@@ -4,7 +4,7 @@ import { useState } from "react"
 import JobCard from "./JobCard"
 import './JobPage.css'
 
-function JobListing({ jobs, loading, currentPage, totalPages, onPageChange }) {
+function JobListing({ jobs, loading, currentPage, totalPages, onPageChange,refreshJobs }) {
   const [sortBy, setSortBy] = useState("recently_posted")
 
   const handleSortChange = (e) => {
@@ -156,6 +156,7 @@ function JobListing({ jobs, loading, currentPage, totalPages, onPageChange }) {
               // Handle job selection if needed
               console.log('Job selected:', job)
             }} 
+            // onToggleFavorite={refreshJobs} // Refresh jobs when favorite is toggled
           />
         ))}
       </div>

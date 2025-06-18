@@ -14,7 +14,7 @@ import {
 // import LikeButton from "./LikeButton";
 // import ConfirmationDialog from "./ConfirmationDialog";
 // import LinkedInShareButton from "./ShareButton";
-import { Link } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 import styled from "styled-components";
 import LikeButton from "./LikeButton";
 import LinkedInShareButton from "./ShareButton";
@@ -131,7 +131,7 @@ const CommentCard = styled.div`
 
 const CommentTextArea = styled.textarea`
   width: 100%;
-  padding: 10px 12px;
+  padding: 5px 5px;
   border-radius: 8px;
   background-color: #f9fafb;
   border: 1px solid #d1d5db;
@@ -489,6 +489,7 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
   };
 
   const confirmDeletePost = (postId) => {
+    console.log(postId, "postId");
     setConfirmationDialog({
       isOpen: true,
       type: "post",
@@ -496,6 +497,8 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
       commentId: null,
     });
   };
+
+  console.log(confirmationDialog, "confirmationDialog");
 
   const confirmDeleteComment = (postId, commentId) => {
     setConfirmationDialog({
@@ -656,105 +659,112 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
                   marginBottom: "16px",
                 }}
               >
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  <ProfileImage
+                <div className="d-flex align-items-center mb-3">
+                  <img
                     src={
                       post.user_photo
                         ? `https://apiwl.novajobs.us/${post.user_photo}`
                         : "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small/Basic_Ui__28186_29.jpg"
                     }
                     alt="Profile"
+                    className="rounded-circle me-3"
+                    style={{
+                      width: "50px",
+                      height: "50px",
+                      objectFit: "cover",
+                    }}
                   />
-                  <div>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
+
+                  <div className="d-flex flex-column justify-content-center">
+                    <Link
+                      to={`/community/${post.id}`}
+                      className="text-decoration-none"
                     >
-                      <Link to={`/community/${post.id}`}>
-                        <p style={{ fontWeight: "bold", color: "#1f2937" }}>
-                          {post.user_first_name} {post.user_last_name}
-                        </p>
-                      </Link>
-                      <p style={{ fontSize: "12px", color: "#6b7280" }}>
-                        {new Date(post.created_at).toLocaleDateString()}
+                      <p className="fw-bold text-dark mb-0">
+                        {post.user_first_name} {post.user_last_name}
                       </p>
-                    </div>
+                    </Link>
+                    <p className="text-muted mb-0" style={{ fontSize: "12px" }}>
+                      {new Date(post.created_at).toLocaleDateString()}
+                    </p>
                   </div>
                 </div>
 
                 <div style={{ position: "relative" }}>
-                  {post.is_edit && editingPostId !== post.id && <button
-                    onClick={() => toggleDropdown(post.id)}
-                    style={{
-                      padding: "8px",
-                      backgroundColor: "transparent",
-                      cursor: "pointer",
-                      border: "none",
-                    }}
-                  >
-                    <FaEllipsisV />
-                  </button>}
-
-                  {openDropdownId === post.id && post.is_edit && editingPostId !== post.id && (
-                    <div
+                  {post.is_edit && editingPostId !== post.id && (
+                    <button
+                      onClick={() => toggleDropdown(post.id)}
                       style={{
-                        position: "absolute",
-                        right: "0",
-                        marginTop: "8px",
-                        width: "120px",
-                        backgroundColor: "#ffffff",
-                        border: "1px solid #d1d5db",
-                        borderRadius: "8px",
-                        boxShadow: "0 1px 2px rgba(0, 0, 0, 0.1)",
-                        zIndex: 10,
+                        padding: "8px",
+                        backgroundColor: "transparent",
+                        cursor: "pointer",
+                        border: "none",
                       }}
                     >
-                      {post.is_edit && editingPostId !== post.id && (
-                        <button
-                          onClick={() => {
-                            editPost(post.id, post.content);
-                            setOpenDropdownId(null);
-                          }}
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            padding: "8px",
-                            width: "100%",
-                            textAlign: "left",
-                            color: "#1e3a8a",
-                            backgroundColor: "transparent",
-                            border: "none",
-                            cursor: "pointer",
-                          }}
-                        >
-                          <FaEdit style={{ marginRight: "8px" }} /> Edit
-                        </button>
-                      )}
-                      {post.is_edit && editingPostId !== post.id && <button
-                        onClick={() => {
-                          confirmDeletePost(post.id);
-                          setOpenDropdownId(null);
-                        }}
+                      <FaEllipsisV />
+                    </button>
+                  )}
+
+                  {openDropdownId === post.id &&
+                    post.is_edit &&
+                    editingPostId !== post.id && (
+                      <div
                         style={{
-                          display: "flex",
-                          alignItems: "center",
-                          padding: "8px",
-                          width: "100%",
-                          textAlign: "left",
-                          color: "#ef4444",
-                          backgroundColor: "transparent",
-                          border: "none",
-                          cursor: "pointer",
+                          position: "absolute",
+                          right: "0",
+                          marginTop: "8px",
+                          width: "120px",
+                          backgroundColor: "#ffffff",
+                          border: "1px solid #d1d5db",
+                          borderRadius: "8px",
+                          boxShadow: "0 1px 2px rgba(0, 0, 0, 0.1)",
+                          zIndex: 10,
                         }}
                       >
-                        <FaTrash style={{ marginRight: "8px" }} /> Delete
-                      </button>}
-                    </div>
-                  )}
+                        {post.is_edit && editingPostId !== post.id && (
+                          <button
+                            onClick={() => {
+                              editPost(post.id, post.content);
+                              setOpenDropdownId(null);
+                            }}
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              padding: "8px",
+                              width: "100%",
+                              textAlign: "left",
+                              color: "#1e3a8a",
+                              backgroundColor: "transparent",
+                              border: "none",
+                              cursor: "pointer",
+                            }}
+                          >
+                            <FaEdit style={{ marginRight: "8px" }} /> Edit
+                          </button>
+                        )}
+                        {post.is_edit && (
+                          <button
+                            onClick={() => {
+                              confirmDeletePost(post.id);
+                              setOpenDropdownId(null);
+                            }}
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              padding: "8px",
+                              width: "100%",
+                              textAlign: "left",
+                              color: "#ef4444",
+                              backgroundColor: "transparent",
+                              border: "none",
+                              cursor: "pointer",
+                            }}
+                          >
+                            <FaTrash style={{ marginRight: "8px" }} /> Delete
+                          </button>
+                        )}
+                      </div>
+                    )}
                 </div>
               </div>
 
@@ -889,22 +899,18 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
                     </div>
                   </CommentCard>
 
-                  {post.feed_comments && post.feed_comments.length > 0 && (
+                  {/* {post.feed_comments && post.feed_comments.length > 0 && (
                     <div
                       style={{
                         display: "flex",
                         flexDirection: "column",
-                        gap: "8px",
+                        gap: "2px",
                       }}
                     >
                       {post.feed_comments?.map((comment, index) => (
                         <CommentCard key={index}>
                           <ProfileImage
-                            src={
-                              comment.isAnonymous
-                                ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSTiGG5lX9viMNkyHJL-13qWwWJgQUI-LxSg&s"
-                                : "https://fiverr-res.cloudinary.com/images/q_auto,f_auto/gigs/149197250/original/e91f8ca9de6e762865d3c20959e544f07bb760cc/create-a-simple-professional-profile-picture-for-you.png"
-                            }
+                            src={comment?.user_photo ?`https://apiwl.novajobs.us/${comment.user_photo}`:"https://liccar.com/wp-content/uploads/png-transparent-head-the-dummy-avatar-man-tie-jacket-user.png"}
                             alt="Profile"
                           />
                           {editingCommentId === comment.id ? (
@@ -954,6 +960,7 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
                                 style={{
                                   display: "flex",
                                   flexDirection: "column",
+                                  border:"2px solid red",
                                 }}
                               >
                                 <p
@@ -963,7 +970,7 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
                                     color: "#1f2937",
                                   }}
                                 >
-                                  {comment.isAnonymous ? "Anonymous" : "User"}
+                                  {`${comment?.user_first_name} ${comment?.user_last_name}`}
                                 </p>
                                 <p
                                   style={{ color: "#4b5563", fontSize: "14px" }}
@@ -1057,6 +1064,142 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
                           )}
                         </CommentCard>
                       ))}
+                      <ConfirmationDialog
+                        isOpen={confirmationDialog.isOpen}
+                        onClose={closeConfirmationDialog}
+                        onConfirm={deletePost}
+                        title={
+                          confirmationDialog.type === "post"
+                            ? "Delete Post"
+                            : "Delete Comment"
+                        }
+                        message={
+                          confirmationDialog.type === "post"
+                            ? "Are you sure you want to delete this post? This action cannot be undone."
+                            : "Are you sure you want to delete this comment? This action cannot be undone."
+                        }
+                      />
+                    </div>
+                  )} */}
+                  {post.feed_comments && post.feed_comments.length > 0 && (
+                    <div className="d-flex flex-column gap-2 mt-3">
+                      {post.feed_comments.map((comment, index) => (
+                        <div
+                          key={index}
+                          className="d-flex p-3 border rounded bg-light mb-2"
+                        >
+                          <img
+                            src={
+                              comment?.user_photo
+                                ? `https://apiwl.novajobs.us/${comment.user_photo}`
+                                : "https://liccar.com/wp-content/uploads/png-transparent-head-the-dummy-avatar-man-tie-jacket-user.png"
+                            }
+                            alt="Profile"
+                            className="rounded-circle me-3"
+                            style={{
+                              width: "50px",
+                              height: "50px",
+                              objectFit: "cover",
+                            }}
+                          />
+
+                          {editingCommentId === comment.id ? (
+                            <div className="flex-grow-1">
+                              <textarea
+                                className="form-control"
+                                value={editedCommentContent}
+                                onChange={(e) =>
+                                  setEditedCommentContent(e.target.value)
+                                }
+                                rows={2}
+                              />
+                              <div className="d-flex justify-content-end gap-2 mt-2">
+                                <button
+                                  onClick={cancelCommentEdit}
+                                  className="btn btn-secondary btn-sm"
+                                >
+                                  Cancel
+                                </button>
+                                <button
+                                  onClick={saveEditedComment}
+                                  className="btn btn-primary btn-sm"
+                                >
+                                  Save
+                                </button>
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="d-flex justify-content-between align-items-start w-100">
+                              <div className="flex-grow-1">
+                                <p className="fw-bold mb-1">
+                                  {comment?.user_first_name}{" "}
+                                  {comment?.user_last_name}
+                                </p>
+                                <p className="text-muted mb-0">
+                                  {comment.content}
+                                </p>
+                              </div>
+
+                              <div className="position-relative">
+                                {comment.is_edit && (
+                                  <button
+                                    onClick={() => toggleDropdown(comment.id)}
+                                    className="btn btn-sm btn-link text-dark p-0"
+                                  >
+                                    <FaEllipsisV />
+                                  </button>
+                                )}
+
+                                {openDropdownId === comment.id && (
+                                  <div
+                                    className="position-absolute bg-white border rounded shadow-sm mt-2 p-2"
+                                    style={{
+                                      right: 0,
+                                      zIndex: 10,
+                                      minWidth: "120px",
+                                    }}
+                                  >
+                                    {comment.is_edit &&
+                                      editingCommentId !== comment.id && (
+                                        <button
+                                          onClick={() => {
+                                            editComment(
+                                              comment.id,
+                                              comment.content,
+                                              post.id
+                                            );
+                                            setOpenDropdownId(null);
+                                          }}
+                                          className="dropdown-item d-flex align-items-center text-primary"
+                                        >
+                                          <FaEdit className="me-2" />
+                                          Edit
+                                        </button>
+                                      )}
+                                    {comment.is_edit && (
+                                      <button
+                                        onClick={() => {
+                                          confirmDeleteComment(
+                                            post.id,
+                                            comment.id
+                                          );
+                                          setOpenDropdownId(null);
+                                        }}
+                                        className="dropdown-item d-flex align-items-center text-danger"
+                                      >
+                                        <FaTrash className="me-2" />
+                                        Delete
+                                      </button>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+
+                      {/* Confirmation Dialog */}
                       <ConfirmationDialog
                         isOpen={confirmationDialog.isOpen}
                         onClose={closeConfirmationDialog}

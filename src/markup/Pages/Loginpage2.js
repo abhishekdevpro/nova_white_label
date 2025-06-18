@@ -294,7 +294,7 @@ function Login(props) {
                             {" "}
                             I agree to the{" "}
                             {
-                              <Link to={"privacy-policy"}>
+                              <Link to={"/privacy-policy"}>
                                 Privacy Policy
                               </Link>
                             }{" "}

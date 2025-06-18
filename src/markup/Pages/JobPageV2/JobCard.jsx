@@ -12,7 +12,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 
-function JobCard({ job, onSelect }) {
+function JobCard({ job, onSelect,onToggleFavorite }) {
   const [isApplied, setIsApplied] = useState(job.job_detail?.is_job_applied);
   const [isSaved, setIsSaved] = useState(job.job_detail?.is_job_favorite);
 
@@ -74,7 +74,11 @@ function JobCard({ job, onSelect }) {
       // console.log(response.message,"meassg");
       if (response){
         toast.success(response.data.message || "job added to favorites");
-      setIsSaved((prev) => !prev);}
+       setIsSaved((prev) => !prev);
+        if (typeof onToggleFavorite === "function") {
+          onToggleFavorite();
+        }
+      }
       else toast.error(response.message);
     } catch (error) {
       console.log(error);

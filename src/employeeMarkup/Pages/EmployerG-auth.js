@@ -169,6 +169,7 @@ const EmployerGauth = () => {
           console.log(message, ">>>>message");
           // Save token in localStorage
           localStorage.setItem("employeeLoginToken", token);
+          localStorage.removeItem("jobSeekerLoginToken");
 
           // ✅ Show success toast message
           toast.success(message || "Login successful!");

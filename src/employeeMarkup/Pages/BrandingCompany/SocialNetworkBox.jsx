@@ -106,7 +106,7 @@ const SocialNetworkBox = () => {
       setSelectedImages
     );
   }, []);
-  console.log(isEmployer, "isEmployer");
+  console.log(companyData.inside_culture_images, "companyData");
   return (
     <>
       {isEmployer ? (
@@ -171,9 +171,9 @@ const SocialNetworkBox = () => {
 
                         <ImagesTab
                           activeTab={activeTab}
-                          insideCultureImages={insideCultureImages}
-                          insideWorkplaceImages={insideWorkplaceImages}
-                          insidePeopleImages={insidePeopleImages}
+                          insideCultureImages={companyData.inside_culture_images}
+                          insideWorkplaceImages={companyData?.inside_workplace_images}
+                          insidePeopleImages={companyData?.inside_people_images}
                           handleInsideImageUpload={handleInsideImageUpload}
                           removeInsideImage={removeInsideImage}
                           handleInsideImagesSave={handleInsideImagesSave}
