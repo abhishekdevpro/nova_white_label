@@ -1,6 +1,7 @@
-"use client"
-import ReactQuill from "react-quill"
-import "react-quill/dist/quill.snow.css"
+"use client";
+import ReactPlayer from "react-player";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 const AboutCompanyTab = ({
   activeTab,
@@ -15,7 +16,7 @@ const AboutCompanyTab = ({
   handlePdfUpload,
   handleAboutSave,
 }) => {
-  if (activeTab !== "about") return null
+  if (activeTab !== "about") return null;
 
   return (
     <div className="tab-pane fade show active">
@@ -27,9 +28,9 @@ const AboutCompanyTab = ({
           transition: "box-shadow 0.2s",
         }}
       >
-        <h4
+        {/* <h4
           style={{
-            fontWeight: 800,
+            fontWeight: 500,
             fontSize: 15,
             marginBottom: 5,
             color: "#1a237e",
@@ -37,7 +38,7 @@ const AboutCompanyTab = ({
           }}
         >
           About Company
-        </h4>
+        </h4> */}
 
         <div style={{ marginBottom: 0 }}>
           <label className="modern-label">Company Title</label>
@@ -48,6 +49,7 @@ const AboutCompanyTab = ({
             onChange={handleInputChange}
             className="form-control modern-input"
             placeholder="Enter company title"
+            maxLength={100}
             style={{
               borderRadius: 10,
               border: "1.5px solid #dbeafe",
@@ -133,6 +135,14 @@ const AboutCompanyTab = ({
               transition: "border 0.2s, box-shadow 0.2s",
             }}
           />
+          {Array.isArray(companyData.video_urls) &&
+            companyData.video_urls.map((url, index) =>
+              ReactPlayer.canPlay(url) ? (
+                <div key={index} style={{ marginTop: 16 }}>
+                  <ReactPlayer url={url} controls width="100%" height="360px" />
+                </div>
+              ) : null
+            )}
         </div>
 
         <div className="modern-divider"></div>
@@ -155,9 +165,16 @@ const AboutCompanyTab = ({
             }}
           />
           {selectedPdf && (
-            <div className="mt-2 p-2" style={{ background: "#f8f9fa", borderRadius: 8 }}>
+            <div
+              className="mt-2 p-2"
+              style={{ background: "#f8f9fa", borderRadius: 8 }}
+            >
               <small className="text-muted">Selected: {selectedPdf.name}</small>
-              <button type="button" onClick={() => setSelectedPdf(null)} className="btn btn-sm btn-outline-danger ms-2">
+              <button
+                type="button"
+                onClick={() => setSelectedPdf(null)}
+                className="btn btn-sm btn-outline-danger ms-2"
+              >
                 Remove
               </button>
             </div>
@@ -186,13 +203,16 @@ const AboutCompanyTab = ({
           />
         </div>
 
-        <button type="button" onClick={handleAboutSave} className="modern-save-btn">
-          
+        <button
+          type="button"
+          onClick={handleAboutSave}
+          className="site-button w-100"
+        >
           Save About Section
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AboutCompanyTab
+export default AboutCompanyTab;

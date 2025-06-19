@@ -10,7 +10,7 @@ const ImagesTab = ({
   handleInsideImagesSave,
 }) => {
   if (activeTab !== "images") return null
-  console.log(insideCultureImages, "insideCultureImages in ImagesTab");
+  // console.log(insideCultureImages, "insideCultureImages in ImagesTab");
 
   return (
     <div className="tab-pane fade show active">

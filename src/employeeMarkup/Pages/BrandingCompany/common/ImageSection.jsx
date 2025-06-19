@@ -59,18 +59,104 @@
 // }
 
 // export default ImageSection
+// "use client"
+
+// const BASE_IMAGE_URL = "https://apiwl.novajobs.us"
+
+// const ImageSection = ({ title, images, type, handleImageUpload, removeImage, handleSave, colClass }) => {
+//   // console.log(images, "images in ImageSection");
+//   return (
+//     <div className={colClass}>
+//       <div className="form-group">
+//         <label>{title}</label>
+//         <div className="d-flex flex-wrap gap-3 mb-3">
+//           {[0, 1, 2].map((index) => (
+//             <div key={index} className="position-relative d-flex flex-column align-items-center">
+//               <label
+//                 htmlFor={`${type}-file-${index}`}
+//                 style={{
+//                   cursor: "pointer",
+//                   width: "100px",
+//                   height: "100px",
+//                   border: "2px dashed #ccc",
+//                   display: "flex",
+//                   alignItems: "center",
+//                   justifyContent: "center",
+//                   backgroundColor: "#f9f9f9",
+//                 }}
+//               >
+//                 {images[index] ? (
+//                   <img
+//                     src={
+//                       typeof images[index] === "string"
+//                         ? `${BASE_IMAGE_URL}${images[index]}`
+//                         : URL.createObjectURL(images[index])
+//                     }
+//                     alt={`Image ${index + 1}`}
+//                     className="img-thumbnail"
+//                     style={{ width: "100%", height: "100%", objectFit: "cover" }}
+//                   />
+//                 ) : (
+//                   <span>+</span>
+//                 )}
+//               </label>
+//               <input
+//                 id={`${type}-file-${index}`}
+//                 type="file"
+//                 accept="image/*"
+//                 onChange={(e) => handleImageUpload(e, type, index)}
+//                 className="d-none"
+//               />
+//               {images[index] && (
+//                 <button
+//                   type="button"
+//                   className="btn btn-danger btn-sm mt-1"
+//                   onClick={() => removeImage(index, type)}
+//                 >
+//                   Remove
+//                 </button>
+//               )}
+//             </div>
+//           ))}
+//         </div>
+
+//         <button
+//           type="button"
+//           onClick={() => handleSave(type)}
+//           className="btn btn-primary d-flex align-items-center gap-2"
+//           style={{
+//             backgroundColor: "#1967d2",
+//             border: "none",
+//             boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+//             transition: "all 0.3s ease",
+//           }}
+//         >
+//           <i className="fa-solid fa-save"></i>
+//           Save {title}
+//         </button>
+//       </div>
+//     </div>
+//   )
+// }
+
+// export default ImageSection
+
 "use client"
 
 const BASE_IMAGE_URL = "https://apiwl.novajobs.us"
 
 const ImageSection = ({ title, images, type, handleImageUpload, removeImage, handleSave, colClass }) => {
-  console.log(images, "images in ImageSection");
+  console.log(`${type} images:`, images); // Debug log
+  
+  // Ensure we always have an array of at least 3 slots
+  const imageSlots = Array.from({ length: 3 }, (_, index) => images[index] || null);
+  
   return (
     <div className={colClass}>
       <div className="form-group">
         <label>{title}</label>
         <div className="d-flex flex-wrap gap-3 mb-3">
-          {[0, 1, 2].map((index) => (
+          {imageSlots.map((image, index) => (
             <div key={index} className="position-relative d-flex flex-column align-items-center">
               <label
                 htmlFor={`${type}-file-${index}`}
@@ -85,14 +171,16 @@ const ImageSection = ({ title, images, type, handleImageUpload, removeImage, han
                   backgroundColor: "#f9f9f9",
                 }}
               >
-                {images[index] ? (
+                {image ? (
                   <img
                     src={
-                      typeof images[index] === "string"
-                        ? `${BASE_IMAGE_URL}${images[index]}`
-                        : URL.createObjectURL(images[index])
+                      typeof image === "string" && !image.startsWith("http")
+                        ? `${BASE_IMAGE_URL}${image}`
+                        : typeof image === "string"
+                        ? image
+                        : URL.createObjectURL(image)
                     }
-                    alt={`Image ${index + 1}`}
+                    alt={`${title} ${index + 1}`}
                     className="img-thumbnail"
                     style={{ width: "100%", height: "100%", objectFit: "cover" }}
                   />
@@ -107,10 +195,10 @@ const ImageSection = ({ title, images, type, handleImageUpload, removeImage, han
                 onChange={(e) => handleImageUpload(e, type, index)}
                 className="d-none"
               />
-              {images[index] && (
+              {image && (
                 <button
                   type="button"
-                  className="btn btn-danger btn-sm mt-1"
+                  className="site-button btn-danger btn-sm mt-1"
                   onClick={() => removeImage(index, type)}
                 >
                   Remove
@@ -119,19 +207,14 @@ const ImageSection = ({ title, images, type, handleImageUpload, removeImage, han
             </div>
           ))}
         </div>
-
+        
         <button
           type="button"
           onClick={() => handleSave(type)}
-          className="btn btn-primary d-flex align-items-center gap-2"
-          style={{
-            backgroundColor: "#1967d2",
-            border: "none",
-            boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-            transition: "all 0.3s ease",
-          }}
+          className="site-button"
+          
         >
-          <i className="fa-solid fa-save"></i>
+          
           Save {title}
         </button>
       </div>

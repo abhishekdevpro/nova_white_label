@@ -147,7 +147,8 @@ export const useCompanyData = () => {
         setSelectedImages([])
       }
     } catch (error) {
-      toast.error("Error fetching data")
+      console.error("Error fetching company data:", error)
+      // toast.error("Error fetching data")
     }
   }
 
@@ -196,7 +197,7 @@ export const useCompanyData = () => {
 
   const handleSave = async (event, makesUsUnique) => {
     event.preventDefault()
-    console.log(makesUsUnique,"vendor company branding page summary ");
+    // console.log(makesUsUnique,"vendor company branding page summary ");
     const dataToUpdate = {
       company_name: companyData.company_name,
       summery: companyData.summery,
