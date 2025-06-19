@@ -197,6 +197,7 @@ const BasicInformationTab = ({
                   onChange={handleInputChange}
                   className="form-control"
                   placeholder="Enter company name"
+                  maxLength={100}
                 />
               </div>
             </div>
@@ -253,45 +254,49 @@ const BasicInformationTab = ({
               <div className="col-md-6 mb-3">
                 <label>Facebook</label>
                 <input
-                  type="text"
+                  type="url"
                   name="facebook_link"
                   value={companyData.facebook_link || ""}
                   onChange={handleInputChange}
                   className="form-control"
-                  placeholder="Facebook"
+                  placeholder="Facebook url"
+                  maxLength={500}
                 />
               </div>
               <div className="col-md-6 mb-3">
                 <label>Linkedin</label>
                 <input
-                  type="text"
+                  type="url"
                   name="linkedin_link"
                   value={companyData.linkedin_link || ""}
                   onChange={handleInputChange}
                   className="form-control"
                   placeholder="Linkedin"
+                  maxLength={500}
                 />
               </div>
               <div className="col-md-6 mb-3">
                 <label>Twitter</label>
                 <input
-                  type="text"
+                  type="url"
                   name="twitter_link"
                   value={companyData.twitter_link || ""}
                   onChange={handleInputChange}
                   className="form-control"
                   placeholder="Twitter"
+                  maxLength={500}
                 />
               </div>
               <div className="col-md-6 mb-3">
                 <label>Website</label>
                 <input
-                  type="text"
+                  type="url"
                   name="website_link"
                   value={companyData.website_link || ""}
                   onChange={handleInputChange}
                   className="form-control"
                   placeholder="Website"
+                  maxLength={500}
                 />
               </div>
             </div>
@@ -303,17 +308,10 @@ const BasicInformationTab = ({
                 <button
                   type="submit"
                   onClick={(e) => handleSave(e, makesUsUnique)}
-                  className="btn btn-primary btn-lg d-flex align-items-center gap-2"
-                  style={{
-                    backgroundColor: "#1967d2",
-                    border: "none",
-                    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                    transition: "all 0.3s ease",
-                    padding: "0.75rem 1.5rem",
-                    fontSize: "1.1rem",
-                  }}
+                  className="site-button w-100"
+                  
                 >
-                  <i className="fa-solid fa-save"></i>
+                  {/* <i className="fa-solid fa-save"></i> */}
                   Save All Changes
                 </button>
               </div>

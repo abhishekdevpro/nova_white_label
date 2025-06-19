@@ -15,6 +15,7 @@ import {
   setScreeningQuestion,
 } from "../../store/reducers/jobApplicationScreeningQues";
 import { Form, Modal, Tab } from "react-bootstrap";
+import JobCard from "./JobPageV2/JobCard";
 const postBlog = [
   { title: "PHP Web Developer" },
   { title: "Software Developer" },
@@ -28,22 +29,29 @@ function Jobsappliedjob() {
     (state) => state.jobApplicationSlice.jobApplicationData
   );
   const token = localStorage.getItem("jobSeekerLoginToken");
+  const fetchAppliedJobs = async () => {
+    try {
+      const response = await axios.get(
+        "https://apiwl.novajobs.us/api/jobseeker/jobs-applied",
+        {
+          headers: {
+            Authorization: token,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setData(response.data.data || []);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setSkeleton(false);
+    }
+  };
+
   useEffect(() => {
-    axios({
-      method: "GET",
-      url: "https://apiwl.novajobs.us/api/jobseeker/jobs-applied",
-      headers: {
-        Authorization: token,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        console.log(response.data.data, "jobapplied");
-        setData(response.data.data);
-        setSkeleton(false);
-      })
-      .catch((err) => console.log(err, "job applied"));
+    fetchAppliedJobs();
   }, []);
+
   const [selectedJob, setSelectedJob] = useState(null);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -63,13 +71,10 @@ function Jobsappliedjob() {
     if (jobApplicationData && jobApplicationData.length > 0) {
       setSelectedJob(jobApplicationData[0]);
     } else {
-      console.log('No job application data available');
+      console.log("No job application data available");
     }
     console.log(jobApplicationData, "error");
   }, [jobApplicationData]);
-  
-
-
 
   const screeningQuestion = useSelector(
     (state) => state.jobApplicationScreeningQues.selectedScreeningQuestions
@@ -120,19 +125,18 @@ function Jobsappliedjob() {
   return (
     <>
       <Header2 />
-      <FixedHeader />
+      {/* <FixedHeader /> */}
 
       <div className="page-content bg-white">
         <div className="content-block">
           <div className="section-full bg-white p-t50 p-b20">
             <div className="container">
               <div className="row">
-                
                 <Profilesidebar data={"applied-jobs"} />
                 <div className="col-xl-9 m-b30 browse-job">
                   <div className="job-bx-title  clearfix">
                     <h5 className="font-weight-700 pull-left text-uppercase">
-                      Applied Jobs 
+                      Applied Jobs
                     </h5>
                     <div className="float-right">
                       <span className="select-title">Sort by freshness</span>
@@ -150,393 +154,15 @@ function Jobsappliedjob() {
                     <div>
                       {data ? (
                         <ul className="post-job-bx browse-job">
-                          {data.map((item, index) => {
-                            const formattedCreatedDate = moment(
-                              item.job_detail.created_at
-                            ).fromNow();
-                            const formattedDate = moment(
-                              item.job_applied.created_at
-                            ).format("MMMM-DD-YYYY");
-                            return (
-                              <li key={index}>
-                                <div className="post-bx">
-                                  <div className="job-post-info m-a0">
-                                    <h4>
-                                      <Link
-                                        to={`/user/jobs/${item.job_detail.id}`}
-                                      >
-                                        {item.job_detail.job_title}
-                                      </Link>
-                                    </h4>
-                                    <ul>
-                                      {item.countries.name ||
-                                      item.states.name ||
-                                      item.cities.name ? (
-                                        <li>
-                                          <i className="fa fa-map-marker"></i>{" "}
-                                          {item.countries.name},{" "}
-                                          {item.states.name},{item.cities.name}
-                                        </li>
-                                      ) : null}
-                                      {item.job_category.name ? (
-                                        <li>
-                                          <i className="fa fa-bookmark-o"></i>{" "}
-                                          {item.job_category.name}
-                                        </li>
-                                      ) : null}
-                                      {item.job_type.name ? (
-                                        <li>{item.job_type.name}</li>
-                                      ) : null}
-                                      {item.job_workplace_types.name ? (
-                                        <li>{item.job_workplace_types.name}</li>
-                                      ) : null}
-                                    </ul>
-                                    {/* <p>{item.job_detail.job_description}</p> */}
-                                    {/* <ul>
-      <li>
-        <Link to={"/user/company-profile"}>
-          @company-name
-        </Link>
-      </li>
-      <li>
-        <i className="fa fa-map-marker"></i> Sacramento,
-        California
-      </li>
-      <li>
-        <i className="fa fa-money"></i> 25,000
-      </li>
-    </ul> */}
-                                    <div className="job-time m-t15 m-b10">
-                                      {/* Applied on:{" "} */}
-                                      {/* {Date(item.job_applied.created_at)} */}
-                                      Applied on :{formattedDate}
-                                      {item.job_detail.skills_arr ? (
-                                        <div>
-                                          {item.job_detail.skills_arr.map(
-                                            (item, index) => {
-                                              return (
-                                                <span key={index}>{item}</span>
-                                              );
-                                            }
-                                          )}
-                                        </div>
-                                      ) : null}
-                                    </div>
-                                    <div className="posted-info clearfix d-flex justify-content-between ">
-                                      <p className="m-tb0 text-primary w-50 ">
-                                        <span className="text-black m-r10">
-                                          Posted:
-                                        </span>{" "}
-                                        {formattedCreatedDate}
-                                      </p>
-                                      <div
-                                        className="d-flex align-items-center  w-50 justify-content-end "
-                                        style={{ gap: "7px" }}
-                                      >
-                                        {/* <Link
-                                          to={"/user/jobs-my-resume"}
-                                          className="site-button button-sm float-right"
-                                        >
-                                          Job Details
-                                        </Link>
-                                        <button
-                                          onClick={() => {
-                                            handleShow();
-                                            handleSelectJob(item);
-                                          }}
-                                          className="site-button button-sm float-right"
-                                        >
-                                          Apply
-                                        </button> */}
-                                        <Modal
-                                          show={show}
-                                          onHide={handleClose}
-                                          backdrop="static"
-                                          keyboard={false}
-                                        >
-                                          <Modal.Header
-                                            closeButton
-                                            style={{ backgroundColor: "#ffff" }}
-                                            className="mt-4"
-                                          >
-                                            <Modal.Title
-                                              style={{ color: "#000" }}
-                                            >
-                                              <p>
-                                                {" "}
-                                                Apply to {selectedJob?.company}
-                                              </p>
-                                            </Modal.Title>
-                                          </Modal.Header>
-                                          <Modal.Body>
-                                            <Tab.Container
-                                              id="tabs-example"
-                                              activeKey={activeTab}
-                                            >
-                                              <div
-                                                style={{
-                                                  fontSize: "20px",
-                                                  paddingBottom: "10px",
-                                                }}
-                                              >
-                                                Screening questions
-                                              </div>
-                                              <Tab.Content>
-                                                <Tab.Pane eventKey="contact-info">
-                                                  <form className="col-12 p-a0">
-                                                    {selectedJob
-                                                      ?.screen_questions
-                                                      ?.screen_question_keywords !==
-                                                    null ? (
-                                                      <div>
-                                                        {selectedJob?.screen_questions?.screen_question_keywords.map(
-                                                          (item, index) => (
-                                                            <div key={index}>
-                                                              <h4>
-                                                                {item.name}
-                                                              </h4>
-                                                              <div>
-                                                                {item?.screen_questions.map(
-                                                                  (
-                                                                    ques,
-                                                                    questionIndex
-                                                                  ) => (
-                                                                    <div
-                                                                      key={
-                                                                        questionIndex
-                                                                      }
-                                                                      style={{
-                                                                        paddingBottom:
-                                                                          "30px",
-                                                                      }}
-                                                                    >
-                                                                      <h5>
-                                                                        {
-                                                                          ques?.name
-                                                                        }
-                                                                      </h5>
-                                                                      {ques?.screen_questions_options.map(
-                                                                        (
-                                                                          option
-                                                                        ) => (
-                                                                          <Form.Check
-                                                                            type="radio"
-                                                                            label={
-                                                                              option.option
-                                                                            }
-                                                                            id={
-                                                                              option.option
-                                                                            }
-                                                                            className="site-button"
-                                                                            name={
-                                                                              ques.name
-                                                                            }
-                                                                            style={{
-                                                                              marginRight:
-                                                                                "30px",
-                                                                              padding:
-                                                                                "10px 30px",
-                                                                            }}
-                                                                            onClick={() => {
-                                                                              dispatch(
-                                                                                setJobSeekerAnswer(
-                                                                                  {
-                                                                                    index:
-                                                                                      index,
-                                                                                    questionIndex:
-                                                                                      questionIndex,
-                                                                                    answer:
-                                                                                      option.option,
-                                                                                  }
-                                                                                )
-                                                                              );
-                                                                            }}
-                                                                          />
-                                                                        )
-                                                                      )}
-                                                                    </div>
-                                                                  )
-                                                                )}
-                                                              </div>
-                                                            </div>
-                                                          )
-                                                        )}
-                                                      </div>
-                                                    ) : null}
-                                                  </form>
-                                                </Tab.Pane>
-                                                <Tab.Pane eventKey="additional-info">
-                                                  {/* Additional Info Form */}
-                                                  <form className="col-12 p-a0">
-                                                    <h6 className="font-weight-600">
-                                                      Additional info
-                                                    </h6>
-                                                    <div class="form-group">
-                                                      <label for="englishProficiency">
-                                                        What is your level of
-                                                        proficiency in English?
-                                                      </label>
-                                                      <select
-                                                        class="form-control"
-                                                        id="englishProficiency"
-                                                        required
-                                                      >
-                                                        <option value="">
-                                                          Select an option
-                                                        </option>
-                                                        <option>
-                                                          Beginner
-                                                        </option>
-                                                        <option>
-                                                          Intermediate
-                                                        </option>
-                                                        <option>
-                                                          Advanced
-                                                        </option>
-                                                        <option>Fluent</option>
-                                                      </select>
-                                                    </div>
-                                                    <div class="form-group">
-                                                      <label for="salaryRange">
-                                                        Are you okay with the
-                                                        salary range between 30k
-                                                        - 35K?
-                                                      </label>
-                                                      <select
-                                                        class="form-control"
-                                                        id="salaryRange"
-                                                        required
-                                                      >
-                                                        <option value="">
-                                                          Select an option
-                                                        </option>
-                                                        <option>Yes</option>
-                                                        <option>No</option>
-                                                      </select>
-                                                    </div>
-                                                    <div class="form-group">
-                                                      <label for="customerServiceExperience">
-                                                        How many years of
-                                                        Customer Service
-                                                        experience do you
-                                                        currently have?
-                                                      </label>
-                                                      <input
-                                                        type="number"
-                                                        class="form-control"
-                                                        id="customerServiceExperience"
-                                                        placeholder="Enter years of experience"
-                                                        min="0"
-                                                        max="99"
-                                                        required
-                                                      />
-                                                    </div>
-                                                    <div class="form-group">
-                                                      <label for="workLocation">
-                                                        Are you comfortable to
-                                                        work on both Gurgaon and
-                                                        Delhi branches?
-                                                      </label>
-                                                      <select
-                                                        class="form-control"
-                                                        id="workLocation"
-                                                        required
-                                                      >
-                                                        <option value="">
-                                                          Select an option
-                                                        </option>
-                                                        <option>Yes</option>
-                                                        <option>No</option>
-                                                      </select>
-                                                    </div>
-                                                  </form>
-                                                </Tab.Pane>
-                                                <Tab.Pane eventKey="resume-info">
-                                                  {/* Additional Info Form */}
-                                                  <form className="col-12 p-a0">
-                                                    <h6 className="font-weight-600">
-                                                      Resume info
-                                                    </h6>
-                                                    <div class="form-group">
-                                                      <label for="resume">
-                                                        Upload resume (DOC,
-                                                        DOCX, PDF, up to 2 MB)
-                                                      </label>
-                                                      <input
-                                                        type="file"
-                                                        class="form-control-file"
-                                                        id="resume"
-                                                        name="resume"
-                                                        accept=".doc, .docx, .pdf"
-                                                        required
-                                                      />
-                                                      <small class="form-text text-muted">
-                                                        Accepted file types:
-                                                        DOC, DOCX, PDF. Maximum
-                                                        file size: 2 MB.
-                                                      </small>
-                                                    </div>
-                                                  </form>
-                                                </Tab.Pane>
-                                                <Tab.Pane eventKey="immediate-info">
-                                                  <form className="col-12 p-a0">
-                                                    <h6 className="font-weight-600">
-                                                      immediate info
-                                                    </h6>
-
-                                                    <div class="form-group">
-                                                      <label for="immediateStart">
-                                                        We must fill this
-                                                        position urgently. Can
-                                                        you start immediately?
-                                                      </label>
-                                                      <select
-                                                        class="form-control"
-                                                        id="immediateStart"
-                                                        required
-                                                      >
-                                                        <option value="">
-                                                          Select an option
-                                                        </option>
-                                                        <option>Yes</option>
-                                                        <option>No</option>
-                                                      </select>
-                                                    </div>
-                                                  </form>
-                                                </Tab.Pane>
-                                              </Tab.Content>
-                                            </Tab.Container>
-                                          </Modal.Body>
-                                          <Modal.Footer>
-                                            {activeTab !== "contact-info" && (
-                                              <button
-                                                className="site-button mr-2"
-                                                onClick={handlePrev}
-                                              >
-                                                Previous
-                                              </button>
-                                            )}
-                                            {activeTab === "contact-info" && (
-                                              <button
-                                                className="site-button "
-                                                onClick={() => {
-                                                  handleClose();
-                                                  handleSubmit();
-                                                }}
-                                                // onClick={handleClose}
-                                              >
-                                                Submit
-                                              </button>
-                                            )}
-                                          </Modal.Footer>
-                                        </Modal>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </li>
-                            );
-                          })}
+                          {/*  */}
+                          {data?.map((item, index) => (
+                            <JobCard
+                              key={item.s_no}
+                              job={item}
+                              onSelect={() => setSelectedJob(item)}
+                              onToggleFavorite={fetchAppliedJobs}
+                            />
+                          ))}
                         </ul>
                       ) : (
                         <div className="d-flex w-100  justify-content-center ">

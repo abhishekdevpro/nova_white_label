@@ -18,7 +18,7 @@ export default function TextEditor() {
         theme="snow"
         value={postAJobData.description}
         onChange={handleChange}
-        style={{ height: "200px", width: "100%", marginBottom: "70px" }}
+        style={{ height: "200px", width: "100%", marginBottom: "70px", border: "1px solid #ccc" }}
       />
     </div>
   );

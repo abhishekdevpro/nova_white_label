@@ -43,12 +43,17 @@ const LoginCode = () => {
         { email, otp, domain: url }
       );
 
+      if(response.data?.success ==="success" || response.data?.code === 200){
       const token = response.data?.data?.token;
-
-      toast.success("Login successful!");
+      toast.success(response.data?.message || "Login successful!");
       localStorage.setItem("jobSeekerLoginToken", token);
-
+      localStorage.removeItem("employeeLoginToken");
       navigate(`/user/jobs-profile`);
+    }
+    else{
+      navigate("/user/login");
+      toast.error(response.data?.message || "Invalid OTP!");
+    }
     } catch (error) {
       toast.error(
         error.response?.data?.message || "Invalid OTP. Please try again."

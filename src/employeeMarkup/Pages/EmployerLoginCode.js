@@ -13,7 +13,7 @@ const LoginEmployerCode = () => {
   //   const router = useRouter();
   const [otp, setOtp] = useState("");
   const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const BASE_URL = "https://apiwl.novajobs.us";
   const handleOtpChange = (e) => {
@@ -43,19 +43,20 @@ const LoginEmployerCode = () => {
 
         { email, otp ,domain:url}
       );
-      console.log(response,">>>");
-       if(response){
+      console.log(response, ">>>");
+      if (response.data?.success === "success" || response.data?.code === 200) {
         const token = response.data?.data?.token;
 
-        toast.success("Login successful!");
+        toast.success(response.data.message || "Login successful!");
         localStorage.setItem("employeeLoginToken", token);
-  
+        localStorage.removeItem("jobSeekerLoginToken");
+        localStorage.removeItem("vendorToken");
+
         navigate(`/employer/company-profile`);
-       }
-       else{
-        toast.error(response.data.message || "Invalid OTP!")
-       }   
-     
+      } else {
+        toast.error(response?.data.message || "Invalid OTP!");
+        navigate("/employer/login");
+      }
     } catch (error) {
       toast.error(error.response?.data?.message || "Invalid OTP. Please try again.")
       console.error(
@@ -129,7 +130,7 @@ const LoginEmployerCode = () => {
           onClick={handleSignIn}
           className="btn btn-primary w-100 d-flex justify-content-center align-items-center"
         >
-          {loading ? "submit" : "Sign In"}
+          {loading ? "Loading..." : "Sign In"}
         </button>
 
         {/* Resend Code */}

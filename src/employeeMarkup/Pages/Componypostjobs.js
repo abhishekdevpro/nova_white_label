@@ -213,6 +213,9 @@ function EmployeeComponypostjobs() {
     } catch (error) {
       console.error("Error occurred: ", error.response.data);
     }
+    finally{
+      setDescription(false);
+    }
   };
   
   const postCompleted = async () => {
@@ -517,6 +520,8 @@ function EmployeeComponypostjobs() {
                               name="jobTitle"
                               value={postAJobData.jobTitle}
                               onChange={handleChange}
+                              maxLength={100}
+                              required
                             />
                           </div>
                           {errors.jobTitle && (
@@ -527,7 +532,7 @@ function EmployeeComponypostjobs() {
                           <div className="form-group">
                             <label htmlFor="salary">Salary/month</label>
                             <input
-                              type="text"
+                              type="number"
                               className="form-control"
                               placeholder="Enter Salary"
                               id="salary"
@@ -568,6 +573,7 @@ function EmployeeComponypostjobs() {
                               name="company"
                               value={postAJobData.company}
                               onChange={handleChange}
+                              readOnly
                               // disabled
                             />
                           </div>
@@ -900,22 +906,19 @@ function EmployeeComponypostjobs() {
                       <QualificationSetting />
                     </div> */}
                     <div
-                      style={{
-                        display: "flex",
-                        gap: 10,
-                      }}
+                      // style={{
+                      //   display: "flex",
+                      //   gap: 10,
+                      // }}
                     >
                       <div
-                        style={{
-                          display: "flex",
-                          gap: 10,
-                        }}
+                        
                       >
                         {/* Step 3: Update UI based on job posting status */}
                         {jobPostingStatus === "pending" ? (
                           <button
                             onClick={handlePostJob}
-                            className="site-button d-flex justify-content-center align-items-center mt-4 "
+                            className="site-button w-100 mt-4 "
                           >
                             Post job
                           </button>

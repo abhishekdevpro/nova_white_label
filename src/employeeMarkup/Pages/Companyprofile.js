@@ -71,7 +71,7 @@ function EmployeeCompanyprofile() {
         console.log(err);
         showToastError(err?.response?.data?.message);
       });
-  }, [token]); // Added token as dependency to ensure useEffect runs on token change
+  }, [token]); 
 
   // Function to update company data
   const handlePhoneNumberChange = (e) => {
@@ -388,6 +388,7 @@ function EmployeeCompanyprofile() {
                               onChange={(e) => setCompanyName(e.target.value)}
                               value={companyName}
                               required
+                              maxLength={50}
                             />
                           </div>
                         </div>
@@ -401,21 +402,12 @@ function EmployeeCompanyprofile() {
                               onChange={(e) => setTagline(e.target.value)}
                               value={tagline}
                               required
+                              maxLength={100}
                             />
                           </div>
                         </div>
                         <div className="col-lg-6 col-md-6">
-                          {/* <div className="form-group">
-                            <label>Email ID</label>
-                            <input
-                              type="email"
-                              className="form-control"
-                              placeholder="info@gmail.com"
-                              onChange={(e) => setEmail(e.target.value)}
-                              value={email}
-                              required
-                            />
-                          </div> */}
+                          
                           <div
                             className="form-group  "
                             style={{ position: "relative" }}
@@ -451,12 +443,13 @@ function EmployeeCompanyprofile() {
                           <div className="form-group">
                             <label>Website</label>
                             <input
-                              type="text"
+                              type="url"
                               className="form-control"
                               placeholder="Website Link"
                               onChange={(e) => setWebsite(e.target.value)}
                               value={website}
                               required
+                              maxLength="2048"
                             />
                           </div>
                         </div>
@@ -464,7 +457,7 @@ function EmployeeCompanyprofile() {
                           <div className="form-group">
                             <label>Founded Year</label>
                             <input
-                              type="text" // Allows the user to select year and month
+                              type="month" // Allows the user to select year and month
                               className="form-control"
                               onChange={(e) => setFoundedYear(e.target.value)}
                               value={foundedYear}
@@ -527,6 +520,7 @@ function EmployeeCompanyprofile() {
                                       className="form-control"
                                       placeholder="Service Title"
                                       value={service.title}
+                                      maxLength={100}
                                       onChange={(e) =>
                                         handleServiceChange(
                                           index,
@@ -675,11 +669,12 @@ function EmployeeCompanyprofile() {
                           <div className="form-group">
                             <label>LinkedIn Link</label>
                             <input
-                              type="text"
+                              type="url"
                               className="form-control"
                               placeholder="LinkedIn Link"
                               onChange={(e) => setlinkdin(e.target.value)}
                               value={linkdin}
+                              maxLength="2048"
                             />
                           </div>
                         </div>

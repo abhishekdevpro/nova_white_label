@@ -1,18 +1,18 @@
-import React, { useEffect } from 'react';
-import styled from 'styled-components';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { 
-  FileText, 
-  FileSignature, 
-  Brain, 
-  TrendingUp, 
-  Heart, 
-  BarChart2, 
-  Users, 
-  MessageSquare 
-} from 'lucide-react';
-import UserHeader2 from '../Layout/Header2';
-import Profilesidebar from '../Element/Profilesidebar';
+import React, { useEffect } from "react";
+import styled from "styled-components";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import {
+  FileText,
+  FileSignature,
+  Brain,
+  TrendingUp,
+  Heart,
+  BarChart2,
+  Users,
+  MessageSquare,
+} from "lucide-react";
+import UserHeader2 from "../Layout/Header2";
+import Profilesidebar from "../Element/Profilesidebar";
 
 // Assuming these components are already defined elsewhere in your project
 
@@ -187,17 +187,17 @@ const StatusValue = styled.span`
 
 // Main Component
 const JobSeekerDashboard = () => {
-const location = useLocation();
+  const location = useLocation();
   const navigate = useNavigate();
 
-    useEffect(() => {
+  useEffect(() => {
     const params = new URLSearchParams(location.search);
-    const token = params.get('token');
-     console.log(token,"from params ");
+    const token = params.get("token");
+    console.log(token, "from params ");
     if (token) {
       // Save token to localStorage
-      localStorage.setItem('jobSeekerLoginToken', token);
-      console.log(token,"token form utl")
+      localStorage.setItem("jobSeekerLoginToken", token);
+      console.log(token, "token form utl");
       // Remove the token from the URL (keep the same path)
       // params.delete('token');
       // const newSearch = params.toString();
@@ -206,7 +206,6 @@ const location = useLocation();
     }
   }, [location, navigate]);
 
- 
   // Define card data with routes
   const token = localStorage.getItem("jobSeekerLoginToken");
   const cardData = [
@@ -271,13 +270,15 @@ const location = useLocation();
       route: "/user/messages",
     },
   ];
-console.log("hi from dashboard")
-const handleClick = (card) => {
+  console.log("hi from dashboard");
+  const handleClick = (card) => {
     if (card.route.includes("airesume")) {
       window.location.href = `https://novajobs.us${card.route}`;
+    } else {
+      navigate(card.route);
     }
-    navigate(card.route)
   };
+
   return (
     <>
       <UserHeader2 />
@@ -311,7 +312,11 @@ const handleClick = (card) => {
 
           <CardsContainer>
             {cardData.map((card, index) => (
-              <CardLink onClick={()=>handleClick(card)} key={index}>
+              <CardLink
+                to={card.route}
+                onClick={() => handleClick(card)}
+                key={index}
+              >
                 <Card>
                   <CardIcon>{card.icon}</CardIcon>
                   <CardTitle>{card.title}</CardTitle>

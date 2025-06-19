@@ -120,7 +120,7 @@ function Profilesidebar({ data }) {
               </li>
               <li>
                 <a
-                  href={`/airesume/?tokenbyurl=${token}`}
+                  href={`/airesume?tokenbyurl=${token}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={data === "resume" ? "active" : null}

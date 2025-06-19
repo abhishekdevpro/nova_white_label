@@ -9,6 +9,7 @@ import Footer from "./../Layout/Footer";
 import FixedHeader from "../Layout/fixedHeader";
 import Profilesidebar from "../Element/Profilesidebar";
 import { use } from "react";
+import { Edit, Trash2 } from "lucide-react";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 function MyResumes() {
   const [resumes, setResumes] = useState([]);
@@ -24,33 +25,33 @@ function MyResumes() {
   const [newResumeName, setNewResumeName] = useState("");
   const [isDefault, setIsDefault] = useState(false); // New state for is_default
   const token = localStorage.getItem("jobSeekerLoginToken");
- const fetchResumeList = () => {
-  setIsResumeList(true);
-  if (token) {
-    axios
-      .get("https://apiwl.novajobs.us/api/user/resume-list", {
-        headers: { Authorization: token },
-      })
-      .then((response) => {
-        const resumes = response.data.data || [];
-        if (resumes.length === 0) {
-          toast.info("No resumes available.");
-        }
-        setResumes(resumes);
-        setIsResumeList(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching resume list:", error);
-        toast.error("Failed to fetch resumes.");
-        setIsResumeList(false);
-      });
-  } else {
-    console.error("Token not found in localStorage");
-  }
-};
-useEffect(() => {
-  fetchResumeList();
-}, []);
+  const fetchResumeList = () => {
+    setIsResumeList(true);
+    if (token) {
+      axios
+        .get("https://apiwl.novajobs.us/api/user/resume-list", {
+          headers: { Authorization: token },
+        })
+        .then((response) => {
+          const resumes = response.data.data || [];
+          if (resumes.length === 0) {
+            toast.info("No resumes available.");
+          }
+          setResumes(resumes);
+          setIsResumeList(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching resume list:", error);
+          toast.error("Failed to fetch resumes.");
+          setIsResumeList(false);
+        });
+    } else {
+      console.error("Token not found in localStorage");
+    }
+  };
+  useEffect(() => {
+    fetchResumeList();
+  }, []);
 
   const handleGetScore = (resume) => {
     const token = localStorage.getItem("token");
@@ -120,7 +121,7 @@ useEffect(() => {
     // const token = localStorage.getItem("token");
     if (token && editingResumeId) {
       try {
-        await axios.put(
+        const response = await axios.put(
           `https://apiwl.novajobs.us/api/user/resume-details/${editingResumeId}`,
           { resume_title: newResumeName, is_default: isDefault ? 1 : 0 }, // Pass is_default as 1 or 0 ,
 
@@ -128,7 +129,13 @@ useEffect(() => {
             headers: { Authorization: token },
           }
         );
-        toast.success("Resume name updated successfully!");
+        // console.log(response.data, "response from edit resume name");
+        if (response.data.status === "success" || response.data.code === 200) {
+          toast.success(
+            response.message || "Resume name updated successfully!"
+          );
+          fetchResumeList();
+        }
 
         // Update the local state
         setResumes((prevResumes) =>
@@ -159,10 +166,10 @@ useEffect(() => {
           }
         );
         toast.success("Your Resume Deleted Successfully");
-        fetchResumeList()
+        fetchResumeList();
         setResumes((prevResumes) =>
-        prevResumes.filter((resume) => resume.id !== deleteresumeid)
-      );
+          prevResumes.filter((resume) => resume.id !== deleteresumeid)
+        );
 
         setModalType(""); // Close modal
       } catch (error) {
@@ -211,11 +218,13 @@ useEffect(() => {
                             <th className="py-2 px-4">Sr. no.</th>
                             {/* <th className="py-2 px-4">Edit Resume Name</th> */}
                             <th className="py-2 px-4">Resume Name</th>
+
+                            <th className="py-2 px-4">Created</th>
                             <th className="py-2 px-4">AI-Score</th>
                             <th className="py-2 px-4">Improve with AI</th>
-                            <th className="py-2 px-4">Created</th>
                             <th className="py-2 px-4">Actions</th>
-                            <th className="py-2 px-4">JD Match %</th>
+
+                            {/* <th className="py-2 px-4">JD Match %</th> */}
                           </tr>
                         </thead>
                         <tbody>
@@ -224,12 +233,24 @@ useEffect(() => {
                               <td className="py-2 px-4">{index + 1}</td>
 
                               <td className="py-2 px-4">
-                                {resume.resume_title || `${resume.job_seeker_first_name}-resume${index+1}`}
+                                {resume.resume_title ||
+                                  `${resume.job_seeker_first_name}-resume${
+                                    index + 1
+                                  }`}
+                              </td>
+
+                              <td className="py-2 px-4">
+                                {new Date(
+                                  resume.created_at
+                                ).toLocaleDateString()}
                               </td>
                               <td className="py-2 px-4">
                                 <button
                                   className="site-button btn-primary"
-                                  onClick={() => handleGetScore(resume)}
+                                  onClick={() => {
+                                    handleGetScore(resume);
+                                    setModalType("score");
+                                  }}
                                   data-bs-toggle="modal"
                                   data-bs-target="#modalPopup"
                                 >
@@ -239,47 +260,17 @@ useEffect(() => {
                               <td className="py-2 px-4">
                                 <button
                                   className="site-button btn-secondary bg-#1c2957"
-                                  onClick={() => handleGetSuggestions(resume)}
+                                  onClick={() => {
+                                    handleGetSuggestions(resume);
+                                    setModalType("ai");
+                                  }}
                                   data-bs-toggle="modal"
                                   data-bs-target="#modalPopup"
                                 >
                                   Improve with AI
                                 </button>
                               </td>
-                              <td className="py-2 px-4">
-                                {new Date(
-                                  resume.created_at
-                                ).toLocaleDateString()}
-                              </td>
-                              {/* <td className="d-flex gap-3 justify-content-center align-items-center">
-                              <p
-                                className=" "
-                                onClick={() => {
-                                  setEditingResumeId(resume.id);
-                                  setNewResumeName(resume.resume_title || "");
-                                  setIsDefault(resume.is_default === 1);
-                                  setModalType("edit");
-                                }}
-                                data-bs-toggle="modal"
-                                data-bs-target="#modalPopup"
-                                style={{ cursor: "pointer" }}
-                              >
-                                ✏️
-                              </p>
 
-                              <i
-                                className="fa fa-trash-alt text-danger"
-                                onClick={() => {
-                                  setDeleteresumeid(resume.id);
-                                  setModalType("delete");
-                                }}
-                                data-bs-toggle="modal"
-                                data-bs-target="#modalPopup"
-                                style={{ cursor: "pointer" }}
-                              >
-                                🗑️
-                              </i>
-                            </td> */}
                               <td className="d-flex gap-3 justify-content-center align-items-center py-2">
                                 <p
                                   className="text-primary fw-bold mb-0 px-2 py-1 rounded"
@@ -296,7 +287,7 @@ useEffect(() => {
                                     transition: "0.3s",
                                   }}
                                 >
-                                  ✏️
+                                  <Edit />
                                 </p>
 
                                 <i
@@ -312,11 +303,11 @@ useEffect(() => {
                                     transition: "0.3s",
                                   }}
                                 >
-                                  🗑️
+                                  <Trash2 />
                                 </i>
                               </td>
 
-                              <td className="py-2 px-4">Coming Soon</td>
+                              {/* <td className="py-2 px-4">Coming Soon</td> */}
                             </tr>
                           ))}
                         </tbody>
@@ -350,7 +341,7 @@ useEffect(() => {
 
       {/* Modal Popup */}
 
-      <div
+      {/* <div
         className="modal fade"
         id="modalPopup"
         tabIndex="-1"
@@ -358,7 +349,7 @@ useEffect(() => {
       >
         <div className="modal-dialog">
           <div className="modal-content">
-            {/* Loading spinner on top of modal-content */}
+            {/* Loading spinner on top of modal-content 
             {isLoading && (
               <div
                 className="loading-spinner-overlay"
@@ -445,6 +436,134 @@ useEffect(() => {
             </div>
 
             <div className="modal-footer">
+              {modalType === "edit" ? (
+                <>
+                  <button
+                    className="btn btn-primary"
+                    onClick={handleEditResumeName}
+                    data-bs-dismiss="modal"
+                  >
+                    Save Changes
+                  </button>
+                  <button className="btn btn-secondary" data-bs-dismiss="modal">
+                    Cancel
+                  </button>
+                </>
+              ) : modalType === "delete" ? (
+                <>
+                  <button
+                    className="btn btn-danger"
+                    onClick={handleDeleteResume}
+                    data-bs-dismiss="modal"
+                  >
+                    Delete
+                  </button>
+                  <button className="btn btn-secondary" data-bs-dismiss="modal">
+                    Cancel
+                  </button>
+                </>
+              ) : (
+                <button className="btn btn-primary" data-bs-dismiss="modal">
+                  Close
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      </div> */}
+      <div
+        className="modal fade"
+        id="modalPopup"
+        tabIndex="-1"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content position-relative">
+            {/* Loading spinner on top of modal-content */}
+            {isLoading && (
+              <div
+                className="position-absolute top-0 start-0 end-0 bottom-0 d-flex justify-content-center align-items-center"
+                style={{
+                  backgroundColor: "rgba(255, 255, 255, 0.7)",
+                  zIndex: 9999,
+                  borderRadius: "0.5rem",
+                }}
+              >
+                <div className="spinner-border text-primary" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            )}
+
+            <div className="modal-header bg-white border-0">
+              <h5 className="modal-title text-dark">
+                {modalType === "score"
+                  ? modalResumeName || "Resume Score"
+                  : modalType === "ai"
+                  ? modalResumeName || "AI Suggestion"
+                  : modalType === "delete"
+                  ? modalResumeName || "Delete Resume"
+                  : modalType === "edit"
+                  ? modalResumeName || "Edit Resume Name"
+                  : "No Title"}
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+
+            <div className="modal-body">
+              {modalType === "edit" ? (
+                <>
+                  <input
+                    id="editResumeName"
+                    type="text"
+                    className="form-control mb-3"
+                    value={newResumeName}
+                    onChange={(e) => setNewResumeName(e.target.value)}
+                  />
+                  <div className="form-check">
+                    <input
+                      type="checkbox"
+                      id="isDefault"
+                      className="form-check-input"
+                      checked={isDefault}
+                      onChange={(e) => setIsDefault(e.target.checked)}
+                    />
+                    <label htmlFor="isDefault" className="form-check-label">
+                      Set as Default
+                    </label>
+                  </div>
+                </>
+              ) : modalType === "score" ? (
+                <p className="text-dark fs-5">
+                  Score: <strong>{modalContent || "No score available"}</strong>
+                </p>
+              ) : modalType === "ai" ? (
+                modalSuggestions.length > 0 ? (
+                  <ul className="list-group list-group-flush">
+                    {modalSuggestions.map((suggestion, index) => (
+                      <li key={index} className="list-group-item">
+                        {suggestion}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-muted">No suggestions available</p>
+                )
+              ) : modalType === "delete" ? (
+                <p className="text-danger fw-semibold">
+                  Are you sure you want to delete this resume?
+                </p>
+              ) : (
+                <p className="text-muted">No content available</p>
+              )}
+            </div>
+
+            <div className="modal-footer border-0">
               {modalType === "edit" ? (
                 <>
                   <button

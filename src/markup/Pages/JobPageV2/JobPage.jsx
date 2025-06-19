@@ -50,57 +50,57 @@ function JobPage() {
 
   const [searchParams, setSearchParams] = useState(initialSearchParams)
 
-  useEffect(() => {
+  // Move fetchJobApplicationData to component scope so it can be used as a prop
+  const fetchJobApplicationData = async () => {
+    try {
+      setLoading(true)
+      const BaseApi  = token? "https://apiwl.novajobs.us/api/jobseeker/pro/job-lists": "https://apiwl.novajobs.us/api/jobseeker/job-lists"
+      // Construct URL with all active filters
+      const params = new URLSearchParams()
 
-    const BaseApi  = token? "https://apiwl.novajobs.us/api/jobseeker/pro/job-lists": "https://apiwl.novajobs.us/api/jobseeker/job-lists"
-    const fetchJobApplicationData = async () => {
-      try {
-        setLoading(true)
-        // Construct URL with all active filters
-        const params = new URLSearchParams()
+      // Add pagination params
+      params.append("page_no", page)
+      params.append("page_size", perPage)
+      params.append("is_publish", 1)
+      params.append("domain", url)
 
-        // Add pagination params
-        params.append("page_no", page)
-        params.append("page_size", perPage)
-        params.append("is_publish", 1)
-        params.append("domain", url)
+      // Add filter params if they exist
+      if (searchParams.category) params.append("category", searchParams.category)
+      if (searchParams.state_id) params.append("state_id", searchParams.state_id)
+      if (searchParams.city_id) params.append("city_id", searchParams.city_id)
+      if (searchParams.workplace_type) params.append("workplace_type", searchParams.workplace_type)
+      if (searchParams.job_type) params.append("job_type", searchParams.job_type)
+      if (searchParams.experience_level) params.append("experience_level", searchParams.experience_level)
+      if (searchParams.title_keywords) params.append("title_keywords", searchParams.title_keywords)
+      if (searchParams.company_id) params.append("company_id", searchParams.company_id)
 
-        // Add filter params if they exist
-        if (searchParams.category) params.append("category", searchParams.category)
-        if (searchParams.state_id) params.append("state_id", searchParams.state_id)
-        if (searchParams.city_id) params.append("city_id", searchParams.city_id)
-        if (searchParams.workplace_type) params.append("workplace_type", searchParams.workplace_type)
-        if (searchParams.job_type) params.append("job_type", searchParams.job_type)
-        if (searchParams.experience_level) params.append("experience_level", searchParams.experience_level)
-        if (searchParams.title_keywords) params.append("title_keywords", searchParams.title_keywords)
-        if (searchParams.company_id) params.append("company_id", searchParams.company_id)
+      const response = await axios.get(`${BaseApi}?${params.toString()}`, {
+        headers: {
+          Authorization: token,
+        },
+      })
 
-        const response = await axios.get(`${BaseApi}?${params.toString()}`, {
-          headers: {
-            Authorization: token,
-          },
-        })
+      const responseData = response.data.data
+      dispatch(setJobApplicationData(responseData))
+      
+      // Calculate total pages based on response
+      // Assuming the API returns pagination info, adjust accordingly
+      const totalJobsCount = response.data.total_records || responseData.length
+      setTotalJobs(totalJobsCount)
+      setTotalPages(Math.ceil(totalJobsCount / perPage))
+      
+      setShowSkeleton(false)
+      setLoading(false)
 
-        const responseData = response.data.data
-        dispatch(setJobApplicationData(responseData))
-        
-        // Calculate total pages based on response
-        // Assuming the API returns pagination info, adjust accordingly
-        const totalJobsCount = response.data.total_records || responseData.length
-        setTotalJobs(totalJobsCount)
-        setTotalPages(Math.ceil(totalJobsCount / perPage))
-        
-        setShowSkeleton(false)
-        setLoading(false)
-
-      } catch (error) {
-        console.error("Error fetching job data:", error)
-        setShowSkeleton(false)
-        setLoading(false)
-        toast.error("Failed to fetch jobs. Please try again.")
-      }
+    } catch (error) {
+      console.error("Error fetching job data:", error)
+      setShowSkeleton(false)
+      setLoading(false)
+      toast.error("Failed to fetch jobs. Please try again.")
     }
+  }
 
+  useEffect(() => {
     fetchJobApplicationData()
   }, [dispatch, token, page, perPage, searchParams, url])
 
@@ -251,6 +251,7 @@ const handleClearFilters = () => {
                         currentPage={page}
                         totalPages={totalPages}
                         onPageChange={handlePageChange}
+                        // refreshJobs={fetchJobApplicationData}
                       />
                     </div>
 
