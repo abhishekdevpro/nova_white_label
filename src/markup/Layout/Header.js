@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Modal } from "react-bootstrap";
@@ -16,7 +15,7 @@ const UserHeader = () => {
   const { isPartner, logo } = useLogo();
   const naviconRef = useRef(null);
   const sidebarRef = useRef(null);
-  
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -38,7 +37,9 @@ const UserHeader = () => {
 
   useEffect(() => {
     // Handle submenu toggles
-    const navUl = document.querySelectorAll(".navbar-nav > li > a, .sub-menu > li > a");
+    const navUl = document.querySelectorAll(
+      ".navbar-nav > li > a, .sub-menu > li > a"
+    );
 
     const handleNavClick = (event) => {
       const current = event.currentTarget;
@@ -89,7 +90,9 @@ const UserHeader = () => {
 
               <button
                 ref={naviconRef}
-                className={`navbar-toggler navicon justify-content-end ${isMobileMenuOpen ? '' : 'collapsed'}`}
+                className={`navbar-toggler navicon justify-content-end ${
+                  isMobileMenuOpen ? "" : "collapsed"
+                }`}
                 type="button"
                 onClick={toggleMobileMenu}
                 aria-controls="navbarNavDropdown"
@@ -103,15 +106,21 @@ const UserHeader = () => {
 
               <div
                 ref={sidebarRef}
-                className={`header-nav navbar-collapse justify-content-start myNavbar ${isMobileMenuOpen ? 'show' : 'collapse'}`}
+                className={`header-nav navbar-collapse justify-content-start myNavbar ${
+                  isMobileMenuOpen ? "show" : "collapse"
+                }`}
                 id="navbarNavDropdown"
               >
                 <div className="logo-header mostion d-md-block d-lg-none">
-                  <Link to="/" className="dez-page" onClick={handleMenuItemClick}>
+                  <Link
+                    to="/"
+                    className="dez-page"
+                    onClick={handleMenuItemClick}
+                  >
                     <img src={logo} className="logo" alt="mobile logo" />
                   </Link>
                 </div>
-                
+
                 <ul className="nav navbar-nav align-items-center">
                   <li>
                     <Link to="/" onClick={handleMenuItemClick}>
@@ -120,8 +129,15 @@ const UserHeader = () => {
                     </Link>
                   </li>
 
-                  <li className="nav-item jobseeker-hover" style={{ position: "relative" }}>
-                    <Link to="/services" className="nav-link" onClick={handleMenuItemClick}>
+                  <li
+                    className="nav-item jobseeker-hover"
+                    style={{ position: "relative" }}
+                  >
+                    <Link
+                      to="/services"
+                      className="nav-link"
+                      onClick={handleMenuItemClick}
+                    >
                       Services
                     </Link>
                   </li>
@@ -133,15 +149,15 @@ const UserHeader = () => {
                   </li>
 
                   <li>
-                    <Link 
-                      to="/user/jobs" 
+                    <Link
+                      to="/user/jobs"
                       onClick={() => {
                         localStorage.removeItem("selectedLocation");
                         localStorage.removeItem("title_keyword");
                         handleMenuItemClick();
                       }}
                     >
-                      Job Page
+                      Jobs
                     </Link>
                   </li>
 
@@ -160,7 +176,10 @@ const UserHeader = () => {
                     </li>
                   )}
 
-                  <li className="nav-item jobseeker-hover" style={{ position: "relative" }}>
+                  <li
+                    className="nav-item jobseeker-hover"
+                    style={{ position: "relative" }}
+                  >
                     {token ? (
                       <div onClick={handleMenuItemClick}>
                         <Logout />

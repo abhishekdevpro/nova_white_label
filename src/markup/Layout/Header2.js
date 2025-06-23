@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Modal } from "react-bootstrap";
@@ -17,7 +16,7 @@ const UserHeader2 = () => {
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUhQJ-44yDYIuo8Hj-L1ezQSKAkkK4CqlecQ&s"
   );
   const [isPartner, setIsPartner] = useState(false);
-  
+
   const naviconRef = useRef(null);
   const sidebarRef = useRef(null);
 
@@ -48,7 +47,9 @@ const UserHeader2 = () => {
 
   useEffect(() => {
     // Handle submenu toggles
-    const navUl = document.querySelectorAll(".navbar-nav > li > a, .sub-menu > li > a");
+    const navUl = document.querySelectorAll(
+      ".navbar-nav > li > a, .sub-menu > li > a"
+    );
 
     const handleNavClick = (event) => {
       const current = event.currentTarget;
@@ -112,7 +113,9 @@ const UserHeader2 = () => {
 
               <button
                 ref={naviconRef}
-                className={`navbar-toggler navicon justify-content-end ${isMobileMenuOpen ? '' : 'collapsed'}`}
+                className={`navbar-toggler navicon justify-content-end ${
+                  isMobileMenuOpen ? "" : "collapsed"
+                }`}
                 type="button"
                 onClick={toggleMobileMenu}
                 aria-controls="navbarNavDropdown"
@@ -145,7 +148,9 @@ const UserHeader2 = () => {
 
               <div
                 ref={sidebarRef}
-                className={`header-nav navbar-collapse myNavbar justify-content-start ${isMobileMenuOpen ? 'show' : 'collapse'}`}
+                className={`header-nav navbar-collapse myNavbar justify-content-start ${
+                  isMobileMenuOpen ? "show" : "collapse"
+                }`}
                 id="navbarNavDropdown"
               >
                 <ul className="nav navbar-nav">
@@ -155,15 +160,15 @@ const UserHeader2 = () => {
                       Home
                     </Link>
                   </li>
-                  
+
                   <li className="">
                     <Link to="/services" onClick={handleMenuItemClick}>
                       Services
                     </Link>
                   </li>
-                  
+
                   <li className="">
-                    <Link 
+                    <Link
                       to="/user/jobs"
                       onClick={() => {
                         localStorage.removeItem("selectedLocation");
@@ -171,13 +176,16 @@ const UserHeader2 = () => {
                         handleMenuItemClick();
                       }}
                     >
-                      Job Page
+                      Jobs
                     </Link>
                   </li>
 
                   {localStorage.getItem("jobSeekerLoginToken") && (
                     <li>
-                      <Link to={"/user/dashboard"} onClick={handleMenuItemClick}>
+                      <Link
+                        to={"/user/dashboard"}
+                        onClick={handleMenuItemClick}
+                      >
                         Dashboard
                       </Link>
                     </li>
@@ -191,17 +199,25 @@ const UserHeader2 = () => {
                       </div>
                     ) : (
                       <>
-                        <Link to={"/user/login"} className="nav-link" onClick={handleMenuItemClick}>
+                        <Link
+                          to={"/user/login"}
+                          className="nav-link"
+                          onClick={handleMenuItemClick}
+                        >
                           <i className="fa fa-user me-2"></i>
                           Log in
                         </Link>
                       </>
                     )}
                   </li>
-                  
+
                   {!localStorage.getItem("jobSeekerLoginToken") && (
                     <li className="d-lg-none">
-                      <Link to={"/user/register-2"} className="nav-link" onClick={handleMenuItemClick}>
+                      <Link
+                        to={"/user/register-2"}
+                        className="nav-link"
+                        onClick={handleMenuItemClick}
+                      >
                         <i className="fa fa-user me-2"></i>
                         Sign Up
                       </Link>

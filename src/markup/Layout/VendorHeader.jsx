@@ -24,7 +24,9 @@ const VendorHeader = () => {
               <LogoWrapper />
 
               <button
-                className={`navbar-toggler navicon justify-content-end ${isNavbarOpen ? "collapsed" : ""}`}
+                className={`navbar-toggler navicon justify-content-end ${
+                  isNavbarOpen ? "collapsed" : ""
+                }`}
                 type="button"
                 onClick={toggleNavbar}
                 aria-expanded={isNavbarOpen}
@@ -38,7 +40,10 @@ const VendorHeader = () => {
               <div className="extra-nav">
                 <div className="extra-cell">
                   {!localStorage.getItem("vendorToken") && (
-                    <Link to={"/vendor/vendorregistration"} className="site-button">
+                    <Link
+                      to={"/vendor/vendorregistration"}
+                      className="site-button"
+                    >
                       <i className="fa fa-user"></i> Sign Up
                     </Link>
                   )}
@@ -53,7 +58,9 @@ const VendorHeader = () => {
               </div>
 
               <div
-                className={`header-nav navbar-collapse myNavbar justify-content-start ${isNavbarOpen ? "show" : ""}`}
+                className={`header-nav navbar-collapse myNavbar justify-content-start ${
+                  isNavbarOpen ? "show" : ""
+                }`}
               >
                 <ul className="nav navbar-nav">
                   <li>
@@ -71,7 +78,7 @@ const VendorHeader = () => {
                       localStorage.removeItem("title_keyword");
                     }}
                   >
-                    <Link to={"/user/jobs"}>Job Page</Link>
+                    <Link to={"/user/jobs"}>Jobs</Link>
                   </li>
                   {localStorage.getItem("vendorToken") && (
                     <li>
@@ -108,8 +115,8 @@ const VendorHeader = () => {
                 <div className="form-info text-white align-self-center">
                   <h3 className="m-b15">Login To You Now</h3>
                   <p className="m-b15">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting
-                    industry has been the industry.
+                    Lorem Ipsum is simply dummy text of the printing and
+                    typesetting industry has been the industry.
                   </p>
                   <ul className="list-inline m-a0">
                     <li>
@@ -148,7 +155,10 @@ const VendorHeader = () => {
                       <input className="form-control" placeholder="Name" />
                     </div>
                     <div className="form-group">
-                      <input className="form-control" placeholder="Mobile Number" />
+                      <input
+                        className="form-control"
+                        placeholder="Mobile Number"
+                      />
                     </div>
                     <div className="clearfix">
                       <button
