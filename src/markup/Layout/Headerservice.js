@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import Logout from "./Logout";
-import "../Layout/Headerjobseeker.css"
+import "../Layout/Headerjobseeker.css";
 
 import logo2 from "./../../images/logo.png";
 import { Home } from "lucide-react";
@@ -113,8 +113,8 @@ class Headerservice extends Component {
                   <ul className="nav navbar-nav align-items-center ">
                     <li className="">
                       <Link to={"/user"}>
-                       <Home size={20} />
-                       </Link>
+                        <Home size={20} />
+                      </Link>
                       {/* <ul className="sub-menu">
                         <li>
                           <Link to={"./"} className="dez-page">
@@ -142,7 +142,7 @@ class Headerservice extends Component {
                       }}
                       className=""
                     >
-                      <Link to={"/user/job/2"}>Job Page</Link>
+                      <Link to={"/user/job/2"}>Jobs</Link>
                     </li>
                     {localStorage.getItem("jobSeekerLoginToken") ? (
                       <li>
@@ -258,7 +258,7 @@ class Headerservice extends Component {
                         </div>
                       )}
                     </li>
-                    
+
                     {/* <li>
                       {localStorage.getItem("jobSeekerLoginToken") ? null : (
                         <Link

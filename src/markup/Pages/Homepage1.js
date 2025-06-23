@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Footer from "./../Layout/Footer";
 // import CountUp from "react-countup";
 // import IndexBanner from "./../Element/IndexBanner";
@@ -26,21 +26,30 @@ function Homepage() {
   // State to manage hover effects
   const [hoveredBox, setHoveredBox] = useState(null);
   const token = localStorage.getItem("jobSeekerLoginToken");
-  // const navigate = useNavigate();
+  const Navigate = useNavigate();
   // const handleScroll = () => {
   //   window.location.href = `/employer/register-2`;
   //   window.scrollTo(0, 0);
   // };
   const handleBuilder = () => {
     if (token) {
-      window.location.href = `https://airesume.novajobs.us/?tokenbyurl=${token}`;
+      window.location.href = `/airesume?tokenbyurl=${token}`;
     } else {
       window.location.href = "/user/login";
     }
   };
-        
+  const handleSkillTest = () => {
+    Navigate("/novajobs#tab3");
+    window.scrollTo(0, 0);
+  };
+
+  const handleClick = () => {
+    Navigate("/user/jobs");
+    window.scrollTo(0, 0);
+  };
   // console.log(<UserHeader/>,<HeroSection />,<Jobsection />
   //       , <PricingSection />);
+
   return (
     <div className="page-wraper">
       <UserHeader />
@@ -108,18 +117,15 @@ function Homepage() {
                     >
                       Search Jobs with advanced filters and the power of AI
                     </p>
-                    <Link
-                       to={"/user/login"}
-                      style={{ color: "white" }}
+
+                    <button
+                      type="button"
+                      onClick={handleClick}
+                      className="btn text-white hoverlogo-3d"
+                      style={{ backgroundColor: "#080F3A" }}
                     >
-                      <button
-                        type="button"
-                        className="btn text-white hoverlogo-3d"
-                        style={{ backgroundColor: "#080F3A" }}
-                      >
-                        Apply Now
-                      </button>
-                    </Link>
+                      Apply Now
+                    </button>
                   </div>
                 </div>
                 <div className="blue-box">
@@ -164,12 +170,10 @@ function Homepage() {
                       List your company, post jobs, search talent with advanced
                       filters and power of AI{" "}
                     </p>
-                    <Link
-                      to={"/employer/login"}
-                      style={{ color: "white" }}
-                    >
+                    <Link to={"/employer/login"} style={{ color: "white" }}>
                       <button
                         type="button"
+                        onClick={() => window.scrollTo(0, 0)} // Scroll to top on click
                         class="btn btn-danger hoverlogo-3d"
                         // onClick={handleScroll}
                       >
@@ -219,9 +223,7 @@ function Homepage() {
               <div className="card-icon">
                 <FaRegFileAlt />
               </div>
-              <Link
-              to={`/novajobs#tab2`}
-              >
+              <Link to={``}>
                 <h3
                   onClick={handleBuilder}
                   className="d-flex justify-content-center"
@@ -252,16 +254,14 @@ function Homepage() {
               <div className="card-icon">
                 <FaRegFilePdf />
               </div>
-              <Link
-              to={"/novajobs#tab3"}
-              >
+              <div style={{ cursor: "pointer" }} onClick={handleSkillTest}>
                 <h3 className="d-flex justify-content-center">
                   <b>Give skill test</b>
                 </h3>
                 <p className="text-primary">
                   Our AI Skill test can be taken just by uploading resume.
                 </p>
-              </Link>
+              </div>
             </div>
 
             <div
@@ -282,14 +282,12 @@ function Homepage() {
               <div className="card-icon">
                 <FaRegUser />
               </div>
-              <Link
-              to={"https://ultraaura.education/"}
-              >
+              <Link to={"https://ultraaura.education/"}>
                 <h3 className="d-flex justify-content-center">
-                  <b>Enhance Skills</b>
+                  <b>Upgrade skills</b>
                 </h3>
                 <p className="text-primary">
-                  Enhance skills with our Edtech platform.
+                  Upgrade skills with our Edtech platform.
                 </p>{" "}
               </Link>
             </div>
@@ -297,8 +295,8 @@ function Homepage() {
         </div>
         {/* <Featureblog /> */}
         <Jobsection />
-         <PricingSection />
-       
+        <PricingSection />
+
         <div
           className="section-full p-tb70 overlay-black-dark text-white text-center bg-img-fix"
           style={{ backgroundImage: "url(" + bnr2 + ")" }}
@@ -310,8 +308,6 @@ function Homepage() {
             <Owltestimonial />
           </div>
         </div>
-
-      
       </div>
       <Footer />
     </div>

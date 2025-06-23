@@ -191,8 +191,8 @@ const LandingPage = () => {
                 className="site-button fw-bold responsive-button mt-3 text-center"
                 onClick={handleShow}
               >
-                Explore Our One-stop White Label AI-Enabled Services for
-                Employers & Staffing Companies
+                Accelerate hiring with our plug-and-play SaaS recruitment
+                platform, purpose-built for staffing agencies and HR teams.
               </button>
             </div>
             <span className="fw-bold text-black text-center col-8 mt-3">

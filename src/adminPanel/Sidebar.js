@@ -13,6 +13,7 @@ import {
   FaWallet,
   FaUserGraduate,
   FaFileAlt,
+  FaPaintBrush,
 } from "react-icons/fa";
 import "../css/profilesidebar.css";
 const Sidebar = () => {
@@ -179,15 +180,17 @@ const Sidebar = () => {
       <button className="sidebar-toggle" onClick={toggleSidebar}>
         ☰
       </button>
-      <div className={`sidebar ${sidebarOpen ? "open" : ""}`} style={{
-        position: 'fixed',
-        top: 82,
-        left: -15,
-        height: '100vh',
-        overflowY: 'auto',
-        zIndex: 1000,
-     
-      }}>
+      <div
+        className={`sidebar ${sidebarOpen ? "open" : ""}`}
+        style={{
+          position: "fixed",
+          top: 82,
+          left: -15,
+          height: "100vh",
+          overflowY: "auto",
+          zIndex: 1000,
+        }}
+      >
         <Nav className="flex-column bg-light h-screen gap-3">
           <Nav.Link
             as={NavLink}
@@ -198,6 +201,16 @@ const Sidebar = () => {
             <FaTachometerAlt style={iconStyle} /> Dashboard
           </Nav.Link>
 
+          <div>
+            <Nav.Link
+              as={NavLink}
+              to="/admin/branding"
+              style={navLinkStyle("/admin/branding")}
+              className="ps-4"
+            >
+              <FaPaintBrush style={iconStyle} /> Branding
+            </Nav.Link>
+          </div>
           <div>
             <Nav.Link
               onClick={handleTeamClick5}

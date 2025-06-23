@@ -22,16 +22,14 @@ import {
 var bnr2 = require("./../../images/background/bg4.jpg");
 var bnr3 = require("./../../images/lines.png");
 function EmployeeHomepage() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem("employeeLoginToken");
 
-  const navigate =useNavigate();
-  useEffect (()=>{
-
-const token = localStorage.getItem('employeeLoginToken')
-
-if(!token){
-  navigate("/login");
-}
-  },[navigate])
+    if (!token) {
+      navigate("/login");
+    }
+  }, [navigate]);
 
   return (
     <div className="page-wraper">

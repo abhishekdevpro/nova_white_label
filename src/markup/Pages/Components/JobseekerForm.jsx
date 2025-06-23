@@ -1,9 +1,7 @@
-
 // import React, { useState } from 'react';
 // import styled from 'styled-components';
 // import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 // import { useNavigate } from 'react-router-dom';
-
 
 // const JobseekerForm = () => {
 //   const [step, setStep] = useState(0);
@@ -18,7 +16,7 @@
 //     salaryCurrency: 'USD',
 //     salaryFrequency: 'yearly',
 //   });
-  
+
 //   const [errors, setErrors] = useState({});
 //   const [showSummary, setShowSummary] = useState(false);
 
@@ -38,10 +36,10 @@
 //       field: 'workMode',
 //     },
 //     { question: 'Where are you looking to work?', type: 'input', field: 'location' },
-//     { 
-//       question: 'What is your salary expectation?', 
-//       type: 'salary', 
-//       fields: ['salaryExpectation', 'salaryCurrency', 'salaryFrequency'], 
+//     {
+//       question: 'What is your salary expectation?',
+//       type: 'salary',
+//       fields: ['salaryExpectation', 'salaryCurrency', 'salaryFrequency'],
 //     },
 //   ];
 
@@ -224,11 +222,11 @@
 
 // export default JobseekerForm;
 
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { ChevronLeft, ChevronRight, X } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import {  useEffect } from 'react';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 // ... (previous styled components remain unchanged)
 // const FormContainer = styled.div`
 //   background-color: white;
@@ -404,9 +402,9 @@ const OptionButton = styled.button`
   width: 100%;
   padding: 0.5rem;
   text-align: left;
-  border: 1px solid ${props => props.selected ? '#3b82f6' : '#e5e7eb'};
+  border: 1px solid ${(props) => (props.selected ? "#3b82f6" : "#e5e7eb")};
   border-radius: 0.375rem;
-  background-color: ${props => props.selected ? '#e0f2fe' : 'white'};
+  background-color: ${(props) => (props.selected ? "#e0f2fe" : "white")};
   transition: all 0.15s ease-in-out;
   margin-bottom: 0.25rem;
 
@@ -424,9 +422,9 @@ const OptionButton = styled.button`
 const Input = styled.input`
   width: 100%;
   padding: 0.5rem;
-  border: 1px solid ${props => props.error ? '#ef4444' : '#e5e7eb'};
+  border: 1px solid ${(props) => (props.error ? "#ef4444" : "#e5e7eb")};
   border-radius: 0.375rem;
-  
+
   &:focus {
     outline: none;
     border-color: #3b82f6;
@@ -439,7 +437,7 @@ const Select = styled.select`
   padding: 0.5rem;
   border: 1px solid #e5e7eb;
   border-radius: 0.375rem;
-  
+
   &:focus {
     outline: none;
     border-color: #3b82f6;
@@ -471,7 +469,9 @@ const Button = styled.button`
   transition: all 0.15s;
   border: none;
 
-  ${props => props.primary && `
+  ${(props) =>
+    props.primary &&
+    `
     background-color: #3b82f6;
     color: white;
     
@@ -480,7 +480,9 @@ const Button = styled.button`
     }
   `}
 
-  ${props => props.secondary && `
+  ${(props) =>
+    props.secondary &&
+    `
     background-color: #f3f4f6;
     color: #374151;
     
@@ -557,7 +559,7 @@ const SkipButton = styled.button`
   border: none;
   border-radius: 0.375rem;
   margin: 0.25rem auto;
-  
+
   &:hover {
     background-color: #2563eb;
   }
@@ -681,7 +683,7 @@ const SkipButton = styled.button`
 //         navigate("/user/job/1");
 //       }
 //     }
-   
+
 //   };
 
 //   const prevStep = () => {
@@ -863,23 +865,23 @@ const JobseekerForm = () => {
     {
       label: "Resume writing services",
       value: "resume",
-      action: () => navigate("/user/login")
+      action: () => navigate("/user/login"),
     },
     {
       label: "Job search",
       value: "jobSearch",
-      action: () => setSelectedService("jobSearch")
+      action: () => setSelectedService("jobSearch"),
     },
     {
       label: "Career Guidance",
       value: "guidance",
-      action: () => navigate("/user/login")
+      action: () => navigate("/user/login"),
     },
     {
       label: "Skill Upgrade",
       value: "skills",
-      action: () => window.location.href = "https://ultraaura.ed"
-    }
+      action: () => (window.location.href = "https://ultraaura.education/home"),
+    },
   ];
 
   const jobSearchSteps = [
@@ -945,24 +947,23 @@ const JobseekerForm = () => {
     setErrors({ ...errors, [e.target.name]: "" });
   };
 
- 
   const handleOptionSelect = (value, field) => {
     setFormData({ ...formData, [field]: value });
     setErrors({ ...errors, [field]: "" });
-    
+
     // If user selects "No - let's explore" in the first step
-    console.log(value.value );
-    if (field === 'hasSpecificJob' && value.value === false) {
+    console.log(value.value);
+    if (field === "hasSpecificJob" && value.value === false) {
       // Save the form data before navigating
       // localStorage.setItem('jobSearchFormData', JSON.stringify({
       //   ...formData,
       //   [field]: value
       // }));
       // Navigate to the job exploration page
-      navigate('/user/job/1');
+      navigate("/user/jobs");
       return; // Exit the function early to prevent further processing
     }
-    
+
     // For other options, proceed with normal flow
     if (validateStep()) {
       nextStep();
@@ -1046,7 +1047,9 @@ const JobseekerForm = () => {
               onClick={() =>
                 handleOptionSelect(option.value || option, currentStep.field)
               }
-              selected={formData[currentStep.field] === (option.value || option)}
+              selected={
+                formData[currentStep.field] === (option.value || option)
+              }
             >
               {option.label || option}
             </OptionButton>
@@ -1119,7 +1122,11 @@ const JobseekerForm = () => {
           </>
         )}
         <ButtonContainer>
-          <Button secondary onClick={prevStep} disabled={step === 0 && !selectedService}>
+          <Button
+            secondary
+            onClick={prevStep}
+            disabled={step === 0 && !selectedService}
+          >
             <ChevronLeft size={20} />
             Back
           </Button>
@@ -1151,12 +1158,16 @@ const JobseekerForm = () => {
               .filter(([key]) => key !== "hasSpecificJob" && key !== "service")
               .map(([key, value]) => (
                 <div key={key}>
-                  <strong>{key.replace(/([A-Z])/g, " $1").toUpperCase()}:</strong>{" "}
+                  <strong>
+                    {key.replace(/([A-Z])/g, " $1").toUpperCase()}:
+                  </strong>{" "}
                   {value.toString()}
                 </div>
               ))}
             <SuccessMessage>
-              <p><strong>Success</strong></p>
+              <p>
+                <strong>Success</strong>
+              </p>
               <p>Your application has been submitted successfully!</p>
             </SuccessMessage>
           </ModalContent>

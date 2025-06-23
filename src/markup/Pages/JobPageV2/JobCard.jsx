@@ -12,7 +12,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 
-function JobCard({ job, onSelect,onToggleFavorite }) {
+function JobCard({ job, onSelect, onToggleFavorite }) {
   const [isApplied, setIsApplied] = useState(job.job_detail?.is_job_applied);
   const [isSaved, setIsSaved] = useState(job.job_detail?.is_job_favorite);
 
@@ -47,7 +47,7 @@ function JobCard({ job, onSelect,onToggleFavorite }) {
       if (response?.data) {
         console.log(response, "appli");
         toast.success("Application submitted successfully!");
-        setIsApplied(true)
+        setIsApplied(true);
       }
     } catch (error) {
       console.error(error);
@@ -72,14 +72,13 @@ function JobCard({ job, onSelect,onToggleFavorite }) {
         },
       });
       // console.log(response.message,"meassg");
-      if (response){
+      if (response) {
         toast.success(response.data.message || "job added to favorites");
-       setIsSaved((prev) => !prev);
+        setIsSaved((prev) => !prev);
         if (typeof onToggleFavorite === "function") {
           onToggleFavorite();
         }
-      }
-      else toast.error(response.message);
+      } else toast.error(response.message);
     } catch (error) {
       console.log(error);
       // toast.error(error.message || "Failed to add job to favorites. Try again! ")
@@ -123,7 +122,10 @@ function JobCard({ job, onSelect,onToggleFavorite }) {
           </div>
 
           {/* Company Info */}
-          <div className="company-info">
+          <div
+            className="company-info"
+            onClick={() => window.scrollTo(0, 0)} // Scroll to top on click
+          >
             <Link
               to={`/company-details/${job.companies?.id}`}
               className="company-name mb-1 fw-medium"
@@ -156,7 +158,7 @@ function JobCard({ job, onSelect,onToggleFavorite }) {
             style={{
               color: "#ccc",
               fontSize: "18px",
-              border:"none",
+              border: "none",
             }}
           >
             {isSaved || job.job_detail?.is_job_favorite ? (
@@ -334,11 +336,17 @@ function JobCard({ job, onSelect,onToggleFavorite }) {
               : "bg-danger"
           }`}
           style={{
-            cursor: isApplied || job.job_detail.is_job_applied ? "not-allowed" : "pointer",
-            pointerEvents: isApplied || job.job_detail.is_job_applied ? "none" : "auto",
+            cursor:
+              isApplied || job.job_detail.is_job_applied
+                ? "not-allowed"
+                : "pointer",
+            pointerEvents:
+              isApplied || job.job_detail.is_job_applied ? "none" : "auto",
           }}
         >
-          {isApplied || job.job_detail.is_job_applied ? "Applied" : "Quick Apply"}
+          {isApplied || job.job_detail.is_job_applied
+            ? "Applied"
+            : "Quick Apply"}
         </button>
       </div>
     </div>
