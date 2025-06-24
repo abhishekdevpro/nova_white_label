@@ -204,7 +204,6 @@ const Addvendor = () => {
           </Col>
         </Row>
       </Container>
-     
     </div>
   );
 };

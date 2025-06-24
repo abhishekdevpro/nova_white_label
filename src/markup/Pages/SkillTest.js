@@ -151,9 +151,15 @@ function SkillTest() {
                                     className="card-body text-center"
                                     style={{ transition: "box-shadow 0.3s" }}
                                   >
-                                    <h5 className="btn site-button border bg-primary-subtle fw-bold mb-3">
+                                    {/* <h5 className="btn site-button border bg-primary-subtle fw-bold mb-3">
                                       {card.name}
+                                    </h5> */}
+                                    <h5 className="btn site-button border bg-primary-subtle fw-bold mb-3">
+                                      {card.name.length > 20
+                                        ? card.name.slice(0, 20) + "..."
+                                        : card.name}
                                     </h5>
+
                                     <p className="card-text">{card.text}</p>
 
                                     <div
