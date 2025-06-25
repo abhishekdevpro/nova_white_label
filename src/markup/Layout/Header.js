@@ -82,7 +82,6 @@ const UserHeader = () => {
 
   return (
     <>
-      <GoogleTranslate />
       <header className="site-header mo-left header fullwidth">
         <div className="sticky-header main-bar-wraper navbar-expand-lg">
           <div className="main-bar">

@@ -67,9 +67,15 @@ function Novajobsus({ novaJobsusData, projectName }) {
 
         isVisible: (() => {
           try {
-            const parsedData = novaJobsusData.is_images_display; // First parse
-            const actualArray = parsedData[0]; // Second parse to get actual array
-            return actualArray[index] === true; // Check for boolean true/false
+            const visibilityArray = novaJobsusData.is_images_display;
+            if (
+              Array.isArray(visibilityArray) &&
+              visibilityArray[index] !== undefined
+            ) {
+              // Convert string "true"/"false" to boolean
+              return visibilityArray[index] === "true";
+            }
+            return true; // Default to true if no data or index out of bounds
           } catch (error) {
             console.error("Error parsing is_images_display:", error);
             return true; // Default to true in case of an error
@@ -104,13 +110,7 @@ function Novajobsus({ novaJobsusData, projectName }) {
   const handleDeleteImage = (index) => {
     setImages((prevImages) => prevImages.filter((_, i) => i !== index));
   };
-  // const handleToggleImage = (index) => {
-  //   setImages((prevImages) => {
-  //     const updatedImages = [...prevImages];
-  //     updatedImages[index].isVisible = !updatedImages[index].isVisible;
-  //     return updatedImages;
-  //   });
-  // };
+
   const handleToggleImage = (index) => {
     setImages((prevImages) =>
       prevImages.map((img, i) =>
@@ -131,10 +131,12 @@ function Novajobsus({ novaJobsusData, projectName }) {
     formData.append("is_title_display", showHeading);
     formData.append("is_paragraph1_display", showParagraph1);
     // formData.append("is_images_display", showImages);
-    formData.append(
-      "is_images_display",
-      JSON.stringify(images.map((img) => img.isVisible))
-    );
+
+    // Send multiple is_images_display entries with the same key name
+    images.forEach((image) => {
+      formData.append("is_images_display", image.isVisible);
+    });
+
     images.forEach((image) => {
       if (image.file) {
         formData.append("images", image.file);
