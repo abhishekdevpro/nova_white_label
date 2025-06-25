@@ -145,6 +145,8 @@ const SupportPopup = ({ isOpen, onClose }) => {
     if (!formData.email.trim()) newErrors.email = "Email is required";
     if (!formData.category) newErrors.category = "Category is required";
     if (!formData.subject.trim()) newErrors.subject = "Subject is required";
+    if (!formData.description.trim())
+      newErrors.description = "Description is required";
     return newErrors;
   };
 
@@ -167,7 +169,7 @@ const SupportPopup = ({ isOpen, onClose }) => {
 
     try {
       await axios.post(
-        "https://api.ciblijob.fr/api/user/support-form",
+        "https://apiwl.novajobs.us/api/user/support-form",
         {
           first_name: formData.firstName,
           last_name: formData.lastName,
@@ -280,13 +282,14 @@ const SupportPopup = ({ isOpen, onClose }) => {
             {errors.subject && <ErrorText>{errors.subject}</ErrorText>}
           </FieldGroup>
           <FieldGroup>
-            <LabelStyled>Description</LabelStyled>
+            <LabelStyled>Description *</LabelStyled>
             <TextareaStyled
               name="description"
               value={formData.description}
               onChange={handleChange}
               placeholder="Describe your issue"
             />
+            {errors.description && <ErrorText>{errors.description}</ErrorText>}
           </FieldGroup>
           <button
             type="submit"
