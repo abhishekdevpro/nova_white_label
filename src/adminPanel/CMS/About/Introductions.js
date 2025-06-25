@@ -8,7 +8,7 @@ import "react-quill/dist/quill.snow.css";
 import logo1 from "../../../assests/logo1.jpg";
 
 function Introductions({ introductionData, projectName }) {
-  console.log(introductionData,"introductionData");
+  console.log(introductionData, "introductionData");
   const [isEditing, setIsEditing] = useState(false);
   const [heading, setHeading] = useState("Introduction");
   const [paragraph1Content, setParagraph1Content] = useState(`
@@ -48,12 +48,13 @@ function Introductions({ introductionData, projectName }) {
   const [pdfPreview, setPdfPreview] = useState(null);
   const [showPdf, setShowPdf] = useState(true);
 
-  const authToken = localStorage.getItem("authToken") || localStorage.getItem("vendorToken");
+  const authToken =
+    localStorage.getItem("authToken") || localStorage.getItem("vendorToken");
   useEffect(() => {
     if (!introductionData) return;
 
-    if (introductionData.pdf && (introductionData.pdf)) {
-      const pdfData = (introductionData.pdf);
+    if (introductionData.pdf && introductionData.pdf) {
+      const pdfData = introductionData.pdf;
 
       setPdfPreview(
         pdfData[0] ? "https://apiwl.novajobs.us" + pdfData[0] : null
@@ -86,16 +87,16 @@ function Introductions({ introductionData, projectName }) {
     setShowParagraph1B(introductionData.is_paragraph3_display);
     setShowParagraph1A(introductionData.is_paragraph2_display);
     setShowPdfHeading(introductionData.is_paragraph4_display);
-    setShowVideo(introductionData.is_urls_display);
+    setShowVideo(introductionData.is_urls_display?.[0] === "true");
     // setShowImage(introductionData.is_images_display);
-    setShowImage((introductionData?.is_images_display)?.[0] === "true");
-    setShowPdf(introductionData.is_pdf_display);
-    if (introductionData.urls && (introductionData.urls)) {
-      const urlData = (introductionData.urls);
+    setShowImage(introductionData?.is_images_display?.[0] === "true");
+    setShowPdf(introductionData.is_pdf_display?.[0] === "true");
+    if (introductionData.urls && introductionData.urls) {
+      const urlData = introductionData.urls;
       setVideoUrl(urlData[0] || videoUrl);
     }
-    if (introductionData?.images && (introductionData?.images)) {
-      const imgData = (introductionData?.images);
+    if (introductionData?.images && introductionData?.images) {
+      const imgData = introductionData?.images;
       setImagePreview(
         imgData[0] ? "https://apiwl.novajobs.us" + imgData[0] : logo1
       );
@@ -490,10 +491,10 @@ function Introductions({ introductionData, projectName }) {
             <div>
               {/* {showHeading && <h1 className="mb-4">{heading}</h1>} */}
               {showHeading && (
-  <h1 className="mb-4 text-bold text-md-start display-6 display-md-5 display-lg-4">
-    {heading}
-  </h1>
-)}
+                <h1 className="mb-4 text-bold text-md-start display-6 display-md-5 display-lg-4">
+                  {heading}
+                </h1>
+              )}
 
               {showParagraph1 && (
                 <div
@@ -526,43 +527,42 @@ function Introductions({ introductionData, projectName }) {
                     }}
                   />
                 </div>
-              )} */}{
-                showVideo && (
+              )} */}
+              {showVideo && (
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    padding: "20px",
+                  }}
+                >
                   <div
                     style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      padding: "20px",
+                      position: "relative",
+                      width: "90%", // Responsive width
+                      maxWidth: "700px", // Maximum width limit
+                      paddingBottom: "56.25%", // 16:9 Aspect Ratio
+                      border: "2px solid #ccc",
+                      borderRadius: "10px",
+                      boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                      overflow: "hidden",
                     }}
                   >
-                    <div
+                    <ReactPlayer
+                      url={videoUrl}
+                      controls={true}
+                      width="100%"
+                      height="100%"
                       style={{
-                        position: "relative",
-                        width: "90%", // Responsive width
-                        maxWidth: "700px", // Maximum width limit
-                        paddingBottom: "56.25%", // 16:9 Aspect Ratio
-                        border: "2px solid #ccc",
-                        borderRadius: "10px",
-                        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-                        overflow: "hidden",
+                        position: "absolute",
+                        top: "0",
+                        left: "0",
                       }}
-                    >
-                      <ReactPlayer
-                        url={videoUrl}
-                        controls={true}
-                        width="100%"
-                        height="100%"
-                        style={{
-                          position: "absolute",
-                          top: "0",
-                          left: "0",
-                        }}
-                      />
-                    </div>
+                    />
                   </div>
-                )
-              }
+                </div>
+              )}
               <div className="mt-4 ">
                 {showpdfheading && <h3 className="mb-4">{pdfheading}</h3>}
               </div>
@@ -580,40 +580,37 @@ function Introductions({ introductionData, projectName }) {
                   ></iframe>
                 </div>
               )} */}
-              {
-                showPdf &&
-                pdfPreview && (
+              {showPdf && pdfPreview && (
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    padding: "20px",
+                  }}
+                >
                   <div
                     style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      padding: "20px",
+                      width: "100%",
+                      maxWidth: "800px",
+                      height: "500px",
+                      border: "2px solid #ccc",
+                      borderRadius: "10px",
+                      boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                      overflow: "hidden",
                     }}
                   >
-                    <div
+                    <iframe
+                      src={pdfPreview}
+                      width="100%"
+                      height="100%"
                       style={{
-                        width: "100%", 
-                        maxWidth: "800px", 
-                        height: "500px", 
-                        border: "2px solid #ccc",
-                        borderRadius: "10px",
-                        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-                        overflow: "hidden",
+                        border: "none",
                       }}
-                    >
-                      <iframe
-                        src={pdfPreview}
-                        width="100%"
-                        height="100%"
-                        style={{
-                          border: "none",
-                        }}
-                      ></iframe>
-                    </div>
+                    ></iframe>
                   </div>
-                )
-              }
+                </div>
+              )}
 
               {showParagraph1A && (
                 <div
@@ -629,30 +626,28 @@ function Introductions({ introductionData, projectName }) {
                   />
                 </div>
               )} */}
-              {
-                showImage && (
-                  <div
+              {showImage && (
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    padding: "20px",
+                  }}
+                >
+                  <img
+                    src={imagePreview}
+                    alt="Uploaded Image"
                     style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      padding: "20px",
+                      width: "90%", // Responsive width
+                      maxWidth: "800px", // Maximum width limit
+                      height: "auto", // Maintain aspect ratio
+                      borderRadius: "10px",
+                      boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
                     }}
-                  >
-                    <img
-                      src={imagePreview}
-                      alt="Uploaded Image"
-                      style={{
-                        width: "90%", // Responsive width
-                        maxWidth: "800px", // Maximum width limit
-                        height: "auto", // Maintain aspect ratio
-                        borderRadius: "10px",
-                        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-                      }}
-                    />
-                  </div>
-                )
-              }
+                  />
+                </div>
+              )}
             </div>
           )}
         </div>

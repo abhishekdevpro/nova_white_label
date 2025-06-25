@@ -27,11 +27,11 @@ const GoogleTranslate = () => {
   return (
     <div
       id="google_translate_element"
+      className="position-fixed bg-light border rounded px-2 py-1 shadow-sm"
       style={{
-        borderRadius: "4px",
-        display: "inline-block",
-        padding: "2px 8px",
-        backgroundColor: "#f8f9fa",
+        top: "10px",
+        right: "10px",
+        zIndex: 9999,
       }}
     ></div>
   );

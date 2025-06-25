@@ -220,6 +220,7 @@ import JobDetails from "../src/markup/Pages/JobPageV2/JobDetails";
 import CompanyList from "./markup/Pages/CompaniesListing/index.jsx";
 import UploadDocuments from "./markup/Pages/UploadedDocuments.jsx";
 import BrandingAdmin from "./adminPanel/Branding.js";
+import GoogleTranslate from "./GoogleTranslate.js";
 function App() {
   const dispatch = useDispatch();
 
@@ -259,6 +260,7 @@ function App() {
 
   return (
     <>
+      <GoogleTranslate />
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="services" element={<LandingPage />} />
