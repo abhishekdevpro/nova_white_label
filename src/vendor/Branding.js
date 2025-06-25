@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Switch from "../components/ui/switch";
-import { Plus, Trash2 } from 'lucide-react';
+import { Plus, Trash2 } from "lucide-react";
 import LogoCoverUploader from "./LogoCoverUploader";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { toast} from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import WatchWhatWeSaySection from "./WTS";
 import TeamMemberManager from "./Teams";
@@ -45,8 +45,9 @@ const SocialNetworkBox = () => {
   });
 
   const [makesUsUnique, setMakesUsUnique] = useState([]);
-  const token = localStorage.getItem("vendorToken");
-  const BASE_IMAGE_URL = "https://apiwl.novajobs.us"
+  const token =
+    localStorage.getItem("vendorToken") || localStorage.getItem("authToken");
+  const BASE_IMAGE_URL = "https://apiwl.novajobs.us";
 
   const [insideCultureImages, setInsideCultureImages] = useState([]);
   const [insideWorkplaceImages, setInsideWorkplaceImages] = useState([]);
@@ -58,11 +59,11 @@ const SocialNetworkBox = () => {
       toast.error("You can only upload up to 3 images");
       return;
     }
-    setSelectedImages(prev => [...prev, ...files]);
+    setSelectedImages((prev) => [...prev, ...files]);
   };
 
   const removeImage = (index) => {
-    setSelectedImages(prev => prev.filter((_, i) => i !== index));
+    setSelectedImages((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleInputChange = (e) => {
@@ -74,42 +75,42 @@ const SocialNetworkBox = () => {
   };
 
   const addMediaContent = () => {
-    setCompanyData(prev => ({
+    setCompanyData((prev) => ({
       ...prev,
       media_content: [
         ...prev.media_content,
         {
           id: Date.now(),
-          type: 'video',
+          type: "video",
           file: null,
-          description: '',
-        }
-      ]
+          description: "",
+        },
+      ],
     }));
   };
 
   const removeMediaContent = (id) => {
-    setCompanyData(prev => ({
+    setCompanyData((prev) => ({
       ...prev,
-      media_content: prev.media_content.filter(item => item.id !== id)
+      media_content: prev.media_content.filter((item) => item.id !== id),
     }));
   };
 
   const handleMediaTypeChange = (id, type) => {
-    setCompanyData(prev => ({
+    setCompanyData((prev) => ({
       ...prev,
-      media_content: prev.media_content.map(item =>
+      media_content: prev.media_content.map((item) =>
         item.id === id ? { ...item, type } : item
-      )
+      ),
     }));
   };
 
   const handleMediaDescriptionChange = (id, description) => {
-    setCompanyData(prev => ({
+    setCompanyData((prev) => ({
       ...prev,
-      media_content: prev.media_content.map(item =>
+      media_content: prev.media_content.map((item) =>
         item.id === id ? { ...item, description } : item
-      )
+      ),
     }));
   };
 
@@ -120,13 +121,13 @@ const SocialNetworkBox = () => {
       return;
     }
     switch (type) {
-      case 'culture':
+      case "culture":
         setInsideCultureImages(files);
         break;
-      case 'workplace':
+      case "workplace":
         setInsideWorkplaceImages(files);
         break;
-      case 'people':
+      case "people":
         setInsidePeopleImages(files);
         break;
       default:
@@ -136,14 +137,14 @@ const SocialNetworkBox = () => {
 
   const removeInsideImage = (index, type) => {
     switch (type) {
-      case 'culture':
-        setInsideCultureImages(prev => prev.filter((_, i) => i !== index));
+      case "culture":
+        setInsideCultureImages((prev) => prev.filter((_, i) => i !== index));
         break;
-      case 'workplace':
-        setInsideWorkplaceImages(prev => prev.filter((_, i) => i !== index));
+      case "workplace":
+        setInsideWorkplaceImages((prev) => prev.filter((_, i) => i !== index));
         break;
-      case 'people':
-        setInsidePeopleImages(prev => prev.filter((_, i) => i !== index));
+      case "people":
+        setInsidePeopleImages((prev) => prev.filter((_, i) => i !== index));
         break;
       default:
         break;
@@ -155,20 +156,20 @@ const SocialNetworkBox = () => {
     let images, endpoint, uploadKey;
 
     switch (type) {
-      case 'culture':
+      case "culture":
         images = insideCultureImages;
-        endpoint = '/company-inside-culture';
-        uploadKey = 'inside_culture_images_upload';
+        endpoint = "/company-inside-culture";
+        uploadKey = "inside_culture_images_upload";
         break;
-      case 'workplace':
+      case "workplace":
         images = insideWorkplaceImages;
-        endpoint = '/company-inside-workplace';
-        uploadKey = 'inside_workplace_images_upload';
+        endpoint = "/company-inside-workplace";
+        uploadKey = "inside_workplace_images_upload";
         break;
-      case 'people':
+      case "people":
         images = insidePeopleImages;
-        endpoint = '/company-inside-people';
-        uploadKey = 'inside_people_images_upload';
+        endpoint = "/company-inside-people";
+        uploadKey = "inside_people_images_upload";
         break;
       default:
         return;
@@ -205,11 +206,14 @@ const SocialNetworkBox = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("https://apiwl.novajobs.us/api/employeer/company", {
-          headers: { Authorization: token }
-        });
+        const response = await axios.get(
+          "https://apiwl.novajobs.us/api/employeer/company",
+          {
+            headers: { Authorization: token },
+          }
+        );
         const data = response.data?.data || {};
-        setCompanyData(prev => ({
+        setCompanyData((prev) => ({
           ...prev,
           ...data,
         }));
@@ -270,7 +274,7 @@ const SocialNetworkBox = () => {
 
   const handleAboutSave = async (event) => {
     event.preventDefault();
-    
+
     if (selectedImages.length > 3) {
       toast.error("Please ensure only 3 images are selected.");
       return;
@@ -311,7 +315,7 @@ const SocialNetworkBox = () => {
 
   const handleSave = async (event) => {
     event.preventDefault();
-    
+
     const dataToUpdate = {
       company_name: companyData.company_name,
       summery: companyData.summery,
@@ -335,20 +339,27 @@ const SocialNetworkBox = () => {
       linkedin_link: companyData.linkedin_link,
       company_industry_id: companyData.company_industry_id,
       join_us: companyData.join_us,
-      ...makesUsUnique.reduce((acc, item) => ({
-        ...acc,
-        [item.key]: item.toogle,
-        [`${item.key}_value`]: item.value,
-      }), {}),
+      ...makesUsUnique.reduce(
+        (acc, item) => ({
+          ...acc,
+          [item.key]: item.toogle,
+          [`${item.key}_value`]: item.value,
+        }),
+        {}
+      ),
     };
 
     try {
-      await axios.put("https://apiwl.novajobs.us/api/employeer/company", dataToUpdate, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token,
-        },
-      });
+      await axios.put(
+        "https://apiwl.novajobs.us/api/employeer/company",
+        dataToUpdate,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        }
+      );
       toast.success("Company data updated successfully");
     } catch (error) {
       toast.error("Error updating company data");
@@ -356,7 +367,9 @@ const SocialNetworkBox = () => {
   };
 
   const SectionTitle = ({ children }) => (
-    <h4 className="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">{children}</h4>
+    <h4 className="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">
+      {children}
+    </h4>
   );
 
   const FormSection = ({ children, className = "" }) => (
@@ -367,8 +380,8 @@ const SocialNetworkBox = () => {
     <>
       <VendorHeader />
       <div className="flex items-center justify-center p-4 bg-blue-500 text-white">
-  Hello Tailwind!
-</div>
+        Hello Tailwind!
+      </div>
       <div className="page-content bg-white">
         <div className="content-block">
           <div className="section-full bg-white p-t50 p-b20">
@@ -387,7 +400,9 @@ const SocialNetworkBox = () => {
                       <div className="row ">
                         <div className="col-lg-12">
                           <div className="form-group">
-                            <label className="font-weight-700">Basic Information</label>
+                            <label className="font-weight-700">
+                              Basic Information
+                            </label>
                             <div className="row">
                               <div className="col-lg-6 col-md-6">
                                 <div className="form-group">
@@ -424,7 +439,9 @@ const SocialNetworkBox = () => {
                       <div className="row m-b30">
                         <div className="col-lg-12">
                           <div className="form-group">
-                            <label className="font-weight-900 text-2xl">About Company</label>
+                            <label className="font-weight-900 text-2xl">
+                              About Company
+                            </label>
                             <div className="row">
                               <div className="col-lg-12">
                                 <div className="form-group">
@@ -445,7 +462,12 @@ const SocialNetworkBox = () => {
                                   <ReactQuill
                                     theme="snow"
                                     value={companyData.summery || ""}
-                                    onChange={(value) => setCompanyData(prev => ({...prev, summery: value}))}
+                                    onChange={(value) =>
+                                      setCompanyData((prev) => ({
+                                        ...prev,
+                                        summery: value,
+                                      }))
+                                    }
                                     className="h-48 mb-12"
                                   />
                                 </div>
@@ -456,7 +478,12 @@ const SocialNetworkBox = () => {
                                   <ReactQuill
                                     theme="snow"
                                     value={companyData.about || ""}
-                                    onChange={(value) => setCompanyData(prev => ({...prev, about: value}))}
+                                    onChange={(value) =>
+                                      setCompanyData((prev) => ({
+                                        ...prev,
+                                        about: value,
+                                      }))
+                                    }
                                     className="h-48 mb-12"
                                   />
                                 </div>
@@ -466,12 +493,19 @@ const SocialNetworkBox = () => {
                                   <label>Upload Images (Max: 3)</label>
                                   <div className="d-flex flex-wrap gap-2 mb-3">
                                     {selectedImages.map((image, index) => (
-                                      <div key={index} className="position-relative">
+                                      <div
+                                        key={index}
+                                        className="position-relative"
+                                      >
                                         <img
                                           src={URL.createObjectURL(image)}
                                           alt="Uploaded"
                                           className="img-thumbnail"
-                                          style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+                                          style={{
+                                            width: "100px",
+                                            height: "100px",
+                                            objectFit: "cover",
+                                          }}
                                         />
                                         <button
                                           type="button"
@@ -497,10 +531,10 @@ const SocialNetworkBox = () => {
                                     onClick={handleAboutSave}
                                     className="btn btn-primary btn-lg d-flex align-items-center gap-2 "
                                     style={{
-                                      backgroundColor: '#1967d2',
-                                      border: 'none',
-                                      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                                      transition: 'all 0.3s ease'
+                                      backgroundColor: "#1967d2",
+                                      border: "none",
+                                      boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                                      transition: "all 0.3s ease",
                                     }}
                                   >
                                     <i className="fa-solid fa-save"></i>
@@ -517,7 +551,9 @@ const SocialNetworkBox = () => {
                       <div className="row m-b30">
                         <div className="col-lg-12">
                           <div className="form-group">
-                            <label className="font-weight-700">Inside Company Images</label>
+                            <label className="font-weight-700">
+                              Inside Company Images
+                            </label>
                             <div className="row">
                               {/* Culture Images */}
                               <div className="col-lg-4 col-md-6">
@@ -525,16 +561,29 @@ const SocialNetworkBox = () => {
                                   <label>Culture Images</label>
                                   <div className="d-flex flex-wrap gap-2 mb-3">
                                     {insideCultureImages.map((image, index) => (
-                                      <div key={index} className="position-relative">
+                                      <div
+                                        key={index}
+                                        className="position-relative"
+                                      >
                                         <img
-                                          src={typeof image === 'string' ? `${BASE_IMAGE_URL}${image}` : URL.createObjectURL(image)}
+                                          src={
+                                            typeof image === "string"
+                                              ? `${BASE_IMAGE_URL}${image}`
+                                              : URL.createObjectURL(image)
+                                          }
                                           alt="Culture"
                                           className="img-thumbnail"
-                                          style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+                                          style={{
+                                            width: "100px",
+                                            height: "100px",
+                                            objectFit: "cover",
+                                          }}
                                         />
                                         <button
                                           type="button"
-                                          onClick={() => removeInsideImage(index, 'culture')}
+                                          onClick={() =>
+                                            removeInsideImage(index, "culture")
+                                          }
                                           className="btn btn-danger btn-sm position-absolute top-0 end-0"
                                         >
                                           ×
@@ -546,20 +595,24 @@ const SocialNetworkBox = () => {
                                     <input
                                       type="file"
                                       accept="image/*"
-                                      onChange={(e) => handleInsideImageUpload(e, 'culture')}
+                                      onChange={(e) =>
+                                        handleInsideImageUpload(e, "culture")
+                                      }
                                       className="form-control mb-3"
                                       multiple
                                     />
                                   )}
                                   <button
                                     type="button"
-                                    onClick={() => handleInsideImagesSave('culture')}
+                                    onClick={() =>
+                                      handleInsideImagesSave("culture")
+                                    }
                                     className="btn btn-primary d-flex align-items-center gap-2"
                                     style={{
-                                      backgroundColor: '#1967d2',
-                                      border: 'none',
-                                      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                                      transition: 'all 0.3s ease'
+                                      backgroundColor: "#1967d2",
+                                      border: "none",
+                                      boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                                      transition: "all 0.3s ease",
                                     }}
                                   >
                                     <i className="fa-solid fa-save"></i>
@@ -572,42 +625,64 @@ const SocialNetworkBox = () => {
                                 <div className="form-group">
                                   <label>Workplace Images</label>
                                   <div className="d-flex flex-wrap gap-2 mb-3">
-                                    {insideWorkplaceImages.map((image, index) => (
-                                      <div key={index} className="position-relative">
-                                        <img
-                                          src={typeof image === 'string' ? `${BASE_IMAGE_URL}${image}` : URL.createObjectURL(image)}
-                                          alt="Workplace"
-                                          className="img-thumbnail"
-                                          style={{ width: '100px', height: '100px', objectFit: 'cover' }}
-                                        />
-                                        <button
-                                          type="button"
-                                          onClick={() => removeInsideImage(index, 'workplace')}
-                                          className="btn btn-danger btn-sm position-absolute top-0 end-0"
+                                    {insideWorkplaceImages.map(
+                                      (image, index) => (
+                                        <div
+                                          key={index}
+                                          className="position-relative"
                                         >
-                                          ×
-                                        </button>
-                                      </div>
-                                    ))}
+                                          <img
+                                            src={
+                                              typeof image === "string"
+                                                ? `${BASE_IMAGE_URL}${image}`
+                                                : URL.createObjectURL(image)
+                                            }
+                                            alt="Workplace"
+                                            className="img-thumbnail"
+                                            style={{
+                                              width: "100px",
+                                              height: "100px",
+                                              objectFit: "cover",
+                                            }}
+                                          />
+                                          <button
+                                            type="button"
+                                            onClick={() =>
+                                              removeInsideImage(
+                                                index,
+                                                "workplace"
+                                              )
+                                            }
+                                            className="btn btn-danger btn-sm position-absolute top-0 end-0"
+                                          >
+                                            ×
+                                          </button>
+                                        </div>
+                                      )
+                                    )}
                                   </div>
                                   {insideWorkplaceImages.length < 3 && (
                                     <input
                                       type="file"
                                       accept="image/*"
-                                      onChange={(e) => handleInsideImageUpload(e, 'workplace')}
+                                      onChange={(e) =>
+                                        handleInsideImageUpload(e, "workplace")
+                                      }
                                       className="form-control mb-3"
                                       multiple
                                     />
                                   )}
                                   <button
                                     type="button"
-                                    onClick={() => handleInsideImagesSave('workplace')}
+                                    onClick={() =>
+                                      handleInsideImagesSave("workplace")
+                                    }
                                     className="btn btn-primary d-flex align-items-center gap-2"
                                     style={{
-                                      backgroundColor: '#1967d2',
-                                      border: 'none',
-                                      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                                      transition: 'all 0.3s ease'
+                                      backgroundColor: "#1967d2",
+                                      border: "none",
+                                      boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                                      transition: "all 0.3s ease",
                                     }}
                                   >
                                     <i className="fa-solid fa-save"></i>
@@ -621,16 +696,29 @@ const SocialNetworkBox = () => {
                                   <label>People Images</label>
                                   <div className="d-flex flex-wrap gap-2 mb-3">
                                     {insidePeopleImages.map((image, index) => (
-                                      <div key={index} className="position-relative">
+                                      <div
+                                        key={index}
+                                        className="position-relative"
+                                      >
                                         <img
-                                          src={typeof image === 'string' ? `${BASE_IMAGE_URL}${image}` : URL.createObjectURL(image)}
+                                          src={
+                                            typeof image === "string"
+                                              ? `${BASE_IMAGE_URL}${image}`
+                                              : URL.createObjectURL(image)
+                                          }
                                           alt="People"
                                           className="img-thumbnail"
-                                          style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+                                          style={{
+                                            width: "100px",
+                                            height: "100px",
+                                            objectFit: "cover",
+                                          }}
                                         />
                                         <button
                                           type="button"
-                                          onClick={() => removeInsideImage(index, 'people')}
+                                          onClick={() =>
+                                            removeInsideImage(index, "people")
+                                          }
                                           className="btn btn-danger btn-sm position-absolute top-0 end-0"
                                         >
                                           ×
@@ -642,20 +730,24 @@ const SocialNetworkBox = () => {
                                     <input
                                       type="file"
                                       accept="image/*"
-                                      onChange={(e) => handleInsideImageUpload(e, 'people')}
+                                      onChange={(e) =>
+                                        handleInsideImageUpload(e, "people")
+                                      }
                                       className="form-control mb-3"
                                       multiple
                                     />
                                   )}
                                   <button
                                     type="button"
-                                    onClick={() => handleInsideImagesSave('people')}
+                                    onClick={() =>
+                                      handleInsideImagesSave("people")
+                                    }
                                     className="btn btn-primary d-flex align-items-center gap-2"
                                     style={{
-                                      backgroundColor: '#1967d2',
-                                      border: 'none',
-                                      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                                      transition: 'all 0.3s ease'
+                                      backgroundColor: "#1967d2",
+                                      border: "none",
+                                      boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                                      transition: "all 0.3s ease",
                                     }}
                                   >
                                     <i className="fa-solid fa-save"></i>
@@ -667,8 +759,6 @@ const SocialNetworkBox = () => {
                           </div>
                         </div>
                       </div>
-
-                    
 
                       {/* Team Members Section */}
                       <div className="row m-b30">
@@ -684,36 +774,64 @@ const SocialNetworkBox = () => {
                       <div className="row m-b30">
                         <div className="col-lg-12">
                           <div className="form-group">
-                            <label className="font-weight-700">What Makes Us Unique</label>
+                            <label className="font-weight-700">
+                              What Makes Us Unique
+                            </label>
                             <div className="row">
                               {makesUsUnique.map((item, index) => (
-                                <div key={index} className="col-lg-6 col-md-6 mb-4">
-                                  <div className="form-group p-3 border rounded" style={{ backgroundColor: '#f8f9fa' }}>
+                                <div
+                                  key={index}
+                                  className="col-lg-6 col-md-6 mb-4"
+                                >
+                                  <div
+                                    className="form-group p-3 border rounded"
+                                    style={{ backgroundColor: "#f8f9fa" }}
+                                  >
                                     <div className="d-flex justify-content-between align-items-center mb-3">
-                                      <label className="font-weight-600 mb-0">{item.title}</label>
+                                      <label className="font-weight-600 mb-0">
+                                        {item.title}
+                                      </label>
                                       <div className="d-flex align-items-center">
-                                        <span className="me-4 pe-2" style={{ fontSize: '0.9rem', color: item.toogle ? '#28a745' : '#6c757d' }}>
-                                          {item.toogle ? 'Enabled' : 'Disabled'}
+                                        <span
+                                          className="me-4 pe-2"
+                                          style={{
+                                            fontSize: "0.9rem",
+                                            color: item.toogle
+                                              ? "#28a745"
+                                              : "#6c757d",
+                                          }}
+                                        >
+                                          {item.toogle ? "Enabled" : "Disabled"}
                                         </span>
-                                        <div 
+                                        <div
                                           className="form-check form-switch"
-                                          style={{ transform: 'scale(1.2)' }}
+                                          style={{ transform: "scale(1.2)" }}
                                         >
                                           <input
                                             className="form-check-input"
                                             type="checkbox"
                                             checked={item.toogle}
                                             onChange={(e) => {
-                                              setMakesUsUnique(prev =>
+                                              setMakesUsUnique((prev) =>
                                                 prev.map((val, i) =>
-                                                  i === index ? { ...val, toogle: e.target.checked } : val
+                                                  i === index
+                                                    ? {
+                                                        ...val,
+                                                        toogle:
+                                                          e.target.checked,
+                                                      }
+                                                    : val
                                                 )
                                               );
                                             }}
                                             style={{
-                                              backgroundColor: item.toogle ? '#28a745' : '#6c757d',
-                                              borderColor: item.toogle ? '#28a745' : '#6c757d',
-                                              cursor: 'pointer'
+                                              backgroundColor: item.toogle
+                                                ? "#28a745"
+                                                : "#6c757d",
+                                              borderColor: item.toogle
+                                                ? "#28a745"
+                                                : "#6c757d",
+                                              cursor: "pointer",
                                             }}
                                           />
                                         </div>
@@ -724,9 +842,14 @@ const SocialNetworkBox = () => {
                                         <textarea
                                           value={item.value}
                                           onChange={(e) => {
-                                            setMakesUsUnique(prev =>
+                                            setMakesUsUnique((prev) =>
                                               prev.map((val, i) =>
-                                                i === index ? { ...val, value: e.target.value } : val
+                                                i === index
+                                                  ? {
+                                                      ...val,
+                                                      value: e.target.value,
+                                                    }
+                                                  : val
                                               )
                                             );
                                           }}
@@ -734,10 +857,10 @@ const SocialNetworkBox = () => {
                                           placeholder={`Describe ${item.title}`}
                                           rows="3"
                                           style={{
-                                            border: '1px solid #ced4da',
-                                            borderRadius: '0.375rem',
-                                            padding: '0.5rem',
-                                            resize: 'vertical'
+                                            border: "1px solid #ced4da",
+                                            borderRadius: "0.375rem",
+                                            padding: "0.5rem",
+                                            resize: "vertical",
                                           }}
                                         />
                                       </div>
@@ -758,7 +881,12 @@ const SocialNetworkBox = () => {
                             <ReactQuill
                               theme="snow"
                               value={companyData.join_us || ""}
-                              onChange={(value) => setCompanyData(prev => ({...prev, join_us: value}))}
+                              onChange={(value) =>
+                                setCompanyData((prev) => ({
+                                  ...prev,
+                                  join_us: value,
+                                }))
+                              }
                               className="h-48 mb-12"
                             />
                           </div>
@@ -769,7 +897,9 @@ const SocialNetworkBox = () => {
                       <div className="row m-b30">
                         <div className="col-lg-12">
                           <div className="form-group">
-                            <label className="font-weight-700">Social Media & Website</label>
+                            <label className="font-weight-700">
+                              Social Media & Website
+                            </label>
                             <div className="row">
                               <div className="col-lg-6 col-md-6">
                                 <div className="form-group">
@@ -837,12 +967,12 @@ const SocialNetworkBox = () => {
                               onClick={handleSave}
                               className="btn btn-primary btn-lg d-flex align-items-center gap-2"
                               style={{
-                                backgroundColor: '#1967d2',
-                                border: 'none',
-                                boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                                transition: 'all 0.3s ease',
-                                padding: '0.75rem 1.5rem',
-                                fontSize: '1.1rem'
+                                backgroundColor: "#1967d2",
+                                border: "none",
+                                boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                                transition: "all 0.3s ease",
+                                padding: "0.75rem 1.5rem",
+                                fontSize: "1.1rem",
                               }}
                             >
                               <i className="fa-solid fa-save"></i>
@@ -864,4 +994,4 @@ const SocialNetworkBox = () => {
   );
 };
 
-export default SocialNetworkBox; 
+export default SocialNetworkBox;

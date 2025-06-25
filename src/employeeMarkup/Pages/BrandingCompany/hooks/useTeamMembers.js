@@ -91,7 +91,11 @@ export const useTeamMembers = () => {
 
   // Get auth token
   const getAuthToken = () => {
-    return localStorage.getItem("employeeLoginToken") || localStorage.getItem("vendorToken");
+    return (
+      localStorage.getItem("employeeLoginToken") ||
+      localStorage.getItem("vendorToken") ||
+      localStorage.getItem("authToken")
+    );
   };
 
   // Fetch team members
@@ -177,7 +181,7 @@ export const useTeamMembers = () => {
       }
 
       let response;
-      
+
       if (editingId === "new") {
         // Create new team member
         response = await axios.post(
@@ -209,7 +213,7 @@ export const useTeamMembers = () => {
       if (result.status === "success") {
         // Refresh the team members list
         await fetchTeamMembers();
-        
+
         // Reset form
         setEditingId(null);
         setTempMember({
@@ -257,7 +261,9 @@ export const useTeamMembers = () => {
 
       if (result.status === "success") {
         // Remove from local state
-        setTeamMembers(prev => prev.filter(member => member.id !== memberId));
+        setTeamMembers((prev) =>
+          prev.filter((member) => member.id !== memberId)
+        );
       } else {
         setError(result.message || "Failed to delete team member");
       }
@@ -291,7 +297,7 @@ export const useTeamMembers = () => {
     error,
     editingId,
     tempMember,
-    
+
     // Actions
     fetchTeamMembers,
     handleAdd,
