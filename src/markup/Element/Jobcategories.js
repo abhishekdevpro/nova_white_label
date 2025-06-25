@@ -243,7 +243,6 @@
 
 // export default Jobcategories;
 
-
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {
@@ -379,7 +378,7 @@ function Jobcategories() {
           </div>
         ))}
         <div className="col-12 text-center">
-          <Link to="/user/job/1" className="site-button">
+          <Link to="/user/jobs" className="site-button">
             All Categories
           </Link>
         </div>
