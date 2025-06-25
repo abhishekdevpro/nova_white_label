@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import axios from "axios"
-import { toast } from "react-toastify"
+import { useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 export const useCompanyData = () => {
   const [companyData, setCompanyData] = useState({
@@ -33,31 +33,37 @@ export const useCompanyData = () => {
     inside_culture_images: [],
     inside_workplace_images: [],
     inside_people_images: [],
-  })
+  });
 
-  const token = localStorage.getItem("employeeLoginToken") || localStorage.getItem("vendorToken")
-  const BASE_IMAGE_URL = "https://apiwl.novajobs.us"
+  const token =
+    localStorage.getItem("employeeLoginToken") ||
+    localStorage.getItem("vendorToken") ||
+    localStorage.getItem("authToken");
+  const BASE_IMAGE_URL = "https://apiwl.novajobs.us";
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
     setCompanyData((prev) => ({
       ...prev,
       [name]: value,
-    }))
-  }
+    }));
+  };
 
   const fetchCompanyData = async (
     setMakesUsUnique,
     setInsideCultureImages,
     setInsideWorkplaceImages,
     setInsidePeopleImages,
-    setSelectedImages,
+    setSelectedImages
   ) => {
     try {
-      const response = await axios.get("https://apiwl.novajobs.us/api/employeer/company", {
-        headers: { Authorization: token },
-      })
-      const data = response.data?.data || {}
+      const response = await axios.get(
+        "https://apiwl.novajobs.us/api/employeer/company",
+        {
+          headers: { Authorization: token },
+        }
+      );
+      const data = response.data?.data || {};
 
       setCompanyData((prev) => ({
         ...prev,
@@ -86,7 +92,7 @@ export const useCompanyData = () => {
         inside_culture_images: data.inside_culture_images || [],
         inside_workplace_images: data.inside_workplace_images || [],
         inside_people_images: data.inside_people_images || [],
-      }))
+      }));
 
       setMakesUsUnique([
         {
@@ -131,72 +137,80 @@ export const useCompanyData = () => {
           toogle: data.personal_accident_insurance || false,
           value: data.personal_accident_insurance_value || "",
         },
-      ])
+      ]);
 
-      setInsideCultureImages(data.inside_culture_images || [])
-      setInsideWorkplaceImages(data.inside_workplace_images || [])
-      setInsidePeopleImages(data.inside_people_images || [])
+      setInsideCultureImages(data.inside_culture_images || []);
+      setInsideWorkplaceImages(data.inside_workplace_images || []);
+      setInsidePeopleImages(data.inside_people_images || []);
 
       if (data.about_images && data.about_images.length > 0) {
         setSelectedImages(
           data.about_images
             .filter((img) => !!img)
-            .map((img) => (typeof img === "string" && !img.startsWith("http") ? BASE_IMAGE_URL + img : img)),
-        )
+            .map((img) =>
+              typeof img === "string" && !img.startsWith("http")
+                ? BASE_IMAGE_URL + img
+                : img
+            )
+        );
       } else {
-        setSelectedImages([])
+        setSelectedImages([]);
       }
     } catch (error) {
-      console.error("Error fetching company data:", error)
+      console.error("Error fetching company data:", error);
       // toast.error("Error fetching data")
     }
-  }
+  };
 
   const handleAboutSave = async (event, selectedImages, selectedPdf) => {
-    event.preventDefault()
+    event.preventDefault();
 
     if (selectedImages.length > 3) {
-      toast.error("Please ensure only 3 images are selected.")
-      return
+      toast.error("Please ensure only 3 images are selected.");
+      return;
     }
 
-    const formData = new FormData()
-    formData.append("title", companyData.title)
-    formData.append("about", companyData.about)
-    formData.append("summery", companyData.summery)
+    const formData = new FormData();
+    formData.append("title", companyData.title);
+    formData.append("about", companyData.about);
+    formData.append("summery", companyData.summery);
     // formData.append("company_name", companyData.company_name)
     // formData.append("email", companyData.email)
-    formData.append("video_urls", companyData.video_urls)
+    formData.append("video_urls", companyData.video_urls);
 
     selectedImages.forEach((image) => {
-      formData.append("about_images_upload", image)
-    })
+      formData.append("about_images_upload", image);
+    });
 
     if (selectedPdf) {
-      formData.append("pdf_upload", selectedPdf)
+      formData.append("pdf_upload", selectedPdf);
     }
 
     try {
-      const response = await axios.patch("https://apiwl.novajobs.us/api/employeer/company-about", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: token,
-        },
-      })
+      const response = await axios.patch(
+        "https://apiwl.novajobs.us/api/employeer/company-about",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: token,
+          },
+        }
+      );
 
       if (response.status === 200) {
-        toast.success("About section updated successfully!")
+        toast.success("About section updated successfully!");
       } else {
-        toast.error("Failed to update about section. Please try again.")
+        toast.error("Failed to update about section. Please try again.");
       }
     } catch (error) {
-      console.error("Error updating about section:", error)
-      toast.error("An error occurred. Please try again.")
+      console.error("Error updating about section:", error);
+      toast.error("An error occurred. Please try again.");
     }
-  }
+  };
 
   const handleSave = async (event, makesUsUnique) => {
-    event.preventDefault()
+    event.preventDefault();
     // console.log(makesUsUnique,"vendor company branding page summary ");
     const dataToUpdate = {
       company_name: companyData.company_name,
@@ -230,30 +244,33 @@ export const useCompanyData = () => {
       //   {},
       // ),
       ...(Array.isArray(makesUsUnique)
-  ? makesUsUnique.reduce(
-      (acc, item) => ({
-        ...acc,
-        [item.key]: item.toogle,
-        [`${item.key}_value`]: item.value,
-      }),
-      {},
-    )
-  : {}),
-
-    }
+        ? makesUsUnique.reduce(
+            (acc, item) => ({
+              ...acc,
+              [item.key]: item.toogle,
+              [`${item.key}_value`]: item.value,
+            }),
+            {}
+          )
+        : {}),
+    };
 
     try {
-      await axios.patch("https://apiwl.novajobs.us/api/employeer/company-additional", dataToUpdate, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token,
-        },
-      })
-      toast.success("Company data updated successfully")
+      await axios.patch(
+        "https://apiwl.novajobs.us/api/employeer/company-additional",
+        dataToUpdate,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        }
+      );
+      toast.success("Company data updated successfully");
     } catch (error) {
-      toast.error("Error updating company data")
+      toast.error("Error updating company data");
     }
-  }
+  };
 
   return {
     companyData,
@@ -262,5 +279,5 @@ export const useCompanyData = () => {
     fetchCompanyData,
     handleSave,
     handleAboutSave,
-  }
-}
+  };
+};

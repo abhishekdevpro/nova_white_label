@@ -46,7 +46,11 @@ const SocialNetworkBox = () => {
   });
 
   const [makesUsUnique, setMakesUsUnique] = useState([]);
-  const token = localStorage.getItem("employeeLoginToken");
+  // const token = localStorage.getItem("employeeLoginToken");
+  const token =
+    localStorage.getItem("employeeLoginToken") ||
+    localStorage.getItem("authToken");
+
   const BASE_IMAGE_URL = "https://apiwl.novajobs.us";
 
   const [insideCultureImages, setInsideCultureImages] = useState([]);
