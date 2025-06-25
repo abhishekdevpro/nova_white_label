@@ -327,7 +327,7 @@ const SubmitButtonStyled = styled.button`
 `;
 
 const ConsultancyPopup = ({ isOpen, onClose }) => {
-  const [duration, setDuration] = useState("30");
+  const [duration, setDuration] = useState("15");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
