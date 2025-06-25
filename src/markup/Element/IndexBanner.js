@@ -24,7 +24,10 @@ class IndexBanner extends Component {
       });
       input.addEventListener("blur", function () {
         if (this.value === "") {
-          this.parentElement.parentElement.classList.remove("filled", "focused");
+          this.parentElement.parentElement.classList.remove(
+            "filled",
+            "focused"
+          );
         } else {
           this.parentElement.parentElement.classList.add("filled");
         }
@@ -90,7 +93,7 @@ class IndexBanner extends Component {
       const configScript = document.createElement("script");
       configScript.innerHTML = `window.chtlConfig = { chatbotId: "8171453563" }`;
       document.body.appendChild(configScript);
-  
+
       const embedScript = document.createElement("script");
       embedScript.src = "https://chatling.ai/js/embed.js";
       embedScript.async = true;
@@ -99,7 +102,6 @@ class IndexBanner extends Component {
       document.body.appendChild(embedScript);
     }
   };
-  
 
   render() {
     const { currentIndex, showModal } = this.state;
@@ -211,7 +213,7 @@ class IndexBanner extends Component {
                               className="fa fa-search"
                               onClick={(e) => {
                                 e.preventDefault();
-                                window.location.href = "/user/job/1";
+                                window.location.href = "/user/jobs";
                               }}
                             ></i>
                           </span>
@@ -238,7 +240,12 @@ class IndexBanner extends Component {
               </form>
 
               {/* Modal for Chatbot */}
-              <Modal show={showModal} onHide={this.handleClose} size="lg" centered>
+              <Modal
+                show={showModal}
+                onHide={this.handleClose}
+                size="lg"
+                centered
+              >
                 <Modal.Header closeButton>
                   <Modal.Title>AI Chat Assistant</Modal.Title>
                 </Modal.Header>

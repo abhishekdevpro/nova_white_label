@@ -1,14 +1,14 @@
-import React from 'react';
-import { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Footer from './Footer';
+import React from "react";
+import { useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Footer from "./Footer";
 import Header2 from "./Header2";
-import logo from "../../assests/logocompanyprofile.jpg"
+import logo from "../../assests/logocompanyprofile.jpg";
 
-import photo1 from "../../assests/photo1.jpg"
-import photo2 from "../../assests/photo2.jpg"
-import photo3 from "../../assests/photo3.jpg"
+import photo1 from "../../assests/photo1.jpg";
+import photo2 from "../../assests/photo2.jpg";
+import photo3 from "../../assests/photo3.jpg";
 
 const employersInfo = [
   {
@@ -311,7 +311,7 @@ const Profilepagehome = () => {
                       <h3 className="ms-5 ps-5 mt-5">Jobs Available</h3>
 
                       <div className="mt-5 col-lg-11 mx-5 mb-5">
-                        <Link to="/user/job/1">
+                        <Link to="/user/jobs">
                           <RelatedJobs />
                         </Link>
                       </div>
