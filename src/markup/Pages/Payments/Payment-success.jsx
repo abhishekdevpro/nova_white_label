@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { CheckCircle } from 'lucide-react';
-import styled from 'styled-components';
-import axios from 'axios';
+import { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { CheckCircle } from "lucide-react";
+import styled from "styled-components";
+import axios from "axios";
 
 // Styled components for the success page
 const PageContainer = styled.div`
@@ -63,7 +63,7 @@ const DetailRow = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 0.75rem;
-  
+
   &:last-child {
     margin-bottom: 0;
     padding-top: 0.75rem;
@@ -79,7 +79,7 @@ const DetailLabel = styled.span`
 const DetailValue = styled.span`
   font-size: 0.9375rem;
   color: #111827;
-  font-weight: ${props => props.bold ? '600' : '400'};
+  font-weight: ${(props) => (props.bold ? "600" : "400")};
 `;
 
 const Button = styled.button`
@@ -111,32 +111,41 @@ export default function PaymentSuccessPage() {
   const [orderDetails, setOrderDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const BASE_URL = "https://apiwl.novajobs.us";
-  
+  const [token, setToken] = useState(null);
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("jobSeekerLoginToken");
+    if (storedToken) {
+      setToken(storedToken);
+    }
+  }, []);
   useEffect(() => {
     // Extract session_id or payment reference from URL parameters
     const params = new URLSearchParams(location.search);
-    const sessionId = params.get('session_id');
-    const paymentId = params.get('payment_id');
-    
+    const sessionId = params.get("session_id");
+    const paymentId = params.get("payment_id");
+
     if (sessionId || paymentId) {
       // Fetch payment details from your backend
       const fetchPaymentDetails = async () => {
         try {
           const token = localStorage.getItem("token");
           if (!token) {
-            navigate('/login2');
+            navigate("/login2");
             return;
           }
-          
+
           const response = await axios.get(
-            `${BASE_URL}/api/user/payment/success?${sessionId ? `session_id=${sessionId}` : `payment_id=${paymentId}`}`,
+            `${BASE_URL}/api/user/payment/success?${
+              sessionId ? `session_id=${sessionId}` : `payment_id=${paymentId}`
+            }`,
             {
               headers: {
                 Authorization: token,
               },
             }
           );
-          
+
           if (response.status === 200) {
             setOrderDetails(response.data);
           } else {
@@ -150,26 +159,28 @@ export default function PaymentSuccessPage() {
           setLoading(false);
         }
       };
-      
+
       fetchPaymentDetails();
     } else {
       // If no session_id or payment_id, show sample data
       setOrderDetails({
         plan: {
           name: "Elevate",
-          price: "18.95"
+          price: "18.95",
         },
         transaction_id: "TXN_123456789",
         purchase_date: new Date().toLocaleDateString(),
         payment_method: "Credit Card",
-        next_billing_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString() // 30 days from now
+        next_billing_date: new Date(
+          Date.now() + 30 * 24 * 60 * 60 * 1000
+        ).toLocaleDateString(), // 30 days from now
       });
       setLoading(false);
     }
   }, [location, navigate]);
 
   const goToDashboard = () => {
-    navigate('/user/dashboard');
+    navigate(`/airesume/dashboard/resumelist?tokenbyurl=${token}`);
   };
 
   if (loading) {
@@ -184,20 +195,20 @@ export default function PaymentSuccessPage() {
   }
 
   return (
-    <div className='bg-white'>
+    <div className="bg-white">
       <PageContainer>
-      <SuccessCard>
-        <IconContainer>
-          <CheckCircle color="#10b981" size={40} />
-        </IconContainer>
-        
-        <Title>Payment Successful!</Title>
-        <Message>
-          Thank you for your purchase. Your payment has been successfully processed 
-          and your subscription is now active.
-        </Message>
-        
-        {/* {orderDetails && (
+        <SuccessCard>
+          <IconContainer>
+            <CheckCircle color="#10b981" size={40} />
+          </IconContainer>
+
+          <Title>Payment Successful!</Title>
+          <Message>
+            Thank you for your purchase. Your payment has been successfully
+            processed and your subscription is now active.
+          </Message>
+
+          {/* {orderDetails && (
           <OrderDetails>
             <DetailRow>
               <DetailLabel>Plan</DetailLabel>
@@ -227,14 +238,15 @@ export default function PaymentSuccessPage() {
             )}
           </OrderDetails>
         )} */}
-        
-        <Button onClick={goToDashboard}>Go to Dashboard</Button>
-        
-        <InfoText>
-          A confirmation email with your receipt has been sent to your registered email address.
-        </InfoText>
-      </SuccessCard>
-    </PageContainer>
+
+          <Button onClick={goToDashboard}>Go to Dashboard</Button>
+
+          <InfoText>
+            A confirmation email with your receipt has been sent to your
+            registered email address.
+          </InfoText>
+        </SuccessCard>
+      </PageContainer>
     </div>
   );
 }

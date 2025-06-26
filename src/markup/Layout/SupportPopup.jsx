@@ -118,8 +118,9 @@ const ErrorText = styled.p`
 
 const SupportPopup = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    // firstName: "",
+    name: "",
+    // lastName: "",
     number: "",
     email: "",
     category: "",
@@ -138,9 +139,8 @@ const SupportPopup = ({ isOpen, onClose }) => {
 
   const validate = () => {
     const newErrors = {};
-    if (!formData.firstName.trim())
-      newErrors.firstName = "First name is required";
-    if (!formData.lastName.trim()) newErrors.lastName = "Last name is required";
+    if (!formData.name.trim()) newErrors.name = "Name is required";
+    // if (!formData.lastName.trim()) newErrors.lastName = "Last name is required";
     if (!formData.number.trim()) newErrors.number = "Phone Number is required";
     if (!formData.email.trim()) newErrors.email = "Email is required";
     if (!formData.category) newErrors.category = "Category is required";
@@ -171,8 +171,8 @@ const SupportPopup = ({ isOpen, onClose }) => {
       await axios.post(
         "https://apiwl.novajobs.us/api/user/support-form",
         {
-          first_name: formData.firstName,
-          last_name: formData.lastName,
+          name: formData.name,
+          // last_name: formData.lastName,
           number: formData.number,
           email: formData.email,
           category: formData.category,
@@ -189,8 +189,8 @@ const SupportPopup = ({ isOpen, onClose }) => {
 
       toast.success("Support request submitted successfully!");
       setFormData({
-        firstName: "",
-        lastName: "",
+        name: "",
+        // lastName: "",
         email: "",
         number: "",
         category: "",
@@ -216,16 +216,16 @@ const SupportPopup = ({ isOpen, onClose }) => {
         <Title>Support Form</Title>
         <Form onSubmit={handleSubmit}>
           <FieldGroup>
-            <LabelStyled>First Name *</LabelStyled>
+            <LabelStyled> Name *</LabelStyled>
             <InputStyled
-              name="firstName"
-              value={formData.firstName}
+              name="name"
+              value={formData.name}
               onChange={handleChange}
-              placeholder="First Name"
+              placeholder="Name"
             />
-            {errors.firstName && <ErrorText>{errors.firstName}</ErrorText>}
+            {errors.name && <ErrorText>{errors.name}</ErrorText>}
           </FieldGroup>
-          <FieldGroup>
+          {/* <FieldGroup>
             <LabelStyled>Last Name *</LabelStyled>
             <InputStyled
               name="lastName"
@@ -234,7 +234,7 @@ const SupportPopup = ({ isOpen, onClose }) => {
               placeholder="Last Name"
             />
             {errors.lastName && <ErrorText>{errors.lastName}</ErrorText>}
-          </FieldGroup>
+          </FieldGroup> */}
           <FieldGroup>
             <LabelStyled>Number *</LabelStyled>
             <InputStyled
