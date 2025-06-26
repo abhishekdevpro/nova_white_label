@@ -93,6 +93,7 @@ function Profilesidebar({ data }) {
                   to={"/user/dashboard"}
                   className={data === "dashboard" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
+                  style={{ fontSize: "15px" }}
                 >
                   <User className="me-2" />
                   <span>Dashboard</span>
@@ -103,6 +104,7 @@ function Profilesidebar({ data }) {
                   to={"/user/jobs-profile"}
                   className={data === "profile" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
+                  style={{ fontSize: "15px" }}
                 >
                   <User className="me-2" />
                   <span>Profile</span>
@@ -113,6 +115,7 @@ function Profilesidebar({ data }) {
                   to={"/user/upload-documents"}
                   className={data === "upload-documents" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
+                  style={{ fontSize: "14px" }}
                 >
                   <DockIcon className="me-2" />
                   <span>Upload Documents</span>
@@ -125,6 +128,7 @@ function Profilesidebar({ data }) {
                   rel="noopener noreferrer"
                   className={data === "resume" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
+                  style={{ fontSize: "15px" }}
                 >
                   <FileTextIcon className="me-2" />
                   <span>AI Resume Builder</span>
@@ -133,9 +137,10 @@ function Profilesidebar({ data }) {
 
               <li>
                 <Link
-                  to={"/user/resume-list"}
+                  to={`/airesume/dashboard/resumelist?tokenbyurl=${token}`}
                   className={data === "resume-list" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
+                  style={{ fontSize: "15px" }}
                 >
                   <File className="me-2" />
                   <span>My Resumes</span>
@@ -146,6 +151,7 @@ function Profilesidebar({ data }) {
                   to={"/user/jobs-saved-jobs"}
                   className={data === "saved-jobs" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
+                  style={{ fontSize: "15px" }}
                 >
                   <Heart className="me-2" />
                   <span>Saved Jobs</span>
@@ -156,6 +162,7 @@ function Profilesidebar({ data }) {
                   to={"/user/jobs-applied-job"}
                   className={data === "applied-jobs" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
+                  style={{ fontSize: "15px" }}
                 >
                   <Briefcase className="me-2" />
                   <span>Applied Jobs</span>
@@ -167,6 +174,7 @@ function Profilesidebar({ data }) {
                   to={"/user/skill-test"}
                   className={data === "skill-test" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
+                  style={{ fontSize: "15px" }}
                 >
                   <FaLightbulb className="me-2" />
                   <span>Skill Test</span>
@@ -177,6 +185,7 @@ function Profilesidebar({ data }) {
                   to={"/user/skill-test-history"}
                   className={data === "skill-test-history" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
+                  style={{ fontSize: "15px" }}
                 >
                   <FaHistory className="me-2" />
                   <span>Skill Test History</span>
@@ -187,6 +196,7 @@ function Profilesidebar({ data }) {
                   to={"/user/community"}
                   className={data === "community" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
+                  style={{ fontSize: "15px" }}
                 >
                   <FaUserFriends className="me-2" />
                   <span>Community</span>
@@ -197,6 +207,7 @@ function Profilesidebar({ data }) {
                   to={"/user/messages"}
                   className={data === "messages" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
+                  style={{ fontSize: "15px" }}
                 >
                   <FaComment className="me-2" />
                   <span>Messages</span>
@@ -207,6 +218,7 @@ function Profilesidebar({ data }) {
                   to={"/user/ultraaura-courses"}
                   className={data === "ultra-aura" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
+                  style={{ fontSize: "15px" }}
                 >
                   <FaExternalLinkAlt className="me-2" />
                   <span>Ultra Aura</span>
@@ -217,6 +229,7 @@ function Profilesidebar({ data }) {
                   to={"/user/jobs-referral"}
                   className={data === "jobs-referral" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
+                  style={{ fontSize: "15px" }}
                 >
                   <IdCard className="me-2" />
                   <span>Add Referral </span>
@@ -249,6 +262,7 @@ function Profilesidebar({ data }) {
                     onLogout();
                     setSidebarOpen(false);
                   }}
+                  style={{ fontSize: "15px" }}
                 >
                   <LogOut className="me-2" />
                   <span>Log Out</span>
