@@ -218,7 +218,7 @@ const TeamSection = ({
         {(teamsData.length > 0 ? teamsData : FALLBACK_IMAGES.team).map((team, index) => (
           <div key={index} style={styles.teamMember}>
             <img
-              src={`${BASE_IMAGE_URL}${team.image}`}
+              src={`${BASE_IMAGE_URL}${team.media}`}
               alt={team.name}
               style={styles.teamImage}
               onError={handleImageError}

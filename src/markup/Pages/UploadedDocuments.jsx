@@ -7,6 +7,8 @@ import Footer from "../Layout/Footer";
 import FixedHeader from "../Layout/fixedHeader";
 import Profilesidebar from "../Element/Profilesidebar";
 import { useSelector } from "react-redux";
+import DocumentList from "./Components/DocumnetList";
+// import UploadDocuments from "./Components/uploadDocument";
 
 const DocumentUpload = () => {
      const jobProfileValues = useSelector(
@@ -116,7 +118,8 @@ const DocumentUpload = () => {
               <Profilesidebar data={"upload-documents"} />
 
               <div className="col-xl-9 col-lg-8 mb-4">
-                <div className="job-bx table-job-bx clearfix p-4 bg-light rounded shadow-sm">
+                <DocumentList />
+                {/* <div className="job-bx table-job-bx clearfix p-4 bg-light rounded shadow-sm">
                   <div className="job-bx-title clearfix mb-4">
                     <h5 className="font-weight-700 text-uppercase">
                       Upload Document
@@ -171,7 +174,7 @@ const DocumentUpload = () => {
                           />
                         )}
                       </div>
-{/* {console.log(uploadStatus, "uploadStatus")} */}
+
                       <div className="col-12 mt-3">
                         {uploadStatus === "verified" ? (
                           <button className="btn btn-success w-100" disabled>
@@ -193,7 +196,7 @@ const DocumentUpload = () => {
                       </div>
                     </div>
                   </form>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

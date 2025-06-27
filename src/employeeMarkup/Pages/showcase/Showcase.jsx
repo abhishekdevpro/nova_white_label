@@ -27,12 +27,13 @@ import {
 import { TbTargetArrow } from "react-icons/tb";
 import { FaCarBurst } from "react-icons/fa6";
 import DOMPurify from "dompurify";
-
+import parse from "html-react-parser";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import ReactPlayer from "react-player";
 import PDFViewer from "./components/PdfVeiwer";
 import TeamSection from "./components/TeamsSection";
+import GallerySection from "./components/ImageGallerySection";
 const url = window.location.origin.includes("localhost")
   ? "https://novajobs.us"
   : window.location.origin;
@@ -81,7 +82,6 @@ const styles = {
     zIndex: 1000,
     padding: "1rem 0",
     marginTop: "-1rem",
-
   },
   navContainer: {
     maxWidth: "1200px",
@@ -90,8 +90,6 @@ const styles = {
     justifyContent: "center",
     gap: "2rem",
     padding: "0 2rem",
-    
-    
   },
   navLink: {
     color: "#1e40af",
@@ -327,8 +325,6 @@ const styles = {
     gap: "1rem",
     // maxWidth: "1200px",
     margin: "0 auto",
-
-    
   },
   teamMember: {
     textAlign: "center",
@@ -1032,7 +1028,7 @@ const ShowcaseComponent = () => {
               Edit About
             </button>
           )}
-           {/* <h2 style={styles.sectionTitle}>Company Video</h2> */}
+          {/* <h2 style={styles.sectionTitle}>Company Video</h2> */}
           {companyData?.video_urls?.[0]?.trim() ? (
             <div style={{ marginBottom: "20px" }}>
               <ReactPlayer
@@ -1080,11 +1076,7 @@ const ShowcaseComponent = () => {
                 </div>
               ))
             ) : (
-              <div
-                
-              >
-                No unique benefits added yet.
-              </div>
+              <div>No unique benefits added yet.</div>
             )}
           </div>
         </section>
@@ -1101,6 +1093,12 @@ const ShowcaseComponent = () => {
             </button>
           )}
           <h2 style={styles.sectionTitle}>Open Positions</h2>
+          <p
+            style={styles.sectionTitle}
+            className="text-muted text-center fs-3"
+          >
+            {parse(companyData?.join_us)}
+          </p>
           {jobs.length > 0 ? (
             jobs.map((job, index) => (
               <div key={index} style={styles.jobCard}>
@@ -1155,6 +1153,21 @@ const ShowcaseComponent = () => {
           )}
         </section>
 
+        {/* <GallerySection
+          companyData={companyData}
+          isEdit={isEdit}
+          handleEditClick={(section) =>
+            console.log("Edit clicked for", section)
+          }
+          FALLBACK_IMAGES={{
+            DUMMY_ABOUT_IMAGES
+          }}
+          BASE_IMAGE_URL="https://apiwl.novajobs.us"
+          handleImageError={(e) => {
+            e.target.src = "/default-image.jpg"; // fallback
+          }}
+        /> */}
+
         {/* Gallery Section */}
         <section id="gallery" style={styles.section}>
           {isEdit && (
@@ -1167,6 +1180,7 @@ const ShowcaseComponent = () => {
               Edit Gallery
             </button>
           )}
+
           <h2 style={styles.sectionTitle}>
             Life at {companyData?.company_name}
           </h2>
@@ -1222,7 +1236,7 @@ const ShowcaseComponent = () => {
             </div>
           </section>
         )} */}
-         {teamsData.length > 0 && (
+        {teamsData.length > 0 && (
           <TeamSection
             teamsData={teamsData}
             isEdit={isEdit}
@@ -1359,4 +1373,3 @@ const ShowcaseComponent = () => {
 };
 
 export default ShowcaseComponent;
-
