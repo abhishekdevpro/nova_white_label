@@ -180,7 +180,7 @@ export default function PaymentSuccessPage() {
   }, [location, navigate]);
 
   const goToDashboard = () => {
-    navigate(`/airesume/dashboard/resumelist?tokenbyurl=${token}`);
+    navigate(`/airesume/dashboard/resumelist`);
   };
 
   if (loading) {
