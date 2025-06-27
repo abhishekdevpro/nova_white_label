@@ -71,7 +71,7 @@ function EmployeeCompanyprofile() {
         console.log(err);
         showToastError(err?.response?.data?.message);
       });
-  }, [token]); 
+  }, [token]);
 
   // Function to update company data
   const handlePhoneNumberChange = (e) => {
@@ -354,11 +354,7 @@ function EmployeeCompanyprofile() {
                         Company Profile
                       </h5>
                       <Link
-                        to={
-                          companyDetail?.id
-                            ? `/employer/showcase`
-                            : "#"
-                        }
+                        to={companyDetail?.id ? `/employer/showcase` : "#"}
                         className={`site-button right-arrow button-sm float-right ${
                           !companyDetail?.id
                             ? "opacity-50 cursor-not-allowed pointer-events-none"
@@ -407,7 +403,6 @@ function EmployeeCompanyprofile() {
                           </div>
                         </div>
                         <div className="col-lg-6 col-md-6">
-                          
                           <div
                             className="form-group  "
                             style={{ position: "relative" }}
@@ -457,10 +452,18 @@ function EmployeeCompanyprofile() {
                           <div className="form-group">
                             <label>Founded Year</label>
                             <input
-                              type="month" // Allows the user to select year and month
+                              type="number"
                               className="form-control"
-                              onChange={(e) => setFoundedYear(e.target.value)}
+                              onChange={(e) => {
+                                const year = e.target.value;
+                                if (year.length <= 4) {
+                                  setFoundedYear(year);
+                                }
+                              }}
                               value={foundedYear}
+                              placeholder="Enter the Founded Year"
+                              min="1900"
+                              max={new Date().getFullYear()}
                             />
                           </div>
                         </div>
@@ -504,11 +507,12 @@ function EmployeeCompanyprofile() {
                                 height: "200px",
                                 width: "100%",
                                 marginBottom: "70px",
+                                border: "1px solid #ccc",
                               }}
                             />
                           </div>
                         </div>
-                        <div className="col-lg-12 col-md-12">
+                        {/* <div className="col-lg-12 col-md-12">
                           <div className="form-group">
                             <label>Services</label>
                             {services.map((service, index) => (
@@ -573,7 +577,7 @@ function EmployeeCompanyprofile() {
                               Add Service
                             </button>
                           </div>
-                        </div>
+                        </div> */}
                         <div className="col-lg-6 col-md-6">
                           <div className="form-group">
                             <label>Phone Number</label>

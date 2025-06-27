@@ -10,6 +10,8 @@ import { showToastSuccess, showToastError } from "../../utils/toastify";
 import processVid from "../../gif process.mp4";
 import "../../css/fixedheader.css";
 import { toast } from "react-toastify";
+import ProfileStrengthBar from "../../components/ProfileStrengthBar";
+import { Loader2 } from "lucide-react";
 
 var bnr = require("./../../images/banner/bnr1.jpg");
 
@@ -205,22 +207,65 @@ const FixedHeader = () => {
     }
   };
 
-  function handleSubmit(event) {
+  // function handleSubmit(event) {
+  //   event.preventDefault();
+  //   if (!file) {
+  //     toast.error("Please select a file to upload.");
+  //     return;
+  //   }
+  //   setSpinner(true);
+
+  //   const formData = new FormData();
+  //   if (file) {
+  //     formData.append("files", file);
+  //   }
+
+  //   axios
+  //     .post(
+  //       // "https://apiwl.novajobs.us/api/jobseeker/resume-upload",
+  //       "https://apiwl.novajobs.us/api/user/resume-upload",
+  //       formData,
+  //       {
+  //         headers: {
+  //           "Content-Type": "multipart/form-data",
+  //           Authorization: token,
+  //         },
+  //       }
+  //     )
+
+  //     .then((res) => {
+  //       setSpinner(false);
+  //       setResumeUrl(res.data.data[0].file_path);
+  //       setAiBtn(false);
+  //       console.log(resumeUrl, res, res.data.data[0].file_path);
+
+  //       // setFile(res.data.data.file_path.split("/").pop());
+  //     })
+  //     .catch((error) => {
+  //       console.log(error.response.data.message);
+  //       showToastError(error?.response?.data?.message);
+  //       setResumeUrl("");
+  //     })
+  //     .finally(() => {
+  //       setSpinner(false);
+  //     });
+  // }
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
     if (!file) {
       toast.error("Please select a file to upload.");
       return;
     }
+
     setSpinner(true);
 
     const formData = new FormData();
-    if (file) {
-      formData.append("files", file);
-    }
+    formData.append("files", file);
 
-    axios
-      .post(
-        // "https://apiwl.novajobs.us/api/jobseeker/resume-upload",
+    try {
+      const res = await axios.post(
         "https://apiwl.novajobs.us/api/user/resume-upload",
         formData,
         {
@@ -229,30 +274,27 @@ const FixedHeader = () => {
             Authorization: token,
           },
         }
-      )
+      );
 
-      .then((res) => {
-        setSpinner(false);
-        setResumeUrl(res.data.data[0].file_path);
-        setAiBtn(false);
-        console.log(resumeUrl, res, res.data.data[0].file_path);
+      const filePath = res.data.data[0]?.file_path;
 
-        // setFile(res.data.data.file_path.split("/").pop());
-      })
-      .catch((error) => {
-        console.log(error.response.data.message);
-        showToastError(error?.response?.data?.message);
-        setResumeUrl("");
-      })
-       .finally(() => {
+      if(filePath){
+        setResumeUrl(filePath);
+      setAiBtn(false);
+      toast.success(res.data.message  || "Resume uploaded successfully!");
+      }
+    } catch (error) {
+      console.error("Upload error:", error?.response?.data?.message);
+      toast.error(error?.response?.data?.message || "Upload failed.");
+      setResumeUrl("");
+    } finally {
       setSpinner(false);
-    });
-  }
+    }
+  };
 
   const dispatch = useDispatch();
 
   return (
-
     <div
       className="overlay-black-dark profile-edit p-t50 p-b20"
       style={{ backgroundImage: "url(" + bnr + ")" }}
@@ -341,9 +383,12 @@ const FixedHeader = () => {
                       </li>
                     )}
                   </ul>
-
+                  {console.log(
+                    fixedHeaderValues.n_profile_strength,
+                    "fixedHeaderValues.n_profile_strength"
+                  )}
                   {/* Profile Strength */}
-                  <div className="progress-bx mt-3">
+                  {/* <div className="progress-bx mt-3">
                     <div className="progress">
                       <div
                         className="progress-bar"
@@ -359,7 +404,10 @@ const FixedHeader = () => {
                     <p className="font-12 m-b0 text-white mt-1">
                       Profile Strength
                     </p>
-                  </div>
+                  </div> */}
+                  <ProfileStrengthBar
+                    strength={fixedHeaderValues.n_profile_strength}
+                  />
                 </div>
               </div>
             )}
@@ -395,15 +443,19 @@ const FixedHeader = () => {
 
                 {spinner ? (
                   <div className="d-flex justify-content-center mt-3">
-                    <MutatingDots
-                      visible={true}
-                      height="100"
-                      width="100"
-                      color="#FFF"
-                      secondaryColor="#FFF"
-                      radius="12.5"
-                      ariaLabel="mutating-dots-loading"
-                    />
+                    <span
+                      className="btn btn-primary d-flex align-items-center gap-2 px-3 py-2"
+                      style={{ pointerEvents: "none", opacity: 0.8 }}
+                    >
+                      <Loader2
+                        size={18}
+                        className="spin-loader"
+                        style={{
+                          animation: "spin 1s linear infinite",
+                        }}
+                      />
+                      Uploading...
+                    </span>
                   </div>
                 ) : (
                   <button

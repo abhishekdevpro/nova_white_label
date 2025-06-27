@@ -338,7 +338,7 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
       }
     }
   };
-
+// console.log(token,"From feed get")
   const fetchPosts = async () => {
     const API = token
       ? "https://apiwl.novajobs.us/api/feed/pro/feeds"
@@ -498,7 +498,7 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
     });
   };
 
-  console.log(confirmationDialog, "confirmationDialog");
+  // console.log(confirmationDialog, "confirmationDialog");
 
   const confirmDeleteComment = (postId, commentId) => {
     setConfirmationDialog({
