@@ -9,13 +9,15 @@ import { FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 import LogoWrapper from "./LogoWrapper";
 import SupportPopup from "./SupportPopup";
 import ConsultancyPopup from "./ConsultancyPopup";
+import logo1 from "../../images/Duns-Logo1.png"
+import logo2 from "../../images/Logo-2.png"
+import logo3 from "../../images/Logo-3.png"
 function Footer() {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
 
-   const [isSupportOpen, setIsSupportOpen] = useState(false);
-   const [showConsultancyModal, setShowConsultancyModal] = useState(false);
-
+  const [isSupportOpen, setIsSupportOpen] = useState(false);
+  const [showConsultancyModal, setShowConsultancyModal] = useState(false);
 
   const [logo, setLogo] = useState(
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUhQJ-44yDYIuo8Hj-L1ezQSKAkkK4CqlecQ&s"
@@ -65,9 +67,41 @@ function Footer() {
             <div className="row row-cols-1 row-cols-md-5">
               <div className="col mb-4 mb-md-0 col-md-4">
                 <div className="text-start">
-                  <div className="mb-4 d-flex flex-column align-items-center text-center">
+                  <div className="mb-4 d-flex flex-column gap-4 align-items-center text-center">
                     <LogoWrapper />
                     <b className="fw-bold mt-2">An AI-enabled Job Portal</b>
+                    <div className="d-flex justify-content-center gap-3 flex-wrap">
+                      <img
+                        src={logo1}
+                        alt="Logo 1"
+                        className="img-fluid"
+                        style={{
+                          width: "80px",
+                          height: "80px",
+                          objectFit: "contain",
+                        }}
+                      />
+                      <img
+                        src={logo2}
+                        alt="Logo 2"
+                        className="img-fluid"
+                        style={{
+                          width: "80px",
+                          height: "80px",
+                          objectFit: "contain",
+                        }}
+                      />
+                      <img
+                        src={logo3}
+                        alt="Logo 3"
+                        className="img-fluid"
+                        style={{
+                          width: "80px",
+                          height: "80px",
+                          objectFit: "contain",
+                        }}
+                      />
+                    </div>
                   </div>
 
                   {/* <ul className="list-3 d-flex flex-column gap-2 text-break mt-4">
@@ -186,13 +220,8 @@ function Footer() {
                         window.scrollTo({ top: 0, behavior: "smooth" })
                       }
                     >
-                      <Link
-                        to={"/company-list"}
-                      >
-                        Companies
-                      </Link>
+                      <Link to={"/company-list"}>Companies</Link>
                     </li>
-                   
                   </ul>
                 </div>
               </div>
@@ -235,13 +264,17 @@ function Footer() {
                         window.scrollTo({ top: 0, behavior: "smooth" })
                       }
                     >
-                       <Link to={"/community"}>Community</Link>
+                      <Link to={"/community"}>Community</Link>
                     </li>
                     <li>
-                      <button className="site-button bg-primary"
-                       onClick={e => { e.preventDefault(); setShowConsultancyModal(true); }}
+                      <button
+                        className="site-button bg-primary"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setShowConsultancyModal(true);
+                        }}
                       >
-                          Book Free Consultation
+                        Book Free Consultation
                       </button>
                     </li>
                   </ul>
@@ -339,9 +372,14 @@ function Footer() {
           </div>
         </div>
       </div>
-       <SupportPopup isOpen={isSupportOpen} onClose={() => setIsSupportOpen(false)} />
-       <ConsultancyPopup isOpen={showConsultancyModal} onClose={() => setShowConsultancyModal(false)} />
-
+      <SupportPopup
+        isOpen={isSupportOpen}
+        onClose={() => setIsSupportOpen(false)}
+      />
+      <ConsultancyPopup
+        isOpen={showConsultancyModal}
+        onClose={() => setShowConsultancyModal(false)}
+      />
     </footer>
   );
 }

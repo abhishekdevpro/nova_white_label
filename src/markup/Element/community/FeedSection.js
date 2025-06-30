@@ -338,7 +338,7 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
       }
     }
   };
-// console.log(token,"From feed get")
+  // console.log(token,"From feed get")
   const fetchPosts = async () => {
     const API = token
       ? "https://apiwl.novajobs.us/api/feed/pro/feeds"
@@ -680,9 +680,25 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
                       to={`/community/${post.id}`}
                       className="text-decoration-none"
                     >
+                      
+                      {
+                       
                       <p className="fw-bold text-dark mb-0">
-                        {post.user_first_name} {post.user_last_name}
+                        {
+                        post.user_first_name &&
+                        post.user_last_name ? (
+                          <>
+                            {post.user_first_name} {post.user_last_name}
+                          </>
+                        ) : (
+                          "Anonymous Employer"
+                        )}
                       </p>
+                      //  :   
+                      //  <p className="fw-bold text-dark mb-0">
+                      //   {post.user_first_name} {post.user_last_name}
+                      // </p>
+                    }
                     </Link>
                     <p className="text-muted mb-0" style={{ fontSize: "12px" }}>
                       {new Date(post.created_at).toLocaleDateString()}
@@ -899,188 +915,7 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
                     </div>
                   </CommentCard>
 
-                  {/* {post.feed_comments && post.feed_comments.length > 0 && (
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "2px",
-                      }}
-                    >
-                      {post.feed_comments?.map((comment, index) => (
-                        <CommentCard key={index}>
-                          <ProfileImage
-                            src={comment?.user_photo ?`https://apiwl.novajobs.us/${comment.user_photo}`:"https://liccar.com/wp-content/uploads/png-transparent-head-the-dummy-avatar-man-tie-jacket-user.png"}
-                            alt="Profile"
-                          />
-                          {editingCommentId === comment.id ? (
-                            <div style={{ flexGrow: 1 }}>
-                              <CommentTextArea
-                                value={editedCommentContent}
-                                onChange={(e) =>
-                                  setEditedCommentContent(e.target.value)
-                                }
-                              />
-                              <div
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "flex-end",
-                                  gap: "8px",
-                                  marginTop: "8px",
-                                }}
-                              >
-                                <button
-                                  onClick={cancelCommentEdit}
-                                  style={{
-                                    backgroundColor: "#e5e7eb",
-                                    color: "#4b5563",
-                                    padding: "8px 16px",
-                                    borderRadius: "6px",
-                                    border: "none",
-                                    cursor: "pointer",
-                                  }}
-                                >
-                                  Cancel
-                                </button>
-                                <Button onClick={saveEditedComment}>
-                                  Save
-                                </Button>
-                              </div>
-                            </div>
-                          ) : (
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                width: "100%",
-                              }}
-                            >
-                              <div
-                                style={{
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  border:"2px solid red",
-                                }}
-                              >
-                                <p
-                                  style={{
-                                    fontWeight: "bold",
-                                    fontSize: "14px",
-                                    color: "#1f2937",
-                                  }}
-                                >
-                                  {`${comment?.user_first_name} ${comment?.user_last_name}`}
-                                </p>
-                                <p
-                                  style={{ color: "#4b5563", fontSize: "14px" }}
-                                >
-                                  {comment.content}
-                                </p>
-                              </div>
-                              <div style={{ position: "relative" }}>
-                                <button
-                                  onClick={() => toggleDropdown(comment.id)}
-                                  style={{
-                                    padding: "8px",
-                                    backgroundColor: "transparent",
-                                    cursor: "pointer",
-                                    border: "none",
-                                  }}
-                                >
-                                  <FaEllipsisV />
-                                </button>
-
-                                {openDropdownId === comment.id && (
-                                  <div
-                                    style={{
-                                      position: "absolute",
-                                      right: "0",
-                                      marginTop: "8px",
-                                      width: "120px",
-                                      backgroundColor: "#ffffff",
-                                      border: "1px solid #d1d5db",
-                                      borderRadius: "8px",
-                                      boxShadow: "0 1px 2px rgba(0, 0, 0, 0.1)",
-                                      zIndex: 10,
-                                    }}
-                                  >
-                                    {comment.is_edit &&
-                                      editingCommentId !== comment.id && (
-                                        <button
-                                          onClick={() => {
-                                            editComment(
-                                              comment.id,
-                                              comment.content,
-                                              post.id
-                                            );
-                                            setOpenDropdownId(null);
-                                          }}
-                                          style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            padding: "8px",
-                                            width: "100%",
-                                            textAlign: "left",
-                                            color: "#1e3a8a",
-                                            backgroundColor: "transparent",
-                                            border: "none",
-                                            cursor: "pointer",
-                                          }}
-                                        >
-                                          <FaEdit
-                                            style={{ marginRight: "8px" }}
-                                          />{" "}
-                                          Edit
-                                        </button>
-                                      )}
-                                    <button
-                                      onClick={() => {
-                                        confirmDeleteComment(
-                                          post.id,
-                                          comment.id
-                                        );
-                                        setOpenDropdownId(null);
-                                      }}
-                                      style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        padding: "8px",
-                                        width: "100%",
-                                        textAlign: "left",
-                                        color: "#ef4444",
-                                        backgroundColor: "transparent",
-                                        border: "none",
-                                        cursor: "pointer",
-                                      }}
-                                    >
-                                      <FaTrash style={{ marginRight: "8px" }} />{" "}
-                                      Delete
-                                    </button>
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          )}
-                        </CommentCard>
-                      ))}
-                      <ConfirmationDialog
-                        isOpen={confirmationDialog.isOpen}
-                        onClose={closeConfirmationDialog}
-                        onConfirm={deletePost}
-                        title={
-                          confirmationDialog.type === "post"
-                            ? "Delete Post"
-                            : "Delete Comment"
-                        }
-                        message={
-                          confirmationDialog.type === "post"
-                            ? "Are you sure you want to delete this post? This action cannot be undone."
-                            : "Are you sure you want to delete this comment? This action cannot be undone."
-                        }
-                      />
-                    </div>
-                  )} */}
+                 
                   {post.feed_comments && post.feed_comments.length > 0 && (
                     <div className="d-flex flex-column gap-2 mt-3">
                       {post.feed_comments.map((comment, index) => (
@@ -1131,10 +966,29 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
                           ) : (
                             <div className="d-flex justify-content-between align-items-start w-100">
                               <div className="flex-grow-1">
-                                <p className="fw-bold mb-1">
+                                {/* <p className="fw-bold mb-1">
                                   {comment?.user_first_name}{" "}
                                   {comment?.user_last_name}
-                                </p>
+                                </p> */}
+                                  
+                      {
+                      // localStorage.getItem("employeeLoginToken") ? 
+                      <p className="fw-bold text-dark mb-0">
+                        {
+                        comment.user_first_name &&
+                        comment.user_last_name ? (
+                          <>
+                            {comment.user_first_name} {comment.user_last_name}
+                          </>
+                        ) : (
+                          "Anonymous Employer"
+                        )}
+                      </p>
+                      //  :   
+                      //  <p className="fw-bold text-dark mb-0">
+                      //   {comment.user_first_name} {comment.user_last_name}
+                      // </p>
+                      }
                                 <p className="text-muted mb-0">
                                   {comment.content}
                                 </p>

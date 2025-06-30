@@ -121,6 +121,9 @@ import React from "react";
 import styled from "styled-components";
 import hero from "./home.png";
 import VendorPartnershipForm from "../WhiteLabel/Form";
+import logo1 from "../../images/Duns-Logo1.png"
+import logo2 from "../../images/Logo-2.png"
+import logo3 from "../../images/Logo-3.png"
 
 // Media query breakpoints
 const breakpoints = {
@@ -299,11 +302,15 @@ const Hero = () => {
         <TrustLogos>
           <span>Trusted by</span>
           <Logo
-            src="https://novajobs.us/static/media/SBE-Logo.389eda415d6bcfb730cb.png"
+            src={logo1}
             alt="SBE Logo"
           />
           <Logo
-            src="https://novajobs.us/static/media/New-dbe-logo.520f3752c7088c8b133c.png"
+            src={logo2}
+            alt="DBE Logo"
+          />
+          <Logo
+            src={logo3}
             alt="DBE Logo"
           />
         </TrustLogos>
