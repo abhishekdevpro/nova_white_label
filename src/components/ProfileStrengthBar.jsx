@@ -69,7 +69,7 @@ const ProgressBox = styled.div`
 
 // Bootstrap-style progress wrapper
 const StyledProgress = styled.div`
-  height: 8px;
+  height: 16px;
   background-color: #e9ecef;
   border-radius: 5px;
   overflow: hidden;
@@ -115,7 +115,7 @@ const ProfileStrengthBar = ({ strength = 0 }) => {
         <StyledProgress>
           <ProgressBar strength={strength} />
         </StyledProgress>
-        {/* <PercentText>{strength}%</PercentText> */}
+         <PercentText>{strength}</PercentText> 
       </ProgressWrapper>
       <ProgressLabel>Profile Strength</ProgressLabel>
     </ProgressBox>

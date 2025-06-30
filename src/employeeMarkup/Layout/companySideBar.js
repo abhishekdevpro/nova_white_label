@@ -210,7 +210,7 @@ const CompanySideBar = ({ active }) => {
                     to={"/employer/branding-company"}
                     className={active === "branding" ? "active" : null}
                   >
-                    <Building2 className="me-2" />
+                    <Building2 className="" />
                     <span>Branding Company</span>
                   </Link>
                 </li>
@@ -281,7 +281,7 @@ const CompanySideBar = ({ active }) => {
                     // rel="noopener noreferrer"
                     className={active === "browse-candidates" ? "active" : null}
                   >
-                    <User2Icon className="me-2" />
+                    <User2Icon className="" />
                     <span>Browse Candidates</span>
                   </Link>
                 </li>
