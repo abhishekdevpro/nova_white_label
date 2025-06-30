@@ -36,6 +36,7 @@ import {
   setBrowseCandidateValues,
 } from "../../store/reducers/browseCandidateSlice";
 import { Globe } from "lucide-react";
+import { toast } from "react-toastify";
 var bnr = require("./../../images/banner/bnr1.jpg");
 const postBox = [
   { image: require("./../../images/testimonials/pic1.jpg") },
@@ -937,7 +938,8 @@ function EmployeeBrowsecandidates() {
                                         <button
                                         key={item?.jobskkers_detail.id}
                                           onClick={() =>
-                                            handleTogglePhone(item?.jobskkers_detail.id)
+                                            toast.warn("Upgrade your plan,to view this")
+                                            // handleTogglePhone(item?.jobskkers_detail.id)
                                           }
                                           className="site-button btn-sm"
                                           
@@ -951,10 +953,11 @@ function EmployeeBrowsecandidates() {
                                         <button
                                           key={item?.jobskkers_detail.id}
                                           onClick={() =>
-                                            handleToggleEmail(item?.jobskkers_detail.id)
+                                            toast.warn("Upgrade your plan,to view this")
+                                            // handleToggleEmail(item?.jobskkers_detail.id)
                                           }
                                           className="site-button btn-sm"
-                                         
+                                          
                                         >
                                           {visibleEmailId === item?.jobskkers_detail.id
                                             ? item?.jobskkers_detail?.email
