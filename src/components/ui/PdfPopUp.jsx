@@ -9,10 +9,10 @@ const PDFPopupViewer = ({ show, onClose, fileUrl, fileName }) => {
 
   return (
     <Modal show={show} onHide={onClose} size="lg" centered>
-      <Modal.Header closeButton className="bg-primary text-white d-flex justify-content-between align-items-center">
-        <Modal.Title className="fw-bold fs-4 m-0">
+      <div closeButton className="py-2 d-flex justify-content-between align-items-center">
+        <h5 className="fw-bold fs-4 m-0">
           {fileName}
-        </Modal.Title>
+        </h5>
         <Button
           variant="primary"
           size="sm"
@@ -22,7 +22,7 @@ const PDFPopupViewer = ({ show, onClose, fileUrl, fileName }) => {
         >
           <FiExternalLink size={18} />
         </Button>
-      </Modal.Header>
+      </div>
 
       <Modal.Body style={{ height: "60vh" }}>
         <iframe

@@ -221,6 +221,7 @@ import CompanyList from "./markup/Pages/CompaniesListing/index.jsx";
 import UploadDocuments from "./markup/Pages/UploadedDocuments.jsx";
 import BrandingAdmin from "./adminPanel/Branding.js";
 import GoogleTranslate from "./GoogleTranslate.js";
+import ApplyForm from "./markup/ApplyForm/index.jsx";
 function App() {
   const dispatch = useDispatch();
 
@@ -745,6 +746,7 @@ function App() {
           {/* <Route path="job/:id" element={<JobPage />} /> */}
           <Route path="jobs" element={<JobPage2 />} />
           <Route path="jobs/:jobId" element={<JobDetails />} />
+          <Route path="apply/:id" element={<ApplyForm />} />
           <Route path="jobthirdparty" element={<JobPagethirdparty />} />
           <Route
             path="applicant-job"

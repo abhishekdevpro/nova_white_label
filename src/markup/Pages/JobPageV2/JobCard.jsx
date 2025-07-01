@@ -29,30 +29,30 @@ function JobCard({ job, onSelect, onToggleFavorite }) {
       navigate("/user/login");
       return;
     }
+    else navigate(`/user/apply/${jobId}`);
+    // try {
+    //   const response = await axios.post(
+    //     "https://apiwl.novajobs.us/api/jobseeker/jobs-applied",
+    //     {
+    //       job_id: jobId,
+    //       screen_questions: screeningQuestion,
+    //     },
+    //     {
+    //       headers: {
+    //         Authorization: `${token}`,
+    //       },
+    //     }
+    //   );
 
-    try {
-      const response = await axios.post(
-        "https://apiwl.novajobs.us/api/jobseeker/jobs-applied",
-        {
-          job_id: jobId,
-          screen_questions: screeningQuestion,
-        },
-        {
-          headers: {
-            Authorization: `${token}`,
-          },
-        }
-      );
-
-      if (response?.data) {
-        console.log(response, "appli");
-        toast.success("Application submitted successfully!");
-        setIsApplied(true);
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to submit application. Please try again.");
-    }
+    //   if (response?.data) {
+    //     console.log(response, "appli");
+    //     toast.success("Application submitted successfully!");
+    //     setIsApplied(true);
+    //   }
+    // } catch (error) {
+    //   console.error(error);
+    //   toast.error("Failed to submit application. Please try again.");
+    // }
   };
 
   const handleToggleFavorite = async (JobId) => {
