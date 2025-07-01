@@ -111,14 +111,14 @@ const Adminlogin = () => {
               </Form.Group>
 
               {error && <p className="text-danger mt-3">{error}</p>}
-              <Button
+              <button
                 variant="primary"
                 type="submit"
-                className="mt-3 w-100"
+                className="site-button w-100"
                 style={{ backgroundColor: "#1C2957" }}
               >
                 Login
-              </Button>
+              </button>
             </Form>
           </Col>
         </Row>

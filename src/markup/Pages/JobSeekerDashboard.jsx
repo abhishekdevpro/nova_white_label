@@ -321,7 +321,7 @@ const JobSeekerDashboard = () => {
                   <CardIcon>{card.icon}</CardIcon>
                   <CardTitle>{card.title}</CardTitle>
                   <CardDescription>{card.description}</CardDescription>
-                  <ActionButton>{card.buttonText}</ActionButton>
+                  <button className="site-button w-100">{card.buttonText}</button>
                 </Card>
               </CardLink>
             ))}
