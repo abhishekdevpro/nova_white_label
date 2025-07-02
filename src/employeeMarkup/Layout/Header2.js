@@ -359,7 +359,7 @@ const EmployeeHeader2 = () => {
               >
                 <ul className="nav navbar-nav">
                   <li className="">
-                    <Link to={"/employer"} onClick={handleMenuItemClick}>
+                    <Link to={"/employer/company-profile"} onClick={handleMenuItemClick}>
                       <Home className="me-2" size={20} />
                       Home
                     </Link>

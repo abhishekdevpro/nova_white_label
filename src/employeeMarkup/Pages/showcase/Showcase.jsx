@@ -1153,7 +1153,7 @@ const ShowcaseComponent = () => {
           )}
         </section>
 
-        {/* <GallerySection
+        <GallerySection
           companyData={companyData}
           isEdit={isEdit}
           handleEditClick={(section) =>
@@ -1166,10 +1166,10 @@ const ShowcaseComponent = () => {
           handleImageError={(e) => {
             e.target.src = "/default-image.jpg"; // fallback
           }}
-        /> */}
+        />
 
         {/* Gallery Section */}
-        <section id="gallery" style={styles.section}>
+        {/* <section id="gallery" style={styles.section}>
           {isEdit && (
             <button
               style={styles.editButton}
@@ -1202,7 +1202,7 @@ const ShowcaseComponent = () => {
               />
             ))}
           </div>
-        </section>
+        </section> */}
 
         {/* Teams Section */}
         {/* {teamsData.length > 0 && (
