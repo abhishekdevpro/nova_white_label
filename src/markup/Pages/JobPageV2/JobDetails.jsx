@@ -78,7 +78,7 @@ function JobDetailsPage() {
       navigate("/user/login");
       return;
     }
-     navigate(`/apply/${jobData.job_detail.id}`);
+    navigate(`/user/apply/${jobData.job_detail.id}`);
     // try {
     //   const response = await axios.post(
     //     "https://apiwl.novajobs.us/api/jobseeker/jobs-applied",
@@ -182,7 +182,7 @@ function JobDetailsPage() {
   if (!jobData) return null;
 
   const job = jobData;
-  console.log(job,`https://api.novajobs.us${job.companies?.logo}`, "job");
+  console.log(job, `https://api.novajobs.us${job.companies?.logo}`, "job");
   const shareUrl = `https://novajobs.us/user/jobs/${job.job_detail.id}`;
   return (
     <>
@@ -416,9 +416,12 @@ function JobDetailsPage() {
                           {job.company_size?.range || "N.A"}
                         </p>
                       </div>
-                      <button 
-                      onClick={()=>navigate(`/company-details/${job.companies.id}`)}
-                      className="site-button explore-btn">
+                      <button
+                        onClick={() =>
+                          navigate(`/company-details/${job.companies.id}`)
+                        }
+                        className="site-button explore-btn"
+                      >
                         Explore More
                       </button>
                     </div>
@@ -467,13 +470,36 @@ function JobDetailsPage() {
                     ? "Applied"
                     : "Quick Apply"}
                 </button>
-                <button
+                {/* <button
                   onClick={handleToggleFavorite}
-                  className={`site-button flex-grow-1 fw-medium text-white ${
+                  className={`flex-grow-1 fw-medium text-white ${
                     isSaved || job.job_detail?.is_job_favorite
                       ? "bg-danger opacity-75"
                       : "btn-secondary"
                   }`}
+                   style={{
+                    cursor:
+                     isSaved || job.job_detail?.is_job_favorite
+                        ? "not-allowed"
+                        : "pointer",
+                    pointerEvents:
+                      isSaved || job.job_detail?.is_job_favorite
+                        ? "none"
+                        : "auto",
+                  }}
+                >
+                  {isSaved || job.job_detail?.is_job_favorite
+                    ? "Saved"
+                    : "Save Job"}
+                </button> */}
+                <button
+                  onClick={handleToggleFavorite}
+                  className={`site-button fw-medium flex-grow-1 ${
+                    isSaved || job.job_detail?.is_job_favorite
+                      ? "bg--danger disabled"
+                      : "bg-secondary"
+                  }`}
+                  disabled={isSaved || job.job_detail?.is_job_favorite}
                 >
                   {isSaved || job.job_detail?.is_job_favorite
                     ? "Saved"

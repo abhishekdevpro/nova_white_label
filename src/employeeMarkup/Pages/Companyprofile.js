@@ -140,7 +140,7 @@ function EmployeeCompanyprofile() {
       // If companyServices is not valid, set services to an empty array
       setServices([]);
     }
-  }, [companyData]);
+  }, []);
 
   const getCountry = async () => {
     axios({

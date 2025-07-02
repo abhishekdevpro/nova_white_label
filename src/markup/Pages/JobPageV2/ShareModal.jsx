@@ -1,45 +1,4 @@
-// import React, { useState } from 'react';
-// import {
-//   FacebookShareButton,
-//   LinkedinShareButton,
-//   TwitterShareButton,
-//   WhatsappShareButton,
-//   FacebookIcon,
-//   LinkedinIcon,
-//   TwitterIcon,
-//   WhatsappIcon,
-// } from 'react-share';
 
-// const ShareJobModal = ({ show, onClose, shareUrl }) => {
-//   return (
-//     <div className={`modal fade ${show ? 'show d-block' : 'd-none'}`} tabIndex="-1">
-//       <div className="modal-dialog modal-dialog-centered">
-//         <div className="modal-content p-3">
-//           <div className="modal-header">
-//             <h5 className="modal-title">Share this job</h5>
-//             <button type="button" className="btn-close" onClick={onClose}></button>
-//           </div>
-//           <div className="modal-body d-flex justify-content-around">
-//             <FacebookShareButton url={shareUrl}>
-//               <FacebookIcon size={40} round />
-//             </FacebookShareButton>
-//             <TwitterShareButton url={shareUrl}>
-//               <TwitterIcon size={40} round />
-//             </TwitterShareButton>
-//             <LinkedinShareButton url={shareUrl}>
-//               <LinkedinIcon size={40} round />
-//             </LinkedinShareButton>
-//             <WhatsappShareButton url={shareUrl}>
-//               <WhatsappIcon size={40} round />
-//             </WhatsappShareButton>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ShareJobModal
 import React from 'react';
 import {
   FacebookShareButton,
@@ -64,7 +23,7 @@ const ShareJobModal = ({ show, onClose, shareUrl }) => {
     <div className={`modal fade ${show ? 'show d-block' : 'd-none'}`} tabIndex="-1">
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content border-0 rounded-3 shadow-lg p-3">
-          <div className="modal-header border-0">
+          <div className="d-flex justify-content-between items-center border-0">
             <h5 className="modal-title fw-bold">Share this job</h5>
             <button type="button" className="btn-close" onClick={onClose}></button>
           </div>

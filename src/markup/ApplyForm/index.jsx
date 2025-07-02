@@ -18,7 +18,7 @@ const CoursePage = () => {
       <section className="ls-section bg-stone">
         <div className="auto-container">
           <div className="row">
-            {/* <CompanyJobHeader companyId={id}/> */}
+            <CompanyJobHeader companyId={id}/>
             <ApplyForm companyId={id} />
           </div>
         </div>
