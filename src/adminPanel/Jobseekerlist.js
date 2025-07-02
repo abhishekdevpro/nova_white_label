@@ -7,6 +7,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import debounce from "lodash/debounce";
 import DocumentListModal from "./utils/DocumentListModal";
+import Pagination from "./utils/Pagination";
 
 const Jobseekerlist = () => {
   const [jobs, setJobs] = useState([]);
@@ -19,18 +20,23 @@ const Jobseekerlist = () => {
   const [email, setEmail] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedJobseekerId, setSelectedJobseekerId] = useState(null);
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const Page_size = 20;
   const queryParams = new URLSearchParams(window.location.search);
   const jobID = queryParams.get("jobID");
 
   const fetchJobs = async () => {
     setLoading(true);
-    let finalEndpoint = `https://apiwl.novajobs.us/api/admin/job-seekers`;
+    let finalEndpoint = `https://apiwl.novajobs.us/api/admin/job-seekers?page_no=${currentPage}&page_size=${Page_size}`;
 
     const query = [];
     if (selectedDomain) query.push(`domain_filter=${selectedDomain}`);
     if (name) query.push(`name=${name}`);
     if (email) query.push(`email=${email}`);
+
+    // if (!query.find((q) => q.startsWith("page_no=")))
+    //   query.push(`page_no=${currentPage}`);
 
     if (query.length > 0) {
       finalEndpoint += `?${query.join("&")}`;
@@ -59,6 +65,8 @@ const Jobseekerlist = () => {
         setJobs(data.data.job_applicants_info);
       } else {
         setJobs(data?.data || []);
+        console.log(data,"jobbbbbb");
+        setTotalPages(Number(data?.total_records%Page_size) || 1);
       }
     } catch (error) {
       console.error("Error fetching job data:", error);
@@ -72,12 +80,13 @@ const Jobseekerlist = () => {
     name,
     email,
     jobID,
+    currentPage,
   ]);
 
   useEffect(() => {
     debouncedFetchJobs();
     return () => debouncedFetchJobs.cancel(); // cancel on cleanup
-  }, [selectedDomain, name, email, jobID, debouncedFetchJobs]);
+  }, [selectedDomain, name, email, jobID, debouncedFetchJobs, currentPage]);
 
   const fetchDomains = async () => {
     const authToken = localStorage.getItem("authToken");
@@ -275,7 +284,7 @@ const Jobseekerlist = () => {
             </Row>
 
             <Row>
-              <Col md={12}>
+              <Col  md={12} className=" mx-auto">
                 {loading ? (
                   <div className="text-center my-5">
                     <div className="spinner-border text-primary" role="status">
@@ -283,7 +292,7 @@ const Jobseekerlist = () => {
                     </div>
                   </div>
                 ) : jobs.length > 0 ? (
-                  <table className="w-full table table-bordered table-hover table-responsive">
+                  <table className="table table-bordered table-hover table-responsive mx-auto">
                     <thead className="text-center bg-light">
                       <tr>
                         <th>S.No.</th>
@@ -380,6 +389,20 @@ const Jobseekerlist = () => {
                 ) : (
                   <div className="text-center my-5">
                     <h5 className="text-muted">No Applicants Found</h5>
+                  </div>
+                )}
+                {jobs.length > 0 && (
+                  <div className="mt-4">
+                    <Pagination
+                      currentPage={currentPage}
+                      totalPages={totalPages}
+                      onPageChange={(page) => setCurrentPage(page)}
+                    />
+                    <div className="text-center mt-2">
+                      <small className="text-muted">
+                        Page {currentPage} of {totalPages}
+                      </small>
+                    </div>
                   </div>
                 )}
               </Col>

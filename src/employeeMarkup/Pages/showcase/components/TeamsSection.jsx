@@ -42,7 +42,7 @@
 
 import React from 'react';
 import { MdEdit } from "react-icons/md";
-
+import parse from 'html-react-parser';
 const TeamSection = ({
   teamsData,
   isEdit,
@@ -51,6 +51,7 @@ const TeamSection = ({
   BASE_IMAGE_URL,
   FALLBACK_IMAGES,
 }) => {
+  
   const styles = {
     section: {
       marginBottom: "8rem",
@@ -148,8 +149,8 @@ const TeamSection = ({
       },
     },
     teamImage: {
-      width: "200px",
-      height: "200px",
+      width: "150px",
+      height: "150px",
       borderRadius: "50%",
       objectFit: "cover",
       marginBottom: "1.5rem",
@@ -224,8 +225,8 @@ const TeamSection = ({
               onError={handleImageError}
             />
             <h3 style={styles.teamName}>{team.name}</h3>
-            <p style={styles.teamPosition}>{team.position}</p>
-            <p style={styles.teamBio}>{team.bio}</p>
+            <p style={styles.teamPosition}>{parse(team.description)}</p>
+            {/* <p style={styles.teamBio}>{team.bio}</p> */}
           </div>
         ))}
       </div>
