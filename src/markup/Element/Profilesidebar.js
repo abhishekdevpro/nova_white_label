@@ -10,6 +10,7 @@ import {
   FaUserFriends,
 } from "react-icons/fa";
 import {
+  BadgeDollarSign,
   Bell,
   Briefcase,
   DockIcon,
@@ -49,7 +50,7 @@ function Profilesidebar({ data }) {
       <button className="sidebar-toggle" onClick={toggleSidebar}>
         ☰
       </button>
-      <div className={`sidebar ${sidebarOpen ? "open" : ""} overflow-y`}>
+      <div className={`sidebar-2 ${sidebarOpen ? "open" : ""} overflow-y`}>
         <div className="sticky-top overflow-y ">
           <div className="candidate-info overflow-y">
             <ul>
@@ -233,6 +234,17 @@ function Profilesidebar({ data }) {
                 >
                   <IdCard className="me-2" />
                   <span>Add Referral </span>
+                </Link>
+              </li>
+               <li>
+                <Link
+                  to={`/airesume/settings/?tokenbyurl=${token}`}
+                  className={data === "jobs-referral" ? "active" : null}
+                  onClick={() => setSidebarOpen(false)}
+                  style={{ fontSize: "15px" }}
+                >
+                  <BadgeDollarSign className="me-2" />
+                  <span>Plans </span>
                 </Link>
               </li>
               {/* <li>

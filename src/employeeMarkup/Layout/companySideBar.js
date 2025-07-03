@@ -13,7 +13,15 @@ import { fetchCompanyInfo } from "../../store/thunkFunctions/companyFunction";
 import "../../css/profilesidebar.css";
 import { FaBell, FaComment } from "react-icons/fa";
 import { FaUser } from "react-icons/fa6";
-import { Briefcase, Building2, FileText, LogOut, User2Icon, WalletCards } from "lucide-react";
+import {
+  Briefcase,
+  Building2,
+  FileText,
+  LogOut,
+  User2Icon,
+  WalletCards,
+  X,
+} from "lucide-react";
 
 const CompanySideBar = ({ active }) => {
   const token = localStorage.getItem("employeeLoginToken");
@@ -21,10 +29,10 @@ const CompanySideBar = ({ active }) => {
 
   const handleLogout = () => {
     // Clear authentication token or perform necessary logout actions
-    localStorage.removeItem('employeeLoginToken');
+    localStorage.removeItem("employeeLoginToken");
     // Redirect to admin login screen
-    <Navigate to="/login" />
-    return ;
+    <Navigate to="/login" />;
+    return;
   };
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [logo, setLogo] = useState("");
@@ -130,10 +138,12 @@ const CompanySideBar = ({ active }) => {
       <button className="sidebar-toggle" onClick={toggleSidebar}>
         ☰
       </button>
-      <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
+      <div className={`sidebar-2 ${sidebarOpen ? "open" : ""}`}>
         <div className="">
-          
           <div className="sticky-top">
+            <div className="d-flex justify-content-start d-lg-none p-3">
+              <X onClick={toggleSidebar} style={{ cursor: "pointer" }} />
+            </div>
             <div className="candidate-info company-info">
               <div className="candidate-detail text-center">
                 <div className="canditate-des">
@@ -177,23 +187,21 @@ const CompanySideBar = ({ active }) => {
                       onChange={handleImageChange}
                     />
                     <i className="fa fa-pencil"></i>
-                    
                   </div>
                 </div>
               </div>
               {file?.url ? (
-                  <button
-                    onClick={handleUpdateCompanyLogo}
-                    className="site-button w-100"
-                  >
-                    Update
-                  </button>
-                ) : null}
+                <button
+                  onClick={handleUpdateCompanyLogo}
+                  className="site-button w-100"
+                >
+                  Update
+                </button>
+              ) : null}
               <div className="candidate-title text-center candidate-detail text-break">
                 <h4 className="m-b5">
                   <Link to={"#"}>{companyDetail?.company_name}</Link>
                 </h4>
-                
               </div>
               <ul>
                 <li>
@@ -220,7 +228,7 @@ const CompanySideBar = ({ active }) => {
                     onClick={postJob}
                     //   to={"/employer/company-post-jobs"}
                   >
-                   <FileText className="me-2"/>
+                    <FileText className="me-2" />
                     <span>Post A Job</span>
                   </Link>
                 </li>
@@ -231,7 +239,7 @@ const CompanySideBar = ({ active }) => {
                       active === "company-manage-job" ? "active" : null
                     }
                   >
-                    <Briefcase className="me-2"/>
+                    <Briefcase className="me-2" />
                     <span>Manage jobs</span>
                   </Link>
                 </li>
@@ -251,7 +259,7 @@ const CompanySideBar = ({ active }) => {
                     className={active === "community" ? "active" : null}
                     to={"/employer/community"}
                   >
-                    <FaUser className="me-2"/>
+                    <FaUser className="me-2" />
                     <span>Community</span>
                   </Link>
                 </li>
@@ -260,7 +268,7 @@ const CompanySideBar = ({ active }) => {
                     className={active === "messages" ? "active" : null}
                     to={"/employer/messages"}
                   >
-                    <FaComment className="me-2"/>
+                    <FaComment className="me-2" />
                     <span>Messages</span>
                   </Link>
                 </li>
@@ -269,7 +277,7 @@ const CompanySideBar = ({ active }) => {
                     className={active === "notifications" ? "active" : null}
                     to={"/employer/jobs-alerts"}
                   >
-                    <FaBell className="me-2"/>
+                    <FaBell className="me-2" />
                     <span>Notifications</span>
                   </Link>
                 </li>
@@ -290,7 +298,7 @@ const CompanySideBar = ({ active }) => {
                     className={active === "wallet" ? "active" : null}
                     to={"/employer/company-transactions"}
                   >
-                    <WalletCards className="me-2"/>
+                    <WalletCards className="me-2" />
                     <span>Wallet</span>
                   </Link>
                 </li>
@@ -300,7 +308,7 @@ const CompanySideBar = ({ active }) => {
                     className={active === "view" ? "active" : null}
                     to={"/employer/showcase"}
                   >
-                    <FileText className="me-2"/>
+                    <FileText className="me-2" />
                     <span>View</span>
                   </Link>
                 </li>
@@ -328,7 +336,7 @@ const CompanySideBar = ({ active }) => {
                 </li> */}
                 <li>
                   <Link to={"/"} onClick={handleLogout}>
-                    <LogOut className="me-2"/>
+                    <LogOut className="me-2" />
                     <span>Log Out</span>
                   </Link>
                 </li>

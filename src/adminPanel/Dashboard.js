@@ -184,18 +184,18 @@ const Dashboard = () => {
   return (
     <div>
       <CustomNavbar />
-      <Container fluid>
-        <Row>
-          <Col md={2} className="p-0">
-            <Sidebar />
-          </Col>
-          <Col md={10}>
+      <div className='container'>
+        <div className='row'>
+          {/* <Col md={2} className="p-0"> */}
+            <Sidebar active="dashboard"/>
+          {/* </Col> */}
+          <Col >
             <Container fluid className="p-4">
               <Row className="mb-4">
                 <Col>
-                  <p className="d-flex align-items-center">
+                  <h5 className="font-weight-700 pull-left text-uppercase">
                     <FaTachometerAlt className="mx-1" /> Dashboard
-                  </p>
+                  </h5>
                 </Col>
               </Row>
               <Row className="gap-3">
@@ -231,8 +231,8 @@ const Dashboard = () => {
               </Row>
             </Container>
           </Col>
-        </Row>
-      </Container>
+        </div>
+      </div>
     </div>
   );
 };

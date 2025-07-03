@@ -4,11 +4,11 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCloudUploadAlt } from "@fortawesome/free-solid-svg-icons";
-import { Settings } from "lucide-react";
+import { Settings, X } from "lucide-react";
 import { toast } from "react-toastify";
 import { setPostAJobData } from "../store/reducers/postAJobSlice";
 import styled from "styled-components";
-
+import "../css/profilesidebar.css"
 const VendorCompanySideBar = ({ active }) => {
   const token = localStorage.getItem("vendorToken");
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -139,9 +139,12 @@ const VendorCompanySideBar = ({ active }) => {
       <button className="sidebar-toggle" onClick={toggleSidebar}>
         ☰
       </button>
-      <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
+      <div className={`sidebar-2 ${sidebarOpen ? "open" : ""}`}>
         <div className="">
           <div className="sticky-top">
+             <div className="d-flex justify-content-start d-lg-none p-3">
+                          <X onClick={toggleSidebar} style={{ cursor: "pointer" }} />
+                        </div>
             <div className="candidate-info company-info">
               <div className="candidate-detail text-center">
                 <div className="canditate-des">

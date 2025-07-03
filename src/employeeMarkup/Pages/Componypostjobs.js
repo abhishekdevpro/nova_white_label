@@ -19,17 +19,14 @@ import {
 import ReactQuill from "react-quill";
 import QualificationSetting from "../Element/qualificationSettingsEditor";
 import axios from "axios";
-import { showToastError , showToastSuccess} from "../../utils/toastify";
+import { showToastError, showToastSuccess } from "../../utils/toastify";
 
 import { useEffect } from "react";
 import CompanySideBar from "../Layout/companySideBar";
 import Footer from "../../markup/Layout/Footer";
-
+import { toast } from "react-toastify";
 
 function EmployeeComponypostjobs() {
-
-
-  
   const postAJobData = useSelector((state) => state.postAJobSlice.postAJobData);
 
   const postAJobSkills = useSelector((state) => state.postAJobSlice.skillsData);
@@ -75,7 +72,6 @@ function EmployeeComponypostjobs() {
     setDescription(false);
   }
 
-
   const [countries, setCountries] = useState([
     {
       id: 0,
@@ -94,10 +90,11 @@ function EmployeeComponypostjobs() {
       name: "",
     },
   ]);
-  
+
   const token = localStorage.getItem("employeeLoginToken");
   const [jobType, setJobType] = useState([]);
   const [workplaceType, setWorkplaceType] = useState([]);
+  const [industriesList, setIndustriesList] = useState([]);
   const { id } = useParams();
 
   useEffect(() => {
@@ -108,16 +105,15 @@ function EmployeeComponypostjobs() {
         Authorization: token,
       },
     })
-     .then((res) => {
-        setJobCategories(res.data.data); 
-        console.log('console h',res.data.data)// Update jobCategories state here
+      .then((res) => {
+        setJobCategories(res.data.data);
+        console.log("console h", res.data.data); // Update jobCategories state here
       })
       .catch((err) => {
         console.log("Error fetching job categories:", err);
       });
   }, [token]);
-  
-  
+
   // Function to render job categories as dropdown options
   const renderJobCategories = () => {
     return jobCategories.map((category) => (
@@ -126,7 +122,30 @@ function EmployeeComponypostjobs() {
       </option>
     ));
   };
-  
+  useEffect(() => {
+    axios({
+      method: "get",
+      url: "https://apiwl.novajobs.us/api/jobseeker/industries",
+      headers: {
+        Authorization: token,
+      },
+    })
+      .then((res) => {
+        setIndustriesList(res.data.data); // or modify based on API response structure
+      })
+      .catch((err) => {
+        console.log("Error fetching industries:", err);
+      });
+  }, [token]);
+
+  const renderIndustries = () => {
+    return industriesList.map((industry) => (
+      <option key={industry.id} value={industry.id}>
+        {industry.name}
+      </option>
+    ));
+  };
+
   useEffect(() => {
     axios({
       method: "get",
@@ -135,16 +154,15 @@ function EmployeeComponypostjobs() {
         Authorization: token,
       },
     })
-     .then((res) => {
-        setexperience_level_id(res.data.data); 
-        console.log('console h',res.data.data)// Update jobCategories state here
+      .then((res) => {
+        setexperience_level_id(res.data.data);
+        console.log("console h", res.data.data); // Update jobCategories state here
       })
       .catch((err) => {
         console.log("Error fetching job categories:", err);
       });
   }, [token]);
-  
-  
+
   // Function to render job categories as dropdown options
   const renderexperience_level_id = () => {
     return experience_level_id.map((category) => (
@@ -153,7 +171,6 @@ function EmployeeComponypostjobs() {
       </option>
     ));
   };
-  
 
   const getJob = async () => {
     await axios({
@@ -176,7 +193,7 @@ function EmployeeComponypostjobs() {
             selectedState: res.data.data.job_detail.state_id,
             selectedCountry: res.data.data.job_detail.country_id,
             job_title: res.data.data.job_detail.job_title,
-            salary: res.data.data.job_detail.salary
+            salary: res.data.data.job_detail.salary,
           })
         );
         dispatch(setSkillsData(res.data.data.job_detail.skills_arr));
@@ -203,7 +220,7 @@ function EmployeeComponypostjobs() {
         data: {
           keyword: postAJobData.jobTitle,
           title: postAJobData.jobTitle,
-          workplace_type: postAJobData.workplaceType,
+          workplace_type: Number(postAJobData.workplaceType),
           job_type: postAJobData.jobType,
           company: postAJobData.company,
         },
@@ -212,46 +229,89 @@ function EmployeeComponypostjobs() {
       renderSection(res.data.data.description);
     } catch (error) {
       console.error("Error occurred: ", error.response.data);
-    }
-    finally{
+    } finally {
       setDescription(false);
     }
   };
-  
+
+  // const postCompleted = async () => {
+
+  //   await axios({
+  //     url: `https://apiwl.novajobs.us/api/employeer/job-post/${id}`,
+  //     method: "PUT",
+  //     headers: {
+  //       Authorization: token,
+  //     },
+  //     data: {
+  //       company_name: postAJobData.company,
+  //       job_category_id: Number(postAJobData.jobCategory),
+  //       industry_id: Number(postAJobData.industries),
+  //       job_title: postAJobData.jobTitle,
+  //       job_description: postAJobData.description,
+  //       workplace_type_id: Number(postAJobData.workplaceType),
+  //       country_id: Number(postAJobData.selectedCountry),
+  //       state_id: Number(postAJobData.selectedState),
+  //       city_id: Number(postAJobData.selectedCity),
+  //       experience_level_id: Number(postAJobData.experience_level_id),
+  //       is_publish: 1,
+  //       salary: postAJobData.salary,
+
+  //       screen_questions: {
+  //         screen_question_keywords: selelctedQuestions,
+  //       },
+  //       skills: postAJobSkills,
+  //     },
+  //   }).then((res) => {
+  //     console.log(res);
+  //   });
+  // };
   const postCompleted = async () => {
-    await axios({
-      url: `https://apiwl.novajobs.us/api/employeer/job-post/${id}`,
-      method: "PUT",
-      headers: {
-        Authorization: token,
-      },
-      data: {
-        company_name:postAJobData.company,
-        job_category_id: Number(postAJobData.jobCategory),
-        job_title: postAJobData.jobTitle,
-        job_description: postAJobData.description,
-        workplace_type_id: Number(postAJobData.workplaceType),
-        country_id: Number(postAJobData.selectedCountry),
-        state_id: Number(postAJobData.selectedState),
-        city_id: Number(postAJobData.selectedCity),
-        experience_level_id: Number(postAJobData.experience_level_id),
-        is_publish: 1,
-        salary:postAJobData.salary,
-       
-        
-        
-        screen_questions: {
-          screen_question_keywords: selelctedQuestions,
+    // 🧪 Basic Validation
+    if (!postAJobData.jobTitle) {
+      toast.error("Job title is required to post a job");
+      return;
+    }
+    if (!postAJobData.company) {
+      toast.error(" Company name is required to post a job");
+      return;
+    }
+
+    try {
+      const response = await axios({
+        url: `https://apiwl.novajobs.us/api/employeer/job-post/${id}`,
+        method: "PUT",
+        headers: {
+          Authorization: token,
         },
-        skills: postAJobSkills,
-        
-      },
-    }).then((res) => {
-      console.log(res);
-    });
+        data: {
+          company_name: postAJobData.company,
+          job_category_id: Number(postAJobData.jobCategory),
+          industry_id: Number(postAJobData.industries),
+          job_title: postAJobData.jobTitle,
+          job_description: postAJobData.description,
+          workplace_type_id: Number(postAJobData.workplaceType),
+          country_id: Number(postAJobData.selectedCountry),
+          state_id: Number(postAJobData.selectedState),
+          city_id: Number(postAJobData.selectedCity),
+          experience_level_id: Number(postAJobData.experience_level_id),
+          is_publish: 1,
+          salary: postAJobData.salary,
+
+          screen_questions: {
+            screen_question_keywords: selelctedQuestions,
+          },
+          skills: postAJobSkills,
+        },
+      });
+
+      console.log("Job posted successfully:", response.data);
+      toast.success("Job post updated and published!");
+    } catch (error) {
+      console.error("Error updating job post:", error);
+      toast.error("Failed to update job post.");
+    }
   };
 
-  
   const getJobTyes = async () => {
     await axios({
       url: "https://apiwl.novajobs.us/api/employeer/job-types",
@@ -358,12 +418,8 @@ function EmployeeComponypostjobs() {
     getJobTyes();
     getWorkplaceType();
     getCountry();
-  }, []);
+  }, [token]);
 
-  
-
-  
-  
   useEffect(() => {
     // console.log(selectedCountry);
     dispatch(
@@ -377,8 +433,6 @@ function EmployeeComponypostjobs() {
     getState();
   }, [postAJobData.selectedCountry]);
 
-
-
   useEffect(() => {
     dispatch(
       setPostAJobData({
@@ -389,7 +443,6 @@ function EmployeeComponypostjobs() {
     getCities();
   }, [postAJobData.selectedState]);
 
-
   useEffect(() => {
     dispatch(
       setPostAJobData({
@@ -399,8 +452,6 @@ function EmployeeComponypostjobs() {
     );
     getCities();
   }, [postAJobData.selectedState]);
-
-  
 
   useEffect(() => {
     if (postAJobData.jobTitle !== "") {
@@ -411,9 +462,9 @@ function EmployeeComponypostjobs() {
   const dispatch = useDispatch();
   const handleChange = (e) => {
     const { name, value } = e.target;
-  
+
     let updatedErrors = { ...errors };
-  
+
     if (name === "jobTitle") {
       // Validate allow only characters
       if (!/^[a-zA-Z\s]*$/.test(value)) {
@@ -438,23 +489,25 @@ function EmployeeComponypostjobs() {
     } else if (name === "experience_level_id") {
       // Validate job category (assuming it should not be empty)
       if (value.trim() === "") {
-        updatedErrors = { ...errors, experience_level_id: "experience_level_id is required." };
+        updatedErrors = {
+          ...errors,
+          experience_level_id: "experience_level_id is required.",
+        };
       } else {
         updatedErrors = { ...errors, experience_level_id: "" };
       }
     }
-    
-  
+
     setErrors(updatedErrors); // Update errors state first
-  
+
     dispatch(setPostAJobData({ ...postAJobData, [name]: value })); // Then update postAJobData state
   };
-  
+
   const [errors, setErrors] = useState({
     jobTitle: "",
     company: "",
   });
-  console.log(countries, "ciosda");
+  // console.log(countries, "ciosda");
 
   const handlePostJob = async () => {
     // Step 2: Update job posting status and perform necessary actions
@@ -464,21 +517,25 @@ function EmployeeComponypostjobs() {
       await postCompleted();
       showToastSuccess("Your Job post is under review");
       // Reset form after successful post
-      dispatch(setPostAJobData({
-        jobTitle: "",
-        company: "",
-        workplaceType: "",
-        location: "",
-        jobType: "",
-        description: "",
-        education: "",
-        qualificationSetting: "",
-        selectedCity: "",
-        selectedState: "",
-        selectedCountry: "",
-      }));
+      dispatch(
+        setPostAJobData({
+          jobTitle: "",
+          company: "",
+          workplaceType: "",
+          location: "",
+          jobType: "",
+          description: "",
+          education: "",
+          qualificationSetting: "",
+          selectedCity: "",
+          selectedState: "",
+          selectedCountry: "",
+        })
+      );
       dispatch(setSkillsData([]));
-      dispatch(setSelctedScreeningQuestionGet({ screen_question_keywords: [] }));
+      dispatch(
+        setSelctedScreeningQuestionGet({ screen_question_keywords: [] })
+      );
       setErrors({ jobTitle: "", company: "" });
       setSuggestions(true);
     } catch (error) {
@@ -490,12 +547,23 @@ function EmployeeComponypostjobs() {
       <Header2 />
       <div className="page-content bg-white">
         <div className="content-block">
-          <div className="section-full bg-white p-t50 p-b20">
+          <div className="section-full bg-white p-t50">
             <div className="container">
               <div className="row">
                 <CompanySideBar active="postJob" />
-                <div className="col-xl-9 col-lg-9 m-b30">
-                  <div className="job-bx submit-resume">
+                
+                <div className="col-xl-9 col-lg-9 col-12">
+                  <div
+                    className="job-bx submit-resume"
+                    // style={{
+                    //   height: "100%",
+                    //   overflowY: "auto",
+                    //   overflowX: "hidden",
+                    //   paddingRight: "10px",
+                    //   scrollBehavior: "smooth",
+                    //   scrollbarWidth: "none",
+                    // }}
+                  >
                     <div className="job-bx-title clearfix">
                       <h5 className="font-weight-700 pull-left text-uppercase">
                         Post A Job
@@ -600,7 +668,7 @@ function EmployeeComponypostjobs() {
                             />
                           </div>
                         </div> */}
-                        <div className="ccol-lg-6 col-md-6">
+                        <div className="col-lg-4 col-12">
                           <div className="form-group">
                             <label htmlFor="workplaceType">
                               Workplace type
@@ -622,7 +690,7 @@ function EmployeeComponypostjobs() {
                             ) : null}
                           </div>
                         </div>
-                        <div className="col-lg-6 col-md-6">
+                        <div className="col-lg-4 col-12">
                           <div className="form-group">
                             <label htmlFor="jobCategory">Job Category</label>
                             <Form.Control
@@ -634,6 +702,21 @@ function EmployeeComponypostjobs() {
                               onChange={handleChange}
                             >
                               {renderJobCategories()}
+                            </Form.Control>
+                          </div>
+                        </div>
+                        <div className="col-lg-4 col-12 mb-3">
+                          <div className="form-group">
+                            <label htmlFor="industries">Industries</label>
+                            <Form.Control
+                              as="select"
+                              name="industries"
+                              id="industries"
+                              value={postAJobData.industries}
+                              onChange={handleChange}
+                            >
+                              <option value="">Select Industry</option>
+                              {renderIndustries()}
                             </Form.Control>
                           </div>
                         </div>
@@ -701,7 +784,7 @@ function EmployeeComponypostjobs() {
                           </div>
                         </div>
 
-                        <div className="col-6">
+                        <div className="col-lg-6">
                           <div className="form-group">
                             <label htmlFor="jobType">Job Type</label>
                             {jobType ? (
@@ -816,7 +899,8 @@ function EmployeeComponypostjobs() {
                           />
                         </div>
                         <p>
-                          People with title {postAJobData?.jobTitle || ""} are actively looking for job,
+                          People with title {postAJobData?.jobTitle || ""} are
+                          actively looking for job,
                         </p>
                       </div>
                     ) : null}
@@ -906,14 +990,12 @@ function EmployeeComponypostjobs() {
                       <QualificationSetting />
                     </div> */}
                     <div
-                      // style={{
-                      //   display: "flex",
-                      //   gap: 10,
-                      // }}
+                    // style={{
+                    //   display: "flex",
+                    //   gap: 10,
+                    // }}
                     >
-                      <div
-                        
-                      >
+                      <div>
                         {/* Step 3: Update UI based on job posting status */}
                         {jobPostingStatus === "pending" ? (
                           <button

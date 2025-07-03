@@ -31,7 +31,7 @@ const GoogleTranslate = () => {
       style={{
         top: "10px",
         right: "10px",
-        zIndex: 9999,
+        zIndex: 1000,
       }}
     ></div>
   );

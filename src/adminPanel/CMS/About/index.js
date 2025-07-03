@@ -37,6 +37,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import Sidebar from "../../Sidebar";
 import CustomNavbar from "../../Navbar";
 import AdminAboutus from "./AdminAboutus";
+import { User } from "lucide-react";
 
 function AboutusForm({ projectName }) {
   const token = localStorage.getItem("vendorToken");
@@ -45,30 +46,26 @@ function AboutusForm({ projectName }) {
     <>
       {!token && <CustomNavbar />}
 
-      <Container fluid className="min-vh-100 p-0 bg-light">
-        <Row className="g-0">
-          {!token && (
-            <Col
-              md={2}
-              className="d-none d-md-block bg-white border-end shadow-sm"
-              style={{ minHeight: "100vh" }}
-            >
-              <Sidebar />
-            </Col>
-          )}
+      <div className="container">
+        <div className="row">
+          <Sidebar />
 
           <Col
-            md={token ? 12 : 10}
+            md={token ? 9 : 9}
             className="px-4 py-4"
             style={{ minHeight: "100vh", overflowY: "auto" }}
           >
             <div className="bg-white rounded shadow p-4 h-100">
-             
+              {/* <Col>
+                <h5 className="font-weight-700 pull-left text-uppercase">
+                  <User className="mx-1" /> About Us
+                </h5>
+              </Col> */}
               <AdminAboutus projectName={projectName} />
             </div>
           </Col>
-        </Row>
-      </Container>
+        </div>
+      </div>
     </>
   );
 }

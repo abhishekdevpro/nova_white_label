@@ -1,5 +1,5 @@
 /* Base styles */
-.sidebar {
+.sidebar-2 {
   width: 280px;
   transition: transform 0.3s ease;
   transform: translateX(-100%);
@@ -8,7 +8,7 @@
    padding-top: 1rem;
 }
 
-.sidebar.open {
+.sidebar-2.open {
   transform: translateX(0);
 }
 
@@ -43,7 +43,7 @@ main {
 
 /* Desktop view */
 @media (min-width: 992px) {
-  .sidebar {
+  .sidebar-2 {
     position: static;
     transform: none;
   }
@@ -59,7 +59,7 @@ main {
 }
 /* Mobile view */
 @media (max-width: 991px) {
-  .sidebar {
+  .sidebar-2 {
     position: fixed;
     top: 0;
     left: 0;
@@ -71,7 +71,7 @@ main {
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   }
 
-  .sidebar.open {
+  .sidebar-2.open {
     transform: translateX(0);
   }
 
