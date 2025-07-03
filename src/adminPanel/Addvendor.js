@@ -64,12 +64,10 @@ const Addvendor = () => {
   return (
     <div>
       <CustomNavbar />
-      <Container fluid>
-        <Row>
-          <Col md={2} className="p-0">
+      <div className="container">
+        <div className="row">
             <Sidebar />
-          </Col>
-          <Col className="w-full">
+          <Col className="w-100">
             <div className="page-content bg-white">
               <div className="content-block">
                 <div className="section-full bg-white p-t50 p-b20">
@@ -202,8 +200,8 @@ const Addvendor = () => {
               </div>
             </div>
           </Col>
-        </Row>
-      </Container>
+        </div>
+      </div>
     </div>
   );
 };

@@ -16,7 +16,7 @@ import { useInsideImages } from "./hooks/useInsideImages";
 import "./styles/SocialNetworkBox.css";
 import UserHeader2 from "../../../markup/Layout/Header2";
 import CompanySideBar from "../../Layout/companySideBar";
-import Footer from "../../../markup/Layout/Footer";
+
 import VendorHeader from "../../../markup/Layout/VendorHeader";
 import VendorCompanySideBar from "../../../vendor/Vendorsidebar";
 import { Link } from "react-router-dom";
@@ -203,7 +203,7 @@ const BrandingTabs = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      
     </>
   );
 };

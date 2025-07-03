@@ -99,12 +99,12 @@ const Listvendor = () => {
   return (
     <div>
       <CustomNavbar />
-      <Container fluid>
-        <Row>
-          <Col md={2} className="p-0">
+      <div className="container">
+        <div className="row">
+         
             <Sidebar />
-          </Col>
-          <Col md={10}>
+          
+          <Col >
             <div className="d-flex">
               <p className="my-2">
                 <FaStore className="mx-1" /> / Vendor List
@@ -216,8 +216,8 @@ const Listvendor = () => {
               </Col>
             </Row>
           </Col>
-        </Row>
-      </Container>
+        </div>
+      </div>
     </div>
   );
 };

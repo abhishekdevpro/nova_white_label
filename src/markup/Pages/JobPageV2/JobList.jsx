@@ -118,7 +118,7 @@ function JobListing({
 
     return (
       <nav aria-label="Job listing pagination">
-        <ul className="pagination justify-content-center">{pages}</ul>
+        <ul className="pagination justify-content-center flex-wrap">{pages}</ul>
       </nav>
     );
   };

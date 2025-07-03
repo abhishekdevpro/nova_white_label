@@ -345,11 +345,11 @@ function EmployeeCompanyprofile() {
         <div className="content-block">
           <div className="section-full bg-white p-t50 p-b20">
             <div className="container">
-              <div className="d-flex">
+              <div className="row">
                 <CompanySideBar active="company" />
                 <div className="col-xl-9 col-lg-9 m-b30">
                   <div className="job-bx submit-resume">
-                    <div className="job-bx-title clearfix">
+                    <div className="job-bx-title clearfix " >
                       <h5 className="font-weight-700 pull-left text-uppercase">
                         Company Profile
                       </h5>
@@ -371,7 +371,16 @@ function EmployeeCompanyprofile() {
                         updateCompanyData();
                       }}
                     >
-                      <div className="row m-b30">
+                      <div className="row m-b30 " 
+                    //    style={{
+                    //   height: "100%",
+                    //   overflowY: "auto",
+                    //   overflowX: "hidden",
+                    //   paddingRight: "10px",
+                    //   scrollBehavior: "smooth",
+                    //   scrollbarWidth: "none",
+                    // }}
+                    >
                         <div className="col-lg-6 col-md-6">
                           <div className="form-group">
                             <label htmlFor="companyName">Company Name</label>
@@ -725,7 +734,7 @@ function EmployeeCompanyprofile() {
                           <div className="clearfix font-bold">
                             <button
                               type="submit"
-                              className="site-button button-sm px-4 py-2 text-bolder"
+                              className="site-button w-100"
                             >
                               Save
                             </button>

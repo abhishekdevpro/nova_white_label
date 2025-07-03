@@ -385,7 +385,7 @@ function Jobsection() {
                         </div>
 
                         <div className="job-post-info">
-                          <h4 onClick={() => handleShowModal(item)}>
+                          <h4 onClick={() => navigate(`user/jobs/${item.job_detail.id}`)}>
                             {item.job_detail.job_title}
                           </h4>
                           <h6>{item.companies.company_name}</h6>

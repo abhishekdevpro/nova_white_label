@@ -13,7 +13,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import Footer from "../markup/Layout/Footer";
 import Sidebar from "./Sidebar"; // Assuming you have a Sidebar component
 import { FaFileAlt, FaPaintBrush } from "react-icons/fa";
 import CustomNavbar from "./Navbar";
@@ -23,13 +23,13 @@ const BrandingAdmin = () => {
   return (
     <div>
       <CustomNavbar />
-      <Container fluid>
-        <Row>
-          <Col md={2} className="p-0">
+      <div className="container">
+        <div className="row">
+          
             <Sidebar />
-          </Col>
-          <Col md={10}>
-            <Container fluid className="p-4">
+          
+          <Col >
+            <Container fluid className="">
               {/* <Row className="mb-4">
                 <Col>
                   <p className="d-flex align-items-center">
@@ -42,8 +42,9 @@ const BrandingAdmin = () => {
               </Row>
             </Container>
           </Col>
-        </Row>
-      </Container>
+        </div>
+      </div>
+      <Footer />
     </div>
   );
 };

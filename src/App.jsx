@@ -261,7 +261,7 @@ function App() {
 
   return (
     <>
-      <GoogleTranslate />
+      {/* <GoogleTranslate /> */}
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="services" element={<LandingPage />} />
