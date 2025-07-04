@@ -1,109 +1,9 @@
-// import React, { useState } from 'react';
-// import styled from 'styled-components';
-
-// const Badge = styled.span`
-//   padding: 5px 10px;
-//   border-radius: 5px;
-//   font-weight: bold;
-//   font-size: 14px;
-//   color: ${(props) =>
-//     props.status === 'Verified'
-//       ? '#155724'
-//       : props.status === 'Rejected'
-//       ? '#721c24'
-//       : '#856404'};
-//   background-color: ${(props) =>
-//     props.status === 'Verified'
-//       ? '#d4edda'
-//       : props.status === 'Rejected'
-//       ? '#f8d7da'
-//       : '#fff3cd'};
-// `;
-
-// const DocumentList = () => {
-//   const [docType, setDocType] = useState('');
-//   const [file, setFile] = useState(null);
-//   const [documents, setDocuments] = useState([]);
-
-//   const handleUpload = () => {
-//     if (!docType || !file) {
-//       alert('Please select document type and file.');
-//       return;
-//     }
-
-//     const newDoc = { type: docType, name: file.name, status: 'In Progress' };
-//     setDocuments([...documents, newDoc]);
-//     setDocType('');
-//     setFile(null);
-//   };
-
-//   return (
-//     <div className="container mt-5 p-4 bg-white rounded shadow">
-//       <h2 className="text-center mb-4">Upload Document</h2>
-
-//       <div className="mb-3">
-//         <label className="form-label">Document Type</label>
-//         <select
-//           className="form-select"
-//           value={docType}
-//           onChange={(e) => setDocType(e.target.value)}
-//         >
-//           <option value="">Select Document Type</option>
-//           <option value="SSN">SSN</option>
-//           <option value="PassBook">PassBook</option>
-//           <option value="Resume">Resume</option>
-//           <option value="Experience Letter">Experience Letter</option>
-//           <option value="Cover Letter">Cover Letter</option>
-//           <option value="Education">Education</option>
-//           <option value="Certificate">Certificate</option>
-//         </select>
-//       </div>
-
-//       <div className="mb-3">
-//         <label className="form-label">Upload File</label>
-//         <input
-//           type="file"
-//           className="form-control"
-//           accept=".pdf, .jpg, .png"
-//           onChange={(e) => setFile(e.target.files[0])}
-//         />
-//       </div>
-
-//       <button className="btn btn-primary w-100" onClick={handleUpload}>
-//         Upload
-//       </button>
-
-//       <table className="table table-striped mt-4">
-//         <thead>
-//           <tr>
-//             <th>Document Type</th>
-//             <th>File Name</th>
-//             <th>Status</th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {documents.map((doc, index) => (
-//             <tr key={index}>
-//               <td>{doc.type}</td>
-//               <td>{doc.name}</td>
-//               <td>
-//                 <Badge status={doc.status}>{doc.status}</Badge>
-//               </td>
-//             </tr>
-//           ))}
-//         </tbody>
-//       </table>
-//     </div>
-//   );
-// };
-
-// export default DocumentList;
-
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import ConfirmationModal from "./ConfirmationModal";
+import PDFPopupViewer from "../../../components/ui/PdfPopUp";
 
 const Badge = styled.span`
   padding: 5px 10px;
@@ -127,10 +27,12 @@ const Badge = styled.span`
 const DocumentList = () => {
   const [docType, setDocType] = useState("");
   const [selectedDocId, setSelectedDocId] = useState(null);
+  const [selectedPDF, setSelectedPDF] = useState(null);
   const [file, setFile] = useState(null);
   const [documents, setDocuments] = useState([]);
   const token = localStorage.getItem("jobSeekerLoginToken");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isViewDoc, setIsViewDoc] = useState(false);
   const fileInputRef = useRef(null);
 
   const documentTypeOptions = [
@@ -169,9 +71,24 @@ const DocumentList = () => {
     fetchDocuments();
   }, []);
 
+  const handleFileChange = (e) => {
+    console.log(e.target.files[0]);
+    const file = e.target.files[0];
+
+    return setFile(file);
+  };
   const handleUpload = async () => {
-    if (!docType || !file) {
-      toast.error("Please select document type and file.");
+    if (!docType) {
+      toast.error("Please select a document type.");
+      return;
+    }
+    if (!file) {
+      toast.error("Please select a file.");
+      return;
+    }
+    const max_size = 2 * 1024 * 1024;
+    if (file.size > max_size) {
+      toast.error("File size should be less than 2MB");
       return;
     }
 
@@ -193,7 +110,6 @@ const DocumentList = () => {
       if (response.data.status === "success" || response.data.code === 200) {
         toast.success("Document uploaded successfully.");
         setDocType("");
-        setFile(null);
         if (fileInputRef.current) fileInputRef.current.value = "";
         fetchDocuments();
       }
@@ -204,8 +120,6 @@ const DocumentList = () => {
   };
 
   const handleDelete = async (id) => {
-    
-
     try {
       await axios.delete(
         `https://apiwl.novajobs.us/api/jobseeker/user-document/${id}`,
@@ -217,13 +131,13 @@ const DocumentList = () => {
       );
       toast.success("Document deleted successfully.");
       setSelectedDocId(null);
-      
+
       fetchDocuments();
     } catch (error) {
       console.error("Error deleting document:", error);
       toast.error(error?.response?.data?.message || "Delete failed.");
-    }finally{
-      setIsModalOpen(false)
+    } finally {
+      setIsModalOpen(false);
     }
   };
 
@@ -231,7 +145,9 @@ const DocumentList = () => {
     console.log("Deleted");
     setIsModalOpen(false);
   };
-
+  const handleClosePDF = () => {
+    setSelectedPDF(null);
+  };
   return (
     <div className="container mt-5 p-4 bg-white rounded shadow">
       <h5 className="text-left  text-uppercase font-weight-700 mb-4">
@@ -261,7 +177,8 @@ const DocumentList = () => {
           className="form-control"
           accept=".pdf"
           ref={fileInputRef}
-          onChange={(e) => setFile(e.target.files[0])}
+          // onChange={(e) => setFile(e.target.files[0])}
+          onChange={(e) => handleFileChange(e)}
         />
       </div>
 
@@ -269,7 +186,7 @@ const DocumentList = () => {
         Upload
       </button>
 
-      <table className="table table-striped mt-4">
+      <table className="table table-striped table-responsive mt-4">
         <thead>
           <tr>
             <th>Document Type</th>
@@ -292,25 +209,39 @@ const DocumentList = () => {
               </td>
 
               <td>
-                <button
-                  className="site-button btn-sm btn-danger"
-                  // onClick={() => handleDelete(doc.id)
-                  onClick={() => {
-                    setSelectedDocId(doc.id)
-                    setIsModalOpen(true)
-                  }}
-                >
-                  Delete
-                </button>
-                <ConfirmationModal
-                  isOpen={isModalOpen}
-                  title="Delete Document"
-                  message="Do you really want to delete this Documnet?"
-                  confirmText="Delete"
-                  cancelText="Cancel"
-                  onConfirm={()=>handleDelete(selectedDocId)}
-                  onCancel={() => setIsModalOpen(false)}
-                />
+                <div className="d-flex gap-2">
+                  <button
+                    className="site-button btn-sm btn-danger"
+                    // onClick={() => handleDelete(doc.id)
+                    onClick={() => {
+                      setSelectedDocId(doc.id);
+                      setIsModalOpen(true);
+                    }}
+                  >
+                    Delete
+                  </button>
+                  <button
+                    className="site-button btn-sm"
+                    // onClick={() => handleDelete(doc.id)
+                    onClick={() => {
+                      setSelectedPDF(
+                        `https://apiwl.novajobs.us${doc.document_path}`
+                      );
+                      setIsViewDoc(true);
+                    }}
+                  >
+                    view
+                  </button>
+                  <a
+                    href={`https://apiwl.novajobs.us${doc.document_path}`}
+                    download={doc.document_path?.split("/").pop()}
+                    className="site-button btn-sm btn-success"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Download
+                  </a>
+                </div>
               </td>
             </tr>
           ))}
@@ -323,6 +254,24 @@ const DocumentList = () => {
           )}
         </tbody>
       </table>
+      <ConfirmationModal
+        isOpen={isModalOpen}
+        title="Delete Document"
+        message="Do you really want to delete this Documnet?"
+        confirmText="Delete"
+        cancelText="Cancel"
+        onConfirm={() => handleDelete(selectedDocId)}
+        onCancel={() => setIsModalOpen(false)}
+      />
+
+      {isViewDoc && (
+        <PDFPopupViewer
+          show={selectedPDF !== null}
+          onClose={handleClosePDF}
+          fileUrl={selectedPDF}
+          // fileName={selectedPDF?.name}
+        />
+      )}
     </div>
   );
 };

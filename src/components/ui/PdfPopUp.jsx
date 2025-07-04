@@ -6,7 +6,7 @@ const PDFPopupViewer = ({ show, onClose, fileUrl, fileName }) => {
   const openInNewTab = () => {
     window.open(fileUrl, "_blank", "noopener,noreferrer");
   };
-
+ console.log(fileUrl,"filllll");
   return (
     <Modal show={show} onHide={onClose} size="lg" centered>
       <div closeButton className="py-2 d-flex justify-content-between align-items-center">

@@ -13,6 +13,10 @@ import {
 } from "lucide-react";
 import UserHeader2 from "../Layout/Header2";
 import Profilesidebar from "../Element/Profilesidebar";
+import { useSelector } from "react-redux";
+import {
+  setJobProfileValues,
+} from "../../store/reducers/jobProfileSlice";
 
 // Assuming these components are already defined elsewhere in your project
 
@@ -190,6 +194,12 @@ const JobSeekerDashboard = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+   const jobProfileValues = useSelector(
+      (state) => state.jobProfileSlice.jobProfileValues
+    );
+
+
+
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const token = params.get("token");
@@ -270,7 +280,8 @@ const JobSeekerDashboard = () => {
       route: "/user/messages",
     },
   ];
-  console.log("hi from dashboard");
+  console.log(jobProfileValues,"hi from dashboard jobProfileValues");
+
   const handleClick = (card) => {
     if (card.route.includes("airesume")) {
       window.location.href = `https://novajobs.us${card.route}`;

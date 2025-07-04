@@ -18,6 +18,7 @@ import pic11 from "../../../assests/1 (11).png";
 import pic12 from "../../../assests/1 (12).png";
 
 function Novajobsus({ novaJobsusData, projectName }) {
+  console.log(novaJobsusData, "novaJobsusData");
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [heading, setHeading] = useState("NovaJobs.US");
@@ -45,7 +46,8 @@ function Novajobsus({ novaJobsusData, projectName }) {
     pic12,
   ].map((pic) => ({ file: null, preview: pic, isVisible: true }));
 
-  const [images, setImages] = useState(initialImages);
+  // const existedImages = novaJobsusData?.images || [];
+  const [images, setImages] = useState([]);
   const [showParagraph1, setShowParagraph1] = useState(true); // Toggle visibility of Paragraph 1
   const [showImages, setShowImages] = useState(true); // Toggle visibility of images section
   const [showHeading, setShowHeading] = useState(true); // Toggle visibility of heading
@@ -98,6 +100,7 @@ function Novajobsus({ novaJobsusData, projectName }) {
           file,
           preview: previewUrl,
         };
+        console.log(updatedImages, "updatedImages");
         return updatedImages;
       });
     }
@@ -118,7 +121,7 @@ function Novajobsus({ novaJobsusData, projectName }) {
       )
     );
   };
-
+  console.log(images, "images brfore save");
   const handleSave = async () => {
     setLoading(true);
     setIsEditing(false);
@@ -137,11 +140,16 @@ function Novajobsus({ novaJobsusData, projectName }) {
       formData.append("is_images_display", image.isVisible);
     });
 
-    images.forEach((image) => {
-      if (image.file) {
+    images.forEach((image, index) => {
+      if (image.file && typeof image.file !== "string") {
         formData.append("images", image.file);
+        formData.append("image_indexes", index.toString());
       }
     });
+    console.log("FormData payload:");
+    for (let pair of formData.entries()) {
+      console.log(pair[0] + ": ", pair[1]);
+    }
 
     try {
       const authToken =
@@ -382,6 +390,7 @@ function Novajobsus({ novaJobsusData, projectName }) {
                         image.isVisible && image.preview ? (
                           <Carousel.Item key={index}>
                             <img
+                            style={{height:"500px",objectFit: "cover", width:"100%"}}
                               className="d-block w-100 img-fluid"
                               src={image.preview}
                               alt={`Slide ${index + 1}`}
