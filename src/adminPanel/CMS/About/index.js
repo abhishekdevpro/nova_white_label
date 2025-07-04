@@ -48,14 +48,14 @@ function AboutusForm({ projectName }) {
 
       <div className="container">
         <div className="row">
-          <Sidebar />
+         {token ? "":<Sidebar />}
 
           <Col
-            md={token ? 9 : 9}
-            className="px-4 py-4"
+            md={token ? 12 : 9}
+            // className="px-4 py-4"
             style={{ minHeight: "100vh", overflowY: "auto" }}
           >
-            <div className="bg-white rounded shadow p-4 h-100">
+            <div className="bg-white rounded shadow h-100">
               {/* <Col>
                 <h5 className="font-weight-700 pull-left text-uppercase">
                   <User className="mx-1" /> About Us

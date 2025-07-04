@@ -324,7 +324,7 @@ function EmployeeBrowsecandidates() {
       params.append("education", browseCandidateValues.education);
     }
 
-    const url = `${baseUrl}?${params.toString()}&page_no=${page}&page_size=${itemsPerPage}&is_browse_candidate=1`;
+    const url = `${baseUrl}?${params.toString()}&page_no=${page}&page_size=${itemsPerPage}`;
     console.log(url, "this is the url");
 
     axios({

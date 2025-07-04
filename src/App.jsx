@@ -222,6 +222,7 @@ import UploadDocuments from "./markup/Pages/UploadedDocuments.jsx";
 import BrandingAdmin from "./adminPanel/Branding.js";
 import GoogleTranslate from "./GoogleTranslate.js";
 import ApplyForm from "./markup/ApplyForm/index.jsx";
+import ProfileComplete from "./markup/Pages/ProfileComplete.js";
 function App() {
   const dispatch = useDispatch();
 
@@ -707,6 +708,14 @@ function App() {
             element={
               <UserPrivateRoute>
                 <Jobprofile />
+              </UserPrivateRoute>
+            }
+          />
+          <Route
+            path="profile"
+            element={
+              <UserPrivateRoute>
+                <ProfileComplete />
               </UserPrivateRoute>
             }
           />

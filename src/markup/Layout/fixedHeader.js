@@ -89,9 +89,9 @@ const FixedHeader = () => {
             file_path: data.job_seeker_resumes?.file_path,
           })
         );
-        setResumeId(data.job_seeker_resumes?.id || 0);
-        setResumeUrl(data.job_seeker_resumes?.file_path || "");
-
+        setResumeId(data.rb_job_seeker_resumes.id || 0);
+        setResumeUrl(data.rb_job_seeker_resumes?.file_path || "");
+        setUploadedFileName(data?.rb_job_seeker_resumes?.file_path.split("/").pop())
         setShowSkeleton(false);
       })
       .catch((err) => {
@@ -258,6 +258,11 @@ const FixedHeader = () => {
       toast.error("Please select a file to upload.");
       return;
     }
+    const max_size = 2 * 1024 * 1024;
+        if (file.size > max_size) {
+          toast.error("File size should be less than 2MB");
+          return;
+        }
 
     setSpinner(true);
 
@@ -435,6 +440,7 @@ const FixedHeader = () => {
                       onChange={handleChange}
                       className="form-control"
                       accept=".pdf"
+                      // value={uploadedFileName?uploadedFileName:""}
                     />
                   </div>
                   {error && <div className="text-danger mt-2">{error}</div>}

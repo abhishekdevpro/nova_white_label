@@ -8,6 +8,8 @@ import axios from "axios"; // Import Axios
 import logo from "../../images/login/loginbg.jpeg";
 import loginbg from "../../images/login/loginbg.jpeg";
 import LogoWrapper from "../Layout/LogoWrapper";
+import { setJobProfileValues } from "../../store/reducers/jobProfileSlice";
+import { useDispatch } from "react-redux";
 // import { useRouter } from "next/router";
 const LoginCode = () => {
   //   const router = useRouter();
@@ -15,6 +17,7 @@ const LoginCode = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch()
   const BASE_URL = "https://apiwl.novajobs.us";
   const handleOtpChange = (e) => {
     setOtp(e.target.value);
@@ -28,7 +31,7 @@ const LoginCode = () => {
   }, []);
   const handleSignIn = async () => {
     if (otp.length !== 6) {
-      alert("Please enter a valid 6-digit OTP.");
+      toast.error("Please enter a valid 6-digit OTP.");
       return;
     }
 
@@ -43,17 +46,26 @@ const LoginCode = () => {
         { email, otp, domain: url }
       );
 
-      if(response.data?.success ==="success" || response.data?.code === 200){
-      const token = response.data?.data?.token;
-      toast.success(response.data?.message || "Login successful!");
-      localStorage.setItem("jobSeekerLoginToken", token);
-      localStorage.removeItem("employeeLoginToken");
-      navigate(`/user/jobs-profile`);
-    }
-    else{
-      navigate("/user/login");
-      toast.error(response.data?.message || "Invalid OTP!");
-    }
+      if (response.data?.success === "success" || response.data?.code === 200) {
+        const token = response.data?.data?.token;
+        toast.success(response.data?.message || "Login successful!");
+        localStorage.setItem("jobSeekerLoginToken", token);
+        localStorage.removeItem("employeeLoginToken");
+        // dispatch(setJobProfileValues(response.data.data))
+        console.log(response.data.data ,"from logincode");
+        if (
+          !response.data.data.first_name ||
+          !response.data.data.last_name ||
+          !response.data.data.rb_job_seeker_resumes.file_path
+        ){
+          navigate(`/user/profile`);
+        }
+         else navigate(`/user/jobs-profile`);
+      } 
+      else {
+        navigate("/user/login");
+        toast.error(response.data?.message || "Invalid OTP!");
+      }
     } catch (error) {
       toast.error(
         error.response?.data?.message || "Invalid OTP. Please try again."
@@ -98,7 +110,6 @@ const LoginCode = () => {
             <LogoWrapper />
           </div>
           <h2 className="mt-3 fw-light">Sign in with Login Code</h2>
-
         </div>
 
         <p className="text-center text-muted">
