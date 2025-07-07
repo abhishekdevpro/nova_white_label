@@ -18,6 +18,7 @@ export const fetchCompanyInfo = createAsyncThunk(
           Authorization: vendorToken ? vendorToken : token,  
         },
       });
+      console.log("company data from company fuunction",response)
       return response.data.data;  // Return the response data as action payload
     } catch (error) {
       // Log the error and use rejectWithValue to handle the error in reducers

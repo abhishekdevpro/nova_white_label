@@ -598,11 +598,11 @@ function EmployeeComponypostjobs() {
                         </div>
                         <div className="col-6 ">
                           <div className="form-group">
-                            <label htmlFor="salary">Salary/month</label>
+                            <label htmlFor="salary">Annual Salary</label>
                             <input
                               type="number"
                               className="form-control"
-                              placeholder="Enter Salary"
+                              placeholder="Enter Salary :  $ 100,000/year"
                               id="salary"
                               name="salary"
                               value={postAJobData.salary}

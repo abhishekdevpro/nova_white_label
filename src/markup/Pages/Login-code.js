@@ -17,7 +17,7 @@ const LoginCode = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const BASE_URL = "https://apiwl.novajobs.us";
   const handleOtpChange = (e) => {
     setOtp(e.target.value);
@@ -52,17 +52,18 @@ const LoginCode = () => {
         localStorage.setItem("jobSeekerLoginToken", token);
         localStorage.removeItem("employeeLoginToken");
         // dispatch(setJobProfileValues(response.data.data))
-        console.log(response.data.data ,"from logincode");
+        console.log(
+          response.data.data,
+          "from logincode"
+        );
         if (
           !response.data.data.first_name ||
           !response.data.data.last_name ||
           !response.data.data.rb_job_seeker_resumes.file_path
-        ){
+        ) {
           navigate(`/user/profile`);
-        }
-         else navigate(`/user/jobs-profile`);
-      } 
-      else {
+        } else navigate(`/user/jobs-profile`);
+      } else {
         navigate("/user/login");
         toast.error(response.data?.message || "Invalid OTP!");
       }

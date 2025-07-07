@@ -84,9 +84,9 @@ const ReviewForm = ({ formData = {} }) => {
               </p>
             </div>
             <div className="col-md-6">
-              <p className="mb-2 text-secondary">
+              {/* <p className="mb-2 text-secondary">
                 <strong>Location:</strong> {formData?.location || 'N/A'}
-              </p>
+              </p> */}
               <p className="mb-2 text-secondary">
                 <strong>Resume:</strong> {formData?.resumeOption || 'N/A'}
                 {/* {getStatusBadge(formData?.resumeOption, 'resume')} */}
