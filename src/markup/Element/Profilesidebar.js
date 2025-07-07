@@ -149,6 +149,17 @@ function Profilesidebar({ data }) {
               </li>
               <li>
                 <Link
+                  to={`/airesume/dashboard/cvletterlist?tokenbyurl=${token}`}
+                  className={data === "resume-list" ? "active" : null}
+                  onClick={() => setSidebarOpen(false)}
+                  style={{ fontSize: "15px" }}
+                >
+                  <File className="me-2" />
+                  <span>My Cover Letters</span>
+                </Link>
+              </li>
+              <li>
+                <Link
                   to={"/user/jobs-saved-jobs"}
                   className={data === "saved-jobs" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
