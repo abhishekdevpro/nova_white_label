@@ -18,6 +18,7 @@ import {
 } from "react-icons/fa";
 import PricingSection from "./Payments/PricingSection";
 import UserHeader from "../Layout/Header";
+import SubHeader from "../Layout/Sub-header";
 
 // Images
 var bnr2 = require("./../../images/background/bg4.jpg");
@@ -53,6 +54,7 @@ function Homepage() {
   return (
     <div className="page-wraper">
       <UserHeader />
+      <SubHeader />
       <div className="page-content">
         <HeroSection />
         {/* <IndexBanner /> */}

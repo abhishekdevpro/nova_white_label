@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
-import { FaStore } from "react-icons/fa";
+import { Container, Row, Col, Button, Dropdown } from "react-bootstrap";
+import { FaStore, FaEllipsisV } from "react-icons/fa";
 import CustomNavbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
 
 const Jobslist = () => {
   const [jobs, setJobs] = useState([]);
@@ -19,72 +21,55 @@ const Jobslist = () => {
   const url = window.location.origin.includes("localhost")
     ? "https://novajobs.us"
     : window.location.origin;
-  // useEffect(() => {
-  //   const fetchJobs = async (currentPage=1,itemsPerPage=10) => {
-  //     try {
-  //       const authToken = localStorage.getItem("authToken");
-  //       if (!authToken) {
-  //         throw new Error("Auth token not found");
-  //       }
+  // Modal state
+  const [showContactModal, setShowContactModal] = useState(false);
+  const [showViewModal, setShowViewModal] = useState(false);
+  const [modalJobId, setModalJobId] = useState(null);
+  const [contactForm, setContactForm] = useState({
+    email: "",
+    phone: "",
+    link: "",
+    remark: "",
+  });
+  const [viewData, setViewData] = useState(null);
+  const [modalLoading, setModalLoading] = useState(false);
 
-  //       const headers = {
-  //         "Content-Type": "application/json",
-  //         Authorization: authToken,
-  //       };
+  const fetchJobs = async (page = 1, size = 10) => {
+    setLoading(true);
+    try {
+      const authToken = localStorage.getItem("authToken");
+      if (!authToken) {
+        throw new Error("Auth token not found");
+      }
 
-  //       const jobsEndpoint = `https://apiwl.novajobs.us/api/admin/job-lists?page_no=${currentPage}&page_size=${itemsPerPage}&is_publish=1&domain=${url}`;
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: authToken,
+      };
 
-  //       const response = await fetch(jobsEndpoint, { headers });
-  //       if (!response.ok) {
-  //         throw new Error(`HTTP error! Status: ${response.status}`);
-  //       }
+      const jobsEndpoint = selectedDomain
+        ? `https://apiwl.novajobs.us/api/admin/job-lists?page_no=${page}&page_size=${size}&is_publish=1&domain=${url}&domain_filter=${selectedDomain}`
+        : `https://apiwl.novajobs.us/api/admin/job-lists?page_no=${page}&page_size=${size}&is_publish=1&domain=${url}`;
 
-  //       const data = await response.json();
-  //       setJobs(data.data); // Assuming the data is in data.data
-  //       setTotalRecords(response.data.total_records);
-  //     } catch (error) {
-  //       console.error("Error fetching job data:", error);
-  //     } finally {
-  //     }
-  //   };
+      const response = await fetch(jobsEndpoint, { headers });
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
 
-  //   fetchJobs();
-  // }, []);
+      const data = await response.json();
+      setJobs(data.data);
+      setTotalRecords(data.total_records); // Fix: data.total_records, not response.data.total_records
+    } catch (error) {
+      console.error("Error fetching job data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchJobs = async (page = 1, size = 10) => {
-      setLoading(true);
-      try {
-        const authToken = localStorage.getItem("authToken");
-        if (!authToken) {
-          throw new Error("Auth token not found");
-        }
-
-        const headers = {
-          "Content-Type": "application/json",
-          Authorization: authToken,
-        };
-
-        const jobsEndpoint = selectedDomain ? `https://apiwl.novajobs.us/api/admin/job-lists?page_no=${page}&page_size=${size}&is_publish=1&domain=${url}&domain_filter=${selectedDomain}`:`https://apiwl.novajobs.us/api/admin/job-lists?page_no=${page}&page_size=${size}&is_publish=1&domain=${url}`;
-
-        const response = await fetch(jobsEndpoint, { headers });
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        setJobs(data.data);
-        setTotalRecords(data.total_records); // Fix: data.total_records, not response.data.total_records
-      } catch (error) {
-        console.error("Error fetching job data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchJobs(currentPage, itemsPerPage); // Use current page
-    fetchDomains()
-  }, [currentPage, itemsPerPage,selectedDomain]); // <- Listen for currentPage or itemsPerPage change
+    fetchDomains();
+  }, [currentPage, itemsPerPage, selectedDomain]); // <- Listen for currentPage or itemsPerPage change
 
   const handlePageChange = (pageNumber) => {
     if (pageNumber > 0 && pageNumber <= totalPages) {
@@ -184,6 +169,67 @@ const Jobslist = () => {
     }
   };
 
+  // Open Contact Modal
+  const handleOpenContact = (job) => {
+    setModalJobId(job.job_detail.id);
+    setContactForm({
+      email: job.job_detail.email || "",
+      phone: job.job_detail.phone || "",
+      link: job.job_detail.link || "",
+      remark: job.job_detail.remark || "",
+    });
+    setShowContactModal(true);
+  };
+  // Open View Modal
+  const handleOpenView = (job) => {
+    setModalJobId(job.job_detail.id);
+    setViewData({
+      email: job.job_detail.email || "",
+      phone: job.job_detail.phone || "",
+      link: job.job_detail.link || "",
+      remark: job.job_detail.remark || "",
+    });
+    setShowViewModal(true);
+  };
+  // Close modals
+  const handleCloseContact = () => setShowContactModal(false);
+  const handleCloseView = () => setShowViewModal(false);
+
+  // Handle form change
+  const handleContactChange = (e) => {
+    setContactForm({ ...contactForm, [e.target.name]: e.target.value });
+  };
+
+  // Submit contact info
+  const handleContactSubmit = async (e) => {
+    e.preventDefault();
+    setModalLoading(true);
+    try {
+      const authToken = localStorage.getItem("authToken");
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: authToken,
+      };
+      const response = await fetch(
+        `https://apiwl.novajobs.us/api/admin/additional-jobs-info/${modalJobId}`,
+        {
+          method: "PATCH",
+          headers,
+          body: JSON.stringify(contactForm),
+        }
+      );
+      if (!response.ok) throw new Error("Failed to submit info");
+      setShowContactModal(false);
+      alert("Contact info updated successfully!");
+      // Refresh the jobs list to get updated data
+      fetchJobs(currentPage, itemsPerPage);
+    } catch (e) {
+      alert("Failed to update contact info. Please try again.");
+    } finally {
+      setModalLoading(false);
+    }
+  };
+
   return (
     <div>
       <CustomNavbar />
@@ -195,9 +241,7 @@ const Jobslist = () => {
           <Col md={10}>
             <Row className="align-items-center my-3">
               <Col xs={12} md={6} className="mb-2 mb-md-0">
-                <h4 className="text-dark fw-semibold mb-0">
-                  Jobs List
-                </h4>
+                <h4 className="text-dark fw-semibold mb-0">Jobs List</h4>
               </Col>
               <Col xs={12} md={6}>
                 <div className="d-flex gap-2 justify-content-md-end">
@@ -216,7 +260,7 @@ const Jobslist = () => {
                         height: "250px",
                       }}
                     >
-                    Search by vendor domain
+                      Search by vendor domain
                     </option>
                     {domainList.map((domain, index) => (
                       <option key={index} value={domain}>
@@ -258,9 +302,7 @@ const Jobslist = () => {
                             "Company",
                             "Location",
                             "Status",
-                            "Edit",
-                            "Action",
-                            "Applicants",
+                            "Actions",
                           ].map((heading, index) => (
                             <th
                               key={index}
@@ -301,71 +343,74 @@ const Jobslist = () => {
                                     : "UnPublished"}
                                 </span>
                               </td>
+
                               <td>
-                                <Button
-                                  onClick={() =>
-                                    navigate(
-                                      `/admin/addjob/${job?.job_detail?.id}`
-                                    )
-                                  }
-                                  className="site-button"
-                                  variant="primary"
-                                >
-                                  Edit Job
-                                </Button>
-                              </td>
-                              <td>
-                                {job?.job_detail?.is_active === 1 ? (
-                                  <Button
-                                    className="site-button"
-                                    variant="success"
-                                    // size="sm"
-                                    onClick={() =>
-                                      handleStatusChange(
-                                        job?.job_detail?.id,
-                                        "active"
-                                      )
-                                    }
+                                <Dropdown>
+                                  <Dropdown.Toggle
+                                    variant="light"
+                                    id={`dropdown-${job.job_detail.id}`}
+                                    className="btn-sm"
                                   >
-                                    Deactivate
-                                  </Button>
-                                ) : (
-                                  <Button
-                                    className="site-button"
-                                    variant="danger"
-                                    // size="sm"
-                                    onClick={() =>
-                                      handleStatusChange(
-                                        job?.job_detail?.id,
-                                        "inactive"
-                                      )
-                                    }
-                                  >
-                                    Activate
-                                  </Button>
-                                )}
-                              </td>
-                              <td>
-                                <Button
-                                  variant="info"
-                                  // size="sm"
-                                  disabled={job.job_detail?.applicant_count===0}
-                                  className="site-button"
-                                  onClick={() =>
-                                    navigate(
-                                      `/admin/listalljobseeker?jobID=${job.job_detail?.id}`
-                                    )
-                                  }
-                                >
-                                  View Applicants {job.job_detail?.applicant_count? job.job_detail?.applicant_count:"" }
-                                </Button>
+                                    <FaEllipsisV />
+                                  </Dropdown.Toggle>
+
+                                  <Dropdown.Menu>
+                                    <Dropdown.Item
+                                      onClick={() =>
+                                        navigate(
+                                          `/admin/addjob/${job?.job_detail?.id}`
+                                        )
+                                      }
+                                    >
+                                      Edit Job
+                                    </Dropdown.Item>
+                                    <Dropdown.Item
+                                      onClick={() =>
+                                        handleStatusChange(
+                                          job?.job_detail?.id,
+                                          job?.job_detail?.is_active === 1
+                                            ? "active"
+                                            : "inactive"
+                                        )
+                                      }
+                                    >
+                                      {job?.job_detail?.is_active === 1
+                                        ? "Deactivate"
+                                        : "Activate"}
+                                    </Dropdown.Item>
+                                    <Dropdown.Item
+                                      onClick={() =>
+                                        navigate(
+                                          `/admin/listalljobseeker?jobID=${job.job_detail?.id}`
+                                        )
+                                      }
+                                      disabled={
+                                        job.job_detail?.applicant_count === 0
+                                      }
+                                    >
+                                      View Applicants (
+                                      {job.job_detail?.applicant_count || 0})
+                                    </Dropdown.Item>
+                                    <Dropdown.Divider />
+                                    <Dropdown.Item
+                                      onClick={() => handleOpenContact(job)}
+                                    >
+                                      Contact
+                                    </Dropdown.Item>
+                                    <Dropdown.Item
+                                      onClick={() => handleOpenView(job)}
+                                    >
+                                      View Info
+                                    </Dropdown.Item>
+                                  </Dropdown.Menu>
+                                </Dropdown>
                               </td>
                             </tr>
                           ))
                         ) : (
                           <tr>
                             <td
-                              colSpan="12"
+                              colSpan="7"
                               className="text-center py-4 text-muted"
                             >
                               No jobs found.
@@ -421,6 +466,93 @@ const Jobslist = () => {
           </Col>
         </Row>
       </Container>
+      {/* Contact Modal */}
+      <Modal show={showContactModal} onHide={handleCloseContact}>
+        <Modal.Header closeButton>
+          <Modal.Title>Update Contact Info</Modal.Title>
+        </Modal.Header>
+        <Form onSubmit={handleContactSubmit}>
+          <Modal.Body>
+            <Form.Group className="mb-3">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="email"
+                name="email"
+                value={contactForm.email}
+                onChange={handleContactChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Phone</Form.Label>
+              <Form.Control
+                type="text"
+                name="phone"
+                value={contactForm.phone}
+                onChange={handleContactChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Link</Form.Label>
+              <Form.Control
+                type="text"
+                name="link"
+                value={contactForm.link}
+                onChange={handleContactChange}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Remark</Form.Label>
+              <Form.Control
+                as="textarea"
+                name="remark"
+                value={contactForm.remark}
+                onChange={handleContactChange}
+              />
+            </Form.Group>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseContact}>
+              Close
+            </Button>
+            <Button variant="primary" type="submit" disabled={modalLoading}>
+              {modalLoading ? "Saving..." : "Save"}
+            </Button>
+          </Modal.Footer>
+        </Form>
+      </Modal>
+      {/* View Modal */}
+      <Modal show={showViewModal} onHide={handleCloseView}>
+        <Modal.Header closeButton>
+          <Modal.Title>Additional Job Info</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {viewData ? (
+            <div>
+              <p>
+                <strong>Email:</strong> {viewData.email || "-"}
+              </p>
+              <p>
+                <strong>Phone:</strong> {viewData.phone || "-"}
+              </p>
+              <p>
+                <strong>Link:</strong> {viewData.link || "-"}
+              </p>
+              <p>
+                <strong>Remark:</strong> {viewData.remark || "-"}
+              </p>
+            </div>
+          ) : (
+            <div className="text-muted">No additional info found.</div>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseView}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
