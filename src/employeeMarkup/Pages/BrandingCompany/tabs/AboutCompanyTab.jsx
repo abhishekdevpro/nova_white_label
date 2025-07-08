@@ -164,6 +164,36 @@ const AboutCompanyTab = ({
               transition: "border 0.2s, box-shadow 0.2s",
             }}
           />
+
+          {/* Show existing PDFs */}
+          {companyData?.pdf_urls && companyData.pdf_urls.length > 0 && (
+            <div className="mt-3 p-3 bg-light rounded">
+              <h6 className="mb-2">Existing PDFs:</h6>
+              {companyData.pdf_urls.map((pdfUrl, index) => (
+                <div
+                  key={index}
+                  className="d-flex align-items-center justify-content-between mb-2"
+                >
+                  <div className="d-flex align-items-center">
+                    <i className="fa fa-file-pdf text-danger me-2"></i>
+                    <span className="text-muted">
+                      {pdfUrl.split("/").pop() || `PDF ${index + 1}`}
+                    </span>
+                  </div>
+                  <a
+                    href={`https://apiwl.novajobs.us${pdfUrl}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-sm btn-outline-primary"
+                  >
+                    <i className="fa fa-external-link-alt me-1"></i>
+                    View
+                  </a>
+                </div>
+              ))}
+            </div>
+          )}
+
           {selectedPdf && (
             <div
               className="mt-2 p-2"

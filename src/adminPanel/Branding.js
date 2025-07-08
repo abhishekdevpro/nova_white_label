@@ -25,18 +25,10 @@ const BrandingAdmin = () => {
       <CustomNavbar />
       <div className="container">
         <div className="row">
-          
-            <Sidebar />
-          
-          <Col >
+          <Sidebar />
+
+          <Col>
             <Container fluid className="">
-              {/* <Row className="mb-4">
-                <Col>
-                  <p className="d-flex align-items-center">
-                    <FaPaintBrush className="mx-2" /> Branding
-                  </p>
-                </Col>
-              </Row> */}
               <Row className="gap-3">
                 <BrandingTabs />
               </Row>

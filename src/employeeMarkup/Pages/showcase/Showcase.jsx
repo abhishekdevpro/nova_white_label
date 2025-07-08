@@ -47,7 +47,7 @@ const styles = {
   header: {
     backgroundColor: "#1e40af",
     background: "linear-gradient(135deg, #1e40af 0%, #3b82f6 100%)",
-    padding: "4rem 2rem",
+    padding: window.innerWidth <= 768 ? "2rem 1rem" : "4rem 2rem",
     textAlign: "center",
     position: "relative",
     color: "#ffffff",
@@ -110,8 +110,8 @@ const styles = {
     backgroundColor: "#1e40af",
   },
   logo: {
-    width: "100px",
-    height: "100px",
+    width: window.innerWidth <= 768 ? "80px" : "100px",
+    height: window.innerWidth <= 768 ? "80px" : "100px",
     borderRadius: "20px",
     objectFit: "cover",
     boxShadow: "0 8px 16px rgba(0,0,0,0.2)",
@@ -128,7 +128,7 @@ const styles = {
     position: "relative",
   },
   companyName: {
-    fontSize: "4rem",
+    fontSize: window.innerWidth <= 768 ? "2.5rem" : "4rem",
     fontWeight: "800",
     color: "#ffffff",
     margin: 0,
@@ -140,7 +140,7 @@ const styles = {
     WebkitTextFillColor: "transparent",
   },
   tagline: {
-    fontSize: "1.75rem",
+    fontSize: window.innerWidth <= 768 ? "1.25rem" : "1.75rem",
     color: "#e2e8f0",
     margin: 0,
     marginBottom: "3rem",
@@ -152,7 +152,7 @@ const styles = {
   },
   companyInfo: {
     display: "flex",
-    gap: "2rem",
+    gap: window.innerWidth <= 768 ? "1rem" : "2rem",
     justifyContent: "center",
     flexWrap: "wrap",
     marginTop: "1rem",
@@ -161,10 +161,10 @@ const styles = {
   infoItem: {
     display: "flex",
     alignItems: "center",
-    gap: "1rem",
-    fontSize: "1.25rem",
+    gap: window.innerWidth <= 768 ? "0.5rem" : "1rem",
+    fontSize: window.innerWidth <= 768 ? "1rem" : "1.25rem",
     color: "#ffffff",
-    padding: "1rem 2rem",
+    padding: window.innerWidth <= 768 ? "0.75rem 1rem" : "1rem 2rem",
     backgroundColor: "rgba(255, 255, 255, 0.1)",
     borderRadius: "12px",
     backdropFilter: "blur(8px)",
@@ -179,21 +179,21 @@ const styles = {
   mainContent: {
     maxWidth: "1200px",
     margin: "0 auto",
-    padding: "4rem 2rem",
+    padding: window.innerWidth <= 768 ? "2rem 1rem" : "4rem 2rem",
   },
   section: {
-    marginBottom: "8rem",
-    padding: "3rem",
+    marginBottom: window.innerWidth <= 768 ? "4rem" : "8rem",
+    padding: window.innerWidth <= 768 ? "1.5rem" : "3rem",
     backgroundColor: "#ffffff",
     borderRadius: "12px",
     boxShadow: "0 4px 6px rgba(0,0,0,0.05)",
     position: "relative",
   },
   sectionTitle: {
-    fontSize: "2.5rem",
+    fontSize: window.innerWidth <= 768 ? "1.75rem" : "2.5rem",
     fontWeight: "bold",
     color: "#1e40af",
-    marginBottom: "3rem",
+    marginBottom: window.innerWidth <= 768 ? "2rem" : "3rem",
     textAlign: "center",
     position: "relative",
     "&::after": {
@@ -209,7 +209,7 @@ const styles = {
     },
   },
   aboutContent: {
-    fontSize: "1.125rem",
+    fontSize: window.innerWidth <= 768 ? "1rem" : "1.125rem",
     lineHeight: "1.8",
     color: "#4b5563",
     maxWidth: "800px",
@@ -256,22 +256,22 @@ const styles = {
   // },
   benefitsContainer: {
     display: "grid",
-    gridTemplateColumns: "repeat(2, 1fr)",
-    gap: "2rem",
+    gridTemplateColumns: window.innerWidth <= 768 ? "1fr" : "repeat(2, 1fr)",
+    gap: window.innerWidth <= 768 ? "1rem" : "2rem",
     maxWidth: "1000px",
     margin: "0 auto",
   },
   benefitItem: {
     display: "flex",
-    gap: "1.5rem",
+    gap: window.innerWidth <= 768 ? "1rem" : "1.5rem",
     alignItems: "flex-start",
-    padding: "2rem",
+    padding: window.innerWidth <= 768 ? "1rem" : "2rem",
     backgroundColor: "#f8fafc",
     borderRadius: "12px",
     transition: "all 0.3s ease",
   },
   benefitIcon: {
-    fontSize: "2rem",
+    fontSize: window.innerWidth <= 768 ? "1.5rem" : "2rem",
     color: "#1e40af",
     flexShrink: 0,
   },
@@ -279,14 +279,14 @@ const styles = {
     flex: 1,
   },
   benefitTitle: {
-    fontSize: "1.25rem",
+    fontSize: window.innerWidth <= 768 ? "1rem" : "1.25rem",
     fontWeight: 600,
     color: "#1e40af",
     marginBottom: "0.5rem",
   },
   benefitDescription: {
     color: "#6b7280",
-    fontSize: "1rem",
+    fontSize: window.innerWidth <= 768 ? "0.9rem" : "1rem",
     lineHeight: "1.6",
   },
 
@@ -303,8 +303,13 @@ const styles = {
   },
   galleryContainer: {
     display: "grid",
-    gridTemplateColumns: "repeat(3, 1fr)",
-    gap: "2rem",
+    gridTemplateColumns:
+      window.innerWidth <= 768
+        ? "1fr"
+        : window.innerWidth <= 1024
+        ? "repeat(2, 1fr)"
+        : "repeat(3, 1fr)",
+    gap: window.innerWidth <= 768 ? "1rem" : "2rem",
     maxWidth: "1200px",
     margin: "0 auto",
   },
@@ -321,8 +326,8 @@ const styles = {
   },
   teamsContainer: {
     display: "grid",
-    gridTemplateColumns: "repeat(2, 1fr)",
-    gap: "1rem",
+    gridTemplateColumns: window.innerWidth <= 768 ? "1fr" : "repeat(2, 1fr)",
+    gap: window.innerWidth <= 768 ? "1rem" : "1rem",
     // maxWidth: "1200px",
     margin: "0 auto",
   },
@@ -364,8 +369,8 @@ const styles = {
   },
   wtsContainer: {
     display: "grid",
-    gridTemplateColumns: "repeat(2, 1fr)",
-    gap: "3rem",
+    gridTemplateColumns: window.innerWidth <= 768 ? "1fr" : "repeat(2, 1fr)",
+    gap: window.innerWidth <= 768 ? "1.5rem" : "3rem",
     maxWidth: "1000px",
     margin: "0 auto",
   },
@@ -444,7 +449,7 @@ const styles = {
   socialLinks: {
     display: "flex",
     justifyContent: "center",
-    gap: "2rem",
+    gap: window.innerWidth <= 768 ? "1rem" : "2rem",
     flexWrap: "wrap",
   },
   socialLink: {
@@ -454,7 +459,7 @@ const styles = {
     textDecoration: "none",
     color: "#ffffff",
     transition: "all 0.2s",
-    padding: "1.5rem",
+    padding: window.innerWidth <= 768 ? "1rem" : "1.5rem",
     borderRadius: "12px",
     backgroundColor: "rgba(255, 255, 255, 0.1)",
     "&:hover": {
@@ -463,30 +468,30 @@ const styles = {
     },
   },
   socialIcon: {
-    fontSize: "2.5rem",
+    fontSize: window.innerWidth <= 768 ? "2rem" : "2.5rem",
     marginBottom: "1rem",
     color: "#ffffff",
   },
   socialLabel: {
-    fontSize: "1rem",
+    fontSize: window.innerWidth <= 768 ? "0.875rem" : "1rem",
     fontWeight: 500,
     color: "#ffffff",
   },
   editButton: {
     position: "absolute",
-    top: "1rem",
-    right: "1rem",
+    top: window.innerWidth <= 768 ? "0.5rem" : "1rem",
+    right: window.innerWidth <= 768 ? "0.5rem" : "1rem",
     display: "flex",
     alignItems: "center",
     gap: "0.5rem",
-    padding: "0.5rem 1rem",
+    padding: window.innerWidth <= 768 ? "0.25rem 0.5rem" : "0.5rem 1rem",
     backgroundColor: "#1e40af",
     color: "#ffffff",
     border: "none",
     borderRadius: "6px",
     cursor: "pointer",
     transition: "all 0.2s ease",
-    fontSize: "0.875rem",
+    fontSize: window.innerWidth <= 768 ? "0.75rem" : "0.875rem",
     fontWeight: "500",
     "&:hover": {
       backgroundColor: "#1e3a8a",
@@ -921,7 +926,7 @@ const ShowcaseComponent = () => {
               {companyData?.company_name || "Company Name"}
             </h1>
             <p style={styles.tagline}>
-              {companyData?.tagline || "Company Tagline"}
+              {companyData?.title || "Company Title"}
             </p>
             <div style={styles.companyInfo}>
               <div style={styles.infoItem}>
@@ -1035,7 +1040,8 @@ const ShowcaseComponent = () => {
                 url={companyData.video_urls[0]}
                 controls
                 width="100%"
-                height="500px"
+                height={window.innerWidth <= 768 ? "250px" : "500px"}
+                style={{ borderRadius: "8px", overflow: "hidden" }}
               />
             </div>
           ) : (
@@ -1043,13 +1049,14 @@ const ShowcaseComponent = () => {
           )}
         </section>
         {/* Pdf Section.. */}
-        {companyData?.pdf_urls ? (
+        {companyData?.pdf_urls?.[0] ? (
           <section id="about" style={styles.section}>
-            <PDFViewer fileUrl={companyData?.pdf_urls} />
+            <h2 style={styles.sectionTitle}>Company Documents</h2>
+            <PDFViewer
+              fileUrl={`${BASE_IMAGE_URL}${companyData.pdf_urls[0]}`}
+            />
           </section>
-        ) : (
-          ""
-        )}
+        ) : null}
 
         <section id="benefits" style={styles.section}>
           {isEdit && (
@@ -1160,7 +1167,7 @@ const ShowcaseComponent = () => {
             console.log("Edit clicked for", section)
           }
           FALLBACK_IMAGES={{
-            DUMMY_ABOUT_IMAGES
+            DUMMY_ABOUT_IMAGES,
           }}
           BASE_IMAGE_URL="https://apiwl.novajobs.us"
           handleImageError={(e) => {

@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
@@ -10,6 +8,7 @@ import {
   Phone,
   User,
   UserPlus,
+  LocateIcon,
 } from "lucide-react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import PDFPopupViewer from "../../components/ui/PdfPopUp";
@@ -36,7 +35,7 @@ const PersonalInfoForm = ({ formData, setFormData, errors }) => {
           lastName: userData.last_name || "",
           email: userData.email || "",
           phone: userData.phone || "",
-          location: userData.location || "",
+          location: userData.cities.name || "",
           resumeOption: prevData.resumeOption || "",
           coverLetterOption: prevData.coverLetterOption || "",
         }));
@@ -60,7 +59,7 @@ const PersonalInfoForm = ({ formData, setFormData, errors }) => {
       }
     };
 
-    const fetchcoverLetterList = async()=>{
+    const fetchcoverLetterList = async () => {
       try {
         const res = await axios.get(
           "https://apiwl.novajobs.us/api/user/coverletter",
@@ -70,11 +69,11 @@ const PersonalInfoForm = ({ formData, setFormData, errors }) => {
       } catch (err) {
         console.error("Error fetching resume list:", err);
       }
-    }
+    };
 
     fetchUserProfile();
     fetchResumeList();
-    fetchcoverLetterList()
+    fetchcoverLetterList();
   }, []);
 
   useEffect(() => {
@@ -127,7 +126,10 @@ const PersonalInfoForm = ({ formData, setFormData, errors }) => {
 
   if (error) {
     return (
-      <div className="alert alert-danger d-flex align-items-center" role="alert">
+      <div
+        className="alert alert-danger d-flex align-items-center"
+        role="alert"
+      >
         <AlertCircle className="me-2" />
         {error}
       </div>
@@ -139,7 +141,10 @@ const PersonalInfoForm = ({ formData, setFormData, errors }) => {
       {/* Basic Info */}
       <div className="row g-4">
         <div className="col-md-6">
-          <label htmlFor="firstName" className="form-label text-primary fw-semibold">
+          <label
+            htmlFor="firstName"
+            className="form-label text-primary fw-semibold"
+          >
             <User className="me-1" size={16} />
             First Name
           </label>
@@ -159,7 +164,10 @@ const PersonalInfoForm = ({ formData, setFormData, errors }) => {
           )}
         </div>
         <div className="col-md-6">
-          <label htmlFor="lastName" className="form-label text-primary fw-semibold">
+          <label
+            htmlFor="lastName"
+            className="form-label text-primary fw-semibold"
+          >
             <UserPlus className="me-1" size={16} />
             Last Name
           </label>
@@ -187,14 +195,36 @@ const PersonalInfoForm = ({ formData, setFormData, errors }) => {
             <Mail className="me-1" size={16} />
             Email
           </label>
-          <input type="email" value={formData.email} className="form-control" readOnly />
+          <input
+            type="email"
+            value={formData.email}
+            className="form-control"
+            readOnly
+          />
         </div>
         <div className="col-md-6">
           <label className="form-label text-primary fw-semibold">
             <Phone className="me-1" size={16} />
             Phone
           </label>
-          <input type="tel" value={formData.phone} className="form-control" readOnly />
+          <input
+            type="tel"
+            value={formData.phone}
+            className="form-control"
+            readOnly
+          />
+        </div>
+        <div className="col-md-6">
+          <label className="form-label text-primary fw-semibold">
+            <LocateIcon className="me-1" size={16} />
+            Location
+          </label>
+          <input
+            type="text"
+            value={formData.location || "N/A"}
+            className="form-control"
+            readOnly
+          />
         </div>
       </div>
 
@@ -215,8 +245,13 @@ const PersonalInfoForm = ({ formData, setFormData, errors }) => {
               className="form-check-input"
               id={`resume-${option}`}
             />
-            <label htmlFor={`resume-${option}`} className="form-check-label text-secondary">
-              {option === "select" ? "Select existing resume" : "Upload a resume"}
+            <label
+              htmlFor={`resume-${option}`}
+              className="form-check-label text-secondary"
+            >
+              {option === "select"
+                ? "Select existing resume"
+                : "Upload a resume"}
             </label>
           </div>
         ))}
@@ -252,16 +287,24 @@ const PersonalInfoForm = ({ formData, setFormData, errors }) => {
                         value={resume.file_path}
                         checked={formData.resume === resume.file_path}
                         onChange={() =>
-                          setFormData((prev) => ({ ...prev, resume: resume.file_path }))
+                          setFormData((prev) => ({
+                            ...prev,
+                            resume: resume.file_path,
+                          }))
                         }
                       />
-                      <span>{resume.file_path.split("/").pop() || `Resume ${index + 1}`}</span>
+                      <span>
+                        {resume.file_path.split("/").pop() ||
+                          `Resume ${index + 1}`}
+                      </span>
                     </div>
                     <button
                       type="button"
                       className="btn btn-sm btn-outline-primary"
                       onClick={() =>
-                        setPreviewResume(`https://apiwl.novajobs.us${resume.file_path}`)
+                        setPreviewResume(
+                          `https://apiwl.novajobs.us${resume.file_path}`
+                        )
                       }
                     >
                       View
@@ -270,7 +313,9 @@ const PersonalInfoForm = ({ formData, setFormData, errors }) => {
                 ))}
               </>
             ) : (
-              <div className="text-danger mt-2">No resumes found. Please upload one.</div>
+              <div className="text-danger mt-2">
+                No resumes found. Please upload one.
+              </div>
             )}
           </div>
         )}
@@ -293,8 +338,13 @@ const PersonalInfoForm = ({ formData, setFormData, errors }) => {
               className="form-check-input"
               id={`cover-${option}`}
             />
-            <label htmlFor={`cover-${option}`} className="form-check-label text-secondary">
-              {option === "none" ? "Don't include a cover letter" : "Upload a cover letter"}
+            <label
+              htmlFor={`cover-${option}`}
+              className="form-check-label text-secondary"
+            >
+              {option === "none"
+                ? "Don't include a cover letter"
+                : "Upload a cover letter"}
             </label>
           </div>
         ))}
@@ -306,7 +356,9 @@ const PersonalInfoForm = ({ formData, setFormData, errors }) => {
               onChange={(e) => handleFileChange(e, "coverLetter")}
             />
             {formData.coverLetter && (
-              <div className="mt-2 text-success">{formData.coverLetter.name}</div>
+              <div className="mt-2 text-success">
+                {formData.coverLetter.name}
+              </div>
             )}
           </div>
         )}

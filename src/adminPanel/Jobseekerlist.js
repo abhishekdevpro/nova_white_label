@@ -65,8 +65,8 @@ const Jobseekerlist = () => {
         setJobs(data.data.job_applicants_info);
       } else {
         setJobs(data?.data || []);
-        console.log(data,"jobbbbbb");
-        setTotalPages(Number(data?.total_records%Page_size) || 1);
+        console.log(data, "jobbbbbb");
+        setTotalPages(Number(data?.total_records % Page_size) || 1);
       }
     } catch (error) {
       console.error("Error fetching job data:", error);
@@ -224,193 +224,214 @@ const Jobseekerlist = () => {
 
   return (
     <div>
-      <CustomNavbar />
-      <Container fluid>
-        <Row>
-          <Col md={2} className="pl-2">
-            <Sidebar />
-          </Col>
-          <Col md={10}>
-            <Row className="align-items-center my-3">
-              <Col xs={12} md={2}>
-                <h4 className="text-dark fw-semibold mb-0">Jobseeker List</h4>
-              </Col>
-              <Col xs={12} md={10}>
-                <div className=" d-flex flex-row gap-3 justify-content-md-end flex-wrap">
-                  <input
-                    type="text"
-                    placeholder="Search by email"
-                    className="form-control"
-                    style={{ maxWidth: "250px" }}
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
+      <div>
+        <CustomNavbar />
+        <div className="container">
+          <div className="row">
+            <Col md={3}>
+              <Sidebar />
+            </Col>
 
-                  <input
-                    type="text"
-                    placeholder="Search by name"
-                    className="form-control"
-                    style={{ maxWidth: "250px" }}
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                  <select
-                    className="form-select"
-                    style={{ width: "250px", maxWidth: "100%" }}
-                    value={selectedDomain}
-                    onChange={(e) => setSelectedDomain(e.target.value)}
-                  >
-                    <option value="">Search by vendor domain</option>
-                    {domainList.map((domain, i) => (
-                      <option key={i} value={domain}>
-                        {domain}
-                      </option>
-                    ))}
-                  </select>
+            <Col md={9}>
+              <Container className="">
+                <Row className="">
+                  <Col>
+                    <Row className="align-items-center my-3">
+                      <Col xs={12} md={2}>
+                        <h4 className="text-dark fw-semibold mb-0">
+                          Jobseeker List
+                        </h4>
+                      </Col>
+                      <Col xs={12} md={10}>
+                        <div className=" d-flex flex-row gap-3 justify-content-md-end flex-wrap">
+                          <input
+                            type="text"
+                            placeholder="Search by email"
+                            className="form-control"
+                            style={{ maxWidth: "250px" }}
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                          />
 
-                  <Button
-                    className="site-button btn-sm"
-                    variant="danger"
-                    onClick={() => {
-                      setName("");
-                      setEmail("");
-                      setSelectedDomain("");
-                    }}
-                  >
-                    Clear
-                  </Button>
-                </div>
-              </Col>
-            </Row>
+                          <input
+                            type="text"
+                            placeholder="Search by name"
+                            className="form-control"
+                            style={{ maxWidth: "250px" }}
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                          />
+                          <select
+                            className="form-select"
+                            style={{ width: "250px", maxWidth: "100%" }}
+                            value={selectedDomain}
+                            onChange={(e) => setSelectedDomain(e.target.value)}
+                          >
+                            <option value="">Search by vendor domain</option>
+                            {domainList.map((domain, i) => (
+                              <option key={i} value={domain}>
+                                {domain}
+                              </option>
+                            ))}
+                          </select>
 
-            <Row>
-              <Col  md={12} className=" mx-auto">
-                {loading ? (
-                  <div className="text-center my-5">
-                    <div className="spinner-border text-primary" role="status">
-                      <span className="visually-hidden">Loading...</span>
-                    </div>
-                  </div>
-                ) : jobs.length > 0 ? (
-                  <table className="table table-bordered table-hover table-responsive mx-auto">
-                    <thead className="text-center bg-light">
-                      <tr>
-                        <th>S.No.</th>
-                        <th>Jobseeker Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Account Status</th>
-                        <th>Documents</th>
-                        <th>Resume</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody className="text-center align-middle">
-                      {jobs.map((job, index) => {
-                        const detail = job.jobskkers_detail || {};
-                        return (
-                          <tr key={job.id || index}>
-                            <td>{index + 1}</td>
-                            <td>
-                              {`${detail.first_name || ""} ${
-                                detail.last_name || ""
-                              }`.trim() || "N/A"}
-                            </td>
+                          <Button
+                            className="site-button btn-sm"
+                            variant="danger"
+                            onClick={() => {
+                              setName("");
+                              setEmail("");
+                              setSelectedDomain("");
+                            }}
+                          >
+                            Clear
+                          </Button>
+                        </div>
+                      </Col>
+                    </Row>
 
-                            <td>{detail.email || "N/A"}</td>
-                            <td>{detail.phone || "N/A"}</td>
-                            <td>
-                              <span
-                                className={`badge ${
-                                  detail.is_verified === 1
-                                    ? "bg-success p-2"
-                                    : "bg-danger p-2"
-                                }`}
-                              >
-                                {detail.is_verified === 1
-                                  ? "Active"
-                                  : "Deactive"}
+                    <Row>
+                      <Col md={12} className=" mx-auto">
+                        {loading ? (
+                          <div className="text-center my-5">
+                            <div
+                              className="spinner-border text-primary"
+                              role="status"
+                            >
+                              <span className="visually-hidden">
+                                Loading...
                               </span>
-                            </td>
-                            <td>
-                              <Button
-                                variant="primary"
-                                size="sm"
-                                disabled={!detail.document_type}
-                                className="site-button"
-                                onClick={() =>
-                                  handleViewDocument(job, "document")
-                                }
-                              >
-                                View Documents
-                              </Button>
-                            </td>
-                            <td>
-                              <Button
-                                variant="dark"
-                                size="sm"
-                                disabled={!detail.resume_file_path}
-                                className="site-button"
-                                onClick={() => handleViewResume(job)}
-                              >
-                                View Resume
-                              </Button>
-                            </td>
-                            <td>
-                              {detail.is_verified === 0 ? (
-                                <Button
-                                  variant="warning"
-                                  size="sm"
-                                  className="site-button"
-                                  onClick={() =>
-                                    handleStatusChange(detail.id, "active")
-                                  }
-                                >
-                                  Active
-                                </Button>
-                              ) : (
-                                <Button
-                                  variant="danger"
-                                  size="sm"
-                                  className="site-button"
-                                  onClick={() =>
-                                    handleStatusChange(detail.id, "inactive")
-                                  }
-                                >
-                                  Deactive
-                                </Button>
-                              )}
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                ) : (
-                  <div className="text-center my-5">
-                    <h5 className="text-muted">No Applicants Found</h5>
-                  </div>
-                )}
-                {jobs.length > 0 && (
-                  <div className="mt-4">
-                    <Pagination
-                      currentPage={currentPage}
-                      totalPages={totalPages}
-                      onPageChange={(page) => setCurrentPage(page)}
-                    />
-                    <div className="text-center mt-2">
-                      <small className="text-muted">
-                        Page {currentPage} of {totalPages}
-                      </small>
-                    </div>
-                  </div>
-                )}
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-      </Container>
+                            </div>
+                          </div>
+                        ) : jobs.length > 0 ? (
+                          <table className="table table-bordered table-hover table-responsive mx-auto">
+                            <thead className="text-center bg-light">
+                              <tr>
+                                <th>S.No.</th>
+                                <th>Jobseeker Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Account Status</th>
+                                <th>Documents</th>
+                                <th>Resume</th>
+                                <th>Actions</th>
+                              </tr>
+                            </thead>
+                            <tbody className="text-center align-middle">
+                              {jobs.map((job, index) => {
+                                const detail = job.jobskkers_detail || {};
+                                return (
+                                  <tr key={job.id || index}>
+                                    <td>{index + 1}</td>
+                                    <td>
+                                      {`${detail.first_name || ""} ${
+                                        detail.last_name || ""
+                                      }`.trim() || "N/A"}
+                                    </td>
 
+                                    <td>{detail.email || "N/A"}</td>
+                                    <td>{detail.phone || "N/A"}</td>
+                                    <td>
+                                      <span
+                                        className={`badge ${
+                                          detail.is_verified === 1
+                                            ? "bg-success p-2"
+                                            : "bg-danger p-2"
+                                        }`}
+                                      >
+                                        {detail.is_verified === 1
+                                          ? "Active"
+                                          : "Deactive"}
+                                      </span>
+                                    </td>
+                                    <td>
+                                      <Button
+                                        variant="primary"
+                                        size="sm"
+                                        disabled={!detail.document_type}
+                                        className="site-button"
+                                        onClick={() =>
+                                          handleViewDocument(job, "document")
+                                        }
+                                      >
+                                        View Documents
+                                      </Button>
+                                    </td>
+                                    <td>
+                                      <Button
+                                        variant="dark"
+                                        size="sm"
+                                        disabled={!detail.resume_file_path}
+                                        className="site-button"
+                                        onClick={() => handleViewResume(job)}
+                                      >
+                                        View Resume
+                                      </Button>
+                                    </td>
+                                    <td>
+                                      {detail.is_verified === 0 ? (
+                                        <Button
+                                          variant="warning"
+                                          size="sm"
+                                          className="site-button"
+                                          onClick={() =>
+                                            handleStatusChange(
+                                              detail.id,
+                                              "active"
+                                            )
+                                          }
+                                        >
+                                          Active
+                                        </Button>
+                                      ) : (
+                                        <Button
+                                          variant="danger"
+                                          size="sm"
+                                          className="site-button"
+                                          onClick={() =>
+                                            handleStatusChange(
+                                              detail.id,
+                                              "inactive"
+                                            )
+                                          }
+                                        >
+                                          Deactive
+                                        </Button>
+                                      )}
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            </tbody>
+                          </table>
+                        ) : (
+                          <div className="text-center my-5">
+                            <h5 className="text-muted">No Applicants Found</h5>
+                          </div>
+                        )}
+                        {jobs.length > 0 && (
+                          <div className="mt-4">
+                            <Pagination
+                              currentPage={currentPage}
+                              totalPages={totalPages}
+                              onPageChange={(page) => setCurrentPage(page)}
+                            />
+                            <div className="text-center mt-2">
+                              <small className="text-muted">
+                                Page {currentPage} of {totalPages}
+                              </small>
+                            </div>
+                          </div>
+                        )}
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
+              </Container>
+            </Col>
+          </div>
+        </div>
+      </div>
       <PDFPopupViewer
         show={selectedPDF !== null}
         onClose={handleClosePDF}
