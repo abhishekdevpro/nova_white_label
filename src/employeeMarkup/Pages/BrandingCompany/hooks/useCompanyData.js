@@ -33,6 +33,7 @@ export const useCompanyData = () => {
     inside_culture_images: [],
     inside_workplace_images: [],
     inside_people_images: [],
+    pdf_urls: [],
   });
 
   const token =
@@ -92,6 +93,7 @@ export const useCompanyData = () => {
         inside_culture_images: data.inside_culture_images || [],
         inside_workplace_images: data.inside_workplace_images || [],
         inside_people_images: data.inside_people_images || [],
+        pdf_urls: data.pdf_urls || [],
       }));
 
       setMakesUsUnique([
@@ -174,19 +176,29 @@ export const useCompanyData = () => {
     formData.append("title", companyData.title);
     formData.append("about", companyData.about);
     formData.append("summery", companyData.summery);
-    // formData.append("company_name", companyData.company_name)
-    // formData.append("email", companyData.email)
     formData.append("video_urls", companyData.video_urls);
 
+    // Add images to form data
     selectedImages.forEach((image) => {
       formData.append("about_images_upload", image);
     });
 
+    // Add PDF to form data if selected
     if (selectedPdf) {
       formData.append("pdf_upload", selectedPdf);
+      console.log("Adding PDF to form data:", selectedPdf.name);
     }
 
     try {
+      console.log("Sending form data with fields:", {
+        title: companyData.title,
+        about: companyData.about,
+        summery: companyData.summery,
+        video_urls: companyData.video_urls,
+        imagesCount: selectedImages.length,
+        hasPdf: !!selectedPdf,
+      });
+
       const response = await axios.patch(
         "https://apiwl.novajobs.us/api/employeer/company-about",
         formData,
@@ -198,14 +210,30 @@ export const useCompanyData = () => {
         }
       );
 
+      console.log("API Response:", response.data);
+
       if (response.status === 200) {
         toast.success("About section updated successfully!");
+
+        // Refresh company data to get updated PDF URLs
+        setTimeout(() => {
+          fetchCompanyData(
+            () => {}, // setMakesUsUnique
+            () => {}, // setInsideCultureImages
+            () => {}, // setInsideWorkplaceImages
+            () => {}, // setInsidePeopleImages
+            () => {} // setSelectedImages
+          );
+        }, 1000);
       } else {
         toast.error("Failed to update about section. Please try again.");
       }
     } catch (error) {
       console.error("Error updating about section:", error);
-      toast.error("An error occurred. Please try again.");
+      console.error("Error response:", error.response?.data);
+      toast.error(
+        `An error occurred: ${error.response?.data?.message || error.message}`
+      );
     }
   };
 

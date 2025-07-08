@@ -91,7 +91,7 @@ const CloseButton = styled.button`
 `;
 
 const content = `
- 🎓 UltraAura.live now open for upskilling! | 🆓 Free course credits for NovaJobs users | 🚀 Build in-demand tech skills & boost your job chances! 
+ 🎓 ultraaura.education now open for upskilling! | 🆓 Free course credits for NovaJobs users | 🚀 Build in-demand tech skills & boost your job chances! 
 `;
 
 const SubHeader = () => {

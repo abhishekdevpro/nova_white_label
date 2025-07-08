@@ -8,11 +8,12 @@ const DocumentListModal = ({ show, onClose, jobseekerId }) => {
   // console.log(jobseekerId,"jobseekerId");
   const [documents, setDocuments] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [verifyingDocId, setVerifyingDocId] = useState(null); // Track which document is being verified
   const [selectedPDF, setSelectedPDF] = useState(null);
 
   const token = localStorage.getItem("authToken");
 
-   const documentTypeOptions = [
+  const documentTypeOptions = [
     { id: 1, label: "SSN" },
     { id: 2, label: "PassBook" },
     { id: 3, label: "Resume" },
@@ -27,8 +28,6 @@ const DocumentListModal = ({ show, onClose, jobseekerId }) => {
 
   const getDocumentTypeLabel = (id) =>
     documentTypeOptions.find((item) => item.id === id)?.label;
-
-
 
   useEffect(() => {
     if (show && jobseekerId) {
@@ -50,29 +49,49 @@ const DocumentListModal = ({ show, onClose, jobseekerId }) => {
       setDocuments(res?.data?.data || []);
     } catch (err) {
       toast.error("Error loading documents");
+      console.error("Error fetching documents:", err);
     } finally {
       setLoading(false);
     }
   };
 
   const verifyDocument = async (docId) => {
+    if (!docId) {
+      toast.error("Invalid document ID");
+      return;
+    }
+
+    setVerifyingDocId(docId); // Set the document being verified
+
     try {
       const res = await axios.post(
         "https://apiwl.novajobs.us/api/admin/verfiy-document",
-        { 
-            job_seekerid: jobseekerId,
-            document_id: docId
-         },
+        {
+          job_seekerid: jobseekerId,
+          document_id: docId,
+        },
         {
           headers: { Authorization: token },
         }
       );
+
       if (res.data.status === "success" || res.data.code === 200) {
-        toast.success("Document verified");
-        fetchDocuments();
+        toast.success(`Document ${docId} verified successfully`);
+
+        // Update only the specific document in the state
+        setDocuments((prevDocs) =>
+          prevDocs.map((doc) =>
+            doc.id === docId ? { ...doc, is_document_verified: true } : doc
+          )
+        );
+      } else {
+        toast.error("Verification failed");
       }
     } catch (error) {
-      toast.error("Verification failed");
+      console.error("Verification error:", error);
+      toast.error(error?.response?.data?.message || "Verification failed");
+    } finally {
+      setVerifyingDocId(null); // Clear the verifying state
     }
   };
 
@@ -137,9 +156,20 @@ const DocumentListModal = ({ show, onClose, jobseekerId }) => {
                             variant="success"
                             size="sm"
                             onClick={() => verifyDocument(doc.id)}
-                            disabled={doc.is_document_verified}
+                            disabled={verifyingDocId === doc.id}
                           >
-                            Verify
+                            {verifyingDocId === doc.id ? (
+                              <>
+                                <Spinner
+                                  animation="border"
+                                  size="sm"
+                                  className="me-2"
+                                />
+                                Verifying...
+                              </>
+                            ) : (
+                              "Verify"
+                            )}
                           </Button>
                         )}
                       </td>
