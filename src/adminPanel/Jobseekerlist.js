@@ -128,45 +128,6 @@ const Jobseekerlist = () => {
     }
   };
 
-  // const handleStatusChange = async (jobId, status) => {
-  //   const authToken = localStorage.getItem("authToken");
-
-  //   if (!authToken) {
-  //     console.error("Auth token not found");
-  //     return;
-  //   }
-
-  //   // Define API URL based on status
-  //   const url =
-  //     status === "active"
-  //       ? `https://apiwl.novajobs.us/api/admin/jobseeker-active/${jobId}`
-  //       : `https://apiwl.novajobs.us/api/admin/jobseeker-inactive/${jobId}`;
-
-  //   const payload = {
-  //     status: status === "active" ? 1 : 0,
-  //   };
-
-  //   try {
-  //     const response = await axios.put(url, payload, {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: authToken,
-  //       },
-  //     });
-
-  //     if (response.data.status === "success" || response.data.code === 200) {
-  //       console.log("Status updated successfully");
-  //       toast.success(response.data.message || "Status updated successfully");
-  //       await fetchJobs()
-  //       // Optionally: show a toast or refresh job list
-  //     } else {
-  //       console.warn("Unexpected response:", response.data);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error updating job status:", error);
-  //     toast.error(error?.response?.data?.message || "Failed to update status");
-  //   }
-  // };
   const handleStatusChange = async (jobId, status) => {
     const authToken = localStorage.getItem("authToken");
 
