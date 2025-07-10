@@ -6,12 +6,18 @@ import Sidebar from "./Sidebar";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
+import { toast } from "react-toastify";
+import Pagination from "./utils/Pagination";
+import { formatDate } from "./utils/DateUtils";
 
 const Jobslist = () => {
   const [jobs, setJobs] = useState([]);
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [itemsPerPage] = useState(10);
+  // const [totalRecords, setTotalRecords] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10);
-  const [totalRecords, setTotalRecords] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+  const Page_size = 10;
   const [loading, setLoading] = useState(false);
   const [domainList, setDomainList] = useState([]);
   const [selectedDomain, setSelectedDomain] = useState("");
@@ -21,7 +27,7 @@ const Jobslist = () => {
   const [jobTitle, setJobTitle] = useState("");
   const [companyName, setCompanyName] = useState("");
 
-  const totalPages = Math.ceil(totalRecords / itemsPerPage);
+  // const totalPages = Math.ceil(totalRecords / itemsPerPage);
   const navigate = useNavigate();
   const url = window.location.origin.includes("localhost")
     ? "https://novajobs.us"
@@ -40,7 +46,7 @@ const Jobslist = () => {
   const [viewData, setViewData] = useState(null);
   const [modalLoading, setModalLoading] = useState(false);
 
-  const fetchJobs = async (page = 1, size = 10) => {
+  const fetchJobs = async (page = 1) => {
     setLoading(true);
     try {
       const authToken = localStorage.getItem("authToken");
@@ -53,7 +59,7 @@ const Jobslist = () => {
         Authorization: authToken,
       };
 
-      let jobsEndpoint = `https://apiwl.novajobs.us/api/admin/job-lists?page_no=${page}&page_size=${size}&is_publish=1&domain=${url}`;
+      let jobsEndpoint = `https://apiwl.novajobs.us/api/admin/job-lists?page_no=${page}&page_size=${Page_size}&is_publish=1&domain=${url}`;
       const queryParams = [];
 
       if (selectedDomain) queryParams.push(`domain_filter=${selectedDomain}`);
@@ -71,7 +77,7 @@ const Jobslist = () => {
 
       const data = await response.json();
       setJobs(data.data);
-      setTotalRecords(data.total_records);
+      setTotalPages(data.total_records);
     } catch (error) {
       console.error("Error fetching job data:", error);
     } finally {
@@ -80,77 +86,62 @@ const Jobslist = () => {
   };
 
   useEffect(() => {
-    fetchJobs(currentPage, itemsPerPage);
+    fetchJobs(currentPage);
     fetchDomains();
-  }, [currentPage, itemsPerPage, selectedDomain, jobTitle, companyName]);
+  }, [currentPage, selectedDomain, jobTitle, companyName]);
 
-  const handlePageChange = (pageNumber) => {
-    if (pageNumber > 0 && pageNumber <= totalPages) {
-      setCurrentPage(pageNumber);
-    }
-  };
-
-  const generatePagination = () => {
-    const pageNumbers = [];
-    const pageRange = 5;
-    const halfRange = Math.floor(pageRange / 2);
-
-    let startPage = Math.max(1, currentPage - halfRange);
-    let endPage = Math.min(totalPages, startPage + pageRange - 1);
-
-    if (currentPage <= halfRange) {
-      startPage = 1;
-      endPage = Math.min(pageRange, totalPages);
-    } else if (currentPage > totalPages - halfRange) {
-      endPage = totalPages;
-      startPage = Math.max(1, totalPages - pageRange + 1);
-    }
-
-    if (startPage > 1) {
-      pageNumbers.push(1);
-      if (startPage > 2) {
-        pageNumbers.push("...");
-      }
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
-      pageNumbers.push(i);
-    }
-
-    if (endPage < totalPages) {
-      if (endPage < totalPages - 1) {
-        pageNumbers.push("...");
-      }
-      pageNumbers.push(totalPages);
-    }
-
-    return pageNumbers;
-  };
 
   const handleStatusChange = async (jobId, status) => {
     const authToken = localStorage.getItem("authToken");
-    const headers = {
-      "Content-Type": "application/json",
-      Authorization: authToken,
+
+    if (!authToken) {
+      console.error("Auth token not found");
+      return;
+    }
+
+    const url =
+      status === "active"
+        ? `https://apiwl.novajobs.us/api/admin/job-inactive/${jobId}`
+        : `https://apiwl.novajobs.us/api/admin/job-active/${jobId}`;
+
+    const payload = {
+      status: status === "active" ? 0 : 1, // 📝 Flip because you're hitting the opposite API
     };
 
     try {
-      if (status === "active") {
-        await fetch(
-          `https://apiwl.novajobs.us/api/admin/job-inactive/${jobId}`,
-          {
-            method: "PUT",
-            headers,
-          }
+      const response = await axios.put(url, payload, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authToken,
+        },
+      });
+
+      if (response.data.status === "success" || response.data.code === 200) {
+        toast.success(
+          response.data.message || "Job status updated successfully"
         );
-      } else if (status === "inactive") {
-        await fetch(`https://apiwl.novajobs.us/api/admin/job-active/${jobId}`, {
-          method: "PUT",
-          headers,
-        });
+
+        // ✅ Update local jobs state
+        setJobs((prevJobs) =>
+          prevJobs.map((job) =>
+            job.job_detail?.id === jobId
+              ? {
+                  ...job,
+                  job_detail: {
+                    ...job.job_detail,
+                    is_active: status === "active" ? 0 : 1,
+                  },
+                }
+              : job
+          )
+        );
+      } else {
+        console.warn("Unexpected response:", response.data);
+        toast.error("Unexpected response from server");
       }
     } catch (error) {
       console.error("Error updating job status:", error);
+      toast.error(error?.response?.data?.message || "Failed to update status");
     }
   };
 
@@ -174,15 +165,6 @@ const Jobslist = () => {
     }
   };
 
-  const formatDate = (dateString) => {
-    if (!dateString) return "N/A";
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  };
 
   const handleSelectAll = (checked) => {
     if (checked) {
@@ -254,7 +236,7 @@ const Jobslist = () => {
       if (!response.ok) throw new Error("Failed to submit info");
       setShowContactModal(false);
       alert("Contact info updated successfully!");
-      fetchJobs(currentPage, itemsPerPage);
+      fetchJobs(currentPage);
     } catch (e) {
       alert("Failed to update contact info. Please try again.");
     } finally {
@@ -515,7 +497,7 @@ const Jobslist = () => {
                         </table>
                       </div>
                     )}
-                    <div className="pagination d-flex flex-wrap justify-content-center mt-4">
+                    {/* <div className="pagination d-flex flex-wrap justify-content-center mt-4">
                       <button
                         className="btn btn-outline-primary me-2 mb-2"
                         onClick={() => handlePageChange(currentPage - 1)}
@@ -551,7 +533,21 @@ const Jobslist = () => {
                       >
                         Next
                       </button>
-                    </div>
+                    </div> */}
+                    {jobs.length > 0 && (
+                      <div className="mt-4">
+                        <Pagination
+                          currentPage={currentPage}
+                          totalPages={totalPages}
+                          onPageChange={(page) => setCurrentPage(page)}
+                        />
+                        <div className="text-center mt-2">
+                          <small className="text-muted">
+                            Page {currentPage} of {totalPages}
+                          </small>
+                        </div>
+                      </div>
+                    )}
                   </Col>
                 </Row>
               </Row>
@@ -563,9 +559,9 @@ const Jobslist = () => {
 
       {/* Contact Modal */}
       <Modal show={showContactModal} onHide={handleCloseContact}>
-        <Modal.Header closeButton>
-          <Modal.Title>Update Contact Info</Modal.Title>
-        </Modal.Header>
+        <div closeButton>
+          <div className="modal-title">Update Contact Info</div>
+        </div>
         <Form onSubmit={handleContactSubmit}>
           <Modal.Body>
             <Form.Group className="mb-3">
@@ -620,9 +616,9 @@ const Jobslist = () => {
 
       {/* View Modal */}
       <Modal show={showViewModal} onHide={handleCloseView}>
-        <Modal.Header closeButton>
-          <Modal.Title>Additional Job Info</Modal.Title>
-        </Modal.Header>
+        <div closeButton>
+          <div className="modal-title">Additional Job Info</div>
+        </div>
         <Modal.Body>
           {viewData ? (
             <div>
