@@ -181,7 +181,7 @@
 //   return (
 //     <div className="page-wraper">
 //       <Header />
-//       
+//
 //       <div
 //         className="page-content bg-white login-style2"
 //         style={{
@@ -543,6 +543,7 @@ import { Modal } from "react-bootstrap";
 import UserHeader from "../../markup/Layout/Header";
 // import CookiesBanner from "../../markup/Layout/CookiesBanner";
 import Footer from "../../markup/Layout/Footer";
+import GoogleOneTapLoginEmployee from "../../components/GoogleOneTapEmployee";
 
 const bnr3 = require("./../../images/background/bg3.jpg");
 function EmployeeLogin(props) {
@@ -561,16 +562,18 @@ function EmployeeLogin(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const domain = window.location.origin.includes("localhost")
-  ? "https://novajobs.us"
-  : window.location.origin;
+    ? "https://novajobs.us"
+    : window.location.origin;
   const notify = (data) => toast.warning(data);
-  
+
   const handlePostRequest = async (e) => {
     e.preventDefault();
     if (!termsChecked) {
-          toast.warn("You must agree to the Privacy Policy and Terms & Conditions before continuing.");
-          return;
-        }
+      toast.warn(
+        "You must agree to the Privacy Policy and Terms & Conditions before continuing."
+      );
+      return;
+    }
 
     if (email === "") {
       notify("Email is required");
@@ -579,7 +582,7 @@ function EmployeeLogin(props) {
 
     const reqBody = {
       email: email,
-      domain:domain,
+      domain: domain,
       // password: password,
     };
     await axios({
@@ -716,7 +719,7 @@ function EmployeeLogin(props) {
 
       if (response.status === 200) {
         console.log("Google sign-in token: ", response.data.data);
-        window.location.href = response.data.data
+        window.location.href = response.data.data;
       } else {
         toast.error("Google sign-in failed.");
       }
@@ -727,8 +730,9 @@ function EmployeeLogin(props) {
   };
   return (
     <div className="page-wraper">
+      <GoogleOneTapLoginEmployee />
       <UserHeader />
-      
+
       <div
         className="page-content bg-white login-style2"
         style={{
@@ -751,13 +755,16 @@ function EmployeeLogin(props) {
                       />
                     </Link> */}
                   </div>
-                  <h2 className="m-b10 text-white text-center"> Login As Employer </h2>
+                  <h2 className="m-b10 text-white text-center">
+                    {" "}
+                    Login As Employer{" "}
+                  </h2>
                   <p
                     className="m-b30"
                     style={{
                       fontWeight: "bolder",
                       color: "white",
-                     textAlign:"center",
+                      textAlign: "center",
                     }}
                   >
                     Welcome To One Stop AI Powered Staffing Solution
@@ -817,23 +824,23 @@ function EmployeeLogin(props) {
                           {props.successMessage}
                         </div>
                       )}
-                     { 
-                     window.location.origin === "https://novajobs.us"  &&
-                      <>
-                      <div>
-                        <button
-                          onClick={handleGoogleSignin}
-                          type="button"
-                          className="w-100 mb-4 flex items-center justify-center bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-md mt-4 shadow-sm hover:bg-gray-100 focus:outline-none"
-                        >
-                          <FcGoogle className="h-6 w-6 mr-2" />
-                          Continue with Google
-                        </button>
-                      </div>
-                      <div className=" d-flex justify-content-center align-items-center">
-                        <p> OR</p>
-                      </div>
-                      </>}
+                      {window.location.origin === "https://novajobs.us" && (
+                        <>
+                          <div>
+                            <button
+                              onClick={handleGoogleSignin}
+                              type="button"
+                              className="w-100 mb-4 flex items-center justify-center bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-md mt-4 shadow-sm hover:bg-gray-100 focus:outline-none"
+                            >
+                              <FcGoogle className="h-6 w-6 mr-2" />
+                              Continue with Google
+                            </button>
+                          </div>
+                          <div className=" d-flex justify-content-center align-items-center">
+                            <p> OR</p>
+                          </div>
+                        </>
+                      )}
 
                       <div className="form-group ">
                         <label>E-Mail Address*</label>
@@ -853,10 +860,7 @@ function EmployeeLogin(props) {
                         </div>
                       </div>
 
-                     
-
                       <div className="dz-social clearfix">
-                       
                         <span className="custom-control custom-checkbox mt-3">
                           <input
                             type="checkbox"
@@ -865,7 +869,7 @@ function EmployeeLogin(props) {
                             name="terms"
                             required
                             checked={termsChecked}
-                            onChange={e => setTermsChecked(e.target.checked)}
+                            onChange={(e) => setTermsChecked(e.target.checked)}
                           />
                           <label
                             className="custom-control-label"
@@ -874,9 +878,7 @@ function EmployeeLogin(props) {
                             {" "}
                             I agree to the{" "}
                             {
-                              <Link to={"/privacy-policy"}>
-                                Privacy Policy
-                              </Link>
+                              <Link to={"/privacy-policy"}>Privacy Policy</Link>
                             }{" "}
                             and{" "}
                             <Link to={"/terms-and-conditions"}>
@@ -923,7 +925,6 @@ function EmployeeLogin(props) {
             </div>
           </div>
         </div>
-        
       </div>
       <Footer />
       <Modal
