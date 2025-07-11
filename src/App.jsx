@@ -223,6 +223,7 @@ import BrandingAdmin from "./adminPanel/Branding.js";
 import GoogleTranslate from "./GoogleTranslate.js";
 import ApplyForm from "./markup/ApplyForm/index.jsx";
 import ProfileComplete from "./markup/Pages/ProfileComplete.js";
+import GoogleOneTapLoginJobseeker from "./components/GoogleOneTapJobseeker.jsx";
 function App() {
   const dispatch = useDispatch();
 
@@ -263,6 +264,7 @@ function App() {
   return (
     <>
       {/* <GoogleTranslate /> */}
+      <GoogleOneTapLoginJobseeker />
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="services" element={<LandingPage />} />
