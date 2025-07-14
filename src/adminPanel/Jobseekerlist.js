@@ -15,9 +15,12 @@ const Jobseekerlist = () => {
   const [selectedPDF, setSelectedPDF] = useState(null);
   const [loading, setLoading] = useState(false);
   const [domainList, setDomainList] = useState([]);
+  const [titleList, setTitleList] = useState([]);
   const [selectedDomain, setSelectedDomain] = useState("");
+  const [selectedTitle, setSelectedTitle] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [jobId, setJobId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedJobseekerId, setSelectedJobseekerId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -25,22 +28,81 @@ const Jobseekerlist = () => {
   const Page_size = 20;
   const queryParams = new URLSearchParams(window.location.search);
   const jobID = queryParams.get("jobID");
+  if (jobID) {
+    setJobId(jobID);
+  }
 
+  // const fetchJobs = async () => {
+  //   setLoading(true);
+  //   // let finalEndpoint = `https://apiwl.novajobs.us/api/admin/job-seekers?page_no=${currentPage}&page_size=${Page_size}`;
+  //   const params = new URLSearchParams({
+  //   page_no: currentPage,
+  //   page_size: Page_size,
+  // });
+
+  //   const query = [];
+  //   if (selectedDomain) query.push(`domain_filter=${selectedDomain}`);
+  //   if (name) query.push(`name=${name}`);
+  //   if (email) query.push(`email=${email}`);
+  //   if (jobID) query.push(`job_id=${jobID}`);
+
+  //   // if (!query.find((q) => q.startsWith("page_no=")))
+  //   //   query.push(`page_no=${currentPage}`);
+  //   const finalEndpoint = `https://apiwl.novajobs.us/api/admin/job-seekers?${params.toString()}`;
+
+  //   // if (query.length > 0) {
+  //   //   finalEndpoint += `?${query.join("&")}`;
+  //   // }
+
+  //   try {
+  //     const authToken = localStorage.getItem("authToken");
+  //     if (!authToken) throw new Error("Auth token not found");
+
+  //     const headers = {
+  //       "Content-Type": "application/json",
+  //       Authorization: authToken,
+  //     };
+
+  //     // const jobsEndpoint = jobID
+  //     //   ? `https://apiwl.novajobs.us/api/admin/job-applicants/${jobID}`
+  //     //   : finalEndpoint;
+
+  //     const response = await fetch(finalEndpoint, { headers });
+  //     if (!response.ok)
+  //       throw new Error(`HTTP error! Status: ${response.status}`);
+
+  //     const data = await response.json();
+
+  //     // if (jobID) {
+  //     //   setJobs(data.data.job_applicants_info);
+  //     // } else {
+  //     setJobs(data?.data || []);
+  //     console.log(data, "jobbbbbb");
+  //     setTotalPages(Number(data?.total_records % Page_size) || 1);
+  //     // }
+  //   } catch (error) {
+  //     console.error("Error fetching job data:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
   const fetchJobs = async () => {
     setLoading(true);
-    let finalEndpoint = `https://apiwl.novajobs.us/api/admin/job-seekers?page_no=${currentPage}&page_size=${Page_size}`;
 
-    const query = [];
-    if (selectedDomain) query.push(`domain_filter=${selectedDomain}`);
-    if (name) query.push(`name=${name}`);
-    if (email) query.push(`email=${email}`);
+    const params = new URLSearchParams({
+      page_no: currentPage,
+      page_size: Page_size,
+    });
 
-    // if (!query.find((q) => q.startsWith("page_no=")))
-    //   query.push(`page_no=${currentPage}`);
-
-    if (query.length > 0) {
-      finalEndpoint += `?${query.join("&")}`;
+    if (selectedDomain) params.append("domain_filter", selectedDomain);
+    if (name) params.append("name", name);
+    if (email) params.append("email", email);
+    if (jobId) {
+      params.append("job_id", jobId);
+      params.append("is_all_applicant", "1"); // Send as string
     }
+
+    const finalEndpoint = `https://apiwl.novajobs.us/api/admin/job-seekers?${params.toString()}`;
 
     try {
       const authToken = localStorage.getItem("authToken");
@@ -51,23 +113,17 @@ const Jobseekerlist = () => {
         Authorization: authToken,
       };
 
-      const jobsEndpoint = jobID
-        ? `https://apiwl.novajobs.us/api/admin/job-applicants/${jobID}`
-        : finalEndpoint;
+      const response = await fetch(finalEndpoint, { headers });
 
-      const response = await fetch(jobsEndpoint, { headers });
       if (!response.ok)
         throw new Error(`HTTP error! Status: ${response.status}`);
 
       const data = await response.json();
 
-      if (jobID) {
-        setJobs(data.data.job_applicants_info);
-      } else {
-        setJobs(data?.data || []);
-        console.log(data, "jobbbbbb");
-        setTotalPages(Number(data?.total_records % Page_size) || 1);
-      }
+      setJobs(data?.data || []);
+      console.log(data, "jobbbbbb");
+
+      setTotalPages(Math.ceil(Number(data?.total_records) / Page_size) || 1);
     } catch (error) {
       console.error("Error fetching job data:", error);
     } finally {
@@ -79,14 +135,14 @@ const Jobseekerlist = () => {
     selectedDomain,
     name,
     email,
-    jobID,
+    jobId,
     currentPage,
   ]);
 
   useEffect(() => {
     debouncedFetchJobs();
     return () => debouncedFetchJobs.cancel(); // cancel on cleanup
-  }, [selectedDomain, name, email, jobID, debouncedFetchJobs, currentPage]);
+  }, [selectedDomain, name, email, jobId, debouncedFetchJobs, currentPage]);
 
   const fetchDomains = async () => {
     const authToken = localStorage.getItem("authToken");
@@ -108,8 +164,30 @@ const Jobseekerlist = () => {
     }
   };
 
+  const fetchJobTitles = async () => {
+    const authToken = localStorage.getItem("authToken");
+    try {
+      const response = await axios.get(
+        `https://apiwl.novajobs.us/api/admin/job-title`,
+        {
+          headers: {
+            Authorization: authToken,
+          },
+        }
+      );
+
+      if (response.data.status === "success" || response.data.code === 200) {
+        // console.log(response.data, "job title");
+        setTitleList(response?.data?.data);
+      }
+    } catch (error) {
+      console.log(error, "Error while fetching domains");
+    }
+  };
+
   useEffect(() => {
     fetchDomains();
+    fetchJobTitles();
   }, []);
 
   const handleViewDocument = (job, type) => {
@@ -182,28 +260,29 @@ const Jobseekerlist = () => {
   const handleClosePDF = () => {
     setSelectedPDF(null);
   };
+  console.log(jobId, "selected title");
 
   return (
     <div>
       <div>
         <CustomNavbar />
-        <div className="container">
-          <div className="row">
-            <Col md={3}>
+        <div >
+          <Row>
+            <Col md={2}>
               <Sidebar />
             </Col>
 
-            <Col md={9}>
+            <Col md={10}>
               <Container className="">
                 <Row className="">
-                  <Col>
-                    <Row className="align-items-center my-3">
-                      <Col xs={12} md={2}>
+                  <Col md={12} className="mx-auto">
+                    <Row className="align-items-center my-3 gap-2">
+                      <Col xs={12} md={12}>
                         <h4 className="text-dark fw-semibold mb-0">
                           Jobseeker List
                         </h4>
                       </Col>
-                      <Col xs={12} md={10}>
+                      <Col xs={12} md={12}>
                         <div className=" d-flex flex-row gap-3 justify-content-md-end flex-wrap">
                           <input
                             type="text"
@@ -235,6 +314,19 @@ const Jobseekerlist = () => {
                               </option>
                             ))}
                           </select>
+                          <select
+                            className="form-select"
+                            style={{ width: "250px", maxWidth: "100%" }}
+                            value={jobId}
+                            onChange={(e) => setJobId(e.target.value)}
+                          >
+                            <option value="">Search by job title</option>
+                            {titleList.map((title, i) => (
+                              <option key={i} value={title.id}>
+                                {title.job_title}
+                              </option>
+                            ))}
+                          </select>
 
                           <Button
                             className="site-button btn-sm"
@@ -243,6 +335,7 @@ const Jobseekerlist = () => {
                               setName("");
                               setEmail("");
                               setSelectedDomain("");
+                              setJobId("");
                             }}
                           >
                             Clear
@@ -251,8 +344,8 @@ const Jobseekerlist = () => {
                       </Col>
                     </Row>
 
-                    <Row>
-                      <Col md={12} className=" mx-auto">
+                    <Row className="">
+                      <Col md={12} className=" ">
                         {loading ? (
                           <div className="text-center my-5">
                             <div
@@ -390,7 +483,7 @@ const Jobseekerlist = () => {
                 </Row>
               </Container>
             </Col>
-          </div>
+          </Row>
         </div>
       </div>
       <PDFPopupViewer
