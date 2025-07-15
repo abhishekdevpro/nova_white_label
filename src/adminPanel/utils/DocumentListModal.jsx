@@ -143,7 +143,8 @@ const DocumentListModal = ({ show, onClose, jobseekerId }) => {
                         </span>
                       </td>
                       <td>
-                        <Button
+                       <div className="d-flex gap-2 justify-content-center">
+                         <Button
                           variant="primary"
                           size="sm"
                           onClick={() => handleView(doc.document_path)}
@@ -172,6 +173,7 @@ const DocumentListModal = ({ show, onClose, jobseekerId }) => {
                             )}
                           </Button>
                         )}
+                        </div>
                       </td>
                     </tr>
                   ))
