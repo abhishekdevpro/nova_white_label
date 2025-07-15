@@ -63,7 +63,7 @@ const Jobslist = () => {
       const queryParams = [];
 
       if (selectedDomain) queryParams.push(`domain_filter=${selectedDomain}`);
-      if (jobTitle) queryParams.push(`job_title=${jobTitle}`);
+      if (jobTitle) queryParams.push(`title_keywords=${jobTitle}`);
       if (companyName) queryParams.push(`company_name=${companyName}`);
 
       if (queryParams.length > 0) {
@@ -76,8 +76,8 @@ const Jobslist = () => {
       }
 
       const data = await response.json();
-      setJobs(data.data);
-      setTotalPages(data.total_records);
+      setJobs(data?.data);
+      setTotalPages(Math.ceil(data?.total_records / Page_size || 0));
     } catch (error) {
       console.error("Error fetching job data:", error);
     } finally {

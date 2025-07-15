@@ -8,3 +8,23 @@ export const formatDate = (dateString) => {
   });
 };
 
+export const formatDaysAgo = (dateString) => {
+  if (!dateString) return "N/A";
+  const createdDate = new Date(dateString);
+  const today = new Date();
+
+  // Clear the time part for both
+  createdDate.setHours(0, 0, 0, 0);
+  today.setHours(0, 0, 0, 0);
+
+  const diffTime = today - createdDate;
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+  if (diffDays === 0) return "Applied today";
+  if (diffDays === 1) return "Applied yesterday";
+  if(diffDays <30 )
+  return `Applied ${diffDays} days ago`;
+  else return `Applied on ${formatDate(dateString)}`;
+};
+
+
