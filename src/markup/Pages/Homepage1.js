@@ -28,6 +28,15 @@ function Homepage() {
   const [hoveredBox, setHoveredBox] = useState(null);
   const token = localStorage.getItem("jobSeekerLoginToken");
   const Navigate = useNavigate();
+
+  // URL detection logic
+  const isLocalhostOrNovajobs = () => {
+    const currentUrl = window.location.origin;
+    return (
+      currentUrl.includes("localhost") || currentUrl.includes("novajobs.us")
+    );
+  };
+
   // const handleScroll = () => {
   //   window.location.href = `/employer/register-2`;
   //   window.scrollTo(0, 0);
@@ -207,92 +216,156 @@ function Homepage() {
             among other Job sites.
           </h2>
           <div className="two-box-container">
-            <div
-              className="card"
-              style={{
-                padding: "20px",
-                borderRadius: "8px",
-                boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-                transition: "transform 0.3s ease",
-              }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.transform = "scale(1.05)")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.transform = "scale(1)")
-              }
-            >
-              <div className="card-icon">
-                <FaRegFileAlt />
-              </div>
-              <Link to={``}>
-                <h3
-                  onClick={handleBuilder}
-                  className="d-flex justify-content-center"
+            {/* Show first 3 cards for localhost or novajobs.us */}
+            {isLocalhostOrNovajobs() ? (
+              <>
+                <div
+                  className="card"
+                  style={{
+                    padding: "20px",
+                    borderRadius: "8px",
+                    boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                    transition: "transform 0.3s ease",
+                  }}
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.transform = "scale(1.05)")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.transform = "scale(1)")
+                  }
                 >
-                  <b>Build AI Resume</b>
-                </h3>
-                <p className="text-primary">
-                  Make your AI Resume or get it done from our Experts.
-                </p>
-              </Link>
-            </div>
+                  <div className="card-icon">
+                    <FaRegFileAlt />
+                  </div>
+                  <Link to={``}>
+                    <h3
+                      onClick={handleBuilder}
+                      className="d-flex justify-content-center"
+                    >
+                      <b>Build AI Resume</b>
+                    </h3>
+                    <p className="text-primary">
+                      Make your AI Resume or get it done from our Experts.
+                    </p>
+                  </Link>
+                </div>
 
-            <div
-              className="card"
-              style={{
-                padding: "20px",
-                borderRadius: "8px",
-                boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-                transition: "transform 0.3s ease",
-              }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.transform = "scale(1.05)")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.transform = "scale(1)")
-              }
-            >
-              <div className="card-icon">
-                <FaRegFilePdf />
-              </div>
-              <div style={{ cursor: "pointer" }} onClick={handleSkillTest}>
-                <h3 className="d-flex justify-content-center">
-                  <b>Give skill test</b>
-                </h3>
-                <p className="text-primary">
-                  Our AI Skill test can be taken just by uploading resume.
-                </p>
-              </div>
-            </div>
+                <div
+                  className="card"
+                  style={{
+                    padding: "20px",
+                    borderRadius: "8px",
+                    boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                    transition: "transform 0.3s ease",
+                  }}
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.transform = "scale(1.05)")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.transform = "scale(1)")
+                  }
+                >
+                  <div className="card-icon">
+                    <FaRegFilePdf />
+                  </div>
+                  <div style={{ cursor: "pointer" }} onClick={handleSkillTest}>
+                    <h3 className="d-flex justify-content-center">
+                      <b>Give skill test</b>
+                    </h3>
+                    <p className="text-primary">
+                      Our AI Skill test can be taken just by uploading resume.
+                    </p>
+                  </div>
+                </div>
 
-            <div
-              className="card"
-              style={{
-                padding: "20px",
-                borderRadius: "8px",
-                boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-                transition: "transform 0.3s ease",
-              }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.transform = "scale(1.05)")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.transform = "scale(1)")
-              }
-            >
-              <div className="card-icon">
-                <FaRegUser />
-              </div>
-              <Link to={"https://ultraaura.education/"}>
-                <h3 className="d-flex justify-content-center">
-                  <b>Upgrade skills</b>
-                </h3>
-                <p className="text-primary">
-                  Upgrade skills with our Edtech platform.
-                </p>{" "}
-              </Link>
-            </div>
+                <div
+                  className="card"
+                  style={{
+                    padding: "20px",
+                    borderRadius: "8px",
+                    boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                    transition: "transform 0.3s ease",
+                  }}
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.transform = "scale(1.05)")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.transform = "scale(1)")
+                  }
+                >
+                  <div className="card-icon">
+                    <FaRegUser />
+                  </div>
+                  <Link to={"https://ultraaura.education/"}>
+                    <h3 className="d-flex justify-content-center">
+                      <b>Upgrade skills</b>
+                    </h3>
+                    <p className="text-primary">
+                      Upgrade skills with our Edtech platform.
+                    </p>{" "}
+                  </Link>
+                </div>
+              </>
+            ) : (
+              <>
+                {/* Show last 2 cards for other domains */}
+                <div
+                  className="card"
+                  style={{
+                    padding: "20px",
+                    borderRadius: "8px",
+                    boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                    transition: "transform 0.3s ease",
+                  }}
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.transform = "scale(1.05)")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.transform = "scale(1)")
+                  }
+                >
+                  <div className="card-icon">
+                    <FaRegFilePdf />
+                  </div>
+                  <div style={{ cursor: "pointer" }} onClick={handleSkillTest}>
+                    <h3 className="d-flex justify-content-center">
+                      <b>SKILL TRAINING</b>
+                    </h3>
+                    <p className="text-primary">
+                      Upgrade skills with our Edtech platform.
+                    </p>
+                  </div>
+                </div>
+
+                <div
+                  className="card"
+                  style={{
+                    padding: "20px",
+                    borderRadius: "8px",
+                    boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                    transition: "transform 0.3s ease",
+                  }}
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.transform = "scale(1.05)")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.transform = "scale(1)")
+                  }
+                >
+                  <div className="card-icon">
+                    <FaRegUser />
+                  </div>
+                  <div style={{ cursor: "pointer" }} onClick={handleSkillTest}>
+                    <h3 className="d-flex justify-content-center">
+                      <b>AI RESUME BUILDER</b>
+                    </h3>
+                    <p className="text-primary">
+                      Make your AI Resume or get it done from our Experts.
+                    </p>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
         {/* <Featureblog /> */}
