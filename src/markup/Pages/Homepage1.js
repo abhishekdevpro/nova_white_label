@@ -32,8 +32,11 @@ function Homepage() {
   // URL detection logic
   const isLocalhostOrNovajobs = () => {
     const currentUrl = window.location.origin;
+    console.log(currentUrl, ">>>>>current url");
     return (
-      currentUrl.includes("localhost") || currentUrl.includes("novajobs.us")
+      currentUrl.includes("localhost") ||
+      (currentUrl.includes("novajobs.us") &&
+        !currentUrl.includes("hallandalebeach"))
     );
   };
 
