@@ -355,7 +355,7 @@ function Homepage() {
                   <div className="card-icon">
                     <FaRegUser />
                   </div>
-                  <div style={{ cursor: "pointer" }} onClick={handleSkillTest}>
+                  <div style={{ cursor: "pointer" }} onClick={handleBuilder}>
                     <h3 className="d-flex justify-content-center">
                       <b>AI RESUME BUILDER</b>
                     </h3>
