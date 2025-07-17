@@ -218,7 +218,17 @@ function Homepage() {
             <br />
             among other Job sites.
           </h2>
-          <div className="two-box-container">
+          <div
+            className="two-box-container"
+            style={{
+              display: "flex",
+              justifyContent: isLocalhostOrNovajobs()
+                ? "space-between"
+                : "center",
+              gap: "20px",
+              flexWrap: "wrap",
+            }}
+          >
             {/* Show first 3 cards for localhost or novajobs.us */}
             {isLocalhostOrNovajobs() ? (
               <>
