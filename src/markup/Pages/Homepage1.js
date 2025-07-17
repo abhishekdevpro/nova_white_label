@@ -226,7 +226,8 @@ function Homepage() {
                 ? "space-between"
                 : "center",
               gap: "20px",
-              flexWrap: "wrap",
+              flexWrap: "nowrap",
+              width: "100%",
             }}
           >
             {/* Show first 3 cards for localhost or novajobs.us */}
@@ -239,6 +240,8 @@ function Homepage() {
                     borderRadius: "8px",
                     boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
                     transition: "transform 0.3s ease",
+                    width: "calc(33.33% - 14px)",
+                    flex: "1",
                   }}
                   onMouseEnter={(e) =>
                     (e.currentTarget.style.transform = "scale(1.05)")
@@ -270,6 +273,8 @@ function Homepage() {
                     borderRadius: "8px",
                     boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
                     transition: "transform 0.3s ease",
+                    width: "calc(33.33% - 14px)",
+                    flex: "1",
                   }}
                   onMouseEnter={(e) =>
                     (e.currentTarget.style.transform = "scale(1.05)")
@@ -298,6 +303,8 @@ function Homepage() {
                     borderRadius: "8px",
                     boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
                     transition: "transform 0.3s ease",
+                    width: "calc(33.33% - 14px)",
+                    flex: "1",
                   }}
                   onMouseEnter={(e) =>
                     (e.currentTarget.style.transform = "scale(1.05)")
@@ -329,6 +336,8 @@ function Homepage() {
                     borderRadius: "8px",
                     boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
                     transition: "transform 0.3s ease",
+                    width: "calc(50% - 10px)",
+                    flex: "1",
                   }}
                   onMouseEnter={(e) =>
                     (e.currentTarget.style.transform = "scale(1.05)")
@@ -357,6 +366,8 @@ function Homepage() {
                     borderRadius: "8px",
                     boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
                     transition: "transform 0.3s ease",
+                    width: "calc(50% - 10px)",
+                    flex: "1",
                   }}
                   onMouseEnter={(e) =>
                     (e.currentTarget.style.transform = "scale(1.05)")
