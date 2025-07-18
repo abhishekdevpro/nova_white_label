@@ -28,12 +28,37 @@ function Profilesidebar({ data }) {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [token, setToken] = useState(null);
+  const [servicesPermissions, setServicesPermissions] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("jobSeekerLoginToken");
     if (storedToken) {
       setToken(storedToken);
     }
+
+    // Fetch services permissions
+    const fetchServicesPermissions = async () => {
+      try {
+        const url = window.location.origin.includes("localhost")
+          ? "https://novajobs.us"
+          : window.location.origin;
+
+        const response = await axios.get(
+          `https://apiwl.novajobs.us/api/jobseeker/acount-info?domain=${url}`
+        );
+
+        if (response.data?.data?.services_permissions) {
+          setServicesPermissions(response.data.data.services_permissions);
+        }
+      } catch (error) {
+        console.error("Error fetching services permissions:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchServicesPermissions();
   }, []);
 
   const onLogout = () => {
@@ -43,6 +68,14 @@ function Profilesidebar({ data }) {
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
+  };
+
+  // Helper function to check if a service is active
+  const isServiceActive = (moduleName) => {
+    const service = servicesPermissions.find(
+      (service) => service.module_name === moduleName
+    );
+    return service?.is_active || false;
   };
 
   return (
@@ -122,42 +155,46 @@ function Profilesidebar({ data }) {
                   <span>Upload Documents</span>
                 </Link>
               </li>
-              <li>
-                <a
-                  href={`/airesume?tokenbyurl=${token}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={data === "resume" ? "active" : null}
-                  onClick={() => setSidebarOpen(false)}
-                  style={{ fontSize: "15px" }}
-                >
-                  <FileTextIcon className="me-2" />
-                  <span>AI Resume Builder</span>
-                </a>
-              </li>
+              {isServiceActive("Resume Builder") && (
+                <>
+                  <li>
+                    <a
+                      href={`/airesume?tokenbyurl=${token}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={data === "resume" ? "active" : null}
+                      onClick={() => setSidebarOpen(false)}
+                      style={{ fontSize: "15px" }}
+                    >
+                      <FileTextIcon className="me-2" />
+                      <span>AI Resume Builder</span>
+                    </a>
+                  </li>
 
-              <li>
-                <Link
-                  to={`/airesume/dashboard/resumelist?tokenbyurl=${token}`}
-                  className={data === "resume-list" ? "active" : null}
-                  onClick={() => setSidebarOpen(false)}
-                  style={{ fontSize: "15px" }}
-                >
-                  <File className="me-2" />
-                  <span>My Resumes</span>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to={`/airesume/dashboard/cvletterlist?tokenbyurl=${token}`}
-                  className={data === "resume-list" ? "active" : null}
-                  onClick={() => setSidebarOpen(false)}
-                  style={{ fontSize: "15px" }}
-                >
-                  <File className="me-2" />
-                  <span>My Cover Letters</span>
-                </Link>
-              </li>
+                  <li>
+                    <Link
+                      to={`/airesume/dashboard/resumelist?tokenbyurl=${token}`}
+                      className={data === "resume-list" ? "active" : null}
+                      onClick={() => setSidebarOpen(false)}
+                      style={{ fontSize: "15px" }}
+                    >
+                      <File className="me-2" />
+                      <span>My Resumes</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to={`/airesume/dashboard/cvletterlist?tokenbyurl=${token}`}
+                      className={data === "resume-list" ? "active" : null}
+                      onClick={() => setSidebarOpen(false)}
+                      style={{ fontSize: "15px" }}
+                    >
+                      <File className="me-2" />
+                      <span>My Cover Letters</span>
+                    </Link>
+                  </li>
+                </>
+              )}
               <li>
                 <Link
                   to={"/user/jobs-saved-jobs"}
@@ -181,28 +218,34 @@ function Profilesidebar({ data }) {
                 </Link>
               </li>
 
-              <li>
-                <Link
-                  to={"/user/skill-test"}
-                  className={data === "skill-test" ? "active" : null}
-                  onClick={() => setSidebarOpen(false)}
-                  style={{ fontSize: "15px" }}
-                >
-                  <FaLightbulb className="me-2" />
-                  <span>Skill Test</span>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to={"/user/skill-test-history"}
-                  className={data === "skill-test-history" ? "active" : null}
-                  onClick={() => setSidebarOpen(false)}
-                  style={{ fontSize: "15px" }}
-                >
-                  <FaHistory className="me-2" />
-                  <span>Skill Test History</span>
-                </Link>
-              </li>
+              {isServiceActive("Skill Test ") && (
+                <>
+                  <li>
+                    <Link
+                      to={"/user/skill-test"}
+                      className={data === "skill-test" ? "active" : null}
+                      onClick={() => setSidebarOpen(false)}
+                      style={{ fontSize: "15px" }}
+                    >
+                      <FaLightbulb className="me-2" />
+                      <span>Skill Test</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to={"/user/skill-test-history"}
+                      className={
+                        data === "skill-test-history" ? "active" : null
+                      }
+                      onClick={() => setSidebarOpen(false)}
+                      style={{ fontSize: "15px" }}
+                    >
+                      <FaHistory className="me-2" />
+                      <span>Skill Test History</span>
+                    </Link>
+                  </li>
+                </>
+              )}
               <li>
                 <Link
                   to={"/user/community"}
@@ -247,7 +290,7 @@ function Profilesidebar({ data }) {
                   <span>Add Referral </span>
                 </Link>
               </li>
-               <li>
+              <li>
                 <Link
                   to={`/airesume/settings/?tokenbyurl=${token}`}
                   className={data === "jobs-referral" ? "active" : null}
