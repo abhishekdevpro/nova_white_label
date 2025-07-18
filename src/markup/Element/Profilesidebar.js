@@ -172,26 +172,30 @@ function Profilesidebar({ data }) {
                   </li>
 
                   <li>
-                    <Link
-                      to={`/airesume/dashboard/resumelist?tokenbyurl=${token}`}
+                    <a
+                      href={`/airesume/dashboard/resumelist?tokenbyurl=${token}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className={data === "resume-list" ? "active" : null}
                       onClick={() => setSidebarOpen(false)}
                       style={{ fontSize: "15px" }}
                     >
                       <File className="me-2" />
                       <span>My Resumes</span>
-                    </Link>
+                    </a>
                   </li>
                   <li>
-                    <Link
-                      to={`/airesume/dashboard/cvletterlist?tokenbyurl=${token}`}
+                    <a
+                      href={`/airesume/dashboard/cvletterlist?tokenbyurl=${token}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className={data === "resume-list" ? "active" : null}
                       onClick={() => setSidebarOpen(false)}
                       style={{ fontSize: "15px" }}
                     >
                       <File className="me-2" />
                       <span>My Cover Letters</span>
-                    </Link>
+                    </a>
                   </li>
                 </>
               )}
@@ -291,15 +295,15 @@ function Profilesidebar({ data }) {
                 </Link>
               </li>
               <li>
-                <Link
-                  to={`/airesume/settings/?tokenbyurl=${token}`}
+                <a
+                  href={`/airesume/payment?tokenbyurl=${token}`}
                   className={data === "jobs-referral" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
                   style={{ fontSize: "15px" }}
                 >
                   <BadgeDollarSign className="me-2" />
                   <span>Plans </span>
-                </Link>
+                </a>
               </li>
               {/* <li>
                 <Link
