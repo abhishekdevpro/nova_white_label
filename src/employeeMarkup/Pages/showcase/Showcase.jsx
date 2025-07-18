@@ -1052,6 +1052,10 @@ const ShowcaseComponent = () => {
         {companyData?.pdf_urls?.[0] ? (
           <section id="about" style={styles.section}>
             <h2 style={styles.sectionTitle}>Company Documents</h2>
+            {console.log(
+              "PDF URL being passed:",
+              `${BASE_IMAGE_URL}${companyData.pdf_urls[0]}`
+            )}
             <PDFViewer
               fileUrl={`${BASE_IMAGE_URL}${companyData.pdf_urls[0]}`}
             />

@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { Bell, CheckCircle, Clock, DollarSign, RefreshCw } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import VendorHeader from '../../markup/Layout/VendorHeader';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { Bell, CheckCircle, Clock, DollarSign, RefreshCw } from "lucide-react";
+import { Link } from "react-router-dom";
+import VendorHeader from "../../markup/Layout/VendorHeader";
 
 // Styled Components
 const PricingContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
 `;
 
 const PageTitle = styled.h1`
@@ -29,17 +29,17 @@ const PlansGrid = styled.div`
 `;
 
 const PlanCard = styled.div`
-  border: 1px solid ${props => props.selected ? '#1C2957' : '#E0E0E0'};
+  border: 1px solid ${(props) => (props.selected ? "#1C2957" : "#E0E0E0")};
   border-radius: 12px;
   padding: 1.5rem;
-  background-color: ${props => props.selected ? '#F0FFF0' : 'white'};
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  background-color: ${(props) => (props.selected ? "#F0FFF0" : "white")};
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   cursor: pointer;
 
   &:hover {
     transform: translateY(-5px);
-    box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
   }
 `;
 
@@ -52,7 +52,7 @@ const PlanTitle = styled.h2`
 const PlanPrice = styled.div`
   font-size: 2rem;
   font-weight: bold;
-  color: #1C2957;
+  color: #1c2957;
   margin-bottom: 1rem;
 `;
 
@@ -78,7 +78,7 @@ const FeatureItem = styled.li`
 const SelectButton = styled.button`
   width: 100%;
   padding: 0.75rem;
-  background-color: ${props => props.selected ? '#1C2957' : '#2196F3'};
+  background-color: ${(props) => (props.selected ? "#1C2957" : "#2196F3")};
   color: white;
   border: none;
   border-radius: 8px;
@@ -87,7 +87,7 @@ const SelectButton = styled.button`
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: ${props => props.selected ? '#45a049' : '#1976D2'};
+    background-color: ${(props) => (props.selected ? "#45a049" : "#1976D2")};
   }
 `;
 const FeatureSection = styled.div`
@@ -109,40 +109,39 @@ const FeatureGrid = styled.div`
 
 const NextButton = styled.button`
   width: 100%;
-  background-color: #1C2957;
+  background-color: #1c2957;
   color: white;
   font-size: 1.125rem;
   font-weight: 600;
   padding: 0.75rem;
   border-radius: 0.75rem;
   transition: background-color 0.3s;
-
- 
 `;
 
 // Pricing Data
 const pricingData = [
-  {
-    id: 1,
-    title: "NovaJobs Start",
-    price: "Free",
-    description: "Best-in-class recruitment website package, with integrated job board.",
-    features: [
-      "Unlimited Job post",
-      "Upload and manage job openings",
-      "Basic Candidate Management",
-      "Community Access",
-      "Engage in a forum for recruiters and job seekers",
-      "Basic Reporting",
-      "View simple metrics like job views",
-      "Branding pages"
-    ]
-  },
+  // {
+  //   id: 1,
+  //   title: "NovaJobs Start",
+  //   price: "Free",
+  //   description: "Best-in-class recruitment website package, with integrated job board.",
+  //   features: [
+  //     "Unlimited Job post",
+  //     "Upload and manage job openings",
+  //     "Basic Candidate Management",
+  //     "Community Access",
+  //     "Engage in a forum for recruiters and job seekers",
+  //     "Basic Reporting",
+  //     "View simple metrics like job views",
+  //     "Branding pages"
+  //   ]
+  // },
   {
     id: 2,
     title: "Nova Pro",
     price: "$99/month",
-    description: "For larger recruitment websites, including an hour of Web Care every month.",
+    description:
+      "For larger recruitment websites, including an hour of Web Care every month.",
     features: [
       "All Nova Start Features",
       "Jobseeker self help portal",
@@ -152,23 +151,24 @@ const pricingData = [
       "Messaging",
       "Custom Email Notifications",
       "Mobile-Responsive Design",
-      "Payment gateway"
-    ]
+      "Payment gateway",
+    ],
   },
   {
     id: 3,
     title: "Nova Enterprise",
     price: "$199/month",
-    description: "Integrate your CRM, ATS, or Multi-Poster to automatically import your jobs.",
+    description:
+      "Integrate your CRM, ATS, or Multi-Poster to automatically import your jobs.",
     features: [
       "All Nova Pro Features",
       "Digital Marketing",
       "Nova Database access",
       "WhiteLabel everything under your brand",
       "Priority Customer Support",
-      "Admin Panel"
-    ]
-  }
+      "Admin Panel",
+    ],
+  },
 ];
 
 export default function PricingPlans() {
@@ -178,54 +178,54 @@ export default function PricingPlans() {
     setSelectedPlan(planId);
   };
   const Feature = ({ icon, title, description }) => (
-    <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'start' }}>
-      <div style={{ marginTop: '0.25rem' }}>{icon}</div>
+    <div style={{ display: "flex", gap: "0.75rem", alignItems: "start" }}>
+      <div style={{ marginTop: "0.25rem" }}>{icon}</div>
       <div>
         <p style={{ fontWeight: 600 }}>{title}</p>
-        <p style={{ color: '#6B7280', fontSize: '0.875rem' }}>{description}</p>
+        <p style={{ color: "#6B7280", fontSize: "0.875rem" }}>{description}</p>
       </div>
     </div>
   );
-  
+
   return (
     <>
-    <VendorHeader />
+      <VendorHeader />
       <PricingContainer>
-      <PageTitle>Choose Your NovaJobs Plan</PageTitle>
-      <PlansGrid>
-        {pricingData.map((plan) => (
-          <PlanCard 
-            key={plan.id} 
-            selected={selectedPlan === plan.id}
-            onClick={() => handlePlanSelect(plan.id)}
-          >
-            <PlanTitle>{plan.title}</PlanTitle>
-            <PlanPrice>{plan.price}</PlanPrice>
-            <PlanDescription>{plan.description}</PlanDescription>
-            
-            <FeatureList>
-              {plan.features.map((feature, index) => (
-                <FeatureItem key={index}>
-                  <CheckCircle 
-                    size={20} 
-                    color="#1C2957" 
-                    style={{ marginRight: '0.5rem' }} 
-                  />
-                  {feature}
-                </FeatureItem>
-              ))}
-            </FeatureList>
-            
-            <SelectButton 
+        <PageTitle>Choose Your NovaJobs Plan</PageTitle>
+        <PlansGrid>
+          {pricingData.map((plan) => (
+            <PlanCard
+              key={plan.id}
               selected={selectedPlan === plan.id}
               onClick={() => handlePlanSelect(plan.id)}
             >
-              {selectedPlan === plan.id ? 'Selected' : 'Select Plan'}
-            </SelectButton>
-          </PlanCard>
-        ))}
-      </PlansGrid>
-      <div style={{ marginTop: '2rem' }}>
+              <PlanTitle>{plan.title}</PlanTitle>
+              <PlanPrice>{plan.price}</PlanPrice>
+              <PlanDescription>{plan.description}</PlanDescription>
+
+              <FeatureList>
+                {plan.features.map((feature, index) => (
+                  <FeatureItem key={index}>
+                    <CheckCircle
+                      size={20}
+                      color="#1C2957"
+                      style={{ marginRight: "0.5rem" }}
+                    />
+                    {feature}
+                  </FeatureItem>
+                ))}
+              </FeatureList>
+
+              <SelectButton
+                selected={selectedPlan === plan.id}
+                onClick={() => handlePlanSelect(plan.id)}
+              >
+                {selectedPlan === plan.id ? "Selected" : "Select Plan"}
+              </SelectButton>
+            </PlanCard>
+          ))}
+        </PlansGrid>
+        <div style={{ marginTop: "2rem" }}>
           <FeatureSection>
             {/* <h3 style={{ 
               fontSize: '1.125rem', 
@@ -268,7 +268,7 @@ export default function PricingPlans() {
               />
             </FeatureGrid> */}
 
-            <div style={{ marginTop: '1.5rem' }}>
+            <div style={{ marginTop: "1.5rem" }}>
               <Link to={`/vendor/payment/plans?selectedPlan=${selectedPlan}`}>
                 <NextButton>Next</NextButton>
               </Link>
@@ -297,7 +297,7 @@ export default function PricingPlans() {
             </div>
           </FeatureSection>
         </div>
-    </PricingContainer>
+      </PricingContainer>
     </>
   );
 }

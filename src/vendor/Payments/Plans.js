@@ -1,33 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import { Lock, CheckCircle, CreditCard } from 'lucide-react';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import { useLocation, useNavigate } from 'react-router-dom';
-import VendorHeader from '../../markup/Layout/VendorHeader';
+import React, { useState, useEffect } from "react";
+import { Lock, CheckCircle, CreditCard } from "lucide-react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useLocation, useNavigate } from "react-router-dom";
+import VendorHeader from "../../markup/Layout/VendorHeader";
 
 // Pricing Data (same as in previous components)
 const pricingData = [
-  {
-    id: 1,
-    title: "NovaJobs Start",
-    price: "Free",
-    description: "Best-in-class recruitment website package, with integrated job board.",
-    features: [
-      "Unlimited Job post",
-      "Upload and manage job openings",
-      "Basic Candidate Management",
-      "Community Access",
-      "Engage in a forum for recruiters and job seekers",
-      "Basic Reporting",
-      "View simple metrics like job views",
-      "Branding pages"
-    ]
-  },
+  // {
+  //   id: 1,
+  //   title: "NovaJobs Start",
+  //   price: "Free",
+  //   description:
+  //     "Best-in-class recruitment website package, with integrated job board.",
+  //   features: [
+  //     "Unlimited Job post",
+  //     "Upload and manage job openings",
+  //     "Basic Candidate Management",
+  //     "Community Access",
+  //     "Engage in a forum for recruiters and job seekers",
+  //     "Basic Reporting",
+  //     "View simple metrics like job views",
+  //     "Branding pages",
+  //   ],
+  // },
   {
     id: 2,
     title: "Nova Pro",
     price: "$99/month",
-    description: "For larger recruitment websites, including an hour of Web Care every month.",
+    description:
+      "For larger recruitment websites, including an hour of Web Care every month.",
     features: [
       "All Nova Start Features",
       "Jobseeker self help portal",
@@ -37,47 +39,48 @@ const pricingData = [
       "Messaging",
       "Custom Email Notifications",
       "Mobile-Responsive Design",
-      "Payment gateway"
-    ]
+      "Payment gateway",
+    ],
   },
   {
     id: 3,
     title: "Nova Enterprise",
     price: "$199/month",
-    description: "Integrate your CRM, ATS, or Multi-Poster to automatically import your jobs.",
+    description:
+      "Integrate your CRM, ATS, or Multi-Poster to automatically import your jobs.",
     features: [
       "All Nova Pro Features",
       "Digital Marketing",
       "Nova Database access",
       "WhiteLabel everything under your brand",
       "Priority Customer Support",
-      "Admin Panel"
-    ]
-  }
+      "Admin Panel",
+    ],
+  },
 ];
 
 export default function CheckoutPage() {
   const [selectedPlan, setSelectedPlan] = useState(null);
-  const [paymentMethod, setPaymentMethod] = useState('credit');
+  const [paymentMethod, setPaymentMethod] = useState("credit");
   const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
     // Extract selected plan from URL query parameters
     const searchParams = new URLSearchParams(location.search);
-    const planId = searchParams.get('selectedPlan');
-    
+    const planId = searchParams.get("selectedPlan");
+
     if (planId) {
-      const plan = pricingData.find(p => p.id === parseInt(planId));
+      const plan = pricingData.find((p) => p.id === parseInt(planId));
       if (plan) {
         setSelectedPlan(plan);
       } else {
         // Redirect if invalid plan
-        navigate('/pricing');
+        navigate("/pricing");
       }
     } else {
       // Redirect if no plan selected
-      navigate('/pricing');
+      navigate("/pricing");
     }
   }, [location, navigate]);
 
@@ -88,7 +91,8 @@ export default function CheckoutPage() {
     }
 
     // Check if user is authenticated
-    const token = localStorage.getItem("token");
+    // const token = localStorage.getItem("token");
+    const token = localStorage.getItem("vendorToken");
     if (!token) {
       toast.error("Please log in to continue.");
       return;
@@ -96,24 +100,29 @@ export default function CheckoutPage() {
 
     try {
       const response = await axios.post(
-        `/api/user/payment/checkout`,
-        { 
-          planId: selectedPlan.id,
-          planName: selectedPlan.title,
-          paymentMethod: paymentMethod
+        `https://apiwl.novajobs.us/api/admin/vendor/payment/checkout`,
+        {
+          plan_id: selectedPlan.id,
+          // planName: selectedPlan.title,
+          // paymentMethod: paymentMethod,
         },
-        { 
-          headers: { 
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          } 
+        {
+          headers: {
+            Authorization: token,
+            "Content-Type": "application/json",
+          },
         }
       );
 
       if (response.status === 200) {
-        toast.success("Payment successful!");
-        // Redirect to dashboard or confirmation page
-        navigate('/dashboard');
+        if (response.data?.url) {
+          toast.success("Payment successful! Redirecting...");
+          window.location.href = response.data.url;
+        } else if (response.data?.message) {
+          toast.info(response.data.message); // 👈 shows API message like "user has subscription active already"
+        } else {
+          toast.error("Unexpected response from the server. No URL returned.");
+        }
       }
     } catch (error) {
       console.error("Checkout error:", error);
@@ -124,35 +133,35 @@ export default function CheckoutPage() {
   if (!selectedPlan) return null;
 
   return (
-   <>
-    <VendorHeader/>
-       <div style={styles.pageContainer}>
-      <div style={styles.container}>
-        <h1 style={styles.heading}>Confirm Your Plan</h1>
-        
-        {/* Selected Plan Summary */}
-        <div style={styles.planSummary}>
-          <h2 style={styles.planTitle}>{selectedPlan.title}</h2>
-          <p style={styles.planPrice}>{selectedPlan.price}</p>
-          <p style={styles.planDescription}>{selectedPlan.description}</p>
-          
-          {/* Features List */}
-          <div style={styles.featuresContainer}>
-            {selectedPlan.features.map((feature, index) => (
-              <div key={index} style={styles.featureItem}>
-                <CheckCircle 
-                  color="#1C2957" 
-                  size={18} 
-                  style={{ marginRight: '10px' }} 
-                />
-                <span>{feature}</span>
-              </div>
-            ))}
-          </div>
-        </div>
+    <>
+      <VendorHeader />
+      <div style={styles.pageContainer}>
+        <div style={styles.container}>
+          <h1 style={styles.heading}>Confirm Your Plan</h1>
 
-        {/* Payment Method Selection */}
-        {/* <div style={styles.paymentMethodContainer}>
+          {/* Selected Plan Summary */}
+          <div style={styles.planSummary}>
+            <h2 style={styles.planTitle}>{selectedPlan.title}</h2>
+            <p style={styles.planPrice}>{selectedPlan.price}</p>
+            <p style={styles.planDescription}>{selectedPlan.description}</p>
+
+            {/* Features List */}
+            <div style={styles.featuresContainer}>
+              {selectedPlan.features.map((feature, index) => (
+                <div key={index} style={styles.featureItem}>
+                  <CheckCircle
+                    color="#1C2957"
+                    size={18}
+                    style={{ marginRight: "10px" }}
+                  />
+                  <span>{feature}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Payment Method Selection */}
+          {/* <div style={styles.paymentMethodContainer}>
           <h3 style={styles.paymentMethodTitle}>Select Payment Method</h3>
           <div style={styles.paymentMethodOptions}>
             <div 
@@ -193,116 +202,113 @@ export default function CheckoutPage() {
           </div>
         </div> */}
 
-        {/* Checkout Button */}
-        <button 
-          style={styles.checkoutButton}
-          onClick={handleCheckout}
-        >
-          Complete Checkout
-        </button>
+          {/* Checkout Button */}
+          <button style={styles.checkoutButton} onClick={handleCheckout}>
+            Complete Checkout
+          </button>
 
-        {/* Secure Checkout Indicator */}
-        <div style={styles.secureCheckout}>
-          <Lock color="#1C2957" size={20} style={{ marginRight: '10px' }} />
-          <span>Secure Checkout</span>
+          {/* Secure Checkout Indicator */}
+          <div style={styles.secureCheckout}>
+            <Lock color="#1C2957" size={20} style={{ marginRight: "10px" }} />
+            <span>Secure Checkout</span>
+          </div>
         </div>
       </div>
-    </div>
-   </>
+    </>
   );
 }
 
 // Styles object (similar to previous component)
 const styles = {
   pageContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    minHeight: '100vh',
-    backgroundColor: '#F4F7FA',
-    padding: '20px',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    minHeight: "100vh",
+    backgroundColor: "#F4F7FA",
+    padding: "20px",
   },
   container: {
-    width: '100%',
-    maxWidth: '600px',
-    backgroundColor: 'white',
-    borderRadius: '12px',
-    padding: '30px',
-    boxShadow: '0 10px 25px rgba(0,0,0,0.1)',
+    width: "100%",
+    maxWidth: "600px",
+    backgroundColor: "white",
+    borderRadius: "12px",
+    padding: "30px",
+    boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
   },
   heading: {
-    textAlign: 'center',
-    marginBottom: '30px',
-    color: '#1C2957',
+    textAlign: "center",
+    marginBottom: "30px",
+    color: "#1C2957",
   },
   planSummary: {
-    backgroundColor: '#F8FAFC',
-    padding: '20px',
-    borderRadius: '8px',
-    marginBottom: '20px',
+    backgroundColor: "#F8FAFC",
+    padding: "20px",
+    borderRadius: "8px",
+    marginBottom: "20px",
   },
   planTitle: {
-    color: '#1C2957',
-    marginBottom: '10px',
+    color: "#1C2957",
+    marginBottom: "10px",
   },
   planPrice: {
-    fontSize: '24px',
-    fontWeight: 'bold',
-    color: '#1C2957',
-    marginBottom: '15px',
+    fontSize: "24px",
+    fontWeight: "bold",
+    color: "#1C2957",
+    marginBottom: "15px",
   },
   planDescription: {
-    color: '#718096',
-    marginBottom: '15px',
+    color: "#718096",
+    marginBottom: "15px",
   },
   featuresContainer: {
-    marginTop: '15px',
+    marginTop: "15px",
   },
   featureItem: {
-    display: 'flex',
-    alignItems: 'center',
-    marginBottom: '10px',
+    display: "flex",
+    alignItems: "center",
+    marginBottom: "10px",
   },
   paymentMethodContainer: {
-    marginBottom: '20px',
+    marginBottom: "20px",
   },
   paymentMethodTitle: {
-    textAlign: 'center',
-    color: '#1C2957',
-    marginBottom: '15px',
+    textAlign: "center",
+    color: "#1C2957",
+    marginBottom: "15px",
   },
   paymentMethodOptions: {
-    display: 'flex',
-    justifyContent: 'center',
-    gap: '20px',
+    display: "flex",
+    justifyContent: "center",
+    gap: "20px",
   },
   paymentMethodButton: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: '15px',
-    borderRadius: '8px',
-    cursor: 'pointer',
-    width: '120px',
-    transition: 'all 0.3s ease',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: "15px",
+    borderRadius: "8px",
+    cursor: "pointer",
+    width: "120px",
+    transition: "all 0.3s ease",
   },
   checkoutButton: {
-    width: '100%',
-    padding: '15px',
-    backgroundColor: '#1C2957',
-    color: 'white',
-    border: 'none',
-    borderRadius: '8px',
-    fontSize: '18px',
-    marginTop: '20px',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s ease',
+    width: "100%",
+    padding: "15px",
+    backgroundColor: "#1C2957",
+    color: "white",
+    border: "none",
+    borderRadius: "8px",
+    fontSize: "18px",
+    marginTop: "20px",
+    cursor: "pointer",
+    transition: "background-color 0.3s ease",
   },
   secureCheckout: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: '20px',
-    color: '#718096',
-  }
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: "20px",
+    color: "#718096",
+  },
 };
