@@ -9,7 +9,7 @@ export const LogoProvider = ({ children }) => {
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUhQJ-44yDYIuo8Hj-L1ezQSKAkkK4CqlecQ&s"
   );
   const [isPartner, setIsPartner] = useState(null);
-  const [isApiSuccess, setIsApiSuccess] = useState(false);
+  // const [isApiSuccess, setIsApiSuccess] = useState(false);
 
   const url = window.location.origin.includes("localhost")
     ? "https://novajobs.us"
@@ -29,7 +29,7 @@ export const LogoProvider = ({ children }) => {
             "IsPartner",
             response.data.data.is_partner_with_us
           );
-          setIsApiSuccess(true);
+          // setIsApiSuccess(true);
         }
       } catch (error) {
         console.error("Error fetching logo:", error);
@@ -56,7 +56,8 @@ export const LogoProvider = ({ children }) => {
 
   return (
     <LogoContext.Provider value={{ logo, isPartner }}>
-      {isApiSuccess ? children : null}
+      {/* {isApiSuccess ? children : null} */}
+      {children}
     </LogoContext.Provider>
   );
 };
