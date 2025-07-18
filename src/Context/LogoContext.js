@@ -9,7 +9,8 @@ export const LogoProvider = ({ children }) => {
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUhQJ-44yDYIuo8Hj-L1ezQSKAkkK4CqlecQ&s"
   );
   const [isPartner, setIsPartner] = useState(null);
-  const [isApiSuccess, setIsApiSuccess] = useState(false);
+  const [showUpgradePopup, setShowUpgradePopup] = useState(false);
+  // const [isApiSuccess, setIsApiSuccess] = useState(false);
 
   const url = window.location.origin.includes("localhost")
     ? "https://novajobs.us"
@@ -29,19 +30,22 @@ export const LogoProvider = ({ children }) => {
             "IsPartner",
             response.data.data.is_partner_with_us
           );
-          setIsApiSuccess(true);
+          // setIsApiSuccess(true);
         }
       } catch (error) {
         console.error("Error fetching logo:", error);
-        // Only redirect if we're not already on the 404 page to prevent infinite loop
-        if (
-          (error.response?.status === 403 ||
-            error.response?.data?.message?.includes(
-              "Account information not found"
-            )) &&
+
+        if (error.response?.status === 403) {
+          // Show upgrade popup for 403 errors
+          setShowUpgradePopup(true);
+        } else if (
+          error.response?.data?.message?.includes(
+            "Account information not found"
+          ) &&
           window.location.pathname !== "/*" &&
           !window.location.pathname.includes("404")
         ) {
+          // Redirect to /* for account not found errors
           window.location.href = "*";
         }
       }
@@ -54,9 +58,88 @@ export const LogoProvider = ({ children }) => {
     // return () => clearInterval(interval);
   }, [url]);
 
+  const handleUpgradeClick = () => {
+    window.location.href = "https://novajobs.us/white-label-started";
+  };
+
+  const handleClosePopup = () => {
+    setShowUpgradePopup(false);
+  };
+
   return (
     <LogoContext.Provider value={{ logo, isPartner }}>
-      {isApiSuccess ? children : null}
+      {/* {isApiSuccess ? children : null} */}
+      {children}
+
+      {/* Upgrade Plan Popup */}
+      {showUpgradePopup && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 9999,
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: "white",
+              padding: "30px",
+              borderRadius: "10px",
+              maxWidth: "400px",
+              textAlign: "center",
+              boxShadow: "0 4px 20px rgba(0, 0, 0, 0.3)",
+            }}
+          >
+            <h2 style={{ color: "#1C2957", marginBottom: "15px" }}>
+              Upgrade Your Plan
+            </h2>
+            <p style={{ color: "#666", marginBottom: "25px" }}>
+              Your current plan doesn't have access to this feature. Please
+              upgrade your plan to continue.
+            </p>
+            <div
+              style={{ display: "flex", gap: "10px", justifyContent: "center" }}
+            >
+              <button
+                onClick={handleUpgradeClick}
+                style={{
+                  backgroundColor: "#1C2957",
+                  color: "white",
+                  border: "none",
+                  padding: "12px 24px",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                }}
+              >
+                Upgrade Now
+              </button>
+              <button
+                onClick={handleClosePopup}
+                style={{
+                  backgroundColor: "#f8f9fa",
+                  color: "#666",
+                  border: "1px solid #ddd",
+                  padding: "12px 24px",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                  fontSize: "14px",
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </LogoContext.Provider>
   );
 };
