@@ -10,6 +10,7 @@ export const LogoProvider = ({ children }) => {
   );
   const [isPartner, setIsPartner] = useState(null);
   const [showUpgradePopup, setShowUpgradePopup] = useState(false);
+  const [isBlocked, setIsBlocked] = useState(false);
   // const [isApiSuccess, setIsApiSuccess] = useState(false);
 
   const url = window.location.origin.includes("localhost")
@@ -36,8 +37,9 @@ export const LogoProvider = ({ children }) => {
         console.error("Error fetching logo:", error);
 
         if (error.response?.status === 403) {
-          // Show upgrade popup for 403 errors
+          // Show upgrade popup for 403 errors and block access
           setShowUpgradePopup(true);
+          setIsBlocked(true);
         } else if (
           error.response?.data?.message?.includes(
             "Account information not found"
@@ -64,12 +66,13 @@ export const LogoProvider = ({ children }) => {
 
   const handleClosePopup = () => {
     setShowUpgradePopup(false);
+    // Don't unblock - user must upgrade to access
   };
 
   return (
     <LogoContext.Provider value={{ logo, isPartner }}>
       {/* {isApiSuccess ? children : null} */}
-      {children}
+      {!isBlocked ? children : null}
 
       {/* Upgrade Plan Popup */}
       {showUpgradePopup && (
@@ -121,20 +124,6 @@ export const LogoProvider = ({ children }) => {
                 }}
               >
                 Upgrade Now
-              </button>
-              <button
-                onClick={handleClosePopup}
-                style={{
-                  backgroundColor: "#f8f9fa",
-                  color: "#666",
-                  border: "1px solid #ddd",
-                  padding: "12px 24px",
-                  borderRadius: "5px",
-                  cursor: "pointer",
-                  fontSize: "14px",
-                }}
-              >
-                Cancel
               </button>
             </div>
           </div>
