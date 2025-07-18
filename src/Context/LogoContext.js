@@ -31,11 +31,14 @@ export const LogoProvider = ({ children }) => {
         }
       } catch (error) {
         console.error("Error fetching logo:", error);
+        // Only redirect if we're not already on the 404 page to prevent infinite loop
         if (
-          error.response?.status === 403 ||
-          error.response?.data?.message?.includes(
-            "Account information not found"
-          )
+          (error.response?.status === 403 ||
+            error.response?.data?.message?.includes(
+              "Account information not found"
+            )) &&
+          window.location.pathname !== "/*" &&
+          !window.location.pathname.includes("404")
         ) {
           window.location.href = "*";
         }
