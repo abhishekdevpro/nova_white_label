@@ -32,7 +32,7 @@ export const LogoProvider = ({ children }) => {
       } catch (error) {
         console.error("Error fetching logo:", error);
         if (
-          error.response?.status === 403 &&
+          error.response?.status === 403 ||
           error.response?.data?.message?.includes(
             "Account information not found"
           )
