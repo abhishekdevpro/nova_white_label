@@ -180,7 +180,7 @@ export default function PaymentSuccessPage() {
   }, [location, navigate]);
 
   const goToDashboard = () => {
-    navigate(`/airesume/dashboard/resumelist`);
+    navigate(`/`);
   };
 
   if (loading) {
@@ -239,7 +239,7 @@ export default function PaymentSuccessPage() {
           </OrderDetails>
         )} */}
 
-          <Button onClick={goToDashboard}>Go to Dashboard</Button>
+          <Button onClick={goToDashboard}>Go to HomePage</Button>
 
           <InfoText>
             A confirmation email with your receipt has been sent to your

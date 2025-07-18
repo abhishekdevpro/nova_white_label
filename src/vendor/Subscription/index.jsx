@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import VendorHeader from "../../markup/Layout/VendorHeader";
 
 export default function SubscriptionPlan() {
   const [status, setStatus] = useState("Inactive");
@@ -99,6 +100,7 @@ export default function SubscriptionPlan() {
 
   return (
     <>
+      <VendorHeader />
       {/* <Navbar /> */}
       <div className="container py-4 py-md-5">
         <h2 className="fs-4 fw-semibold mb-4">Account Settings</h2>
