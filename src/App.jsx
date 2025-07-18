@@ -224,6 +224,7 @@ import GoogleTranslate from "./GoogleTranslate.js";
 import ApplyForm from "./markup/ApplyForm/index.jsx";
 import ProfileComplete from "./markup/Pages/ProfileComplete.js";
 import GoogleOneTapLoginJobseeker from "./components/GoogleOneTapJobseeker.jsx";
+import SubscriptionPlan from "./vendor/Subscription/index.jsx";
 function App() {
   const dispatch = useDispatch();
 
@@ -272,7 +273,7 @@ function App() {
         {/* <Route path="aboutus-form" element={<AboutusForm />} /> */}
         <Route path="aboutus" element={<Aboutus1 />} />
         <Route path="Profilepagehome" element={<Profilepagehome />} />
-        {/* <Route path="/*" element={<Error404 />} /> */}
+        <Route path="/*" element={<Error404 />} />
         <Route path="about-us" element={<Aboutus />} />
         <Route path="privacy-policy" element={<PrivacyRights />} />
         <Route path="cookies-policy" element={<CookiesDigitalAdvertising />} />
@@ -531,6 +532,7 @@ function App() {
           <Route path="login" element={<Vendorlogin />} />
           <Route path="payments" element={<Payment />} />
           <Route path="payment/plans" element={<PlansPage />} />
+          <Route path="subscription" element={<SubscriptionPlan />} />
           <Route
             path="vendorprofile"
             element={
