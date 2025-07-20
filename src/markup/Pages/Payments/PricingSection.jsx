@@ -4,8 +4,7 @@ import { toast } from "react-toastify";
 import { plans } from "./Plan";
 const PricingSection = () => {
   // Plans data array with all details
-  const navigate = useNavigate()
- 
+  const navigate = useNavigate();
 
   // Styles object to keep JSX clean
   const styles = {
@@ -171,18 +170,17 @@ const PricingSection = () => {
       boxShadow: "0 2px 8px rgba(9,33,60,0.2)",
     },
   };
- const token = localStorage.getItem("jobSeekerLoginToken");
-  const handleClick = () =>{
-     if(!token){
-        toast.error("Please Login First")
-        navigate('/user/login')
-     }
-     else{
-      navigate('/user/subscription')
-        // window.location.href  = (`https://airesume.novajobs.us/settings/subscription/?tokenbyurl=${token}`)
-        // window.location.href = (`http://localhost:3001/settings/subscription/?tokenbyurl=${token}`)
-     }
-  }
+  const token = localStorage.getItem("jobSeekerLoginToken");
+  const handleClick = () => {
+    if (!token) {
+      toast.error("Please Login First");
+      navigate("/user/login");
+    } else {
+      navigate("/user/subscription");
+      // window.location.href  = (`https://airesume.novajobs.us/settings/subscription/?tokenbyurl=${token}`)
+      // window.location.href = (`http://localhost:3001/settings/subscription/?tokenbyurl=${token}`)
+    }
+  };
   return (
     <section style={styles.section}>
       <div style={styles.container}>
@@ -193,7 +191,7 @@ const PricingSection = () => {
             <span style={styles.titleLine}></span>
           </h2>
           <p style={styles.subtitle}>
-            Select the plan that best fits your needs
+            All our services are always free to get started
           </p>
         </div>
 
@@ -240,9 +238,7 @@ const PricingSection = () => {
                 {/* CTA Button */}
                 <div style={styles.cardFooter}>
                   <button
-                    onClick={() =>
-                      handleClick()
-                    }
+                    onClick={() => handleClick()}
                     style={styles.getButton(plan.isDark, plan.isPopular)}
                   >
                     Get Started

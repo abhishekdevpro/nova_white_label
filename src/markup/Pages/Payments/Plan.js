@@ -1,4 +1,3 @@
-
 export const plans = [
   {
     id: "freemium",
@@ -7,7 +6,7 @@ export const plans = [
     isPopular: false,
     isDark: false,
     features: [
-      "Discover your potential",
+      // "Discover your potential",
       "AI Resume + Cover Letter Builder",
       "Profile Listing",
       "Search & Apply to Jobs",
@@ -16,7 +15,7 @@ export const plans = [
 
       "Community Access",
 
-      "Access to all courses",
+      // "Access to all courses",
       // "Access to Free C "Profile Listing",
       <span className="flex items-center gap-1">
         Access to Edtech{" "}
@@ -47,21 +46,21 @@ export const plans = [
     isPopular: false,
     isDark: false,
     features: [
-      "Rise with purpose and power",
+      // "Rise with purpose and power",
       "Everything in Explore, plus",
       "Job Suggestions",
-      "Resume Score",
+      // "Resume Score",
       "ATS & Resume Score",
       "Priority Job alerts",
-      "Access to UltraAura+",
-      "Resume writeup By Experts",
-      "Connect to Career Coach",
-      "Profile Analytics*",
+      // "Access to UltraAura+",
+      // "Resume writeup By Experts",
+      // "Connect to Career Coach",
+      // "Profile Analytics*",
       "Certifications by UltraAura",
-      "Unlimited Access to UltraAura",
+      // "Unlimited Access to UltraAura",
       // "Access to all courses",
       <span className="d-inline-flex align-items-center gap-11">
-        Access to Edtech{" "}
+        Unlimited Access to Edtech{" "}
         <a
           href="https://ultraaura.education/"
           target="_blank"
@@ -88,17 +87,18 @@ export const plans = [
     isPopular: true,
     isDark: false,
     features: [
-      "Master your skills. Dominate your field",
-      "Everything in Excel, plus",
+      // "Master your skills. Dominate your field",
+      "Everything in Elevate, plus",
       "Connect to Trainer",
-      "More connects with Career Coach",
+      "Connect to Career Coach / Trainer",
+      "Manage Documents",
       "More AI Credits",
       "Chat with HR’s*",
       "Verified Certifications by UltraAura",
-      "Unlimited Access to UltraAura",
+      // "Unlimited Access to UltraAura",
 
       <span className="flex items-center gap-1">
-        Access to Edtech{" "}
+        Unlimited Access to Edtech{" "}
         <a
           href="https://ultraaura.education/"
           target="_blank"

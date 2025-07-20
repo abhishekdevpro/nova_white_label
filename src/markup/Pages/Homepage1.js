@@ -9,6 +9,7 @@ import Jobsection from "./../Element/Jobsection";
 import Owltestimonial from "./../Element/Owlblog1";
 import "../../css/indexBanner.css";
 import HeroSection from "./Components/Herosection";
+import ultraaurahomepage from "./images/ultraaura-homepage.png";
 import {
   FaRegEdit,
   FaRegFileAlt,
@@ -19,13 +20,100 @@ import {
 import PricingSection from "./Payments/PricingSection";
 import UserHeader from "../Layout/Header";
 import SubHeader from "../Layout/Sub-header";
+import styled from "styled-components";
 
 // Images
 var bnr2 = require("./../../images/background/bg4.jpg");
+// import ultraAuraImage from "./../../images/ultraaura-homepage.png";
+
+// Styled components for UltraAura popup
+const UltraAuraPopup = styled.div`
+  position: fixed;
+  left: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  min-width: 250px;
+
+  &:hover {
+    transform: translateY(-50%) scale(1.05);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  }
+
+  @media (max-width: 768px) {
+    position: fixed;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 200px;
+    padding: 15px;
+  }
+`;
+
+const UltraAuraImage = styled.img`
+  width: 250px;
+  height: auto;
+  border-radius: 20px;
+  object-fit: contain;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+  }
+
+  @media (max-width: 768px) {
+    width: 200px;
+    height: auto;
+  }
+`;
+
+const UltraAuraText = styled.div`
+  display: none;
+`;
+
+const CloseButton = styled.button`
+  position: absolute;
+  bottom: 35px;
+  right: 35px;
+  background: rgba(0, 0, 0, 0.8);
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  opacity: 1;
+  z-index: 1001;
+
+  &:hover {
+    background: rgba(0, 0, 0, 1);
+    transform: scale(1.1);
+  }
+
+  @media (max-width: 768px) {
+    width: 25px;
+    height: 25px;
+    font-size: 14px;
+  }
+`;
 
 function Homepage() {
   // State to manage hover effects
   const [hoveredBox, setHoveredBox] = useState(null);
+  const [showUltraAuraPopup, setShowUltraAuraPopup] = useState(true);
   const token = localStorage.getItem("jobSeekerLoginToken");
   const Navigate = useNavigate();
 
@@ -60,6 +148,16 @@ function Homepage() {
     Navigate("/user/jobs");
     window.scrollTo(0, 0);
   };
+
+  const handleUltraAuraClick = () => {
+    window.open("https://ultraaura.education/", "_blank");
+  };
+
+  const handleClosePopup = (e) => {
+    e.stopPropagation();
+    setShowUltraAuraPopup(false);
+  };
+
   // console.log(<UserHeader/>,<HeroSection />,<Jobsection />
   //       , <PricingSection />);
 
@@ -67,6 +165,16 @@ function Homepage() {
     <div className="page-wraper">
       <UserHeader />
       <SubHeader />
+
+      {/* UltraAura Popup */}
+      {showUltraAuraPopup && (
+        <UltraAuraPopup onClick={handleUltraAuraClick}>
+          <CloseButton onClick={handleClosePopup}>×</CloseButton>
+          <UltraAuraImage src={ultraaurahomepage} alt="UltraAura Education" />
+          <UltraAuraText>UltraAura</UltraAuraText>
+        </UltraAuraPopup>
+      )}
+
       <div className="page-content">
         <HeroSection />
         {/* <IndexBanner /> */}
