@@ -203,7 +203,9 @@ const PricingSection = () => {
               <div style={styles.getCardStyle(plan)}>
                 {/* Popular Badge (if applicable) */}
                 {plan.isPopular && (
-                  <div style={styles.popularBadge}>Most Popular</div>
+                  <div style={styles.popularBadge}>
+                    {plan.id === "ultraelite" ? "Unlimited" : "Most Popular"}
+                  </div>
                 )}
 
                 {/* Plan Header */}
@@ -229,7 +231,11 @@ const PricingSection = () => {
                           className="fa fa-check"
                           style={styles.getCheckIcon(plan.isDark)}
                         ></i>
-                        <span>{feature}</span>
+                        {typeof feature === "string" ? (
+                          <span>{feature}</span>
+                        ) : (
+                          feature
+                        )}
                       </li>
                     ))}
                   </ul>

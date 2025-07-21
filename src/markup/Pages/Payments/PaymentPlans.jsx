@@ -5,7 +5,7 @@ import { CheckCircle, RefreshCw, Bell, Clock, DollarSign } from "lucide-react";
 // import { plans } from "./Plan.js";
 import { plans } from "./Plan.js";
 import UserHeader2 from "../../Layout/Header2.js";
-import {Link , useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Styled Components
 const Container = styled.div`
@@ -26,7 +26,7 @@ const IntroBox = styled.div`
 const IntroTitle = styled.h2`
   font-size: 1.125rem;
   font-weight: 600;
-  
+
   @media (min-width: 768px) {
     font-size: 1.25rem;
   }
@@ -35,7 +35,7 @@ const IntroTitle = styled.h2`
 const IntroText = styled.p`
   color: #4b5563;
   font-size: 0.875rem;
-  
+
   @media (min-width: 768px) {
     font-size: 1rem;
   }
@@ -46,7 +46,7 @@ const Heading = styled.h2`
   font-weight: 700;
   margin-top: 1.5rem;
   text-align: center;
-  
+
   @media (min-width: 768px) {
     font-size: 1.5rem;
   }
@@ -85,23 +85,23 @@ const PlanCardsContainer = styled.div`
   justify-content: center;
   gap: 1rem;
   flex-wrap: wrap;
-  
+
   @media (min-width: 768px) {
     flex-direction: row;
   }
 `;
 
 const PlanCard = styled.div`
-  border: 1px solid ${props => props.selected ? "#3b82f6" : "#e5e7eb"};
+  border: 1px solid ${(props) => (props.selected ? "#3b82f6" : "#e5e7eb")};
   border-radius: 0.5rem;
   padding: 1rem;
   display: flex;
   flex-direction: column;
   width: 100%;
   position: relative;
-  background-color: ${props => props.selected ? "#eff6ff" : "white"};
+  background-color: ${(props) => (props.selected ? "#eff6ff" : "white")};
   cursor: pointer;
-  
+
   @media (min-width: 768px) {
     width: 16rem;
   }
@@ -177,7 +177,7 @@ const FeaturesPaymentContainer = styled.div`
   flex-direction: column;
   gap: 1.5rem;
   margin-top: 2rem;
-  
+
   @media (min-width: 768px) {
     flex-direction: row;
   }
@@ -187,7 +187,8 @@ const FeaturesCard = styled.div`
   background-color: white;
   padding: 1.5rem;
   border-radius: 0.5rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
   flex: 1;
 `;
 
@@ -196,7 +197,7 @@ const FeaturesTitle = styled.h3`
   font-weight: 600;
   margin-bottom: 1rem;
   text-align: center;
-  
+
   @media (min-width: 768px) {
     text-align: left;
   }
@@ -206,7 +207,7 @@ const FeaturesGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
-  
+
   @media (min-width: 768px) {
     grid-template-columns: 1fr 1fr;
   }
@@ -239,7 +240,7 @@ const ActionButton = styled.button`
   border-radius: 0.75rem;
   border: none;
   cursor: pointer;
-  
+
   &:hover {
     background-color: #1d4ed8;
   }
@@ -295,16 +296,18 @@ export default function PaymentPlans() {
             and apply to relevant job openings until you're hired.
           </IntroText>
         </IntroBox>
-        
-        <Heading>
-          Kudos! You're one step closer to success 🎉
-        </Heading>
+
+        <Heading>Kudos! You're one step closer to success 🎉</Heading>
 
         {/* Pricing Section Title */}
         <PricingHeader>
           <PricingTitle>Choose Your Plan</PricingTitle>
-          <PricingSubtitle>Find the perfect fit for your career journey</PricingSubtitle>
-          <PricingIntro>All plans include our core job search features</PricingIntro>
+          <PricingSubtitle>
+            Find the perfect fit for your career journey
+          </PricingSubtitle>
+          <PricingIntro>
+            All plans include our core job search features
+          </PricingIntro>
         </PricingHeader>
 
         <FlexContainer>
@@ -323,8 +326,14 @@ export default function PaymentPlans() {
                     dark={plan.isDark}
                   >
                     {plan.isPopular && (
-                      <BestValueTag>Most Popular</BestValueTag>
+                      <BestValueTag>
+                        {" "}
+                        {plan.id === "ultraelite"
+                          ? "Unlimited"
+                          : "Most Popular"}
+                      </BestValueTag>
                     )}
+
                     <PlanHeader>
                       <PlanTitle>{plan.name}</PlanTitle>
                       <Checkbox
@@ -395,9 +404,7 @@ export default function PaymentPlans() {
               </FeaturesGrid> */}
               <div style={{ marginTop: "1.5rem" }}>
                 <Link to={`/user/plan-details?selectedPlan=${selectedPlan}`}>
-                  <ActionButton>
-                    Next
-                  </ActionButton>
+                  <ActionButton>Next</ActionButton>
                 </Link>
                 <SupportText>
                   <strong>Got questions?</strong> Contact our customer support.
