@@ -122,19 +122,31 @@ export const plans = [
     id: "ultraelite",
     name: "Elite ",
     price: "148.95",
-    isPopular: false,
+    isPopular: true,
     isDark: true,
     features: [
-      "Where ambition meets unlimited opportunity",
-      "Everything in EXcel, plus",
-      "AI Resume & Cover Letter Builder",
-      "Comprehensive Career Dashboard",
-      "Advanced AI Tools",
-      "Expert Guidance",
-      "Personal HR support",
-      "Smart Job Discovery",
-      "Community & Analytics",
-      "Unlimited UltraAura Access",
+      "Excel Plus Unlimited",
+      <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+        Centralized HyperVSolutions ID
+        <i
+          className="fa fa-info"
+          style={{
+            fontSize: "0.875rem",
+            color: "yellow",
+            cursor: "pointer",
+            marginLeft: "4px",
+          }}
+          title="Single Sign-On for all services"
+        ></i>
+      </span>,
+      "Expert Resume & Cover Letter Creation",
+      "AI Credits",
+      "Physical & Verified Certification Copies",
+      "Job Placement Assistance",
+      "Personalized Career Guidance",
+      "Priority Job Applies",
+      // "Community & Analytics",
+      // "Unlimited UltraAura Access",
       // "Career Coaching & Trainer Monitoring",
       // "Dedicated Personal Career Mentor",
       // "AI Branding & Executive Resume Enhancement",
@@ -144,7 +156,7 @@ export const plans = [
       // "Beta Access to Exclusive Tools & Pilots",
       // "Enterprise-Grade Career Dashboard",
       <span className="flex items-center gap-1">
-        Access to Edtech{" "}
+        Unlimited Access to Edtech{" "}
         <a
           href="https://ultraaura.education/"
           target="_blank"
