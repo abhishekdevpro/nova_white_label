@@ -18,7 +18,7 @@ export const plans = [
       // "Access to all courses",
       // "Access to Free C "Profile Listing",
       <span className="flex items-center gap-1">
-        Access to Edtech{" "}
+        Unlimited Access to Edtech{" "}
         <a
           href="https://ultraaura.education/"
           target="_blank"

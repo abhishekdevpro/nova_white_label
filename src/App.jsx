@@ -225,6 +225,7 @@ import ApplyForm from "./markup/ApplyForm/index.jsx";
 import ProfileComplete from "./markup/Pages/ProfileComplete.js";
 import GoogleOneTapLoginJobseeker from "./components/GoogleOneTapJobseeker.jsx";
 import SubscriptionPlan from "./vendor/Subscription/index.jsx";
+import VendorDashboard from "./vendor/VendorDashboard.jsx";
 function App() {
   const dispatch = useDispatch();
 
@@ -517,6 +518,14 @@ function App() {
           }
         />
         <Route
+          path="/admin/addjob"
+          element={
+            <PrivateRouteadmin>
+              <Jobadd />
+            </PrivateRouteadmin>
+          }
+        />
+        <Route
           path="/admin/addjob/:id"
           element={
             <PrivateRouteadmin>
@@ -653,6 +662,14 @@ function App() {
             element={
               <PrivateRoutevendor>
                 <Vendorplan />
+              </PrivateRoutevendor>
+            }
+          />
+          <Route
+            path="dashboard"
+            element={
+              <PrivateRoutevendor>
+                <VendorDashboard />
               </PrivateRoutevendor>
             }
           />

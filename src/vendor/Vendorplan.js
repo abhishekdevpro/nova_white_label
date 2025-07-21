@@ -1,11 +1,88 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import VendorCompanySideBar from "./Vendorsidebar";
 import Footer from "../markup/Layout/Footer";
 import VendorHeader from "../markup/Layout/VendorHeader";
+import axios from "axios";
 
 function Vendorplan() {
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const planName = {
+    1: "NovaJobs Start",
+    2: "Nova Pro",
+    3: "Nova Enterprise",
+  };
+
+  const planFeatures = {
+    1: [
+      "Unlimited Job post",
+      "Upload and manage job openings",
+      "Basic Candidate Management",
+      "Community Access",
+      "Engage in a forum for recruiters and job seekers",
+      "Basic Reporting",
+      "View simple metrics like job views",
+      "Branding pages",
+    ],
+    2: [
+      "All Nova Start Features",
+      "Jobseeker self help portal",
+      "Resume Builder",
+      "Skill Test for Jobseeker",
+      "Basic Applicant Tracking System (ATS)",
+      "Messaging",
+      "Custom Email Notifications",
+      "Mobile-Responsive Design",
+      "Payment gateway",
+    ],
+    3: [
+      "All Nova Pro Features",
+      "Digital Marketing",
+      "Nova Database access",
+      "WhiteLabel everything under your brand",
+      "Priority Customer Support",
+      "Admin Panel",
+    ],
+  };
+
+  const planPrices = {
+    1: "Free",
+    2: "$99/month",
+    3: "$199/month",
+  };
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const token = localStorage.getItem("vendorToken");
+        const response = await axios.get(
+          "https://apiwl.novajobs.us/api/admin/vendor/user-profile",
+          {
+            headers: { Authorization: token },
+          }
+        );
+
+        if (response.data?.status === "success") {
+          setUserData(response.data.data);
+        }
+      } catch (err) {
+        console.error("Error fetching user profile:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
+
+  const currentPlanId = userData?.vendors_detail?.plan_id || 1;
+  const currentPlanName = planName[currentPlanId];
+  const currentPlanFeatures = planFeatures[currentPlanId];
+  const currentPlanPrice = planPrices[currentPlanId];
+  const isActivePlan = userData?.vendors_detail?.is_active_plan || false;
   return (
     <>
       <div className="page-content bg-white">
@@ -31,29 +108,41 @@ function Vendorplan() {
                   <div className="job-bx table-job-bx clearfix">
                     <div className="job-bx-title clearfix">
                       <h5 className="font-weight-700 pull-left text-uppercase">
-                        Choose Your Plan
+                        Your Current Plan
                       </h5>
                     </div>
                     <PricingContainer>
-                      <PricingCard>
-                        <CardHeader>
-                          <h3>Free</h3>
-                          <Price>
-                            <span>$0</span>
-                            <span>/month</span>
-                          </Price>
-                        </CardHeader>
-                        <CardBody>
-                          <FeatureList>
-                            <li>✓ Basic job posting</li>
-                            <li>✓ Up to 5 job listings</li>
-                            <li>✓ Basic candidate search</li>
-                            <li>✓ Email support</li>
-                            <li>✓ Basic analytics</li>
-                          </FeatureList>
-                          <SelectButton>Current Plan</SelectButton>
-                        </CardBody>
-                      </PricingCard>
+                      {loading ? (
+                        <div>Loading...</div>
+                      ) : (
+                        <PricingCard featured={isActivePlan}>
+                          <CardHeader featured={isActivePlan}>
+                            <h3 className="text-white">{currentPlanName}</h3>
+                            <Price>
+                              <span>
+                                {currentPlanPrice === "Free"
+                                  ? "$0"
+                                  : currentPlanPrice.split("/")[0]}
+                              </span>
+                              <span className="text-white">
+                                {currentPlanPrice === "Free"
+                                  ? "/month"
+                                  : "/month"}
+                              </span>
+                            </Price>
+                          </CardHeader>
+                          <CardBody>
+                            <FeatureList>
+                              {currentPlanFeatures.map((feature, index) => (
+                                <li key={index}>✓ {feature}</li>
+                              ))}
+                            </FeatureList>
+                            {/* <SelectButton primary={isActivePlan}>
+                              {isActivePlan ? "Current Plan" : "Inactive Plan"}
+                            </SelectButton> */}
+                          </CardBody>
+                        </PricingCard>
+                      )}
 
                       {/* <PricingCard featured>
                         <CardHeader>
@@ -123,17 +212,18 @@ const PricingCard = styled.div`
   width: 300px;
   overflow: hidden;
   transition: transform 0.3s ease;
-  border: ${props => props.featured ? '2px solid #1C2957' : '1px solid #e0e0e0'};
-  transform: ${props => props.featured ? 'scale(1.05)' : 'none'};
+  border: ${(props) =>
+    props.featured ? "2px solid #1C2957" : "1px solid #e0e0e0"};
+  transform: ${(props) => (props.featured ? "scale(1.05)" : "none")};
 
   &:hover {
-    transform: ${props => props.featured ? 'scale(1.08)' : 'scale(1.03)'};
+    transform: ${(props) => (props.featured ? "scale(1.08)" : "scale(1.03)")};
   }
 `;
 
 const CardHeader = styled.div`
-  background: ${props => props.featured ? '#1C2957' : '#f8f9fa'};
-  color: ${props => props.featured ? 'white' : '#333'};
+  background: ${(props) => (props.featured ? "#1C2957" : "#f8f9fa")};
+  color: ${(props) => (props.featured ? "white" : "#333")};
   padding: 2rem;
   text-align: center;
 
@@ -146,12 +236,12 @@ const CardHeader = styled.div`
 
 const Price = styled.div`
   margin-top: 1rem;
-  
+
   span:first-child {
     font-size: 2.5rem;
     font-weight: 700;
   }
-  
+
   span:last-child {
     font-size: 1rem;
     color: #666;
@@ -179,14 +269,14 @@ const SelectButton = styled.button`
   padding: 0.75rem;
   border: none;
   border-radius: 5px;
-  background-color: ${props => props.primary ? '#1C2957' : '#f8f9fa'};
-  color: ${props => props.primary ? 'white' : '#333'};
+  background-color: ${(props) => (props.primary ? "#1C2957" : "#f8f9fa")};
+  color: ${(props) => (props.primary ? "white" : "#333")};
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
 
   &:hover {
-    background-color: ${props => props.primary ? '#161f3f' : '#e9ecef'};
+    background-color: ${(props) => (props.primary ? "#161f3f" : "#e9ecef")};
   }
 `;
 
