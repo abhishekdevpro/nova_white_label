@@ -8,7 +8,7 @@ import { Settings, X } from "lucide-react";
 import { toast } from "react-toastify";
 import { setPostAJobData } from "../store/reducers/postAJobSlice";
 import styled from "styled-components";
-import "../css/profilesidebar.css"
+import "../css/profilesidebar.css";
 const VendorCompanySideBar = ({ active }) => {
   const token = localStorage.getItem("vendorToken");
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -16,8 +16,15 @@ const VendorCompanySideBar = ({ active }) => {
   const [myPortalOpen, setMyPortalOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [domainName, setdomainName] = useState("");
+  const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const planName = {
+    1: "Free",
+    2: "Nova Pro",
+    3: "Nova Enterprise",
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("vendorToken");
@@ -64,6 +71,7 @@ const VendorCompanySideBar = ({ active }) => {
       const vendorDetails = response.data.data.company_detail;
       setLogo(vendorDetails.logo); // Set the logo
       setdomainName(response.data?.data?.vendors_detail?.domain);
+      setUserData(response.data.data?.vendors_detail); // Store user data for plan info
     } catch (error) {
       console.error("Error fetching vendor details:", error);
     }
@@ -142,9 +150,9 @@ const VendorCompanySideBar = ({ active }) => {
       <div className={`sidebar-2 ${sidebarOpen ? "open" : ""}`}>
         <div className="">
           <div className="sticky-top">
-             <div className="d-flex justify-content-start d-lg-none p-3">
-                          <X onClick={toggleSidebar} style={{ cursor: "pointer" }} />
-                        </div>
+            <div className="d-flex justify-content-start d-lg-none p-3">
+              <X onClick={toggleSidebar} style={{ cursor: "pointer" }} />
+            </div>
             <div className="candidate-info company-info">
               <div className="candidate-detail text-center">
                 <div className="canditate-des">
@@ -207,12 +215,26 @@ const VendorCompanySideBar = ({ active }) => {
               <ul>
                 <li>
                   <Link
+                    to={"/vendor/dashboard"}
+                    className={active === "dashboard" ? "active" : null}
+                  >
+                    <i className="fa fa-dashboard" aria-hidden="true"></i>
+                    <span>Dashboard</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     to={"/vendor/vendorplan"}
                     className={active === "vendorplan" ? "active" : null}
                   >
                     <i className="fa fa-user-o" aria-hidden="true"></i>
                     <span>
-                      Plan <FreeBadge>Free</FreeBadge>
+                      Plan{" "}
+                      <FreeBadge>
+                        {userData?.plan_id
+                          ? planName[userData.plan_id]
+                          : "Free"}
+                      </FreeBadge>
                     </span>
                   </Link>
                 </li>
@@ -366,15 +388,12 @@ const VendorCompanySideBar = ({ active }) => {
                       rel="noopener noreferrer"
                       className={active === "editors" ? "active" : ""}
                     >
-                       <i
-                          className="fa fa-external-link"
-                          aria-hidden="true"
-                          style={{ marginLeft: "5px" }}
-                        ></i>
-                      <span>
-                        Vendor Website
-                       
-                      </span>
+                      <i
+                        className="fa fa-external-link"
+                        aria-hidden="true"
+                        style={{ marginLeft: "5px" }}
+                      ></i>
+                      <span>Vendor Website</span>
                     </a>
                   ) : (
                     // If domain doesn't exist → internal link to /vendor
@@ -387,10 +406,7 @@ const VendorCompanySideBar = ({ active }) => {
                         icon={faCloudUploadAlt}
                         className="me-2"
                       />
-                      <span>
-                        Activate Subdomain
-                        
-                      </span>
+                      <span>Activate Subdomain</span>
                     </Link>
                   )}
                 </li>

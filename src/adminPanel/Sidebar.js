@@ -844,16 +844,15 @@
 
 // export default Sidebar;
 
-
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { X } from 'lucide-react';
+import { X } from "lucide-react";
 import "../css/profilesidebar.css";
 
 const AdminSidebar = () => {
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  
+
   // Submenu states
   const [showTeamSubmenu, setShowTeamSubmenu] = useState(false);
   const [showTeamSubmenu1, setShowTeamSubmenu1] = useState(false);
@@ -881,14 +880,20 @@ const AdminSidebar = () => {
   const [showTeamSubmenu10B, setShowTeamSubmenu10B] = useState(false);
 
   useEffect(() => {
-    if (location.pathname.startsWith("/admin/vendor")) setShowTeamSubmenu5(true);
+    if (location.pathname.startsWith("/admin/vendor"))
+      setShowTeamSubmenu5(true);
     if (location.pathname.startsWith("/admin/team")) setShowTeamSubmenu(true);
     if (location.pathname.startsWith("/admin/jobs")) setShowTeamSubmenu3(true);
-    if (location.pathname.startsWith("/admin/notifications")) setShowTeamSubmenu4(true);
-    if (location.pathname.startsWith("/admin/jobseekers")) setShowTeamSubmenu1(true);
-    if (location.pathname.startsWith("/admin/employer")) setShowTeamSubmenu2(true);
-    if (location.pathname.startsWith("/admin/wallet")) setShowTeamSubmenu6(true);
-    if (location.pathname.startsWith("/admin/CompanyNameAdmin")) setShowTeamSubmenu6(true);
+    if (location.pathname.startsWith("/admin/notifications"))
+      setShowTeamSubmenu4(true);
+    if (location.pathname.startsWith("/admin/jobseekers"))
+      setShowTeamSubmenu1(true);
+    if (location.pathname.startsWith("/admin/employer"))
+      setShowTeamSubmenu2(true);
+    if (location.pathname.startsWith("/admin/wallet"))
+      setShowTeamSubmenu6(true);
+    if (location.pathname.startsWith("/admin/CompanyNameAdmin"))
+      setShowTeamSubmenu6(true);
     if (location.pathname.startsWith("/admin/cms")) setShowTeamSubmenu8(true);
     if (location.pathname.startsWith("/admin/apps")) {
       setShowTeamSubmenu9(true);
@@ -923,19 +928,22 @@ const AdminSidebar = () => {
         ☰
       </button>
       <div className={`sidebar-2 ${sidebarOpen ? "open" : ""}`}>
-        <div className=""  style={{
-                      height: "100%",
-                      overflowY: "auto",
-                      overflowX: "hidden",
-                      paddingRight: "10px",
-                      scrollBehavior: "smooth",
-                      scrollbarWidth: "none",
-                    }}>
+        <div
+          className=""
+          style={{
+            height: "100%",
+            overflowY: "auto",
+            overflowX: "hidden",
+            paddingRight: "10px",
+            scrollBehavior: "smooth",
+            scrollbarWidth: "none",
+          }}
+        >
           <div className="sticky-top">
             <div className="d-flex justify-content-start d-lg-none p-3 m-b30">
               <X onClick={toggleSidebar} style={{ cursor: "pointer" }} />
             </div>
-            
+
             <div className="candidate-info company-info">
               {/* <div className="candidate-detail text-center">
                 <div className="canditate-des">
@@ -949,7 +957,7 @@ const AdminSidebar = () => {
                   <Link to={"#"}>Admin Panel</Link>
                 </h4>
               </div>
-              
+
               <ul>
                 <li>
                   <Link
@@ -972,17 +980,26 @@ const AdminSidebar = () => {
                 </li>
 
                 <li>
-                  <Link to="#" onClick={() => setShowTeamSubmenu5(!showTeamSubmenu5)}>
+                  <Link
+                    to="#"
+                    onClick={() => setShowTeamSubmenu5(!showTeamSubmenu5)}
+                  >
                     <i className="fa fa-store" aria-hidden="true"></i>
                     <span>Vendor</span>
-                    <i className={`fa fa-chevron-${showTeamSubmenu5 ? "up" : "down"} float-right`}></i>
+                    <i
+                      className={`fa fa-chevron-${
+                        showTeamSubmenu5 ? "up" : "down"
+                      } float-right`}
+                    ></i>
                   </Link>
                   {showTeamSubmenu5 && (
                     <ul className="sub-menu">
                       <li>
                         <Link
                           to="/admin/listvendor"
-                          className={isActive("/admin/listvendor") ? "active" : ""}
+                          className={
+                            isActive("/admin/listvendor") ? "active" : ""
+                          }
                         >
                           <i className="fa fa-list" aria-hidden="true"></i>
                           <span>List Vendor</span>
@@ -991,7 +1008,9 @@ const AdminSidebar = () => {
                       <li>
                         <Link
                           to="/admin/addvendor"
-                          className={isActive("/admin/addvendor") ? "active" : ""}
+                          className={
+                            isActive("/admin/addvendor") ? "active" : ""
+                          }
                         >
                           <i className="fa fa-plus" aria-hidden="true"></i>
                           <span>Add Vendor</span>
@@ -1002,17 +1021,26 @@ const AdminSidebar = () => {
                 </li>
 
                 <li>
-                  <Link to="#" onClick={() => setShowTeamSubmenu3(!showTeamSubmenu3)}>
+                  <Link
+                    to="#"
+                    onClick={() => setShowTeamSubmenu3(!showTeamSubmenu3)}
+                  >
                     <i className="fa fa-briefcase" aria-hidden="true"></i>
                     <span>Jobs</span>
-                    <i className={`fa fa-chevron-${showTeamSubmenu3 ? "up" : "down"} float-right`}></i>
+                    <i
+                      className={`fa fa-chevron-${
+                        showTeamSubmenu3 ? "up" : "down"
+                      } float-right`}
+                    ></i>
                   </Link>
                   {showTeamSubmenu3 && (
                     <ul className="sub-menu">
                       <li>
                         <Link
                           to="/admin/listalljobs"
-                          className={isActive("/admin/listalljobs") ? "active" : ""}
+                          className={
+                            isActive("/admin/listalljobs") ? "active" : ""
+                          }
                         >
                           <i className="fa fa-list" aria-hidden="true"></i>
                           <span>List All</span>
@@ -1020,8 +1048,8 @@ const AdminSidebar = () => {
                       </li>
                       <li>
                         <Link
-                          to="/admin/addjobs"
-                          className={isActive("/admin/addjobs") ? "active" : ""}
+                          to="/admin/addjob"
+                          className={isActive("/admin/addjob") ? "active" : ""}
                         >
                           <i className="fa fa-plus" aria-hidden="true"></i>
                           <span>Add Jobs</span>
@@ -1032,17 +1060,26 @@ const AdminSidebar = () => {
                 </li>
 
                 <li>
-                  <Link to="#" onClick={() => setShowTeamSubmenu1(!showTeamSubmenu1)}>
+                  <Link
+                    to="#"
+                    onClick={() => setShowTeamSubmenu1(!showTeamSubmenu1)}
+                  >
                     <i className="fa fa-user-graduate" aria-hidden="true"></i>
                     <span>JobSeekers</span>
-                    <i className={`fa fa-chevron-${showTeamSubmenu1 ? "up" : "down"} float-right`}></i>
+                    <i
+                      className={`fa fa-chevron-${
+                        showTeamSubmenu1 ? "up" : "down"
+                      } float-right`}
+                    ></i>
                   </Link>
                   {showTeamSubmenu1 && (
                     <ul className="sub-menu">
                       <li>
                         <Link
                           to="/admin/listalljobseeker"
-                          className={isActive("/admin/listalljobseeker") ? "active" : ""}
+                          className={
+                            isActive("/admin/listalljobseeker") ? "active" : ""
+                          }
                         >
                           <i className="fa fa-list" aria-hidden="true"></i>
                           <span>List All</span>
@@ -1051,7 +1088,9 @@ const AdminSidebar = () => {
                       <li>
                         <Link
                           to="/admin/Addjobseeker"
-                          className={isActive("/admin/Addjobseeker") ? "active" : ""}
+                          className={
+                            isActive("/admin/Addjobseeker") ? "active" : ""
+                          }
                         >
                           <i className="fa fa-plus" aria-hidden="true"></i>
                           <span>Add Job Seeker</span>
@@ -1062,17 +1101,26 @@ const AdminSidebar = () => {
                 </li>
 
                 <li>
-                  <Link to="#" onClick={() => setShowTeamSubmenu2(!showTeamSubmenu2)}>
+                  <Link
+                    to="#"
+                    onClick={() => setShowTeamSubmenu2(!showTeamSubmenu2)}
+                  >
                     <i className="fa fa-user-tie" aria-hidden="true"></i>
                     <span>Employer</span>
-                    <i className={`fa fa-chevron-${showTeamSubmenu2 ? "up" : "down"} float-right`}></i>
+                    <i
+                      className={`fa fa-chevron-${
+                        showTeamSubmenu2 ? "up" : "down"
+                      } float-right`}
+                    ></i>
                   </Link>
                   {showTeamSubmenu2 && (
                     <ul className="sub-menu">
                       <li>
                         <Link
                           to="/admin/employeelist"
-                          className={isActive("/admin/employeelist") ? "active" : ""}
+                          className={
+                            isActive("/admin/employeelist") ? "active" : ""
+                          }
                         >
                           <i className="fa fa-list" aria-hidden="true"></i>
                           <span>List All</span>
@@ -1081,7 +1129,9 @@ const AdminSidebar = () => {
                       <li>
                         <Link
                           to="/admin/team/addemployers"
-                          className={isActive("/admin/team/addemployers") ? "active" : ""}
+                          className={
+                            isActive("/admin/team/addemployers") ? "active" : ""
+                          }
                         >
                           <i className="fa fa-plus" aria-hidden="true"></i>
                           <span>Add Employers</span>
@@ -1092,10 +1142,17 @@ const AdminSidebar = () => {
                 </li>
 
                 <li>
-                  <Link to="#" onClick={() => setShowTeamSubmenu8(!showTeamSubmenu8)}>
+                  <Link
+                    to="#"
+                    onClick={() => setShowTeamSubmenu8(!showTeamSubmenu8)}
+                  >
                     <i className="fa fa-file-alt" aria-hidden="true"></i>
                     <span>CMS</span>
-                    <i className={`fa fa-chevron-${showTeamSubmenu8 ? "up" : "down"} float-right`}></i>
+                    <i
+                      className={`fa fa-chevron-${
+                        showTeamSubmenu8 ? "up" : "down"
+                      } float-right`}
+                    ></i>
                   </Link>
                   {showTeamSubmenu8 && (
                     <ul className="sub-menu">
@@ -1110,7 +1167,10 @@ const AdminSidebar = () => {
                           to="/admin/aboutus"
                           className={isActive("/admin/aboutus") ? "active" : ""}
                         >
-                          <i className="fa fa-info-circle" aria-hidden="true"></i>
+                          <i
+                            className="fa fa-info-circle"
+                            aria-hidden="true"
+                          ></i>
                           <span>About Us</span>
                         </Link>
                       </li>
@@ -1119,44 +1179,85 @@ const AdminSidebar = () => {
                 </li>
 
                 <li>
-                  <Link to="#" onClick={() => setShowTeamSubmenu9(!showTeamSubmenu9)}>
+                  <Link
+                    to="#"
+                    onClick={() => setShowTeamSubmenu9(!showTeamSubmenu9)}
+                  >
                     <i className="fa fa-mobile-alt" aria-hidden="true"></i>
                     <span>Apps</span>
-                    <i className={`fa fa-chevron-${showTeamSubmenu9 ? "up" : "down"} float-right`}></i>
+                    <i
+                      className={`fa fa-chevron-${
+                        showTeamSubmenu9 ? "up" : "down"
+                      } float-right`}
+                    ></i>
                   </Link>
                   {showTeamSubmenu9 && (
                     <ul className="sub-menu">
                       <li>
-                        <Link to="#" onClick={() => setShowTeamSubmenu9A(!showTeamSubmenu9A)}>
-                          <i className="fa fa-graduation-cap" aria-hidden="true"></i>
+                        <Link
+                          to="#"
+                          onClick={() =>
+                            setShowTeamSubmenu9A(!showTeamSubmenu9A)
+                          }
+                        >
+                          <i
+                            className="fa fa-graduation-cap"
+                            aria-hidden="true"
+                          ></i>
                           <span>UltraAura</span>
-                          <i className={`fa fa-chevron-${showTeamSubmenu9A ? "up" : "down"} float-right`}></i>
+                          <i
+                            className={`fa fa-chevron-${
+                              showTeamSubmenu9A ? "up" : "down"
+                            } float-right`}
+                          ></i>
                         </Link>
                         {showTeamSubmenu9A && (
                           <ul className="sub-menu">
                             <li>
-                              <a href="https://ultraaura.education/" target="_blank" rel="noopener noreferrer">
-                                <i className="fa fa-external-link-alt" aria-hidden="true"></i>
+                              <a
+                                href="https://ultraaura.education/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <i
+                                  className="fa fa-external-link-alt"
+                                  aria-hidden="true"
+                                ></i>
                                 <span>View</span>
                               </a>
                             </li>
                             <li>
-                              <Link to="#" onClick={() => setShowTeamSubmenu9A1(!showTeamSubmenu9A1)}>
+                              <Link
+                                to="#"
+                                onClick={() =>
+                                  setShowTeamSubmenu9A1(!showTeamSubmenu9A1)
+                                }
+                              >
                                 <i className="fa fa-cog" aria-hidden="true"></i>
                                 <span>CMS</span>
-                                <i className={`fa fa-chevron-${showTeamSubmenu9A1 ? "up" : "down"} float-right`}></i>
+                                <i
+                                  className={`fa fa-chevron-${
+                                    showTeamSubmenu9A1 ? "up" : "down"
+                                  } float-right`}
+                                ></i>
                               </Link>
                               {showTeamSubmenu9A1 && (
                                 <ul className="sub-menu">
                                   <li>
                                     <Link to="">
-                                      <i className="fa fa-home" aria-hidden="true"></i>
+                                      <i
+                                        className="fa fa-home"
+                                        aria-hidden="true"
+                                      ></i>
                                       <span>Home</span>
                                     </Link>
                                   </li>
                                   <li>
                                     <Link to="">
-                                      <i className="fa fa-info-circle" aria-hidden="true"></i>
+                                      <i
+                                        className="fa fa-info-circle"
+                                        aria-hidden="true"
+                                      ></i>
                                       <span>About Us</span>
                                     </Link>
                                   </li>
@@ -1164,34 +1265,74 @@ const AdminSidebar = () => {
                               )}
                             </li>
                             <li>
-                              <a href="https://ultraaura.education/admin/login" target="_blank" rel="noopener noreferrer">
-                                <i className="fa fa-user-shield" aria-hidden="true"></i>
+                              <a
+                                href="https://ultraaura.education/admin/login"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <i
+                                  className="fa fa-user-shield"
+                                  aria-hidden="true"
+                                ></i>
                                 <span>Admin</span>
                               </a>
                             </li>
                             <li>
-                              <Link to="#" onClick={() => setShowTeamSubmenu9A2(!showTeamSubmenu9A2)}>
-                                <i className="fa fa-book" aria-hidden="true"></i>
+                              <Link
+                                to="#"
+                                onClick={() =>
+                                  setShowTeamSubmenu9A2(!showTeamSubmenu9A2)
+                                }
+                              >
+                                <i
+                                  className="fa fa-book"
+                                  aria-hidden="true"
+                                ></i>
                                 <span>Tutorial</span>
-                                <i className={`fa fa-chevron-${showTeamSubmenu9A2 ? "up" : "down"} float-right`}></i>
+                                <i
+                                  className={`fa fa-chevron-${
+                                    showTeamSubmenu9A2 ? "up" : "down"
+                                  } float-right`}
+                                ></i>
                               </Link>
                               {showTeamSubmenu9A2 && (
                                 <ul className="sub-menu">
                                   <li>
-                                    <a href="https://docs.google.com/document/d/14r0mNIGruj3Kcm-BdaQOUHQRhk0AaM_ABKDDTPV17tA/edit?tab=t.0" target="_blank" rel="noopener noreferrer">
-                                      <i className="fa fa-file-alt" aria-hidden="true"></i>
+                                    <a
+                                      href="https://docs.google.com/document/d/14r0mNIGruj3Kcm-BdaQOUHQRhk0AaM_ABKDDTPV17tA/edit?tab=t.0"
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      <i
+                                        className="fa fa-file-alt"
+                                        aria-hidden="true"
+                                      ></i>
                                       <span>UA - Docs</span>
                                     </a>
                                   </li>
                                   <li>
-                                    <a href="https://docs.google.com/document/d/1vIzNtR56pxjc79N9ID_lN-36fJ6TDWGXZmkUOsLdDIo/edit?tab=t.0#heading=h.m1e3b1xed0k9" target="_blank" rel="noopener noreferrer">
-                                      <i className="fa fa-file-alt" aria-hidden="true"></i>
+                                    <a
+                                      href="https://docs.google.com/document/d/1vIzNtR56pxjc79N9ID_lN-36fJ6TDWGXZmkUOsLdDIo/edit?tab=t.0#heading=h.m1e3b1xed0k9"
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      <i
+                                        className="fa fa-file-alt"
+                                        aria-hidden="true"
+                                      ></i>
                                       <span>Nova - Docs</span>
                                     </a>
                                   </li>
                                   <li>
-                                    <a href="https://www.youtube.com/@HyperVSolutions" target="_blank" rel="noopener noreferrer">
-                                      <i className="fa fa-video" aria-hidden="true"></i>
+                                    <a
+                                      href="https://www.youtube.com/@HyperVSolutions"
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      <i
+                                        className="fa fa-video"
+                                        aria-hidden="true"
+                                      ></i>
                                       <span>Video</span>
                                     </a>
                                   </li>
@@ -1203,39 +1344,74 @@ const AdminSidebar = () => {
                       </li>
 
                       <li>
-                        <Link to="#" onClick={() => setShowTeamSubmenu9B(!showTeamSubmenu9B)}>
+                        <Link
+                          to="#"
+                          onClick={() =>
+                            setShowTeamSubmenu9B(!showTeamSubmenu9B)
+                          }
+                        >
                           <i className="fa fa-home" aria-hidden="true"></i>
                           <span>HomeCare</span>
-                          <i className={`fa fa-chevron-${showTeamSubmenu9B ? "up" : "down"} float-right`}></i>
+                          <i
+                            className={`fa fa-chevron-${
+                              showTeamSubmenu9B ? "up" : "down"
+                            } float-right`}
+                          ></i>
                         </Link>
                         {showTeamSubmenu9B && (
                           <ul className="sub-menu">
                             <li>
-                              <a href="https://novahome.care/" target="_blank" rel="noopener noreferrer">
-                                <i className="fa fa-external-link-alt" aria-hidden="true"></i>
+                              <a
+                                href="https://novahome.care/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <i
+                                  className="fa fa-external-link-alt"
+                                  aria-hidden="true"
+                                ></i>
                                 <span>View</span>
                               </a>
                             </li>
                             <li>
-                              <Link to="#" onClick={() => setShowTeamSubmenu9B1(!showTeamSubmenu9B1)}>
+                              <Link
+                                to="#"
+                                onClick={() =>
+                                  setShowTeamSubmenu9B1(!showTeamSubmenu9B1)
+                                }
+                              >
                                 <i className="fa fa-cog" aria-hidden="true"></i>
                                 <span>CMS</span>
-                                <i className={`fa fa-chevron-${showTeamSubmenu9B1 ? "up" : "down"} float-right`}></i>
+                                <i
+                                  className={`fa fa-chevron-${
+                                    showTeamSubmenu9B1 ? "up" : "down"
+                                  } float-right`}
+                                ></i>
                               </Link>
                               {showTeamSubmenu9B1 && (
                                 <ul className="sub-menu">
                                   <li>
                                     <Link to="">
-                                      <i className="fa fa-home" aria-hidden="true"></i>
+                                      <i
+                                        className="fa fa-home"
+                                        aria-hidden="true"
+                                      ></i>
                                       <span>Home</span>
                                     </Link>
                                   </li>
                                   <li>
                                     <Link
                                       to="/admin/homecare/aboutus"
-                                      className={isActive("/admin/homecare/aboutus") ? "active" : ""}
+                                      className={
+                                        isActive("/admin/homecare/aboutus")
+                                          ? "active"
+                                          : ""
+                                      }
                                     >
-                                      <i className="fa fa-info-circle" aria-hidden="true"></i>
+                                      <i
+                                        className="fa fa-info-circle"
+                                        aria-hidden="true"
+                                      ></i>
                                       <span>About Us</span>
                                     </Link>
                                   </li>
@@ -1244,7 +1420,10 @@ const AdminSidebar = () => {
                             </li>
                             <li>
                               <Link to="">
-                                <i className="fa fa-user-shield" aria-hidden="true"></i>
+                                <i
+                                  className="fa fa-user-shield"
+                                  aria-hidden="true"
+                                ></i>
                                 <span>Admin</span>
                               </Link>
                             </li>
@@ -1253,39 +1432,74 @@ const AdminSidebar = () => {
                       </li>
 
                       <li>
-                        <Link to="#" onClick={() => setShowTeamSubmenu9C(!showTeamSubmenu9C)}>
+                        <Link
+                          to="#"
+                          onClick={() =>
+                            setShowTeamSubmenu9C(!showTeamSubmenu9C)
+                          }
+                        >
                           <i className="fa fa-lightbulb" aria-hidden="true"></i>
                           <span>ParadigmShift</span>
-                          <i className={`fa fa-chevron-${showTeamSubmenu9C ? "up" : "down"} float-right`}></i>
+                          <i
+                            className={`fa fa-chevron-${
+                              showTeamSubmenu9C ? "up" : "down"
+                            } float-right`}
+                          ></i>
                         </Link>
                         {showTeamSubmenu9C && (
                           <ul className="sub-menu">
                             <li>
-                              <a href="https://paradigmshifts.life/" target="_blank" rel="noopener noreferrer">
-                                <i className="fa fa-external-link-alt" aria-hidden="true"></i>
+                              <a
+                                href="https://paradigmshifts.life/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <i
+                                  className="fa fa-external-link-alt"
+                                  aria-hidden="true"
+                                ></i>
                                 <span>View</span>
                               </a>
                             </li>
                             <li>
-                              <Link to="#" onClick={() => setShowTeamSubmenu9C1(!showTeamSubmenu9C1)}>
+                              <Link
+                                to="#"
+                                onClick={() =>
+                                  setShowTeamSubmenu9C1(!showTeamSubmenu9C1)
+                                }
+                              >
                                 <i className="fa fa-cog" aria-hidden="true"></i>
                                 <span>CMS</span>
-                                <i className={`fa fa-chevron-${showTeamSubmenu9C1 ? "up" : "down"} float-right`}></i>
+                                <i
+                                  className={`fa fa-chevron-${
+                                    showTeamSubmenu9C1 ? "up" : "down"
+                                  } float-right`}
+                                ></i>
                               </Link>
                               {showTeamSubmenu9C1 && (
                                 <ul className="sub-menu">
                                   <li>
                                     <Link to="">
-                                      <i className="fa fa-home" aria-hidden="true"></i>
+                                      <i
+                                        className="fa fa-home"
+                                        aria-hidden="true"
+                                      ></i>
                                       <span>Home</span>
                                     </Link>
                                   </li>
                                   <li>
                                     <Link
                                       to="/admin/paradigmshift/aboutus"
-                                      className={isActive("/admin/paradigmshift/aboutus") ? "active" : ""}
+                                      className={
+                                        isActive("/admin/paradigmshift/aboutus")
+                                          ? "active"
+                                          : ""
+                                      }
                                     >
-                                      <i className="fa fa-info-circle" aria-hidden="true"></i>
+                                      <i
+                                        className="fa fa-info-circle"
+                                        aria-hidden="true"
+                                      ></i>
                                       <span>About Us</span>
                                     </Link>
                                   </li>
@@ -1294,7 +1508,10 @@ const AdminSidebar = () => {
                             </li>
                             <li>
                               <Link to="">
-                                <i className="fa fa-user-shield" aria-hidden="true"></i>
+                                <i
+                                  className="fa fa-user-shield"
+                                  aria-hidden="true"
+                                ></i>
                                 <span>Admin</span>
                               </Link>
                             </li>
@@ -1303,33 +1520,61 @@ const AdminSidebar = () => {
                       </li>
 
                       <li>
-                        <Link to="#" onClick={() => setShowTeamSubmenu9D(!showTeamSubmenu9D)}>
+                        <Link
+                          to="#"
+                          onClick={() =>
+                            setShowTeamSubmenu9D(!showTeamSubmenu9D)
+                          }
+                        >
                           <i className="fa fa-handshake" aria-hidden="true"></i>
                           <span>Freevance</span>
-                          <i className={`fa fa-chevron-${showTeamSubmenu9D ? "up" : "down"} float-right`}></i>
+                          <i
+                            className={`fa fa-chevron-${
+                              showTeamSubmenu9D ? "up" : "down"
+                            } float-right`}
+                          ></i>
                         </Link>
                         {showTeamSubmenu9D && (
                           <ul className="sub-menu">
                             <li>
-                              <Link to="#" onClick={() => setShowTeamSubmenu9D1(!showTeamSubmenu9D1)}>
+                              <Link
+                                to="#"
+                                onClick={() =>
+                                  setShowTeamSubmenu9D1(!showTeamSubmenu9D1)
+                                }
+                              >
                                 <i className="fa fa-cog" aria-hidden="true"></i>
                                 <span>CMS</span>
-                                <i className={`fa fa-chevron-${showTeamSubmenu9D1 ? "up" : "down"} float-right`}></i>
+                                <i
+                                  className={`fa fa-chevron-${
+                                    showTeamSubmenu9D1 ? "up" : "down"
+                                  } float-right`}
+                                ></i>
                               </Link>
                               {showTeamSubmenu9D1 && (
                                 <ul className="sub-menu">
                                   <li>
                                     <Link to="">
-                                      <i className="fa fa-home" aria-hidden="true"></i>
+                                      <i
+                                        className="fa fa-home"
+                                        aria-hidden="true"
+                                      ></i>
                                       <span>Home</span>
                                     </Link>
                                   </li>
                                   <li>
                                     <Link
                                       to="/admin/freevance/aboutus"
-                                      className={isActive("/admin/freevance/aboutus") ? "active" : ""}
+                                      className={
+                                        isActive("/admin/freevance/aboutus")
+                                          ? "active"
+                                          : ""
+                                      }
                                     >
-                                      <i className="fa fa-info-circle" aria-hidden="true"></i>
+                                      <i
+                                        className="fa fa-info-circle"
+                                        aria-hidden="true"
+                                      ></i>
                                       <span>About Us</span>
                                     </Link>
                                   </li>
@@ -1341,33 +1586,64 @@ const AdminSidebar = () => {
                       </li>
 
                       <li>
-                        <Link to="#" onClick={() => setShowTeamSubmenu9E(!showTeamSubmenu9E)}>
-                          <i className="fa fa-shield-alt" aria-hidden="true"></i>
+                        <Link
+                          to="#"
+                          onClick={() =>
+                            setShowTeamSubmenu9E(!showTeamSubmenu9E)
+                          }
+                        >
+                          <i
+                            className="fa fa-shield-alt"
+                            aria-hidden="true"
+                          ></i>
                           <span>Legitzone</span>
-                          <i className={`fa fa-chevron-${showTeamSubmenu9E ? "up" : "down"} float-right`}></i>
+                          <i
+                            className={`fa fa-chevron-${
+                              showTeamSubmenu9E ? "up" : "down"
+                            } float-right`}
+                          ></i>
                         </Link>
                         {showTeamSubmenu9E && (
                           <ul className="sub-menu">
                             <li>
-                              <Link to="#" onClick={() => setShowTeamSubmenu9E1(!showTeamSubmenu9E1)}>
+                              <Link
+                                to="#"
+                                onClick={() =>
+                                  setShowTeamSubmenu9E1(!showTeamSubmenu9E1)
+                                }
+                              >
                                 <i className="fa fa-cog" aria-hidden="true"></i>
                                 <span>CMS</span>
-                                <i className={`fa fa-chevron-${showTeamSubmenu9E1 ? "up" : "down"} float-right`}></i>
+                                <i
+                                  className={`fa fa-chevron-${
+                                    showTeamSubmenu9E1 ? "up" : "down"
+                                  } float-right`}
+                                ></i>
                               </Link>
                               {showTeamSubmenu9E1 && (
                                 <ul className="sub-menu">
                                   <li>
                                     <Link to="">
-                                      <i className="fa fa-home" aria-hidden="true"></i>
+                                      <i
+                                        className="fa fa-home"
+                                        aria-hidden="true"
+                                      ></i>
                                       <span>Home</span>
                                     </Link>
                                   </li>
                                   <li>
                                     <Link
                                       to="/admin/legitzone/aboutus"
-                                      className={isActive("/admin/legitzone/aboutus") ? "active" : ""}
+                                      className={
+                                        isActive("/admin/legitzone/aboutus")
+                                          ? "active"
+                                          : ""
+                                      }
                                     >
-                                      <i className="fa fa-info-circle" aria-hidden="true"></i>
+                                      <i
+                                        className="fa fa-info-circle"
+                                        aria-hidden="true"
+                                      ></i>
                                       <span>About Us</span>
                                     </Link>
                                   </li>
@@ -1382,30 +1658,56 @@ const AdminSidebar = () => {
                 </li>
 
                 <li>
-                  <Link to="#" onClick={() => setShowTeamSubmenu10(!showTeamSubmenu10)}>
+                  <Link
+                    to="#"
+                    onClick={() => setShowTeamSubmenu10(!showTeamSubmenu10)}
+                  >
                     <i className="fa fa-server" aria-hidden="true"></i>
                     <span>Server</span>
-                    <i className={`fa fa-chevron-${showTeamSubmenu10 ? "up" : "down"} float-right`}></i>
+                    <i
+                      className={`fa fa-chevron-${
+                        showTeamSubmenu10 ? "up" : "down"
+                      } float-right`}
+                    ></i>
                   </Link>
                   {showTeamSubmenu10 && (
                     <ul className="sub-menu">
                       <li>
-                        <Link to="#" onClick={() => setShowTeamSubmenu10A(!showTeamSubmenu10A)}>
+                        <Link
+                          to="#"
+                          onClick={() =>
+                            setShowTeamSubmenu10A(!showTeamSubmenu10A)
+                          }
+                        >
                           <i className="fa fa-cloud" aria-hidden="true"></i>
                           <span>Hostinger</span>
-                          <i className={`fa fa-chevron-${showTeamSubmenu10A ? "up" : "down"} float-right`}></i>
+                          <i
+                            className={`fa fa-chevron-${
+                              showTeamSubmenu10A ? "up" : "down"
+                            } float-right`}
+                          ></i>
                         </Link>
                         {showTeamSubmenu10A && (
                           <ul className="sub-menu">
                             <li>
-                              <a href="https://auth.hostinger.com/login" target="_blank" rel="noopener noreferrer">
-                                <i className="fa fa-sign-in-alt" aria-hidden="true"></i>
+                              <a
+                                href="https://auth.hostinger.com/login"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <i
+                                  className="fa fa-sign-in-alt"
+                                  aria-hidden="true"
+                                ></i>
                                 <span>Hostinger Login</span>
                               </a>
                             </li>
                             <li>
                               <Link to="">
-                                <i className="fa fa-file-alt" aria-hidden="true"></i>
+                                <i
+                                  className="fa fa-file-alt"
+                                  aria-hidden="true"
+                                ></i>
                                 <span>Docs</span>
                               </Link>
                             </li>
@@ -1413,22 +1715,45 @@ const AdminSidebar = () => {
                         )}
                       </li>
                       <li>
-                        <Link to="#" onClick={() => setShowTeamSubmenu10B(!showTeamSubmenu10B)}>
+                        <Link
+                          to="#"
+                          onClick={() =>
+                            setShowTeamSubmenu10B(!showTeamSubmenu10B)
+                          }
+                        >
                           <i className="fa fa-aws" aria-hidden="true"></i>
                           <span>AWS</span>
-                          <i className={`fa fa-chevron-${showTeamSubmenu10B ? "up" : "down"} float-right`}></i>
+                          <i
+                            className={`fa fa-chevron-${
+                              showTeamSubmenu10B ? "up" : "down"
+                            } float-right`}
+                          ></i>
                         </Link>
                         {showTeamSubmenu10B && (
                           <ul className="sub-menu">
                             <li>
-                              <a href="https://signin.aws.amazon.com/signup?request_type=register" target="_blank" rel="noopener noreferrer">
-                                <i className="fa fa-sign-in-alt" aria-hidden="true"></i>
+                              <a
+                                href="https://signin.aws.amazon.com/signup?request_type=register"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <i
+                                  className="fa fa-sign-in-alt"
+                                  aria-hidden="true"
+                                ></i>
                                 <span>AWS Login</span>
                               </a>
                             </li>
                             <li>
-                              <a href="https://docs.google.com/document/d/122uV91vvjYjTybxWaKXqWG6GP40oFAc6/edit" target="_blank" rel="noopener noreferrer">
-                                <i className="fa fa-file-alt" aria-hidden="true"></i>
+                              <a
+                                href="https://docs.google.com/document/d/122uV91vvjYjTybxWaKXqWG6GP40oFAc6/edit"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <i
+                                  className="fa fa-file-alt"
+                                  aria-hidden="true"
+                                ></i>
                                 <span>Docs</span>
                               </a>
                             </li>
