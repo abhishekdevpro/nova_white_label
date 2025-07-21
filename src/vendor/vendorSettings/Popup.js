@@ -299,6 +299,7 @@ const VendorPartnershipForm = () => {
     launchTime: "",
   });
 
+
   const token = localStorage.getItem("vendorToken");
 
   // Fetch vendor profile data
@@ -417,6 +418,9 @@ const VendorPartnershipForm = () => {
   };
 
   const handleActivate = async () => {
+    if(profile?.plan_id ===1){
+      toast.error("You are not allowed to activate subdomain, please upgrade your plan to activate subdomain");
+      return;    }
     if (!formData.subdomain) {
       setError("Subdomain name is required!");
       return;
@@ -513,6 +517,7 @@ const VendorPartnershipForm = () => {
   if (isLoading) {
     return <div>Loading vendor information...</div>;
   }
+  console.log(profile,"formdata in vendor form")
 
   return (
     <>
@@ -541,7 +546,7 @@ const VendorPartnershipForm = () => {
             <ActivateButton
               onClick={handleActivate}
               type="button"
-              disabled={!formData.subdomain || isActivated}
+              disabled={!formData.subdomain || isActivated }
             >
               {isActivated ? (
                 <div className="flex items-center space-x-2 text-green-600">
