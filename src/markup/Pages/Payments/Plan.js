@@ -1,5 +1,6 @@
 export const plans = [
   {
+    plan_id: "2",
     id: "freemium",
     name: "Explore",
     price: "18.95",
@@ -40,6 +41,7 @@ export const plans = [
     ],
   },
   {
+    plan_id: "3",
     id: "elevate",
     name: "Elevate",
     price: "38.95",
@@ -80,7 +82,9 @@ export const plans = [
       </span>,
     ],
   },
+
   {
+    plan_id: "4",
     id: "promax",
     name: "Excel",
     price: "78.95",
@@ -119,6 +123,7 @@ export const plans = [
     ],
   },
   {
+    plan_id: "5",
     id: "ultraelite",
     name: "Elite ",
     price: "148.95",

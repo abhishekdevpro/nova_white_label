@@ -83,7 +83,7 @@ const PersonalInfoForm = ({ formData, setFormData, errors }) => {
       );
       setFormData((prev) => ({
         ...prev,
-        resumeOption: isFromList ? "select" : "upload",
+        resumeOption: isFromList ? "selected" : "upload",
       }));
     }
   }, [resumeList, formData.resume]);
@@ -93,7 +93,7 @@ const PersonalInfoForm = ({ formData, setFormData, errors }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
 
     // Clear previous file if user switches mode
-    if (name === "resumeOption" && value === "select") {
+    if (name === "resumeOption" && value === "selected") {
       setFormData((prev) => ({ ...prev, resume: "" }));
     }
     if (name === "resumeOption" && value === "upload") {
@@ -221,9 +221,11 @@ const PersonalInfoForm = ({ formData, setFormData, errors }) => {
           </label>
           <input
             type="text"
-            value={formData.location || "N/A"}
+            value={formData.location}
             className="form-control"
-            readOnly
+            onChange={handleChange}
+            name="location"
+            placeholder="location"
           />
         </div>
       </div>
@@ -234,7 +236,7 @@ const PersonalInfoForm = ({ formData, setFormData, errors }) => {
           <FileIcon className="me-2" />
           Resume
         </h5>
-        {["upload", "select"].map((option) => (
+        {["upload", "selected"].map((option) => (
           <div key={option} className="form-check mb-2">
             <input
               type="radio"
@@ -249,7 +251,7 @@ const PersonalInfoForm = ({ formData, setFormData, errors }) => {
               htmlFor={`resume-${option}`}
               className="form-check-label text-secondary"
             >
-              {option === "select"
+              {option === "selected"
                 ? "Select existing resume"
                 : "Upload a resume"}
             </label>
@@ -271,7 +273,7 @@ const PersonalInfoForm = ({ formData, setFormData, errors }) => {
         )}
 
         {/* Select Existing Resume */}
-        {formData.resumeOption === "select" && (
+        {formData.resumeOption === "selected" && (
           <div className="mt-3">
             {resumeList.length > 0 ? (
               <>
