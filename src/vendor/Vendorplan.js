@@ -5,6 +5,7 @@ import VendorCompanySideBar from "./Vendorsidebar";
 import Footer from "../markup/Layout/Footer";
 import VendorHeader from "../markup/Layout/VendorHeader";
 import axios from "axios";
+import { Button } from "react-bootstrap";
 
 function Vendorplan() {
   const [userData, setUserData] = useState(null);
@@ -83,6 +84,8 @@ function Vendorplan() {
   const currentPlanFeatures = planFeatures[currentPlanId];
   const currentPlanPrice = planPrices[currentPlanId];
   const isActivePlan = userData?.vendors_detail?.is_active_plan || false;
+  const isFreePlan = currentPlanId === 1;
+  const shouldShowFeatured = isActivePlan || isFreePlan; // Show featured styling for active plan OR free plan
   return (
     <>
       <div className="page-content bg-white">
@@ -115,8 +118,8 @@ function Vendorplan() {
                       {loading ? (
                         <div>Loading...</div>
                       ) : (
-                        <PricingCard featured={isActivePlan}>
-                          <CardHeader featured={isActivePlan}>
+                        <PricingCard featured={shouldShowFeatured}>
+                          <CardHeader featured={shouldShowFeatured}>
                             <h3 className="text-white">{currentPlanName}</h3>
                             <Price>
                               <span>
@@ -140,6 +143,9 @@ function Vendorplan() {
                             {/* <SelectButton primary={isActivePlan}>
                               {isActivePlan ? "Current Plan" : "Inactive Plan"}
                             </SelectButton> */}
+                            <Link to="/vendor/payments">
+                              <SelectButton>Upgrade your Plan</SelectButton>
+                            </Link>
                           </CardBody>
                         </PricingCard>
                       )}
@@ -269,15 +275,11 @@ const SelectButton = styled.button`
   padding: 0.75rem;
   border: none;
   border-radius: 5px;
-  background-color: ${(props) => (props.primary ? "#1C2957" : "#f8f9fa")};
-  color: ${(props) => (props.primary ? "white" : "#333")};
+  background-color: #1c2957;
+  color: white;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-
-  &:hover {
-    background-color: ${(props) => (props.primary ? "#161f3f" : "#e9ecef")};
-  }
 `;
 
 export default Vendorplan;

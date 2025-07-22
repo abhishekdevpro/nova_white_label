@@ -1,13 +1,12 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import { CheckCircle, Lock } from 'lucide-react';
-import styled from 'styled-components';
-import { plans } from './Plan';
-import UserHeader2 from '../../Layout/Header2';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { CheckCircle, Lock } from "lucide-react";
+import styled from "styled-components";
+import { plans } from "./Plan";
+import UserHeader2 from "../../Layout/Header2";
 // New plans array structure
-
 
 // Styled components (assumed to exist in original code)
 const PageContainer = styled.div`
@@ -136,7 +135,7 @@ const planBillingCycles = {
   freemium: "month",
   elevate: "month",
   promax: "month",
-  ultraelite: "month"
+  ultraelite: "month",
 };
 
 export default function PaymentPage() {
@@ -150,7 +149,7 @@ export default function PaymentPage() {
     acc[plan.id] = {
       ...plan,
       billingCycle: planBillingCycles[plan.id] || "month",
-      title: plan.name
+      title: plan.name,
     };
     return acc;
   }, {});
@@ -208,20 +207,20 @@ export default function PaymentPage() {
       toast.success("Please select a plan before proceeding.");
       return;
     }
-    
+
     const token = localStorage.getItem("jobSeekerLoginToken");
     if (!token) {
       toast.error("Authentication required. Please log in.");
       navigate("/login2"); // Redirect to login page if token is missing
       return;
     }
-    
+
     // Map selectedPlan to the correct plan_id for API
     const planMapping = {
-      freemium: 1,
-      elevate: 2,
-      promax: 3,
-      ultraelite: 4,
+      freemium: 2,
+      elevate: 3,
+      promax: 4,
+      ultraelite: 5,
     };
 
     const planId = planMapping[selectedPlanId];
@@ -260,7 +259,7 @@ export default function PaymentPage() {
 
   return (
     <>
-    <UserHeader2 />
+      <UserHeader2 />
       <PageContainer>
         <CardContainer>
           <ContentSection>
@@ -269,7 +268,7 @@ export default function PaymentPage() {
               <PlanName>
                 <strong>Plan:</strong> {selectedPlan ? selectedPlan.name : ""}
               </PlanName>
-              
+
               <FeaturesList>
                 {selectedPlan &&
                   selectedPlan.features.map((feature, index) => (
@@ -279,14 +278,15 @@ export default function PaymentPage() {
                     </FeatureItem>
                   ))}
 
-                {selectedPlan && planBillingCycles[selectedPlan.id] !== "single" && (
-                  <FeatureItem>
-                    <CheckCircle color="#2563eb" size={18} />
-                    <FeatureText>
-                      Automatically renews {getRenewalText(selectedPlan)}.
-                    </FeatureText>
-                  </FeatureItem>
-                )}
+                {selectedPlan &&
+                  planBillingCycles[selectedPlan.id] !== "single" && (
+                    <FeatureItem>
+                      <CheckCircle color="#2563eb" size={18} />
+                      <FeatureText>
+                        Automatically renews {getRenewalText(selectedPlan)}.
+                      </FeatureText>
+                    </FeatureItem>
+                  )}
               </FeaturesList>
 
               <PriceBox>
@@ -299,24 +299,22 @@ export default function PaymentPage() {
 
             {/* Terms and Conditions */}
             <TermsText>
-              By clicking <strong>"Start applying"</strong> below, you agree to our
+              By clicking <strong>"Start applying"</strong> below, you agree to
+              our
               <TermsLink href="#">Terms of Use</TermsLink>
               and
-              <TermsLink href="#">Privacy Policy</TermsLink>
-              . You also understand that you will be billed
+              <TermsLink href="#">Privacy Policy</TermsLink>. You also
+              understand that you will be billed
               <strong> {selectedPlan ? formatPrice(selectedPlan) : ""}</strong>,
               which will automatically renew
-              {selectedPlan && selectedPlan.id !== "freemium" ? " " + getRenewalText(selectedPlan) : ""}.
-              <strong> You can cancel at any time.</strong>
+              {selectedPlan && selectedPlan.id !== ""
+                ? " " + getRenewalText(selectedPlan)
+                : ""}
+              .<strong> You can cancel at any time.</strong>
             </TermsText>
 
             {/* Start Applying Button */}
-            <ActionButton 
-              onClick={handleCheckout}
-              disabled={selectedPlanId === "freemium"}
-            >
-              Start applying
-            </ActionButton>
+            <ActionButton onClick={handleCheckout}>Start applying</ActionButton>
 
             {/* Secure Checkout */}
             <SecureCheckoutLabel>

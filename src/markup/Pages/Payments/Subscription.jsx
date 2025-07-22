@@ -60,7 +60,7 @@ const InfoSection = styled.div`
 
 const Divider = styled.div`
   display: none;
-  
+
   @media (min-width: 768px) {
     display: block;
     border-left: 1px solid #e5e7eb;
@@ -86,7 +86,7 @@ const Text = styled.p`
 
 const StatusText = styled.span`
   font-weight: 500;
-  color: ${props => props.active ? "#059669" : "#dc2626"};
+  color: ${(props) => (props.active ? "#059669" : "#dc2626")};
 `;
 
 const List = styled.ul`
@@ -96,7 +96,7 @@ const List = styled.ul`
 `;
 
 const ListItem = styled.li`
-  font-size: ${props => props.small ? "0.9375rem" : "1rem"};
+  font-size: ${(props) => (props.small ? "0.9375rem" : "1rem")};
 `;
 
 const ButtonContainer = styled.div`
@@ -108,22 +108,22 @@ const Button = styled.button`
   margin-top: 0.75rem;
   padding: 0.5rem 1rem;
   border-radius: 0.375rem;
-  background-color: ${props => {
+  background-color: ${(props) => {
     if (props.disabled) return "#9ca3af";
     if (props.danger) return "#dc2626";
     return "#2563eb";
   }};
   color: white;
-  cursor: ${props => props.disabled ? "not-allowed" : "pointer"};
-  
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+
   &:hover {
-    background-color: ${props => {
+    background-color: ${(props) => {
       if (props.disabled) return "#9ca3af";
       if (props.danger) return "#b91c1c";
       return "#1d4ed8";
     }};
   }
-  
+
   @media (min-width: 768px) {
     margin-top: 0;
   }
@@ -144,7 +144,7 @@ const FlexContainer = styled.div`
   justify-content: space-between;
   align-items: flex-start;
   margin-top: 0.75rem;
-  
+
   @media (min-width: 768px) {
     flex-direction: row;
     align-items: center;
@@ -155,8 +155,6 @@ export default function Subscription() {
   const [status, setStatus] = useState("Inactive");
   const [accountId, setAccountId] = useState();
   const [userData, setUserData] = useState(null);
-
-
 
   useEffect(() => {
     setAccountId(localStorage.getItem("ID"));
@@ -184,7 +182,9 @@ export default function Subscription() {
       if (response.status === 200) {
         toast.success("Your subscription has been canceled.");
       } else {
-        toast.error(response.data.message || "Failed to cancel the subscription.");
+        toast.error(
+          response.data.message || "Failed to cancel the subscription."
+        );
       }
     } catch (error) {
       console.error("Error canceling subscription:", error);
@@ -193,7 +193,10 @@ export default function Subscription() {
         localStorage.removeItem("token");
         window.location.href = "/login";
       } else {
-        toast.error(error.response?.data?.message || "An error occurred. Please try again later.");
+        toast.error(
+          error.response?.data?.message ||
+            "An error occurred. Please try again later."
+        );
       }
     }
   };
@@ -249,10 +252,12 @@ export default function Subscription() {
             <Divider />
 
             <InfoSection>
-              <Text style={{ fontWeight: 600, color: "#1f2937" }}>Available days a week:</Text>
+              <Text style={{ fontWeight: 600, color: "#1f2937" }}>
+                Available days a week:
+              </Text>
               <List>
-                <ListItem>Monday-Friday: 8 AM - 8 PM (IST)</ListItem>
-                <ListItem>Saturday: 8 AM - 5 PM (IST)</ListItem>
+                <ListItem>Monday-Friday: 9 AM - 6 PM (EST)</ListItem>
+                <ListItem>Saturday: 9 AM - 6 PM (EST)</ListItem>
               </List>
             </InfoSection>
           </InfoBox>
@@ -271,9 +276,7 @@ export default function Subscription() {
             <FlexContainer>
               <Text>
                 Status:{" "}
-                <StatusText active={status === "Active"}>
-                  {status}
-                </StatusText>
+                <StatusText active={status === "Active"}>{status}</StatusText>
               </Text>
 
               <ButtonContainer>
@@ -282,7 +285,9 @@ export default function Subscription() {
                 </Link>
                 <Button
                   danger
-                  disabled={userData?.plan_id === 1 || !userData?.is_active_plan}
+                  disabled={
+                    userData?.plan_id === 1 || !userData?.is_active_plan
+                  }
                   onClick={handleCancelSubscription}
                 >
                   Cancel Subscription
@@ -295,9 +300,10 @@ export default function Subscription() {
               {userData?.plan_id ? (
                 <span style={{ fontWeight: 500 }}>
                   {userData.plan_id === 1 && "Free Plan"}
-                  {userData.plan_id === 2 && "Single Pass"}
-                  {userData.plan_id === 3 && "AI Pro Month"}
-                  {userData.plan_id === 4 && "AI Pro Yearly"}
+                  {userData.plan_id === 2 && "Explore"}
+                  {userData.plan_id === 3 && "Elevate"}
+                  {userData.plan_id === 4 && "Excel"}
+                  {userData.plan_id === 5 && "Elite"}
                 </span>
               ) : (
                 "N/A"
@@ -305,7 +311,8 @@ export default function Subscription() {
             </Text>
 
             <Text style={{ marginTop: "1rem" }}>
-              For more information or changes to your subscription, contact us at
+              For more information or changes to your subscription, contact us
+              at
               <Link href="mailto:customersupport@novajobs.us">
                 {" "}
                 customersupport@novajobs.us
