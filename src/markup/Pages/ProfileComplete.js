@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -12,25 +11,34 @@ const ProfileComplete = () => {
     phone: "",
     resume: null,
   });
- const navigate = useNavigate()
+  const navigate = useNavigate();
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [loginCount, setLoginCount] = useState(0);
+
   const token = localStorage.getItem("jobSeekerLoginToken");
 
-  // ✅ GET existing profile data on mount
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         const response = await axios.get(
           "https://apiwl.novajobs.us/api/jobseeker/user-profile",
           {
-            headers: {
-              Authorization: `${token}`,
-            },
+            headers: { Authorization: `${token}` },
           }
         );
 
-        const { first_name, last_name, email, phone } = response.data.data;
+        const {
+          first_name,
+          last_name,
+          email,
+          phone,
+          rb_job_seeker_resumes,
+          login_count,
+          // cities,
+          // states,
+          // countries,
+        } = response.data.data;
 
         setJobProfileValues((prev) => ({
           ...prev,
@@ -38,9 +46,12 @@ const ProfileComplete = () => {
           last_name: last_name || "",
           email: email || "",
           phone: phone || "",
+          // city: cities?.name || "",
+          // state: states?.name || "",
+          // country: countries?.name || "",
+          uploadedResume: rb_job_seeker_resumes?.file_path || null, // ✅ store existing resume
         }));
       } catch (error) {
-        console.error("Failed to fetch profile data", error);
         toast.error("Failed to load profile info");
       }
     };
@@ -60,7 +71,14 @@ const ProfileComplete = () => {
     if (!jobProfileValues.phone.trim()) temp.phone = "Phone is required";
     else if (!/^[0-9]{10}$/.test(jobProfileValues.phone))
       temp.phone = "Enter valid 10-digit phone number";
-    if (!jobProfileValues.resume) temp.resume = "Resume is required";
+
+    if (
+      loginCount > 1 && // ← Only validate resume if loginCount > 1
+      !jobProfileValues.resume &&
+      !jobProfileValues.uploadedResume
+    ) {
+      temp.resume = "Resume is required";
+    }
 
     setErrors(temp);
     return Object.keys(temp).length === 0;
@@ -81,20 +99,32 @@ const ProfileComplete = () => {
     setLoading(true);
 
     try {
-      // Step 1: Upload Resume
-      const resumeForm = new FormData();
-      resumeForm.append("files", jobProfileValues.resume);
+      // Step 1: Upload resume only if a new file is selected
+      if (jobProfileValues.resume) {
+        const resumeForm = new FormData();
+        resumeForm.append("files", jobProfileValues.resume);
 
-     const Resumeresponse =  await axios.post("https://apiwl.novajobs.us/api/user/resume-upload", resumeForm, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `${token}`,
-        },
-      });
-      if(Resumeresponse.data.status === "success" || Resumeresponse.data.code ===200)
-      // Step 2: Update profile
-      {
-        const profileForm = new FormData();
+        const Resumeresponse = await axios.post(
+          "https://apiwl.novajobs.us/api/user/resume-upload",
+          resumeForm,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `${token}`,
+            },
+          }
+        );
+
+        if (
+          Resumeresponse.data.status !== "success" &&
+          Resumeresponse.data.code !== 200
+        ) {
+          throw new Error("Resume upload failed");
+        }
+      }
+
+      // Step 2: Update profile (always)
+      const profileForm = new FormData();
       profileForm.append("first_name", jobProfileValues.first_name);
       profileForm.append("last_name", jobProfileValues.last_name);
       profileForm.append("email", jobProfileValues.email);
@@ -110,29 +140,36 @@ const ProfileComplete = () => {
           },
         }
       );
-     if(response.data.status === "success"|| response.data.code===200){
-         toast.success(response.data.message || "Profile updated successfully!");
-         navigate('/user/dashboard')
-     }
+
+      if (response.data.status === "success" || response.data.code === 200) {
+        toast.success(response.data.message || "Profile updated successfully!");
+        navigate("/user/dashboard");
       }
     } catch (error) {
-      console.error("Error uploading:", error);
-      toast.error(error?.response?.data?.message || "Error while submitting. Please try again.");
+      console.error("Error submitting form:", error);
+      toast.error(
+        error?.response?.data?.message ||
+          "Error while submitting. Please try again."
+      );
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="d-flex align-items-center justify-content-center" style={{ minHeight: "100vh", background: "#f7f7f7" }}>
+    <div
+      className="d-flex align-items-center justify-content-center"
+      style={{ minHeight: "100vh", background: "#f7f7f7" }}
+    >
       <div className="container" style={{ maxWidth: "600px", width: "100%" }}>
         <div className="job-bx job-profile bg-white p-4 rounded shadow">
           <div className="d-flex justify-content-between align-items-center mb-3">
-            <h5 className="font-weight-700 text-uppercase">Complete Your Profile</h5>
+            <h5 className="font-weight-700 text-uppercase">
+              Complete Your Profile
+            </h5>
           </div>
           <form onSubmit={handleSubmit}>
             <div className="row">
-
               {/* First Name */}
               <div className="col-12">
                 <div className="form-group">
@@ -147,7 +184,9 @@ const ProfileComplete = () => {
                     maxLength={20}
                   />
                 </div>
-                {errors.first_name && <p className="text-danger">{errors.first_name}</p>}
+                {errors.first_name && (
+                  <p className="text-danger">{errors.first_name}</p>
+                )}
               </div>
 
               {/* Last Name */}
@@ -164,7 +203,9 @@ const ProfileComplete = () => {
                     maxLength={20}
                   />
                 </div>
-                {errors.last_name && <p className="text-danger">{errors.last_name}</p>}
+                {errors.last_name && (
+                  <p className="text-danger">{errors.last_name}</p>
+                )}
               </div>
 
               {/* Email */}
@@ -202,7 +243,7 @@ const ProfileComplete = () => {
               </div>
 
               {/* Resume Upload */}
-              <div className="col-12">
+              {/* <div className="col-12">
                 <div className="form-group">
                   <label htmlFor="resume">Resume (PDF):</label>
                   <input
@@ -214,7 +255,52 @@ const ProfileComplete = () => {
                     accept=".pdf"
                   />
                 </div>
-                {errors.resume && <p className="text-danger">{errors.resume}</p>}
+                {errors.resume && (
+                  <p className="text-danger">{errors.resume}</p>
+                )}
+              </div> */}
+              {/* Resume Upload */}
+              <div className="col-12">
+                {loginCount <= 1 && (
+                  <p className="text-info">
+                    Resume is optional for first-time login. You can upload it
+                    later.
+                  </p>
+                )}
+
+                <div className="form-group">
+                  <label htmlFor="resume">Resume (PDF):</label>
+                  <input
+                    type="file"
+                    className="form-control"
+                    accept=".pdf,.doc,.docx"
+                    name="resume"
+                    id="resume"
+                    onChange={(e) =>
+                      setJobProfileValues({
+                        ...jobProfileValues,
+                        resume: e.target.files[0], // ← SET THE FILE!
+                      })
+                    }
+                    // accept=".pdf"
+                  />
+                  {/* Show existing uploaded file name */}
+                  {jobProfileValues.uploadedResume && (
+                    <p className="mt-2 text-muted">
+                      Uploaded:{" "}
+                      <a
+                        href={`https://apiwl.novajobs.us${jobProfileValues.uploadedResume}`}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {jobProfileValues.uploadedResume.split("/").pop()}
+                      </a>
+                    </p>
+                  )}
+                </div>
+                {errors.resume && (
+                  <p className="text-danger">{errors.resume}</p>
+                )}
               </div>
 
               {/* Submit */}

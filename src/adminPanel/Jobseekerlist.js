@@ -311,26 +311,29 @@ const Jobseekerlist = () => {
     }
   };
 
-  const handleSetUpInetview = async ()=>{
-     try {
-       const res = await axios.get(
-         `https://apiwl.novajobs.us/api/admin/schedule-interview?meeting-time=15`,
-         {
-           headers: {
-             Authorization: localStorage.getItem("authToken"),
-           },
-         }
-         
-       );
-       console.log(res.data.data.calendly_link, "schedule interview");
-       if(res.data.data.calendly_link){
-          window.open(res.data.data.calendly_link, "_blank", "noopener,noreferrer");
-       }
+  const handleSetUpInetview = async () => {
+    try {
+      const res = await axios.get(
+        `https://apiwl.novajobs.us/api/admin/schedule-interview?meeting-time=15`,
+        {
+          headers: {
+            Authorization: localStorage.getItem("authToken"),
+          },
+        }
+      );
+      console.log(res.data.data.calendly_link, "schedule interview");
+      if (res.data.data.calendly_link) {
+        window.open(
+          res.data.data.calendly_link,
+          "_blank",
+          "noopener,noreferrer"
+        );
+      }
       //  console.log(res,"schedule interview");
-     } catch (error) {
-       console.log(error,"Error while scheduling interview");
-     }
-  }
+    } catch (error) {
+      console.log(error, "Error while scheduling interview");
+    }
+  };
 
   const handleClosePDF = () => {
     setSelectedPDF(null);
@@ -636,12 +639,13 @@ const Jobseekerlist = () => {
                                           <Dropdown.Item className="py-2 px-3 text-sm text-dark fw-medium hover-bg-light">
                                             <MessageCircle size={16} /> Message
                                           </Dropdown.Item>
-                                          <Dropdown.Item className="py-2 px-3 text-sm text-dark fw-medium hover-bg-light"
-                                            onClick={()=>handleSetUpInetview()}
+                                          <Dropdown.Item
+                                            className="py-2 px-3 text-sm text-dark fw-medium hover-bg-light"
+                                            onClick={() =>
+                                              handleSetUpInetview()
+                                            }
                                           >
-                                            <Calendar size={16}
-                                            
-                                            /> Set up
+                                            <Calendar size={16} /> Set up
                                             Interview
                                           </Dropdown.Item>
                                           {/* <Dropdown.Item className="py-2 px-3 text-sm text-dark fw-medium hover-bg-light">

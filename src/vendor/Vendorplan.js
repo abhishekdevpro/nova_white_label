@@ -218,18 +218,17 @@ const PricingCard = styled.div`
   width: 300px;
   overflow: hidden;
   transition: transform 0.3s ease;
-  border: ${(props) =>
-    props.featured ? "2px solid #1C2957" : "1px solid #e0e0e0"};
-  transform: ${(props) => (props.featured ? "scale(1.05)" : "none")};
+  border: "2px solid #1C2957";
+  transform: "scale(1.05)";
 
   &:hover {
-    transform: ${(props) => (props.featured ? "scale(1.08)" : "scale(1.03)")};
+    transform: "scale(1.08)";
   }
 `;
 
 const CardHeader = styled.div`
-  background: ${(props) => (props.featured ? "#1C2957" : "#f8f9fa")};
-  color: ${(props) => (props.featured ? "white" : "#333")};
+  background: #1c2957;
+  color: white;
   padding: 2rem;
   text-align: center;
 
@@ -281,5 +280,4 @@ const SelectButton = styled.button`
   cursor: pointer;
   transition: all 0.3s ease;
 `;
-
 export default Vendorplan;

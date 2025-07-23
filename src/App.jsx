@@ -226,6 +226,7 @@ import ProfileComplete from "./markup/Pages/ProfileComplete.js";
 import GoogleOneTapLoginJobseeker from "./components/GoogleOneTapJobseeker.jsx";
 import SubscriptionPlan from "./vendor/Subscription/index.jsx";
 import VendorDashboard from "./vendor/VendorDashboard.jsx";
+import CurrentUserPlan from "./markup/Pages/CurrentUserPlan.js";
 function App() {
   const dispatch = useDispatch();
 
@@ -729,6 +730,14 @@ function App() {
             element={
               <UserPrivateRoute>
                 <Jobprofile />
+              </UserPrivateRoute>
+            }
+          />
+          <Route
+            path="current-plan"
+            element={
+              <UserPrivateRoute>
+                <CurrentUserPlan />
               </UserPrivateRoute>
             }
           />

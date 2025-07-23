@@ -180,7 +180,7 @@ export default function PaymentSuccessPage() {
   }, [location, navigate]);
 
   const goToDashboard = () => {
-    navigate(`/`);
+    navigate(`/user/dashboard`);
   };
 
   if (loading) {

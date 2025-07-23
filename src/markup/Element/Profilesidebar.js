@@ -22,6 +22,8 @@ import {
   User,
   X,
 } from "lucide-react";
+import { toast } from "react-toastify";
+import styled from "styled-components";
 // import { FaStar } from "react-icons/fa6";
 
 function Profilesidebar({ data }) {
@@ -30,6 +32,38 @@ function Profilesidebar({ data }) {
   const [token, setToken] = useState(null);
   const [servicesPermissions, setServicesPermissions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [userData, setUserData] = useState(null);
+  const planName = {
+    1: "Free",
+    2: "Explore",
+    3: "Elevate",
+    4: "Excel",
+    5: "Elite",
+  };
+
+  const getReq = () => {
+    const token = localStorage.getItem("jobSeekerLoginToken");
+    axios({
+      method: "GET",
+      url: "https://apiwl.novajobs.us/api/jobseeker/user-profile",
+      headers: {
+        Authorization: token,
+      },
+    })
+      .then((response) => {
+        const data = response.data.data;
+        setUserData(data);
+      })
+      .catch((err) => {
+        toast.error(
+          err?.response?.data?.message || "Failed to load user profile."
+        );
+      });
+  };
+
+  useEffect(() => {
+    getReq();
+  }, []);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("jobSeekerLoginToken");
@@ -133,6 +167,7 @@ function Profilesidebar({ data }) {
                   <span>Dashboard</span>
                 </Link>
               </li>
+
               <li>
                 <Link
                   to={"/user/jobs-profile"}
@@ -143,6 +178,23 @@ function Profilesidebar({ data }) {
                   <User className="me-2" />
                   <span>Profile</span>
                 </Link>
+              </li>
+              <li>
+                <a
+                  // href={`/airesume/payment?tokenbyurl=${token}`
+                  href="/user/current-plan"
+                  className={data === "currentplan" ? "active" : null}
+                  onClick={() => setSidebarOpen(false)}
+                  style={{ fontSize: "15px" }}
+                >
+                  <BadgeDollarSign className="me-2" />
+                  <span>
+                    Current Plan{" "}
+                    <FreeBadge>
+                      {userData?.plan_id ? planName[userData.plan_id] : "Free"}
+                    </FreeBadge>
+                  </span>
+                </a>
               </li>
               <li>
                 <Link
@@ -294,10 +346,11 @@ function Profilesidebar({ data }) {
                   <span>Add Referral </span>
                 </Link>
               </li>
+
               <li>
                 <a
-                  href={`/airesume/payment?tokenbyurl=${token}`}
-                  className={data === "jobs-referral" ? "active" : null}
+                  href="/user/payment-plans"
+                  className={data === "plan" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
                   style={{ fontSize: "15px" }}
                 >
@@ -345,5 +398,14 @@ function Profilesidebar({ data }) {
     </>
   );
 }
+const FreeBadge = styled.span`
+  background-color: #28a745;
+  color: white;
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  border-radius: 10px;
+  margin-left: 5px;
+  font-weight: bold;
+`;
 
 export default Profilesidebar;
