@@ -60,9 +60,9 @@ function EmployeeBrowsecandidates() {
     setVisibleEmailId((prevId) => (prevId === id ? null : id));
   };
 
-  const handleTogglePhone =(id)=>{
-    setShowPhone((prevId)=>(prevId===id ? null : id))
-  }
+  const handleTogglePhone = (id) => {
+    setShowPhone((prevId) => (prevId === id ? null : id));
+  };
   const [countries, setCountries] = useState([
     {
       id: 0,
@@ -246,6 +246,12 @@ function EmployeeBrowsecandidates() {
     );
   };
 
+  const handleSearchKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleGetReq();
+    }
+  };
+
   const [educations, setEducations] = useState([]);
   useEffect(() => {
     axios({
@@ -278,12 +284,20 @@ function EmployeeBrowsecandidates() {
     params.append("salary_range", browseCandidateValues.salary);
   }
 
+  // Search by name (first name, last name), job title, or job seeker UUID
   if (localStorage.getItem("profession_title")) {
     params.append("title_keywords", localStorage.getItem("profession_title"));
   } else if (browseCandidateValues.search_input) {
-    params.append("title_keywords", browseCandidateValues.search_input);
+    // Search by name, job title, or job seeker UUID
+    params.append("search", browseCandidateValues.search_input);
+    params.append("keyword", browseCandidateValues.search_input);
+    params.append("q", browseCandidateValues.search_input);
+    // Try specific field search
+    params.append("job_seeker_uuid", browseCandidateValues.search_input);
+    params.append("first_name", browseCandidateValues.search_input);
   }
 
+  // Search by location
   if (selectedState) {
     params.append("location", selectedState);
   }
@@ -310,12 +324,20 @@ function EmployeeBrowsecandidates() {
       params.append("salary_range", browseCandidateValues.salary);
     }
 
+    // Search by name (first name, last name), job title, or job seeker UUID
     if (localStorage.getItem("profession_title")) {
       params.append("title_keywords", localStorage.getItem("profession_title"));
     } else if (browseCandidateValues.search_input) {
-      params.append("title_keywords", browseCandidateValues.search_input);
+      // Search by name, job title, or job seeker UUID
+      params.append("search", browseCandidateValues.search_input);
+      params.append("keyword", browseCandidateValues.search_input);
+      params.append("q", browseCandidateValues.search_input);
+      // Try specific field search
+      params.append("job_seeker_uuid", browseCandidateValues.search_input);
+      params.append("first_name", browseCandidateValues.search_input);
     }
 
+    // Search by location
     if (selectedState) {
       params.append("location", selectedState);
     }
@@ -336,7 +358,37 @@ function EmployeeBrowsecandidates() {
     })
       .then((response) => {
         if (response.data.data) {
-          dispatch(setBrowseCandidateData(response.data.data));
+          let filteredData = response.data.data;
+
+          // Client-side filtering as fallback if API doesn't filter properly
+          if (
+            browseCandidateValues.search_input &&
+            !localStorage.getItem("profession_title")
+          ) {
+            const searchTerm = browseCandidateValues.search_input.toLowerCase();
+            filteredData = response.data.data.filter((candidate) => {
+              const jobSeekerDetail = candidate.jobskkers_detail;
+              return (
+                jobSeekerDetail?.job_seeker_uuid
+                  ?.toLowerCase()
+                  .includes(searchTerm) ||
+                jobSeekerDetail?.first_name
+                  ?.toLowerCase()
+                  .includes(searchTerm) ||
+                jobSeekerDetail?.last_name
+                  ?.toLowerCase()
+                  .includes(searchTerm) ||
+                jobSeekerDetail?.job_title
+                  ?.toLowerCase()
+                  .includes(searchTerm) ||
+                jobSeekerDetail?.current_location
+                  ?.toLowerCase()
+                  .includes(searchTerm)
+              );
+            });
+          }
+
+          dispatch(setBrowseCandidateData(filteredData));
           setTotalPages(Math.ceil(response.data.total_records / 5));
           setShowSkeleton(false);
         } else {
@@ -396,10 +448,11 @@ function EmployeeBrowsecandidates() {
                         name="search_input"
                         id="search_input"
                         onChange={handleChange}
+                        onKeyPress={handleSearchKeyPress}
                         value={browseCandidateValues.search_input}
                         autoComplete="false"
                         className="w-100 p-2 h-100 bg-transparent border-0 "
-                        placeholder="search here..."
+                        placeholder="Search by name, job title, or candidate ID..."
                         style={{ outline: "none" }}
                       />
                     </div>
@@ -546,10 +599,7 @@ function EmployeeBrowsecandidates() {
                                                 ?.linkedin_link || "#"
                                             }`}
                                           >
-                                            <button
-                                              className="site-button btn-sm"
-                                              
-                                            >
+                                            <button className="site-button btn-sm">
                                               View Profile
                                             </button>
                                           </Link>
@@ -936,15 +986,18 @@ function EmployeeBrowsecandidates() {
                                       <div className="d-flex gap-3">
                                         {/* View Phone Button */}
                                         <button
-                                        key={item?.jobskkers_detail.id}
-                                          onClick={() =>
-                                            toast.warn("Upgrade your plan,to view this")
+                                          key={item?.jobskkers_detail.id}
+                                          onClick={
+                                            () =>
+                                              toast.warn(
+                                                "Upgrade your plan,to view this"
+                                              )
                                             // handleTogglePhone(item?.jobskkers_detail.id)
                                           }
                                           className="site-button btn-sm"
-                                          
                                         >
-                                          {showPhone === item?.jobskkers_detail.id
+                                          {showPhone ===
+                                          item?.jobskkers_detail.id
                                             ? item?.jobskkers_detail?.phone
                                             : "View Phone Number"}
                                         </button>
@@ -952,14 +1005,17 @@ function EmployeeBrowsecandidates() {
                                         {/* View Email Button */}
                                         <button
                                           key={item?.jobskkers_detail.id}
-                                          onClick={() =>
-                                            toast.warn("Upgrade your plan,to view this")
+                                          onClick={
+                                            () =>
+                                              toast.warn(
+                                                "Upgrade your plan,to view this"
+                                              )
                                             // handleToggleEmail(item?.jobskkers_detail.id)
                                           }
                                           className="site-button btn-sm"
-                                          
                                         >
-                                          {visibleEmailId === item?.jobskkers_detail.id
+                                          {visibleEmailId ===
+                                          item?.jobskkers_detail.id
                                             ? item?.jobskkers_detail?.email
                                             : "View Email"}
                                         </button>

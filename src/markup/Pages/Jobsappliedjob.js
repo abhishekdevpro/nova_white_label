@@ -23,6 +23,8 @@ const postBlog = [
 ];
 function Jobsappliedjob() {
   const [skeleton, setSkeleton] = useState(true);
+  const [sortBy, setSortBy] = useState("newest");
+
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const jobApplicationData = useSelector(
@@ -140,11 +142,13 @@ function Jobsappliedjob() {
                     </h5>
                     <div className="float-right">
                       <span className="select-title">Sort by freshness</span>
-                      <select className="custom-btn">
-                        <option>Last 2 Months</option>
-                        <option>Last Months</option>
-                        <option>Last Weeks</option>
-                        <option>Last 3 Days</option>
+                      <select
+                        className="custom-btn"
+                        value={sortBy}
+                        onChange={(e) => setSortBy(e.target.value)}
+                      >
+                        <option value="newest">Newest</option>
+                        <option value="oldest">Oldest</option>
                       </select>
                     </div>
                   </div>
@@ -153,16 +157,34 @@ function Jobsappliedjob() {
                   ) : (
                     <div>
                       {data ? (
+                        // <ul className="post-job-bx browse-job">
+                        //   {/*  */}
+                        //   {data?.map((item, index) => (
+                        //     <JobCard
+                        //       key={item.s_no}
+                        //       job={item}
+                        //       onSelect={() => setSelectedJob(item)}
+                        //       onToggleFavorite={fetchAppliedJobs}
+                        //     />
+                        //   ))}
+                        // </ul>
                         <ul className="post-job-bx browse-job">
-                          {/*  */}
-                          {data?.map((item, index) => (
-                            <JobCard
-                              key={item.s_no}
-                              job={item}
-                              onSelect={() => setSelectedJob(item)}
-                              onToggleFavorite={fetchAppliedJobs}
-                            />
-                          ))}
+                          {[...data]
+                            .sort((a, b) => {
+                              const dateA = new Date(a?.job_detail?.created_at);
+                              const dateB = new Date(b?.job_detail?.created_at);
+                              return sortBy === "newest"
+                                ? dateB - dateA
+                                : dateA - dateB;
+                            })
+                            .map((item) => (
+                              <JobCard
+                                key={item.s_no}
+                                job={item}
+                                onSelect={() => setSelectedJob(item)}
+                                onToggleFavorite={fetchAppliedJobs}
+                              />
+                            ))}
                         </ul>
                       ) : (
                         <div className="d-flex w-100  justify-content-center ">

@@ -222,7 +222,9 @@ export default function PaymentPage() {
       promax: 4,
       ultraelite: 5,
     };
-
+    const url = window.location.origin.includes("localhost")
+      ? "https://novajobs.us"
+      : window.location.origin;
     const planId = planMapping[selectedPlanId];
 
     try {
@@ -230,6 +232,7 @@ export default function PaymentPage() {
         `${BASE_URL}/api/user/payment/checkout`,
         {
           plan_id: planId,
+          domain: url,
         },
         {
           headers: {
