@@ -121,8 +121,8 @@ function Homepage() {
   const isLocalhostOrNovajobs = () => {
     const currentUrl = window.location.origin;
     console.log(currentUrl, ">>>>>current url");
-    if(currentUrl === "https://pompanobeach.novajobs.us/"){
-      setShowUltraAuraPopup(false)
+    if (currentUrl.includes("pompanobeach.novajobs.us")) {
+      setShowUltraAuraPopup(false);
     }
     return (
       currentUrl.includes("localhost") ||
