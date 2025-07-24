@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "./../Layout/Footer";
 // import CountUp from "react-countup";
@@ -121,9 +121,7 @@ function Homepage() {
   const isLocalhostOrNovajobs = () => {
     const currentUrl = window.location.origin;
     console.log(currentUrl, ">>>>>current url");
-    if (currentUrl.includes("pompanobeach.novajobs.us")) {
-      setShowUltraAuraPopup(false);
-    }
+   
     return (
       currentUrl.includes("localhost") ||
       (currentUrl.includes("novajobs.us") &&
@@ -135,6 +133,12 @@ function Homepage() {
   //   window.location.href = `/employer/register-2`;
   //   window.scrollTo(0, 0);
   // };
+
+  useEffect(() => {
+    if (window.location.origin.includes("pompanobeach.novajobs.us")) {
+      setShowUltraAuraPopup(false);
+    }
+  }, []); 
   const handleBuilder = () => {
     if (token) {
       window.location.href = `/airesume?tokenbyurl=${token}`;
