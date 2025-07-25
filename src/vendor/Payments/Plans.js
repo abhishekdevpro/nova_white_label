@@ -84,6 +84,10 @@ export default function CheckoutPage() {
     }
   }, [location, navigate]);
 
+    const url = window.location.origin.includes("localhost")
+    ? "https://novajobs.us"
+    : window.location.origin;
+
   const handleCheckout = async () => {
     if (!selectedPlan) {
       toast.error("Please select a plan before proceeding.");
@@ -103,6 +107,7 @@ export default function CheckoutPage() {
         `https://apiwl.novajobs.us/api/admin/vendor/payment/checkout`,
         {
           plan_id: selectedPlan.id,
+          domain:url
           // planName: selectedPlan.title,
           // paymentMethod: paymentMethod,
         },

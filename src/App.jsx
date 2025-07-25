@@ -227,6 +227,7 @@ import GoogleOneTapLoginJobseeker from "./components/GoogleOneTapJobseeker.jsx";
 import SubscriptionPlan from "./vendor/Subscription/index.jsx";
 import VendorDashboard from "./vendor/VendorDashboard.jsx";
 import CurrentUserPlan from "./markup/Pages/CurrentUserPlan.js";
+import JobSeekerDetails from "./employeeMarkup/Pages/candidate-profile/index.jsx";
 function App() {
   const dispatch = useDispatch();
 
@@ -1304,6 +1305,14 @@ function App() {
             element={
               <EmployeePrivateRoute>
                 <EmployeeBrowsecandidates />
+              </EmployeePrivateRoute>
+            }
+          />
+          <Route
+            path="candidate-profile/:id"
+            element={
+              <EmployeePrivateRoute>
+                <JobSeekerDetails />
               </EmployeePrivateRoute>
             }
           />

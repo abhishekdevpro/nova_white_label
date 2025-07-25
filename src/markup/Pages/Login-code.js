@@ -58,8 +58,8 @@ const LoginCode = () => {
         );
         if (
           !response.data.data.first_name ||
-          !response.data.data.last_name ||
-          !response.data.data.rb_job_seeker_resumes.file_path
+          !response.data.data.last_name
+          // !response.data.data.rb_job_seeker_resumes.file_path
         ) {
           navigate(`/user/profile`);
         } else navigate(`/user/jobs-profile`);

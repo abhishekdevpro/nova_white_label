@@ -72,13 +72,13 @@ const ProfileComplete = () => {
     else if (!/^[0-9]{10}$/.test(jobProfileValues.phone))
       temp.phone = "Enter valid 10-digit phone number";
 
-    if (
-      loginCount > 1 && // ← Only validate resume if loginCount > 1
-      !jobProfileValues.resume &&
-      !jobProfileValues.uploadedResume
-    ) {
-      temp.resume = "Resume is required";
-    }
+    // if (
+    //   loginCount > 1 && // ← Only validate resume if loginCount > 1
+    //   !jobProfileValues.resume &&
+    //   !jobProfileValues.uploadedResume
+    // ) {
+    //   temp.resume = "Resume is required";
+    // }
 
     setErrors(temp);
     return Object.keys(temp).length === 0;

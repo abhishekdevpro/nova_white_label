@@ -114,7 +114,7 @@ export default function PaymentSuccessPage() {
   const [token, setToken] = useState(null);
 
   useEffect(() => {
-    const storedToken = localStorage.getItem("jobSeekerLoginToken");
+    const storedToken = localStorage.getItem("jobSeekerLoginToken") || localStorage.getItem("vendorToken");
     if (storedToken) {
       setToken(storedToken);
     }
@@ -129,7 +129,6 @@ export default function PaymentSuccessPage() {
       // Fetch payment details from your backend
       const fetchPaymentDetails = async () => {
         try {
-          const token = localStorage.getItem("token");
           if (!token) {
             navigate("/login2");
             return;
@@ -180,6 +179,10 @@ export default function PaymentSuccessPage() {
   }, [location, navigate]);
 
   const goToDashboard = () => {
+    if(localStorage.getItem("vendorToken")){
+      navigate(`/vendor/dashboard`)
+    }
+    else
     navigate(`/user/dashboard`);
   };
 
@@ -208,38 +211,9 @@ export default function PaymentSuccessPage() {
             processed and your subscription is now active.
           </Message>
 
-          {/* {orderDetails && (
-          <OrderDetails>
-            <DetailRow>
-              <DetailLabel>Plan</DetailLabel>
-              <DetailValue>{orderDetails.plan.name}</DetailValue>
-            </DetailRow>
-            <DetailRow>
-              <DetailLabel>Amount</DetailLabel>
-              <DetailValue>${orderDetails.plan.price}</DetailValue>
-            </DetailRow>
-            <DetailRow>
-              <DetailLabel>Transaction ID</DetailLabel>
-              <DetailValue>{orderDetails.transaction_id}</DetailValue>
-            </DetailRow>
-            <DetailRow>
-              <DetailLabel>Purchase Date</DetailLabel>
-              <DetailValue>{orderDetails.purchase_date}</DetailValue>
-            </DetailRow>
-            <DetailRow>
-              <DetailLabel>Payment Method</DetailLabel>
-              <DetailValue>{orderDetails.payment_method}</DetailValue>
-            </DetailRow>
-            {orderDetails.next_billing_date && (
-              <DetailRow>
-                <DetailLabel>Next Billing Date</DetailLabel>
-                <DetailValue bold>{orderDetails.next_billing_date}</DetailValue>
-              </DetailRow>
-            )}
-          </OrderDetails>
-        )} */}
+         
 
-          <Button onClick={goToDashboard}>Go to HomePage</Button>
+          <Button onClick={goToDashboard}>Go to Dashboard</Button>
 
           <InfoText>
             A confirmation email with your receipt has been sent to your
