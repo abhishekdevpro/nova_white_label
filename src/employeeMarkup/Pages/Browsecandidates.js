@@ -562,14 +562,14 @@ function EmployeeBrowsecandidates() {
                                       {/* Candidate Name/ID */}
                                       <div className="d-flex justify-content-between align-items-center mb-2">
                                         <div>
-                                          <h4
+                                         <Link to={`/employer/candidate-profile/${item?.jobskkers_detail?.id}`}>
+                                         <h4
                                             className="candidate-name mb-0"
                                             style={{
                                               fontWeight: "600",
                                               fontSize: "18px",
                                               color: "#1c2957",
-                                              fontFamily:
-                                                "'Poppins', sans-serif",
+                                            
                                             }}
                                           >
                                             {item?.jobskkers_detail
@@ -579,18 +579,8 @@ function EmployeeBrowsecandidates() {
                                               : item?.jobskkers_detail
                                                   ?.job_seeker_uuid}
                                           </h4>
-                                          {/* <div className="d-flex align-items-center mt-1">
-                                            <span
-                                              className="text-muted"
-                                              style={{
-                                                fontSize: "13px",
-                                                fontFamily:
-                                                  "'Poppins', sans-serif",
-                                              }}
-                                            >
-                                              {item?.jobskkers_detail?.email}
-                                            </span>
-                                          </div> */}
+                                         </Link>
+                                          
                                         </div>
                                         <div>
                                           <Link

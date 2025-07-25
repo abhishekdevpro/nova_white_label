@@ -329,7 +329,7 @@ const PersonalInfoForm = ({ formData, setFormData, errors }) => {
           <FileText className="me-2" />
           Cover Letter
         </h5>
-        {["upload", "none"].map((option) => (
+        {/* {["upload", "none"].map((option) => (
           <div key={option} className="form-check mb-2">
             <input
               type="radio"
@@ -363,7 +363,98 @@ const PersonalInfoForm = ({ formData, setFormData, errors }) => {
               </div>
             )}
           </div>
-        )}
+        )} */}
+
+
+{["upload", "none"].map((option) => (
+  <div key={option} className="form-check mb-2">
+    <input
+      type="radio"
+      name="coverLetterOption"
+      value={option}
+      checked={formData.coverLetterOption === option}
+      onChange={handleChange}
+      className="form-check-input"
+      id={`cover-${option}`}
+    />
+    <label
+      htmlFor={`cover-${option}`}
+      className="form-check-label text-secondary"
+    >
+      {option === "none" 
+        ? "Don't include a cover letter" 
+        : option === "selected"
+        ? "Select existing cover letter"
+        : "Upload a new cover letter"}
+    </label>
+  </div>
+))}
+
+{formData.coverLetterOption === "upload" && (
+  <div className="mt-3">
+    <input
+      type="file"
+      className="form-control"
+      accept=".pdf,.doc,.docx"
+      onChange={(e) => handleFileChange(e, "coverLetter")}
+    />
+    {formData.coverLetter && (
+      <div className="mt-2 text-success d-flex align-items-center">
+        <FileText size={16} className="me-2" />
+        {typeof formData.coverLetter === 'object' 
+          ? formData.coverLetter.name 
+          : formData.coverLetter.split('/').pop()}
+      </div>
+    )}
+  </div>
+)}
+
+{/* {formData.coverLetterOption === "selected" && (
+  <div className="mt-3">
+    {coverLetterList.length > 0 ? (
+      <div className="d-flex flex-column gap-2">
+        {coverLetterList.slice(0, 5).map((coverLetter, index) => (
+          <div
+            key={index}
+            className="d-flex align-items-center justify-content-between border p-3 rounded bg-white hover-shadow"
+          >
+            <div className="d-flex align-items-center gap-3">
+              <input
+                type="radio"
+                name="selectedCoverLetter"
+                value={coverLetter.file_path}
+                checked={formData.coverLetter === coverLetter.file_path}
+                onChange={() =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    coverLetter: coverLetter?.file_path,
+                  }))
+                }
+                className="form-check-input"
+              />
+              <span className="text-truncate">
+                {coverLetter.file_path.split("/").pop()}
+              </span>
+            </div>
+            <button
+              type="button"
+              className="btn btn-sm btn-outline-primary"
+              onClick={() => setPreviewResume(`https://apiwl.novajobs.us${coverLetter.file_path}`)}
+            >
+              Preview
+            </button>
+          </div>
+        ))}
+      </div>
+    ) : (
+      <div className="alert alert-warning d-flex align-items-center">
+        <AlertCircle size={16} className="me-2" />
+        No cover letters found. Please upload one first.
+      </div>
+    )}
+  </div>
+)} */}
+
       </div>
 
       {/* PDF Viewer */}

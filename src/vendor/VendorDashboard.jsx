@@ -1,3 +1,310 @@
+// import React, { useEffect, useState } from "react";
+// import { Card, Container, Row, Col } from "react-bootstrap";
+// import { useNavigate } from "react-router-dom";
+// import {
+//   FaUsers,
+//   FaStore,
+//   FaUserTie,
+//   FaBriefcase,
+//   FaUserGraduate,
+//   FaBell,
+//   FaUserPlus,
+//   FaTasks,
+//   FaWallet,
+//   FaTachometerAlt,
+// } from "react-icons/fa";
+// import VendorCompanySideBar from "./Vendorsidebar";
+// import Footer from "../markup/Layout/Footer";
+// import VendorHeader from "../markup/Layout/VendorHeader";
+
+// const VendorDashboard = () => {
+//   const [maxSNo, setMaxSNo] = useState(0);
+//   const [maxSNo2, setMaxSNo2] = useState(0); // State to store max s_no
+//   const [maxSNo3, setMaxSNo3] = useState(0);
+//   const [maxSNo4, setMaxSNo4] = useState(0);
+//   const navigate = useNavigate();
+
+//   useEffect(() => {
+//     const fetchJobsCount = async () => {
+//       try {
+//         const authToken = localStorage.getItem("vendorToken");
+//         if (!authToken) {
+//           throw new Error("Auth token not found");
+//         }
+
+//         const headers = {
+//           "Content-Type": "application/json",
+//           Authorization: authToken,
+//         };
+
+//         const jobsEndpoint = "https://apiwl.novajobs.us/api/admin/job-lists";
+
+//         const response = await fetch(jobsEndpoint, { headers });
+//         if (!response.ok) {
+//           throw new Error(`HTTP error! Status: ${response.status}`);
+//         }
+
+//         const data = await response.json();
+//         if (data.data && data.data.length > 0) {
+//           // Find the maximum s_no value
+//           const maxSNoValue = Math.max(...data.data.map((job) => job.s_no));
+//           setMaxSNo(maxSNoValue);
+//         } else {
+//           setMaxSNo(0); // Handle case where no jobs are returned
+//         }
+//       } catch (error) {
+//         console.error("Error fetching jobs count:", error);
+//         // Handle errors, e.g., setMaxSNo(-1);
+//       }
+//     };
+
+//     fetchJobsCount();
+//   }, []);
+
+//   useEffect(() => {
+//     const fetchJobsCount2 = async () => {
+//       try {
+//         const authToken = localStorage.getItem("vendorToken");
+//         if (!authToken) {
+//           throw new Error("Auth token not found");
+//         }
+
+//         const headers = {
+//           "Content-Type": "application/json",
+//           Authorization: authToken,
+//         };
+
+//         const jobsEndpoint = "https://apiwl.novajobs.us/api/admin/job-seekers";
+
+//         const response = await fetch(jobsEndpoint, { headers });
+//         if (!response.ok) {
+//           throw new Error(`HTTP error! Status: ${response.status}`);
+//         }
+
+//         const data = await response.json();
+//         if (data.data && data.data.length > 0) {
+//           // Find the maximum s_no value
+//           const maxSNoValue = Math.max(
+//             ...data.data.map((job) => job.jobskkers_detail.id)
+//           );
+//           setMaxSNo2(maxSNoValue);
+//         } else {
+//           setMaxSNo2(0); // Handle case where no jobs are returned
+//         }
+//       } catch (error) {
+//         console.error("Error fetching jobs count:", error);
+//         // Handle errors, e.g., setMaxSNo(-1);
+//       }
+//     };
+
+//     fetchJobsCount2();
+//   }, []);
+
+//   useEffect(() => {
+//     const fetchJobsCount3 = async () => {
+//       try {
+//         const authToken = localStorage.getItem("vendorToken");
+//         if (!authToken) {
+//           throw new Error("Auth token not found");
+//         }
+
+//         const headers = {
+//           "Content-Type": "application/json",
+//           Authorization: authToken,
+//         };
+
+//         const jobsEndpoint = "https://apiwl.novajobs.us/api/admin/vendor-lists";
+
+//         const response = await fetch(jobsEndpoint, { headers });
+//         if (!response.ok) {
+//           throw new Error(`HTTP error! Status: ${response.status}`);
+//         }
+
+//         const data = await response.json();
+//         if (data.data && data.data.length > 0) {
+//           // Find the maximum s_no value
+//           const maxSNoValue = Math.max(
+//             ...data.data.map((job) => job.vendors_detail.id)
+//           );
+//           setMaxSNo3(maxSNoValue);
+//         } else {
+//           setMaxSNo3(0); // Handle case where no jobs are returned
+//         }
+//       } catch (error) {
+//         console.error("Error fetching jobs count:", error);
+//         // Handle errors, e.g., setMaxSNo(-1);
+//       }
+//     };
+
+//     fetchJobsCount3();
+//   }, []);
+
+//   useEffect(() => {
+//     const fetchJobsCount4 = async () => {
+//       try {
+//         const authToken = localStorage.getItem("vendorToken");
+//         if (!authToken) {
+//           throw new Error("Auth token not found");
+//         }
+
+//         const headers = {
+//           "Content-Type": "application/json",
+//           Authorization: authToken,
+//         };
+
+//         const jobsEndpoint = "https://apiwl.novajobs.us/api/admin/companies";
+
+//         const response = await fetch(jobsEndpoint, { headers });
+//         if (!response.ok) {
+//           throw new Error(`HTTP error! Status: ${response.status}`);
+//         }
+
+//         const data = await response.json();
+//         if (data.data && data.data.length > 0) {
+//           // Find the maximum s_no value
+//           const maxSNoValue = Math.max(...data.data.map((job) => job.id));
+//           setMaxSNo4(maxSNoValue);
+//         } else {
+//           setMaxSNo4(0); // Handle case where no jobs are returned
+//         }
+//       } catch (error) {
+//         console.error("Error fetching jobs count:", error);
+//         // Handle errors, e.g., setMaxSNo(-1);
+//       }
+//     };
+
+//     fetchJobsCount4();
+//   }, []);
+
+//   const Box = ({ icon, title, count, path, size }) => (
+//     <Col md={size} className="">
+//       <Card
+//         className="border rounded-5 w-100 "
+//         style={{
+//           backgroundColor: "#F8F9FA",
+//           cursor: "pointer",
+//           color: "#1C2957",
+//         }}
+//         onClick={() => navigate(path)}
+//       >
+//         <Card.Body>
+//           <div className="d-flex align-items-center justify-content-center ">
+//             {icon}
+//           </div>
+//           <Card.Title className="text-center">{title}</Card.Title>
+//           <Card.Text
+//             className="text-center border px-5 rounded-5"
+//             style={{
+//               fontSize: "1.5rem",
+//               fontWeight: "500",
+//               color: "white",
+//               backgroundColor: "#1C2957",
+//             }}
+//           >
+//             {title === "Jobs" ? maxSNo : count}
+//           </Card.Text>
+//         </Card.Body>
+//       </Card>
+//     </Col>
+//   );
+
+//   return (
+//     <>
+//       <div className="page-content bg-white">
+//         <VendorHeader />
+//         <div className="content-block">
+//           <div className="section-full bg-white p-t50 p-b20">
+//             <div className="container">
+//               <div className="row">
+//                 <VendorCompanySideBar active="dashboard" />
+//                 <div className="col-xl-9 col-lg-8 m-b30">
+//                   <div className="job-bx table-job-bx clearfix">
+//                     <div className="job-bx-title clearfix">
+//                       <h5 className="font-weight-700 pull-left text-uppercase">
+//                         <FaTachometerAlt className="mx-1" /> Dashboard
+//                       </h5>
+//                     </div>
+//                     <Container>
+//                       <Row className="gap-2">
+//                         <Box
+//                           icon={<FaUserTie className="display-4" />}
+//                           title="Employer"
+//                           count={maxSNo4} // Replace with actual count
+//                           path="/vendor/employer"
+//                           size={5} // Size for this Box
+//                         />
+//                         <Box
+//                           icon={<FaBriefcase className="display-4" />}
+//                           title="Jobs"
+//                           count={maxSNo} // Display max s_no here
+//                           path="/vendor/jobs"
+//                           size={6} // Larger size for this Box
+//                         />
+
+//                         <Box
+//                           icon={<FaUserGraduate className="display-4" />}
+//                           title="JobSeekers"
+//                           count={maxSNo2} // Replace with actual count
+//                           path="/vendor/jobseekers"
+//                           size={5} // Size for this Box
+//                         />
+//                         <Box
+//                           icon={<FaStore className="display-5" />}
+//                           title="Company Profile"
+//                           count="-"
+//                           path="/vendor/company-profile"
+//                           size={5}
+//                         />
+//                         <Box
+//                           icon={<FaBell className="display-5" />}
+//                           title="Company Branding"
+//                           count="-"
+//                           path="/vendor/company-branding"
+//                           size={5}
+//                         />
+//                         <Box
+//                           icon={<FaUsers className="display-5" />}
+//                           title="Vendor Website"
+//                           count="-"
+//                           path="/vendor/website"
+//                           size={5}
+//                         />
+//                         <Box
+//                           icon={<FaUserPlus className="display-5" />}
+//                           title="Post a Job"
+//                           count="-"
+//                           path="/vendor/post-job"
+//                           size={5}
+//                         />
+//                         <Box
+//                           icon={<FaTasks className="display-5" />}
+//                           title="Manage Jobs"
+//                           count="-"
+//                           path="/vendor/manage-jobs"
+//                           size={5}
+//                         />
+//                         <Box
+//                           icon={<FaWallet className="display-5" />}
+//                           title="Change Password"
+//                           count="-"
+//                           path="/vendor/change-password"
+//                           size={5}
+//                         />
+//                       </Row>
+//                     </Container>
+//                   </div>
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//       <Footer />
+//     </>
+//   );
+// };
+
+// export default VendorDashboard;
 import React, { useEffect, useState } from "react";
 import { Card, Container, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -19,190 +326,91 @@ import VendorHeader from "../markup/Layout/VendorHeader";
 
 const VendorDashboard = () => {
   const [maxSNo, setMaxSNo] = useState(0);
-  const [maxSNo2, setMaxSNo2] = useState(0); // State to store max s_no
+  const [maxSNo2, setMaxSNo2] = useState(0);
   const [maxSNo3, setMaxSNo3] = useState(0);
   const [maxSNo4, setMaxSNo4] = useState(0);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchJobsCount = async () => {
-      try {
-        const authToken = localStorage.getItem("vendorToken");
-        if (!authToken) {
-          throw new Error("Auth token not found");
-        }
+  const fetchData = async (url, setter, extractor) => {
+    try {
+      const token = localStorage.getItem("vendorToken");
+      if (!token) throw new Error("Auth token not found");
 
-        const headers = {
+      const response = await fetch(url, {
+        headers: {
           "Content-Type": "application/json",
-          Authorization: authToken,
-        };
+          Authorization: token,
+        },
+      });
+      if (!response.ok) throw new Error("Failed to fetch");
 
-        const jobsEndpoint = "https://apiwl.novajobs.us/api/admin/job-lists";
-
-        const response = await fetch(jobsEndpoint, { headers });
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        if (data.data && data.data.length > 0) {
-          // Find the maximum s_no value
-          const maxSNoValue = Math.max(...data.data.map((job) => job.s_no));
-          setMaxSNo(maxSNoValue);
-        } else {
-          setMaxSNo(0); // Handle case where no jobs are returned
-        }
-      } catch (error) {
-        console.error("Error fetching jobs count:", error);
-        // Handle errors, e.g., setMaxSNo(-1);
+      const data = await response.json();
+      const items = data?.data || [];
+      if (items.length > 0) {
+        const max = Math.max(...items.map(extractor));
+        setter(max);
+      } else {
+        setter(0);
       }
-    };
-
-    fetchJobsCount();
-  }, []);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   useEffect(() => {
-    const fetchJobsCount2 = async () => {
-      try {
-        const authToken = localStorage.getItem("vendorToken");
-        if (!authToken) {
-          throw new Error("Auth token not found");
-        }
-
-        const headers = {
-          "Content-Type": "application/json",
-          Authorization: authToken,
-        };
-
-        const jobsEndpoint = "https://apiwl.novajobs.us/api/admin/job-seekers";
-
-        const response = await fetch(jobsEndpoint, { headers });
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        if (data.data && data.data.length > 0) {
-          // Find the maximum s_no value
-          const maxSNoValue = Math.max(
-            ...data.data.map((job) => job.jobskkers_detail.id)
-          );
-          setMaxSNo2(maxSNoValue);
-        } else {
-          setMaxSNo2(0); // Handle case where no jobs are returned
-        }
-      } catch (error) {
-        console.error("Error fetching jobs count:", error);
-        // Handle errors, e.g., setMaxSNo(-1);
-      }
-    };
-
-    fetchJobsCount2();
+    fetchData("https://apiwl.novajobs.us/api/admin/job-lists", setMaxSNo, (d) => d.s_no);
+    fetchData("https://apiwl.novajobs.us/api/admin/job-seekers", setMaxSNo2, (d) => d.jobskkers_detail?.id || 0);
+    fetchData("https://apiwl.novajobs.us/api/admin/vendor-lists", setMaxSNo3, (d) => d.vendors_detail?.id || 0);
+    fetchData("https://apiwl.novajobs.us/api/admin/companies", setMaxSNo4, (d) => d.id);
   }, []);
 
-  useEffect(() => {
-    const fetchJobsCount3 = async () => {
-      try {
-        const authToken = localStorage.getItem("vendorToken");
-        if (!authToken) {
-          throw new Error("Auth token not found");
-        }
-
-        const headers = {
-          "Content-Type": "application/json",
-          Authorization: authToken,
-        };
-
-        const jobsEndpoint = "https://apiwl.novajobs.us/api/admin/vendor-lists";
-
-        const response = await fetch(jobsEndpoint, { headers });
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        if (data.data && data.data.length > 0) {
-          // Find the maximum s_no value
-          const maxSNoValue = Math.max(
-            ...data.data.map((job) => job.vendors_detail.id)
-          );
-          setMaxSNo3(maxSNoValue);
-        } else {
-          setMaxSNo3(0); // Handle case where no jobs are returned
-        }
-      } catch (error) {
-        console.error("Error fetching jobs count:", error);
-        // Handle errors, e.g., setMaxSNo(-1);
-      }
-    };
-
-    fetchJobsCount3();
-  }, []);
-
-  useEffect(() => {
-    const fetchJobsCount4 = async () => {
-      try {
-        const authToken = localStorage.getItem("vendorToken");
-        if (!authToken) {
-          throw new Error("Auth token not found");
-        }
-
-        const headers = {
-          "Content-Type": "application/json",
-          Authorization: authToken,
-        };
-
-        const jobsEndpoint = "https://apiwl.novajobs.us/api/admin/companies";
-
-        const response = await fetch(jobsEndpoint, { headers });
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        if (data.data && data.data.length > 0) {
-          // Find the maximum s_no value
-          const maxSNoValue = Math.max(...data.data.map((job) => job.id));
-          setMaxSNo4(maxSNoValue);
-        } else {
-          setMaxSNo4(0); // Handle case where no jobs are returned
-        }
-      } catch (error) {
-        console.error("Error fetching jobs count:", error);
-        // Handle errors, e.g., setMaxSNo(-1);
-      }
-    };
-
-    fetchJobsCount4();
-  }, []);
-
-  const Box = ({ icon, title, count, path, size }) => (
-    <Col md={size} className="">
+  const StatBox = ({ icon, title, count, path }) => (
+    <Col md={4} sm={6} xs={12} className="mb-4">
       <Card
-        className="border rounded-5 w-100 "
-        style={{
-          backgroundColor: "#F8F9FA",
-          cursor: "pointer",
-          color: "#1C2957",
-        }}
         onClick={() => navigate(path)}
+        className="h-100 w-100 shadow-sm border-0"
+        style={{
+          cursor: "pointer",
+          borderRadius: "1rem",
+          backgroundColor: "#F8F9FA",
+          transition: "0.3s",
+        }}
       >
-        <Card.Body>
-          <div className="d-flex align-items-center justify-content-center ">
-            {icon}
-          </div>
-          <Card.Title className="text-center">{title}</Card.Title>
-          <Card.Text
-            className="text-center border px-5 rounded-5"
+        <Card.Body className="d-flex flex-column justify-content-between align-items-center text-center">
+          <div style={{ fontSize: "2.5rem", color: "#1C2957" }}>{icon}</div>
+          <h6 className="mt-3 mb-2 text-uppercase" style={{ color: "#1C2957" }}>{title}</h6>
+          <div
+            className="px-4 py-2 mt-2 rounded-5"
             style={{
-              fontSize: "1.5rem",
-              fontWeight: "500",
-              color: "white",
               backgroundColor: "#1C2957",
+              color: "white",
+              fontSize: "1.4rem",
+              fontWeight: "bold",
+              minWidth: "80px",
             }}
           >
-            {title === "Jobs" ? maxSNo : count}
-          </Card.Text>
+            {count}
+          </div>
+        </Card.Body>
+      </Card>
+    </Col>
+  );
+
+  const LinkBox = ({ icon, title, path }) => (
+    <Col md={4} sm={6} xs={12} className="mb-4">
+      <Card
+        onClick={() => navigate(path)}
+        className="h-100 w-100 shadow-sm border-0"
+        style={{
+          cursor: "pointer",
+          borderRadius: "1rem",
+          backgroundColor: "#F8F9FA",
+          transition: "0.3s",
+        }}
+      >
+        <Card.Body className="d-flex flex-column justify-content-center align-items-center text-center">
+          <div style={{ fontSize: "2.2rem", color: "#1C2957" }}>{icon}</div>
+          <h6 className="mt-3 text-uppercase" style={{ color: "#1C2957" }}>{title}</h6>
         </Card.Body>
       </Card>
     </Col>
@@ -224,30 +432,23 @@ const VendorDashboard = () => {
                         <FaTachometerAlt className="mx-1" /> Dashboard
                       </h5>
                     </div>
-                    <Container>
-                      <Row className="gap-3">
-                        <Box
-                          icon={<FaUserTie className="display-4" />}
-                          title="Employer"
-                          count={maxSNo4} // Replace with actual count
-                          path="/vendor/employer"
-                          size={5} // Size for this Box
-                        />
-                        <Box
-                          icon={<FaBriefcase className="display-4" />}
-                          title="Jobs"
-                          count={maxSNo} // Display max s_no here
-                          path="/vendor/jobs"
-                          size={6} // Larger size for this Box
-                        />
 
-                        <Box
-                          icon={<FaUserGraduate className="display-4" />}
-                          title="JobSeekers"
-                          count={maxSNo2} // Replace with actual count
-                          path="/vendor/jobseekers"
-                          size={5} // Size for this Box
-                        />
+                    {/* Count Boxes */}
+                    <Container fluid>
+                      <Row>
+                        <StatBox icon={<FaUserTie />} title="Employer" count={maxSNo4}  />
+                        <StatBox icon={<FaBriefcase />} title="Jobs" count={maxSNo}  />
+                        <StatBox icon={<FaUserGraduate />} title="JobSeekers" count={maxSNo2} />
+                      </Row>
+
+                      {/* Link Boxes */}
+                      <Row className="mt-4">
+                        <LinkBox icon={<FaStore />} title="Company Profile" path="/vendor/vendorprofile" />
+                        <LinkBox icon={<FaBell />} title="Company Branding" path="/vendor/branding" />
+                        <LinkBox icon={<FaUsers />} title="Activate SubDomain" path="/vendor/setting?tab=popup" />
+                        <LinkBox icon={<FaUserPlus />} title="vendor White label" path="/vendor/setting" />
+                        <LinkBox icon={<FaTasks />} title="Manage Jobs" path="/vendor/vendorcompanymanage/jobs" />
+                        <LinkBox icon={<FaWallet />} title="Change Password" path="/vendor/vendorchangepasswordpage" />
                       </Row>
                     </Container>
                   </div>

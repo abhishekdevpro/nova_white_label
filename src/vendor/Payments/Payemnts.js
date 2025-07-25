@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Bell, CheckCircle, Clock, DollarSign, RefreshCw } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import VendorHeader from "../../markup/Layout/VendorHeader";
 
 // Styled Components
@@ -175,9 +175,10 @@ const pricingData = [
 
 export default function PricingPlans() {
   const [selectedPlan, setSelectedPlan] = useState(null);
-
+const navigate = useNavigate()
   const handlePlanSelect = (planId) => {
     setSelectedPlan(planId);
+    navigate(`/vendor/payment/plans?selectedPlan=${planId}`)
   };
   const Feature = ({ icon, title, description }) => (
     <div style={{ display: "flex", gap: "0.75rem", alignItems: "start" }}>
@@ -227,78 +228,7 @@ export default function PricingPlans() {
             </PlanCard>
           ))}
         </PlansGrid>
-        <div style={{ marginTop: "2rem" }}>
-          <FeatureSection>
-            {/* <h3 style={{ 
-              fontSize: '1.125rem', 
-              fontWeight: 600, 
-              marginBottom: '1rem', 
-              textAlign: 'center' 
-            }}>
-              All subscription features
-            </h3> */}
-            {/* <FeatureGrid>
-              <Feature
-                icon={<CheckCircle color="#4A1D96" />}
-                title="AI-Powered Job Matching"
-                description="Get real-time job recommendations tailored to your skills and experience."
-              />
-              <Feature
-                icon={<RefreshCw color="#4A1D96" />}
-                title="ATS-Optimized Resumes"
-                description="Professionally crafted resumes designed by experts to pass Applicant Tracking Systems (ATS)."
-              />
-              <Feature
-                icon={<Bell color="#4A1D96" />}
-                title="Instant Job Alerts"
-                description="Stay ahead with real-time notifications about new job openings that match your profile."
-              />
-              <Feature
-                icon={<Clock color="#4A1D96" />}
-                title="Expert Resume Assistance"
-                description="Get personalized resume reviews and improvements from industry professionals."
-              />
-              <Feature
-                icon={<DollarSign color="#4A1D96" />}
-                title="Career Community & Networking"
-                description="Connect with industry peers, mentors, and recruiters to enhance your career opportunities."
-              />
-              <Feature
-                icon={<CheckCircle color="#4A1D96" />}
-                title="One-Click Applications"
-                description="Apply faster and more efficiently with seamless, single-click job applications."
-              />
-            </FeatureGrid> */}
-
-            <div style={{ marginTop: "1.5rem" }}>
-              <Link to={`/vendor/payment/plans?selectedPlan=${selectedPlan}`}>
-                <NextButton>Next</NextButton>
-              </Link>
-
-              {/* <p style={{ 
-                color: '#6B7280', 
-                textAlign: 'center', 
-                marginTop: '1rem' 
-              }}>
-                <strong>Got questions?</strong> Contact our customer support.
-              </p>
-              
-              <p style={{ 
-                color: '#6B7280', 
-                textAlign: 'center' 
-              }}>
-                You may cancel via email at{" "}
-                <a
-                  href="mailto:customersupport@Abroadium.com"
-                  style={{ color: '#2563EB', textDecoration: 'underline' }}
-                >
-                  customersupport@Abroadium.com
-                </a>
-                .
-              </p> */}
-            </div>
-          </FeatureSection>
-        </div>
+      
       </PricingContainer>
     </>
   );
