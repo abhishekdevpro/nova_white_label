@@ -1,6 +1,6 @@
 export const plans = [
   {
-    plan_id: "2",
+    plan_id: "1",
     id: "freemium",
     name: "Explore",
     price: "18.95",

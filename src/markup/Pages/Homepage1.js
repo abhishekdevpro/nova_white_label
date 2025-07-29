@@ -9,7 +9,7 @@ import Jobsection from "./../Element/Jobsection";
 import Owltestimonial from "./../Element/Owlblog1";
 import "../../css/indexBanner.css";
 import HeroSection from "./Components/Herosection";
-import ultraaurahomepage from "./images/ultraaura-homepage.png";
+import ultraaurahomepage from "../../assests/ultraAuraPopUpImage2.jpg";
 import {
   FaRegEdit,
   FaRegFileAlt,
@@ -121,7 +121,7 @@ function Homepage() {
   const isLocalhostOrNovajobs = () => {
     const currentUrl = window.location.origin;
     console.log(currentUrl, ">>>>>current url");
-   
+
     return (
       currentUrl.includes("localhost") ||
       (currentUrl.includes("novajobs.us") &&
@@ -134,14 +134,14 @@ function Homepage() {
   //   window.scrollTo(0, 0);
   // };
 
-  useEffect(() => {
-    if (window.location.origin.includes("pompanobeach.novajobs.us")) {
-      setShowUltraAuraPopup(false);
-    }
-  }, []); 
+  // useEffect(() => {
+  //   if (window.location.origin.includes("pompanobeach.novajobs.us")) {
+  //     setShowUltraAuraPopup(false);
+  //   }
+  // }, []);
   const handleBuilder = () => {
     if (token) {
-      window.location.href = `/airesume?tokenbyurl=${token}`;
+      window.location.href = `/airesume/settings?tokenbyurl=${token}`;
     } else {
       window.location.href = "/user/login";
     }
@@ -366,6 +366,36 @@ function Homepage() {
                   }
                 >
                   <div className="card-icon">
+                    <FaRegUser />
+                  </div>
+                  <Link to={"https://ultraaura.education/"}>
+                    <h3 className="d-flex justify-content-center">
+                      <b>Skill training</b>
+                    </h3>
+                    <p className="text-primary">
+                      Upgrade skills with our Edtech platform.
+                    </p>{" "}
+                  </Link>
+                </div>
+
+                <div
+                  className="card"
+                  style={{
+                    padding: "20px",
+                    borderRadius: "8px",
+                    boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                    transition: "transform 0.3s ease",
+                    width: "calc(33.33% - 14px)",
+                    flex: "1",
+                  }}
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.transform = "scale(1.05)")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.transform = "scale(1)")
+                  }
+                >
+                  <div className="card-icon">
                     <FaRegFileAlt />
                   </div>
                   <Link to={``}>
@@ -373,7 +403,7 @@ function Homepage() {
                       onClick={handleBuilder}
                       className="d-flex justify-content-center"
                     >
-                      <b>Build AI Resume</b>
+                      <b>AI Resume Builder</b>
                     </h3>
                     <p className="text-primary">
                       Make your AI Resume or get it done from our Experts.
@@ -410,36 +440,6 @@ function Homepage() {
                     </p>
                   </div>
                 </div>
-
-                <div
-                  className="card"
-                  style={{
-                    padding: "20px",
-                    borderRadius: "8px",
-                    boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-                    transition: "transform 0.3s ease",
-                    width: "calc(33.33% - 14px)",
-                    flex: "1",
-                  }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.transform = "scale(1.05)")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.transform = "scale(1)")
-                  }
-                >
-                  <div className="card-icon">
-                    <FaRegUser />
-                  </div>
-                  <Link to={"https://ultraaura.education/"}>
-                    <h3 className="d-flex justify-content-center">
-                      <b>Upgrade skills</b>
-                    </h3>
-                    <p className="text-primary">
-                      Upgrade skills with our Edtech platform.
-                    </p>{" "}
-                  </Link>
-                </div>
               </>
             ) : (
               <>
@@ -466,7 +466,7 @@ function Homepage() {
                   </div>
                   <div style={{ cursor: "pointer" }} onClick={handleSkillTest}>
                     <h3 className="d-flex justify-content-center">
-                      <b>SKILL TRAINING</b>
+                      <b>Skill training</b>
                     </h3>
                     <p className="text-primary">
                       Upgrade skills with our Edtech platform.

@@ -12,12 +12,7 @@ function JobListing({
   onPageChange,
   refreshJobs,
 }) {
-  const [sortBy, setSortBy] = useState("recently_posted");
-
-  const handleSortChange = (e) => {
-    setSortBy(e.target.value);
-    // You can add sorting logic here or pass it to parent component
-  };
+  
 
   const renderPagination = () => {
     if (totalPages <= 1) return null;
@@ -147,23 +142,7 @@ function JobListing({
 
   return (
     <div>
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h5>
-          All Jobs{" "}
-          <span className="text-muted">({jobs.length} jobs for you)</span>
-        </h5>
-        <select
-          className="form-select"
-          style={{ width: "auto" }}
-          value={sortBy}
-          onChange={handleSortChange}
-        >
-          <option value="recently_posted">Recently Posted</option>
-          <option value="most_relevant">Most Relevant</option>
-          <option value="salary_high_low">Salary: High to Low</option>
-          <option value="salary_low_high">Salary: Low to High</option>
-        </select>
-      </div>
+      
 
       <div className="job-cards-container">
         {jobs.map((job) => (

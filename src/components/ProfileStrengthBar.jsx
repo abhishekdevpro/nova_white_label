@@ -1,62 +1,3 @@
-// import React from "react";
-// import styled from "styled-components";
-
-// // Styled wrapper for outer box
-// const ProgressBox = styled.div`
-//   margin-top: 1rem;
-// `;
-
-// // Styled progress container
-// const StyledProgress = styled.div`
-//   height: 20px;
-//   background-color: #e9ecef;
-//   border-radius: 4px;
-//   overflow: hidden;
-// `;
-
-// // Styled progress bar with dynamic width and color
-// const ProgressBar = styled.div`
-//   width: ${({ strength }) => strength}%;
-//   transition: width 0.4s ease-in-out;
-//   color: white;
-//   font-size: 12px;
-//   text-align: center;
-//   line-height: 20px;
-//   background-color: ${({ strength }) => {
-//     if (strength < 40) return "#dc3545"; // red
-//     else if (strength < 70) return "#ffc107"; // yellow
-//     else return "#28a745"; // green
-//   }};
-// `;
-
-// const ProgressLabel = styled.p`
-//   font-size: 12px;
-//   margin-bottom: 0;
-//   color: white;
-//   margin-top: 0.25rem;
-// `;
-
-// const ProfileStrengthBar = ({ strength }) => {
-//   return (
-//     <ProgressBox className="progress-bx">
-//       <StyledProgress className="progress">
-//         <ProgressBar
-//           className="progress-bar"
-//           role="progressbar"
-//           strength={strength}
-//           aria-valuenow={strength}
-//           aria-valuemin="0"
-//           aria-valuemax="100"
-//         >
-//           {strength}%
-//         </ProgressBar>
-//       </StyledProgress>
-//       <ProgressLabel>Profile Strength</ProgressLabel>
-//     </ProgressBox>
-//   );
-// };
-
-// export default ProfileStrengthBar;
 
 import React from "react";
 import styled from "styled-components";
@@ -75,15 +16,19 @@ const StyledProgress = styled.div`
   overflow: hidden;
 `;
 
-// Actual bar
-const ProgressBar = styled.div`
+// ✅ Fixed progress bar with inline styles via attrs
+const ProgressBar = styled.div.attrs(props => ({
+  style: {
+    width: `${props.strength}%`,
+    backgroundColor:
+      props.strength < 40
+        ? "#dc3545" // red
+        : props.strength < 70
+        ? "#ffc107" // yellow
+        : "#198754", // green
+  },
+}))`
   height: 100%;
-  width: ${({ strength }) => strength}%;
-  background-color: ${({ strength }) => {
-    if (strength < 40) return "#dc3545"; // red
-    if (strength < 70) return "#ffc107"; // yellow
-    return "#198754"; // green
-  }};
   transition: width 0.4s ease;
 `;
 
@@ -97,6 +42,7 @@ const PercentText = styled.span`
   line-height: 20px;
 `;
 
+// Label below bar
 const ProgressLabel = styled.p`
   font-size: 12px;
   margin-top: 6px;
@@ -104,6 +50,7 @@ const ProgressLabel = styled.p`
   color: white;
 `;
 
+// Wrapper for label and percent text
 const ProgressWrapper = styled.div`
   position: relative;
 `;
@@ -115,7 +62,8 @@ const ProfileStrengthBar = ({ strength = 0 }) => {
         <StyledProgress>
           <ProgressBar strength={strength} />
         </StyledProgress>
-         <PercentText>{strength}</PercentText> 
+        <PercentText>{(strength)}</PercentText>
+
       </ProgressWrapper>
       <ProgressLabel>Profile Strength</ProgressLabel>
     </ProgressBox>
@@ -123,4 +71,3 @@ const ProfileStrengthBar = ({ strength = 0 }) => {
 };
 
 export default ProfileStrengthBar;
-

@@ -412,7 +412,7 @@ export default function PaymentPlans() {
                 <SupportText>
                   You may cancel via email at{" "}
                   <EmailLink href="mailto:customersupport@novajobs.us">
-                    customersupport@novajobs.us
+                    support@novajobs.us
                   </EmailLink>
                   .
                 </SupportText>
