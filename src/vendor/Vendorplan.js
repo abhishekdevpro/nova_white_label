@@ -89,18 +89,7 @@ function Vendorplan() {
   return (
     <>
       <div className="page-content bg-white">
-        {/* <Navbar bg="white" variant="white" className="py-3 border-bottom">
-          <Navbar.Brand as={Link} to="/">
-            <img
-              style={{ width: "110px" }}
-              src={require("../images/logo/NovaUS.png")}
-              className="logo"
-              alt="img"
-            />
-          </Navbar.Brand>
-
-          <Nav className="ml-auto align-items-center"></Nav>
-        </Navbar> */}
+        
         <VendorHeader />
         <div className="content-block">
           <div className="section-full bg-white p-t50 p-b20">
@@ -144,52 +133,13 @@ function Vendorplan() {
                               {isActivePlan ? "Current Plan" : "Inactive Plan"}
                             </SelectButton> */}
                             <Link to="/vendor/payments">
-                              <SelectButton>Upgrade your Plan</SelectButton>
+                              <SelectButton>Upgrade your Plan </SelectButton>
                             </Link>
                           </CardBody>
                         </PricingCard>
                       )}
 
-                      {/* <PricingCard featured>
-                        <CardHeader>
-                          <h3>Professional</h3>
-                          <Price>
-                            <span>$49</span>
-                            <span>/month</span>
-                          </Price>
-                        </CardHeader>
-                        <CardBody>
-                          <FeatureList>
-                            <li>✓ Unlimited job postings</li>
-                            <li>✓ Advanced candidate search</li>
-                            <li>✓ Priority support</li>
-                            <li>✓ Advanced analytics</li>
-                            <li>✓ Custom branding</li>
-                            <li>✓ ATS integration</li>
-                          </FeatureList>
-                          <SelectButton primary>Upgrade Now</SelectButton>
-                        </CardBody>
-                      </PricingCard>
-
-                      <PricingCard>
-                        <CardHeader>
-                          <h3>Enterprise</h3>
-                          <Price>
-                            <span>Custom</span>
-                          </Price>
-                        </CardHeader>
-                        <CardBody>
-                          <FeatureList>
-                            <li>✓ All Professional features</li>
-                            <li>✓ Dedicated account manager</li>
-                            <li>✓ API access</li>
-                            <li>✓ Custom integrations</li>
-                            <li>✓ White-label solution</li>
-                            <li>✓ SLA guarantee</li>
-                          </FeatureList>
-                          <SelectButton>Contact Sales</SelectButton>
-                        </CardBody>
-                      </PricingCard> */}
+                    
                     </PricingContainer>
                   </div>
                 </div>
