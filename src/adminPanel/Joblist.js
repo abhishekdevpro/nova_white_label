@@ -9,6 +9,7 @@ import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
 import Pagination from "./utils/Pagination";
 import { formatDate } from "./utils/DateUtils";
+import AddApplicantModal from "./utils/AddApplicantModal";
 
 const Jobslist = () => {
   const [jobs, setJobs] = useState([]);
@@ -26,6 +27,8 @@ const Jobslist = () => {
   const [selectedJobs, setSelectedJobs] = useState([]);
   const [jobTitle, setJobTitle] = useState("");
   const [companyName, setCompanyName] = useState("");
+  const [addApplicantModal,setApplicantModal]= useState(false)
+  const [applicantJob,setApplicantJob] = useState(null)
 
   // const totalPages = Math.ceil(totalRecords / itemsPerPage);
   const navigate = useNavigate();
@@ -45,11 +48,11 @@ const Jobslist = () => {
   });
   const [viewData, setViewData] = useState(null);
   const [modalLoading, setModalLoading] = useState(false);
-
+const authToken = localStorage.getItem("authToken");
   const fetchJobs = async (page = 1) => {
     setLoading(true);
     try {
-      const authToken = localStorage.getItem("authToken");
+      
       if (!authToken) {
         throw new Error("Auth token not found");
       }
@@ -76,7 +79,7 @@ const Jobslist = () => {
       }
 
       const data = await response.json();
-      setJobs(data?.data);
+      setJobs(data?.data || []);
       setTotalPages(Math.ceil(data?.total_records / Page_size || 0));
     } catch (error) {
       console.error("Error fetching job data:", error);
@@ -89,6 +92,12 @@ const Jobslist = () => {
     fetchJobs(currentPage);
     fetchDomains();
   }, [currentPage, selectedDomain, jobTitle, companyName]);
+
+
+  const AddApplicant = (jobDetails)=>{
+      setApplicantModal(true)
+      setApplicantJob(jobDetails)
+  }
 
 
   const handleStatusChange = async (jobId, status) => {
@@ -395,8 +404,14 @@ const Jobslist = () => {
                                         job.job_detail?.applicant_count === 0
                                       }
                                     >
-                                      {job.job_detail?.applicant_count || 0}{" "}
+                                      ({job.job_detail?.applicant_count || 0}){" "}
                                       View All
+                                    </Button>
+                                    <Button
+                                     size="sm"
+                                     onClick={()=>AddApplicant(job.job_detail)}
+                                    >
+                                      + Add Applicant
                                     </Button>
                                   </td>
                                   <td>
@@ -645,6 +660,16 @@ const Jobslist = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      {
+        addApplicantModal && <AddApplicantModal 
+          isOpen={addApplicantModal}
+          onClose={() => setApplicantModal(false)}
+          job={applicantJob}
+          token={authToken}
+          fetchJobs={fetchJobs}
+        />
+      }
     </div>
   );
 };

@@ -85,7 +85,7 @@ const FixedHeader = () => {
             state_id: data.state_id,
             phone: data.phone,
             photo: data.photo,
-            n_profile_strength: data.n_profile_strength,
+            n_profile_strength: data.n_profile_strength_value,
             file_path: data.job_seeker_resumes?.file_path,
           })
         );
@@ -389,7 +389,7 @@ const FixedHeader = () => {
                     )}
                   </ul>
                   {console.log(
-                    fixedHeaderValues.n_profile_strength,
+                    fixedHeaderValues?.n_profile_strength,
                     "fixedHeaderValues.n_profile_strength"
                   )}
                   {/* Profile Strength */}

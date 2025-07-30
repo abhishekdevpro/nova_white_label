@@ -56,6 +56,7 @@ const ProgressWrapper = styled.div`
 `;
 
 const ProfileStrengthBar = ({ strength = 0 }) => {
+  console.log(strength,"strength in the progress bar")
   return (
     <ProgressBox>
       <ProgressWrapper>

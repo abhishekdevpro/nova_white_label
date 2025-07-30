@@ -132,6 +132,8 @@ function JobDetailsPage() {
     }
   };
 
+ 
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const now = new Date();
@@ -224,7 +226,8 @@ function JobDetailsPage() {
 
               <div className="action-buttons">
                 <button
-                  className="site-button btn-primary"
+                  className="site-button "
+                  style={{ backgroundColor: '#3B82F6'}}
                   onClick={() => setShowModal(true)}
                 >
                   Share
@@ -234,8 +237,9 @@ function JobDetailsPage() {
                   className={`site-button flex-grow-1 fw-medium text-white ${
                     isSaved || job.job_detail?.is_job_favorite
                       ? "bg-danger opacity-75"
-                      : "btn-secondary"
+                      : "bg-secondary"
                   }`}
+                  
                 >
                   {isSaved || job.job_detail?.is_job_favorite
                     ? "Saved"
@@ -265,6 +269,13 @@ function JobDetailsPage() {
                     ? "Applied"
                     : "Quick Apply"}
                 </button>
+
+                <button className="site-button"
+                 onClick={()=>navigate(`/user/practice-interview/${job.job_detail.id}`)}
+                >
+                  Practice Interview
+                </button>
+
               </div>
             </div>
           </div>

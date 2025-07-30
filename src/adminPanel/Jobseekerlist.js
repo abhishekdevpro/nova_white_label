@@ -30,6 +30,7 @@ const Jobseekerlist = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [jobCounts, setJobCounts] = useState(null);
   const [appliedStatusId, setAppliedStatusId] = useState(null);
+  const [isAllApplicants, setIsAllApplicants] = useState("0");
   const statusMap = {
     all: "",
     review: 1,
@@ -94,10 +95,17 @@ const Jobseekerlist = () => {
     if (email) params.append("email", email);
     if (jobId) {
       params.append("job_id", jobId);
-      params.append("is_all_applicant", "1"); // Send as string
+      params.append("is_all_applicant", "1");
+      setIsAllApplicants("1");
+      // Send as string
     }
     if (appliedStatusId) {
       params.append("jobseeker_applied_status_id", appliedStatusId);
+    }
+    if (isAllApplicants === "1") {
+      // console.log(isAllApplicants,"isAllApplicants")
+      params.append("is_all_applicant", "1");
+      setCurrentPage(1);
     }
 
     const finalEndpoint = `https://apiwl.novajobs.us/api/admin/job-seekers?${params.toString()}`;
@@ -119,7 +127,6 @@ const Jobseekerlist = () => {
       const data = await response.json();
 
       setJobs(data?.data || []);
-      console.log(data.data, "jobbbbbb");
 
       setTotalPages(Math.ceil(Number(data?.total_records) / Page_size) || 1);
     } catch (error) {
@@ -136,12 +143,21 @@ const Jobseekerlist = () => {
     jobId,
     currentPage,
     appliedStatusId,
+    isAllApplicants,
   ]);
 
   useEffect(() => {
     debouncedFetchJobs();
     return () => debouncedFetchJobs.cancel(); // cancel on cleanup
-  }, [selectedDomain, name, email, jobId, debouncedFetchJobs, currentPage]);
+  }, [
+    selectedDomain,
+    name,
+    email,
+    jobId,
+    debouncedFetchJobs,
+    currentPage,
+    isAllApplicants,
+  ]);
 
   const fetchDomains = async () => {
     const authToken = localStorage.getItem("authToken");
@@ -357,7 +373,9 @@ const Jobseekerlist = () => {
                     <Row className="align-items-center my-3 gap-2">
                       <Col xs={12} md={12}>
                         <h4 className="text-dark fw-semibold mb-0">
-                          Jobseeker List
+                          {isAllApplicants === "1"
+                            ? "Applicants List"
+                            : `Jobseeker List`}
                         </h4>
                       </Col>
                       <Col md={12}>
@@ -408,6 +426,15 @@ const Jobseekerlist = () => {
                       </Col>
                       <Col md={12}>
                         <div className=" d-flex flex-row gap-3 justify-content-md-end flex-wrap">
+                          <select
+                            className="form-select"
+                            style={{ width: "250px", maxWidth: "100%" }}
+                            value={isAllApplicants}
+                            onChange={(e) => setIsAllApplicants(e.target.value)}
+                          >
+                            <option value="0">Jobseekers List</option>
+                            <option value="1">Applicants List</option>
+                          </select>
                           <input
                             type="text"
                             placeholder="Search by email"
@@ -425,6 +452,7 @@ const Jobseekerlist = () => {
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                           />
+
                           <select
                             className="form-select"
                             style={{ width: "250px", maxWidth: "100%" }}
@@ -492,6 +520,7 @@ const Jobseekerlist = () => {
                                 <th>Account Status</th>
                                 <th>Documents</th>
                                 <th>Resume</th>
+                                <th>Matched Skills</th>
                                 <th>Actions</th>
                               </tr>
                             </thead>
@@ -519,7 +548,7 @@ const Jobseekerlist = () => {
                                             <>
                                               <p className="mb-0 text-start text-wrap-balanced">
                                                 {formatDaysAgo(
-                                                  detail.created_at
+                                                  job_applied.created_at
                                                 ) || "N/A"}
                                               </p>
                                               {job_applied?.jobseeker_applied_status_id !==
@@ -586,6 +615,25 @@ const Jobseekerlist = () => {
                                       >
                                         View Resume
                                       </Button>
+                                    </td>
+                                    <td>
+                                      {job_applied.matched_skills &&
+                                      job_applied.matched_skills.length > 0 ? (
+                                        job_applied.matched_skills.map(
+                                          (skill, idx) => (
+                                            <span
+                                              key={idx}
+                                              className="badge bg-secondary me-2 mb-2"
+                                            >
+                                              {skill}
+                                            </span>
+                                          )
+                                        )
+                                      ) : (
+                                        <span className="text-muted">
+                                          No skills
+                                        </span>
+                                      )}
                                     </td>
                                     <td>
                                       {detail.is_verified === 0 ? (
