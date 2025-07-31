@@ -78,7 +78,8 @@ function JobDetailsPage() {
       navigate("/user/login");
       return;
     }
-    navigate(`/user/apply/${jobData.job_detail.id}`);
+    if(jobData.job_detail.is_on_demand === true) navigate(`/user/practice-interview/${jobData.job_detail.id}?on_demand=true`);
+     else navigate(`/user/apply/${jobData.job_detail.id}`);
     // try {
     //   const response = await axios.post(
     //     "https://apiwl.novajobs.us/api/jobseeker/jobs-applied",

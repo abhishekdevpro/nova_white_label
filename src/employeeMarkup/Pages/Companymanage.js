@@ -17,6 +17,7 @@ import { FaX } from "react-icons/fa6";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ShareButton from "./ShareButton";
+import CreateInterviewModal from "../components/CreateInterviewModal";
 function EmployeeCompanymanage() {
 
   
@@ -35,6 +36,14 @@ function EmployeeCompanymanage() {
   const [showModal, setShowModal] = useState(false);
   const [selectedJobId, setSelectedJobId] = useState(null);
   const [recordsAvailable, setRecordsAvailable] = useState(true);
+  const [interviewModal,setInterviewModal] =  useState(false);
+  const [interviewJobId, setInterviewJobId] = useState(null);
+  const createInterview = (jobId)=>{
+    setInterviewModal(true);
+    setInterviewJobId(jobId)
+  }
+
+
 
   const fetchPublishedJobs = () => {
     axios({
@@ -281,16 +290,17 @@ function EmployeeCompanymanage() {
                     )}
                   </div>
                   <div
-                    className="d-flex flex-row justify-content-center align-items-center"
-                    style={{ gap: "12px" }}
+                    className="d-flex flex-column gap-2 justify-content-center align-items-center"
+                    // style={{ gap: "12px" }}
                   >
-                    <button
+                   <div className="d-flex align-items-center gap-1">
+                     <button
                       onClick={() =>
                         navigate(
                           `/employer/company-post-jobs/${item.job_detail.id}`
                         )
                       }
-                      className="px-3 py-2 site-button text-white border-0"
+                      className="w-100 site-button text-white border-0"
                       style={{ cursor: "pointer" }}
                     >
                       Edit Jobs
@@ -302,23 +312,30 @@ function EmployeeCompanymanage() {
                           `/employer/company-resume/${item.job_detail.id}`
                         )
                       }
-                      className="px-3 py-2 site-button text-white border-0"
+                      className="w-100 site-button text-white border-0"
                       style={{ cursor: "pointer" }}
                     >
-                      <i
-                        className="fa fa-id-card-o mr-1"
-                        aria-hidden="true"
-                      ></i>
+                     
                       <span>Applicants</span>
                       {btn}
                     </button>
-                    <button
-                      className="px-3 py-2 site-button text-white border-0 bg-danger"
+                   </div>
+                     <div  className="d-flex align-items-center gap-1">
+                       <button
+                      className="site-button text-white border-0 bg-danger"
                       style={{ cursor: "pointer", backgroundColor: "red" }}
                       onClick={() => handleRepostJob(item.job_detail.id)}
                     >
                       Repost
                     </button>
+                    <button
+                      className=" site-button text-white border-0 bg-primary"
+                      style={{ cursor: "pointer", backgroundColor: "red" }}
+                      onClick={() => createInterview(item.job_detail.id)}
+                    >
+                      create Interview
+                    </button>
+                     </div>
                   </div>
                 </div>
                 {/* <button
@@ -769,6 +786,13 @@ function EmployeeCompanymanage() {
           </div>
         </div>
       ) : null}
+      {
+        interviewModal && <CreateInterviewModal
+          show={interviewModal} 
+          onHide={()=>setInterviewModal(false)}
+          jobId={interviewJobId}
+        />
+      }
     </div>
   );
 }
