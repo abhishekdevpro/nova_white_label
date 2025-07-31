@@ -12,6 +12,7 @@ function CurrentUserPlan() {
   const token = localStorage.getItem("jobSeekerLoginToken");
 
   const [currentPlan, setCurrentPlan] = useState(1);
+  const [isactivePlan,setIsActivePlan] = useState(false)
   const [loading, setLoading] = useState(true);
 
   const getReq = () => {
@@ -25,6 +26,7 @@ function CurrentUserPlan() {
       .then((response) => {
         const data = response.data.data;
         const userPlanId = data?.plan_id;
+        setIsActivePlan(data?.is_active_plan)
 
         // Match plan_id with static plans array
         const matchedPlan = plans.find(
@@ -63,12 +65,13 @@ function CurrentUserPlan() {
                 <div className="col-xl-9 col-lg-8 m-b30">
                   <div className="job-bx job-profile">
                     <div className="">
-                      <div className="job-bx-title clearfix">
+                      <div className="job-bx-title clearfix d-flex flex-column gap-2 ">
                         <h5 className="font-weight-700 pull-left text-uppercase">
                           Your Current Plan
                         </h5>
+                        <p className="text-danger">{isactivePlan?"":"You have no active plan. Upgrade it now"}</p>
                       </div>
-
+                      
                       <PricingContainer>
                         {loading ? (
                           <div>Loading...</div>
