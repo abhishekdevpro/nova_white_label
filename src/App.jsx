@@ -228,6 +228,7 @@ import SubscriptionPlan from "./vendor/Subscription/index.jsx";
 import VendorDashboard from "./vendor/VendorDashboard.jsx";
 import CurrentUserPlan from "./markup/Pages/CurrentUserPlan.js";
 import JobSeekerDetails from "./employeeMarkup/Pages/candidate-profile/index.jsx";
+import MockInterviewPage from "./markup/Pages/practice-interview/index.jsx";
 function App() {
   const dispatch = useDispatch();
 
@@ -786,6 +787,7 @@ function App() {
           {/* <Route path="job/:id" element={<JobPage />} /> */}
           <Route path="jobs" element={<JobPage2 />} />
           <Route path="jobs/:jobId" element={<JobDetails />} />
+          <Route path="practice-interview/:jobId" element={<MockInterviewPage />} />
           <Route path="apply/:id" element={<ApplyForm />} />
           <Route path="jobthirdparty" element={<JobPagethirdparty />} />
           <Route
