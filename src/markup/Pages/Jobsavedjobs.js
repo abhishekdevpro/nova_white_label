@@ -20,6 +20,7 @@ function Jobsavedjobs() {
                 
                 <Profilesidebar data={"saved-jobs"} />
                 <div className="col-xl-9 m-b30">
+                  
                   <SavedJobs />
                 </div>
               </div>

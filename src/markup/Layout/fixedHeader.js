@@ -43,7 +43,7 @@ const FixedHeader = () => {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     dispatch(setProfileImageValue(file));
-    console.log(file);
+    // console.log(file);
 
     if (file) {
       const reader = new FileReader();
@@ -101,7 +101,7 @@ const FixedHeader = () => {
           navigate("/");
           localStorage.removeItem("jobSeekerLoginToken");
         } else {
-          console.log(err.response?.data?.message);
+          // console.log(err.response?.data?.message);
           showToastError(err?.response?.data?.message);
         }
       });
@@ -388,10 +388,10 @@ const FixedHeader = () => {
                       </li>
                     )}
                   </ul>
-                  {console.log(
+                  {/* {console.log(
                     fixedHeaderValues?.n_profile_strength,
                     "fixedHeaderValues.n_profile_strength"
-                  )}
+                  )} */}
                   {/* Profile Strength */}
                   {/* <div className="progress-bx mt-3">
                     <div className="progress">

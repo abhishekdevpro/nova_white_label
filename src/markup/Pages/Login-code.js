@@ -143,11 +143,11 @@ const LoginCode = () => {
         </button>
 
         {/* Resend Code */}
-        <p className="text-center mt-3">
+        {/* <p className="text-center mt-3">
           <button className="btn btn-link text-primary fw-semibold p-0">
             Don&apos;t have access to this email?
           </button>
-        </p>
+        </p> */}
       </div>
     </div>
   );

@@ -34,6 +34,7 @@ import ReactPlayer from "react-player";
 import PDFViewer from "./components/PdfVeiwer";
 import TeamSection from "./components/TeamsSection";
 import GallerySection from "./components/ImageGallerySection";
+import JobsSection from "./components/JobSection";
 const url = window.location.origin.includes("localhost")
   ? "https://novajobs.us"
   : window.location.origin;
@@ -1093,7 +1094,7 @@ const ShowcaseComponent = () => {
         </section>
 
         {/* Job Openings Section */}
-        <section id="jobs" style={styles.jobOpeningsSection}>
+        {/* <section id="jobs" style={styles.jobOpeningsSection}>
           {isEdit && (
             <button
               style={styles.editButton}
@@ -1154,7 +1155,7 @@ const ShowcaseComponent = () => {
                       {job.job_detail.salary}
                     </span>
                   )}
-                </div> */}
+                </div> 
               </div>
             ))
           ) : (
@@ -1162,7 +1163,15 @@ const ShowcaseComponent = () => {
               No open positions at the moment. Please check back later.
             </div>
           )}
-        </section>
+        </section> */}
+
+        <JobsSection 
+  jobs={jobs}
+  isEdit={isEdit}
+  handleEditClick={handleEditClick}
+  companyData={companyData}
+  navigate={navigate}
+/>
 
         <GallerySection
           companyData={companyData}
@@ -1179,74 +1188,7 @@ const ShowcaseComponent = () => {
           }}
         />
 
-        {/* Gallery Section */}
-        {/* <section id="gallery" style={styles.section}>
-          {isEdit && (
-            <button
-              style={styles.editButton}
-              ad
-              onClick={() => handleEditClick("gallery")}
-            >
-              <MdEdit size={18} />
-              Edit Gallery
-            </button>
-          )}
-
-          <h2 style={styles.sectionTitle}>
-            Life at {companyData?.company_name}
-          </h2>
-          <div style={styles.galleryContainer}>
-            {(companyData?.inside_culture_images?.length > 0
-              ? companyData.inside_culture_images
-              : FALLBACK_IMAGES.gallery
-            ).map((image, index) => (
-              <img
-                key={index}
-                src={
-                  typeof image === "string"
-                    ? `${BASE_IMAGE_URL}${image}`
-                    : image
-                }
-                alt={`Company Culture ${index + 1}`}
-                style={styles.galleryImage}
-                onError={handleImageError}
-              />
-            ))}
-          </div>
-        </section> */}
-
-        {/* Teams Section */}
-        {/* {teamsData.length > 0 && (
-          <section id="teams" style={styles.section}>
-            {isEdit && (
-              <button
-                style={styles.editButton}
-                onClick={() => handleEditClick("teams")}
-              >
-                <MdEdit size={18} />
-                Edit Team
-              </button>
-            )}
-            <h2 style={styles.sectionTitle}>Our Leadership Team</h2>
-            <div style={styles.teamsContainer}>
-              {(teamsData.length > 0 ? teamsData : FALLBACK_IMAGES.team).map(
-                (team, index) => (
-                  <div key={index} style={styles.teamMember}>
-                    <img
-                      src={`${BASE_IMAGE_URL}${team.image}`}
-                      alt={team.name}
-                      style={styles.teamImage}
-                      onError={handleImageError}
-                    />
-                    <h3 style={styles.teamName}>{team.name}</h3>
-                    <p style={styles.teamPosition}>{team.position}</p>
-                    <p style={styles.teamBio}>{team.bio}</p>
-                  </div>
-                )
-              )}
-            </div>
-          </section>
-        )} */}
+       
         {teamsData.length > 0 && (
           <TeamSection
             teamsData={teamsData}

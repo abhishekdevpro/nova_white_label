@@ -21,6 +21,7 @@ import PricingSection from "./Payments/PricingSection";
 import UserHeader from "../Layout/Header";
 import SubHeader from "../Layout/Sub-header";
 import styled from "styled-components";
+import WhyChooseUs from "../Element/HomePage/WhyChooseUs";
 
 // Images
 var bnr2 = require("./../../images/background/bg4.jpg");
@@ -164,7 +165,47 @@ function Homepage() {
     e.stopPropagation();
     setShowUltraAuraPopup(false);
   };
-
+  const cards = isLocalhostOrNovajobs()
+    ? [
+        {
+          id: 1,
+          icon: <FaRegUser />,
+          title: "Skill training",
+          description: "Upgrade skills with our Edtech platform.",
+          link: "https://ultraaura.education/",
+        },
+        {
+          id: 2,
+          icon: <FaRegFileAlt />,
+          title: "AI Resume Builder",
+          description: "Make your AI Resume or get it done from our Experts.",
+          onClick: handleBuilder,
+        },
+        {
+          id: 3,
+          icon: <FaRegFilePdf />,
+          title: "Give skill test",
+          description:
+            "Our AI Skill test can be taken just by uploading resume.",
+          onClick: handleSkillTest,
+        },
+      ]
+    : [
+        {
+          id: 1,
+          icon: <FaRegFilePdf />,
+          title: "Skill training",
+          description: "Upgrade skills with our Edtech platform.",
+          onClick: handleSkillTest,
+        },
+        {
+          id: 2,
+          icon: <FaRegUser />,
+          title: "AI RESUME BUILDER",
+          description: "Make your AI Resume or get it done from our Experts.",
+          onClick: handleBuilder,
+        },
+      ];
   // console.log(<UserHeader/>,<HeroSection />,<Jobsection />
   //       , <PricingSection />);
 
@@ -315,7 +356,7 @@ function Homepage() {
             </div>
           </div>
         </div>
-        <div
+        {/* <div
           className="d-flex flex-column bg-white align-items-center"
           style={{ gap: "20px", padding: "20px" }}
         >
@@ -345,7 +386,7 @@ function Homepage() {
               width: "100%",
             }}
           >
-            {/* Show first 3 cards for localhost or novajobs.us */}
+            {/* Show first 3 cards for localhost or novajobs.us 
             {isLocalhostOrNovajobs() ? (
               <>
                 <div
@@ -443,7 +484,7 @@ function Homepage() {
               </>
             ) : (
               <>
-                {/* Show last 2 cards for other domains */}
+                {/* Show last 2 cards for other domains 
                 <div
                   className="card"
                   style={{
@@ -506,8 +547,14 @@ function Homepage() {
               </>
             )}
           </div>
-        </div>
-        {/* <Featureblog /> */}
+        </div> 
+        <Featureblog /> */}
+        <WhyChooseUs
+          title="Why choose us,"
+          subtitle="among other Job sites."
+          cards={cards}
+          isFullWidth={isLocalhostOrNovajobs()}
+        />
         <Jobsection />
         <PricingSection />
 

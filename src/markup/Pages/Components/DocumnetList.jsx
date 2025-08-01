@@ -186,7 +186,7 @@ const DocumentList = () => {
         Upload
       </button>
 
-      <table className="table table-striped table-responsive mt-4">
+      {documents.length >0 &&<table className="table table-striped table-responsive mt-4">
         <thead>
           <tr>
             <th>Document Type</th>
@@ -253,7 +253,7 @@ const DocumentList = () => {
             </tr>
           )}
         </tbody>
-      </table>
+      </table>}
       <ConfirmationModal
         isOpen={isModalOpen}
         title="Delete Document"

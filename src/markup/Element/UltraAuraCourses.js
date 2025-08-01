@@ -373,7 +373,7 @@ const UltraAuraCourses = () => {
                       </NoCoursesMessage>
                     ) : (
                       <>
-                        <CourseGrid>
+                        <CourseGrid style={{maxHeight: 'calc(100vh)', overflowY: 'auto', scrollbarWidth:"none"}}>
                           {limitedCourses?.map((course) => (
                             <CourseCard key={course.id}>
                               {/* {course.coupon_discount_display ? 

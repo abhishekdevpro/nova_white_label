@@ -110,7 +110,7 @@ function SkillTest() {
                 <div className="container">
                   <div className="row">
                     <Profilesidebar data={"skill-test"} />
-                    <div className="col-xl-9 m-b30">
+                    <div className="col-xl-9 col-12 m-b30">
                       <div
                         className="job-bx job-profile"
                         style={{
@@ -130,17 +130,19 @@ function SkillTest() {
                                 Skill Test
                               </h5>
                             </div>
-                            {cardData.map((card, index) => (
+                           <div className="row" style={{maxHeight: 'calc(100vh)', overflowY: 'auto', scrollbarWidth:"none"}}>
+                             {cardData.map((card, index) => (
                               <div
                                 key={index}
-                                className="col-lg-6 col-sm-12 col-md-6 col-12 mb-4"
+                                 className="col-xl-6 col-12 mb-4"
                               >
                                 <div
                                   className=" card border rounded-4"
                                   style={{
                                     boxShadow: "0 4px 8px rgba(1,1,1,0.1)",
                                     height: "250px",
-                                    width: "350px",
+                                    width:"100%",
+                                    // maxWidth: "350px",
                                     display: "flex",
                                     justifyContent: "center",
                                     flexDirection: "row",
@@ -265,6 +267,7 @@ function SkillTest() {
                                 </div>
                               </div>
                             ))}
+                            </div>
                           </div>
                         )}
                       </div>

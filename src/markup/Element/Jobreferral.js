@@ -100,7 +100,8 @@ const handleSubmit = async (e) => {
       toast.error("Failed to add referral. Please try again.");
     }
   } catch (err) {
-    toast.error("An error occurred. Please try again.");
+    //  console.log(err)
+    toast.error(err.response.data.message || "An error occurred. Please try again.");
   } finally {
     setLoading(false);
   }
@@ -118,7 +119,7 @@ const handleSubmit = async (e) => {
               <div className="row">
                 <Profilesidebar data={"jobs-referral"} />
 
-                <div className="col-xl-9 col-lg-8 m-b30">
+                <div className="col-xl-9 col-12 m-b30">
                   <div className="job-bx table-job-bx browse-job clearfix">
                     <div className="job-bx-title clearfix">
                       <h5 className="font-weight-700 pull-left text-uppercase">

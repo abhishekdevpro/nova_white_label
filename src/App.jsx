@@ -229,6 +229,8 @@ import VendorDashboard from "./vendor/VendorDashboard.jsx";
 import CurrentUserPlan from "./markup/Pages/CurrentUserPlan.js";
 import JobSeekerDetails from "./employeeMarkup/Pages/candidate-profile/index.jsx";
 import MockInterviewPage from "./markup/Pages/practice-interview/index.jsx";
+import InterviewList from "./markup/Element/Interview-list/InterviewList.jsx";
+import InterviewResult from "./markup/Element/Interview-list/InterviewResult.jsx";
 function App() {
   const dispatch = useDispatch();
 
@@ -772,6 +774,22 @@ function App() {
             element={
               <UserPrivateRoute>
                 <SkillTestHistory />
+              </UserPrivateRoute>
+            }
+          />
+          <Route
+            path="interview-list"
+            element={
+              <UserPrivateRoute>
+                <InterviewList />
+              </UserPrivateRoute>
+            }
+          />
+          <Route
+            path="interview-view-result/:jobId"
+            element={
+              <UserPrivateRoute>
+                <InterviewResult />
               </UserPrivateRoute>
             }
           />

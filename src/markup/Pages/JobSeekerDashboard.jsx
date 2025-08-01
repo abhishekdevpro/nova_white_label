@@ -14,9 +14,7 @@ import {
 import UserHeader2 from "../Layout/Header2";
 import Profilesidebar from "../Element/Profilesidebar";
 import { useSelector } from "react-redux";
-import {
-  setJobProfileValues,
-} from "../../store/reducers/jobProfileSlice";
+import { setJobProfileValues } from "../../store/reducers/jobProfileSlice";
 
 // Assuming these components are already defined elsewhere in your project
 
@@ -194,11 +192,9 @@ const JobSeekerDashboard = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-   const jobProfileValues = useSelector(
-      (state) => state.jobProfileSlice.jobProfileValues
-    );
-
-
+  const jobProfileValues = useSelector(
+    (state) => state.jobProfileSlice.jobProfileValues
+  );
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -280,11 +276,13 @@ const JobSeekerDashboard = () => {
       route: "/user/messages",
     },
   ];
-  console.log(jobProfileValues,"hi from dashboard jobProfileValues");
+  console.log(jobProfileValues, "hi from dashboard jobProfileValues");
 
   const handleClick = (card) => {
     if (card.route.includes("airesume")) {
-      window.location.href = `https://novajobs.us${card.route}`;
+      setTimeout(() => {
+        window.location.href = `https://novajobs.us${card.route}`;
+      }, 500);
     } else {
       navigate(card.route);
     }
@@ -324,15 +322,17 @@ const JobSeekerDashboard = () => {
           <CardsContainer>
             {cardData.map((card, index) => (
               <CardLink
-                to={card.route}
-                onClick={() => handleClick(card)}
+                // to={card.route}
+                // onClick={() => handleClick(card)}
                 key={index}
               >
                 <Card>
                   <CardIcon>{card.icon}</CardIcon>
                   <CardTitle>{card.title}</CardTitle>
                   <CardDescription>{card.description}</CardDescription>
-                  <button className="site-button w-100">{card.buttonText}</button>
+                  <button className="site-button w-100" onClick={() => handleClick(card)}>
+                    {card.buttonText}
+                  </button>
                 </Card>
               </CardLink>
             ))}

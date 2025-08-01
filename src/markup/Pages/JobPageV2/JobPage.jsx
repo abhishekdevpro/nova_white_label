@@ -289,7 +289,7 @@ function JobPage() {
                         <h5>
                           All Jobs{" "}
                           <span className="text-muted">
-                            ({jobApplicationData.length} jobs for you)
+                            ({totalJobs} jobs for you)
                           </span>
                         </h5>
                         <select
@@ -298,8 +298,8 @@ function JobPage() {
                           value={sortBy}
                           onChange={handleSortChange}
                         >
-                          <option value="asc">newest</option>
-                          <option value="desc">oldest</option>
+                          <option value="desc">newest</option>
+                          <option value="asc">oldest</option>
                           {/* <option value="recently_posted">Recently Posted</option>
                                 <option value="most_relevant">Most Relevant</option>
                                 <option value="salary_high_low">Salary: High to Low</option>

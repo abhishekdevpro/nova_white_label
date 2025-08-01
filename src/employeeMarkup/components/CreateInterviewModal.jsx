@@ -30,7 +30,7 @@ export default function CreateInterviewModal({ show, onHide, jobId }) {
     const payload = isAIMode
       ? {
           is_ai_generated: true,
-          ai_generated_question_count: questionCount,
+          ai_generated_question_count: Number(questionCount),
         }
       : {
           is_ai_generated: false,

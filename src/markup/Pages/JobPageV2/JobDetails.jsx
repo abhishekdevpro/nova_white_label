@@ -80,30 +80,7 @@ function JobDetailsPage() {
     }
     if(jobData.job_detail.is_on_demand === true) navigate(`/user/practice-interview/${jobData.job_detail.id}?on_demand=true`);
      else navigate(`/user/apply/${jobData.job_detail.id}`);
-    // try {
-    //   const response = await axios.post(
-    //     "https://apiwl.novajobs.us/api/jobseeker/jobs-applied",
-    //     {
-    //       job_id: jobData.job_detail.id,
-    //       screen_questions: screeningQuestion,
-    //     },
-    //     {
-    //       headers: {
-    //         Authorization: `${token}`,
-    //       },
-    //     }
-    //   );
-
-    //   if (response?.data) {
-    //     console.log(response, "appli");
-    //     setIsApplied(true);
-    //     toast.success("Application submitted successfully!");
-    //   }
-    // } catch (error) {
-    //   console.error(error);
-    //   setIsApplied(false);
-    //   toast.error("Failed to submit application. Please try again.");
-    // }
+   
   };
 
   const handleToggleFavorite = async () => {
@@ -271,11 +248,11 @@ function JobDetailsPage() {
                     : "Quick Apply"}
                 </button>
 
-                <button className="site-button"
+              { token && <button className="site-button"
                  onClick={()=>navigate(`/user/practice-interview/${job.job_detail.id}`)}
                 >
                   Practice Interview
-                </button>
+                </button>}
 
               </div>
             </div>
@@ -334,7 +311,7 @@ function JobDetailsPage() {
               {/* Job Header */}
 
               {/* Job Highlights */}
-              <div className="highlights-section">
+              <div className="w-100 ">
                 <div className="highlights-grid">
                   <div className="highlight-item">
                     <div className="highlight-icon">

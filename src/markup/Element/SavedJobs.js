@@ -17,7 +17,7 @@ const SavedJobs = () => {
 
   const [skeleton, setSkeleton] = useState(true);
   const [selectedJob, setSelectedJob] = useState(null);
-
+  const [sortBy, setSortBy] = useState("asc");
   const token = localStorage.getItem("jobSeekerLoginToken");
 
   const jobApplicationData = useSelector(
@@ -31,7 +31,7 @@ const SavedJobs = () => {
   const fetchJobApplicationData = async () => {
     try {
       const response = await axios.get(
-        "https://apiwl.novajobs.us/api/jobseeker/job-favorites",
+        `https://apiwl.novajobs.us/api/jobseeker/job-favorites?sort_order=${sortBy}`,
         {
           headers: { Authorization: token },
         }
@@ -99,7 +99,22 @@ const SavedJobs = () => {
   return (
     <div className="section-full bg-white">
       <div className="container">
-        <div className="row">
+        <div className="job-bx-title  clearfix">
+          <h5 className="font-weight-700 pull-left text-uppercase">
+            saved Jobs
+          </h5>
+          <div className="float-right">
+            <select
+              className="form-select form-select-sm w-auto"
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+            >
+              <option value="asc">Newest</option>
+              <option value="desc">Oldest</option>
+            </select>
+          </div>
+        </div>
+        <div className="row" style={{maxHeight: 'calc(100vh)', overflowY: 'auto', scrollbarWidth:"none"}}>
           {skeleton ? (
             <div>
               Please wait or check if you have saved any jobs.
