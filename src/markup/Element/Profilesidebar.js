@@ -20,6 +20,7 @@ import {
   IdCard,
   LogOut,
   User,
+  Video,
   X,
 } from "lucide-react";
 import { toast } from "react-toastify";
@@ -243,6 +244,17 @@ function Profilesidebar({ data }) {
                   </li>
                 </>
               )}
+               <li>
+                <Link
+                  to={"/user/interview-list"}
+                  className={data === "interview" ? "active" : null}
+                  onClick={() => setSidebarOpen(false)}
+                  style={{ fontSize: "15px" }}
+                >
+                  <Video className="me-2" />
+                  <span>Interviews</span>
+                </Link>
+              </li>
               <li>
                 <Link
                   to={"/user/jobs-saved-jobs"}

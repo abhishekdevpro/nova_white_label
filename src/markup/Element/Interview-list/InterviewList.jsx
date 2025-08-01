@@ -188,7 +188,7 @@ const InterviewList = () => {
             <div className="section-full bg-white browse-job p-t50 p-b20">
               <div className="container">
                 <div className="row">
-                  <Profilesidebar data={"skill-test-history"} />
+                  <Profilesidebar data={"interview"} />
                   <div className="col-xl-9 col-12 m-b30">
                     <div className="job-bx job-profile">
                       <div className="job-bx-title">
