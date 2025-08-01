@@ -33,7 +33,7 @@ function JobPage() {
   const [totalPages, setTotalPages] = useState(1);
   const [totalJobs, setTotalJobs] = useState(0);
 
-  const [sortBy, setSortBy] = useState("asc");
+  const [sortBy, setSortBy] = useState("desc");
 
   const handleSortChange = (e) => {
     setSortBy(e.target.value);
