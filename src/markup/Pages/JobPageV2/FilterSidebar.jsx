@@ -236,7 +236,9 @@ function FiltersSidebar({ jobApplicationValues, handleChange, handleSearch,handl
         </div>
 
         {expandedSections.industry && (
-          <div className="filter-content mt-2">
+          <div className="filter-content mt-2"
+           style={{maxHeight: 'calc(40vh)', overflowY: 'auto', scrollbarWidth:"none"}}
+          >
             {category.map((cat) => (
               <div className="form-check" key={cat.id}>
                 <input

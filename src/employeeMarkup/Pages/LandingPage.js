@@ -18,6 +18,7 @@ import EmployeeHeader from "./../Layout/Header";
 import { Link, useNavigate } from "react-router-dom";
 import UserHeader from "../../markup/Layout/Header";
 import Footer from "../../markup/Layout/Footer";
+import { X } from "lucide-react";
 
 const LandingPage = () => {
   const [show, setShow] = useState(false);
@@ -60,9 +61,12 @@ const LandingPage = () => {
         keyboard={false}
         centered // This will center the modal
       >
-        <Modal.Header closeButton style={{ backgroundColor: "#fff" }}>
+        <div className="d-flex justify-content-between align-items-center" closeButton style={{ backgroundColor: "#fff" }}>
           <Modal.Title style={{ color: "#000" }}>Contact Form</Modal.Title>
-        </Modal.Header>
+          {/* <button className="inset-0" onClick={()=>handleClose()}> */}
+            <X onClick={()=>handleClose() }/>
+          {/* // </button> */}
+        </div>
         <Modal.Body>
           <div className="row">
             <div className="col">

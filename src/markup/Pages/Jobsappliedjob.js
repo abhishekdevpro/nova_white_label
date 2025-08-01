@@ -23,7 +23,7 @@ const postBlog = [
 ];
 function Jobsappliedjob() {
   const [skeleton, setSkeleton] = useState(true);
-  const [sortBy, setSortBy] = useState("newest");
+  const [sortBy, setSortBy] = useState("desc");
 
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
@@ -34,7 +34,7 @@ function Jobsappliedjob() {
   const fetchAppliedJobs = async () => {
     try {
       const response = await axios.get(
-        "https://apiwl.novajobs.us/api/jobseeker/jobs-applied",
+        `https://apiwl.novajobs.us/api/jobseeker/jobs-applied?sort_order=${sortBy}`,
         {
           headers: {
             Authorization: token,
@@ -141,34 +141,24 @@ function Jobsappliedjob() {
                       Applied Jobs
                     </h5>
                     <div className="float-right">
-                      <span className="select-title">Sort by freshness</span>
+                     
                       <select
                         className="custom-btn"
                         value={sortBy}
                         onChange={(e) => setSortBy(e.target.value)}
                       >
-                        <option value="newest">Newest</option>
-                        <option value="oldest">Oldest</option>
+                        <option value="desc">Newest</option>
+                        <option value="asc">Oldest</option>
                       </select>
                     </div>
                   </div>
                   {skeleton === true ? (
                     <JobPageSkeleton />
                   ) : (
-                    <div>
+                    <div style={{maxHeight: 'calc(100vh)', overflowY: 'auto', scrollbarWidth:"none"}}>
                       {data ? (
-                        // <ul className="post-job-bx browse-job">
-                        //   {/*  */}
-                        //   {data?.map((item, index) => (
-                        //     <JobCard
-                        //       key={item.s_no}
-                        //       job={item}
-                        //       onSelect={() => setSelectedJob(item)}
-                        //       onToggleFavorite={fetchAppliedJobs}
-                        //     />
-                        //   ))}
-                        // </ul>
-                        <ul className="post-job-bx browse-job">
+                      
+                        <ul className="post-job-bx browse-job" >
                           {[...data]
                             .sort((a, b) => {
                               const dateA = new Date(a?.job_detail?.created_at);

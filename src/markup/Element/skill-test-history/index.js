@@ -17,7 +17,7 @@ const SkillTestHistory = () => {
               <div className="container">
                 <div className="row">
                   <Profilesidebar data={"skill-test-history"} />
-                  <div className="col-xl-9 col-lg-8 m-b30">
+                  <div className="col-xl-9 col-12 m-b30">
                     <div className="job-bx job-profile">
                       {/* <Skilltest history/> */}
                       <SkillHistoryTable />

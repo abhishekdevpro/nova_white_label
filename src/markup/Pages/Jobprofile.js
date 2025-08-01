@@ -479,7 +479,7 @@ const validatePhone = (number) => {
             <div className="container">
               <div className="row">
                 <Profilesidebar data={"profile"} />
-                <div className="col-xl-9 col-lg-8 m-b30">
+                <div className="col-xl-9 col-12 m-b30">
                   <div className="job-bx job-profile">
                     <div className="job-bx-title clearfix">
                       <div className="d-flex justify-content-between align-items-center mb-3">
@@ -494,7 +494,7 @@ const validatePhone = (number) => {
                         Back
                       </Link> */}
                     </div>
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} style={{maxHeight: 'calc(100vh)', overflowY: 'auto', scrollbarWidth:"none"}}>
                       <div className="row m-b30 ">
                         {/* <div className="col-12">
                           <div className="form-group">
@@ -726,6 +726,7 @@ const validatePhone = (number) => {
                               onChange={handleChange}
                               value={jobProfileValues.description}
                               className="form-control"
+                              maxLength={500}
                             ></textarea>
                           </div>
                         </div>

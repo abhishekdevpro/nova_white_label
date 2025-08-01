@@ -55,7 +55,11 @@ function Profilesidebar({ data }) {
         setUserData(data);
       })
       .catch((err) => {
-        toast.error(
+
+        if(err?.response?.data?.code === 401){
+          onLogout()
+        }
+        else toast.error(
           err?.response?.data?.message || "Failed to load user profile."
         );
       });
@@ -119,21 +123,9 @@ function Profilesidebar({ data }) {
       </button>
       <div className={`sidebar-2 ${sidebarOpen ? "open" : ""} overflow-y`}>
         <div className="sticky-top overflow-y ">
-          <div className="candidate-info overflow-y">
+          <div className="candidate-info overflow-y" style={{maxHeight: 'calc(100vh)', overflowY: 'auto', scrollbarWidth:"none"}}>
             <ul>
-              {/* <li
-                style={{
-                  textAlign: "center",
-                  fontSize: "1.5rem",
-                  fontWeight: "bold",
-                  padding: "1rem 0",
-                  borderBottom: "1px solid #ddd",
-                  backgroundColor: "#f8f9fa",
-                  color: "#1C2957",
-                }}
-              >
-                <span>Sidebar</span>
-              </li> */}
+              
               <li
                 style={{
                   display: "flex",

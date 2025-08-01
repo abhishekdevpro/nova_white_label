@@ -5,176 +5,238 @@ import { MdEdit } from "react-icons/md";
 import { FaImages } from "react-icons/fa";
 
 const GalleryContainer = styled.section`
-  margin-bottom: 8rem;
-  padding: 3rem;
+  margin: 2rem auto;
+  padding: 2rem;
   background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
   position: relative;
+  max-width: 1400px;
+  width: 95%;
 
-  @media (max-width: 768px) {
-    padding: 2rem 1rem;
-    margin-bottom: 4rem;
-  }
-`;
-
-export const EditButton = styled.button`
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  background-color: #1e40af; /* Tailwind's bg-blue-800 */
-  color: #ffffff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.875rem;
-  font-weight: 500;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background-color: #1e3a8a; /* Tailwind's bg-blue-900 */
-    transform: translateY(-2px);
+  @media (min-width: 768px) {
+    margin: 4rem auto;
+    padding: 3rem;
   }
 
-  &:active {
-    transform: translateY(0);
+  @media (min-width: 1024px) {
+    margin: 6rem auto;
+    padding: 4rem;
   }
 `;
 
 const Title = styled.h2`
-  font-size: 2.5rem;
+  font-size: 1.8rem;
   font-weight: bold;
   color: #1e40af;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
   text-align: center;
   position: relative;
+
+  @media (min-width: 768px) {
+    font-size: 2.2rem;
+    margin-bottom: 2.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+  }
 
   &::after {
     content: "";
     position: absolute;
-    bottom: -1rem;
+    bottom: -0.75rem;
     left: 50%;
     transform: translateX(-50%);
-    width: 80px;
-    height: 4px;
+    width: 60px;
+    height: 3px;
     background-color: #1e40af;
     border-radius: 2px;
+
+    @media (min-width: 768px) {
+      width: 80px;
+      height: 4px;
+      bottom: -1rem;
+    }
   }
 `;
 
 const TabContainer = styled.div`
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+
+  @media (min-width: 768px) {
+    margin-bottom: 2rem;
+    overflow-x: visible;
+  }
 `;
 
 const TabList = styled.ul`
   display: flex;
-  flex-wrap: wrap;
   list-style: none;
   padding: 0;
   margin: 0;
   background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
-  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+  min-width: min-content;
+
+  @media (max-width: 767px) {
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 `;
 
 const TabItem = styled.li`
   flex: 1;
+  min-width: 120px;
+
+  @media (min-width: 768px) {
+    min-width: auto;
+  }
 `;
 
 const TabButton = styled.button`
   width: 100%;
-  padding: 1rem 1.5rem;
-  background: ${(props) =>
-    props.active ? "#1C2957" : "white"};
+  padding: 0.75rem 1rem;
+  background: ${(props) => (props.active ? "#1C2957" : "white")};
   color: ${(props) => (props.active ? "white" : "#6c757d")};
   border: none;
   font-weight: ${(props) => (props.active ? "600" : "500")};
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  position: relative;
+  white-space: nowrap;
+
+  @media (min-width: 768px) {
+    padding: 1rem 1.5rem;
+    font-size: 0.95rem;
+  }
 
   &:hover {
     color: ${(props) => (props.active ? "white" : "#343a40")};
-  }
-
-  &:not(:last-child)::after {
-    content: "";
-    position: absolute;
-    top: 25%;
-    right: 0;
-    height: 50%;
-    width: 1px;
-    background: #dee2e6;
+    background: ${(props) => (props.active ? "#1C2957" : "#f8f9fa")};
   }
 `;
 
 const GalleryGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin-top: 1rem;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
 
-  @media (max-width: 768px) {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  @media (min-width: 480px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
   }
 
-  @media (max-width: 480px) {
-    grid-template-columns: 1fr 1fr;
-    gap: 0.75rem;
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
   }
 `;
 
 const GalleryImage = styled.img`
   width: 100%;
-  height: 350px;
+  height: 200px;
   object-fit: cover;
-  border-radius: 14px;
+  border-radius: 10px;
   cursor: pointer;
-  transition: all 0.35s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  @media (min-width: 480px) {
+    height: 250px;
+  }
+
+  @media (min-width: 768px) {
+    height: 300px;
+  }
+
+  @media (min-width: 1024px) {
+    height: 350px;
+  }
 
   &:hover {
-    transform: translateY(-8px) scale(1.03);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
-  }
-
-  @media (max-width: 768px) {
-    height: 160px;
-  }
-
-  @media (max-width: 480px) {
-    height: 140px;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   }
 `;
 
 const EmptyState = styled.div`
   grid-column: 1 / -1;
   text-align: center;
-  padding: 3rem 2rem;
+  padding: 2rem 1rem;
   color: #6c757d;
   background: #fff;
-  border-radius: 12px;
+  border-radius: 8px;
   border: 2px dashed #dee2e6;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
+
+  @media (min-width: 768px) {
+    padding: 3rem 2rem;
+    gap: 1rem;
+  }
 
   svg {
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: #ced4da;
+
+    @media (min-width: 768px) {
+      font-size: 2rem;
+    }
   }
 
   p {
     margin: 0;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 500;
+
+    @media (min-width: 768px) {
+      font-size: 1.1rem;
+    }
+  }
+`;
+
+const EditButton = styled.button`
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.4rem 0.8rem;
+  background-color: #1e40af;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  z-index: 10;
+
+  @media (min-width: 768px) {
+    top: 1rem;
+    right: 1rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    gap: 0.5rem;
+  }
+
+  &:hover {
+    background-color: #1e3a8a;
+    transform: translateY(-2px);
   }
 `;
 

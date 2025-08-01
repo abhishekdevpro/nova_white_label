@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import Sidebar from "./QuestionsSideBar";
 import VideoRecorder from "./VideoRecorder";
 import QuestionPanel from "./QuestionPanel";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams,useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const Title = styled.h2`
@@ -33,6 +33,7 @@ export default function PracticeInterviewPage() {
   const { jobId } = useParams();
   const [searchParams] = useSearchParams();
   const isOnDemand = searchParams.get("on_demand");
+  const naviagte = useNavigate()
 
   // ✅ Fetch questions from API
   const practiceInterview = async () => {
@@ -98,7 +99,14 @@ export default function PracticeInterviewPage() {
       if (currentIndex < questions.length - 1) {
         setCurrentIndex((prev) => prev + 1);
       } else {
-        toast.success("Interview completed!");
+        setTimeout(()=>{
+          toast.success("Interview completed successfully!");
+        },500)
+        
+        if(isOnDemand){
+          naviagte(`/user/apply/${jobId}`)
+        }
+        else naviagte(`/user/jobs/${jobId}`)
       }
     } catch (error) {
       console.error("Upload Error:", error);

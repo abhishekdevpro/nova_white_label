@@ -200,8 +200,8 @@ const SkillHistory = () => {
 
   return (
     <div className="">
-      <div className="bg-white shadow rounded">
-        <div className="p-4">
+      <div className="">
+        <div className="">
           <div className="d-flex justify-content-between align-items-center mb-4">
             <h2 className="h4 text-dark fw-bold">Skill Test History</h2>
           </div>

@@ -62,16 +62,19 @@ function CurrentUserPlan() {
             <div className="container">
               <div className="row">
                 <Profilesidebar data={"currentplan"} />
-                <div className="col-xl-9 col-lg-8 m-b30">
+                <div className="col-xl-9 col-12 m-b30">
                   <div className="job-bx job-profile">
                     <div className="">
                       <div className="job-bx-title clearfix d-flex flex-column gap-2 ">
                         <h5 className="font-weight-700 pull-left text-uppercase">
                           Your Current Plan
                         </h5>
-                        <p className="text-danger">{isactivePlan?"":"You have no active plan. Upgrade it now"}</p>
+                        <p className="text-danger small">{isactivePlan?"":"You have no active plan. Upgrade it now"}</p>
                       </div>
-                      
+                       
+                       <h5 className="text-muted ">
+                         {isactivePlan ? " " : "Recommended Plan for you"}
+                       </h5>
                       <PricingContainer>
                         {loading ? (
                           <div>Loading...</div>
