@@ -602,7 +602,7 @@ function App() {
             path="vendorcomponypostjobs/:id"
             element={
               <PrivateRoutevendor>
-                <VendorComponypostjobs />
+                <EmployeeComponypostjobs />
               </PrivateRoutevendor>
             }
           />

@@ -295,7 +295,7 @@ const Hero = () => {
           cost.
         </SubHeading>
         <ButtonsContainer>
-          <Button href="/white-label-started">Get Started Now</Button>
+          <button className="site-button" href="/white-label-started">Get Started Now</button>
           {/* <VendorPartnershipForm /> */}
           {/* <Button href="#">Book A Call</Button> */}
         </ButtonsContainer>

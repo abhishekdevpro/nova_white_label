@@ -119,14 +119,14 @@ console.log("Vendor ID:", localStorage.getItem("vendorId")); // Log the vendor I
               </Form.Group>
 
               {error && <p className="text-danger mt-3">{error}</p>}
-              <Button
+              <button
                 // variant="primary"
                 type="submit"
                 className=" site-button my-1 w-100"
                 style={{ backgroundColor: "#1C2957" }}
               >
                 Login
-              </Button>
+              </button>
             </Form>
             <p className="text-center">
               Don't have an account?{" "}
