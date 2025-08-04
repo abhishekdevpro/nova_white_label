@@ -325,7 +325,7 @@ const ShowcaseComponent = () => {
           {isEdit && (
             <button style={styles.editButton} onClick={() => handleEditClick("hero")}>
               <MdEdit size={18} />
-              Edit Hero
+              {/* Edit Hero */}
             </button>
           )}
           
@@ -386,7 +386,7 @@ const ShowcaseComponent = () => {
           {isEdit && (
             <button style={styles.editButton} onClick={() => handleEditClick("about")}>
               <MdEdit size={18} />
-              Edit About
+              {/* Edit About */}
             </button>
           )}
           <h2 style={styles.sectionTitle}>About Us</h2>
@@ -425,7 +425,7 @@ const ShowcaseComponent = () => {
           {isEdit && (
             <button style={styles.editButton} onClick={() => handleEditClick("benefits")}>
               <MdEdit size={18} />
-              Edit Benefits
+              {/* Edit Benefits */}
             </button>
           )}
           <h2 style={styles.sectionTitle}>Benefits & Perks</h2>

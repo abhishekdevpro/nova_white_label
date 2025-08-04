@@ -8,6 +8,7 @@ import { Link } from "lucide-react";
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import TextEditor from "../../../../common/TextEditor";
 
 const BasicInformationTab = ({
   activeTab,
@@ -22,7 +23,7 @@ const BasicInformationTab = ({
   const [file, setFile] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const token =
-    localStorage.getItem("vendorToken") || localStorage.getItem("authToken");
+    localStorage.getItem("vendorToken") || localStorage.getItem("authToken") || localStorage.getItem("employeeLoginToken");
   if (activeTab !== "basic") return null;
 
   const handleImageChange = (e) => {
@@ -39,15 +40,20 @@ const BasicInformationTab = ({
   const handleUpdateCompanyLogo = async () => {
     if (!file?.file) return;
 
+    
+
     setIsUploading(true);
     try {
+      const API = localStorage.getItem("employeeLoginToken")
+      ? `https://apiwl.novajobs.us/api/employeer/company-logo`
+      : `https://apiwl.novajobs.us/api/admin/company-logo`;
       const formData = new FormData();
       formData.append("logo", file.file);
 
       console.log("Uploading logo:", file.file.name);
 
       const response = await axios.put(
-        "https://apiwl.novajobs.us/api/admin/company-logo",
+        API,
         formData,
         {
           headers: {
@@ -95,9 +101,10 @@ const BasicInformationTab = ({
   };
 
   // Default logo placeholder - you can replace this with your default logo
+  console.log(companyData,"companyData?.logo")
   const defaultLogo =
     companyData?.logo ||
-    "https://via.placeholder.com/150x150/1e40af/ffffff?text=Logo";
+    "https://www.diabetes.ie/wp-content/uploads/2021/05/logo-Placeholder.jpg";
 
   return (
     <div className="tab-pane fade show active">
@@ -163,10 +170,7 @@ const BasicInformationTab = ({
                             objectFit: "cover",
                             borderRadius: "6px",
                           }}
-                          onError={(e) => {
-                            e.target.src =
-                              "https://via.placeholder.com/150x150/1e40af/ffffff?text=Logo";
-                          }}
+                          
                         />
                       )}
 
@@ -242,13 +246,13 @@ const BasicInformationTab = ({
                             </>
                           )}
                         </button>
-                        <button
+                        {/* <button
                           onClick={() => setFile(null)}
                           className="btn btn-outline-secondary btn-sm"
                           disabled={isUploading}
                         >
                           <i className="fa fa-times"></i>
-                        </button>
+                        </button> */}
                       </div>
                     </div>
                     {isUploading && (
@@ -314,8 +318,8 @@ const BasicInformationTab = ({
             <SectionTitle>Join Us</SectionTitle>
             <div className="mb-3">
               <label>Career Opportunities</label>
-              <ReactQuill
-                theme="snow"
+              
+              <TextEditor
                 value={companyData.join_us || ""}
                 onChange={(value) =>
                   setCompanyData((prev) => ({
@@ -323,7 +327,6 @@ const BasicInformationTab = ({
                     join_us: value,
                   }))
                 }
-                className="h-48 mb-12"
               />
             </div>
 
@@ -338,7 +341,7 @@ const BasicInformationTab = ({
                   onChange={handleInputChange}
                   className="form-control"
                   placeholder="Facebook url"
-                  maxLength={500}
+                  maxLength={200}
                 />
               </div>
               <div className="col-md-6 mb-3">
@@ -350,7 +353,7 @@ const BasicInformationTab = ({
                   onChange={handleInputChange}
                   className="form-control"
                   placeholder="Linkedin"
-                  maxLength={500}
+                  maxLength={200}
                 />
               </div>
               <div className="col-md-6 mb-3">
@@ -374,7 +377,7 @@ const BasicInformationTab = ({
                   onChange={handleInputChange}
                   className="form-control"
                   placeholder="Website"
-                  maxLength={500}
+                  maxLength={200}
                 />
               </div>
             </div>
@@ -388,7 +391,7 @@ const BasicInformationTab = ({
                   onClick={(e) => handleSave(e, makesUsUnique)}
                   className="site-button w-100"
                 >
-                  {/* <i className="fa-solid fa-save"></i> */}
+                
                   Save All Changes
                 </button>
               </div>

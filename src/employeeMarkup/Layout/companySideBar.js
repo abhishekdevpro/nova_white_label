@@ -117,9 +117,12 @@ const CompanySideBar = ({ active }) => {
   formData.append("logo", file?.file);
   const handleUpdateCompanyLogo = (e) => {
     e.preventDefault();
+    const API = localStorage.getItem("employeeLoginToken")? `https://apiwl.novajobs.us/api/employeer/company-logo` : `https://apiwl.novajobs.us/api/admin/company-logo`
+
+    console.log(API,"mmmmmm")
     axios({
       method: "PUT",
-      url: "https://apiwl.novajobs.us/api/employeer/company-logo",
+      url: API,
       headers: {
         Authorization: token,
       },
@@ -139,8 +142,8 @@ const CompanySideBar = ({ active }) => {
         ☰
       </button>
       <div className={`sidebar-2 ${sidebarOpen ? "open" : ""}`}>
-        <div className="">
-          <div className="sticky-top">
+        <div className="" >
+          <div className="sticky-top ">
             <div className="d-flex justify-content-start d-lg-none p-3">
               <X onClick={toggleSidebar} style={{ cursor: "pointer" }} />
             </div>
@@ -203,7 +206,7 @@ const CompanySideBar = ({ active }) => {
                   <Link to={"#"}>{companyDetail?.company_name}</Link>
                 </h4>
               </div>
-              <ul>
+              <ul >
                 <li>
                   <Link
                     to={"/employer/company-profile"}

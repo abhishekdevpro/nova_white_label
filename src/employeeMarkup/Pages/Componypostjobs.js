@@ -4,7 +4,6 @@ import { Link, useParams } from "react-router-dom";
 import Header2 from "./../Layout/Header2";
 import { Form, Button } from "react-bootstrap";
 import { FaX } from "react-icons/fa6";
-import TextEditor from "../Element/Editor";
 import AddSkills from "../Element/AddSkills";
 import AddScreening from "../Element/AddScreening";
 import { FaCircleQuestion } from "react-icons/fa6";
@@ -25,6 +24,7 @@ import { useEffect } from "react";
 import CompanySideBar from "../Layout/companySideBar";
 import Footer from "../../markup/Layout/Footer";
 import { toast } from "react-toastify";
+import TextEditor from "../../common/TextEditor";
 
 function EmployeeComponypostjobs() {
   const postAJobData = useSelector((state) => state.postAJobSlice.postAJobData);
@@ -221,7 +221,7 @@ function EmployeeComponypostjobs() {
           keyword: postAJobData.jobTitle,
           title: postAJobData.jobTitle,
           workplace_type: Number(postAJobData.workplaceType),
-          job_type: postAJobData.jobType,
+          job_type: Number(postAJobData.jobType),
           company: postAJobData.company,
         },
       });
@@ -551,7 +551,7 @@ function EmployeeComponypostjobs() {
             <div className="container">
               <div className="row">
                 <CompanySideBar active="postJob" />
-                
+
                 <div className="col-xl-9 col-lg-9 col-12">
                   <div
                     className="job-bx submit-resume"
@@ -949,7 +949,15 @@ function EmployeeComponypostjobs() {
                           <Skeleton width={740} />
                         </div>
                       ) : (
-                        <TextEditor value={postAJobData.description} />
+                        <TextEditor
+                          value={postAJobData.description}
+                          onChange={(value) =>
+                            setPostAJobData((prev) => ({
+                              ...prev,
+                              description: value,
+                            }))
+                          }
+                        />
                       )}
                     </div>
                     <div>

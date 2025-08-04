@@ -293,7 +293,7 @@ const getImagesForTab = () => {
       {isEdit && (
         <EditButton onClick={() => handleEditClick("gallery")}>
           <MdEdit size={18} />
-          Edit Gallery
+          {/* Edit Gallery */}
         </EditButton>
       )}
 

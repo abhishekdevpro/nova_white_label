@@ -205,7 +205,7 @@ const JobsSection = ({ jobs, isEdit, handleEditClick, companyData, navigate }) =
       {isEdit && (
         <EditButton onClick={() => handleEditClick("jobs")}>
           <MdEdit size={18} />
-          Edit Jobs
+          {/* // Edit Jobs */}
         </EditButton>
       )}
       
