@@ -20,6 +20,9 @@ import LikeButton from "./LikeButton";
 import LinkedInShareButton from "./ShareButton";
 import ConfirmationDialog from "./ConformationDialog";
 import { toast } from "react-toastify";
+import { formatDaysAgo } from "../../../adminPanel/utils/DateUtils";
+import { SendIcon } from "lucide-react";
+import PostCreation from "./PostCreation";
 
 // Styled Components
 const Container = styled.div`
@@ -127,11 +130,15 @@ const CommentCard = styled.div`
   align-items: center;
   justify-center: between;
   gap: 0.5rem;
+
+  @media (max-width: 768px) {
+    padding:8px;
+  }
 `;
 
 const CommentTextArea = styled.textarea`
   width: 100%;
-  padding: 5px 5px;
+  padding: 2px 2px;
   border-radius: 8px;
   background-color: #f9fafb;
   border: 1px solid #d1d5db;
@@ -140,12 +147,12 @@ const CommentTextArea = styled.textarea`
   resize: none;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 
-  &:focus {
-    outline: none;
-    border-color: #2563eb; /* Slightly deeper blue */
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3); /* Softer blue shadow */
-    background-color: #ffffff;
-  }
+  // &:focus {
+  //   outline: none;
+  //   border-color: #2563eb; 
+  //   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3); /* Softer blue shadow */
+  //   background-color: #ffffff;
+  // }
 
   &::placeholder {
     color: #9ca3af;
@@ -180,9 +187,7 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
     localStorage.getItem("employeeLoginToken") ||
     "";
 
-  function isValidJWT(token) {
-    return typeof token === "string" && token.split(".").length === 3;
-  }
+  
 
   const editComment = (commentId, content, postId) => {
     setEditingCommentId(commentId);
@@ -252,51 +257,9 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
     setEditingCommentPostId(null);
   };
 
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setImage(imageUrl);
-    }
-  };
+  
 
-  const toggleLike = async (postId) => {
-    if (!token || !isValidJWT(token)) {
-      setLoginModal(true);
-      return;
-    }
-
-    try {
-      const response = await axios.post(
-        `https://apiwl.novajobs.us/api/feed/toggle-like/${postId}`,
-        {},
-        {
-          headers: {
-            Authorization: token,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (response.data && response.data.status === "success") {
-        setPosts(
-          posts.map((post) =>
-            post.id === postId
-              ? {
-                  ...post,
-                  liked: !post.liked,
-                  likes: post.liked ? post.likes - 1 : post.likes + 1,
-                }
-              : post
-          )
-        );
-      } else {
-        console.error("Error toggling like:", response.data.message);
-      }
-    } catch (error) {
-      console.error("Error toggling like:", error);
-    }
-  };
+ 
 
   const addPost = async () => {
     if (!token) {
@@ -415,17 +378,7 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
       });
   };
 
-  const handleCopyLink = (postId) => {
-    navigator.clipboard
-      .writeText(`https://example.com/post/${postId}`)
-      .then(() => alert("Link copied to clipboard"))
-      .catch((err) => console.error("Error copying link:", err));
-  };
-
-  const sharePost = (postId) => {
-    setActiveSharePostId(activeSharePostId === postId ? null : postId);
-    setCommentContent("");
-  };
+ 
 
   const editPost = (postId, currentContent) => {
     setEditingPostId(postId);
@@ -566,73 +519,15 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
 
   return (
     <Container>
-      <PostCreationSection>
-        <TextArea
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          placeholder="Ask anything (even anonymously)..."
-        />
-        <div
-          style={{
-            marginTop: "16px",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-            <label
-              htmlFor="file-upload"
-              style={{ cursor: "pointer", color: "#1e3a8a" }}
-            >
-              <FaCamera style={{ marginRight: "8px" }} />
-              <span style={{ fontSize: "14px" }}>Upload Image</span>
-              <input
-                type="file"
-                id="file-upload"
-                accept="image/*"
-                onChange={handleImageUpload}
-                style={{ display: "none" }}
-              />
-            </label>
-          </div>
+      
 
-          <button className="site-button rounded-2" onClick={addPost}>
-            Post
-          </button>
-        </div>
-
-        {image && (
-          <div style={{ marginTop: "16px", position: "relative" }}>
-            <img
-              src={image}
-              alt="Uploaded"
-              style={{
-                maxWidth: "100%",
-                height: "auto",
-                borderRadius: "8px",
-                boxShadow: "0 1px 2px rgba(0, 0, 0, 0.1)",
-              }}
-            />
-            <button
-              onClick={() => setImage(null)}
-              style={{
-                position: "absolute",
-                top: "8px",
-                right: "8px",
-                backgroundColor: "#ef4444" /* Red */,
-                color: "#ffffff",
-                padding: "4px",
-                borderRadius: "50%",
-                border: "none",
-                cursor: "pointer",
-              }}
-            >
-              <FaTimes />
-            </button>
-          </div>
-        )}
-      </PostCreationSection>
+      <PostCreation 
+        content={content}
+        setContent={setContent}
+        image={image}
+        setImage={setImage}
+        addPost={addPost}
+      />
 
       <PostSection>
         {posts.length === 0 ? (
@@ -680,28 +575,25 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
                       to={`/community/${post.id}`}
                       className="text-decoration-none"
                     >
-                      
                       {
-                       
-                      <p className="fw-bold text-dark mb-0">
-                        {
-                        post.user_first_name &&
-                        post.user_last_name ? (
-                          <>
-                            {post.user_first_name} {post.user_last_name}
-                          </>
-                        ) : (
-                          "Anonymous Employer"
-                        )}
-                      </p>
-                      //  :   
-                      //  <p className="fw-bold text-dark mb-0">
-                      //   {post.user_first_name} {post.user_last_name}
-                      // </p>
-                    }
+                        <p className="fw-bold text-dark mb-0">
+                          {post.user_first_name && post.user_last_name ? (
+                            <>
+                              {post.user_first_name} {post.user_last_name}
+                            </>
+                          ) : (
+                            "Anonymous Employer"
+                          )}
+                        </p>
+                        //  :
+                        //  <p className="fw-bold text-dark mb-0">
+                        //   {post.user_first_name} {post.user_last_name}
+                        // </p>
+                      }
                     </Link>
                     <p className="text-muted mb-0" style={{ fontSize: "12px" }}>
-                      {new Date(post.created_at).toLocaleDateString()}
+                      {/* {new Date(post.created_at).toLocaleDateString()} */}
+                      Posted {formatDaysAgo(post.created_at)}
                     </p>
                   </div>
                 </div>
@@ -898,6 +790,7 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
                       value={commentContent}
                       onChange={(e) => setCommentContent(e.target.value)}
                       placeholder="Join the conversation..."
+                      maxLength={50}
                     />
                     <div
                       style={{
@@ -907,15 +800,16 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
                       }}
                     >
                       <button
-                        className="site-button"
+                        className="site-button d-flex align-items-center"
                         onClick={() => addComment(post.id)}
                       >
-                        Comment
+                        <SendIcon className="d-block d-md-none" size={16} />
+                        {/* <span className="d-block d-md-none"></span> */}
+                        <span className="d-none d-md-block">Comment</span>
                       </button>
                     </div>
                   </CommentCard>
 
-                 
                   {post.feed_comments && post.feed_comments.length > 0 && (
                     <div className="d-flex flex-column gap-2 mt-3">
                       {post.feed_comments.map((comment, index) => (
@@ -966,29 +860,28 @@ const FeedSection = ({ loginModal, setLoginModal }) => {
                           ) : (
                             <div className="d-flex justify-content-between align-items-start w-100">
                               <div className="flex-grow-1">
-                                {/* <p className="fw-bold mb-1">
-                                  {comment?.user_first_name}{" "}
-                                  {comment?.user_last_name}
-                                </p> */}
-                                  
-                      {
-                      // localStorage.getItem("employeeLoginToken") ? 
-                      <p className="fw-bold text-dark mb-0">
-                        {
-                        comment.user_first_name &&
-                        comment.user_last_name ? (
-                          <>
-                            {comment.user_first_name} {comment.user_last_name}
-                          </>
-                        ) : (
-                          "Anonymous Employer"
-                        )}
-                      </p>
-                      //  :   
-                      //  <p className="fw-bold text-dark mb-0">
-                      //   {comment.user_first_name} {comment.user_last_name}
-                      // </p>
-                      }
+                                {
+                                  <>
+                                    <p className="fw-bold text-dark mb-0">
+                                      {comment.user_first_name &&
+                                      comment.user_last_name ? (
+                                        <>
+                                          {comment.user_first_name}{" "}
+                                          {comment.user_last_name}
+                                        </>
+                                      ) : (
+                                        "Anonymous Employer"
+                                      )}
+                                    </p>
+                                    <p
+                                      className="text-muted mb-0"
+                                      style={{ fontSize: "12px" }}
+                                    >
+                                      {/* {new Date(post.created_at).toLocaleDateString()} */}
+                                      Posted {formatDaysAgo(comment.created_at)}
+                                    </p>
+                                  </>
+                                }
                                 <p className="text-muted mb-0">
                                   {comment.content}
                                 </p>

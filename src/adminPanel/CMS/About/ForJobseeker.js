@@ -293,11 +293,11 @@ function ForJobseeker({ forJobseekerData, projectName }) {
                 ></div>
               )}
               {showImage && (
-                <div className="mx-3 mx-lg-5 d-flex justify-content-center">
+                <div className=" d-flex justify-content-center">
                   <img
                     src={imagePreview}
                     alt="Uploaded"
-                    style={{ height: "400px", width: "800px" }}
+                    style={{ height: "auto", width: "800px",objectFit:"cover" }}
                   />
                 </div>
               )}

@@ -168,8 +168,7 @@ function Introductions({ introductionData, projectName }) {
 
   return (
     <>
-      <ToastContainer />
-      <div className="mt-5">
+      <div className="">
         {authToken && (
           <button
             className="btn btn-warning mt-3 float-end"
@@ -178,7 +177,7 @@ function Introductions({ introductionData, projectName }) {
             Edit
           </button>
         )}
-        <div className="mx-3 mx-lg-5 mb-4 mb-lg-0">
+        <div className="">
           {isEditing ? (
             <div>
               <div className="d-flex justify-content-start gap-2">
@@ -541,7 +540,7 @@ function Introductions({ introductionData, projectName }) {
                     style={{
                       position: "relative",
                       width: "90%", // Responsive width
-                      maxWidth: "700px", // Maximum width limit
+                      maxWidth: "800px", // Maximum width limit
                       paddingBottom: "56.25%", // 16:9 Aspect Ratio
                       border: "2px solid #ccc",
                       borderRadius: "10px",
@@ -566,21 +565,8 @@ function Introductions({ introductionData, projectName }) {
               <div className="mt-4 ">
                 {showpdfheading && <h3 className="mb-4">{pdfheading}</h3>}
               </div>
+
               {/* {showPdf && pdfPreview && (
-                <div className="mt-4 mb-4 text-center">
-                  <iframe
-                    src={pdfPreview}
-                    width="800px"
-                    height="500px"
-                    style={{
-                      border: "2px solid #ccc",
-                      borderRadius: "10px",
-                      boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-                    }}
-                  ></iframe>
-                </div>
-              )} */}
-              {showPdf && pdfPreview && (
                 <div
                   style={{
                     display: "flex",
@@ -610,10 +596,44 @@ function Introductions({ introductionData, projectName }) {
                     ></iframe>
                   </div>
                 </div>
+              )} */}
+              {showPdf && pdfPreview && (
+                <div className="mt-3">
+                  <p>
+                    <strong>PDF Preview:</strong>
+                  </p>
+                  <div
+                    style={{
+                      position: "relative",
+                      paddingBottom: "56.25%", // 16:9 ratio
+                      height: 0,
+                      maxWidth: "800px",
+                      margin: "0 auto",
+                      overflow: "hidden",
+                      border: "2px solid #ccc",
+                      borderRadius: "10px",
+                      boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                    }}
+                  >
+                    <iframe
+                      src={pdfPreview}
+                      title="PDF Preview"
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: "100%",
+                        border: "none",
+                      }}
+                    ></iframe>
+                  </div>
+                </div>
               )}
 
               {showParagraph1A && (
                 <div
+                  className="mt-2 "
                   dangerouslySetInnerHTML={{ __html: paragraph1AContent }}
                 ></div>
               )}
@@ -632,18 +652,22 @@ function Introductions({ introductionData, projectName }) {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    padding: "20px",
+                    padding: "1rem",
+                    width: "100%",
+                    
+                    boxSizing: "border-box",
                   }}
                 >
                   <img
                     src={imagePreview}
                     alt="Uploaded Image"
                     style={{
-                      width: "90%", // Responsive width
-                      maxWidth: "800px", // Maximum width limit
-                      height: "auto", // Maintain aspect ratio
+                      width: "100%", // Make it scale to container
+                      // maxWidth: "800px", // Cap the max width
+                      height: "auto",
+                      objectFit:"contain",
                       borderRadius: "10px",
-                      boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                      boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
                     }}
                   />
                 </div>

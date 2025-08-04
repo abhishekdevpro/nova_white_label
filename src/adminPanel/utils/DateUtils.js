@@ -20,11 +20,11 @@ export const formatDaysAgo = (dateString) => {
   const diffTime = today - createdDate;
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
-  if (diffDays === 0) return "Applied today";
-  if (diffDays === 1) return "Applied yesterday";
+  if (diffDays === 0) return "today";
+  if (diffDays === 1) return "yesterday";
   if(diffDays <30 )
-  return `Applied ${diffDays} days ago`;
-  else return `Applied on ${formatDate(dateString)}`;
+  return ` ${diffDays} days ago`;
+  else return ` ${formatDate(dateString)}`;
 };
 
 

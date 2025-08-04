@@ -12,11 +12,19 @@ import UserHeader from "../../Layout/Header";
 
 
 function Community() {
-  const token = localStorage.getItem("jobSeekerLoginToken")
   return (
     <>
-     {token ? <UserHeader />:<EmployeeHeader2/>}
-      {/* <FixedHeader /> */}
+    {
+  localStorage.getItem("jobSeekerLoginToken") ? (
+    <UserHeader2 />
+  ) : localStorage.getItem("employeeLoginToken") ? (
+    <EmployeeHeader2 />
+  ) : (
+    <UserHeader />
+  )
+}
+
+    
 
       <div className="page-content bg-light">
         <div className="content-block">

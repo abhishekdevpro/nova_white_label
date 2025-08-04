@@ -179,7 +179,7 @@ function EducationPage() {
                         </div>
 
                         <ul
-                          className="job-list-container"
+                          className="job-list-container d-none d-md-block"
                           style={{
                             maxHeight: "calc(100vh - 200px)",
                             overflowY: "auto",
@@ -187,7 +187,7 @@ function EducationPage() {
                         >
                           {conversations.map(
                             (item, index) => (
-                              console.log(conversations),
+                              // console.log(conversations),
                               (
                                 <li key={index}>
                                   <Link
@@ -302,6 +302,7 @@ function EducationPage() {
                           style={{
                             display: "flex",
                             justifyContent: "space-between",
+                            gap:"10px"
                           }}
                         >
                           {currentConversation !== 0 ? (

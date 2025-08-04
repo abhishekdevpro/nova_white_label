@@ -17,7 +17,7 @@ const SavedJobs = () => {
 
   const [skeleton, setSkeleton] = useState(true);
   const [selectedJob, setSelectedJob] = useState(null);
-  const [sortBy, setSortBy] = useState("asc");
+  const [sortBy, setSortBy] = useState("desc");
   const token = localStorage.getItem("jobSeekerLoginToken");
 
   const jobApplicationData = useSelector(
@@ -45,7 +45,7 @@ const SavedJobs = () => {
 
   useEffect(() => {
     fetchJobApplicationData();
-  }, []);
+  }, [sortBy]);
 
   const handleToggleFavorite = async (jobId) => {
     if (!token) {
@@ -109,12 +109,12 @@ const SavedJobs = () => {
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
             >
-              <option value="asc">Newest</option>
-              <option value="desc">Oldest</option>
+              <option value="desc">Newest</option>
+              <option value="asc">Oldest</option>
             </select>
           </div>
         </div>
-        <div className="row" style={{maxHeight: 'calc(100vh)', overflowY: 'auto', scrollbarWidth:"none"}}>
+        <div className="row py-2 " style={{maxHeight: 'calc(100vh)', overflowY: 'auto', scrollbarWidth:"none",overflowX:"hidden"}}>
           {skeleton ? (
             <div>
               Please wait or check if you have saved any jobs.

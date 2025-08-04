@@ -252,7 +252,7 @@ function Profilesidebar({ data }) {
                   style={{ fontSize: "15px" }}
                 >
                   <Video className="me-2" />
-                  <span>Interviews</span>
+                  <span>My Interviews</span>
                 </Link>
               </li>
               <li>

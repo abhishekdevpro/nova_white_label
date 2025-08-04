@@ -547,7 +547,7 @@ const Jobseekerlist = () => {
                                           {jobId && (
                                             <>
                                               <p className="mb-0 text-start text-wrap-balanced">
-                                                {formatDaysAgo(
+                                                Applied {formatDaysAgo(
                                                   job_applied.created_at
                                                 ) || "N/A"}
                                               </p>

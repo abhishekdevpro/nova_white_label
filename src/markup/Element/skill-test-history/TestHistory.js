@@ -147,6 +147,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Award, CheckCircle, XCircle } from "lucide-react";
+import { formatDate } from "../../../adminPanel/utils/DateUtils";
 
 const LoadingSpinner = () => (
   <div className="d-flex align-items-center justify-content-center min-vh-50">
@@ -236,7 +237,7 @@ const SkillHistory = () => {
                 <tbody>
                   {users.map((user, index) => (
                     <tr key={index} className="align-middle">
-                      <td>{new Date(user.date_time).toLocaleDateString() || "N/A"}</td>
+                      <td>{formatDate(user.date_time)}</td>
                       <td>
                         <div className="d-flex align-items-center">
                           <Award className="me-2 text-primary" />

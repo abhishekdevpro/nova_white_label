@@ -390,7 +390,7 @@ function Novajobsus({ novaJobsusData, projectName }) {
                         image.isVisible && image.preview ? (
                           <Carousel.Item key={index}>
                             <img
-                            style={{height:"500px",objectFit: "cover", width:"100%"}}
+                            style={{maHeight:"400px",width:"100%",objectFit: "contain", }}
                               className="d-block w-100 img-fluid"
                               src={image.preview}
                               alt={`Slide ${index + 1}`}

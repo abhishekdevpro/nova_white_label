@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useState } from "react";
+import { formatDaysAgo } from "../../../adminPanel/utils/DateUtils";
 
 function JobCard({ job, onSelect, onToggleFavorite }) {
   const [isApplied, setIsApplied] = useState(job.job_detail?.is_job_applied);
@@ -30,29 +31,7 @@ function JobCard({ job, onSelect, onToggleFavorite }) {
       return;
     }
     else navigate(`/user/apply/${jobId}`);
-    // try {
-    //   const response = await axios.post(
-    //     "https://apiwl.novajobs.us/api/jobseeker/jobs-applied",
-    //     {
-    //       job_id: jobId,
-    //       screen_questions: screeningQuestion,
-    //     },
-    //     {
-    //       headers: {
-    //         Authorization: `${token}`,
-    //       },
-    //     }
-    //   );
-
-    //   if (response?.data) {
-    //     console.log(response, "appli");
-    //     toast.success("Application submitted successfully!");
-    //     setIsApplied(true);
-    //   }
-    // } catch (error) {
-    //   console.error(error);
-    //   toast.error("Failed to submit application. Please try again.");
-    // }
+    
   };
 
   const handleToggleFavorite = async (JobId) => {
@@ -145,7 +124,8 @@ function JobCard({ job, onSelect, onToggleFavorite }) {
                 margin: "0",
               }}
             >
-              {moment(job.job_detail?.created_at).fromNow()}
+              {/* {moment(job.job_detail?.created_at).fromNow()} */}
+              Posted {formatDaysAgo(job.job_detail?.created_at)}
             </p>
           </div>
         </div>

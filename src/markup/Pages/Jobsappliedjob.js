@@ -52,7 +52,7 @@ function Jobsappliedjob() {
 
   useEffect(() => {
     fetchAppliedJobs();
-  }, []);
+  }, [sortBy]);
 
   const [selectedJob, setSelectedJob] = useState(null);
   const [show, setShow] = useState(false);
@@ -78,51 +78,10 @@ function Jobsappliedjob() {
     console.log(jobApplicationData, "error");
   }, [jobApplicationData]);
 
-  const screeningQuestion = useSelector(
-    (state) => state.jobApplicationScreeningQues.selectedScreeningQuestions
-  );
-  const [activeTab, setActiveTab] = useState("contact-info");
-  const handleNext = () => {
-    if (activeTab === "contact-info") {
-      setActiveTab("additional-info");
-    } else if (activeTab === "additional-info") {
-      setActiveTab("resume-info");
-    } else if (activeTab === "resume-info") {
-      setActiveTab("immediate-info");
-    }
-  };
+ 
 
-  const handlePrev = () => {
-    if (activeTab === "immediate-info") {
-      setActiveTab("resume-info");
-    } else if (activeTab === "resume-info") {
-      setActiveTab("additional-info");
-    } else if (activeTab === "additional-info") {
-      setActiveTab("contact-info");
-    }
-  };
-  console.log(selectedJob?.job_detail?.id, "job id");
-  const handleSubmit = () => {
-    axios({
-      method: "POST",
-      url: "http://93.188.167.106:3001/api/jobseeker/jobs-applied",
-      headers: {
-        Authorization: token,
-      },
-      data: {
-        job_id: selectedJob.job_detail.id,
-        screen_questions: screeningQuestion,
-      },
-    })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-        console.log(err.response.data.message);
-        showToastError(err?.response?.data?.message);
-      });
-  };
+ 
+ 
 
   return (
     <>
@@ -155,19 +114,12 @@ function Jobsappliedjob() {
                   {skeleton === true ? (
                     <JobPageSkeleton />
                   ) : (
-                    <div style={{maxHeight: 'calc(100vh)', overflowY: 'auto', scrollbarWidth:"none"}}>
+                    <div className="py-2" style={{maxHeight: 'calc(100vh)', overflowY: 'auto', scrollbarWidth:"none",overflowX:"hidden"}}>
                       {data ? (
                       
-                        <ul className="post-job-bx browse-job" >
-                          {[...data]
-                            .sort((a, b) => {
-                              const dateA = new Date(a?.job_detail?.created_at);
-                              const dateB = new Date(b?.job_detail?.created_at);
-                              return sortBy === "newest"
-                                ? dateB - dateA
-                                : dateA - dateB;
-                            })
-                            .map((item) => (
+                        <ul className="post-job-bx browse-job px-2" >
+                          {
+                            data.length>0 &&data?.map((item) => (
                               <JobCard
                                 key={item.s_no}
                                 job={item}
@@ -187,30 +139,6 @@ function Jobsappliedjob() {
                       )}
                     </div>
                   )}
-
-                  {/* <div className="pagination-bx m-t30">
-                    <ul className="pagination">
-                      <li className="previous">
-                        <Link to={"#"}>
-                          <i className="ti-arrow-left"></i> Prev
-                        </Link>
-                      </li>
-                      <li className="active">
-                        <Link to={"#"}>1</Link>
-                      </li>
-                      <li>
-                        <Link to={"#"}>2</Link>
-                      </li>
-                      <li>
-                        <Link to={"#"}>3</Link>
-                      </li>
-                      <li className="next">
-                        <Link to={"#"}>
-                          Next <i className="ti-arrow-right"></i>
-                        </Link>
-                      </li>
-                    </ul>
-                  </div> */}
                 </div>
               </div>
             </div>
