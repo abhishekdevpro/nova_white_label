@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import Header from './../Layout/Header';
 import Footer from './../Layout/Footer';
 import Jobcategories from './../Element/Jobcategories';
-import Jobsection from './../Element/Jobsection';
+import Jobsection from '../Element/HomePage/Jobsection';
 import Owltestimonial from './../Element/Owlblog1';
 import Latestblogowl from './../Element/Owlblog2';
 

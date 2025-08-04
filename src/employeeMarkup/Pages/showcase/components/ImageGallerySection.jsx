@@ -138,7 +138,7 @@ const GalleryGrid = styled.div`
   }
 
   @media (min-width: 1024px) {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
   }
 `;
@@ -254,47 +254,6 @@ const GallerySection = ({
       "https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=400&h=300&fit=crop"
     ),
   };
-  // console.log(FALLBACK_IMAGES.gallery,"FALLBACK_IMAGES")
-
-  // const getImagesForTab = () => {
-  //   switch (activeTab) {
-  //     case "culture":
-  //       return companyData?.inside_culture_images?.length
-  //         ? companyData.inside_culture_images
-  //         : FALLBACK_IMAGES.gallery || [];
-  //     case "people":
-  //       return companyData?.inside_people_images?.length
-  //         ? companyData.inside_people_images
-  //         : FALLBACK_IMAGES.gallery || [];
-  //     case "workplace":
-  //       return companyData?.inside_workplace_images?.length
-  //         ? companyData.inside_workplace_images
-  //         : FALLBACK_IMAGES.gallery || [];
-  //     default:
-  //       return FALLBACK_IMAGES.gallery || [];
-  //   }
-  // };
-// const getImagesForTab = () => {
-//   const placeholderImage = "https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=400&h=300&fit=crop";
-
-//   let images = [];
-
-//   switch (activeTab) {
-//     case "culture":
-//       images = companyData?.inside_culture_images || [];
-//       break;
-//     case "people":
-//       images = companyData?.inside_people_images || [];
-//       break;
-//     case "workplace":
-//       images = companyData?.inside_workplace_images || [];
-//       break;
-//     default:
-//       images = [];
-//   }
-
-//   return images.length > 0 ? images : [placeholderImage];
-// };
 
 const getImagesForTab = () => {
   const placeholderImage = "https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=400&h=300&fit=crop";

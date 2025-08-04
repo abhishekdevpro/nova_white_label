@@ -481,7 +481,7 @@ const validatePhone = (number) => {
                 <Profilesidebar data={"profile"} />
                 <div className="col-xl-9 col-12 m-b30">
                   <div className="job-bx job-profile">
-                    <div className="job-bx-title clearfix">
+                    <div className="job-bx-title clearfix ">
                       <div className="d-flex justify-content-between align-items-center mb-3">
                         <h5 className="font-weight-700 pull-left text-uppercase ">
                           Basic Information
@@ -494,7 +494,7 @@ const validatePhone = (number) => {
                         Back
                       </Link> */}
                     </div>
-                    <form onSubmit={handleSubmit} style={{maxHeight: 'calc(100vh)', overflowY: 'auto', scrollbarWidth:"none"}}>
+                    <form onSubmit={handleSubmit} className="px-2" style={{maxHeight: 'calc(100vh)', overflowY: 'auto',overflowX:"hidden", scrollbarWidth:"none"}}>
                       <div className="row m-b30 ">
                         {/* <div className="col-12">
                           <div className="form-group">

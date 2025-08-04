@@ -110,7 +110,7 @@ const handleSubmit = async (e) => {
   return (
     <>
       <Header2 />
-      <FixedHeader />
+      {/* <FixedHeader /> */}
 
       <div className="page-content bg-white">
         <div className="content-block">

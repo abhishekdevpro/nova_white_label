@@ -1,128 +1,3 @@
-// import { useEffect, useState } from "react";
-// import Footer from "../../Layout/Footer";
-// import UserHeader2 from "../../Layout/Header2";
-// import FixedHeader from "../../Layout/fixedHeader";
-// import Profilesidebar from "../Profilesidebar";
-// import axios from "axios";
-// import { toast } from "react-toastify";
-// import { formatDate } from "../../../adminPanel/utils/DateUtils";
-// import { useNavigate } from "react-router-dom";
-
-// const InterviewList = () => {
-//   const [interviewList, setInterviewList] = useState([]);
-//   const [loading, setLoading] = useState(false);
-//   const token = localStorage.getItem("jobSeekerLoginToken");
-//   const navigate = useNavigate()
-//   const getInterviewList = async () => {
-//     setLoading(true);
-//     try {
-//       const res = await axios.get(
-//         `https://apiwl.novajobs.us/api/jobseeker/interview/practice/lists`,
-//         {
-//           headers: {
-//             Authorization: token,
-//           },
-//         }
-//       );
-
-//       if (res.data.code === 200 || res.data.status === "success") {
-//         setInterviewList(res.data.data || []);
-//       }
-//     } catch (error) {
-//       toast.error(
-//         error.response.data.message || "Failed to fetch interview questions."
-//       );
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-//   useEffect(() => {
-//     getInterviewList();
-//   }, []);
-//   return (
-
-//     <>
-//       <div>
-//         <UserHeader2 />
-//         {/* <FixedHeader /> */}
-
-//         <div className="page-content bg-white">
-//           <div className="content-block">
-//             <div className="section-full bg-white browse-job p-t50 p-b20">
-//               <div className="container">
-//                 <div className="row">
-//                   <Profilesidebar data={"skill-test-history"} />
-//                   <div className="col-xl-9 col-12 m-b30">
-//                     <div className="job-bx job-profile" >
-//                       <div className="job-bx-title">
-//                         <h5 className="text-uppercase">Interview List</h5>
-//                       </div>
-//                       <div className="job-bx-wrapper " style={{maxHeight: 'calc(100vh)', overflowY: 'auto', scrollbarWidth:"none"}}>
-//                         {loading ? (
-//                           <div className="d-flex align-items-center justify-content-center min-vh-50">
-//                             <div
-//                               className="spinner-border text-primary"
-//                               role="status"
-//                             >
-//                               <span className="visually-hidden">
-//                                 Loading...
-//                               </span>
-//                             </div>
-//                           </div>
-//                         ) : interviewList.length > 0 ? (
-//                           interviewList?.map((item, index) => (
-                            
-//                               <div
-//                                 className="job-bx-title d-flex justify-content-between align-items-start"
-//                                 key={index}
-//                               >
-//                                 <div className="">
-//                                   <h5 className="text-uppercase">
-//                                     <span className="text-primary">
-//                                       #{index + 1}
-//                                     </span>{" "}
-//                                     Practice Interview {index + 1}
-//                                   </h5>
-//                                   <p className="text-muted small m-b0 ">
-//                                     {formatDate(item.created_at)}
-//                                   </p>
-//                                 </div>
-//                                 <div className="text-end mt-3">
-//                                   <button onClick={() => navigate(`/user/interview-view-result/${item.id}`)} className="site-button small">
-//                                     View Results
-//                                   </button>
-//                                 </div>
-//                               </div>
-                            
-//                           ))
-//                         ) : (
-//                           <div className="d-flex align-items-center justify-content-center min-vh-50">
-//                             <div
-//                               className="spinner-border text-primary"
-//                               role="status"
-//                             >
-//                               <span className="visually-hidden">
-//                                 Loading...
-//                               </span>
-//                             </div>
-//                           </div>
-//                         )}
-//                       </div>
-//                     </div>
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//         <Footer />
-//       </div>
-//     </>
-//   );
-// };
-
-// export default InterviewList;
-
 
 import { useEffect, useState } from "react";
 import Footer from "../../Layout/Footer";
@@ -211,7 +86,7 @@ const InterviewList = () => {
                         </button>
                       </div>
 
-                      <div className="job-bx-wrapper" style={{maxHeight: 'calc(100vh)', overflowY: 'auto', scrollbarWidth:"none"}}>
+                      <div className="job-bx-wrapper" style={{maxHeight: 'calc(100vh)', overflowY: 'auto', overflowX:"hidden", scrollbarWidth:"none"}}>
                         {loading ? (
                           <div className="d-flex align-items-center justify-content-center min-vh-50">
                             <div className="spinner-border text-primary" role="status">
@@ -221,7 +96,7 @@ const InterviewList = () => {
                         ) : interviewList.length > 0 ? (
                           interviewList?.map((item, index) => (
                             <div
-                              className="job-bx-title d-flex justify-content-between align-items-start"
+                              className="job-bx-title d-flex flex-column flex-md-row justify-content-between align-items-start"
                               key={index}
                             >
                               <div>
@@ -233,10 +108,10 @@ const InterviewList = () => {
                                   {formatDate(item.created_at)}
                                 </p>
                               </div>
-                              <div className="text-end mt-3">
+                              <div className=" mt-3">
                                 <button 
                                   onClick={() => handleViewResult(item.id)} 
-                                  className="site-button small"
+                                  className="site-button small w-100 w-md-100"
                                 >
                                   View Results
                                 </button>

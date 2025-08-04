@@ -335,14 +335,15 @@ function ForEmployer({ forEmployerData, projectName }) {
                 ></div>
               )}
 
-              <div className="mx-3 mx-lg-5 d-flex justify-content-center">
+              <div className="d-flex justify-content-center">
                 {showImage && (
                   <img
                     src={imagePreview}
                     alt="Uploaded"
                     style={{
-                      height: "400px",
+                      height: "auto",
                       width: "800px",
+                      objectFit:"cover"
                     }}
                   />
                 )}

@@ -16,7 +16,7 @@ const Wrapper = styled.div`
 const Container = styled.div`
   max-width: 1200px;
   margin: 0 auto;
-  padding: 40px 20px;
+  // padding: 40px 20px;
 `;
 
 // Header styling with responsive adjustments
@@ -94,7 +94,7 @@ const LevelButton = styled.button`
 // Course grid layout for responsiveness
 const CourseGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 1rem;
 `;
 
@@ -346,7 +346,7 @@ const UltraAuraCourses = () => {
             <div className="container">
               <div className="row">
                 <Profilesidebar data={"ultra-aura"} />
-                <div className="col-xl-9 col-lg-8 m-b30">
+                <div className="col-xl-9 col-12 m-b30">
                   <div className="job-bx ">
                     <Header>
                       <Title>
@@ -376,11 +376,7 @@ const UltraAuraCourses = () => {
                         <CourseGrid style={{maxHeight: 'calc(100vh)', overflowY: 'auto', scrollbarWidth:"none"}}>
                           {limitedCourses?.map((course) => (
                             <CourseCard key={course.id}>
-                              {/* {course.coupon_discount_display ? 
-                 <ClaimCoupon>
-                    {course.coupon_discount_display}
-                  </ClaimCoupon>
-                  : <></>} */}
+                              
                               <Link
                                 // to={`https://ultraaura.education/course-info/${course.id}`}
                               >

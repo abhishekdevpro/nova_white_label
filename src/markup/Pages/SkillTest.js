@@ -114,7 +114,7 @@ function SkillTest() {
                       <div
                         className="job-bx job-profile"
                         style={{
-                          overflow: "hidden",
+                          overflow: "hidden"
                         }}
                       >
                         {skeleton === true ? (
@@ -124,13 +124,13 @@ function SkillTest() {
                             <Loader2 className="w-5 h-5 animate-spin" />
                           </h1>
                         ) : (
-                          <div className="row">
+                          <div className="row px-0 ">
                             <div className="job-bx-title  clearfix">
                               <h5 className="font-weight-800 pull-left text-uppercase ms-3">
                                 Skill Test
                               </h5>
                             </div>
-                           <div className="row" style={{maxHeight: 'calc(100vh)', overflowY: 'auto', scrollbarWidth:"none"}}>
+                           <div className="row" >
                              {cardData.map((card, index) => (
                               <div
                                 key={index}
@@ -142,7 +142,7 @@ function SkillTest() {
                                     boxShadow: "0 4px 8px rgba(1,1,1,0.1)",
                                     height: "250px",
                                     width:"100%",
-                                    // maxWidth: "350px",
+                                    maxWidth: "350px",
                                     display: "flex",
                                     justifyContent: "center",
                                     flexDirection: "row",
@@ -231,7 +231,7 @@ function SkillTest() {
                                       </h3>
                                     </div>
                                     <br />
-                                    <div className="d-flex justify-content-center align-items-center gap-4">
+                                    <div className="d-flex justify-content-center align-items-center gap-2">
                                       <button
                                         onClick={() => handleButtonClick(card)}
                                         className="btn site-button border bg-primary-subtle"

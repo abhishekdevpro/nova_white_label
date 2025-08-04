@@ -44,21 +44,12 @@ const CompanyList = () => {
         `https://apiwl.novajobs.us/api/jobseeker/companies?domain=${url}&title_keywords=${searchTerm}`
       );
 
-      // console.log(
-      //   "API URL:",
-      //   `https://apiwl.novajobs.us/api/jobseeker/companies?domain=${url}&title_keywords=${searchTerm}`
-      // );
-
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
-      // console.log(data, "co/mp");
-      // console.log("Total records:", data.total_records);
-      // console.log("Companies received:", (data.data || data || []).length);
-
-      // Store all companies and handle search/pagination client-side
+      
       const allCompaniesData = data.data || data || [];
       setAllCompanies(allCompaniesData);
       setTotalRecords(allCompaniesData.length); // Use actual data length
@@ -97,7 +88,9 @@ const CompanyList = () => {
 const containerStyle = {
   backgroundColor: "#f8f9fa",
   minHeight: "100vh",
+  maxWidth:"1200px",
   padding: "20px 0",
+  margin:"0 auto",
 };
 
  const searchBarStyle = {
@@ -144,7 +137,7 @@ const searchInputStyle = {
   textAlign: "center",
   transition: "all 0.3s ease",
   height: "auto",
-  minHeight: "250px",
+  minHeight: "200px",
   width: "100%",
   display: "flex",
   flexDirection: "column",
