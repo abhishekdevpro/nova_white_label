@@ -79,7 +79,7 @@ function Vendorplan() {
     fetchUserProfile();
   }, []);
 
-  const currentPlanId = userData?.vendors_detail?.plan_id || 1;
+  const currentPlanId = userData?.vendors_detail?.plan_id===1? 2 : userData?.vendors_detail?.plan_id;
   const currentPlanName = planName[currentPlanId];
   const currentPlanFeatures = planFeatures[currentPlanId];
   const currentPlanPrice = planPrices[currentPlanId];
@@ -96,13 +96,18 @@ function Vendorplan() {
             <div className="container">
               <div className="row">
                 <VendorCompanySideBar active="vendorplan" />
-                <div className="col-xl-9 col-lg-8 m-b30">
+                <div className="col-xl-9 col-12 m-b30">
                   <div className="job-bx table-job-bx clearfix">
-                    <div className="job-bx-title clearfix">
+                    <div className="job-bx-title clearfix d-flex flex-column gap-2">
                       <h5 className="font-weight-700 pull-left text-uppercase">
                         Your Current Plan
                       </h5>
+                     <p className="text-danger small">{isActivePlan ?"":"You have no active plan. Upgrade it now"}</p>
                     </div>
+
+                     <h5 className="text-muted ">
+                         {isActivePlan ? " " : "Recommended Plan for you"}
+                       </h5>
                     <PricingContainer>
                       {loading ? (
                         <div>Loading...</div>

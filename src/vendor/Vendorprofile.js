@@ -7,11 +7,11 @@ import { showToastError, showToastSuccess } from "../utils/toastify";
 import { fetchCompanyInfo } from "../store/thunkFunctions/companyFunction";
 import { useDispatch, useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
-import TextEditor from "../markup/Element/Editor";
 import ReactQuill from "react-quill";
 import Footer from "../markup/Layout/Footer";
 import VendorHeader from "../markup/Layout/VendorHeader";
 import VendorCompanySideBar from "./Vendorsidebar";
+import TextEditor from "../common/TextEditor";
 
 function Vendorprofile() {
   const companyData = useSelector(
@@ -509,27 +509,14 @@ const validatePhone = (number) => {
                         <div className="col-lg-12 col-md-6">
                           <div className="form-group">
                             <label>Company Description</label>
-                            {/* <input
-                              className="form-control"
-                              placeholder="Company Description"
-                              onChange={(e) => setDescription(e.target.value)}
-                              value={description}
-                              rows="3"
-                              required
-                            /> */}
-                            <ReactQuill
-                              theme="snow"
-                              value={description}
+                           
+                            <TextEditor
+                             value={description}
                               onChange={handleChange}
-                              style={{
-                                height: "200px",
-                                width: "100%",
-                                marginBottom: "70px",
-                              }}
                             />
                           </div>
                         </div>
-                        <div className="col-lg-12 col-md-12">
+                        {/* <div className="col-lg-12 col-md-12">
                           <div className="form-group">
                             <label>Services</label>
                             {services.map((service, index) => (
@@ -580,7 +567,7 @@ const validatePhone = (number) => {
                                       style={{ maxHeight: "100px" }}
                                     />
                                   </div>
-                                )} */}
+                                )}
                                 {(service.url ||
                                   typeof service.image === "string") && (
                                   <div className="col-lg-12 col-md-12 mt-2">
@@ -606,7 +593,7 @@ const validatePhone = (number) => {
                               Add Service
                             </button>
                           </div>
-                        </div>
+                        </div> */}
                         <div className="col-lg-6 col-md-6">
                           <div className="form-group">
                             <label>Phone Number</label>
@@ -618,6 +605,7 @@ const validatePhone = (number) => {
                               onChange={(e) => handlePhoneChange(e)}
                               value={number}
                               required
+                              pattern="[0-9]{10}"
                               maxLength={10}
                             />
                             {phoneError && (

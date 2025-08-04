@@ -25,6 +25,8 @@ import CompanySideBar from "../Layout/companySideBar";
 import Footer from "../../markup/Layout/Footer";
 import { toast } from "react-toastify";
 import TextEditor from "../../common/TextEditor";
+import VendorCompanySideBar from "../../vendor/Vendorsidebar";
+import VendorHeader from "../../markup/Layout/VendorHeader";
 
 function EmployeeComponypostjobs() {
   const postAJobData = useSelector((state) => state.postAJobSlice.postAJobData);
@@ -91,7 +93,7 @@ function EmployeeComponypostjobs() {
     },
   ]);
 
-  const token = localStorage.getItem("employeeLoginToken");
+  const token = localStorage.getItem("employeeLoginToken") || localStorage.getItem("vendorToken");
   const [jobType, setJobType] = useState([]);
   const [workplaceType, setWorkplaceType] = useState([]);
   const [industriesList, setIndustriesList] = useState([]);
@@ -277,11 +279,12 @@ function EmployeeComponypostjobs() {
     }
 
     try {
+      const API = localStorage.getItem("employeeLoginToken")? `https://apiwl.novajobs.us/api/employeer/job-post/${id}` :`https://apiwl.novajobs.us/api/admin/job-post/${id}`
       const response = await axios({
-        url: `https://apiwl.novajobs.us/api/employeer/job-post/${id}`,
+        url: API,
         method: "PUT",
         headers: {
-          Authorization: token,
+          Authorization: localStorage.getItem("employeeLoginToken") || localStorage.getItem("vendorToken"),
         },
         data: {
           company_name: postAJobData.company,
@@ -544,13 +547,13 @@ function EmployeeComponypostjobs() {
   };
   return (
     <>
-      <Header2 />
+     {localStorage.getItem("employeeLoginToken") ? <Header2 /> : <VendorHeader />}
       <div className="page-content bg-white">
         <div className="content-block">
           <div className="section-full bg-white p-t50">
             <div className="container">
               <div className="row">
-                <CompanySideBar active="postJob" />
+               {localStorage.getItem("employeeLoginToken") ? <CompanySideBar active="postJob" /> : <VendorCompanySideBar active="postJob" />}
 
                 <div className="col-xl-9 col-lg-9 col-12">
                   <div
@@ -568,12 +571,12 @@ function EmployeeComponypostjobs() {
                       <h5 className="font-weight-700 pull-left text-uppercase">
                         Post A Job
                       </h5>
-                      <Link
-                        to={"/employer/company-profile"}
+                      {/* <Link
+                        to={localStorage.getItem("employeeLoginToken") ?"/employer/company-profile" :"/"}
                         className="site-button right-arrow button-sm float-right"
                       >
                         Back
-                      </Link>
+                      </Link> */}
                     </div>
                     <form>
                       <div className="row">
