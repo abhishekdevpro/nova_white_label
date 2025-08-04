@@ -25,7 +25,7 @@ const ImagesTab = ({
                 handleImageUpload={handleInsideImageUpload}
                 removeImage={removeInsideImage}
                 handleSave={handleInsideImagesSave}
-                colClass="col-lg-4 col-md-6"
+                colClass="col-12 col-lg-4 mb-4"
               />
 
               <ImageSection
@@ -35,7 +35,7 @@ const ImagesTab = ({
                 handleImageUpload={handleInsideImageUpload}
                 removeImage={removeInsideImage}
                 handleSave={handleInsideImagesSave}
-                colClass="col-lg-4 col-md-6"
+                 colClass="col-12 col-lg-4 mb-4"
               />
 
               <ImageSection
@@ -45,7 +45,7 @@ const ImagesTab = ({
                 handleImageUpload={handleInsideImageUpload}
                 removeImage={removeInsideImage}
                 handleSave={handleInsideImagesSave}
-                colClass="col-lg-4 col-md-6"
+                 colClass="col-12 col-lg-4 mb-4"
               />
             </div>
           </div>

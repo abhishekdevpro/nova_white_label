@@ -2,6 +2,7 @@
 import ReactPlayer from "react-player";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import TextEditor from "../../../../common/TextEditor";
 
 const AboutCompanyTab = ({
   activeTab,
@@ -67,7 +68,7 @@ const AboutCompanyTab = ({
 
         <div style={{ marginBottom: 0 }}>
           <label className="modern-label">Summary</label>
-          <ReactQuill
+          {/* <ReactQuill
             theme="snow"
             value={companyData.summery || ""}
             onChange={(value) =>
@@ -85,6 +86,15 @@ const AboutCompanyTab = ({
               minHeight: 120,
               transition: "border 0.2s, box-shadow 0.2s",
             }}
+          /> */}
+          <TextEditor
+            value={companyData.summery || ""}
+            onChange={(value) =>
+              setCompanyData((prev) => ({
+                ...prev,
+                summery: value,
+              }))
+            }
           />
         </div>
 
@@ -92,7 +102,7 @@ const AboutCompanyTab = ({
 
         <div style={{ marginBottom: 0 }}>
           <label className="modern-label">Description</label>
-          <ReactQuill
+          {/* <ReactQuill
             theme="snow"
             value={companyData.about || ""}
             onChange={(value) =>
@@ -110,6 +120,15 @@ const AboutCompanyTab = ({
               minHeight: 120,
               transition: "border 0.2s, box-shadow 0.2s",
             }}
+          /> */}
+          <TextEditor
+            value={companyData.about || ""}
+            onChange={(value) =>
+              setCompanyData((prev) => ({
+                ...prev,
+                about: value,
+              }))
+            }
           />
         </div>
 

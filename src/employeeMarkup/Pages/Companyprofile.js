@@ -8,10 +8,10 @@ import { fetchCompanyInfo } from "../../store/thunkFunctions/companyFunction";
 import { useDispatch, useSelector } from "react-redux";
 import CompanySideBar from "../Layout/companySideBar";
 import "react-toastify/dist/ReactToastify.css";
-import TextEditor from "../Element/Editor";
 import ReactQuill from "react-quill";
 import Footer from "../../markup/Layout/Footer";
 import EmployeeHeader2 from "./../Layout/Header2";
+import TextEditor from "../../common/TextEditor";
 
 function EmployeeCompanyprofile() {
   const companyData = useSelector(
@@ -351,7 +351,7 @@ function EmployeeCompanyprofile() {
                 <CompanySideBar active="company" />
                 <div className="col-xl-9 col-lg-9 m-b30">
                   <div className="job-bx submit-resume">
-                    <div className="job-bx-title clearfix " >
+                    <div className="job-bx-title clearfix ">
                       <h5 className="font-weight-700 pull-left text-uppercase">
                         Company Profile
                       </h5>
@@ -373,16 +373,15 @@ function EmployeeCompanyprofile() {
                         updateCompanyData();
                       }}
                     >
-                      <div className="row m-b30 " 
-                    //    style={{
-                    //   height: "100%",
-                    //   overflowY: "auto",
-                    //   overflowX: "hidden",
-                    //   paddingRight: "10px",
-                    //   scrollBehavior: "smooth",
-                    //   scrollbarWidth: "none",
-                    // }}
-                    >
+                      <div
+                        className="row m-b30 "
+                        style={{
+                          maxHeight: "calc(100vh)",
+                          overflowY: "auto",
+                          overflowX: "hidden",
+                          scrollbarWidth: "none",
+                        }}
+                      >
                         <div className="col-lg-6 col-md-6">
                           <div className="form-group">
                             <label htmlFor="companyName">Company Name</label>
@@ -502,15 +501,7 @@ function EmployeeCompanyprofile() {
                         <div className="col-lg-12 col-md-6">
                           <div className="form-group">
                             <label>Company Description</label>
-                            {/* <input
-                              className="form-control"
-                              placeholder="Company Description"
-                              onChange={(e) => setDescription(e.target.value)}
-                              value={description}
-                              rows="3"
-                              required
-                            /> */}
-                            <ReactQuill
+                            {/* <ReactQuill
                               theme="snow"
                               value={description}
                               onChange={handleChange}
@@ -519,7 +510,11 @@ function EmployeeCompanyprofile() {
                                 width: "100%",
                                 marginBottom: "70px",
                                 border: "1px solid #ccc",
-                              }}
+                              }} */}
+                            <TextEditor
+                              value={description}
+                              onChange={handleChange}
+                              maxLength={500}
                             />
                           </div>
                         </div>
@@ -734,10 +729,7 @@ function EmployeeCompanyprofile() {
 
                         <div className="col-lg-12 col-md-12">
                           <div className="clearfix font-bold">
-                            <button
-                              type="submit"
-                              className="site-button w-100"
-                            >
+                            <button type="submit" className="site-button w-100">
                               Save
                             </button>
                           </div>

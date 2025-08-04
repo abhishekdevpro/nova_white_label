@@ -184,7 +184,7 @@ const TeamSection = ({
       {isEdit && (
         <EditButton onClick={() => handleEditClick("teams")}>
           <MdEdit size={18} />
-          Edit Team
+          {/* Edit Team */}
         </EditButton>
       )}
       <SectionTitle>Our Leadership Team</SectionTitle>
