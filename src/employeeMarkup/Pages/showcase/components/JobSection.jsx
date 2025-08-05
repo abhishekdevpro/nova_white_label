@@ -30,6 +30,7 @@ const SectionTitle = styled.h2`
   margin-bottom: 2rem;
   text-align: center;
   position: relative;
+  line-height: 1.2;
 
   &::after {
     content: "";
@@ -211,9 +212,9 @@ const JobsSection = ({ jobs, isEdit, handleEditClick, companyData, navigate }) =
       
       <SectionTitle>Open Positions</SectionTitle>
       {companyData?.join_us && (
-        <SectionTitle className="text-muted text-center fs-3">
+        <p className="text-muted text-center">
           {parse(companyData.join_us)}
-        </SectionTitle>
+        </p>
       )}
 
       {jobs.length > 0 ? (

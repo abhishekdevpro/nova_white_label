@@ -1,10 +1,23 @@
-
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-import { MdEdit, MdLocationOn, MdBusiness, MdPeople, MdOutlineHealthAndSafety, MdLocalCafe } from "react-icons/md";
-import { FaPlay, FaGlobe, FaLinkedin, FaTwitter, FaFacebook, FaYoutube, FaInstagram } from "react-icons/fa";
+import {
+  MdEdit,
+  MdLocationOn,
+  MdBusiness,
+  MdPeople,
+  MdOutlineHealthAndSafety,
+  MdLocalCafe,
+} from "react-icons/md";
+import {
+  FaPlay,
+  FaGlobe,
+  FaLinkedin,
+  FaTwitter,
+  FaFacebook,
+  FaYoutube,
+  FaInstagram,
+} from "react-icons/fa";
 import DOMPurify from "dompurify";
 import parse from "html-react-parser";
 import ReactPlayer from "react-player";
@@ -13,8 +26,8 @@ import TeamSection from "./components/TeamsSection";
 import GallerySection from "./components/ImageGallerySection";
 import JobsSection from "./components/JobSection";
 
-const url = window.location.origin.includes("localhost") 
-  ? "https://novajobs.us" 
+const url = window.location.origin.includes("localhost")
+  ? "https://novajobs.us"
   : window.location.origin;
 
 const BASE_IMAGE_URL = "https://apiwl.novajobs.us";
@@ -161,7 +174,7 @@ const FALLBACK_IMAGES = {
     "https://placehold.co/400x300/1e40af/ffffff?text=Gallery+1",
     "https://placehold.co/400x300/1e40af/ffffff?text=Gallery+2",
     "https://placehold.co/400x300/1e40af/ffffff?text=Gallery+3",
-  ]
+  ],
 };
 
 const ShowcaseComponent = () => {
@@ -174,7 +187,9 @@ const ShowcaseComponent = () => {
 
   const navigate = useNavigate();
   const { companyId } = useParams();
-  const token = localStorage.getItem("employeeLoginToken") || localStorage.getItem("vendorToken");
+  const token =
+    localStorage.getItem("employeeLoginToken") ||
+    localStorage.getItem("vendorToken");
   const isEdit = token && !companyId;
 
   useEffect(() => {
@@ -184,9 +199,9 @@ const ShowcaseComponent = () => {
         const API = companyId
           ? `${BASE_IMAGE_URL}/api/jobseeker/company/${companyId}?domain=${url}`
           : `${BASE_IMAGE_URL}/api/employeer/company?domain=${url}`;
-        
+
         const companyResponse = await axios.get(API, {
-          headers: { Authorization: token }
+          headers: { Authorization: token },
         });
         setCompanyData(companyResponse.data.data);
 
@@ -195,7 +210,7 @@ const ShowcaseComponent = () => {
           companyId
             ? `${BASE_IMAGE_URL}/api/jobseeker/company-teams/${companyId}?domain=${url}`
             : `${BASE_IMAGE_URL}/api/employeer/company-teams?domain=${url}`,
-          { headers: { Authorization: token }}
+          { headers: { Authorization: token } }
         );
         setTeamsData(teamsResponse.data.data || []);
 
@@ -204,7 +219,7 @@ const ShowcaseComponent = () => {
           companyId
             ? `${BASE_IMAGE_URL}/api/jobseeker/company-wts/${companyId}?domain=${url}`
             : `${BASE_IMAGE_URL}/api/employeer/company-wts?domain=${url}`,
-          { headers: { Authorization: token }}
+          { headers: { Authorization: token } }
         );
         setWtsData(wtsResponse.data.data || []);
 
@@ -213,7 +228,7 @@ const ShowcaseComponent = () => {
           companyId
             ? `${BASE_IMAGE_URL}/api/jobseeker/job-lists?page_no=1&page_size=10&is_publish=1&company_id=${companyId}&domain=${url}`
             : `${BASE_IMAGE_URL}/api/employeer/job-lists`,
-          { headers: { Authorization: token }}
+          { headers: { Authorization: token } }
         );
         setJobs(jobsResponse.data.data || []);
 
@@ -236,14 +251,18 @@ const ShowcaseComponent = () => {
       teams: "leadership-team",
       wts: "testimonials",
       social: "social-links",
-      jobs: "jobs"
+      jobs: "jobs",
     };
 
     const path = window.location.pathname;
     const isEmployeePath = path.includes("/employer");
-    
+
     const tab = sectionToTab[section] || "company-info";
-    navigate(`${isEmployeePath ? "/employer" : "/vendor"}/${isEmployeePath ? "branding-company" : "branding"}?tab=${tab}`);
+    navigate(
+      `${isEmployeePath ? "/employer" : "/vendor"}/${
+        isEmployeePath ? "branding-company" : "branding"
+      }?tab=${tab}`
+    );
   };
 
   const scrollToSection = (sectionId) => {
@@ -255,7 +274,7 @@ const ShowcaseComponent = () => {
 
       window.scrollTo({
         top: offsetPosition,
-        behavior: "smooth"
+        behavior: "smooth",
       });
       setActiveSection(sectionId);
     }
@@ -323,18 +342,21 @@ const ShowcaseComponent = () => {
       <div style={styles.header}>
         <div style={styles.headerContent}>
           {isEdit && (
-            <button style={styles.editButton} onClick={() => handleEditClick("hero")}>
+            <button
+              style={styles.editButton}
+              onClick={() => handleEditClick("hero")}
+            >
               <MdEdit size={18} />
               {/* Edit Hero */}
             </button>
           )}
-          
+
           <img
             src={companyData?.logo || FALLBACK_IMAGES.logo}
             alt="Company Logo"
             style={styles.logo}
           />
-          
+
           <div style={styles.headerText}>
             <h1 style={styles.companyName}>
               {companyData?.company_name || "Company Name"}
@@ -342,7 +364,7 @@ const ShowcaseComponent = () => {
             <p style={styles.tagline}>
               {companyData?.title || "Company Title"}
             </p>
-            
+
             <div style={styles.companyInfo}>
               <div style={styles.infoItem}>
                 <MdLocationOn size={28} />
@@ -369,7 +391,7 @@ const ShowcaseComponent = () => {
               key={section}
               style={{
                 ...styles.navLink,
-                ...(activeSection === section ? styles.activeNavLink : {})
+                ...(activeSection === section ? styles.activeNavLink : {}),
               }}
               onClick={() => scrollToSection(section)}
             >
@@ -384,16 +406,21 @@ const ShowcaseComponent = () => {
         {/* About Section */}
         <section id="about" style={styles.section}>
           {isEdit && (
-            <button style={styles.editButton} onClick={() => handleEditClick("about")}>
+            <button
+              style={styles.editButton}
+              onClick={() => handleEditClick("about")}
+            >
               <MdEdit size={18} />
               {/* Edit About */}
             </button>
           )}
           <h2 style={styles.sectionTitle}>About Us</h2>
           {companyData?.about ? (
-            <div dangerouslySetInnerHTML={{
-              __html: DOMPurify.sanitize(companyData.about)
-            }} />
+            <div
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(companyData.about),
+              }}
+            />
           ) : (
             <div>No company description available.</div>
           )}
@@ -416,41 +443,47 @@ const ShowcaseComponent = () => {
         {companyData?.pdf_urls?.[0] && (
           <section style={styles.section}>
             <h2 style={styles.sectionTitle}>Company Documents</h2>
-            <PDFViewer fileUrl={`${BASE_IMAGE_URL}${companyData.pdf_urls[0]}`} />
+            <PDFViewer
+              fileUrl={`${BASE_IMAGE_URL}${companyData.pdf_urls[0]}`}
+            />
           </section>
         )}
 
         {/* Benefits Section */}
         <section id="benefits" style={styles.section}>
           {isEdit && (
-            <button style={styles.editButton} onClick={() => handleEditClick("benefits")}>
+            <button
+              style={styles.editButton}
+              onClick={() => handleEditClick("benefits")}
+            >
               <MdEdit size={18} />
               {/* Edit Benefits */}
             </button>
           )}
           <h2 style={styles.sectionTitle}>Benefits & Perks</h2>
-          <div style={styles.benefitsContainer}>
+          <div className="row justify-content-center g-4">
             {renderedBenefits.length > 0 ? (
               renderedBenefits.map((item) => (
-                <div key={item.key} style={styles.benefitItem}>
-                  <div style={styles.benefitIcon}>{item.icon}</div>
-                  <div style={styles.benefitContent}>
-                    <h3 style={styles.benefitTitle}>{item.title}</h3>
-                    <p style={styles.benefitDescription}>
+                <div key={item.key} className="col-12 col-sm-6 col-md-4">
+                  <div className="border rounded shadow-sm p-3 h-100 d-flex flex-column">
+                    <div className="mb-2 text-primary fs-4">{item.icon}</div>
+                    <h5 className="fw-semibold text-dark">{item.title}</h5>
+                    <p className="text-muted mb-0">
                       {companyData?.[item.valueKey]}
                     </p>
                   </div>
                 </div>
               ))
             ) : (
-              <div>No unique benefits added yet.</div>
+              <div className="text-center text-muted">
+                No unique benefits added yet.
+              </div>
             )}
           </div>
-         
         </section>
 
         {/* Jobs Section */}
-        <JobsSection 
+        <JobsSection
           jobs={jobs}
           isEdit={isEdit}
           handleEditClick={handleEditClick}
@@ -479,43 +512,82 @@ const ShowcaseComponent = () => {
         )}
 
         {/* Social Links Section */}
-        <section style={{...styles.section, backgroundColor: "#1e40af", color: "#ffffff"}}>
-          <h2 style={{...styles.sectionTitle, color: "#ffffff"}}>Connect With Us</h2>
-          <div style={{display: "flex", justifyContent: "center", gap: "2rem", flexWrap: "wrap"}}>
+        <section
+          style={{
+            ...styles.section,
+            backgroundColor: "#1e40af",
+            color: "#ffffff",
+          }}
+        >
+          <h2 style={{ ...styles.sectionTitle, color: "#ffffff" }}>
+            Connect With Us
+          </h2>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              gap: "2rem",
+              flexWrap: "wrap",
+            }}
+          >
             {[
-              { icon: FaGlobe, link: companyData?.website_link, label: "Website" },
-              { icon: FaLinkedin, link: companyData?.linkedin_link, label: "LinkedIn" },
-              { icon: FaTwitter, link: companyData?.twitter_link, label: "Twitter" },
-              { icon: FaFacebook, link: companyData?.facebook_link, label: "Facebook" },
-              { icon: FaYoutube, link: companyData?.youtube_link, label: "YouTube" },
-              { icon: FaInstagram, link: companyData?.instagram_link, label: "Instagram" }
-            ].map((social, index) => (
-              social.link && (
-                <a
-                  key={index}
-                  href={social.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    color: "#ffffff",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    gap: "0.5rem",
-                    textDecoration: "none"
-                  }}
-                >
-                  <social.icon size={24} />
-                  <span>{social.label}</span>
-                </a>
-              )
-            ))}
+              {
+                icon: FaGlobe,
+                link: companyData?.website_link,
+                label: "Website",
+              },
+              {
+                icon: FaLinkedin,
+                link: companyData?.linkedin_link,
+                label: "LinkedIn",
+              },
+              {
+                icon: FaTwitter,
+                link: companyData?.twitter_link,
+                label: "Twitter",
+              },
+              {
+                icon: FaFacebook,
+                link: companyData?.facebook_link,
+                label: "Facebook",
+              },
+              {
+                icon: FaYoutube,
+                link: companyData?.youtube_link,
+                label: "YouTube",
+              },
+              {
+                icon: FaInstagram,
+                link: companyData?.instagram_link,
+                label: "Instagram",
+              },
+            ].map(
+              (social, index) =>
+                social.link && (
+                  <a
+                    key={index}
+                    href={social.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      color: "#ffffff",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      gap: "0.5rem",
+                      textDecoration: "none",
+                    }}
+                  >
+                    <social.icon size={24} />
+                    <span>{social.label}</span>
+                  </a>
+                )
+            )}
           </div>
         </section>
       </div>
     </div>
   );
-  
 };
 
 export default ShowcaseComponent;

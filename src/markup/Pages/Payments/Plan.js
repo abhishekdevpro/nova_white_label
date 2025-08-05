@@ -15,6 +15,7 @@ export const plans = [
       "AI Skill Tests",
 
       "Community Access",
+      "Practice interview Beta (included)",
 
       // "Access to all courses",
       // "Access to Free C "Profile Listing",
@@ -54,11 +55,13 @@ export const plans = [
       // "Resume Score",
       "ATS & Resume Score",
       "Priority Job alerts",
+      
       // "Access to UltraAura+",
       // "Resume writeup By Experts",
       // "Connect to Career Coach",
       // "Profile Analytics*",
       "Certifications by UltraAura",
+       "Practice interview Beta (included)",
       // "Unlimited Access to UltraAura",
       // "Access to all courses",
       <span className="d-inline-flex align-items-center gap-11">
@@ -99,6 +102,7 @@ export const plans = [
       "More AI Credits",
       "Chat with HR’s*",
       "Verified Certifications by UltraAura",
+       "Practice interview Beta (included)",
       // "Unlimited Access to UltraAura",
 
       <span className="flex items-center gap-1">
@@ -131,6 +135,7 @@ export const plans = [
     isDark: true,
     features: [
       "Excel Plus Unlimited",
+      
       <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
         Centralized HyperVSolutions ID
         <i
@@ -150,6 +155,7 @@ export const plans = [
       "Job Placement Assistance",
       "Personalized Career Guidance",
       "Priority Job Applies",
+       "Practice interview Beta (included)",
       // "Community & Analytics",
       // "Unlimited UltraAura Access",
       // "Career Coaching & Trainer Monitoring",

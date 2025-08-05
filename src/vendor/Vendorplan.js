@@ -27,6 +27,7 @@ function Vendorplan() {
       "Basic Reporting",
       "View simple metrics like job views",
       "Branding pages",
+       "Practice interview Beta (included)",
     ],
     2: [
       "All Nova Start Features",
@@ -38,6 +39,7 @@ function Vendorplan() {
       "Custom Email Notifications",
       "Mobile-Responsive Design",
       "Payment gateway",
+       "Practice interview Beta (included)",
     ],
     3: [
       "All Nova Pro Features",
@@ -46,6 +48,7 @@ function Vendorplan() {
       "WhiteLabel everything under your brand",
       "Priority Customer Support",
       "Admin Panel",
+       "Practice interview Beta (included)",
     ],
   };
 
