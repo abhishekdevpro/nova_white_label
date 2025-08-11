@@ -4,7 +4,7 @@ export const plans = [
     id: "freemium",
     name: "Explore",
     price: "18.95",
-    isPopular: false,
+    isPopular: true,
     isDark: false,
     features: [
       // "Discover your potential",
@@ -91,7 +91,7 @@ export const plans = [
     id: "promax",
     name: "Excel",
     price: "78.95",
-    isPopular: true,
+    isPopular: false,
     isDark: false,
     features: [
       // "Master your skills. Dominate your field",
