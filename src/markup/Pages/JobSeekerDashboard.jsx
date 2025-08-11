@@ -10,12 +10,13 @@ import {
   BarChart2,
   Users,
   MessageSquare,
+  Briefcase,
 } from "lucide-react";
 import UserHeader2 from "../Layout/Header2";
 import Profilesidebar from "../Element/Profilesidebar";
 import { useSelector } from "react-redux";
 import { setJobProfileValues } from "../../store/reducers/jobProfileSlice";
-
+import ultraauraLogo from "../../images/UltraAUra-logo.png"
 // Assuming these components are already defined elsewhere in your project
 
 // Color scheme based on the image
@@ -215,6 +216,22 @@ const JobSeekerDashboard = () => {
   // Define card data with routes
   const token = localStorage.getItem("jobSeekerLoginToken");
   const cardData = [
+     {
+      icon: <img src={ultraauraLogo} alt="Icon" style={{ width: 36, height: 36 }} />,
+      title: "Skill Training",
+      description:
+        "Enroll in courses to enhance your skills and advance your career.",
+      buttonText: "Start Learning",
+      route: "https://ultraaura.education/home",
+    },
+    {
+      icon: <Briefcase size={36} color={colors.primary} />,
+      title: "Jobs",
+      description:
+        "Explore job opportunities that match your skills and interests.",
+      buttonText: "Search Jobs",
+      route: `/user/jobs`,
+    },
     {
       icon: <FileText size={36} color={colors.primary} />,
       title: "Create Resume",
@@ -275,6 +292,7 @@ const JobSeekerDashboard = () => {
       buttonText: "Open Inbox",
       route: "/user/messages",
     },
+   
   ];
   console.log(jobProfileValues, "hi from dashboard jobProfileValues");
 

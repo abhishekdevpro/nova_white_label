@@ -878,7 +878,7 @@ const JobseekerForm = () => {
       action: () => navigate("/user/login"),
     },
     {
-      label: "Skill Upgrade",
+      label: "Skill Training",
       value: "skills",
       action: () => (window.location.href = "https://ultraaura.education/home"),
     },
