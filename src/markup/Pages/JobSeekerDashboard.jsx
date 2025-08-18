@@ -11,6 +11,7 @@ import {
   Users,
   MessageSquare,
   Briefcase,
+  CloudCog,
 } from "lucide-react";
 import UserHeader2 from "../Layout/Header2";
 import Profilesidebar from "../Element/Profilesidebar";
@@ -297,12 +298,21 @@ const JobSeekerDashboard = () => {
   console.log(jobProfileValues, "hi from dashboard jobProfileValues");
 
   const handleClick = (card) => {
+    console.log(card.route,"card.route")
     if (card.route.includes("airesume")) {
       setTimeout(() => {
         window.location.href = `https://novajobs.us${card.route}`;
       }, 500);
-    } else {
-      navigate(card.route);
+    } 
+     else if (card.route.includes("ultraaura.education")) {
+      setTimeout(() => {
+        window.location.href = `${card.route}`;
+      }, 500);
+    }
+    else {
+      console.log("I am cold.")
+      // navigate(card.route);
+      window.open(card.route, "_blank");
     }
   };
 
