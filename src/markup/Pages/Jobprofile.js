@@ -155,22 +155,64 @@ function Jobprofile() {
       } else {
         setErrors({ ...errors, age: "" });
       }
-    } else if (name === "current_salary") {
-      // Validate current_salary: allow only numeric characters and maximum length of 10
+    }
+    // else if (name === "current_salary") {
+    //   // Validate current_salary: allow only numeric characters and maximum length of 10
+    //   if (!/^\d{0,10}$/.test(value)) {
+    //     setErrors({
+    //       ...errors,
+    //       current_salary: "Please add only numeric value.",
+    //     });
+    //   } else {
+    //     setErrors({ ...errors, current_salary: "" });
+    //   }
+    // }
+    // else if (name === "expected_salary") {
+    //   // Validate expected_salary: allow only numeric characters and maximum length of 10
+    //   if (!/^\d{0,10}$/.test(value)) {
+    //     setErrors({
+    //       ...errors,
+    //       expected_salary: "Please add only numeric value.",
+    //     });
+    //   } else {
+    //     setErrors({ ...errors, expected_salary: "" });
+    //   }
+    // }
+    else if (name === "current_salary") {
       if (!/^\d{0,10}$/.test(value)) {
         setErrors({
           ...errors,
-          current_salary: "Please add only numeric value.",
+          current_salary: "Salary must be a valid number (max 10 digits).",
+        });
+      } else if (Number(value) < 0) {
+        setErrors({
+          ...errors,
+          current_salary: "Salary cannot be negative.",
+        });
+      } else if (Number(value) > 500000) {
+        setErrors({
+          ...errors,
+          current_salary:
+            "Salary should not exceed $500,000 (US market range).",
         });
       } else {
         setErrors({ ...errors, current_salary: "" });
       }
     } else if (name === "expected_salary") {
-      // Validate expected_salary: allow only numeric characters and maximum length of 10
       if (!/^\d{0,10}$/.test(value)) {
         setErrors({
           ...errors,
-          expected_salary: "Please add only numeric value.",
+          expected_salary: "Salary must be a valid number (max 10 digits).",
+        });
+      } else if (Number(value) < 0) {
+        setErrors({
+          ...errors,
+          expected_salary: "Salary cannot be negative.",
+        });
+      } else if (Number(value) > 500000) {
+        setErrors({
+          ...errors,
+          expected_salary: "Salary should not exceed $500,000.",
         });
       } else {
         setErrors({ ...errors, expected_salary: "" });
@@ -243,18 +285,19 @@ function Jobprofile() {
     getReq();
   }, []);
 
-const validatePhone = (number) => {
-  const phoneRegex = /^[0-9]{10}$/;
-  return phoneRegex.test(number);
-};
+  const validatePhone = (number) => {
+    const phoneRegex = /^[0-9]{10}$/;
+    return phoneRegex.test(number);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const maxSize = 2 * 1024 * 1024;
 
     if (!validatePhone(jobProfileValues.phone)) {
-    toast.error("Please enter a valid 10-digit phone number.");
-    return;
-  }
+      toast.error("Please enter a valid 10-digit phone number.");
+      return;
+    }
 
     const formData = new FormData();
     formData.append("first_name", jobProfileValues.first_name);
@@ -271,7 +314,11 @@ const validatePhone = (number) => {
     formData.append("city_id", Number(jobProfileValues.city_id));
     formData.append("state_id", Number(jobProfileValues.state_id));
     // formData.append("photo", profileImageValue);
-    if (selectedFile) {
+    console.log(selectedFile, "selectedFile");
+    if (selectedFile?.size > maxSize) {
+      toast.error("File size exceeds 2MB");
+      return;
+    } else {
       formData.append("photo", selectedFile);
     }
 
@@ -401,6 +448,11 @@ const validatePhone = (number) => {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     console.log(file, "file");
+    // const maxSize = 2 * 1024 * 1024; // 2MB
+    // if (file.size > maxSize) {
+    //   setFileError("File size should not exceed 2MB.");
+    //   // return;
+    // }
     if (file) {
       setUploadedFileName(file.name);
       setSelectedFile(file);
@@ -413,6 +465,48 @@ const validatePhone = (number) => {
       setFileError("Please select a file.");
     }
   };
+
+  // const handleImageChange = (event) => {
+  //   const file = event.target.files[0];
+  //   console.log(file, "file");
+
+  //   if (!file) {
+  //     setFileError("Please select a file.");
+  //     return;
+  //   }
+
+  //   // 1️⃣ Allowed types
+  //   const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+  //   if (!allowedTypes.includes(file.type)) {
+  //     setFileError("Only JPG and PNG images are allowed.");
+  //     return;
+  //   }
+
+  //   // 2️⃣ Max size (2 MB here)
+  //   const maxSize = 2 * 1024 * 1024; // 2MB
+  //   if (file.size > maxSize) {
+  //     setFileError("File size should not exceed 2MB.");
+  //     return;
+  //   }
+
+  //   // 3️⃣ Dimension check (example: max 1000x1000 px)
+  //   const img = new Image();
+  //   img.src = URL.createObjectURL(file);
+  //   img.onload = () => {
+  //     // if (img.width > 1000 || img.height > 1000) {
+  //     //   setFileError("Image dimensions should not exceed 1000x1000 pixels.");
+  //     //   return;
+  //     // }
+
+  //     // ✅ If all checks pass
+  //     setUploadedFileName(file.name);
+  //     setSelectedFile(file);
+  //     setFileUploaded(true);
+  //     setFileError("");
+  //     const previewUrl = URL.createObjectURL(file);
+  //     setPreviewImage(previewUrl);
+  //   };
+  // };
 
   const resizeFile = (file) => {
     if (file) {
@@ -468,7 +562,7 @@ const validatePhone = (number) => {
     }
   };
   const PreviewDocument = `https://apiwl.novajobs.us${documentFile}`;
-  console.log(documentFile,uploadStatus, "documentFile");
+  console.log(documentFile, uploadStatus, "documentFile");
   return (
     <>
       <Header2 />
@@ -494,7 +588,16 @@ const validatePhone = (number) => {
                         Back
                       </Link> */}
                     </div>
-                    <form onSubmit={handleSubmit} className="px-2" style={{maxHeight: 'calc(100vh)', overflowY: 'auto',overflowX:"hidden", scrollbarWidth:"none"}}>
+                    <form
+                      onSubmit={handleSubmit}
+                      className="px-2"
+                      style={{
+                        maxHeight: "calc(100vh)",
+                        overflowY: "auto",
+                        overflowX: "hidden",
+                        scrollbarWidth: "none",
+                      }}
+                    >
                       <div className="row m-b30 ">
                         {/* <div className="col-12">
                           <div className="form-group">
@@ -575,12 +678,13 @@ const validatePhone = (number) => {
                             {/* Preview Image */}
                           </div>
 
-                          {uploadedFileName && <span>{uploadedFileName}</span>}
+                          {uploadedFileName && (
+                            <span className="mb-2">{uploadedFileName}</span>
+                          )}
                           {fileError && (
                             <span style={{ color: "red" }}>{fileError}</span>
                           )}
                         </div>
-                        
 
                         <div className="col-lg-6 col-md-6">
                           <div className="form-group">
@@ -687,7 +791,9 @@ const validatePhone = (number) => {
                               id="current_salary"
                               name="current_salary"
                               onChange={handleChange}
+                              max="500000"
                               value={jobProfileValues.current_salary}
+                              min="0"
                             />
                           </div>
                           {errors.current_salary && (
@@ -709,6 +815,8 @@ const validatePhone = (number) => {
                               name="expected_salary"
                               onChange={handleChange}
                               value={jobProfileValues.expected_salary}
+                              min="0"
+                              max="500000"
                             />
                           </div>
                           {errors.expected_salary && (
@@ -747,7 +855,7 @@ const validatePhone = (number) => {
                               name="phone"
                               id="phone"
                               pattern="[0-9]*"
-                               inputMode="numeric"
+                              inputMode="numeric"
                               onChange={handleChange}
                               value={jobProfileValues.phone}
                               maxLength={10}
