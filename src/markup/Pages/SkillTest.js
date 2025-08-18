@@ -68,7 +68,7 @@ function SkillTest() {
     })
       .then((response) => {
         console.log(response.data.data, "resume data");
-        setCardData(response.data.data);
+        setCardData(response.data.data || []);
 
         setSkeleton(false);
       })
@@ -131,7 +131,8 @@ function SkillTest() {
                               </h5>
                             </div>
                            <div className="row" >
-                             {cardData.map((card, index) => (
+                             {cardData.length >0 ?
+                               cardData.map((card, index) => (
                               <div
                                 key={index}
                                  className="col-xl-6 col-12 mb-4"
@@ -266,7 +267,12 @@ function SkillTest() {
                                   </div>
                                 </div>
                               </div>
-                            ))}
+                            ))
+                           : 
+                            <div>
+                              <h3 className="text-center">No Skills Found</h3>
+                              </div>
+                          }
                             </div>
                           </div>
                         )}
