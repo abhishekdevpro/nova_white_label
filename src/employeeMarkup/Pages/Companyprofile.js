@@ -20,7 +20,7 @@ function EmployeeCompanyprofile() {
   let companyDetail = companyData?.company_detail;
   let employeerDetail = companyData?.employeer_detail;
 
-  // console.log(companyDetail,employeerDetail,"employeerDetailemployeerDetailemployeerDetail")
+  console.log(companyDetail,employeerDetail,"employeerDetailemployeerDetailemployeerDetail")
 
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
@@ -99,7 +99,7 @@ function EmployeeCompanyprofile() {
 
   useEffect(() => {
     dispatch(fetchCompanyInfo());
-  }, [token]);
+  }, [companyDetail]);
 
   useEffect(() => {
     setCompanyName(companyDetail?.company_name || "");
@@ -121,28 +121,28 @@ function EmployeeCompanyprofile() {
     const companyServices = companyDetail?.company_services;
 
     // Check if companyServices is a valid JSON string
-    if (
-      companyServices &&
-      typeof companyServices === "string" &&
-      companyServices.trim() !== ""
-    ) {
-      try {
-        const parsedServices = JSON.parse(companyServices);
-        const formattedServices = parsedServices.map((service) => ({
-          title: service.service_name,
-          image: service.service_photo,
-        }));
-        setServices(formattedServices);
-      } catch (error) {
-        console.error("Failed to parse company services:", error);
-        // Optionally set services to an empty array or handle the error as needed
-        setServices([]);
-      }
-    } else {
-      // If companyServices is not valid, set services to an empty array
-      setServices([]);
-    }
-  }, []);
+    // if (
+    //   companyServices &&
+    //   typeof companyServices === "string" &&
+    //   companyServices.trim() !== ""
+    // ) {
+    //   try {
+    //     const parsedServices = JSON.parse(companyServices);
+    //     const formattedServices = parsedServices.map((service) => ({
+    //       title: service.service_name,
+    //       image: service.service_photo,
+    //     }));
+    //     setServices(formattedServices);
+    //   } catch (error) {
+    //     console.error("Failed to parse company services:", error);
+    //     // Optionally set services to an empty array or handle the error as needed
+    //     setServices([]);
+    //   }
+    // } else {
+    //   // If companyServices is not valid, set services to an empty array
+    //   setServices([]);
+    // }
+  }, [companyDetail, employeerDetail]);
 
   const getCountry = async () => {
     axios({

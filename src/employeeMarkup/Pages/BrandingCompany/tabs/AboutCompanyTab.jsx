@@ -42,7 +42,7 @@ const AboutCompanyTab = ({
         </h4> */}
 
         <div style={{ marginBottom: 0 }}>
-          <label className="modern-label">Company Title</label>
+          <label className="modern-label">Company Description</label>
           <input
             type="text"
             name="title"
