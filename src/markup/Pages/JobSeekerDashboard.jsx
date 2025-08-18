@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import {
   FileText,
   FileSignature,
@@ -231,7 +231,7 @@ const JobSeekerDashboard = () => {
       description:
         "Explore job opportunities that match your skills and interests.",
       buttonText: "Search Jobs",
-      route: `/user/jobs`,
+      route: "/user/jobs",
     },
     {
       icon: <FileText size={36} color={colors.primary} />,
@@ -311,8 +311,11 @@ const JobSeekerDashboard = () => {
     }
     else {
       console.log("I am cold.")
-      // navigate(card.route);
-      window.open(card.route, "_blank");
+      navigate(card.route);
+      // Navigate({
+      //   to:card.route,
+      // })
+      // window.open(card.route, "_blank");
     }
   };
 
@@ -349,7 +352,7 @@ const JobSeekerDashboard = () => {
 
           <CardsContainer>
             {cardData.map((card, index) => (
-              <CardLink
+              <div
                 // to={card.route}
                 // onClick={() => handleClick(card)}
                 key={index}
@@ -362,7 +365,7 @@ const JobSeekerDashboard = () => {
                     {card.buttonText}
                   </button>
                 </Card>
-              </CardLink>
+              </div>
             ))}
           </CardsContainer>
         </ContentContainer>
