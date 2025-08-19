@@ -20,7 +20,7 @@ function EmployeeCompanyprofile() {
   let companyDetail = companyData?.company_detail;
   let employeerDetail = companyData?.employeer_detail;
 
-  console.log(companyDetail,employeerDetail,"employeerDetailemployeerDetailemployeerDetail")
+  // console.log(companyDetail,employeerDetail,"employeerDetailemployeerDetailemployeerDetail")
 
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
@@ -99,7 +99,7 @@ function EmployeeCompanyprofile() {
 
   useEffect(() => {
     dispatch(fetchCompanyInfo());
-  }, [companyDetail]);
+  }, [dispatch]);
 
   useEffect(() => {
     setCompanyName(companyDetail?.company_name || "");
