@@ -249,7 +249,7 @@ function Jobprofile() {
         // console.log(response.data.data.id, "all data");
         let data = response.data.data;
         setId(response.data.data.id);
-        console.log(response.data.data.photo, "response.data.data.photo");
+        // console.log(response.data.data.photo, "response.data.data.photo");
         setPreviewImage(response.data.data.photo);
         dispatch(
           setJobProfileValues({

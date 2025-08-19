@@ -29,7 +29,7 @@ const AddScreening = () => {
       },
     })
       .then((res) => {
-        console.log(res.data.data.screen_question_keywords, "ques");
+        // console.log(res.data.data.screen_question_keywords, "ques");
         setScreeningQuestions(res.data.data.screen_question_keywords);
         dispatch(setScreeningQuestion(res.data.data.screen_question_keywords));
       })
@@ -44,28 +44,28 @@ const AddScreening = () => {
 
   const [expanded, setExpanded] = useState({});
   useEffect(() => {
-    console.log(expanded, "ofggg");
+    // console.log(expanded, "ofgg/g");
     if (Object.keys(expanded).length === 0) {
       console.log(Object.keys(expanded).length, "expanded");
       selelctedQuestions.map((item) => toggleExpansion(item.name));
     }
   }, [selelctedQuestions]);
   const toggleExpansion = (name) => {
-    console.log(name, "ofggg");
+    // console.log(name, "ofggg");
     setExpanded((prevState) => ({
       ...prevState,
       [name]: !prevState[name],
     }));
   };
-  useEffect(() => {
-    console.log(expanded, "expanded");
-  }, [expanded]);
+  // useEffect(() => {
+  //   console.log(expanded, "expanded");
+  // }, [expanded]);
   return (
     <div>
       <div>
         {screeningQuestions.map(
           (category, index) => (
-            console.log(category),
+            // console.log(category),
             (
               <div key={index}>
                 {expanded[category.name] && (
@@ -113,7 +113,7 @@ const AddScreening = () => {
             <button
               className="d-flex justify-content-center align-items-center"
               onClick={() => {
-                console.log(expanded, "ques");
+                // console.log(expanded, "ques");
                 dispatch(
                   setSelctedScreeningQuestion({
                     index: index,

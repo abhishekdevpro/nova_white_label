@@ -161,8 +161,8 @@ const ImageSection = ({
         </div>
 
         {/* Save Button */}
-        <div className=" mt-4">
-          <button type="button" onClick={() => handleSave(type)} className="site-button">
+        <div className="w-100 mt-4">
+          <button type="button" onClick={() => handleSave(type)} className="w-100 site-button">
             Save {title}
           </button>
         </div>

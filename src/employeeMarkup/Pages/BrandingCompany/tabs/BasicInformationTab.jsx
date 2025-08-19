@@ -310,6 +310,7 @@ const BasicInformationTab = ({
                       );
                     }}
                     placeholder={item.title}
+                    maxLength={100}
                   />
                 </div>
               ))}
@@ -340,7 +341,7 @@ const BasicInformationTab = ({
                   value={companyData.facebook_link || ""}
                   onChange={handleInputChange}
                   className="form-control"
-                  placeholder="Facebook url"
+                  placeholder="https://www.facebook.com/yourcompany"
                   maxLength={200}
                 />
               </div>
@@ -352,7 +353,7 @@ const BasicInformationTab = ({
                   value={companyData.linkedin_link || ""}
                   onChange={handleInputChange}
                   className="form-control"
-                  placeholder="Linkedin"
+                  placeholder="https://www.linkedin.com/yourcompany"
                   maxLength={200}
                 />
               </div>
@@ -364,8 +365,8 @@ const BasicInformationTab = ({
                   value={companyData.twitter_link || ""}
                   onChange={handleInputChange}
                   className="form-control"
-                  placeholder="Twitter"
-                  maxLength={500}
+                 placeholder="https://www.twitter.com/yourcompany"
+                  maxLength={200}
                 />
               </div>
               <div className="col-md-6 mb-3">
@@ -376,7 +377,7 @@ const BasicInformationTab = ({
                   value={companyData.website_link || ""}
                   onChange={handleInputChange}
                   className="form-control"
-                  placeholder="Website"
+                 placeholder="https://www.website.com"
                   maxLength={200}
                 />
               </div>

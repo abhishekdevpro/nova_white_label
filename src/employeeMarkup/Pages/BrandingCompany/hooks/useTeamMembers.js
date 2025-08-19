@@ -77,6 +77,7 @@
 
 import { useState, useCallback } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export const useTeamMembers = () => {
   const [teamMembers, setTeamMembers] = useState([]);
@@ -171,6 +172,26 @@ export const useTeamMembers = () => {
         setError("Name is required");
         return;
       }
+
+       if (tempMember.media_upload) {
+      const file = tempMember.media_upload;
+
+      // Allow only images (you can extend this to videos if needed)
+      const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+      const maxSizeMB = 2;
+      const maxSizeBytes = maxSizeMB * 1024 * 1024;
+
+      if (!allowedTypes.includes(file.type)) {
+        setError("Only JPG, JPEG, or PNG files are allowed");
+        return;
+      }
+
+      if (file.size > maxSizeBytes) {
+        toast.error(`File size must be less than ${maxSizeMB}MB`);
+        setError(`File size must be less than ${maxSizeMB}MB`);
+        return;
+      }
+    }
 
       const formData = new FormData();
       formData.append("name", tempMember.name.trim());

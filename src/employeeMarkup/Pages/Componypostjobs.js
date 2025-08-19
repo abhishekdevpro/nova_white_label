@@ -109,7 +109,7 @@ function EmployeeComponypostjobs() {
     })
       .then((res) => {
         setJobCategories(res.data.data);
-        console.log("console h", res.data.data); // Update jobCategories state here
+        // console.log("console h", res.data.data); // Update jobCategories state here
       })
       .catch((err) => {
         console.log("Error fetching job categories:", err);
@@ -158,7 +158,7 @@ function EmployeeComponypostjobs() {
     })
       .then((res) => {
         setexperience_level_id(res.data.data);
-        console.log("console h", res.data.data); // Update jobCategories state here
+        // console.log("console h", res.data.data); // Update jobCategories state here
       })
       .catch((err) => {
         console.log("Error fetching job categories:", err);
@@ -183,7 +183,7 @@ function EmployeeComponypostjobs() {
       },
     })
       .then((res) => {
-        console.log(res.data.data.companies.company_name, "joy");
+        // console.log(res.data.data.companies.company_name, "joy");
         dispatch(
           setPostAJobData({
             jobTitle: res.data.data.job_detail.job_title,
@@ -227,7 +227,7 @@ function EmployeeComponypostjobs() {
           company: postAJobData.company,
         },
       });
-      console.log(res.data.data.description);
+      // console.log(res.data.data.description);
       renderSection(res.data.data.description);
     } catch (error) {
       console.error("Error occurred: ", error.response.data);
@@ -271,10 +271,12 @@ function EmployeeComponypostjobs() {
     // 🧪 Basic Validation
     if (!postAJobData.jobTitle) {
       toast.error("Job title is required to post a job");
+      setJobPostingStatus("rejected")
       return;
     }
     if (!postAJobData.company) {
       toast.error(" Company name is required to post a job");
+      setJobPostingStatus("rejected")
       return;
     }
 
@@ -308,10 +310,15 @@ function EmployeeComponypostjobs() {
       });
 
       console.log("Job posted successfully:", response.data);
-      toast.success("Job post updated and published!");
+      if(response.data.status === "success" || response.data.code === 200){
+        toast.success(response.data.message || "Job post successfully!");
+        setJobPostingStatus("success")
+      }
+      // toast.success("Job post updated and published!");
     } catch (error) {
       console.error("Error updating job post:", error);
-      toast.error("Failed to update job post.");
+      toast.error(error.response?.data?.message || "Failed to update job post.");
+      setJobPostingStatus("rejected")
     }
   };
 
@@ -324,7 +331,7 @@ function EmployeeComponypostjobs() {
       },
     })
       .then((res) => {
-        console.log(res.data.data);
+        // console.log(res.data.data);
         setJobType(res.data.data);
       })
       .catch((err) => {
@@ -341,7 +348,7 @@ function EmployeeComponypostjobs() {
       },
     })
       .then((res) => {
-        console.log(res.data.data);
+        // console.log(res.data.data);
         setWorkplaceType(res.data.data);
       })
       .catch((err) => {
@@ -359,14 +366,13 @@ function EmployeeComponypostjobs() {
     })
       .then((res) => {
         setCountries(res.data.data);
-        console.log(res.data.data);
+        // console.log(res.data.data);
       })
       .catch((error) => {
         console.log(error);
         setCities([]);
       });
   };
-
   const getState = async () => {
     await axios({
       method: "get",
@@ -383,7 +389,7 @@ function EmployeeComponypostjobs() {
           return;
         }
         setStates(res.data.data);
-        console.log(res.data.data);
+        // console.log(res.data.data);
       })
 
       .catch((error) => {
@@ -408,7 +414,7 @@ function EmployeeComponypostjobs() {
           return;
         }
         setCities(res.data.data);
-        console.log(res.data.data);
+        // console.log(res.data.data);
       })
       .catch((error) => {
         setCities([]);
@@ -463,6 +469,7 @@ function EmployeeComponypostjobs() {
   }, [postAJobData]);
 
   const dispatch = useDispatch();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -514,12 +521,14 @@ function EmployeeComponypostjobs() {
 
   const handlePostJob = async () => {
     // Step 2: Update job posting status and perform necessary actions
-    setJobPostingStatus("under_review");
+    // setJobPostingStatus("under_review");
     // Call your API to post the job here
     try {
       await postCompleted();
-      showToastSuccess("Your Job post is under review");
+      // showToastSuccess("Your Job post is under review");
       // Reset form after successful post
+      console.log("Job posting status:", jobPostingStatus);
+      if(jobPostingStatus === "success"){
       dispatch(
         setPostAJobData({
           jobTitle: "",
@@ -529,6 +538,7 @@ function EmployeeComponypostjobs() {
           jobType: "",
           description: "",
           education: "",
+          salary: "",
           qualificationSetting: "",
           selectedCity: "",
           selectedState: "",
@@ -541,6 +551,7 @@ function EmployeeComponypostjobs() {
       );
       setErrors({ jobTitle: "", company: "" });
       setSuggestions(true);
+    }
     } catch (error) {
       showToastError("Failed to post job");
     }
@@ -558,14 +569,7 @@ function EmployeeComponypostjobs() {
                 <div className="col-xl-9 col-lg-9 col-12">
                   <div
                     className="job-bx submit-resume"
-                    // style={{
-                    //   height: "100%",
-                    //   overflowY: "auto",
-                    //   overflowX: "hidden",
-                    //   paddingRight: "10px",
-                    //   scrollBehavior: "smooth",
-                    //   scrollbarWidth: "none",
-                    // }}
+                   
                   >
                     <div className="job-bx-title clearfix">
                       <h5 className="font-weight-700 pull-left text-uppercase">
@@ -802,7 +806,7 @@ function EmployeeComponypostjobs() {
                               >
                                 {jobType.map(
                                   (item) => (
-                                    console.log(item),
+                                    // console.log(item),
                                     (
                                       <option value={item.id}>
                                         {item.name}
@@ -1008,21 +1012,22 @@ function EmployeeComponypostjobs() {
                     >
                       <div>
                         {/* Step 3: Update UI based on job posting status */}
-                        {jobPostingStatus === "pending" ? (
+                        {/* {jobPostingStatus === "success" ? (
+                          <button
+                            // onClick={handleAddSkill}
+                            className="site-button w-100 mt-4 d-flex justify-content-center align-items-center"
+                          >
+                            Add Another Job
+                          </button>
+                          
+                        ) : ( */}
                           <button
                             onClick={handlePostJob}
                             className="site-button w-100 mt-4 "
                           >
                             Post job
                           </button>
-                        ) : (
-                          <button
-                            // onClick={handleAddSkill}
-                            className="site-button d-flex justify-content-center align-items-center"
-                          >
-                            Add Another Job
-                          </button>
-                        )}
+                        {/* )} */}
                       </div>
                     </div>
                   </div>

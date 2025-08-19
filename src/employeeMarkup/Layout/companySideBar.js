@@ -47,7 +47,7 @@ const CompanySideBar = ({ active }) => {
       },
     })
       .then((res) => {
-        console.log(res.data.data, "job");
+        // console.log(res.data.data, "job");
         // setres.data.dataa(res.data.data);
         dispatch(
           setPostAJobData({
@@ -115,34 +115,48 @@ const CompanySideBar = ({ active }) => {
   };
   const formData = new FormData();
   formData.append("logo", file?.file);
-  const handleUpdateCompanyLogo = (e) => {
-    e.preventDefault();
-    const API = localStorage.getItem("employeeLoginToken")? `https://apiwl.novajobs.us/api/employeer/company-logo` : `https://apiwl.novajobs.us/api/admin/company-logo`
 
-    console.log(API,"mmmmmm")
-    axios({
-      method: "PUT",
-      url: API,
-      headers: {
-        Authorization: token,
-      },
-      data: formData,
-    })
-      .then((res) => {
-        console.log(res);
-        showToastSuccess(res?.data?.message);
-      })
-      .catch((err) => {
-        console.log(err);
+  const handleUpdateCompanyLogo = async (e) => {
+    e.preventDefault();
+
+    try {
+      const API = localStorage.getItem("employeeLoginToken")
+        ? `https://apiwl.novajobs.us/api/employeer/company-logo`
+        : `https://apiwl.novajobs.us/api/admin/company-logo`;
+
+      const maxSize = 2 * 1024 * 1024; // 2 MB
+
+      if (file?.file?.size > maxSize) {
+        showToastError("File size exceeds 2MB");
+        return;
+      }
+
+      const response = await axios.put(API, formData, {
+        headers: {
+          Authorization: token,
+        },
       });
+
+      console.log(response);
+      if(response.data.code === 200 || response.data.status === "success"){
+        showToastSuccess(response?.data?.message);
+      }
+    } catch (err) {
+      console.error(err);
+      showToastError(
+        err?.response?.data?.message ||
+          "Something went wrong. Please try again."
+      );
+    }
   };
+
   return (
     <>
       <button className="sidebar-toggle" onClick={toggleSidebar}>
         ☰
       </button>
       <div className={`sidebar-2 ${sidebarOpen ? "open" : ""}`}>
-        <div className="" >
+        <div className="">
           <div className="sticky-top ">
             <div className="d-flex justify-content-start d-lg-none p-3">
               <X onClick={toggleSidebar} style={{ cursor: "pointer" }} />
@@ -206,7 +220,7 @@ const CompanySideBar = ({ active }) => {
                   <Link to={"#"}>{companyDetail?.company_name}</Link>
                 </h4>
               </div>
-              <ul >
+              <ul>
                 <li>
                   <Link
                     to={"/employer/company-profile"}
@@ -221,7 +235,7 @@ const CompanySideBar = ({ active }) => {
                     to={"/employer/branding-company"}
                     className={active === "branding" ? "active" : null}
                   >
-                    <Building2 className="" />
+                    <Building2 className="me-2" />
                     <span>Branding Company</span>
                   </Link>
                 </li>
