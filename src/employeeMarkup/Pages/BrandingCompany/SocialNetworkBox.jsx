@@ -82,6 +82,18 @@ const SocialNetworkBox = () => {
       toast.error("You can only upload up to 3 images");
       return;
     }
+    const maxSize = 2*1024*1024 ;
+     for (let file of files) {
+    if (!file.type.startsWith("image/")) {
+      toast.error("Only image files are allowed");
+      return;
+    }
+    if (file.size > maxSize) {
+      toast.error(`File ${file.name} exceeds 3MB limit`);
+      return;
+    }
+  }
+
     setSelectedImages((prev) => [...prev, ...files]);
   };
 
@@ -89,14 +101,33 @@ const SocialNetworkBox = () => {
     setSelectedImages((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const handlePdfUpload = (e) => {
-    const file = e.target.files[0];
-    if (file && file.type === "application/pdf") {
-      setSelectedPdf(file);
-    } else {
-      toast.error("Please select a valid PDF file");
-    }
-  };
+  // const handlePdfUpload = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file && file.type === "application/pdf") {
+  //     setSelectedPdf(file);
+  //   } else {
+  //     toast.error("Please select a valid PDF file");
+  //   }
+  // };
+
+  const handlePdfUpload = async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  if (file.type !== "application/pdf") {
+    toast.error("Only PDF files are allowed.");
+    return;
+  }
+
+  const maxSize = 5 * 1024 * 1024; // 5 MB
+  if (file.size > maxSize) {
+    toast.error("File size should not exceed 5MB.");
+    return;
+  }
+  setSelectedPdf(file);
+  toast.success("PDF uploaded successfully!");
+};
+
 
   useEffect(() => {
     // Pass the actual setter functions from useInsideImages hook

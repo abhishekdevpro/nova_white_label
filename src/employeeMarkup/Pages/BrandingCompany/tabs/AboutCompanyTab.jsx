@@ -42,7 +42,9 @@ const AboutCompanyTab = ({
         </h4> */}
 
         <div style={{ marginBottom: 0 }}>
-          <label className="modern-label">Company Description</label>
+          <label className="modern-label">
+            Company Description (one Line Short Description)
+          </label>
           <input
             type="text"
             name="title"
@@ -51,16 +53,16 @@ const AboutCompanyTab = ({
             className="form-control modern-input"
             placeholder="Enter company title"
             maxLength={100}
-            style={{
-              borderRadius: 10,
-              border: "1.5px solid #dbeafe",
-              padding: "14px 18px",
-              fontSize: 17,
-              width: "100%",
-              marginTop: 4,
-              background: "#fafdff",
-              transition: "border 0.2s, box-shadow 0.2s",
-            }}
+            // style={{
+            //   borderRadius: 10,
+            //   border: "1.5px solid #dbeafe",
+            //   padding: "14px 18px",
+            //   fontSize: 17,
+            //   width: "100%",
+            //   marginTop: 4,
+            //   background: "#fafdff",
+            //   transition: "border 0.2s, box-shadow 0.2s",
+            // }}
           />
         </div>
 
@@ -232,7 +234,7 @@ const AboutCompanyTab = ({
 
         <div className="modern-divider"></div>
 
-        <div style={{ marginBottom: 0 }}>
+        {/* <div style={{ marginBottom: 0 }}>
           <label className="modern-label">Images (Max: 3)</label>
           <input
             type="file"
@@ -250,7 +252,7 @@ const AboutCompanyTab = ({
               transition: "border 0.2s, box-shadow 0.2s",
             }}
           />
-        </div>
+        </div> */}
 
         <button
           type="button"

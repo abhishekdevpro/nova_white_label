@@ -368,15 +368,19 @@ const ShowcaseComponent = () => {
             <div style={styles.companyInfo}>
               <div style={styles.infoItem}>
                 <MdLocationOn size={28} />
-                <span>{companyData?.city?.name || "Location"}</span>
+                <span>
+                  {`${companyData?.city?.name} ,${companyData?.state?.name} , ${companyData?.country?.name}` ||
+                    "Location"}
+                </span>
               </div>
               <div style={styles.infoItem}>
                 <MdBusiness size={28} />
                 <span>{companyData?.company_industry?.name || "Industry"}</span>
               </div>
               <div style={styles.infoItem}>
-                <MdPeople size={28} />
-                <span>{companyData?.company_size?.name || "Company Size"}</span>
+                <FaGlobe size={28} />
+                {/* <span>{companyData?.company_size?.name || "Company Size"}</span> */}
+                <span>{companyData?.founded_date || "Founded Year"}</span>
               </div>
             </div>
           </div>
@@ -440,11 +444,29 @@ const ShowcaseComponent = () => {
         )}
 
         {/* PDF Section */}
-        {companyData?.pdf_urls?.[0] && (
+        {/* {companyData?.pdf_urls?.[0] && (
           <section style={styles.section}>
             <h2 style={styles.sectionTitle}>Company Documents</h2>
             <PDFViewer
               fileUrl={`${BASE_IMAGE_URL}${companyData.pdf_urls[0]}`}
+            />
+          </section>
+        )} */}
+        {companyData?.pdf_urls?.[0] && (
+          <section style={styles.section}>
+            <h2 style={styles.sectionTitle}>Company Documents</h2>
+            <iframe
+              src={`${BASE_IMAGE_URL}${companyData.pdf_urls[0]}`}
+              title="Company Document"
+              style={{
+                width: "100%",
+                height: "70vh", // responsive height based on screen
+                minHeight: "400px", // ensures it's not too small
+                maxHeight: "800px", // prevents overflow on large screens
+                border: "none",
+                borderRadius: "8px",
+                overflow: "hidden",
+              }}
             />
           </section>
         )}

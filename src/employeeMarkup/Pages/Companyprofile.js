@@ -450,7 +450,7 @@ function EmployeeCompanyprofile() {
                             <input
                               type="url"
                               className="form-control"
-                              placeholder="Website Link"
+                              placeholder="https://www.yourcompany.com"
                               onChange={(e) => setWebsite(e.target.value)}
                               value={website}
                               required
@@ -681,7 +681,7 @@ function EmployeeCompanyprofile() {
                             <input
                               type="url"
                               className="form-control"
-                              placeholder="LinkedIn Link"
+                              placeholder="https://www.linkedin.com/yourcompany"
                               onChange={(e) => setlinkdin(e.target.value)}
                               value={linkdin}
                               maxLength="2048"

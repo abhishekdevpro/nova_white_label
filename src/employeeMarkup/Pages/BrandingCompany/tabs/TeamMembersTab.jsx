@@ -6,6 +6,7 @@ import "./TeamMemeberTab.css";
 import { useTeamMembers } from "../hooks/useTeamMembers";
 import { Plus } from "lucide-react";
 import TextEditor from "../../../../common/TextEditor";
+import { toast } from "react-toastify";
 
 const TeamMembersTab = ({ activeTab }) => {
   const {
@@ -31,6 +32,33 @@ const TeamMembersTab = ({ activeTab }) => {
   }, [activeTab, fetchTeamMembers]);
 
   if (activeTab !== "team") return null;
+
+  const handleImageChange = (e) => {
+  const file = e.target.files[0];
+  const maxSize = 2 * 1024 * 1024; // 2MB in bytes
+
+  if (file) {
+    if (file.size > maxSize) {
+      // Show error if file is larger than 2MB
+      toast.error("File size exceeds 2MB limit");
+      e.target.value = ''; // Clear the input
+      return;
+    }
+
+    // Check if file is an image
+    if (!file.type.startsWith('image/')) {
+      toast.error("Please upload an image file");
+      e.target.value = '';
+      return;
+    }
+
+    // If validation passes, update the tempMember state with the new image
+    setTempMember(prev => ({
+      ...prev,
+      media_upload: file
+    }));
+  }
+};
 
   return (
     <div className="team-members-container">
@@ -101,6 +129,7 @@ const TeamMembersTab = ({ activeTab }) => {
                 setTempMember((prev) => ({ ...prev, name: e.target.value }))
               }
               placeholder="Enter team member's full name"
+              maxLength={50}
             />
           </div>
 
@@ -130,12 +159,7 @@ const TeamMembersTab = ({ activeTab }) => {
                 type="file"
                 className="file-input"
                 accept="image/*"
-                onChange={(e) =>
-                  setTempMember((prev) => ({
-                    ...prev,
-                    media_upload: e.target.files[0],
-                  }))
-                }
+                onChange={handleImageChange}
                 id="photo-upload"
               />
               <label htmlFor="photo-upload" className="file-upload-label">

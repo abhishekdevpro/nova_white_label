@@ -17,7 +17,7 @@ const ImagesTab = ({
       <div className="row m-b30">
         <div className="col-lg-12">
           <div className="form-group">
-            <div className="row">
+            <div className="d-flex flex-column w-100">
               <ImageSection
                 title="Culture Images"
                 images={insideCultureImages}
@@ -25,7 +25,7 @@ const ImagesTab = ({
                 handleImageUpload={handleInsideImageUpload}
                 removeImage={removeInsideImage}
                 handleSave={handleInsideImagesSave}
-                colClass="col-12 col-lg-4 mb-4"
+                colClass="col-12  mb-4"
               />
 
               <ImageSection
@@ -35,7 +35,7 @@ const ImagesTab = ({
                 handleImageUpload={handleInsideImageUpload}
                 removeImage={removeInsideImage}
                 handleSave={handleInsideImagesSave}
-                 colClass="col-12 col-lg-4 mb-4"
+                 colClass="col-12 mb-4"
               />
 
               <ImageSection
@@ -45,7 +45,7 @@ const ImagesTab = ({
                 handleImageUpload={handleInsideImageUpload}
                 removeImage={removeInsideImage}
                 handleSave={handleInsideImagesSave}
-                 colClass="col-12 col-lg-4 mb-4"
+                 colClass="col-12  mb-4"
               />
             </div>
           </div>

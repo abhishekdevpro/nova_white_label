@@ -101,7 +101,7 @@ function EmployeeBrowsecandidates() {
   const browseCandidateData = useSelector(
     (state) => state.browseCandidateSlice.browseCandidateData
   );
-  console.log(hasDataFetched, "data fetched");
+  // console.log(hasDataFetched, "data fetched");
 
   useEffect(() => {
     setSelectedJob(browseCandidateData[0]);
@@ -347,7 +347,7 @@ function EmployeeBrowsecandidates() {
     }
 
     const url = `${baseUrl}?${params.toString()}&page_no=${page}&page_size=${itemsPerPage}`;
-    console.log(url, "this is the url");
+    // console.log(url, "this is the url");
 
     axios({
       method: "GET",
@@ -562,37 +562,44 @@ function EmployeeBrowsecandidates() {
                                       {/* Candidate Name/ID */}
                                       <div className="d-flex justify-content-between align-items-center mb-2">
                                         <div>
-                                         <Link to={`/employer/candidate-profile/${item?.jobskkers_detail?.id}`}>
-                                         <h4
-                                            className="candidate-name mb-0"
-                                            style={{
-                                              fontWeight: "600",
-                                              fontSize: "18px",
-                                              color: "#1c2957",
-                                            
-                                            }}
-                                          >
-                                            {item?.jobskkers_detail
-                                              ?.first_name &&
-                                            item?.jobskkers_detail?.last_name
-                                              ? `${item?.jobskkers_detail?.first_name} ${item?.jobskkers_detail?.last_name}`
-                                              : item?.jobskkers_detail
-                                                  ?.job_seeker_uuid}
-                                          </h4>
-                                         </Link>
-                                          
+                                          {/* <Link
+                                            to={`/employer/candidate-profile/${item?.jobskkers_detail?.id}`}
+                                          > */}
+                                            <h4
+                                              className="candidate-name mb-0"
+                                              style={{
+                                                fontWeight: "600",
+                                                fontSize: "18px",
+                                                color: "#1c2957",
+                                              }}
+                                            >
+                                              {item?.jobskkers_detail
+                                                ?.first_name &&
+                                              item?.jobskkers_detail?.last_name
+                                                ? `${item?.jobskkers_detail?.first_name} ${item?.jobskkers_detail?.last_name}`
+                                                : item?.jobskkers_detail
+                                                    ?.job_seeker_uuid}
+                                            </h4>
+                                          {/* </Link> */}
                                         </div>
                                         <div>
-                                          <Link
+                                          {/* <Link
                                             to={`${
                                               item?.jobskkers_detail
                                                 ?.linkedin_link || "#"
                                             }`}
-                                          >
-                                            <button className="site-button btn-sm">
+                                          > */}
+                                            <button
+                                              onClick={() =>
+                                                navigate(
+                                                  `/employer/candidate-profile/${item?.jobskkers_detail?.id}`
+                                                )
+                                              }
+                                              className="site-button btn-sm"
+                                            >
                                               View Profile
                                             </button>
-                                          </Link>
+                                          {/* </Link> */}
                                         </div>
                                       </div>
 

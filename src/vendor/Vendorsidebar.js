@@ -108,39 +108,61 @@ const VendorCompanySideBar = ({ active }) => {
     });
   };
 
-  const handleUpdateCompanyLogo = (e) => {
+  // const handleUpdateCompanyLogo = (e) => {
+  //   e.preventDefault();
+  //   const formData = new FormData();
+  //   formData.append("logo", file?.file);
+  //   axios({
+  //     method: "PUT",
+  //     url: "https://apiwl.novajobs.us/api/admin/company-logo",
+  //     headers: {
+  //       Authorization: token,
+  //     },
+  //     data: formData,
+  //   })
+  //     .then((res) => {
+  //       console.log(res);
+  //       toast.success(res?.data?.message || "Logo updated successfully");
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       toast.error(err?.response?.data?.message || "Failed to update logo");
+  //     });
+  // };
+  const formData = new FormData();
+  formData.append("logo", file?.file);
+  const handleUpdateCompanyLogo = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("logo", file?.file);
-    axios({
-      method: "PUT",
-      url: "https://apiwl.novajobs.us/api/admin/company-logo",
-      headers: {
-        Authorization: token,
-      },
-      data: formData,
-    })
-      .then((res) => {
-        console.log(res);
-        toast.success(res?.data?.message || "Logo updated successfully");
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error(err?.response?.data?.message || "Failed to update logo");
+
+    try {
+      const API = `https://apiwl.novajobs.us/api/admin/company-logo`;
+
+      const maxSize = 2 * 1024 * 1024; // 2 MB
+
+      if (file?.file?.size > maxSize) {
+        toast.error("File size exceeds 2MB");
+        return;
+      }
+
+      const response = await axios.put(API, formData, {
+        headers: {
+          Authorization: token,
+        },
       });
+
+      console.log(response);
+      if (response.data.code === 200 || response.data.status === "success") {
+        toast.success(response?.data?.message);
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error(
+        err?.response?.data?.message ||
+          "Something went wrong. Please try again."
+      );
+    }
   };
 
-  const showToastSuccess = (message) => {
-    toast.success(message, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
   console.log(`https://apiwl.novajobs.us${logo}`, "llll");
   return (
     <>
@@ -199,18 +221,19 @@ const VendorCompanySideBar = ({ active }) => {
                   </div>
                 </div>
               </div>
+              {file?.url ? (
+                <button
+                  onClick={handleUpdateCompanyLogo}
+                  className="site-button w-100"
+                >
+                  Update
+                </button>
+              ) : null}
               <div className="candidate-title text-center candidate-detail text-break">
                 <h4 className="m-b5">
                   <Link to={"#"}>{companyDetail?.company_name}</Link>
                 </h4>
-                {file?.url ? (
-                  <button
-                    onClick={handleUpdateCompanyLogo}
-                    className="site-button"
-                  >
-                    Update
-                  </button>
-                ) : null}
+                {/*  */}
               </div>
               <ul>
                 <li>

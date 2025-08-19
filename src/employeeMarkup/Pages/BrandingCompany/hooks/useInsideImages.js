@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -14,10 +13,23 @@ export const useInsideImages = () => {
     localStorage.getItem("employeeLoginToken") ||
     localStorage.getItem("vendorToken") ||
     localStorage.getItem("authToken");
+  const MAX_IMAGE_SIZE = 2 * 1024 * 1024; // 2MB in bytes
 
   const handleInsideImageUpload = (e, type, index) => {
     const file = e.target.files[0];
     if (!file) return;
+
+    // ✅ Validation for file size
+    if (file.size > MAX_IMAGE_SIZE) {
+      toast.error("Image size should not exceed 2MB");
+      return;
+    }
+
+    // ✅ Validation for file type (only images)
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please upload a valid image file");
+      return;
+    }
 
     switch (type) {
       case "culture":
