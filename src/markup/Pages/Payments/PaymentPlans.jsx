@@ -302,12 +302,23 @@ export default function PaymentPlans() {
         {/* Pricing Section Title */}
         <PricingHeader>
           <PricingTitle>Choose Your Plan</PricingTitle>
-          <PricingSubtitle>
-            Find the perfect fit for your career journey
-          </PricingSubtitle>
-          <PricingIntro>
-            All plans include our core job search features
-          </PricingIntro>
+          <div
+            className="alert alert-info text-center"
+            role="alert"
+            style={{
+              width: "800px",
+              margin: "0 auto",
+              backgroundColor: "#09213c",
+              color: "white",
+              borderRadius: "10px",
+            }}
+          >
+            <h4 className="alert-heading">Limited Time Offer!</h4>
+            <p>
+              Get FREE access to Nova’s premium tools try resumes, jobs, and
+              skill tests before you choose a plan!
+            </p>
+          </div>
         </PricingHeader>
 
         <FlexContainer>

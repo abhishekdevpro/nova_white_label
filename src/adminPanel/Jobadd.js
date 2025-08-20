@@ -467,18 +467,18 @@ function Jobadd() {
   return (
     <>
       <CustomNavbar />
-      <Container fluid>
-        <Row>
-          <Col md={2} className="p-0">
+     <div className='container'>
+        <div className='row'>
+          {/* <Col md={2} className="p-0"> */}
             <Sidebar />
-          </Col>
+          {/* </Col> */}
           <Col className="w-full">
             <div className="page-content bg-white">
               <div className="content-block">
                 <div className="section-full bg-white p-t50 p-b20">
                   <div className="container">
                     <div className="row">
-                      <div className="col-xl-9 col-lg-9 m-b30">
+                      <div className="col-12 m-b30">
                         <div className="job-bx submit-resume">
                           <div className="job-bx-title clearfix">
                             <h5 className="font-weight-700 pull-left text-uppercase">
@@ -942,8 +942,8 @@ function Jobadd() {
               </div>
             </div>
           </Col>
-        </Row>
-      </Container>
+        </div>
+      </div>
     </>
   );
 }

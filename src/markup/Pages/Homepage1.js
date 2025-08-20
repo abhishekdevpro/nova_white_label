@@ -16,6 +16,7 @@ import {
   FaRegFilePdf,
   FaRegUser,
   FaStar,
+  FaVideo,
 } from "react-icons/fa";
 import PricingSection from "./Payments/PricingSection";
 import UserHeader from "../Layout/Header";
@@ -150,6 +151,11 @@ function Homepage() {
     window.open("https://ultraaura.education/", "_blank");
   };
 
+  const handlePracticeInterview = ()=>{
+    Navigate(`/interview-page`)
+     window.scrollTo(0, 0);
+  }
+
   const handleClosePopup = (e) => {
     e.stopPropagation();
     setShowUltraAuraPopup(false);
@@ -178,6 +184,14 @@ function Homepage() {
             "Our AI Skill test can be taken just by uploading resume.",
           onClick: handleSkillTest,
         },
+        {
+          id: 4,
+          icon: <FaVideo />,
+          title: "Practice Interview",
+          description:
+            "Practice your interview skills with our AI Interviewer.",
+          onClick: handlePracticeInterview,
+        },
       ]
     : [
         {
@@ -193,6 +207,14 @@ function Homepage() {
           title: "AI RESUME BUILDER",
           description: "Make your AI Resume or get it done from our Experts.",
           onClick: handleBuilder,
+        },
+        {
+          id: 3,
+          icon: <FaVideo />,
+          title: "Practice Interview",
+          description:
+            "Practice your interview skills with our AI Interviewer.",
+          onClick: handlePracticeInterview,
         },
       ];
 

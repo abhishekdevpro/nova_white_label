@@ -358,27 +358,28 @@ const Jobseekerlist = () => {
 
   return (
     <div>
-      <div>
+       <div className="container">
+        <div className="row">
         <CustomNavbar />
         <div>
-          <Row>
-            <Col md={2}>
+          <div className="d-flex gap-2">
+            <div className="w-[30%]">
               <Sidebar />
-            </Col>
+            </div>
 
-            <Col md={10}>
+            <Col className="w-[70%]" >
               <Container className="">
                 <Row className="">
-                  <Col md={12} className="mx-auto">
+                  <Col className="mx-auto">
                     <Row className="align-items-center my-3 gap-2">
-                      <Col xs={12} md={12}>
+                      <Col >
                         <h4 className="text-dark fw-semibold mb-0">
                           {isAllApplicants === "1"
                             ? "Applicants List"
                             : `Jobseeker List`}
                         </h4>
                       </Col>
-                      <Col md={12}>
+                      <Col md={10}>
                         {jobCounts && (
                           <div className="d-flex flex-wrap gap-2 my-3">
                             {countBadges.map((badge, i) => {
@@ -424,7 +425,7 @@ const Jobseekerlist = () => {
                           </div>
                         )}
                       </Col>
-                      <Col md={12}>
+                      <Col md={10}>
                         <div className=" d-flex flex-row gap-3 justify-content-md-end flex-wrap">
                           <select
                             className="form-select"
@@ -497,7 +498,7 @@ const Jobseekerlist = () => {
                     </Row>
 
                     <Row className="">
-                      <Col md={12} className=" ">
+                      <Col md={10} className=" ">
                         {loading ? (
                           <div className="text-center my-5">
                             <div
@@ -788,9 +789,9 @@ const Jobseekerlist = () => {
                 </Row>
               </Container>
             </Col>
-          </Row>
+          </div>
         </div>
-      </div>
+      
       <PDFPopupViewer
         show={selectedPDF !== null}
         onClose={handleClosePDF}
@@ -802,6 +803,8 @@ const Jobseekerlist = () => {
         onClose={() => setIsModalOpen(false)}
         jobseekerId={selectedJobseekerId}
       />
+      </div>
+      </div>
     </div>
   );
 };

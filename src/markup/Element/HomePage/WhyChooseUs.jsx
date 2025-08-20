@@ -50,7 +50,7 @@ const CardContainer = styled.div`
   }
 
   @media (min-width: 1024px) {
-    grid-template-columns: ${props => props.isFullWidth ? 'repeat(3, 1fr)' : 'repeat(2, 1fr)'};
+    grid-template-columns: ${props => props.isFullWidth ? 'repeat(4, 1fr)' : 'repeat(2, 1fr)'};
     gap: 2rem;
   }
 `;

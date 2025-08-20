@@ -189,7 +189,7 @@ const Dashboard = () => {
           {/* <Col md={2} className="p-0"> */}
             <Sidebar active="dashboard"/>
           {/* </Col> */}
-          <Col >
+            <Col >
             <Container fluid className="p-4">
               <Row className="mb-4">
                 <Col>

@@ -190,9 +190,12 @@ const PricingSection = () => {
             Choose Your Perfect Plan
             <span style={styles.titleLine}></span>
           </h2>
-          <p style={styles.subtitle}>
-            All our services are always free to get started
-          </p>
+          <div className="alert alert-info text-center" role="alert" style={{width:"600px",margin:"0 auto",backgroundColor:"#09213c",color:"white",borderRadius:"10px"}}>
+            <h4 className="alert-heading">Limited Time Offer!</h4>
+            <p>
+              Get FREE access to Nova’s premium tools  try resumes, jobs, and skill tests before you choose a plan!
+            </p>
+          </div>
         </div>
 
         {/* Pricing Cards Row */}
