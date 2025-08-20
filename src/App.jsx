@@ -231,6 +231,9 @@ import JobSeekerDetails from "./employeeMarkup/Pages/candidate-profile/index.jsx
 import MockInterviewPage from "./markup/Pages/practice-interview/index.jsx";
 import InterviewList from "./markup/Element/Interview-list/InterviewList.jsx";
 import InterviewResult from "./markup/Element/Interview-list/InterviewResult.jsx";
+import AddCoupon from "./adminPanel/Coupon/index.jsx";
+import CouponListPage from "./adminPanel/CouponList/index.jsx";
+import InterviewPage from "./markup/Pages/InterviewPage.js";
 function App() {
   const dispatch = useDispatch();
 
@@ -283,6 +286,7 @@ function App() {
         <Route path="about-us" element={<Aboutus />} />
         <Route path="privacy-policy" element={<PrivacyRights />} />
         <Route path="cookies-policy" element={<CookiesDigitalAdvertising />} />
+        <Route path="interview-page" element={<InterviewPage/>} />
         <Route path="terms-and-conditions" element={<TermOfUse />} />
         <Route path="accessibility-center" element={<AccessibilityCenter />} />
         <Route path="transaction" element={<Transactions />} />
@@ -294,6 +298,24 @@ function App() {
             <PrivateRouteadmin>
               {" "}
               <Dashboard />{" "}
+            </PrivateRouteadmin>
+          }
+        />
+         <Route
+          path="/admin/add-coupon"
+          element={
+            <PrivateRouteadmin>
+              {" "}
+              <AddCoupon />{" "}
+            </PrivateRouteadmin>
+          }
+        />
+         <Route
+          path="/admin/coupon-list"
+          element={
+            <PrivateRouteadmin>
+              {" "}
+              <CouponListPage />{" "}
             </PrivateRouteadmin>
           }
         />

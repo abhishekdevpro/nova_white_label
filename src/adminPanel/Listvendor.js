@@ -105,19 +105,19 @@ const Listvendor = () => {
             <Sidebar />
           
           <Col >
-            <div className="d-flex">
+            {/* <div className="d-flex">
               <p className="my-2">
                 <FaStore className="mx-1" /> / Vendor List
               </p>
-            </div>
+            </div> */}
             <Row>
-              <Col md={12}>
+              <Col>
                 <div
-                  style={{
-                    overflowX: "auto",
-                    overflowY: "auto",
-                    maxHeight: "500px",
-                  }}
+                  // style={{
+                  //   overflowX: "auto",
+                  //   overflowY: "auto",
+                  //   maxHeight: "500px",
+                  // }}
                 >
                   <table className="table">
                     <thead>
