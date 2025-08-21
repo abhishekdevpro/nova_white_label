@@ -27,8 +27,8 @@ const Jobslist = () => {
   const [selectedJobs, setSelectedJobs] = useState([]);
   const [jobTitle, setJobTitle] = useState("");
   const [companyName, setCompanyName] = useState("");
-  const [addApplicantModal,setApplicantModal]= useState(false)
-  const [applicantJob,setApplicantJob] = useState(null)
+  const [addApplicantModal, setApplicantModal] = useState(false);
+  const [applicantJob, setApplicantJob] = useState(null);
 
   // const totalPages = Math.ceil(totalRecords / itemsPerPage);
   const navigate = useNavigate();
@@ -48,11 +48,10 @@ const Jobslist = () => {
   });
   const [viewData, setViewData] = useState(null);
   const [modalLoading, setModalLoading] = useState(false);
-const authToken = localStorage.getItem("authToken");
+  const authToken = localStorage.getItem("authToken");
   const fetchJobs = async (page = 1) => {
     setLoading(true);
     try {
-      
       if (!authToken) {
         throw new Error("Auth token not found");
       }
@@ -93,12 +92,10 @@ const authToken = localStorage.getItem("authToken");
     fetchDomains();
   }, [currentPage, selectedDomain, jobTitle, companyName]);
 
-
-  const AddApplicant = (jobDetails)=>{
-      setApplicantModal(true)
-      setApplicantJob(jobDetails)
-  }
-
+  const AddApplicant = (jobDetails) => {
+    setApplicantModal(true);
+    setApplicantJob(jobDetails);
+  };
 
   const handleStatusChange = async (jobId, status) => {
     const authToken = localStorage.getItem("authToken");
@@ -173,7 +170,6 @@ const authToken = localStorage.getItem("authToken");
       console.log(error, "Error while fetching domains");
     }
   };
-
 
   const handleSelectAll = (checked) => {
     if (checked) {
@@ -261,13 +257,25 @@ const authToken = localStorage.getItem("authToken");
           <Sidebar />
 
           <Col>
-            <Container fluid className="">
+            <Container fluid className="p-4">
               <Row className="gap-3">
-                <Row className="align-items-center my-3">
-                  <Col xs={12} md={2}>
-                    <h4 className="text-dark fw-semibold mb-0">Jobs List</h4>
-                  </Col>
-                  <Col xs={12} md={10}>
+                <div className="job-bx-title clearfix">
+                  <div className="d-flex justify-content-between align-items-center mb-3">
+                    <h5 className=" font-weight-700 pull-left text-uppercase">
+                      Job List {" "}
+                    </h5>
+                    <button
+                      className="site-button btn-sm"
+                      disabled
+                      onClick={() => navigate("")}
+                    >
+                      Add Job
+                    </button>
+                  </div>
+                </div>
+                <div className="">
+                  
+                  {/* <Col > */}
                     <div className=" d-flex flex-row gap-3 justify-content-md-end flex-wrap">
                       <input
                         type="text"
@@ -313,10 +321,10 @@ const authToken = localStorage.getItem("authToken");
                         Clear
                       </Button>
                     </div>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col md={12}>
+                  {/* </Col> */}
+                </div>
+                <div>
+                  {/* <Col md={12}> */}
                     {loading ? (
                       <div className="text-center my-5">
                         <div
@@ -408,8 +416,10 @@ const authToken = localStorage.getItem("authToken");
                                       View All
                                     </Button>
                                     <Button
-                                     size="sm"
-                                     onClick={()=>AddApplicant(job.job_detail)}
+                                      size="sm"
+                                      onClick={() =>
+                                        AddApplicant(job.job_detail)
+                                      }
                                     >
                                       + Add Applicant
                                     </Button>
@@ -563,8 +573,8 @@ const authToken = localStorage.getItem("authToken");
                         </div>
                       </div>
                     )}
-                  </Col>
-                </Row>
+                  {/* </Col> */}
+                </div>
               </Row>
             </Container>
           </Col>
@@ -661,15 +671,15 @@ const authToken = localStorage.getItem("authToken");
         </Modal.Footer>
       </Modal>
 
-      {
-        addApplicantModal && <AddApplicantModal 
+      {addApplicantModal && (
+        <AddApplicantModal
           isOpen={addApplicantModal}
           onClose={() => setApplicantModal(false)}
           job={applicantJob}
           token={authToken}
           fetchJobs={fetchJobs}
         />
-      }
+      )}
     </div>
   );
 };

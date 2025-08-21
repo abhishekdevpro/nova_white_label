@@ -122,7 +122,7 @@ const BrandingTabs = () => {
     <>
       <div className="page-content bg-white">
         <div className="content-block">
-          <div className="section-full bg-white p-t50 p-b20">
+          <div className="section-full bg-white p-b20">
             <div className="">
               <div className="">
                 <div className="">

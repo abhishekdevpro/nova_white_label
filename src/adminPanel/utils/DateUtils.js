@@ -27,4 +27,17 @@ export const formatDaysAgo = (dateString) => {
   else return ` ${formatDate(dateString)}`;
 };
 
+export const getValidDays = (start, end) => {
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+
+  // difference in milliseconds
+  const diffTime = endDate - startDate;
+
+  // convert ms → days
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+  return diffDays;
+};
+
 

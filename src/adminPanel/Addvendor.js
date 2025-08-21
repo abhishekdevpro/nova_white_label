@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CustomNavbar from "./Navbar";
 import Sidebar from "./Sidebar";
+import { useNavigate } from "react-router-dom";
 
 const Addvendor = () => {
   const [formData, setFormData] = useState({
@@ -17,6 +18,7 @@ const Addvendor = () => {
     company_name: "",
     access: [], // Initialize access property
   });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -66,139 +68,131 @@ const Addvendor = () => {
       <CustomNavbar />
       <div className="container">
         <div className="row">
-            <Sidebar />
-          <Col className="w-100">
-            <div className="page-content bg-white">
-              <div className="content-block">
-                <div className="section-full bg-white p-t50 p-b20">
-                  <div className="container">
-                    <div className="row">
-                      <div className="col-12 m-b30">
-                        <div className="job-bx submit-resume">
-                          <div className="job-bx-title clearfix">
-                            <h5 className=" font-weight-700 pull-left text-uppercase">
-                              Add Vendor{" "}
-                            </h5>
-                          </div>
-                          <Form onSubmit={handleSubmit} className="">
-                            <Row className="mb-3">
-                              <Col>
-                                <Form.Group controlId="formFirstName">
-                                  <Form.Label>First Name</Form.Label>
-                                  <Form.Control
-                                    type="text"
-                                    placeholder="Enter first name"
-                                    name="first_name"
-                                    value={formData.first_name}
-                                    onChange={handleChange}
-                                    required
-                                  />
-                                </Form.Group>
-                              </Col>
-                              <Col lg={6}>
-                                <Form.Group controlId="formLastName">
-                                  <Form.Label>Last Name</Form.Label>
-                                  <Form.Control
-                                    type="text"
-                                    placeholder="Enter last name"
-                                    name="last_name"
-                                    value={formData.last_name}
-                                    onChange={handleChange}
-                                    required
-                                  />
-                                </Form.Group>
-                              </Col>
-                            </Row>
-                            <Row className="mb-3">
-                              <Col lg={6}>
-                                <Form.Group controlId="formEmail">
-                                  <Form.Label>Email Address</Form.Label>
-                                  <Form.Control
-                                    type="email"
-                                    placeholder="Enter email"
-                                    name="email"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    required
-                                  />
-                                </Form.Group>
-                              </Col>
-                              <Col lg={6}>
-                                <Form.Group controlId="formPhone">
-                                  <Form.Label>Phone</Form.Label>
-                                  <Form.Control
-                                    type="tel"
-                                    placeholder="Enter phone number"
-                                    name="phone"
-                                    value={formData.phone}
-                                    onChange={handleChange}
-                                    required
-                                  />
-                                </Form.Group>
-                              </Col>
-                            </Row>
-                            <Row className="mb-3">
-                              <Col lg={6}>
-                                <Form.Group controlId="formPassword">
-                                  <Form.Label>Password</Form.Label>
-                                  <Form.Control
-                                    type="password"
-                                    placeholder="Enter password"
-                                    name="password"
-                                    value={formData.password}
-                                    onChange={handleChange}
-                                    required
-                                  />
-                                </Form.Group>
-                              </Col>
-                              <Col lg={6}>
-                                <Form.Group controlId="formCompanyName">
-                                  <Form.Label>Company Name</Form.Label>
-                                  <Form.Control
-                                    type="text"
-                                    placeholder="Enter company name"
-                                    name="company_name"
-                                    value={formData.company_name}
-                                    onChange={handleChange}
-                                    required
-                                  />
-                                </Form.Group>
-                              </Col>
-                            </Row>
-                            <Row className="mb-3">
-                              <Col lg={12}>
-                                <Form.Group controlId="formdescription">
-                                  <Form.Label>Description</Form.Label>
-                                  <Form.Control
-                                    type="text"
-                                    placeholder="Enter description"
-                                    name="description"
-                                    value={formData.description}
-                                    onChange={handleChange}
-                                    required
-                                  />
-                                </Form.Group>
-                              </Col>
-                            </Row>
-                            <Row>
-                              <Col lg={12}>
-                                <Button
-                                  variant="primary"
-                                  type="submit"
-                                  className="mb-3"
-                                >
-                                  ADD
-                                </Button>
-                              </Col>
-                            </Row>
-                          </Form>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+          <Sidebar />
+          <Col >
+            <Container fluid className="p-4 ">
+              <div className="job-bx-title clearfix">
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <h5 className=" font-weight-700 pull-left text-uppercase">
+                    Add Vendor{" "}
+                  </h5>
+                  <button
+                    className="site-button small"
+                    onClick={() => navigate("/admin//listvendor")}
+                  >
+                    Vendor List
+                  </button>
                 </div>
               </div>
-            </div>
+              <Form onSubmit={handleSubmit} className="">
+                <Row className="mb-3">
+                  <Col>
+                    <Form.Group controlId="formFirstName">
+                      <Form.Label>First Name</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter first name"
+                        name="first_name"
+                        value={formData.first_name}
+                        onChange={handleChange}
+                        required
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col lg={6}>
+                    <Form.Group controlId="formLastName">
+                      <Form.Label>Last Name</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter last name"
+                        name="last_name"
+                        value={formData.last_name}
+                        onChange={handleChange}
+                        required
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+                <Row className="mb-3">
+                  <Col lg={6}>
+                    <Form.Group controlId="formEmail">
+                      <Form.Label>Email Address</Form.Label>
+                      <Form.Control
+                        type="email"
+                        placeholder="Enter email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col lg={6}>
+                    <Form.Group controlId="formPhone">
+                      <Form.Label>Phone</Form.Label>
+                      <Form.Control
+                        type="tel"
+                        placeholder="Enter phone number"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        required
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+                <Row className="mb-3">
+                  <Col lg={6}>
+                    <Form.Group controlId="formPassword">
+                      <Form.Label>Password</Form.Label>
+                      <Form.Control
+                        type="password"
+                        placeholder="Enter password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        required
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col lg={6}>
+                    <Form.Group controlId="formCompanyName">
+                      <Form.Label>Company Name</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter company name"
+                        name="company_name"
+                        value={formData.company_name}
+                        onChange={handleChange}
+                        required
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+                <Row className="mb-3">
+                  <Col lg={12}>
+                    <Form.Group controlId="formdescription">
+                      <Form.Label>Description</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter description"
+                        name="description"
+                        value={formData.description}
+                        onChange={handleChange}
+                        required
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col lg={12}>
+                    <button  type="submit" className="site-button w-100">
+                      ADD
+                    </button>
+                  </Col>
+                </Row>
+              </Form>
+            </Container>
           </Col>
         </div>
       </div>

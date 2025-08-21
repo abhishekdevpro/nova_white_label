@@ -311,6 +311,15 @@ function App() {
           }
         />
          <Route
+          path="/admin/edit-coupon/:id"
+          element={
+            <PrivateRouteadmin>
+              {" "}
+              <AddCoupon />{" "}
+            </PrivateRouteadmin>
+          }
+        />
+         <Route
           path="/admin/coupon-list"
           element={
             <PrivateRouteadmin>

@@ -116,13 +116,22 @@ const Employeelist = () => {
             <Container className="">
               <Row className="gap-3">
                 <Row className="align-items-center my-3">
-                  <Col xs={12} md={2}>
-                    <h4 className="text-dark fw-semibold mb-0">
-                      Employer List
-                    </h4>
-                  </Col>
-                  <Col xs={12} md={10}>
-                    <div className=" d-flex flex-row gap-3 justify-content-md-end flex-wrap">
+                  <div className="job-bx-title clearfix">
+                    <div className="d-flex justify-content-between align-items-center mb-3">
+                      <h5 className=" font-weight-700 pull-left text-uppercase">
+                        Employer List{" "}
+                      </h5>
+                      <button
+                        className="site-button btn-sm"
+                        disabled
+                        // onClick={() => navigate("")}
+                      >
+                        Add Employer
+                      </button>
+                    </div>
+                  </div>
+                  <div xs={12} md={10}>
+                    <div className=" d-flex flex-row gap-3 w-100 flex-wrap">
                       <input
                         type="text"
                         placeholder="Search by company name"
@@ -156,7 +165,7 @@ const Employeelist = () => {
                       </select>
 
                       <Button
-                        className="site-button btn-sm"
+                        className="site-button btn-sm align-end"
                         variant="danger"
                         onClick={() => {
                           setCompanyName("");
@@ -167,7 +176,7 @@ const Employeelist = () => {
                         Clear
                       </Button>
                     </div>
-                  </Col>
+                  </div>
                 </Row>
                 <Row>
                   <Col md={12}>

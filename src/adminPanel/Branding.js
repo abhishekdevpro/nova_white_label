@@ -28,8 +28,15 @@ const BrandingAdmin = () => {
           <Sidebar />
 
           <Col>
-            <Container fluid className="">
-              <Row className="gap-3">
+            <Container fluid className="p-4 ">
+              <div className="job-bx-title clearfix">
+                <div className="d-flex justify-content-between align-items-center">
+                  <h5 className="font-weight-700 pull-left text-uppercase ">
+                    Admin Company Branding Page
+                  </h5>
+                </div>
+              </div>
+              <Row className="gap-3 ">
                 <BrandingTabs />
               </Row>
             </Container>
