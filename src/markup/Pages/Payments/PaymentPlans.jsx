@@ -306,7 +306,7 @@ export default function PaymentPlans() {
             className="alert alert-info text-center"
             role="alert"
             style={{
-              width: "800px",
+              maxWidth: "800px",
               margin: "0 auto",
               backgroundColor: "#09213c",
               color: "white",
