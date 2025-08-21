@@ -142,6 +142,9 @@ export default function PaymentPage() {
   const BASE_URL = "https://apiwl.novajobs.us";
   const [selectedPlanId, setSelectedPlanId] = useState(null);
   const [selectedPlan, setSelectedPlan] = useState(null);
+  const [couponCode, setCouponCode] = useState(null);
+  const [error, setError] = useState("");
+  const [promoId,setPromoId]= useState(null)
   const navigate = useNavigate();
 
   // Convert plans array to object with id as key for easy lookup
@@ -202,6 +205,8 @@ export default function PaymentPage() {
     }
   }, []);
 
+  // console.log(promoId,"promoid")
+
   const handleCheckout = async () => {
     if (!selectedPlanId) {
       toast.success("Please select a plan before proceeding.");
@@ -233,6 +238,7 @@ export default function PaymentPage() {
         {
           plan_id: planId,
           domain: url,
+          promo_id: promoId || null, // Use promoId if available
         },
         {
           headers: {
@@ -241,12 +247,13 @@ export default function PaymentPage() {
         }
       );
 
-      console.log("API Response:", response.data);
+      // console.log("API Response:", response.data);
 
       if (response.status === 200) {
         if (response.data?.url) {
           toast.success("Payment successful! Redirecting...");
-          window.location.href = response.data.url;
+          // window.location.href = response.data.url;
+          window.open(response.data.url, "_blank");
         } else {
           console.error("No URL found in response:", response.data);
           toast.error("Unexpected response from the server. No URL returned.");
@@ -257,6 +264,39 @@ export default function PaymentPage() {
     } catch (error) {
       console.error("Payment Error:", error);
       toast.error(error.response?.data?.message || "Error processing payment.");
+    }finally{
+      setPromoId("")
+    }
+  };
+
+  const handleVerify = async () => {
+    try {
+      const res = await axios.post(
+        `${BASE_URL}/api/jobseeker/verify-coupon`,
+        {
+          code: couponCode,
+        },
+        {
+          headers: {
+            Authorization: localStorage.getItem("jobSeekerLoginToken"),
+          },
+        }
+      );
+      console.log(res.data.data.promo_id, "Coupon verification response");
+      if (res.data.status === "success" || res.data.code === 200) {
+        toast.success(res.data.message || "Coupon Code Verified successfully");
+        setPromoId(res.data.data.promo_id)
+        setError("");
+      } else {
+        setError(res.data.message || "Invalid coupon code");
+      }
+    } catch (error) {
+      toast.error(
+        error.response.data.message || "Error verifying coupon code."
+      );
+      console.log(error);
+    }finally{
+      setCouponCode("")
     }
   };
 
@@ -316,8 +356,32 @@ export default function PaymentPage() {
               .<strong> You can cancel at any time.</strong>
             </TermsText>
 
+            <div className="mb-3">
+              <label className="form-label fw-semibold">Have a Coupon?</label>
+              <div className="input-group gap-2">
+                <input
+                  type="text"
+                  placeholder="Enter your Coupon Code"
+                  value={couponCode}
+                  onChange={(e) => setCouponCode(e.target.value)}
+                  className="form-control"
+                />
+                <button
+                  onClick={handleVerify}
+                  disabled={!couponCode}
+                  className="site-button btn-md-sm rounded"
+                  type="button"
+                >
+                  Verify
+                </button>
+              </div>
+              {error && (
+                <div className="form-text text-danger mt-1">{error}</div>
+              )}
+            </div>
+
             {/* Start Applying Button */}
-            <ActionButton onClick={handleCheckout}>Start applying</ActionButton>
+            <button  className="site-button btn-md-sm rounded bg-primary" onClick={handleCheckout}>Start applying</button>
 
             {/* Secure Checkout */}
             <SecureCheckoutLabel>
