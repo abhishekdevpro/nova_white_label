@@ -252,8 +252,8 @@ export default function PaymentPage() {
       if (response.status === 200) {
         if (response.data?.url) {
           toast.success( "Payment successful! Redirecting...");
-          // window.location.href = response.data.url;
-          window.open(response.data.url, "_blank");
+          window.location.href = response.data.url;
+          // window.open(response.data.url, "_blank");
         } else {
           console.error("No URL found in response:", response.data);
           toast.error(response.data.message || "Unexpected response from the server. No URL returned.");
