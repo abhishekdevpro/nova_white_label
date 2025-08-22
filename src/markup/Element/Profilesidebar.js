@@ -173,9 +173,9 @@ function Profilesidebar({ data }) {
                 </Link>
               </li>
               <li>
-                <a
+                <Link
                   // href={`/airesume/payment?tokenbyurl=${token}`
-                  href="/user/current-plan"
+                  to="/user/current-plan"
                   className={data === "currentplan" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
                   style={{ fontSize: "15px" }}
@@ -187,7 +187,7 @@ function Profilesidebar({ data }) {
                       {userData?.plan_id ? planName[userData.plan_id] : "Free"}
                     </FreeBadge>
                   </span>
-                </a>
+                </Link>
               </li>
               <li>
                 <Link

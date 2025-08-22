@@ -247,19 +247,19 @@ export default function PaymentPage() {
         }
       );
 
-      // console.log("API Response:", response.data);
-
+      console.log("API Response:", response.data);
+      
       if (response.status === 200) {
         if (response.data?.url) {
-          toast.success("Payment successful! Redirecting...");
+          toast.success( "Payment successful! Redirecting...");
           // window.location.href = response.data.url;
           window.open(response.data.url, "_blank");
         } else {
           console.error("No URL found in response:", response.data);
-          toast.error("Unexpected response from the server. No URL returned.");
+          toast.error(response.data.message || "Unexpected response from the server. No URL returned.");
         }
       } else {
-        throw new Error("Unexpected response from the server.");
+        throw new Error(response.data.message || "Unexpected response from the server.");
       }
     } catch (error) {
       console.error("Payment Error:", error);
@@ -269,36 +269,36 @@ export default function PaymentPage() {
     }
   };
 
-  const handleVerify = async () => {
-    try {
-      const res = await axios.post(
-        `${BASE_URL}/api/jobseeker/verify-coupon`,
-        {
-          code: couponCode,
-        },
-        {
-          headers: {
-            Authorization: localStorage.getItem("jobSeekerLoginToken"),
-          },
-        }
-      );
-      console.log(res.data.data.promo_id, "Coupon verification response");
-      if (res.data.status === "success" || res.data.code === 200) {
-        toast.success(res.data.message || "Coupon Code Verified successfully");
-        setPromoId(res.data.data.promo_id)
-        setError("");
-      } else {
-        setError(res.data.message || "Invalid coupon code");
-      }
-    } catch (error) {
-      toast.error(
-        error.response.data.message || "Error verifying coupon code."
-      );
-      console.log(error);
-    }finally{
-      setCouponCode("")
-    }
-  };
+  // const handleVerify = async () => {
+  //   try {
+  //     const res = await axios.post(
+  //       `${BASE_URL}/api/jobseeker/verify-coupon`,
+  //       {
+  //         code: couponCode,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: localStorage.getItem("jobSeekerLoginToken"),
+  //         },
+  //       }
+  //     );
+  //     console.log(res.data.data.promo_id, "Coupon verification response");
+  //     if (res.data.status === "success" || res.data.code === 200) {
+  //       toast.success(res.data.message || "Coupon Code Verified successfully");
+  //       setPromoId(res.data.data.promo_id)
+  //       setError("");
+  //     } else {
+  //       setError(res.data.message || "Invalid coupon code");
+  //     }
+  //   } catch (error) {
+  //     toast.error(
+  //       error.response.data.message || "Error verifying coupon code."
+  //     );
+  //     console.log(error);
+  //   }finally{
+  //     setCouponCode("")
+  //   }
+  // };
 
   return (
     <>
@@ -356,7 +356,7 @@ export default function PaymentPage() {
               .<strong> You can cancel at any time.</strong>
             </TermsText>
 
-            <div className="mb-3">
+            {/* <div className="mb-3">
               <label className="form-label fw-semibold">Have a Coupon?</label>
               <div className="input-group gap-2">
                 <input
@@ -378,10 +378,10 @@ export default function PaymentPage() {
               {error && (
                 <div className="form-text text-danger mt-1">{error}</div>
               )}
-            </div>
+            </div> */}
 
             {/* Start Applying Button */}
-            <button  className="site-button btn-md-sm rounded bg-primary" onClick={handleCheckout}>Start applying</button>
+            <button  className="site-button w-100 btn-md-sm rounded bg-primary" onClick={handleCheckout}>Start applying</button>
 
             {/* Secure Checkout */}
             <SecureCheckoutLabel>
