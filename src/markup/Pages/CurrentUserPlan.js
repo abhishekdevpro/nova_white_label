@@ -29,9 +29,9 @@ function CurrentUserPlan() {
         setIsActivePlan(data?.is_active_plan)
 
         // Match plan_id with static plans array
-        const matchedPlan = plans.find(
-          (plan) => plan.plan_id === userPlanId?.toString()
-        );
+        const matchedPlan = data?.is_active_plan
+          ? plans.find((plan) => plan.plan_id === String(userPlanId)) 
+          : plans[userPlanId]
 
         if (matchedPlan) {
           setCurrentPlan(matchedPlan);
@@ -89,7 +89,7 @@ function CurrentUserPlan() {
                             </CardHeader>
                             <CardBody>
                               <FeatureList>
-                                {currentPlan.features.map((feature, index) => (
+                                {currentPlan?.features?.map((feature, index) => (
                                   <li key={index}>✓ {feature}</li>
                                 ))}
                               </FeatureList>

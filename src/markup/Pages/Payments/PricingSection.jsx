@@ -190,10 +190,22 @@ const PricingSection = () => {
             Choose Your Perfect Plan
             <span style={styles.titleLine}></span>
           </h2>
-          <div className="alert alert-info text-center" role="alert" style={{maxWidth:"600px",margin:"0 auto",backgroundColor:"#09213c",color:"white",borderRadius:"10px"}}>
+          <div
+            className="alert alert-info text-center"
+            role="alert"
+            style={{
+              maxWidth: "800px",
+              margin: "0 auto",
+              backgroundColor: "#09213c",
+              color: "white",
+              borderRadius: "10px",
+            }}
+          >
             <h4 className="alert-heading">Limited Time Offer!</h4>
             <p>
-              Get FREE access to Nova’s premium tools  try resumes, jobs, and skill tests before you choose a plan!
+              Try Nova’s Premium Tools Free for 7 Days! Enjoy a limited free
+              trial with a set number of credits to explore resumes, jobs, and
+              skill tests before you decide on a plan.
             </p>
           </div>
         </div>
