@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Header2 from "./../Layout/Header2";
 import axios from "axios";
 import { showToastError, showToastSuccess } from "../../utils/toastify";
@@ -84,6 +84,7 @@ function Jobprofile() {
   const [documentTypeId, setDocumentTypeId] = useState("");
   const [documentFile, setDocumentFile] = useState(null);
   const [uploadStatus, setUploadStatus] = useState("");
+  const navigate = useNavigate();
 
   const handleToggle = () => {
     setIsToggled(!isToggled);
@@ -508,61 +509,7 @@ function Jobprofile() {
   //   };
   // };
 
-  const resizeFile = (file) => {
-    if (file) {
-      Resizer.imageFileResizer(
-        file,
-        400,
-        400,
-        "JPEG",
-        100,
-        0,
-        (uri) => {
-          dispatch(setProfileImageValue(uri));
-        },
-        "blob"
-      );
-    } else {
-      setFileError("No file selected");
-    }
-  };
-  const handleDocumnet = async (e) => {
-    e.preventDefault();
-
-    if (!documentTypeId || !documentFile) {
-      // setUploadStatus("Please select a document type and choose a file.");
-      return;
-    }
-    setUploadStatus("pending");
-    const formData = new FormData();
-    formData.append("document_type_id", documentTypeId);
-    formData.append("document_type_upload", documentFile);
-
-    try {
-      const response = await axios.put(
-        "https://apiwl.novajobs.us/api/jobseeker/upload-document",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: token,
-          },
-        }
-      );
-      if (response) {
-        toast.success("Uploaded SuccesFully");
-      }
-      console.log(documentTypeId, documentFile);
-
-      // setUploadStatus("Document uploaded successfully!");
-    } catch (error) {
-      console.error(error);
-      toast.error("Error while uploading");
-      // setUploadStatus("Failed to upload document.");
-    }
-  };
-  const PreviewDocument = `https://apiwl.novajobs.us${documentFile}`;
-  console.log(documentFile, uploadStatus, "documentFile");
+  // console.log(documentFile, uploadStatus, "documentFile");
   return (
     <>
       <Header2 />
@@ -576,17 +523,17 @@ function Jobprofile() {
                 <div className="col-xl-9 col-12 m-b30">
                   <div className="job-bx job-profile">
                     <div className="job-bx-title clearfix ">
-                      <div className="d-flex justify-content-between align-items-center mb-3">
+                      <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-3">
                         <h5 className="font-weight-700 pull-left text-uppercase ">
                           Basic Information
                         </h5>
+                        <button
+                          className="site-button btn-sm  text-uppercase "
+                          onClick={() => navigate(`/user/user-public-profile`)}
+                        >
+                          view public Profile
+                        </button>
                       </div>
-                      {/* <Link
-                        to={"./"}
-                        className="site-button right-arrow button-sm float-right"
-                      >
-                        Back
-                      </Link> */}
                     </div>
                     <form
                       onSubmit={handleSubmit}

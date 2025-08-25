@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 import EmployeeHeader from "../../Layout/Header";
+import UserHeader2 from "../../../markup/Layout/Header2";
 
 // Styled Components
 const Container = styled.div`
@@ -52,7 +53,7 @@ const ProfileImage = styled.img`
 const ProfileName = styled.h3`
   margin-bottom: 0.5rem;
   font-weight: 600;
-  color:white;
+  color: white;
 
   @media (max-width: 768px) {
     font-size: 1.3rem;
@@ -124,15 +125,16 @@ const TabNav = styled.div`
 const TabButton = styled.button`
   padding: 1rem 2rem;
   border: none;
-  background: ${props => props.active ? '#1c2957' : 'white'};
-  color: ${props => props.active ? 'white' : '#1c2957'};
+  background: ${(props) => (props.active ? "#1c2957" : "white")};
+  color: ${(props) => (props.active ? "white" : "#1c2957")};
   cursor: pointer;
   font-weight: 500;
   transition: all 0.3s ease;
-  border-bottom: 3px solid ${props => props.active ? '#1c2957' : 'transparent'};
+  border-bottom: 3px solid
+    ${(props) => (props.active ? "#1c2957" : "transparent")};
 
   &:hover {
-    background: ${props => props.active ? '#1c2957' : '#f8f9fa'};
+    background: ${(props) => (props.active ? "#1c2957" : "#f8f9fa")};
   }
 
   @media (max-width: 768px) {
@@ -235,7 +237,7 @@ const LoadingSpinner = styled.div`
   justify-content: center;
   align-items: center;
   min-height: 50vh;
-  
+
   .spinner {
     width: 40px;
     height: 40px;
@@ -246,8 +248,12 @@ const LoadingSpinner = styled.div`
   }
 
   @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 `;
 
@@ -262,12 +268,28 @@ const JobSeekerDetails = () => {
   const { id } = useParams();
   const [jobSeeker, setJobSeeker] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('profile');
-
+  const [activeTab, setActiveTab] = useState("profile");
+  const token = localStorage.getItem("jobSeekerLoginToken");
   const fetchJobSeekerDetails = async () => {
+    let API = id
+      ? `https://apiwl.novajobs.us/api/employeer/job-seekers/${id}`
+      : `https://apiwl.novajobs.us/api/jobseeker/user-profile`;
+
+    console.log(API);
     try {
-      const res = await axios.get(`https://apiwl.novajobs.us/api/employeer/job-seekers/${id}`);
-      setJobSeeker(res.data.data?.jobskkers_detail);
+      const res = await axios.get(API, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      console.log(res, "user-profile");
+
+      const jobSeekerData = id
+        ? res.data.data?.jobskkers_detail
+        : res.data.data;
+
+      setJobSeeker(jobSeekerData);
+
       setLoading(false);
     } catch (error) {
       console.error("Error fetching job seeker details:", error);
@@ -277,7 +299,7 @@ const JobSeekerDetails = () => {
 
   useEffect(() => {
     fetchJobSeekerDetails();
-  }, [id]);
+  }, []);
 
   if (loading) {
     return (
@@ -294,9 +316,7 @@ const JobSeekerDetails = () => {
       <Container>
         <div className="container">
           <ProfileCard>
-            <ErrorMessage>
-              Job seeker not found
-            </ErrorMessage>
+            <ErrorMessage>Job seeker not found</ErrorMessage>
           </ProfileCard>
         </div>
       </Container>
@@ -309,7 +329,9 @@ const JobSeekerDetails = () => {
         <SectionTitle>Personal Information</SectionTitle>
         <InfoRow>
           <InfoLabel>Full Name:</InfoLabel>
-          <InfoValue>{jobSeeker.first_name || "N/A"} {jobSeeker.last_name || ""}</InfoValue>
+          <InfoValue>
+            {jobSeeker.first_name || "N/A"} {jobSeeker.last_name || ""}
+          </InfoValue>
         </InfoRow>
         <InfoRow>
           <InfoLabel>Email:</InfoLabel>
@@ -338,10 +360,11 @@ const JobSeekerDetails = () => {
         <InfoRow>
           <InfoLabel>Work Experience:</InfoLabel>
           <InfoValue>
-            {jobSeeker.experience_in_month 
-              ? `${Math.floor(jobSeeker.experience_in_month / 12)} Years ${jobSeeker.experience_in_month % 12} Months`
-              : "N/A"
-            }
+            {jobSeeker.experience_in_month
+              ? `${Math.floor(jobSeeker.experience_in_month / 12)} Years ${
+                  jobSeeker.experience_in_month % 12
+                } Months`
+              : "N/A"}
           </InfoValue>
         </InfoRow>
         <InfoRow>
@@ -374,26 +397,27 @@ const JobSeekerDetails = () => {
 
   return (
     <>
-    <EmployeeHeader />
-       <Container>
-      <div className="container">
-        <ProfileCard>
-          <ProfileHeader>
-            <ProfileImage
-              src={jobSeeker.photo || "https://via.placeholder.com/100"}
-              alt="Profile"
-              onError={(e) => {
-                e.target.src = "https://via.placeholder.com/100/cccccc/666666?text=No+Image";
-              }}
-            />
-            <ProfileName>
-              {jobSeeker.first_name || "N/A"} {jobSeeker.last_name || ""}
-            </ProfileName>
-            <ProfileTitle>
-              {jobSeeker.proffesional_title || "Job Seeker"}
-            </ProfileTitle>
-            
-            {/* <ActionButtons>
+      {id ? <EmployeeHeader /> : <UserHeader2 /> }
+      <Container>
+        <div className="container">
+          <ProfileCard>
+            <ProfileHeader>
+              <ProfileImage
+                src={jobSeeker.photo || "https://via.placeholder.com/100"}
+                alt="Profile"
+                onError={(e) => {
+                  e.target.src =
+                    "https://via.placeholder.com/100/cccccc/666666?text=No+Image";
+                }}
+              />
+              <ProfileName>
+                {jobSeeker.first_name || "N/A"} {jobSeeker.last_name || ""}
+              </ProfileName>
+              <ProfileTitle>
+                {jobSeeker.proffesional_title || "Job Seeker"}
+              </ProfileTitle>
+
+              {/* <ActionButtons>
               <ActionButton className="primary">
                 Call Now
               </ActionButton>
@@ -401,32 +425,32 @@ const JobSeekerDetails = () => {
                 Share Profile
               </ActionButton>
             </ActionButtons> */}
-          </ProfileHeader>
+            </ProfileHeader>
 
-          <TabContainer>
-            <TabNav>
-              <TabButton 
-                active={activeTab === 'profile'} 
-                onClick={() => setActiveTab('profile')}
-              >
-                Profile
-              </TabButton>
-              <TabButton 
-                active={activeTab === 'resume'} 
-                onClick={() => setActiveTab('resume')}
-              >
-                Resume
-              </TabButton>
-            </TabNav>
-          </TabContainer>
+            <TabContainer>
+              <TabNav>
+                <TabButton
+                  active={activeTab === "profile"}
+                  onClick={() => setActiveTab("profile")}
+                >
+                  Profile
+                </TabButton>
+                <TabButton
+                  active={activeTab === "resume"}
+                  onClick={() => setActiveTab("resume")}
+                >
+                  Resume
+                </TabButton>
+              </TabNav>
+            </TabContainer>
 
-          <TabContent>
-            {activeTab === 'profile' && renderProfileTab()}
-            {activeTab === 'resume' && renderResumeTab()}
-          </TabContent>
-        </ProfileCard>
-      </div>
-    </Container>
+            <TabContent>
+              {activeTab === "profile" && renderProfileTab()}
+              {activeTab === "resume" && renderResumeTab()}
+            </TabContent>
+          </ProfileCard>
+        </div>
+      </Container>
     </>
   );
 };

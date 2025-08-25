@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { createCoupon, updateCoupon, getCoupons, getCouponsById } from "./couponService";
+import {
+  createCoupon,
+  updateCoupon,
+  getCoupons,
+  getCouponsById,
+} from "./couponService";
 import { toast } from "react-toastify";
 
 const CouponForm = () => {
@@ -12,8 +17,8 @@ const CouponForm = () => {
     code: "",
     percent_off: "",
     max_redemptions: "",
-    applicable_to:"",
-    sponsored_by :""
+    applicable_to: "",
+    sponsored_by: "",
   });
 
   // Load coupon data if editing
@@ -48,18 +53,17 @@ const CouponForm = () => {
 
     try {
       const res = await createCoupon(formData);
-      if(res.code===200 || res.status==="status"){
-         toast.success(res.message || "Coupon created successfully");
-         setFormData({
+      if (res.code === 200 || res.status === "status") {
+        toast.success(res.message || "Coupon created successfully");
+        setFormData({
           redeem_by: "",
           code: "",
           percent_off: "",
           max_redemptions: "",
-          applicable_to:"",
-          sponsored_by :""
+          applicable_to: "",
+          sponsored_by: "",
         });
-      }
-      else{
+      } else {
         toast.error(res.message || "Failed to create coupon");
       }
     } catch (error) {
@@ -88,32 +92,46 @@ const CouponForm = () => {
     // navigate("/coupon"); // go back to list
   };
 
+  const handleCouponChange = (e) => {
+    let value = e.target.value;
+
+    // 1. Force uppercase
+    value = value.toUpperCase();
+
+    // 2. Remove spaces
+    value = value.replace(/\s+/g, "");
+
+    // 3. Limit max length to 8
+    // value = value.slice(0, 8);
+
+    setFormData({ ...formData, code: value });
+  };
+
   return (
     <div className="container mt-4">
       <div className="job-bx-title clearfix ">
-      <div className="d-flex flex-column flex-md-row gap-2 justify-content-between align-items-center mb-3">
-        <h5 className="font-weight-700 pull-left text-uppercase ">
-           Add Coupon 
-        </h5>
-        <button
-          className="site-button btn-md-sm"
-          onClick={() => navigate("/admin/coupon-list")}
-        >
-          Coupon List
-        </button>
-      </div>
+        <div className="d-flex flex-column flex-md-row gap-2 justify-content-between align-items-center mb-3">
+          <h5 className="font-weight-700 pull-left text-uppercase ">
+            Add Coupon
+          </h5>
+          <button
+            className="site-button btn-md-sm"
+            onClick={() => navigate("/admin/coupon-list")}
+          >
+            Coupon List
+          </button>
+        </div>
       </div>
       <form
         onSubmit={handleSubmit}
         className="d-flex flex-column gap-2 w-100 p-4 shadow-sm"
       >
-       
         <div className="mb-3">
           <label className="form-label">Coupon Code</label>
           <input
             name="code"
             value={formData.code}
-            onChange={handleChange}
+            onChange={handleCouponChange}
             placeholder="Enter Coupon Code"
             className="form-control"
             maxLength={8}
@@ -151,7 +169,7 @@ const CouponForm = () => {
             name="max_redemptions"
             type="number"
             step="1"
-             min="0"
+            min="0"
             max="100"
             value={formData.max_redemptions}
             onChange={handleChange}
@@ -159,7 +177,7 @@ const CouponForm = () => {
             className="form-control"
           />
         </div>
-         <div className="mb-3">
+        <div className="mb-3">
           <label className="form-label">Coupon Sponsored By</label>
           <input
             name="sponsored_by"
@@ -169,8 +187,10 @@ const CouponForm = () => {
             className="form-control"
           />
         </div>
-         <div className="mb-3">
-          <label className="form-label">Coupon Applicable To (WhiteLabel Site name)</label>
+        <div className="mb-3">
+          <label className="form-label">
+            Coupon Applicable To (WhiteLabel Site name)
+          </label>
           <input
             name="applicable_to"
             value={formData.applicable_to}

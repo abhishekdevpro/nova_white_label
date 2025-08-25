@@ -315,8 +315,9 @@ export default function PaymentPlans() {
           >
             <h4 className="alert-heading">Limited Time Offer!</h4>
             <p>
-              Get FREE access to Nova’s premium tools try resumes, jobs, and
-              skill tests before you choose a plan!
+               Try Nova’s Premium Tools Free for 7 Days! Enjoy a limited free
+                    trial with a set number of credits to explore resumes, jobs, and
+                       skill tests before you decide on a plan.
             </p>
           </div>
         </PricingHeader>
@@ -378,41 +379,6 @@ export default function PaymentPlans() {
           <FeaturesPaymentContainer>
             {/* Features List */}
             <FeaturesCard>
-              {/* <FeaturesTitle>
-                All subscription features
-              </FeaturesTitle>
-              <FeaturesGrid>
-                <Feature
-                  icon={<CheckCircle size={16} color="#1e3a8a" />}
-                  title="AI-Powered Job Matching"
-                  description="Get real-time job recommendations tailored to your skills and experience."
-                />
-                <Feature
-                  icon={<RefreshCw size={16} color="#1e3a8a" />}
-                  title="ATS-Optimized Resumes"
-                  description="Professionally crafted resumes designed by experts to pass Applicant Tracking Systems (ATS)."
-                />
-                <Feature
-                  icon={<Bell size={16} color="#1e3a8a" />}
-                  title="Instant Job Alerts"
-                  description="Stay ahead with real-time notifications about new job openings that match your profile."
-                />
-                <Feature
-                  icon={<Clock size={16} color="#1e3a8a" />}
-                  title="Expert Resume Assistance"
-                  description="Get personalized resume reviews and improvements from industry professionals."
-                />
-                <Feature
-                  icon={<DollarSign size={16} color="#1e3a8a" />}
-                  title="Career Community & Networking"
-                  description="Connect with industry peers, mentors, and recruiters to enhance your career opportunities."
-                />
-                <Feature
-                  icon={<CheckCircle size={16} color="#1e3a8a" />}
-                  title="One-Click Applications"
-                  description="Apply faster and more efficiently with seamless, single-click job applications."
-                />
-              </FeaturesGrid> */}
               <div style={{ marginTop: "1.5rem" }}>
                 <Link to={`/user/plan-details?selectedPlan=${selectedPlan}`}>
                   <ActionButton>Next</ActionButton>

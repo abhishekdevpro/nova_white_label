@@ -286,7 +286,7 @@ function App() {
         <Route path="about-us" element={<Aboutus />} />
         <Route path="privacy-policy" element={<PrivacyRights />} />
         <Route path="cookies-policy" element={<CookiesDigitalAdvertising />} />
-        <Route path="interview-page" element={<InterviewPage/>} />
+        <Route path="interview-page" element={<InterviewPage />} />
         <Route path="terms-and-conditions" element={<TermOfUse />} />
         <Route path="accessibility-center" element={<AccessibilityCenter />} />
         <Route path="transaction" element={<Transactions />} />
@@ -301,7 +301,7 @@ function App() {
             </PrivateRouteadmin>
           }
         />
-         <Route
+        <Route
           path="/admin/add-coupon"
           element={
             <PrivateRouteadmin>
@@ -310,7 +310,7 @@ function App() {
             </PrivateRouteadmin>
           }
         />
-         <Route
+        <Route
           path="/admin/edit-coupon/:id"
           element={
             <PrivateRouteadmin>
@@ -319,7 +319,7 @@ function App() {
             </PrivateRouteadmin>
           }
         />
-         <Route
+        <Route
           path="/admin/coupon-list"
           element={
             <PrivateRouteadmin>
@@ -769,6 +769,14 @@ function App() {
             }
           />
           <Route
+            path="user-public-profile"
+            element={
+              <UserPrivateRoute>
+                <JobSeekerDetails />
+              </UserPrivateRoute>
+            }
+          />
+          <Route
             path="current-plan"
             element={
               <UserPrivateRoute>
@@ -836,7 +844,10 @@ function App() {
           {/* <Route path="job/:id" element={<JobPage />} /> */}
           <Route path="jobs" element={<JobPage2 />} />
           <Route path="jobs/:jobId" element={<JobDetails />} />
-          <Route path="practice-interview/:jobId" element={<MockInterviewPage />} />
+          <Route
+            path="practice-interview/:jobId"
+            element={<MockInterviewPage />}
+          />
           <Route path="apply/:id" element={<ApplyForm />} />
           <Route path="jobthirdparty" element={<JobPagethirdparty />} />
           <Route
