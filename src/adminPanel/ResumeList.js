@@ -277,25 +277,14 @@ const ResumeList = () => {
 
   return (
     <div>
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+     
       <CustomNavbar />
       <Container fluid className="px-4">
         <Row>
-          <Col md={2} className="p-0">
+          <Col md={2} className="p-2">
             <Sidebar />
           </Col>
-          <Col md={10}>
+          <Col md={9} style={{ overflow: "auto", maxHeight: "80vh", margin:"auto" }}>
             <p>
               <FaFileAlt className="mx-1" /> / Resume List
             </p>

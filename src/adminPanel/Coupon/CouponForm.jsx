@@ -115,7 +115,7 @@ const CouponForm = () => {
             Add Coupon
           </h5>
           <button
-            className="site-button btn-md-sm"
+            className="site-button btn-sm"
             onClick={() => navigate("/admin/coupon-list")}
           >
             Coupon List
