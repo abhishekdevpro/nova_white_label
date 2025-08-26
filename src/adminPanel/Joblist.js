@@ -13,9 +13,6 @@ import AddApplicantModal from "./utils/AddApplicantModal";
 
 const Jobslist = () => {
   const [jobs, setJobs] = useState([]);
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const [itemsPerPage] = useState(10);
-  // const [totalRecords, setTotalRecords] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const Page_size = 10;
@@ -262,7 +259,7 @@ const Jobslist = () => {
                 <div className="job-bx-title clearfix">
                   <div className="d-flex justify-content-between align-items-center mb-3">
                     <h5 className=" font-weight-700 pull-left text-uppercase">
-                      Job List {" "}
+                      Job List{" "}
                     </h5>
                     <button
                       className="site-button btn-sm"
@@ -274,305 +271,496 @@ const Jobslist = () => {
                   </div>
                 </div>
                 <div className="">
-                  
                   {/* <Col > */}
-                    <div className=" d-flex flex-row gap-3 justify-content-md-end flex-wrap">
-                      <input
-                        type="text"
-                        placeholder="Search by Company Name"
-                        className="form-control"
-                        style={{ maxWidth: "250px" }}
-                        value={companyName}
-                        onChange={(e) => setCompanyName(e.target.value)}
-                      />
+                  <div className=" d-flex flex-row gap-3 justify-content-md-end flex-wrap">
+                    <input
+                      type="text"
+                      placeholder="Search by Company Name"
+                      className="form-control"
+                      style={{ maxWidth: "250px" }}
+                      value={companyName}
+                      onChange={(e) => setCompanyName(e.target.value)}
+                    />
 
-                      <input
-                        type="text"
-                        placeholder="Search by Job Title"
-                        className="form-control"
-                        style={{ maxWidth: "250px" }}
-                        value={jobTitle}
-                        onChange={(e) => setJobTitle(e.target.value)}
-                      />
+                    <input
+                      type="text"
+                      placeholder="Search by Job Title"
+                      className="form-control"
+                      style={{ maxWidth: "250px" }}
+                      value={jobTitle}
+                      onChange={(e) => setJobTitle(e.target.value)}
+                    />
 
-                      <select
-                        className="form-select"
-                        style={{ width: "250px", maxWidth: "100%" }}
-                        value={selectedDomain}
-                        onChange={(e) => setSelectedDomain(e.target.value)}
-                      >
-                        <option value="">Search by vendor domain</option>
-                        {domainList.map((domain, i) => (
-                          <option key={i} value={domain}>
-                            {domain}
-                          </option>
-                        ))}
-                      </select>
+                    <select
+                      className="form-select"
+                      style={{ width: "250px", maxWidth: "100%" }}
+                      value={selectedDomain}
+                      onChange={(e) => setSelectedDomain(e.target.value)}
+                    >
+                      <option value="">Search by vendor domain</option>
+                      {domainList.map((domain, i) => (
+                        <option key={i} value={domain}>
+                          {domain}
+                        </option>
+                      ))}
+                    </select>
 
-                      <Button
-                        className="site-button btn-sm"
-                        variant="danger"
-                        onClick={() => {
-                          setJobTitle("");
-                          setCompanyName("");
-                          setSelectedDomain("");
-                        }}
-                      >
-                        Clear
-                      </Button>
-                    </div>
+                    <Button
+                      className="site-button btn-sm"
+                      variant="danger"
+                      onClick={() => {
+                        setJobTitle("");
+                        setCompanyName("");
+                        setSelectedDomain("");
+                      }}
+                    >
+                      Clear
+                    </Button>
+                  </div>
                   {/* </Col> */}
                 </div>
                 <div>
                   {/* <Col md={12}> */}
-                    {loading ? (
-                      <div className="text-center my-5">
-                        <div
-                          className="spinner-border text-primary"
-                          role="status"
-                        >
-                          <span className="visually-hidden">Loading...</span>
-                        </div>
+                  {loading ? (
+                    <div className="text-center my-5">
+                      <div
+                        className="spinner-border text-primary"
+                        role="status"
+                      >
+                        <span className="visually-hidden">Loading...</span>
                       </div>
-                    ) : (
-                      <div style={{ overflowX: "auto" }}>
-                        <table className="table table-bordered table-hover">
-                          <thead className="text-center">
-                            <tr>
-                              <th>
-                                <Form.Check
-                                  type="checkbox"
-                                  checked={
-                                    selectedJobs.length === jobs.length &&
-                                    jobs.length > 0
-                                  }
-                                  onChange={(e) =>
-                                    handleSelectAll(e.target.checked)
-                                  }
-                                />
-                              </th>
-                              <th>Job Title</th>
+                    </div>
+                  ) : (
+                    // <div style={{ overflowX: "auto" }}>
+                    //   <table className="table table-bordered table-hover">
+                    //     <thead className="text-center">
+                    //       <tr>
+                    //         <th>
+                    //           <Form.Check
+                    //             type="checkbox"
+                    //             checked={
+                    //               selectedJobs.length === jobs.length &&
+                    //               jobs.length > 0
+                    //             }
+                    //             onChange={(e) =>
+                    //               handleSelectAll(e.target.checked)
+                    //             }
+                    //           />
+                    //         </th>
+                    //         <th>Job Title</th>
 
-                              <th>Applicants</th>
-                              <th>Date Posted</th>
-                              <th>Company</th>
-                              <th>Job Status</th>
-                              <th>Actions</th>
-                            </tr>
-                          </thead>
-                          <tbody className="text-center align-middle">
-                            {jobs && jobs?.length > 0 ? (
-                              jobs.map((job, index) => (
-                                <tr key={job.id}>
-                                  <td>
-                                    <Form.Check
-                                      type="checkbox"
-                                      checked={selectedJobs.includes(
-                                        job.job_detail.id
-                                      )}
-                                      onChange={(e) =>
-                                        handleSelectJob(
-                                          job.job_detail.id,
-                                          e.target.checked
-                                        )
-                                      }
-                                    />
-                                  </td>
-                                  <td>
-                                    <div className="d-flex flex-column">
-                                      <Link
-                                        to={`/user/jobs/${job.job_detail.id}`}
-                                      >
-                                        <strong className="mb-1">
-                                          {job?.job_detail?.job_title || "N/A"}
-                                        </strong>
-                                      </Link>
-                                      <small className="text-muted">
-                                        {[
-                                          job?.cities?.name,
-                                          job?.states?.name,
-                                          job?.countries?.name,
-                                        ]
-                                          .filter(Boolean)
-                                          .join(", ") || "N/A"}
-                                      </small>
-                                    </div>
-                                  </td>
+                    //         <th>Applicants</th>
+                    //         <th>Date Posted</th>
+                    //         <th>Company</th>
+                    //         <th>Job Status</th>
+                    //         <th>Actions</th>
+                    //       </tr>
+                    //     </thead>
+                    //     <tbody className="text-center align-middle">
+                    //       {jobs && jobs?.length > 0 ? (
+                    //         jobs.map((job, index) => (
+                    //           <tr key={job.id}>
+                    //             <td>
+                    //               <Form.Check
+                    //                 type="checkbox"
+                    //                 checked={selectedJobs.includes(
+                    //                   job.job_detail.id
+                    //                 )}
+                    //                 onChange={(e) =>
+                    //                   handleSelectJob(
+                    //                     job.job_detail.id,
+                    //                     e.target.checked
+                    //                   )
+                    //                 }
+                    //               />
+                    //             </td>
+                    //             <td>
+                    //               <div className="d-flex flex-column">
+                    //                 <Link
+                    //                   to={`/user/jobs/${job.job_detail.id}`}
+                    //                 >
+                    //                   <strong className="mb-1">
+                    //                     {job?.job_detail?.job_title || "N/A"}
+                    //                   </strong>
+                    //                 </Link>
+                    //                 <small className="text-muted">
+                    //                   {[
+                    //                     job?.cities?.name,
+                    //                     job?.states?.name,
+                    //                     job?.countries?.name,
+                    //                   ]
+                    //                     .filter(Boolean)
+                    //                     .join(", ") || "N/A"}
+                    //                 </small>
+                    //               </div>
+                    //             </td>
 
-                                  <td>
-                                    <Button
-                                      variant="link"
-                                      className="p-0 text-decoration-none"
-                                      onClick={() =>
-                                        navigate(
-                                          `/admin/listalljobseeker?jobID=${job.job_detail?.id}`
-                                        )
-                                      }
-                                      disabled={
-                                        job.job_detail?.applicant_count === 0
-                                      }
+                    //             <td>
+                    //               <Button
+                    //                 variant="link"
+                    //                 className="p-0 text-decoration-none"
+                    //                 onClick={() =>
+                    //                   navigate(
+                    //                     `/admin/listalljobseeker?jobID=${job.job_detail?.id}`
+                    //                   )
+                    //                 }
+                    //                 disabled={
+                    //                   job.job_detail?.applicant_count === 0
+                    //                 }
+                    //               >
+                    //                 ({job.job_detail?.applicant_count || 0}){" "}
+                    //                 View All
+                    //               </Button>
+                    //               <Button
+                    //                 size="sm"
+                    //                 onClick={() =>
+                    //                   AddApplicant(job.job_detail)
+                    //                 }
+                    //               >
+                    //                 + Add Applicant
+                    //               </Button>
+                    //             </td>
+                    //             <td>
+                    //               {formatDate(job?.job_detail?.created_at)}
+                    //             </td>
+                    //             <td>
+                    //               {job?.companies?.company_name || "N/A"}
+                    //             </td>
+                    //             <td>
+                    //               <span
+                    //                 className={`badge ${
+                    //                   job?.job_detail?.is_publish === 1
+                    //                     ? "bg-success px-2 py-2"
+                    //                     : "bg-warning px-2 py-2 text-dark"
+                    //                 }`}
+                    //               >
+                    //                 {job?.job_detail?.is_publish === 1
+                    //                   ? "Open"
+                    //                   : "Pause"}
+                    //               </span>
+                    //             </td>
+                    //             <td>
+                    //               <Dropdown>
+                    //                 <Dropdown.Toggle
+                    //                   variant="light"
+                    //                   id={`dropdown-${job.job_detail.id}`}
+                    //                   className="btn-sm"
+                    //                 >
+                    //                   <FaEllipsisV />
+                    //                 </Dropdown.Toggle>
+
+                    //                 <Dropdown.Menu>
+                    //                   <Dropdown.Item
+                    //                     onClick={() =>
+                    //                       navigate(
+                    //                         `/admin/addjob/${job?.job_detail?.id}`
+                    //                       )
+                    //                     }
+                    //                   >
+                    //                     Edit Job
+                    //                   </Dropdown.Item>
+                    //                   <Dropdown.Item
+                    //                     onClick={() =>
+                    //                       handleStatusChange(
+                    //                         job?.job_detail?.id,
+                    //                         job?.job_detail?.is_active === 1
+                    //                           ? "active"
+                    //                           : "inactive"
+                    //                       )
+                    //                     }
+                    //                   >
+                    //                     {job?.job_detail?.is_active === 1
+                    //                       ? "Deactivate"
+                    //                       : "Activate"}
+                    //                   </Dropdown.Item>
+                    //                   <Dropdown.Item
+                    //                     onClick={() =>
+                    //                       navigate(
+                    //                         `/admin/listalljobseeker?jobID=${job.job_detail?.id}`
+                    //                       )
+                    //                     }
+                    //                     disabled={
+                    //                       job.job_detail?.applicant_count ===
+                    //                       0
+                    //                     }
+                    //                   >
+                    //                     View Applicants (
+                    //                     {job.job_detail?.applicant_count || 0}
+                    //                     )
+                    //                   </Dropdown.Item>
+                    //                   <Dropdown.Divider />
+                    //                   <Dropdown.Item
+                    //                     onClick={() => handleOpenContact(job)}
+                    //                   >
+                    //                     Contact
+                    //                   </Dropdown.Item>
+                    //                   <Dropdown.Item
+                    //                     onClick={() => handleOpenView(job)}
+                    //                   >
+                    //                     View Info
+                    //                   </Dropdown.Item>
+                    //                 </Dropdown.Menu>
+                    //               </Dropdown>
+                    //             </td>
+                    //           </tr>
+                    //         ))
+                    //       ) : (
+                    //         <tr>
+                    //           <td
+                    //             colSpan="8"
+                    //             className="text-center py-4 text-muted"
+                    //           >
+                    //             No jobs found.
+                    //           </td>
+                    //         </tr>
+                    //       )}
+                    //     </tbody>
+                    //   </table>
+                    // </div>
+                    <div style={{ maxWidth: "100%", overflowX: "auto" }}>
+                      <table className="table table-bordered table-hover">
+                        <thead className="text-center align-middle">
+                          <tr>
+                            <th>
+                              <Form.Check
+                                type="checkbox"
+                                checked={
+                                  selectedJobs.length === jobs.length &&
+                                  jobs.length > 0
+                                }
+                                onChange={(e) =>
+                                  handleSelectAll(e.target.checked)
+                                }
+                              />
+                            </th>
+                            <th>Job Title</th>
+                            <th>Applicants</th>
+                            <th>Date Posted</th>
+                            <th>Company</th>
+                            <th>Recruiter Info</th> {/* ✅ NEW COLUMN */}
+                            <th>Job Status</th>
+                            <th>Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody className="text-center align-middle">
+                          {jobs && jobs?.length > 0 ? (
+                            jobs.map((job) => (
+                              <tr key={job.job_detail.id}>
+                                {/* Checkbox */}
+                                <td>
+                                  <Form.Check
+                                    type="checkbox"
+                                    checked={selectedJobs.includes(
+                                      job.job_detail.id
+                                    )}
+                                    onChange={(e) =>
+                                      handleSelectJob(
+                                        job.job_detail.id,
+                                        e.target.checked
+                                      )
+                                    }
+                                  />
+                                </td>
+
+                                {/* Job Title + Location */}
+                                <td className="text-start">
+                                  <div className="d-flex flex-column">
+                                    <Link
+                                      to={`/user/jobs/${job.job_detail.id}`}
                                     >
-                                      ({job.job_detail?.applicant_count || 0}){" "}
-                                      View All
-                                    </Button>
-                                    <Button
-                                      size="sm"
-                                      onClick={() =>
-                                        AddApplicant(job.job_detail)
-                                      }
-                                    >
-                                      + Add Applicant
-                                    </Button>
-                                  </td>
-                                  <td>
+                                      <strong className="mb-1">
+                                        {job?.job_detail?.job_title || "N/A"}
+                                      </strong>
+                                    </Link>
+                                    <small className="text-muted">
+                                      {[
+                                        job?.cities?.name,
+                                        job?.states?.name,
+                                        job?.countries?.name,
+                                      ]
+                                        .filter(Boolean)
+                                        .join(", ") || "N/A"}
+                                    </small>
+                                  </div>
+                                </td>
+
+                                {/* Applicants */}
+                                <td className="d-flex flex-column gap-1">
+                                  <Button
+                                    variant="link"
+                                    className="p-0 text-decoration-none"
+                                    onClick={() =>
+                                      navigate(
+                                        `/admin/listalljobseeker?jobID=${job.job_detail?.id}`
+                                      )
+                                    }
+                                    disabled={
+                                      job.job_detail?.applicant_count === 0
+                                    }
+                                  >
+                                    ({job.job_detail?.applicant_count || 0})
+                                    View All
+                                  </Button>
+                                  <Button
+                                    size="sm"
+                                    onClick={() => AddApplicant(job.job_detail)}
+                                    className="ms-2"
+                                  >
+                                    + Add
+                                  </Button>
+                                </td>
+
+                                {/* Date Posted */}
+                                <td>
+                                  <small className="">
                                     {formatDate(job?.job_detail?.created_at)}
-                                  </td>
-                                  <td>
-                                    {job?.companies?.company_name || "N/A"}
-                                  </td>
-                                  <td>
-                                    <span
-                                      className={`badge ${
-                                        job?.job_detail?.is_publish === 1
-                                          ? "bg-success px-2 py-2"
-                                          : "bg-warning px-2 py-2 text-dark"
-                                      }`}
-                                    >
-                                      {job?.job_detail?.is_publish === 1
-                                        ? "Open"
-                                        : "Pause"}
-                                    </span>
-                                  </td>
-                                  <td>
-                                    <Dropdown>
-                                      <Dropdown.Toggle
-                                        variant="light"
-                                        id={`dropdown-${job.job_detail.id}`}
-                                        className="btn-sm"
-                                      >
-                                        <FaEllipsisV />
-                                      </Dropdown.Toggle>
+                                  </small>
+                                </td>
 
-                                      <Dropdown.Menu>
-                                        <Dropdown.Item
-                                          onClick={() =>
-                                            navigate(
-                                              `/admin/addjob/${job?.job_detail?.id}`
-                                            )
-                                          }
+                                {/* Company */}
+                                <td>{job?.companies?.company_name || "N/A"}</td>
+
+                                {/* ✅ Recruiter Info */}
+                                <td className="text-start">
+                                  <div className="d-flex flex-column small">
+                                    <span>
+                                      <strong className="text-muted">
+                                        Email:
+                                      </strong>{" "}
+                                      {job?.recruiter_email || "N/A"}
+                                    </span>
+                                    <span>
+                                      <strong className="text-muted">
+                                        Phone:
+                                      </strong>{" "}
+                                      {job?.recruiter_phone || "N/A"}
+                                    </span>
+                                    <span>
+                                      <strong className="text-muted">
+                                        LinkedIn:
+                                      </strong>{" "}
+                                      {job?.recruiter_linkdin ? (
+                                        <a
+                                          href={job.recruiter_linkdin}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
                                         >
-                                          Edit Job
-                                        </Dropdown.Item>
-                                        <Dropdown.Item
-                                          onClick={() =>
-                                            handleStatusChange(
-                                              job?.job_detail?.id,
-                                              job?.job_detail?.is_active === 1
-                                                ? "active"
-                                                : "inactive"
-                                            )
-                                          }
-                                        >
-                                          {job?.job_detail?.is_active === 1
-                                            ? "Deactivate"
-                                            : "Activate"}
-                                        </Dropdown.Item>
-                                        <Dropdown.Item
-                                          onClick={() =>
-                                            navigate(
-                                              `/admin/listalljobseeker?jobID=${job.job_detail?.id}`
-                                            )
-                                          }
-                                          disabled={
-                                            job.job_detail?.applicant_count ===
-                                            0
-                                          }
-                                        >
-                                          View Applicants (
-                                          {job.job_detail?.applicant_count || 0}
+                                          Profile
+                                        </a>
+                                      ) : (
+                                        "N/A"
+                                      )}
+                                    </span>
+                                  </div>
+                                </td>
+
+                                {/* Job Status */}
+                                <td>
+                                  <span
+                                    className={`badge ${
+                                      job?.job_detail?.is_publish === 1
+                                        ? "bg-success px-3 py-2"
+                                        : "bg-warning px-3 py-2 text-dark"
+                                    }`}
+                                  >
+                                    {job?.job_detail?.is_publish === 1
+                                      ? "Open"
+                                      : "Pause"}
+                                  </span>
+                                </td>
+
+                                {/* Actions */}
+                                <td>
+                                  <Dropdown>
+                                    <Dropdown.Toggle
+                                      variant="light"
+                                      id={`dropdown-${job.job_detail.id}`}
+                                      className="btn-sm"
+                                    >
+                                      <FaEllipsisV />
+                                    </Dropdown.Toggle>
+                                    <Dropdown.Menu>
+                                      <Dropdown.Item
+                                        onClick={() =>
+                                          navigate(
+                                            `/admin/addjob/${job?.job_detail?.id}`
                                           )
-                                        </Dropdown.Item>
-                                        <Dropdown.Divider />
-                                        <Dropdown.Item
-                                          onClick={() => handleOpenContact(job)}
-                                        >
-                                          Contact
-                                        </Dropdown.Item>
-                                        <Dropdown.Item
-                                          onClick={() => handleOpenView(job)}
-                                        >
-                                          View Info
-                                        </Dropdown.Item>
-                                      </Dropdown.Menu>
-                                    </Dropdown>
-                                  </td>
-                                </tr>
-                              ))
-                            ) : (
-                              <tr>
-                                <td
-                                  colSpan="8"
-                                  className="text-center py-4 text-muted"
-                                >
-                                  No jobs found.
+                                        }
+                                      >
+                                        Edit Job
+                                      </Dropdown.Item>
+                                      <Dropdown.Item
+                                        onClick={() =>
+                                          handleStatusChange(
+                                            job?.job_detail?.id,
+                                            job?.job_detail?.is_active === 1
+                                              ? "active"
+                                              : "inactive"
+                                          )
+                                        }
+                                      >
+                                        {job?.job_detail?.is_active === 1
+                                          ? "Deactivate"
+                                          : "Activate"}
+                                      </Dropdown.Item>
+                                      <Dropdown.Item
+                                        onClick={() =>
+                                          navigate(
+                                            `/admin/listalljobseeker?jobID=${job.job_detail?.id}`
+                                          )
+                                        }
+                                        disabled={
+                                          job.job_detail?.applicant_count === 0
+                                        }
+                                      >
+                                        View Applicants (
+                                        {job.job_detail?.applicant_count || 0})
+                                      </Dropdown.Item>
+                                      <Dropdown.Divider />
+                                      <Dropdown.Item
+                                        onClick={() => handleOpenContact(job)}
+                                      >
+                                        Contact
+                                      </Dropdown.Item>
+                                      <Dropdown.Item
+                                        onClick={() => handleOpenView(job)}
+                                      >
+                                        View Info
+                                      </Dropdown.Item>
+                                    </Dropdown.Menu>
+                                  </Dropdown>
                                 </td>
                               </tr>
-                            )}
-                          </tbody>
-                        </table>
-                      </div>
-                    )}
-                    {/* <div className="pagination d-flex flex-wrap justify-content-center mt-4">
-                      <button
-                        className="btn btn-outline-primary me-2 mb-2"
-                        onClick={() => handlePageChange(currentPage - 1)}
-                        disabled={currentPage === 1}
-                      >
-                        Previous
-                      </button>
+                            ))
+                          ) : (
+                            <tr>
+                              <td
+                                colSpan="8"
+                                className="text-center py-4 text-muted"
+                              >
+                                No jobs found.
+                              </td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
 
-                      {generatePagination().map((page, index) =>
-                        page === "..." ? (
-                          <span key={index} className="btn btn-light disabled">
-                            ...
-                          </span>
-                        ) : (
-                          <button
-                            key={index}
-                            onClick={() => handlePageChange(page)}
-                            className={`btn ${
-                              currentPage === page
-                                ? "btn-primary"
-                                : "btn-outline-secondary"
-                            } me-2 mb-2`}
-                          >
-                            {page}
-                          </button>
-                        )
-                      )}
-
-                      <button
-                        className="btn btn-outline-primary mb-2"
-                        onClick={() => handlePageChange(currentPage + 1)}
-                        disabled={currentPage === totalPages}
-                      >
-                        Next
-                      </button>
-                    </div> */}
-                    {jobs.length > 0 && (
-                      <div className="mt-4">
-                        <Pagination
-                          currentPage={currentPage}
-                          totalPages={totalPages}
-                          onPageChange={(page) => setCurrentPage(page)}
-                        />
-                        <div className="text-center mt-2">
-                          <small className="text-muted">
-                            Page {currentPage} of {totalPages}
-                          </small>
-                        </div>
+                  {jobs.length > 0 && (
+                    <div className="mt-4">
+                      <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={(page) => setCurrentPage(page)}
+                      />
+                      <div className="text-center mt-2">
+                        <small className="text-muted">
+                          Page {currentPage} of {totalPages}
+                        </small>
                       </div>
-                    )}
+                    </div>
+                  )}
                   {/* </Col> */}
                 </div>
               </Row>

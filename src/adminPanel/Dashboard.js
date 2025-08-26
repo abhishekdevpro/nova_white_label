@@ -103,21 +103,21 @@ const Dashboard = () => {
                   icon={<FaStore className="display-4" />}
                   title="Vendors"
                   count={counts.vendor_count} // Replace with actual count
-                  path="/admin/vendor"
+                  path="/admin/vendor-list"
                   size={6} // Size for this Box
                 />
                 <Box
                   icon={<FaUserTie className="display-4" />}
                   title="Employer"
                   count={counts.employeer_count} // Replace with actual count
-                  path="/admin/employer"
+                  path="/admin/employer-list"
                   size={5} // Size for this Box
                 />
                 <Box
                   icon={<FaBriefcase className="display-4" />}
                   title="Jobs"
                   count={counts.job_count} // Display max s_no here
-                  path="/admin/jobs"
+                  path="/admin/job-list"
                   size={6} // Larger size for this Box
                 />
 
@@ -125,7 +125,7 @@ const Dashboard = () => {
                   icon={<FaUserGraduate className="display-4" />}
                   title="JobSeekers"
                   count={counts.job_seeker_count} // Replace with actual count
-                  path="/admin/jobseekers"
+                  path="/admin/jobseekers-list"
                   size={5} // Size for this Box
                 />
               </Row>

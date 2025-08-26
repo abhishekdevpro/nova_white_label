@@ -369,7 +369,7 @@ function App() {
           }
         />
         <Route
-          path="/admin/employeelist"
+          path="/admin/employer-list"
           element={
             <PrivateRouteadmin>
               <Employeelist />
@@ -482,7 +482,7 @@ function App() {
           }
         />
         <Route
-          path="/admin/addvendor"
+          path="/admin/add-vendor"
           element={
             <PrivateRouteadmin>
               <Addvendor />
@@ -498,7 +498,7 @@ function App() {
           }
         />
         <Route
-          path="/admin/listvendor"
+          path="/admin/vendor-list"
           element={
             <PrivateRouteadmin>
               <Listvendor />
@@ -522,7 +522,7 @@ function App() {
           }
         />
         <Route
-          path="/admin/listalljobs"
+          path="/admin/job-list"
           element={
             <PrivateRouteadmin>
               <Jobslist />
@@ -530,7 +530,7 @@ function App() {
           }
         />
         <Route
-          path="/admin/listalljobseeker"
+          path="/admin/jobseekers-list"
           element={
             <PrivateRouteadmin>
               <Jobseekerlist />
@@ -554,7 +554,7 @@ function App() {
           }
         />
         <Route
-          path="/admin/addjob"
+          path="/admin/add-job"
           element={
             <PrivateRouteadmin>
               <Jobadd />

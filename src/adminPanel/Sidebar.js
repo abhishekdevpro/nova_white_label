@@ -2265,39 +2265,39 @@ const menuConfig = [
     title: "Vendor",
     icon: Store,
     children: [
-      { title: "List Vendor", icon: List, path: "/admin/listvendor" },
-      { title: "Add Vendor", icon: Plus, path: "/admin/addvendor" },
+      { title: "List Vendor", icon: List, path: "/admin/vendor-list" },
+      { title: "Add Vendor", icon: Plus, path: "/admin/add-vendor" },
     ],
   },
   {
     title: "Jobs",
     icon: Briefcase,
     children: [
-      { title: "List All", icon: List, path: "/admin/listalljobs" },
-      { title: "Add Jobs", icon: Plus, path: "/admin/addjob" },
+      { title: "List All", icon: List, path: "/admin/job-list" },
+      { title: "Add Jobs", icon: Plus, path: "/admin/add-job" },
     ],
   },
   {
     title: "JobSeekers",
     icon: GraduationCap,
     children: [
-      { title: "List All", icon: List, path: "/admin/listalljobseeker" },
-      { title: "Add Job Seeker", icon: Plus, path: "/admin/Addjobseeker" },
+      { title: "List All", icon: List, path: "/admin/jobseekers-list" },
+      { title: "Add Job Seeker", icon: Plus, path: "#" },
     ],
   },
   {
     title: "Employer",
     icon: User,
     children: [
-      { title: "List All", icon: List, path: "/admin/employeelist" },
-      { title: "Add Employers", icon: Plus, path: "/admin/team/addemployers" },
+      { title: "List All", icon: List, path: "/admin/employer-list" },
+      { title: "Add Employers", icon: Plus, path: "#" },
     ],
   },
   {
     title: "CMS",
     icon: FileText,
     children: [
-      { title: "Home", icon: Home, path: "/admin/cms/home" },
+      { title: "Home", icon: Home, path: "#" },
       { title: "About Us", icon: Info, path: "/admin/aboutus" },
     ],
   },

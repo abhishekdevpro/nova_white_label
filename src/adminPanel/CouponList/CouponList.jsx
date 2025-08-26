@@ -42,7 +42,7 @@ const CouponList = () => {
            Coupon List 
         </h5>
         <button
-          className="site-button btn-md-sm"
+          className="site-button btn-sm"
           onClick={() => navigate("/admin/add-coupon")}
         >
           Add Coupon

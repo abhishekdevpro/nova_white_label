@@ -55,12 +55,16 @@ function AboutusForm({ projectName }) {
             // className="px-4 py-4"
             style={{ minHeight: "100vh", overflowY: "auto" }}
           >
-            <div className="bg-white rounded shadow h-100">
-              {/* <Col>
-                <h5 className="font-weight-700 pull-left text-uppercase">
-                  <User className="mx-1" /> About Us
-                </h5>
-              </Col> */}
+            <div className="bg-white rounded shadow h-100 p-4">
+             
+              <div className="job-bx-title clearfix">
+                  <div className="d-flex justify-content-between align-items-center mb-3">
+                    <h5 className=" font-weight-700 pull-left text-uppercase">
+                     About Us
+                    </h5>
+                   
+                  </div>
+                </div>
               <AdminAboutus projectName={projectName} />
             </div>
           </Col>
