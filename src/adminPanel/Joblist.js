@@ -38,9 +38,10 @@ const Jobslist = () => {
   const [showViewModal, setShowViewModal] = useState(false);
   const [modalJobId, setModalJobId] = useState(null);
   const [contactForm, setContactForm] = useState({
-    email: "",
-    phone: "",
-    link: "",
+    recruiter_name: "",
+    recruiter_email: "",
+    recruiter_phone: "",
+    recruiter_linkdin: "",
     remark: "",
   });
   const [viewData, setViewData] = useState(null);
@@ -186,11 +187,13 @@ const Jobslist = () => {
 
   // Open Contact Modal
   const handleOpenContact = (job) => {
+
     setModalJobId(job.job_detail.id);
     setContactForm({
-      email: job.job_detail.email || "",
-      phone: job.job_detail.phone || "",
-      link: job.job_detail.link || "",
+      recruiter_name: job.job_detail.recruiter_name || "",
+      recruiter_email: job.job_detail.recruiter_email || "",
+      recruiter_phone: job.job_detail.recruiter_phone || "",
+      recruiter_linkdin: job.job_detail.recruiter_linkdin || "",
       remark: job.job_detail.remark || "",
     });
     setShowContactModal(true);
@@ -200,9 +203,10 @@ const Jobslist = () => {
   const handleOpenView = (job) => {
     setModalJobId(job.job_detail.id);
     setViewData({
-      email: job.job_detail.email || "",
-      phone: job.job_detail.phone || "",
-      link: job.job_detail.link || "",
+      recruiter_name: job.job_detail.recruiter_name || "",
+      recruiter_email: job.job_detail.recruiter_email || "",
+      recruiter_phone: job.job_detail.recruiter_phone || "",
+      recruiter_linkdin: job.job_detail.recruiter_linkdin || "",
       remark: job.job_detail.remark || "",
     });
     setShowViewModal(true);
@@ -223,24 +227,42 @@ const Jobslist = () => {
     setModalLoading(true);
     try {
       const authToken = localStorage.getItem("authToken");
-      const headers = {
-        "Content-Type": "application/json",
-        Authorization: authToken,
-      };
-      const response = await fetch(
-        `https://apiwl.novajobs.us/api/admin/additional-jobs-info/${modalJobId}`,
+
+      const response = await axios.put(
+        `https://apiwl.novajobs.us/api/admin/jobs-recruiter/${modalJobId}`,
+        contactForm,
         {
-          method: "PATCH",
-          headers,
-          body: JSON.stringify(contactForm),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: authToken,
+          },
         }
       );
-      if (!response.ok) throw new Error("Failed to submit info");
-      setShowContactModal(false);
-      alert("Contact info updated successfully!");
-      fetchJobs(currentPage);
+      if (response.data.status === "success" || response.data.code === 200) {
+        toast.success(
+          response.data.message || "Contact extracted Successfully"
+        );
+        setShowContactModal(false);
+        fetchJobs(currentPage);
+      }
+      // const response = await fetch(
+      //   `https://apiwl.novajobs.us/api/admin/additional-jobs-info/${modalJobId}`,
+      //   {
+      //     method: "PATCH",
+      //     headers,
+      //     body: JSON.stringify(contactForm),
+      //   }
+      // );
+      // if (!response.ok) throw new Error("Failed to submit info");
+      // setShowContactModal(false);
+      // alert("Contact info updated successfully!");
+      // fetchJobs(currentPage);
     } catch (e) {
-      alert("Failed to update contact info. Please try again.");
+      console.log("error", e);
+      toast.error(
+        e.response.data.message ||
+          "Failed to update contact info. Please try again."
+      );
     } finally {
       setModalLoading(false);
     }
@@ -331,192 +353,6 @@ const Jobslist = () => {
                       </div>
                     </div>
                   ) : (
-                    // <div style={{ overflowX: "auto" }}>
-                    //   <table className="table table-bordered table-hover">
-                    //     <thead className="text-center">
-                    //       <tr>
-                    //         <th>
-                    //           <Form.Check
-                    //             type="checkbox"
-                    //             checked={
-                    //               selectedJobs.length === jobs.length &&
-                    //               jobs.length > 0
-                    //             }
-                    //             onChange={(e) =>
-                    //               handleSelectAll(e.target.checked)
-                    //             }
-                    //           />
-                    //         </th>
-                    //         <th>Job Title</th>
-
-                    //         <th>Applicants</th>
-                    //         <th>Date Posted</th>
-                    //         <th>Company</th>
-                    //         <th>Job Status</th>
-                    //         <th>Actions</th>
-                    //       </tr>
-                    //     </thead>
-                    //     <tbody className="text-center align-middle">
-                    //       {jobs && jobs?.length > 0 ? (
-                    //         jobs.map((job, index) => (
-                    //           <tr key={job.id}>
-                    //             <td>
-                    //               <Form.Check
-                    //                 type="checkbox"
-                    //                 checked={selectedJobs.includes(
-                    //                   job.job_detail.id
-                    //                 )}
-                    //                 onChange={(e) =>
-                    //                   handleSelectJob(
-                    //                     job.job_detail.id,
-                    //                     e.target.checked
-                    //                   )
-                    //                 }
-                    //               />
-                    //             </td>
-                    //             <td>
-                    //               <div className="d-flex flex-column">
-                    //                 <Link
-                    //                   to={`/user/jobs/${job.job_detail.id}`}
-                    //                 >
-                    //                   <strong className="mb-1">
-                    //                     {job?.job_detail?.job_title || "N/A"}
-                    //                   </strong>
-                    //                 </Link>
-                    //                 <small className="text-muted">
-                    //                   {[
-                    //                     job?.cities?.name,
-                    //                     job?.states?.name,
-                    //                     job?.countries?.name,
-                    //                   ]
-                    //                     .filter(Boolean)
-                    //                     .join(", ") || "N/A"}
-                    //                 </small>
-                    //               </div>
-                    //             </td>
-
-                    //             <td>
-                    //               <Button
-                    //                 variant="link"
-                    //                 className="p-0 text-decoration-none"
-                    //                 onClick={() =>
-                    //                   navigate(
-                    //                     `/admin/listalljobseeker?jobID=${job.job_detail?.id}`
-                    //                   )
-                    //                 }
-                    //                 disabled={
-                    //                   job.job_detail?.applicant_count === 0
-                    //                 }
-                    //               >
-                    //                 ({job.job_detail?.applicant_count || 0}){" "}
-                    //                 View All
-                    //               </Button>
-                    //               <Button
-                    //                 size="sm"
-                    //                 onClick={() =>
-                    //                   AddApplicant(job.job_detail)
-                    //                 }
-                    //               >
-                    //                 + Add Applicant
-                    //               </Button>
-                    //             </td>
-                    //             <td>
-                    //               {formatDate(job?.job_detail?.created_at)}
-                    //             </td>
-                    //             <td>
-                    //               {job?.companies?.company_name || "N/A"}
-                    //             </td>
-                    //             <td>
-                    //               <span
-                    //                 className={`badge ${
-                    //                   job?.job_detail?.is_publish === 1
-                    //                     ? "bg-success px-2 py-2"
-                    //                     : "bg-warning px-2 py-2 text-dark"
-                    //                 }`}
-                    //               >
-                    //                 {job?.job_detail?.is_publish === 1
-                    //                   ? "Open"
-                    //                   : "Pause"}
-                    //               </span>
-                    //             </td>
-                    //             <td>
-                    //               <Dropdown>
-                    //                 <Dropdown.Toggle
-                    //                   variant="light"
-                    //                   id={`dropdown-${job.job_detail.id}`}
-                    //                   className="btn-sm"
-                    //                 >
-                    //                   <FaEllipsisV />
-                    //                 </Dropdown.Toggle>
-
-                    //                 <Dropdown.Menu>
-                    //                   <Dropdown.Item
-                    //                     onClick={() =>
-                    //                       navigate(
-                    //                         `/admin/addjob/${job?.job_detail?.id}`
-                    //                       )
-                    //                     }
-                    //                   >
-                    //                     Edit Job
-                    //                   </Dropdown.Item>
-                    //                   <Dropdown.Item
-                    //                     onClick={() =>
-                    //                       handleStatusChange(
-                    //                         job?.job_detail?.id,
-                    //                         job?.job_detail?.is_active === 1
-                    //                           ? "active"
-                    //                           : "inactive"
-                    //                       )
-                    //                     }
-                    //                   >
-                    //                     {job?.job_detail?.is_active === 1
-                    //                       ? "Deactivate"
-                    //                       : "Activate"}
-                    //                   </Dropdown.Item>
-                    //                   <Dropdown.Item
-                    //                     onClick={() =>
-                    //                       navigate(
-                    //                         `/admin/listalljobseeker?jobID=${job.job_detail?.id}`
-                    //                       )
-                    //                     }
-                    //                     disabled={
-                    //                       job.job_detail?.applicant_count ===
-                    //                       0
-                    //                     }
-                    //                   >
-                    //                     View Applicants (
-                    //                     {job.job_detail?.applicant_count || 0}
-                    //                     )
-                    //                   </Dropdown.Item>
-                    //                   <Dropdown.Divider />
-                    //                   <Dropdown.Item
-                    //                     onClick={() => handleOpenContact(job)}
-                    //                   >
-                    //                     Contact
-                    //                   </Dropdown.Item>
-                    //                   <Dropdown.Item
-                    //                     onClick={() => handleOpenView(job)}
-                    //                   >
-                    //                     View Info
-                    //                   </Dropdown.Item>
-                    //                 </Dropdown.Menu>
-                    //               </Dropdown>
-                    //             </td>
-                    //           </tr>
-                    //         ))
-                    //       ) : (
-                    //         <tr>
-                    //           <td
-                    //             colSpan="8"
-                    //             className="text-center py-4 text-muted"
-                    //           >
-                    //             No jobs found.
-                    //           </td>
-                    //         </tr>
-                    //       )}
-                    //     </tbody>
-                    //   </table>
-                    // </div>
                     <div style={{ maxWidth: "100%", overflowX: "auto" }}>
                       <table className="table table-bordered table-hover">
                         <thead className="text-center align-middle">
@@ -625,27 +461,34 @@ const Jobslist = () => {
                                   <div className="d-flex flex-column small">
                                     <span>
                                       <strong className="text-muted">
+                                        Name:
+                                      </strong>{" "}
+                                      {job?.job_detail?.recruiter_name || "N/A"}
+                                    </span>
+                                    <span>
+                                      <strong className="text-muted">
                                         Email:
                                       </strong>{" "}
-                                      {job?.recruiter_email || "N/A"}
+                                      {job?.job_detail?.recruiter_email || "N/A"}
                                     </span>
                                     <span>
                                       <strong className="text-muted">
                                         Phone:
                                       </strong>{" "}
-                                      {job?.recruiter_phone || "N/A"}
+                                      {job?.job_detail?.recruiter_phone || "N/A"}
                                     </span>
                                     <span>
                                       <strong className="text-muted">
                                         LinkedIn:
                                       </strong>{" "}
-                                      {job?.recruiter_linkdin ? (
+                                      {job?.job_detail?.recruiter_linkdin ? (
                                         <a
                                           href={job.recruiter_linkdin}
                                           target="_blank"
                                           rel="noopener noreferrer"
+                                          className="text-primary underline"
                                         >
-                                          Profile
+                                          Link
                                         </a>
                                       ) : (
                                         "N/A"
@@ -778,31 +621,45 @@ const Jobslist = () => {
         <Form onSubmit={handleContactSubmit}>
           <Modal.Body>
             <Form.Group className="mb-3">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="text"
+                name="recruiter_name"
+                value={contactForm.recruiter_name}
+                onChange={handleContactChange}
+                required
+                maxLength={50}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
               <Form.Label>Email</Form.Label>
               <Form.Control
                 type="email"
-                name="email"
-                value={contactForm.email}
+                name="recruiter_email"
+                value={contactForm.recruiter_email}
                 onChange={handleContactChange}
                 required
+                maxLength={50}
               />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Phone</Form.Label>
               <Form.Control
                 type="text"
-                name="phone"
-                value={contactForm.phone}
+                name="recruiter_phone"
+                value={contactForm.recruiter_phone}
                 onChange={handleContactChange}
                 required
+                maxLength={10}
+                pattern="^\d{10}$"
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Link</Form.Label>
+              <Form.Label>LinkedIn</Form.Label>
               <Form.Control
-                type="text"
-                name="link"
-                value={contactForm.link}
+                type="url"
+                name="recruiter_linkdin"
+                value={contactForm.recruiter_linkdin}
                 onChange={handleContactChange}
               />
             </Form.Group>
@@ -813,6 +670,7 @@ const Jobslist = () => {
                 name="remark"
                 value={contactForm.remark}
                 onChange={handleContactChange}
+                maxLength={100}
               />
             </Form.Group>
           </Modal.Body>
@@ -836,13 +694,16 @@ const Jobslist = () => {
           {viewData ? (
             <div>
               <p>
-                <strong>Email:</strong> {viewData.email || "-"}
+                <strong>Name:</strong> {viewData.recruiter_name || "-"}
               </p>
               <p>
-                <strong>Phone:</strong> {viewData.phone || "-"}
+                <strong>Email:</strong> {viewData.recruiter_email || "-"}
               </p>
               <p>
-                <strong>Link:</strong> {viewData.link || "-"}
+                <strong>Phone:</strong> {viewData.recruiter_phone || "-"}
+              </p>
+              <p>
+                <strong>Link:</strong> {viewData.recruiter_linkdin || "-"}
               </p>
               <p>
                 <strong>Remark:</strong> {viewData.remark || "-"}
