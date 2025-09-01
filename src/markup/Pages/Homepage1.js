@@ -23,6 +23,7 @@ import UserHeader from "../Layout/Header";
 import SubHeader from "../Element/HomePage/Sub-header";
 import styled from "styled-components";
 import WhyChooseUs from "../Element/HomePage/WhyChooseUs";
+import SouthFloridaOutreach from "../Element/HomePage/SouthFloridaOutreach";
 
 // Images
 var bnr2 = require("./../../images/background/bg4.jpg");
@@ -151,10 +152,10 @@ function Homepage() {
     window.open("https://ultraaura.education/", "_blank");
   };
 
-  const handlePracticeInterview = ()=>{
-    Navigate(`/interview-page`)
-     window.scrollTo(0, 0);
-  }
+  const handlePracticeInterview = () => {
+    Navigate(`/interview-page`);
+    window.scrollTo(0, 0);
+  };
 
   const handleClosePopup = (e) => {
     e.stopPropagation();
@@ -217,7 +218,6 @@ function Homepage() {
           onClick: handlePracticeInterview,
         },
       ];
-
 
   return (
     <div className="page-wraper">
@@ -376,6 +376,8 @@ function Homepage() {
         />
         {/* <Jobsection /> */}
         <Jobsection />
+        {/* South Florida Outreach Section */}
+        <SouthFloridaOutreach />
         {/* <PricingSection /> */}
         <PricingSection />
         {/*<Testimonial /> */}
