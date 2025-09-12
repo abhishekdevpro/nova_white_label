@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Button } from "react-bootstrap";
 import { toast } from "react-toastify";
 
 export default function InterviewStep({ onNext, onBack }) {
@@ -17,12 +18,7 @@ export default function InterviewStep({ onNext, onBack }) {
   };
 
   const handleStartInterview = () => {
-    if (
-      !formData.jobTitle ||
-      !formData.location ||
-      !formData.experience ||
-      !formData.companyName
-    ) {
+    if (!formData.jobTitle || !formData.location || !formData.experience || !formData.companyName) {
       toast.error("Please fill all fields before starting the interview");
       return;
     }
@@ -93,12 +89,12 @@ export default function InterviewStep({ onNext, onBack }) {
 
       {/* Action Buttons */}
       <div className="d-flex justify-content-center mt-4 gap-3">
-        <button onClick={onBack} className="site-button">
+        <Button onClick={onBack} variant="outline">
           Back
-        </button>
-        <button onClick={handleStartInterview} className="site-button">
+        </Button>
+        <Button onClick={handleStartInterview} variant="primary">
           Start Interview
-        </button>
+        </Button>
       </div>
     </div>
   );

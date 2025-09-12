@@ -234,6 +234,7 @@ import InterviewResult from "./markup/Element/Interview-list/InterviewResult.jsx
 import AddCoupon from "./adminPanel/Coupon/index.jsx";
 import CouponListPage from "./adminPanel/CouponList/index.jsx";
 import InterviewPage from "./markup/Pages/InterviewPage.js";
+import PracticeVoiceInterviewPage from "./markup/Pages/Interview/practice-voice-interview/index.jsx";
 function App() {
   const dispatch = useDispatch();
 
@@ -847,6 +848,10 @@ function App() {
           <Route
             path="practice-interview/:jobId"
             element={<MockInterviewPage />}
+          />
+          <Route
+            path="voice-interview"
+            element={<PracticeVoiceInterviewPage />}
           />
           <Route path="apply/:id" element={<ApplyForm />} />
           <Route path="jobthirdparty" element={<JobPagethirdparty />} />
