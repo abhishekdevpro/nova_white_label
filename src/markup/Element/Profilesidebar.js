@@ -257,6 +257,17 @@ function Profilesidebar({ data }) {
               </li>
               <li>
                 <Link
+                  to={"/user/voice-interview"}
+                  className={data === "interview" ? "active" : null}
+                  onClick={() => setSidebarOpen(false)}
+                  style={{ fontSize: "15px" }}
+                >
+                  <Video className="me-2" />
+                  <span>Voice Interviews</span>
+                </Link>
+              </li>
+              <li>
+                <Link
                   to={"/user/jobs-saved-jobs"}
                   className={data === "saved-jobs" ? "active" : null}
                   onClick={() => setSidebarOpen(false)}
