@@ -52,7 +52,7 @@ export default function VoiceInterview({ formData, onBack }) {
 
   // WebSocket Setup
   useEffect(() => {
-    const token = localStorage.getItem("jobseekerLoginToken");
+    const token = localStorage.getItem("jobSeekerLoginToken");
     const { jobTitle, location, experience, companyName } = formData;
     const params = new URLSearchParams({
       token,
@@ -63,7 +63,7 @@ export default function VoiceInterview({ formData, onBack }) {
       interview_type: "practice",
     });
     const ws = new WebSocket(
-      `wss://api.inspireambitions.com/api/jobseeker/ws/interview/audio?${params.toString()}`
+      `wss://apiwl.novajobs.us/api/jobseeker/ws/interview/audio?${params.toString()}`
     );
     wsRef.current = ws;
 
