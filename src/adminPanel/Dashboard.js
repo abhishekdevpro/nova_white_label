@@ -128,6 +128,14 @@ const Dashboard = () => {
                   path="/admin/jobseekers-list"
                   size={5} // Size for this Box
                 />
+
+                <Box
+                  icon={<FaUserGraduate className="display-4" />}
+                  title="Applicants"
+                  count={counts.applicant_count} // Replace with actual count
+                  // path="/admin/jobseekers-list"
+                  size={5} // Size for this Box
+                />
               </Row>
             </Container>
           </Col>

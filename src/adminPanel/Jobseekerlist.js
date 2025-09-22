@@ -31,6 +31,7 @@ const Jobseekerlist = () => {
   const [jobCounts, setJobCounts] = useState(null);
   const [appliedStatusId, setAppliedStatusId] = useState(null);
   const [isAllApplicants, setIsAllApplicants] = useState("0");
+  const [sortOrder, setSortOrder] = useState("desc"); // New state for sort order
   const statusMap = {
     all: "",
     review: 1,
@@ -107,6 +108,9 @@ const Jobseekerlist = () => {
       params.append("is_all_applicant", "1");
       setCurrentPage(1);
     }
+    if (sortOrder) {
+      params.append("sort_order", sortOrder);
+    }
 
     const finalEndpoint = `https://apiwl.novajobs.us/api/admin/job-seekers?${params.toString()}`;
 
@@ -144,6 +148,7 @@ const Jobseekerlist = () => {
     currentPage,
     appliedStatusId,
     isAllApplicants,
+    sortOrder
   ]);
 
   useEffect(() => {
@@ -157,6 +162,7 @@ const Jobseekerlist = () => {
     debouncedFetchJobs,
     currentPage,
     isAllApplicants,
+    sortOrder
   ]);
 
   const fetchDomains = async () => {
@@ -357,7 +363,6 @@ const Jobseekerlist = () => {
   // console.log(jobCounts, "selected counts");
 
   return (
- 
     <div>
       <CustomNavbar />
       <div className="container">
@@ -365,420 +370,416 @@ const Jobseekerlist = () => {
           <div className="col-md-3 p-0">
             <Sidebar active="dashboard" />
           </div>
-          
+
           <div fluid className="col-md-9 p-4">
-            
-              <div className="job-bx-title clearfix">
-                <div className="d-flex justify-content-between align-items-center mb-3">
-                  <h5 className=" font-weight-700 pull-left text-uppercase">
-                    JobSeeker List{" "}
-                  </h5>
-                  <button
-                    className="site-button btn-sm"
-                    disabled
-                    // onClick={() => navigate("")}
-                  >
-                    Add JobSeeker
-                  </button>
-                </div>
+            <div className="job-bx-title clearfix">
+              <div className="d-flex justify-content-between align-items-center mb-3">
+                <h5 className=" font-weight-700 pull-left text-uppercase">
+                  JobSeeker List{" "}
+                </h5>
+                <button
+                  className="site-button btn-sm"
+                  disabled
+                  // onClick={() => navigate("")}
+                >
+                  Add JobSeeker
+                </button>
               </div>
-               <div>
-                          {jobCounts && (
-                            <div className="d-flex flex-wrap gap-2 my-3">
-                              {countBadges.map((badge, i) => {
-                                const isActive =
-                                  appliedStatusId ===
-                                  String(statusMap[badge.key]);
+            </div>
+            <div>
+              {jobCounts && (
+                <div className="d-flex flex-wrap gap-2 my-3">
+                  {countBadges.map((badge, i) => {
+                    const isActive =
+                      appliedStatusId === String(statusMap[badge.key]);
 
-                                return (
-                                  <div
-                                    key={i}
-                                    onClick={() => handleStatusClick(badge.key)}
-                                    className={`d-flex align-items-center px-3 py-1 rounded border shadow-sm transition-all ${
-                                      isActive
-                                        ? "bg-dark text-white border-dark"
-                                        : "bg-light text-dark border-light hover-shadow"
-                                    }`}
-                                    role="button"
-                                    style={{
-                                      fontSize: "14px",
-                                      fontWeight: 500,
-                                      cursor: "pointer",
-                                    }}
-                                  >
-                                    {badge.icon && (
-                                      <span
-                                        className="me-1"
-                                        style={{ fontSize: "16px" }}
-                                      >
-                                        {badge.icon}
-                                      </span>
-                                    )}
-                                    <span>{badge.label}</span>
-                                    <span
-                                      className={`ms-2 fw-bold ${
-                                        isActive
-                                          ? "text-white"
-                                          : "text-secondary"
-                                      }`}
-                                    >
-                                      {jobCounts?.[badge.key] ?? 0}
-                                    </span>
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          )}
-                        </div>
-                        <div className="w-100 mb-2">
-                          <div className=" d-flex flex-row gap-3 flex-wrap">
-                            <select
-                              className="form-select"
-                              style={{ width: "250px", maxWidth: "100%" }}
-                              value={isAllApplicants}
-                              onChange={(e) =>
-                                setIsAllApplicants(e.target.value)
-                              }
-                            >
-                              <option value="0">Jobseekers List</option>
-                              <option value="1">Applicants List</option>
-                            </select>
-                            <input
-                              type="text"
-                              placeholder="Search by email"
-                              className="form-control"
-                              style={{ maxWidth: "250px" }}
-                              value={email}
-                              onChange={(e) => setEmail(e.target.value)}
-                            />
+                    return (
+                      <div
+                        key={i}
+                        onClick={() => handleStatusClick(badge.key)}
+                        className={`d-flex align-items-center px-3 py-1 rounded border shadow-sm transition-all ${
+                          isActive
+                            ? "bg-dark text-white border-dark"
+                            : "bg-light text-dark border-light hover-shadow"
+                        }`}
+                        role="button"
+                        style={{
+                          fontSize: "14px",
+                          fontWeight: 500,
+                          cursor: "pointer",
+                        }}
+                      >
+                        {badge.icon && (
+                          <span className="me-1" style={{ fontSize: "16px" }}>
+                            {badge.icon}
+                          </span>
+                        )}
+                        <span>{badge.label}</span>
+                        <span
+                          className={`ms-2 fw-bold ${
+                            isActive ? "text-white" : "text-secondary"
+                          }`}
+                        >
+                          {jobCounts?.[badge.key] ?? 0}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+            <div className="w-100 mb-2">
+              <div className=" d-flex flex-row gap-3 flex-wrap">
+                <select
+                  className="form-select"
+                  style={{ width: "250px", maxWidth: "100%" }}
+                  value={isAllApplicants}
+                  onChange={(e) => setIsAllApplicants(e.target.value)}
+                >
+                  <option value="0">Jobseekers List</option>
+                  <option value="1">Applicants List</option>
+                </select>
+                <select
+                  className="form-select"
+                  style={{ width: "250px", maxWidth: "100%" }}
+                  value={sortOrder}
+                  onChange={(e) => setSortOrder(e.target.value)}
+                >
+                  <option value="">Sort by</option>
+                  <option value="desc">Newest</option>
+                  <option value="asc">Oldest</option>
+                </select>
+                <input
+                  type="text"
+                  placeholder="Search by email"
+                  className="form-control"
+                  style={{ maxWidth: "250px" }}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
 
-                            <input
-                              type="text"
-                              placeholder="Search by name"
-                              className="form-control"
-                              style={{ maxWidth: "250px" }}
-                              value={name}
-                              onChange={(e) => setName(e.target.value)}
-                            />
+                <input
+                  type="text"
+                  placeholder="Search by name"
+                  className="form-control"
+                  style={{ maxWidth: "250px" }}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
 
-                            <select
-                              className="form-select"
-                              style={{ width: "250px", maxWidth: "100%" }}
-                              value={selectedDomain}
-                              onChange={(e) =>
-                                setSelectedDomain(e.target.value)
-                              }
-                            >
-                              <option value="">Search by vendor domain</option>
-                              {domainList.map((domain, i) => (
-                                <option key={i} value={domain}>
-                                  {domain}
-                                </option>
-                              ))}
-                            </select>
-                            <select
-                              className="form-select"
-                              style={{ width: "250px", maxWidth: "100%" }}
-                              value={jobId}
-                              onChange={(e) => setJobId(e.target.value)}
-                            >
-                              <option value="">Search by job title</option>
-                              {titleList.map((title, i) => (
-                                <option key={i} value={title.id}>
-                                  {title.job_title}
-                                </option>
-                              ))}
-                            </select>
+                <select
+                  className="form-select"
+                  style={{ width: "250px", maxWidth: "100%" }}
+                  value={selectedDomain}
+                  onChange={(e) => setSelectedDomain(e.target.value)}
+                >
+                  <option value="">Search by vendor domain</option>
+                  {domainList.map((domain, i) => (
+                    <option key={i} value={domain}>
+                      {domain}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  className="form-select"
+                  style={{ width: "250px", maxWidth: "100%" }}
+                  value={jobId}
+                  onChange={(e) => setJobId(e.target.value)}
+                >
+                  <option value="">Search by job title</option>
+                  {titleList.map((title, i) => (
+                    <option key={i} value={title.id}>
+                      {title.job_title}
+                    </option>
+                  ))}
+                </select>
 
-                            <Button
-                              className="site-button btn-sm"
-                              variant="danger"
-                              onClick={() => {
-                                setName("");
-                                setEmail("");
-                                setSelectedDomain("");
-                                setJobId("");
-                              }}
-                            >
-                              Clear
-                            </Button>
-                          </div>
-                        </div>
-                      {/* </Row> */}
-              <div className="">
-                {loading ? (
-                  <div className="text-center my-5">
-                    <div className="spinner-border text-primary" role="status">
-                      <span className="visually-hidden">Loading...</span>
-                    </div>
+                <Button
+                  className="site-button btn-sm"
+                  variant="danger"
+                  onClick={() => {
+                    setName("");
+                    setEmail("");
+                    setSelectedDomain("");
+                    setJobId("");
+                  }}
+                >
+                  Clear
+                </Button>
+              </div>
+            </div>
+            {/* </Row> */}
+            <div className="">
+              {loading ? (
+                <div className="text-center my-5">
+                  <div className="spinner-border text-primary" role="status">
+                    <span className="visually-hidden">Loading...</span>
                   </div>
-                ) : jobs.length > 0 ? (
-                  <div style={{ overflowX: "auto" }}>
-                    <table className="table table-bordered table-hover">
-                      <thead className="text-start bg-light">
-                        <tr>
-                          <th>S.No.</th>
-                          <th>Jobseeker</th>
-                          <th>Email</th>
-                          <th>Phone</th>
-                          <th>Account Status</th>
-                          <th>Documents</th>
-                          <th>Resume</th>
-                          <th>Matched Skills</th>
-                          <th>Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody className="text-center">
-                        {jobs.map((job, index) => {
-                          const detail = job.jobskkers_detail || {};
-                          const job_applied = job.jobs_applied || {};
-                          // console.log(job_applied, "job_applied");
-                          return (
-                            <tr key={job.id || index}>
-                              <td>{index + 1}</td>
-                              <td>
-                                <>
-                                  <div className="d-flex flex-column ">
-                                    <p className="mb-0 text-start text-wrap-balanced text-dark fw-bold">
-                                      {`${detail.first_name || ""} ${
-                                        detail.last_name || ""
-                                      }`.trim() || "N/A"}
-                                    </p>
-                                    <p className="mb-0 text-start text-wrap-balanced">
-                                      {detail?.job_title ||
-                                        detail?.proffesional_title}
-                                    </p>
-                                    {jobId && (
-                                      <>
-                                        <p className="mb-0 text-start text-wrap-balanced">
-                                          Applied{" "}
-                                          {formatDaysAgo(
-                                            job_applied.created_at
-                                          ) || "N/A"}
+                </div>
+              ) : jobs.length > 0 ? (
+                <div style={{ overflowX: "auto" }}>
+                  <table className="table table-bordered table-hover">
+                    <thead className="text-start bg-light">
+                      <tr>
+                        <th>S.No.</th>
+                        <th>Jobseeker</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Account Status</th>
+                        <th>Documents</th>
+                        <th>Resume</th>
+                        <th>Matched Skills</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-center">
+                      {jobs.map((job, index) => {
+                        const detail = job.jobskkers_detail || {};
+                        const job_applied = job.jobs_applied || {};
+                        // console.log(job_applied, "job_applied");
+                        return (
+                          <tr key={job.id || index}>
+                            <td>{index + 1}</td>
+                            <td>
+                              <>
+                                <div className="d-flex flex-column ">
+                                  <p className="mb-0 text-start text-wrap-balanced text-dark fw-bold">
+                                    {`${detail.first_name || ""} ${
+                                      detail.last_name || ""
+                                    }`.trim() || "N/A"}
+                                  </p>
+                                  <p className="mb-0 text-start text-wrap-balanced">
+                                    {detail?.job_title ||
+                                      detail?.proffesional_title}
+                                  </p>
+                                  {jobId && (
+                                    <>
+                                      <p className="mb-0 text-start text-wrap-balanced">
+                                        Applied{" "}
+                                        {formatDaysAgo(
+                                          job_applied.created_at
+                                        ) || "N/A"}
+                                      </p>
+                                      {job_applied?.jobseeker_applied_status_id !==
+                                        0 && (
+                                        <p className="mb-0 text-start">
+                                          <span
+                                            className={`badge ${
+                                              job_applied?.jobseeker_applied_status_id ===
+                                              3
+                                                ? "bg-danger"
+                                                : job_applied?.jobseeker_applied_status_id ===
+                                                  4
+                                                ? "bg-success"
+                                                : "bg-primary"
+                                            }`}
+                                          >
+                                            {getStatusLabelById(
+                                              job_applied?.jobseeker_applied_status_id
+                                            )}
+                                          </span>
                                         </p>
-                                        {job_applied?.jobseeker_applied_status_id !==
-                                          0 && (
-                                          <p className="mb-0 text-start">
-                                            <span
-                                              className={`badge ${
-                                                job_applied?.jobseeker_applied_status_id ===
-                                                3
-                                                  ? "bg-danger"
-                                                  : job_applied?.jobseeker_applied_status_id ===
-                                                    4
-                                                  ? "bg-success"
-                                                  : "bg-primary"
-                                              }`}
-                                            >
-                                              {getStatusLabelById(
-                                                job_applied?.jobseeker_applied_status_id
-                                              )}
-                                            </span>
-                                          </p>
-                                        )}
-                                      </>
-                                    )}
-                                  </div>
-                                </>
-                              </td>
+                                      )}
+                                    </>
+                                  )}
+                                </div>
+                              </>
+                            </td>
 
-                              <td>{detail.email || "N/A"}</td>
-                              <td>{detail.phone || "N/A"}</td>
-                              <td>
-                                <span
-                                  className={`badge ${
-                                    detail.is_verified === 1
-                                      ? "bg-success p-2"
-                                      : "bg-danger p-2"
-                                  }`}
-                                >
-                                  {detail.is_verified === 1
-                                    ? "Active"
-                                    : "Deactive"}
-                                </span>
-                              </td>
-                              <td>
+                            <td>{detail.email || "N/A"}</td>
+                            <td>{detail.phone || "N/A"}</td>
+                            <td>
+                              <span
+                                className={`badge ${
+                                  detail.is_verified === 1
+                                    ? "bg-success p-2"
+                                    : "bg-danger p-2"
+                                }`}
+                              >
+                                {detail.is_verified === 1
+                                  ? "Active"
+                                  : "Deactive"}
+                              </span>
+                            </td>
+                            <td>
+                              <Button
+                                variant="primary"
+                                size="sm"
+                                disabled={!detail.has_document}
+                                className="site-button"
+                                onClick={() =>
+                                  handleViewDocument(job, "document")
+                                }
+                              >
+                                View Documents
+                              </Button>
+                            </td>
+                            <td>
+                              <Button
+                                variant="dark"
+                                size="sm"
+                                disabled={!detail.resume_file_path}
+                                className="site-button"
+                                onClick={() => handleViewResume(job)}
+                              >
+                                View Resume
+                              </Button>
+                            </td>
+                            <td>
+                              {job_applied.matched_skills &&
+                              job_applied.matched_skills.length > 0 ? (
+                                job_applied.matched_skills.map((skill, idx) => (
+                                  <span
+                                    key={idx}
+                                    className="badge bg-secondary me-2 mb-2"
+                                  >
+                                    {skill}
+                                  </span>
+                                ))
+                              ) : (
+                                <span className="text-muted">No skills</span>
+                              )}
+                            </td>
+                            <td>
+                              {detail.is_verified === 0 ? (
                                 <Button
-                                  variant="primary"
+                                  variant="warning"
                                   size="sm"
-                                  disabled={!detail.has_document}
                                   className="site-button"
                                   onClick={() =>
-                                    handleViewDocument(job, "document")
+                                    handleStatusChange(detail.id, "active")
                                   }
                                 >
-                                  View Documents
+                                  Active
                                 </Button>
-                              </td>
-                              <td>
+                              ) : (
                                 <Button
-                                  variant="dark"
+                                  variant="danger"
                                   size="sm"
-                                  disabled={!detail.resume_file_path}
                                   className="site-button"
-                                  onClick={() => handleViewResume(job)}
+                                  onClick={() =>
+                                    handleStatusChange(detail.id, "inactive")
+                                  }
                                 >
-                                  View Resume
+                                  Deactive
                                 </Button>
-                              </td>
-                              <td>
-                                {job_applied.matched_skills &&
-                                job_applied.matched_skills.length > 0 ? (
-                                  job_applied.matched_skills.map(
-                                    (skill, idx) => (
-                                      <span
-                                        key={idx}
-                                        className="badge bg-secondary me-2 mb-2"
-                                      >
-                                        {skill}
-                                      </span>
-                                    )
-                                  )
-                                ) : (
-                                  <span className="text-muted">No skills</span>
-                                )}
-                              </td>
-                              <td>
-                                {detail.is_verified === 0 ? (
-                                  <Button
-                                    variant="warning"
-                                    size="sm"
-                                    className="site-button"
-                                    onClick={() =>
-                                      handleStatusChange(detail.id, "active")
-                                    }
-                                  >
-                                    Active
-                                  </Button>
-                                ) : (
-                                  <Button
-                                    variant="danger"
-                                    size="sm"
-                                    className="site-button"
-                                    onClick={() =>
-                                      handleStatusChange(detail.id, "inactive")
-                                    }
-                                  >
-                                    Deactive
-                                  </Button>
-                                )}
-                              </td>
-                              <td>
-                                <Dropdown className="text-end ">
-                                  <Dropdown.Toggle
-                                    variant="light"
-                                    id={`dropdown-${detail.id}`}
-                                    className="btn-sm border-0 shadow-none text-muted bg-transparent"
-                                    style={{
-                                      fontSize: "1rem",
-                                      padding: "0.25rem 0.5rem",
-                                    }}
-                                  >
-                                    <FaEllipsisV />
-                                  </Dropdown.Toggle>
+                              )}
+                            </td>
+                            <td>
+                              <Dropdown className="text-end ">
+                                <Dropdown.Toggle
+                                  variant="light"
+                                  id={`dropdown-${detail.id}`}
+                                  className="btn-sm border-0 shadow-none text-muted bg-transparent"
+                                  style={{
+                                    fontSize: "1rem",
+                                    padding: "0.25rem 0.5rem",
+                                  }}
+                                >
+                                  <FaEllipsisV />
+                                </Dropdown.Toggle>
 
-                                  <Dropdown.Menu
-                                    className="shadow-sm rounded-2 py-2"
-                                    align="end"
+                                <Dropdown.Menu
+                                  className="shadow-sm rounded-2 py-2"
+                                  align="end"
+                                >
+                                  <Dropdown.Item className="py-2 px-3 text-sm text-dark fw-medium hover-bg-light">
+                                    <MessageCircle size={16} /> Message
+                                  </Dropdown.Item>
+                                  <Dropdown.Item
+                                    className="py-2 px-3 text-sm text-dark fw-medium hover-bg-light"
+                                    onClick={() => handleSetUpInetview()}
                                   >
-                                    <Dropdown.Item className="py-2 px-3 text-sm text-dark fw-medium hover-bg-light">
-                                      <MessageCircle size={16} /> Message
-                                    </Dropdown.Item>
-                                    <Dropdown.Item
-                                      className="py-2 px-3 text-sm text-dark fw-medium hover-bg-light"
-                                      onClick={() => handleSetUpInetview()}
-                                    >
-                                      <Calendar size={16} /> Set up Interview
-                                    </Dropdown.Item>
-                                    {/* <Dropdown.Item className="py-2 px-3 text-sm text-dark fw-medium hover-bg-light">
+                                    <Calendar size={16} /> Set up Interview
+                                  </Dropdown.Item>
+                                  {/* <Dropdown.Item className="py-2 px-3 text-sm text-dark fw-medium hover-bg-light">
                                             <Trash2 size={16} /> Delete
                                             Jobseeker
                                           </Dropdown.Item> */}
-                                    {jobId && jobCounts && (
-                                      <>
-                                        <Dropdown.Item
-                                          className="py-2 px-3 text-sm text-dark fw-medium hover-bg-light"
-                                          onClick={() =>
-                                            handleJobseekerStatusChange(
-                                              detail.id,
-                                              4
-                                            )
-                                          }
-                                        >
-                                          <CheckCircle2 size={16} />
-                                          Mark as Shortlist
-                                        </Dropdown.Item>
+                                  {jobId && jobCounts && (
+                                    <>
+                                      <Dropdown.Item
+                                        className="py-2 px-3 text-sm text-dark fw-medium hover-bg-light"
+                                        onClick={() =>
+                                          handleJobseekerStatusChange(
+                                            detail.id,
+                                            4
+                                          )
+                                        }
+                                      >
+                                        <CheckCircle2 size={16} />
+                                        Mark as Shortlist
+                                      </Dropdown.Item>
 
-                                        <Dropdown.Item
-                                          className="py-2 px-3 text-sm text-dark fw-medium hover-bg-light"
-                                          onClick={() =>
-                                            handleJobseekerStatusChange(
-                                              detail.id,
-                                              1
-                                            )
-                                          }
-                                        >
-                                          <CheckCircle2 size={16} />
-                                          Mark as Review
-                                        </Dropdown.Item>
+                                      <Dropdown.Item
+                                        className="py-2 px-3 text-sm text-dark fw-medium hover-bg-light"
+                                        onClick={() =>
+                                          handleJobseekerStatusChange(
+                                            detail.id,
+                                            1
+                                          )
+                                        }
+                                      >
+                                        <CheckCircle2 size={16} />
+                                        Mark as Review
+                                      </Dropdown.Item>
 
-                                        <Dropdown.Item
-                                          className="py-2 px-3 text-sm text-dark fw-medium hover-bg-light"
-                                          onClick={() =>
-                                            handleJobseekerStatusChange(
-                                              detail.id,
-                                              6
-                                            )
-                                          }
-                                        >
-                                          <CheckCircle2 size={16} />
-                                          Mark as Hired
-                                        </Dropdown.Item>
+                                      <Dropdown.Item
+                                        className="py-2 px-3 text-sm text-dark fw-medium hover-bg-light"
+                                        onClick={() =>
+                                          handleJobseekerStatusChange(
+                                            detail.id,
+                                            6
+                                          )
+                                        }
+                                      >
+                                        <CheckCircle2 size={16} />
+                                        Mark as Hired
+                                      </Dropdown.Item>
 
-                                        <Dropdown.Item
-                                          className="py-2 px-3 text-sm text-dark fw-medium hover-bg-light"
-                                          onClick={() =>
-                                            handleJobseekerStatusChange(
-                                              detail.id,
-                                              3
-                                            )
-                                          }
-                                        >
-                                          <CheckCircle2 size={16} />
-                                          Mark as Rejected
-                                        </Dropdown.Item>
-                                      </>
-                                    )}
-                                  </Dropdown.Menu>
-                                </Dropdown>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
+                                      <Dropdown.Item
+                                        className="py-2 px-3 text-sm text-dark fw-medium hover-bg-light"
+                                        onClick={() =>
+                                          handleJobseekerStatusChange(
+                                            detail.id,
+                                            3
+                                          )
+                                        }
+                                      >
+                                        <CheckCircle2 size={16} />
+                                        Mark as Rejected
+                                      </Dropdown.Item>
+                                    </>
+                                  )}
+                                </Dropdown.Menu>
+                              </Dropdown>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="text-center my-5">
+                  <h5 className="text-muted">No Applicants Found</h5>
+                </div>
+              )}
+              {jobs.length > 0 && (
+                <div className="mt-4">
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => setCurrentPage(page)}
+                  />
+                  <div className="text-center mt-2">
+                    <small className="text-muted">
+                      Page {currentPage} of {totalPages}
+                    </small>
                   </div>
-                ) : (
-                  <div className="text-center my-5">
-                    <h5 className="text-muted">No Applicants Found</h5>
-                  </div>
-                )}
-                {jobs.length > 0 && (
-                  <div className="mt-4">
-                    <Pagination
-                      currentPage={currentPage}
-                      totalPages={totalPages}
-                      onPageChange={(page) => setCurrentPage(page)}
-                    />
-                    <div className="text-center mt-2">
-                      <small className="text-muted">
-                        Page {currentPage} of {totalPages}
-                      </small>
-                    </div>
-                  </div>
-                )}
-              </div>
-            
+                </div>
+              )}
+            </div>
           </div>
 
           <PDFPopupViewer
@@ -792,7 +793,6 @@ const Jobseekerlist = () => {
             onClose={() => setIsModalOpen(false)}
             jobseekerId={selectedJobseekerId}
           />
-         
         </div>
       </div>
     </div>
