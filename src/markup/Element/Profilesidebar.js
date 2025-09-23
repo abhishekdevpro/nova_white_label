@@ -19,6 +19,7 @@ import {
   Heart,
   IdCard,
   LogOut,
+  Sparkles,
   User,
   Video,
   X,
@@ -56,13 +57,12 @@ function Profilesidebar({ data }) {
         setUserData(data);
       })
       .catch((err) => {
-
-        if(err?.response?.data?.code === 401){
-          onLogout()
-        }
-        else toast.error(
-          err?.response?.data?.message || "Failed to load user profile."
-        );
+        if (err?.response?.data?.code === 401) {
+          onLogout();
+        } else
+          toast.error(
+            err?.response?.data?.message || "Failed to load user profile."
+          );
       });
   };
 
@@ -124,9 +124,15 @@ function Profilesidebar({ data }) {
       </button>
       <div className={`sidebar-2 ${sidebarOpen ? "open" : ""} overflow-y`}>
         <div className="sticky-top overflow-y ">
-          <div className="candidate-info overflow-y" style={{maxHeight: 'calc(100vh)', overflowY: 'auto', scrollbarWidth:"none"}}>
+          <div
+            className="candidate-info overflow-y"
+            style={{
+              maxHeight: "calc(100vh)",
+              overflowY: "auto",
+              scrollbarWidth: "none",
+            }}
+          >
             <ul>
-              
               <li
                 style={{
                   display: "flex",
@@ -211,8 +217,21 @@ function Profilesidebar({ data }) {
                       onClick={() => setSidebarOpen(false)}
                       style={{ fontSize: "15px" }}
                     >
-                      <FileTextIcon className="me-2" />
+                      <Sparkles className="me-2" />
                       <span>AI Resume Builder</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href={`/airesume/dashboard/?tokenbyurl=${token}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={data === "resume-list" ? "active" : null}
+                      onClick={() => setSidebarOpen(false)}
+                      style={{ fontSize: "15px" }}
+                    >
+                      <Sparkles className="me-2" />
+                      <span>AI Resume Analysis</span>
                     </a>
                   </li>
 
@@ -244,7 +263,7 @@ function Profilesidebar({ data }) {
                   </li>
                 </>
               )}
-               <li>
+              <li>
                 <Link
                   to={"/user/interview-list"}
                   className={data === "interview" ? "active" : null}
