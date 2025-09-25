@@ -91,51 +91,58 @@ const Dashboard = () => {
           <Col>
             <Container fluid className="p-4">
               <div className="job-bx-title clearfix ">
-              <div className="d-flex justify-content-between align-items-center mb-3">
-                <h5 className="font-weight-700 pull-left text-uppercase ">
-                  Dashboard
-                </h5>
-               
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <h5 className="font-weight-700 pull-left text-uppercase ">
+                    Dashboard
+                  </h5>
+                </div>
               </div>
-              </div>
-              <Row className="gap-3">
-                <Box
-                  icon={<FaStore className="display-4" />}
-                  title="Vendors"
-                  count={counts.vendor_count} // Replace with actual count
-                  path="/admin/vendor-list"
-                  size={6} // Size for this Box
-                />
-                <Box
-                  icon={<FaUserTie className="display-4" />}
-                  title="Employer"
-                  count={counts.employeer_count} // Replace with actual count
-                  path="/admin/employer-list"
-                  size={5} // Size for this Box
-                />
-                <Box
-                  icon={<FaBriefcase className="display-4" />}
-                  title="Jobs"
-                  count={counts.job_count} // Display max s_no here
-                  path="/admin/job-list"
-                  size={6} // Larger size for this Box
-                />
-
-                <Box
-                  icon={<FaUserGraduate className="display-4" />}
-                  title="JobSeekers"
-                  count={counts.job_seeker_count} // Replace with actual count
-                  path="/admin/jobseekers-list"
-                  size={5} // Size for this Box
-                />
-
-                <Box
-                  icon={<FaUserGraduate className="display-4" />}
-                  title="Applicants"
-                  count={counts.applicant_count} // Replace with actual count
-                  // path="/admin/jobseekers-list"
-                  size={5} // Size for this Box
-                />
+              <Row className="g-3">
+                <Col md={6} className="mb-3">
+                  <Box
+                    icon={<FaStore className="display-4" />}
+                    title="Vendors"
+                    count={counts.vendor_count}
+                    path="/admin/vendor-list"
+                    size={12}
+                  />
+                </Col>
+                <Col md={6} className="mb-3">
+                  <Box
+                    icon={<FaUserTie className="display-4" />}
+                    title="Employer"
+                    count={counts.employeer_count}
+                    path="/admin/employer-list"
+                    size={12}
+                  />
+                </Col>
+                <Col md={6} className="mb-3">
+                  <Box
+                    icon={<FaBriefcase className="display-4" />}
+                    title="Jobs"
+                    count={counts.job_count}
+                    path="/admin/job-list"
+                    size={12}
+                  />
+                </Col>
+                <Col md={6} className="mb-3">
+                  <Box
+                    icon={<FaUserGraduate className="display-4" />}
+                    title="JobSeekers"
+                    count={counts.job_seeker_count}
+                    path="/admin/jobseekers-list"
+                    size={12}
+                  />
+                </Col>
+                <Col md={6} className="mb-3">
+                  <Box
+                    icon={<FaUserGraduate className="display-4" />}
+                    title="Applicants"
+                    count={counts.applicant_count}
+                    path="/admin/jobseekers-list?defaultView=applicants"
+                    size={12}
+                  />
+                </Col>
               </Row>
             </Container>
           </Col>

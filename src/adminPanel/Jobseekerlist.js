@@ -77,9 +77,18 @@ const Jobseekerlist = () => {
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
     const jobID = queryParams.get("jobID");
+    const defaultView = queryParams.get("defaultView");
+
     if (jobID) {
       setJobId(jobID);
       fetchJobCounts(jobID);
+    }
+
+    // Set default dropdown view based on URL parameter
+    if (defaultView === "applicants") {
+      setIsAllApplicants("1");
+    } else {
+      setIsAllApplicants("0");
     }
   }, []);
 
@@ -148,7 +157,7 @@ const Jobseekerlist = () => {
     currentPage,
     appliedStatusId,
     isAllApplicants,
-    sortOrder
+    sortOrder,
   ]);
 
   useEffect(() => {
@@ -162,7 +171,7 @@ const Jobseekerlist = () => {
     debouncedFetchJobs,
     currentPage,
     isAllApplicants,
-    sortOrder
+    sortOrder,
   ]);
 
   const fetchDomains = async () => {
