@@ -91,12 +91,11 @@ const Dashboard = () => {
           <Col>
             <Container fluid className="p-4">
               <div className="job-bx-title clearfix ">
-              <div className="d-flex justify-content-between align-items-center mb-3">
-                <h5 className="font-weight-700 pull-left text-uppercase ">
-                  Dashboard
-                </h5>
-               
-              </div>
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <h5 className="font-weight-700 pull-left text-uppercase ">
+                    Dashboard
+                  </h5>
+                </div>
               </div>
               <Row className="gap-3">
                 <Box
@@ -133,7 +132,7 @@ const Dashboard = () => {
                   icon={<FaUserGraduate className="display-4" />}
                   title="Applicants"
                   count={counts.applicant_count} // Replace with actual count
-                  // path="/admin/jobseekers-list"
+                  path="/admin/jobseekers-list?defaultView=applicants"
                   size={5} // Size for this Box
                 />
               </Row>
