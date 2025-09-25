@@ -46,9 +46,9 @@ function AboutusForm({ projectName }) {
     <>
       {!token && <CustomNavbar />}
 
-      <div className="container">
+      <div className="">
         <div className="row">
-         {token ? "":<Sidebar />}
+          {token ? "" : <Sidebar />}
 
           <Col
             md={token ? 12 : 9}
@@ -56,15 +56,13 @@ function AboutusForm({ projectName }) {
             style={{ minHeight: "100vh", overflowY: "auto" }}
           >
             <div className="bg-white rounded shadow h-100 p-4">
-             
               <div className="job-bx-title clearfix">
-                  <div className="d-flex justify-content-between align-items-center mb-3">
-                    <h5 className=" font-weight-700 pull-left text-uppercase">
-                     About Us
-                    </h5>
-                   
-                  </div>
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <h5 className=" font-weight-700 pull-left text-uppercase">
+                    About Us
+                  </h5>
                 </div>
+              </div>
               <AdminAboutus projectName={projectName} />
             </div>
           </Col>

@@ -66,10 +66,10 @@ const Addvendor = () => {
   return (
     <div>
       <CustomNavbar />
-      <div className="container">
+      <div className="">
         <div className="row">
           <Sidebar />
-          <Col >
+          <Col>
             <Container fluid className="p-4 ">
               <div className="job-bx-title clearfix">
                 <div className="d-flex justify-content-between align-items-center mb-3">
@@ -186,7 +186,7 @@ const Addvendor = () => {
                 </Row>
                 <Row>
                   <Col lg={12}>
-                    <button  type="submit" className="site-button w-100">
+                    <button type="submit" className="site-button w-100">
                       ADD
                     </button>
                   </Col>

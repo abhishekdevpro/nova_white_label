@@ -187,7 +187,6 @@ const Jobslist = () => {
 
   // Open Contact Modal
   const handleOpenContact = (job) => {
-
     setModalJobId(job.job_detail.id);
     setContactForm({
       recruiter_name: job.job_detail.recruiter_name || "",
@@ -271,7 +270,7 @@ const Jobslist = () => {
   return (
     <div>
       <CustomNavbar />
-      <div className="container">
+      <div className="">
         <div className="row">
           <Sidebar />
 
@@ -469,13 +468,15 @@ const Jobslist = () => {
                                       <strong className="text-muted">
                                         Email:
                                       </strong>{" "}
-                                      {job?.job_detail?.recruiter_email || "N/A"}
+                                      {job?.job_detail?.recruiter_email ||
+                                        "N/A"}
                                     </span>
                                     <span>
                                       <strong className="text-muted">
                                         Phone:
                                       </strong>{" "}
-                                      {job?.job_detail?.recruiter_phone || "N/A"}
+                                      {job?.job_detail?.recruiter_phone ||
+                                        "N/A"}
                                     </span>
                                     <span>
                                       <strong className="text-muted">

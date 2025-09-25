@@ -23,7 +23,7 @@ const BrandingAdmin = () => {
   return (
     <div>
       <CustomNavbar />
-      <div className="container">
+      <div className="">
         <div className="row">
           <Sidebar />
 

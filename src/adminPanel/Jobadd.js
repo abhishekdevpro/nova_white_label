@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Container, Row, Col } from 'react-bootstrap';
-import Sidebar from './Sidebar';
-
+import { Container, Row, Col } from "react-bootstrap";
+import Sidebar from "./Sidebar";
 
 import { Form, Button } from "react-bootstrap";
 import { FaX } from "react-icons/fa6";
@@ -19,21 +18,15 @@ import {
   setSkillsData,
 } from "../store/reducers/postAJobSlice";
 
-
 import ReactQuill from "react-quill";
 import QualificationSetting from "../employeeMarkup/Element/qualificationSettingsEditor";
 import axios from "axios";
-import { showToastSuccess , showToastError } from "../utils/toastify";
+import { showToastSuccess, showToastError } from "../utils/toastify";
 
 import { useEffect } from "react";
 import CustomNavbar from "./Navbar";
 
-
-
 function Jobadd() {
-
-
-  
   const postAJobData = useSelector((state) => state.postAJobSlice.postAJobData);
 
   const postAJobSkills = useSelector((state) => state.postAJobSlice.skillsData);
@@ -79,7 +72,6 @@ function Jobadd() {
     setDescription(false);
   }
 
-
   const [countries, setCountries] = useState([
     {
       id: 0,
@@ -98,7 +90,7 @@ function Jobadd() {
       name: "",
     },
   ]);
-  
+
   const token = localStorage.getItem("authToken");
   const [jobType, setJobType] = useState([]);
   const [workplaceType, setWorkplaceType] = useState([]);
@@ -112,16 +104,15 @@ function Jobadd() {
         Authorization: token,
       },
     })
-     .then((res) => {
-        setJobCategories(res.data.data); 
-        console.log('console h',res.data.data)// Update jobCategories state here
+      .then((res) => {
+        setJobCategories(res.data.data);
+        console.log("console h", res.data.data); // Update jobCategories state here
       })
       .catch((err) => {
         console.log("Error fetching job categories:", err);
       });
   }, [token]);
-  
-  
+
   // Function to render job categories as dropdown options
   const renderJobCategories = () => {
     return jobCategories.map((category) => (
@@ -130,7 +121,7 @@ function Jobadd() {
       </option>
     ));
   };
-  
+
   useEffect(() => {
     axios({
       method: "get",
@@ -139,16 +130,15 @@ function Jobadd() {
         Authorization: token,
       },
     })
-     .then((res) => {
-        setexperience_level_id(res.data.data); 
-        console.log('console h',res.data.data)// Update jobCategories state here
+      .then((res) => {
+        setexperience_level_id(res.data.data);
+        console.log("console h", res.data.data); // Update jobCategories state here
       })
       .catch((err) => {
         console.log("Error fetching job categories:", err);
       });
   }, [token]);
-  
-  
+
   // Function to render job categories as dropdown options
   const renderexperience_level_id = () => {
     return experience_level_id.map((category) => (
@@ -157,7 +147,6 @@ function Jobadd() {
       </option>
     ));
   };
-  
 
   const getJob = async () => {
     await axios({
@@ -180,7 +169,7 @@ function Jobadd() {
             selectedState: res.data.data.job_detail.state_id,
             selectedCountry: res.data.data.job_detail.country_id,
             job_title: res.data.data.job_detail.job_title,
-            salary: res.data.data.job_detail.salary
+            salary: res.data.data.job_detail.salary,
           })
         );
         dispatch(setSkillsData(res.data.data.job_detail.skills_arr));
@@ -206,8 +195,8 @@ function Jobadd() {
       data: {
         keyword: postAJobData.jobTitle,
         title: postAJobData.jobTitle,
-        workplace_type:Number(postAJobData.workplaceType)|| 0,
-        job_type: Number(postAJobData.jobType)||0,
+        workplace_type: Number(postAJobData.workplaceType) || 0,
+        job_type: Number(postAJobData.jobType) || 0,
         company: postAJobData.company,
       },
     }).then((res) => {
@@ -233,22 +222,18 @@ function Jobadd() {
         city_id: Number(postAJobData.selectedCity),
         experience_level_id: Number(postAJobData.experience_level_id),
         is_publish: 1,
-        salary:postAJobData.salary,
-       
-        
-        
+        salary: postAJobData.salary,
+
         screen_questions: {
           screen_question_keywords: selelctedQuestions,
         },
         skills: postAJobSkills,
-        
       },
     }).then((res) => {
       console.log(res);
     });
   };
 
-  
   const getJobTyes = async () => {
     await axios({
       url: "https://apiwl.novajobs.us/api/admin/job-types",
@@ -357,10 +342,6 @@ function Jobadd() {
     getCountry();
   }, []);
 
-  
-
-  
-  
   useEffect(() => {
     // console.log(selectedCountry);
     dispatch(
@@ -374,8 +355,6 @@ function Jobadd() {
     getState();
   }, [postAJobData.selectedCountry]);
 
-
-
   useEffect(() => {
     dispatch(
       setPostAJobData({
@@ -386,7 +365,6 @@ function Jobadd() {
     getCities();
   }, [postAJobData.selectedState]);
 
-
   useEffect(() => {
     dispatch(
       setPostAJobData({
@@ -396,8 +374,6 @@ function Jobadd() {
     );
     getCities();
   }, [postAJobData.selectedState]);
-
-  
 
   useEffect(() => {
     if (postAJobData.jobTitle !== "") {
@@ -408,9 +384,9 @@ function Jobadd() {
   const dispatch = useDispatch();
   const handleChange = (e) => {
     const { name, value } = e.target;
-  
+
     let updatedErrors = { ...errors };
-  
+
     if (name === "jobTitle") {
       // Validate allow only characters
       if (!/^[a-zA-Z\s]*$/.test(value)) {
@@ -435,18 +411,20 @@ function Jobadd() {
     } else if (name === "experience_level_id") {
       // Validate job category (assuming it should not be empty)
       if (value.trim() === "") {
-        updatedErrors = { ...errors, experience_level_id: "experience_level_id is required." };
+        updatedErrors = {
+          ...errors,
+          experience_level_id: "experience_level_id is required.",
+        };
       } else {
         updatedErrors = { ...errors, experience_level_id: "" };
       }
     }
-    
-  
+
     setErrors(updatedErrors); // Update errors state first
-  
+
     dispatch(setPostAJobData({ ...postAJobData, [name]: value })); // Then update postAJobData state
   };
-  
+
   const [errors, setErrors] = useState({
     jobTitle: "",
     company: "",
@@ -467,10 +445,10 @@ function Jobadd() {
   return (
     <>
       <CustomNavbar />
-     <div className='container'>
-        <div className='row'>
+      <div className="">
+        <div className="row">
           {/* <Col md={2} className="p-0"> */}
-            <Sidebar />
+          <Sidebar />
           {/* </Col> */}
           <Col className="w-full">
             <div className="page-content bg-white">

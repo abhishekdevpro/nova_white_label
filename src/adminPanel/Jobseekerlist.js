@@ -374,7 +374,7 @@ const Jobseekerlist = () => {
   return (
     <div>
       <CustomNavbar />
-      <div className="container">
+      <div className="">
         <div className="row">
           <div className="col-md-3 p-0">
             <Sidebar active="dashboard" />
