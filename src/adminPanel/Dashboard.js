@@ -83,7 +83,7 @@ const Dashboard = () => {
   return (
     <div>
       <CustomNavbar />
-      <div className="container">
+      <div className="">
         <div className="row">
           {/* <Col md={2} className="p-0"> */}
           <Sidebar active="dashboard" />

@@ -84,11 +84,14 @@ const Listvendor = () => {
           body: JSON.stringify({ status: 1 }), // Sending 1 for active
         });
       } else if (status === "inactive") {
-        await fetch(`https://apiwl.novajobs.us/api/admin/vendor-inactive/${id}`, {
-          method: "PUT",
-          headers,
-          body: JSON.stringify({ status: 0 }), // Sending 0 for inactive
-        });
+        await fetch(
+          `https://apiwl.novajobs.us/api/admin/vendor-inactive/${id}`,
+          {
+            method: "PUT",
+            headers,
+            body: JSON.stringify({ status: 0 }), // Sending 0 for inactive
+          }
+        );
       }
       // Optionally refetch the jobs to update the list after status change
     } catch (error) {
@@ -99,12 +102,11 @@ const Listvendor = () => {
   return (
     <div>
       <CustomNavbar />
-      <div className="container">
+      <div className="">
         <div className="row">
-         
-            <Sidebar />
-          
-          <Col >
+          <Sidebar />
+
+          <Col>
             {/* <div className="d-flex">
               <p className="my-2">
                 <FaStore className="mx-1" /> / Vendor List
@@ -113,11 +115,11 @@ const Listvendor = () => {
             <Row>
               <Col>
                 <div
-                  // style={{
-                  //   overflowX: "auto",
-                  //   overflowY: "auto",
-                  //   maxHeight: "500px",
-                  // }}
+                // style={{
+                //   overflowX: "auto",
+                //   overflowY: "auto",
+                //   maxHeight: "500px",
+                // }}
                 >
                   <table className="table">
                     <thead>
