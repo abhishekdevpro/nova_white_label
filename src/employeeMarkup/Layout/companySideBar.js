@@ -8,7 +8,7 @@ import {
   setPostAJobData,
   setSkillsData,
 } from "../../store/reducers/postAJobSlice";
-import { fetchCompanyInfo } from "../../store/thunkFunctions/companyFunction";
+// import { fetchCompanyInfo } from "../../store/thunkFunctions/companyFunction";
 
 import "../../css/profilesidebar.css";
 import { FaBell, FaComment } from "react-icons/fa";
@@ -99,10 +99,10 @@ const CompanySideBar = ({ active }) => {
 
   // console.log(logo, "lavi");
 
-  const companyData = useSelector(
-    (state) => state.companyDataSlice.companyData
-  );
-  let companyDetail = companyData?.company_detail;
+  // const companyData = useSelector(
+  //   (state) => state.companyDataSlice.companyData
+  // );
+  let companyDetail = {};
 
   const [file, setFile] = useState([]);
   const handleImageChange = (e) => {

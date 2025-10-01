@@ -8,20 +8,23 @@ import axios from "axios"; // Import Axios
 import logo from "../../images/login/loginbg.jpeg";
 import loginbg from "../../images/login/loginbg.jpeg";
 import LogoWrapper from "../../markup/Layout/LogoWrapper";
+import { useDispatch } from "react-redux";
+import { EmployeeVerifyOTP } from "../../store/slice/EmployerAuthSlice";
 // import { useRouter } from "next/router";
 const LoginEmployerCode = () => {
   //   const router = useRouter();
   const [otp, setOtp] = useState("");
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const BASE_URL = "https://apiwl.novajobs.us";
   const handleOtpChange = (e) => {
     setOtp(e.target.value);
   };
   const url = window.location.origin.includes("localhost")
-  ? "https://novajobs.us"
-  : window.location.origin;
+    ? "https://novajobs.us"
+    : window.location.origin;
   useEffect(() => {
     // Get email from localStorage
     const storedEmail = localStorage.getItem("userEmail");
@@ -31,24 +34,27 @@ const LoginEmployerCode = () => {
   }, []);
   const handleSignIn = async () => {
     if (otp.length !== 6) {
-      alert("Please enter a valid 6-digit OTP.");
+      toast.error("Please enter a valid 6-digit OTP.");
       return;
     }
 
     setLoading(true);
+    // axios.post(
+    //   `${BASE_URL}/api/employeer/auth/login-otp`,
+
+    //   { email, otp ,domain:url}
+    // );
 
     try {
-      const response = await axios.post(
-        `${BASE_URL}/api/employeer/auth/login-otp`,
-
-        { email, otp ,domain:url}
-      );
+      const response = await dispatch(
+        EmployeeVerifyOTP({ email, otp, domain: url })
+      ).unwrap();
       console.log(response, ">>>");
-      if (response.data?.success === "success" || response.data?.code === 200) {
-        const token = response.data?.data?.token;
+      if (response?.success === "success" || response?.code === 200) {
+        // const token = response.data?.data?.token;
 
-        toast.success(response.data.message || "Login successful!");
-        localStorage.setItem("employeeLoginToken", token);
+        toast.success(response.message || "Login successful!");
+        // localStorage.setItem("employeeLoginToken", token);
         localStorage.removeItem("jobSeekerLoginToken");
         localStorage.removeItem("vendorToken");
 
@@ -58,7 +64,9 @@ const LoginEmployerCode = () => {
         navigate("/employer/login");
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || "Invalid OTP. Please try again.")
+      toast.error(
+        error.response?.data?.message || "Invalid OTP. Please try again."
+      );
       console.error(
         error.response?.data?.message || "Invalid OTP. Please try again."
       );
@@ -102,7 +110,6 @@ const LoginEmployerCode = () => {
             <LogoWrapper />
           </div>
           <h2 className="mt-3 fw-light">Sign in with Login Code</h2>
-
         </div>
         <p className="text-center text-muted">
           We have sent your one-time passcode to <br />

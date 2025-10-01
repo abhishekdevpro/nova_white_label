@@ -224,6 +224,8 @@ const FilterSidebar = () => {
   const navigate = useNavigate();
   const jobSeekerToken = localStorage.getItem("jobSeekerLoginToken");
   const employerToken = localStorage.getItem("employeeLoginToken");
+
+  // const token = jobSeekerToken ? jobSeekerToken : employerToken;
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
@@ -299,7 +301,7 @@ const FilterSidebar = () => {
         </button>
       </FilterOuter>
 
-      <FilterOuter>
+     {jobSeekerToken && <FilterOuter>
         <ProfileImage src={nova2} alt="AI Resume Builder" />
         <Subtitle>AI Resume Builder</Subtitle>
         <Description>
@@ -307,11 +309,11 @@ const FilterSidebar = () => {
         </Description>
         <button
           className="site-button w-100"
-          onClick={() => window.open("https://novajobs.us/user/login")}
+          onClick={() => {userData ? navigate(`/airesume?tokenbyurl=${jobSeekerToken}`)  :navigate("/user/login")}}
         >
           Build Resume
         </button>
-      </FilterOuter>
+      </FilterOuter>}
     </SidebarContainer>
   );
 };
