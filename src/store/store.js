@@ -17,6 +17,8 @@ import jobsMyResumeSlice from "./reducers/jobsMyResumeSlice";
 import jobProfileSlice from "./reducers/jobProfileSlice";
 import fixedHeaderSlice from "./reducers/fixedHeaderSlice";
 import browseCandidateSlice from "./reducers/browseCandidateSlice";
+import EmployerAuthSlice from "./slice/EmployerAuthSlice";
+import CompanyData from "./slice/CompanySlice"
 const middleware = applyMiddleware(thunk);
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -24,12 +26,14 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const reducers = combineReducers({
   posts: PostsReducer,
   auth: AuthReducer,
+   employerAuth: EmployerAuthSlice,
+   company : CompanyData,
   todoReducers,
   skills: skillSlice,
   postAJobSlice: postAJobSlice,
   manageJobSlice: manageJobSlice,
   form: reduxFormReducer,
-  companyDataSlice: companyDataSlice,
+  // companyDataSlice: companyDataSlice,
   jobDataSlice: jobDataSlice,
   jobApplicationSlice: jobApplicationSlice,
   userMessageSlice: userMessageSlice,
@@ -39,6 +43,7 @@ const reducers = combineReducers({
   jobProfileSlice: jobProfileSlice,
   fixedHeaderSlice: fixedHeaderSlice,
   browseCandidateSlice: browseCandidateSlice,
+ 
 });
 
 //const store = createStore(rootReducers);

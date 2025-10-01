@@ -894,7 +894,7 @@ function Jobprofile() {
                               <select
                                 type="text"
                                 className="form-control"
-                                // placeholder="London"
+                                placeholder="London"
                                 id="city_id"
                                 name="city_id"
                                 onChange={handleChange}

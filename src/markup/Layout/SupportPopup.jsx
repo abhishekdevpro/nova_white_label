@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import styled from "styled-components";
 
-
 const Overlay = styled.div`
   position: fixed;
   inset: 0;
@@ -222,6 +221,7 @@ const SupportPopup = ({ isOpen, onClose }) => {
               value={formData.firstName}
               onChange={handleChange}
               placeholder="First Name"
+              maxLength={20}
             />
             {errors.name && <ErrorText>{errors.name}</ErrorText>}
           </FieldGroup>
@@ -232,6 +232,7 @@ const SupportPopup = ({ isOpen, onClose }) => {
               value={formData.lastName}
               onChange={handleChange}
               placeholder="Last Name"
+              maxLength={20}
             />
             {errors.lastName && <ErrorText>{errors.lastName}</ErrorText>}
           </FieldGroup>
@@ -243,6 +244,7 @@ const SupportPopup = ({ isOpen, onClose }) => {
               value={formData.number}
               onChange={handleChange}
               placeholder="number"
+              maxLength={10}
             />
             {errors.number && <ErrorText>{errors.number}</ErrorText>}
           </FieldGroup>
@@ -254,6 +256,7 @@ const SupportPopup = ({ isOpen, onClose }) => {
               value={formData.email}
               onChange={handleChange}
               placeholder="you@domain.com"
+              maxLength={30}
             />
             {errors.email && <ErrorText>{errors.email}</ErrorText>}
           </FieldGroup>
@@ -278,6 +281,7 @@ const SupportPopup = ({ isOpen, onClose }) => {
               value={formData.subject}
               onChange={handleChange}
               placeholder="Subject"
+               maxLength={30}
             />
             {errors.subject && <ErrorText>{errors.subject}</ErrorText>}
           </FieldGroup>
@@ -288,6 +292,7 @@ const SupportPopup = ({ isOpen, onClose }) => {
               value={formData.description}
               onChange={handleChange}
               placeholder="Describe your issue"
+               maxLength={200}
             />
             {errors.description && <ErrorText>{errors.description}</ErrorText>}
           </FieldGroup>

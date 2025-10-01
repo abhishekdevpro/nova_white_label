@@ -252,9 +252,9 @@ const FormRow = styled.div`
 
   @media (max-width: 768px) {
     display: flex;
-    flex-direction:column;
-  align-items: center;
-  gap: 0.5rem;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
   }
 `;
 
@@ -285,9 +285,9 @@ const SearchButton = styled.button`
   cursor: pointer;
   padding: 0.5rem;
   transition: background-color 0.3s ease;
-  
+
   &:hover {
-    background-color: rgba(0,0,0,0.05);
+    background-color: rgba(0, 0, 0, 0.05);
   }
 `;
 const SearchForm = styled.form`
@@ -540,7 +540,11 @@ const CareerAdvisorPage = () => {
       case "Employer":
         return <EmployeeForm />;
       case "A Partner":
-        return window.location.origin === "https://novajobs.us" ?<PartnerForm /> :window.location.href = "https://novajobs.us/white-label" ;
+        return window.location.origin === "https://novajobs.us" ? (
+          <PartnerForm />
+        ) : (
+          (window.location.href = "https://novajobs.us/white-label")
+        );
       default:
         return null;
     }
@@ -557,7 +561,7 @@ const CareerAdvisorPage = () => {
     console.log(searchUrl, "urrrrrlllll");
     navigate(searchUrl);
   };
-    console.log(location,"loooo");
+  console.log(location, "loooo");
 
   if (loading) {
     return <Container>Loading...</Container>;
@@ -565,21 +569,23 @@ const CareerAdvisorPage = () => {
   return (
     <Container>
       <BackgroundMedia>
-        {url === "https://novajobs.us" 
+        {url === "https://novajobs.us"
           ? renderBackgroundMedia(videoSrc)
           : renderBackgroundMedia(pageData?.home_here_section?.BackgroundMedia)}
       </BackgroundMedia>
 
       <Heading1
-  dangerouslySetInnerHTML={{
-    __html: pageData?.home_here_section?.title || "Hello, I'm Aria,"
-  }}
-/>
-<Heading2
-  dangerouslySetInnerHTML={{
-    __html: pageData?.home_here_section?.description || "Your Personal Career Advisor!"
-  }}
-/>
+        dangerouslySetInnerHTML={{
+          __html: pageData?.home_here_section?.title || "Hello, I'm Aria,",
+        }}
+      />
+      <Heading2
+        dangerouslySetInnerHTML={{
+          __html:
+            pageData?.home_here_section?.description ||
+            "Your Personal Career Advisor!",
+        }}
+      />
 
       <Prompt>Are You?</Prompt>
 
@@ -595,61 +601,60 @@ const CareerAdvisorPage = () => {
         ))}
       </OptionWrapper>
 
-      {url==="https://novajobs.us" ?
-      <SearchForm onSubmit={handleSearch}>
-        <FormRow>
-          <FormGroup>
-            <Input2
-              type="text"
-              placeholder="Job Title, Keywords, or Phrase"
-              value={searchJob}
-              onChange={(e) => setSearchJob(e.target.value)}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Select
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-            >
-              <option value="">Select Location</option>
-              {states.map((state) => (
-                <option key={state.id} value={state.id}>
-                  {state.name}
-                </option>
-              ))}
-            </Select>
-          </FormGroup>
-
-          <FormGroup>
-            <Button type="submit" className="search-button">
-              <img
-                src="https://cdn-icons-png.flaticon.com/512/54/54481.png"
-                alt="Search"
-                className="search-icon"
+      {url === "https://novajobs.us" ? (
+        <SearchForm onSubmit={handleSearch}>
+          <FormRow>
+            <FormGroup>
+              <Input2
+                type="text"
+                placeholder="Job Title, Keywords, or Phrase"
+                value={searchJob}
+                onChange={(e) => setSearchJob(e.target.value)}
               />
-              Search
-            </Button>
-          </FormGroup>
-        </FormRow>
-      </SearchForm>:
-         <SearchForm2 onSubmit={handleSearch}>
-         <FormRow>
-           <InputWrapper>
-             <Input
-               type="text"
-               placeholder="Job Title, Keywords, or Phrase"
-               value={searchJob}
-               onChange={(e) => setSearchJob(e.target.value)}
-             />
-             <SearchButton type="submit">
-               <Search size={20} color="#666" />
-             </SearchButton>
-           </InputWrapper>
-         </FormRow>
-       </SearchForm2>
-      }
+            </FormGroup>
+            <FormGroup>
+              <Select
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+              >
+                <option value="">Select Location</option>
+                {states.map((state) => (
+                  <option key={state.id} value={state.id}>
+                    {state.name}
+                  </option>
+                ))}
+              </Select>
+            </FormGroup>
 
-
+            <FormGroup>
+              <Button type="submit" className="search-button">
+                <img
+                  src="https://cdn-icons-png.flaticon.com/512/54/54481.png"
+                  alt="Search"
+                  className="search-icon"
+                />
+                Search
+              </Button>
+            </FormGroup>
+          </FormRow>
+        </SearchForm>
+      ) : (
+        <SearchForm2 onSubmit={handleSearch}>
+          <FormRow>
+            <InputWrapper>
+              <Input
+                type="text"
+                placeholder="Job Title, Keywords, or Phrase"
+                value={searchJob}
+                onChange={(e) => setSearchJob(e.target.value)}
+              />
+              <SearchButton type="submit">
+                <Search size={20} color="#666" />
+              </SearchButton>
+            </InputWrapper>
+          </FormRow>
+        </SearchForm2>
+      )}
 
       {isModalOpen && (
         <>

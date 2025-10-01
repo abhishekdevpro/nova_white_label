@@ -643,32 +643,6 @@ function EmployeeLogin(props) {
       setLoading(false);
     }
   };
-  // const sendEmail = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const response = await axios.post(
-  //       "https://apiwl.novajobs.us/api/jobseeker/auth/send-loginotp",
-  //       { email }
-  //     );
-
-  //     // Check if the response contains the token
-  //     if (response?.data?.data?.token) {
-  //       localStorage.setItem("employeeLoginToken", response?.data?.data?.token); // Store token
-  //       setStep(2); // Move to OTP step
-  //       startTimer(); // Start OTP timer
-  //     } else {
-  //       // If no token, show an error
-  //       toast.error("Please register first.");
-  //     }
-  //   } catch (error) {
-  //     const errorMessage =
-  //       error?.response?.data?.message ||
-  //       "Failed to send OTP. Please try again.";
-  //     toast.error(errorMessage); // Show error if API call fails
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
   const verifyOtp = async () => {
     try {
