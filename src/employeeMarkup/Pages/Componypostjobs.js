@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import Header2 from "./../Layout/Header2";
 import { Form, Button } from "react-bootstrap";
@@ -45,7 +45,7 @@ function EmployeeComponypostjobs() {
     setSuggestions(false);
   };
   const [jobPostingStatus, setJobPostingStatus] = useState("pending");
-
+  const navigate = useNavigate()
   function renderSection(text) {
     const htmlText = text
       .split("\n\n")
@@ -93,7 +93,9 @@ function EmployeeComponypostjobs() {
     },
   ]);
 
-  const token = localStorage.getItem("employeeLoginToken") || localStorage.getItem("vendorToken");
+  const token =
+    localStorage.getItem("employeeLoginToken") ||
+    localStorage.getItem("vendorToken");
   const [jobType, setJobType] = useState([]);
   const [workplaceType, setWorkplaceType] = useState([]);
   const [industriesList, setIndustriesList] = useState([]);
@@ -271,22 +273,26 @@ function EmployeeComponypostjobs() {
     // 🧪 Basic Validation
     if (!postAJobData.jobTitle) {
       toast.error("Job title is required to post a job");
-      setJobPostingStatus("rejected")
+      setJobPostingStatus("rejected");
       return;
     }
     if (!postAJobData.company) {
       toast.error(" Company name is required to post a job");
-      setJobPostingStatus("rejected")
+      setJobPostingStatus("rejected");
       return;
     }
 
     try {
-      const API = localStorage.getItem("employeeLoginToken")? `https://apiwl.novajobs.us/api/employeer/job-post/${id}` :`https://apiwl.novajobs.us/api/admin/job-post/${id}`
+      const API = localStorage.getItem("employeeLoginToken")
+        ? `https://apiwl.novajobs.us/api/employeer/job-post/${id}`
+        : `https://apiwl.novajobs.us/api/admin/job-post/${id}`;
       const response = await axios({
         url: API,
         method: "PUT",
         headers: {
-          Authorization: localStorage.getItem("employeeLoginToken") || localStorage.getItem("vendorToken"),
+          Authorization:
+            localStorage.getItem("employeeLoginToken") ||
+            localStorage.getItem("vendorToken"),
         },
         data: {
           company_name: postAJobData.company,
@@ -310,15 +316,18 @@ function EmployeeComponypostjobs() {
       });
 
       console.log("Job posted successfully:", response.data);
-      if(response.data.status === "success" || response.data.code === 200){
+      if (response.data.status === "success" || response.data.code === 200) {
         toast.success(response.data.message || "Job post successfully!");
-        setJobPostingStatus("success")
+        setJobPostingStatus("success");
+        navigate("/employer/company-manage-job/jobs");
       }
       // toast.success("Job post updated and published!");
     } catch (error) {
       console.error("Error updating job post:", error);
-      toast.error(error.response?.data?.message || "Failed to update job post.");
-      setJobPostingStatus("rejected")
+      toast.error(
+        error.response?.data?.message || "Failed to update job post."
+      );
+      setJobPostingStatus("rejected");
     }
   };
 
@@ -528,49 +537,54 @@ function EmployeeComponypostjobs() {
       // showToastSuccess("Your Job post is under review");
       // Reset form after successful post
       console.log("Job posting status:", jobPostingStatus);
-      if(jobPostingStatus === "success"){
-      dispatch(
-        setPostAJobData({
-          jobTitle: "",
-          company: "",
-          workplaceType: "",
-          location: "",
-          jobType: "",
-          description: "",
-          education: "",
-          salary: "",
-          qualificationSetting: "",
-          selectedCity: "",
-          selectedState: "",
-          selectedCountry: "",
-        })
-      );
-      dispatch(setSkillsData([]));
-      dispatch(
-        setSelctedScreeningQuestionGet({ screen_question_keywords: [] })
-      );
-      setErrors({ jobTitle: "", company: "" });
-      setSuggestions(true);
-    }
+      if (jobPostingStatus === "success") {
+        dispatch(
+          setPostAJobData({
+            jobTitle: "",
+            company: "",
+            workplaceType: "",
+            location: "",
+            jobType: "",
+            description: "",
+            education: "",
+            salary: "",
+            qualificationSetting: "",
+            selectedCity: "",
+            selectedState: "",
+            selectedCountry: "",
+          })
+        );
+        dispatch(setSkillsData([]));
+        dispatch(
+          setSelctedScreeningQuestionGet({ screen_question_keywords: [] })
+        );
+        setErrors({ jobTitle: "", company: "" });
+        setSuggestions(true);
+      }
     } catch (error) {
       showToastError("Failed to post job");
     }
   };
   return (
     <>
-     {localStorage.getItem("employeeLoginToken") ? <Header2 /> : <VendorHeader />}
+      {localStorage.getItem("employeeLoginToken") ? (
+        <Header2 />
+      ) : (
+        <VendorHeader />
+      )}
       <div className="page-content bg-white">
         <div className="content-block">
           <div className="section-full bg-white p-t50">
             <div className="container">
               <div className="row">
-               {localStorage.getItem("employeeLoginToken") ? <CompanySideBar active="postJob" /> : <VendorCompanySideBar active="postJob" />}
+                {localStorage.getItem("employeeLoginToken") ? (
+                  <CompanySideBar active="postJob" />
+                ) : (
+                  <VendorCompanySideBar active="postJob" />
+                )}
 
                 <div className="col-xl-9 col-lg-9 col-12">
-                  <div
-                    className="job-bx submit-resume"
-                   
-                  >
+                  <div className="job-bx submit-resume">
                     <div className="job-bx-title clearfix">
                       <h5 className="font-weight-700 pull-left text-uppercase">
                         Post A Job
@@ -804,16 +818,10 @@ function EmployeeComponypostjobs() {
                                 value={postAJobData.jobType}
                                 onChange={handleChange}
                               >
-                                {jobType.map(
-                                  (item) => (
-                                    // console.log(item),
-                                    (
-                                      <option value={item.id}>
-                                        {item.name}
-                                      </option>
-                                    )
-                                  )
-                                )}
+                                {jobType.map((item) => (
+                                  // console.log(item),
+                                  <option value={item.id}>{item.name}</option>
+                                ))}
                               </Form.Control>
                             ) : null}
                           </div>
@@ -1021,12 +1029,12 @@ function EmployeeComponypostjobs() {
                           </button>
                           
                         ) : ( */}
-                          <button
-                            onClick={handlePostJob}
-                            className="site-button w-100 mt-4 "
-                          >
-                            Post job
-                          </button>
+                        <button
+                          onClick={handlePostJob}
+                          className="site-button w-100 mt-4 "
+                        >
+                          Post job
+                        </button>
                         {/* )} */}
                       </div>
                     </div>
