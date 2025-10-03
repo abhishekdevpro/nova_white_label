@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 // Styled Components
 const Overlay = styled.div`
@@ -31,41 +31,40 @@ const Message = styled.p`
 `;
 
 const Button = styled.button`
-  background-color: ${({ cancel }) => (cancel ? '#e5e7eb' : '#dc2626')}; /* Gray for cancel, red for confirm */
-  color: ${({ cancel }) => (cancel ? '#4b5563' : '#ffffff')}; /* Dark gray for cancel, white for confirm */
+  background-color: ${({ cancel }) =>
+    cancel ? "#e5e7eb" : "#dc2626"}; /* Gray for cancel, red for confirm */
+  color: ${({ cancel }) =>
+    cancel
+      ? "#4b5563"
+      : "#ffffff"}; /* Dark gray for cancel, white for confirm */
   padding: 8px 16px; /* Padding */
   border-radius: 6px; /* Rounded corners */
   cursor: pointer;
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: ${({ cancel }) => (cancel ? '#d1d5db' : '#b91c1c')}; /* Darker on hover */
+    background-color: ${({ cancel }) =>
+      cancel ? "#d1d5db" : "#b91c1c"}; /* Darker on hover */
   }
 
   margin-left: 8px; /* Space between buttons */
 `;
 
-const ConfirmationDialog = ({ 
-  isOpen, 
-  onClose, 
-  onConfirm, 
-  title, 
-  message 
-}) => {
+const ConfirmationDialog = ({ isOpen, onClose, onConfirm, title, message }) => {
   if (!isOpen) return null;
+
+  // console.log(isOpen, onClose, onConfirm, title, message,"in confirmation");
 
   return (
     <Overlay>
       <DialogContainer>
         <Title>{title}</Title>
         <Message>{message}</Message>
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <Button cancel onClick={onClose}>
             Cancel
           </Button>
-          <Button onClick={onConfirm}>
-            Confirm
-          </Button>
+          <Button onClick={onConfirm}>Confirm</Button>
         </div>
       </DialogContainer>
     </Overlay>

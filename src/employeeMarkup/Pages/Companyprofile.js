@@ -769,17 +769,27 @@ import {
   getCities,
   getIndustries,
 } from "../../store/services/companyAPi";
-import { updateCompanyInfo } from "../../store/slice/CompanySlice";
+import {
+  getCompanyProfile,
+  updateCompanyInfo,
+} from "../../store/slice/CompanySlice";
 
 function EmployeeCompanyProfile() {
   const dispatch = useDispatch();
   const { companyDetail, loading } = useSelector((state) => state.company);
-  console.log(companyDetail, "companyDetail");
+  // console.log(companyDetail, "companyDetail");
+
   const employeerDetail = useSelector(
     (state) => state.employerAuth.employerDetail
   );
-  console.log(employeerDetail);
+  console.log(employeerDetail, companyDetail, ">>>>>>>>>");
   const token = localStorage.getItem("employeeLoginToken");
+
+  useEffect(() => {
+    if (token && !companyDetail) {
+      dispatch(getCompanyProfile(token));
+    }
+  }, [token, dispatch]);
 
   // 🔹 Form States (only essentials)
   const [companyName, setCompanyName] = useState("");
@@ -803,19 +813,19 @@ function EmployeeCompanyProfile() {
   // 🔹 Prefill company data if exists
   useEffect(() => {
     // if (companyDetail) {
-      setCompanyName(companyDetail?.company_name || "");
-      setTagline(companyDetail?.tagline || "");
-      setEmail(employeerDetail?.email || "");
-      setWebsite(companyDetail?.website_link || "");
-      setFoundedYear(companyDetail?.founded_date || "");
-      setDescription(companyDetail?.about || "");
-      setSelectedCountry(companyDetail?.country_id || null);
-      setSelectedStates(companyDetail?.state_id || null);
-      setSelectedCities(companyDetail?.city_id || null);
-      setNumber(companyDetail?.phone || "");
-      setAddress(companyDetail?.address || "");
-      setLinkedin(companyDetail?.linkedin_link || "");
-      setIndustry(companyDetail?.company_industry?.id || "");
+    setCompanyName(companyDetail?.company_name || "");
+    setTagline(companyDetail?.tagline || "");
+    setEmail(employeerDetail?.email || "");
+    setWebsite(companyDetail?.website_link || "");
+    setFoundedYear(companyDetail?.founded_date || "");
+    setDescription(companyDetail?.about || "");
+    setSelectedCountry(companyDetail?.country_id || null);
+    setSelectedStates(companyDetail?.state_id || null);
+    setSelectedCities(companyDetail?.city_id || null);
+    setNumber(companyDetail?.phone || "");
+    setAddress(companyDetail?.address || "");
+    setLinkedin(companyDetail?.linkedin_link || "");
+    setIndustry(companyDetail?.company_industry?.id || "");
     // }
   }, []);
 
@@ -837,7 +847,7 @@ function EmployeeCompanyProfile() {
   }, [selectedStates, token]);
   useEffect(() => {
     getIndustries(token).then((res) => setIndustryList(res.data.data));
-  },[]);
+  }, []);
 
   // 🔹 Phone validation
   const handlePhoneNumberChange = (e) => {
@@ -848,7 +858,7 @@ function EmployeeCompanyProfile() {
   };
 
   // 🔹 Submit
-  console.log(email,"email")
+  console.log(email, "email");
   const handleSubmit = (e) => {
     e.preventDefault();
     if (
