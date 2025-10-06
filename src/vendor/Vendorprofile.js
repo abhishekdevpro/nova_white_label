@@ -771,6 +771,7 @@
 
 // export default Vendorprofile;
 
+
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Header2 from "../markup/Layout/Header2";
@@ -785,6 +786,8 @@ import VendorCompanySideBar from "./Vendorsidebar";
 import TextEditor from "../common/TextEditor";
 
 function Vendorprofile() {
+  const [profileData, setProfileData] = useState(null);
+
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
@@ -796,7 +799,7 @@ function Vendorprofile() {
   const [email, setEmail] = useState("");
   const [website, setWebsite] = useState("");
   const [foundedYear, setFoundedYear] = useState("");
-  const [industry, setIndustry] = useState("");
+  const [industry, setIndustry] = useState(""); // State variable to hold selected industry ID
   const [description, setDescription] = useState("");
   const [number, setNumber] = useState("");
   const [phoneError, setPhoneError] = useState("");
@@ -808,128 +811,60 @@ function Vendorprofile() {
   const [services, setServices] = useState([{ title: "", image: null }]);
   const [industries, setIndustries] = useState([]);
   const [file, setFile] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   const token = localStorage.getItem("vendorToken");
 
   const handleChange = (content) => {
-    setDescription(content);
+    // Extract plain text from the editor
+    setDescription(content); // Set the plain text in the state
   };
-
-  // Fetch Vendor Profile Data
-  const fetchVendorProfile = async () => {
-    try {
-      setLoading(true);
-      const response = await axios({
+  
+  useEffect(() => {
+    // Fetch profile data from /vendor/user-profile
+    if (token) {
+      axios({
         method: "GET",
         url: "https://apiwl.novajobs.us/api/admin/vendor/user-profile",
         headers: {
           Authorization: token,
         },
-      });
-
-      if (response.data) {
-        populateFormFields(response.data.vendors_detail);
-      }
-    } catch (error) {
-      console.error("Error fetching vendor profile:", error);
-      showToastError(
-        error?.response?.data?.message || "Failed to fetch vendor profile"
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Populate form fields with fetched data
-  const populateFormFields = (data) => {
-    const companyInfo = data?.data?.company_detail;
-    const vendorInfo = data?.data?.vendors_detail;
-    const employeerInfo = data?.data?.employeer_detail;
-
-    if (companyInfo) {
-      setCompanyName(companyInfo.company_name || "");
-      setTagline(companyInfo.tagline || "");
-      setWebsite(companyInfo.website_link || "");
-      setFoundedYear(companyInfo.founded_date || "");
-      setDescription(companyInfo.about || "");
-      setSelectedCountry(companyInfo.country_id || 231);
-      setSelectedStates(companyInfo.state_id || "");
-      setSelectedCities(companyInfo.city_id || "");
-      setNumber(companyInfo.phone || "");
-      setAddress(companyInfo.address || "");
-      setlinkdin(companyInfo.linkedin_link || "");
-      setTwitter(companyInfo.twitter_link || "");
-      setGoogleBusiness(companyInfo.google_link || "");
-      setGlassdor(companyInfo.facebook_link || "");
-      setIndustry(companyInfo.company_industry?.id || "");
-
-      // Parse company services
-      const companyServices = companyInfo.company_services;
-      if (
-        companyServices &&
-        typeof companyServices === "string" &&
-        companyServices.trim() !== ""
-      ) {
-        try {
-          const parsedServices = JSON.parse(companyServices);
-          const formattedServices = parsedServices.map((service) => ({
-            title: service.service_name,
-            image: service.service_photo,
-          }));
-          setServices(formattedServices);
-        } catch (error) {
-          console.error("Failed to parse company services:", error);
-          setServices([]);
-        }
-      } else {
-        setServices([]);
-      }
-    }
-
-    // Set email from vendor or employeer details
-    if (employeerInfo?.email) {
-      setEmail(employeerInfo.email);
-    } else if (vendorInfo?.email) {
-      setEmail(vendorInfo.email);
-    }
-  };
-
-  // Fetch vendor profile on component mount
-  useEffect(() => {
-    if (token) {
-      fetchVendorProfile();
-    } else {
-      showToastError("Authentication token not found. Please login again.");
-      setLoading(false);
-    }
-  }, []);
-
-  // Fetch industries
-  useEffect(() => {
-    if (!token) return;
-
-    axios({
-      method: "GET",
-      url: "https://apiwl.novajobs.us/api/admin/company-industry",
-      headers: {
-        Authorization: token,
-      },
-    })
-      .then((res) => {
-        setIndustries(res.data.data);
       })
-      .catch((err) => {
-        console.log(err);
-        showToastError(err?.response?.data?.message);
-      });
+        .then((res) => {
+          setProfileData(res.data.data);
+        })
+        .catch((err) => {
+          console.log(err);
+          showToastError(err?.response?.data?.message || "Failed to fetch profile data");
+        });
+    }
   }, [token]);
+
+  useEffect(() => {
+    // Fetch industries from API
+    if (token) {
+      axios({
+        method: "GET",
+        url: "https://apiwl.novajobs.us/api/admin/company-industry",
+        headers: {
+          Authorization: token, // Assuming you have token stored
+        },
+      })
+        .then((res) => {
+          setIndustries(res.data.data); // Set fetched industries to state
+        })
+        .catch((err) => {
+          console.log(err);
+          showToastError(err?.response?.data?.message);
+        });
+    }
+  }, [token]); // Added token as dependency to ensure useEffect runs on token change
 
   const validatePhone = (number) => {
     const phoneRegex = /^[0-9]{10}$/;
     return phoneRegex.test(number);
   };
-
+  
+  // Function to update company data
   const handlePhoneChange = (e) => {
     const value = e.target.value;
     setNumber(value);
@@ -940,7 +875,57 @@ function Vendorprofile() {
     }
   };
 
+  useEffect(() => {
+    if (!profileData) return;
+
+    let companyDetail = profileData?.company_detail;
+    let vendorDetail = profileData?.vendors_detail;
+    let employeerDetail = profileData?.vendor_Detail; // Assuming employer details are in vendor_Detail
+
+    setCompanyName(companyDetail?.company_name || "");
+    setTagline(companyDetail?.tagline || "");
+    setEmail(employeerDetail?.email || vendorDetail?.email ||"abc@mail.com");
+    setWebsite(companyDetail?.website_link || "");
+    setFoundedYear(companyDetail?.founded_date || "");
+    setDescription(companyDetail?.about || "");
+    setSelectedCountry(companyDetail?.country_id || 231);
+    setSelectedStates(companyDetail?.state_id || "");
+    setSelectedCities(companyDetail?.city_id || "");
+    setNumber(companyDetail?.phone || "");
+    setAddress(companyDetail?.address || "");
+    setlinkdin(companyDetail?.linkedin_link || "");
+    setTwitter(companyDetail?.twitter_link || "");
+    setGoogleBusiness(companyDetail?.google_link || "");
+    setGlassdor(companyDetail?.facebook_link || "");
+    setIndustry(companyDetail?.company_industry?.id || "");
+    const companyServices = companyDetail?.company_services;
+
+    // Check if companyServices is a valid JSON string
+    if (
+      companyServices &&
+      typeof companyServices === "string" &&
+      companyServices.trim() !== ""
+    ) {
+      try {
+        const parsedServices = JSON.parse(companyServices);
+        const formattedServices = parsedServices.map((service) => ({
+          title: service.service_name,
+          image: service.service_photo,
+        }));
+        setServices(formattedServices);
+      } catch (error) {
+        console.error("Failed to parse company services:", error);
+        // Optionally set services to an empty array or handle the error as needed
+        setServices([]);
+      }
+    } else {
+      // If companyServices is not valid, set services to an empty array
+      setServices([]);
+    }
+  }, [profileData]);
+
   const getCountry = async () => {
+    if (!token) return;
     axios({
       method: "get",
       url: "https://apiwl.novajobs.us/api/admin/countries",
@@ -957,7 +942,7 @@ function Vendorprofile() {
   };
 
   const getState = async () => {
-    if (!selectedCountry) {
+    if (!selectedCountry || !token) {
       return;
     }
     axios({
@@ -976,7 +961,7 @@ function Vendorprofile() {
   };
 
   const getCities = async () => {
-    if (!selectedStates) {
+    if (!selectedStates || !token) {
       return;
     }
     axios({
@@ -996,15 +981,20 @@ function Vendorprofile() {
 
   useEffect(() => {
     getCountry();
-  }, []);
+  }, [token]);
 
   useEffect(() => {
+    // console.log(selectedCountry);
+
     getState();
-  }, [selectedCountry]);
+  }, [selectedCountry, token]);
 
   useEffect(() => {
+    // console.log(selectedStates);
     getCities();
-  }, [selectedStates]);
+  }, [selectedStates, token]);
+
+  // ... (previous useEffect hooks and functions)
 
   const addService = () => {
     setServices([...services, { title: "", image: "" }]);
@@ -1031,7 +1021,7 @@ function Vendorprofile() {
 
     const updatedServices = services.map((service, i) => {
       if (i === index) {
-        return { ...service, image: img, url: url };
+        return { ...service, image: img, url: url }; // Store the file and its URL
       }
       return service;
     });
@@ -1054,7 +1044,7 @@ function Vendorprofile() {
         selectedCountry,
         selectedStates,
         selectedCities,
-        "company detail"
+        "copmany detail"
       );
       showToastError("Please fill out all required fields.");
       return;
@@ -1063,31 +1053,36 @@ function Vendorprofile() {
     try {
       const servicesName = services.map((service) => service.title);
       const formData = new FormData();
-      const serviceFiles = [];
-      const serviceNames = [];
+      const serviceFiles = []; // Array to hold service images
+      const serviceNames = []; // Array to hold service names
 
+      // Function to convert a URL or string to a Blob/File
       const convertImageToBinary = async (image) => {
         if (typeof image === "string") {
+          // If the image is a URL, fetch it as a Blob
           const response = await fetch(image);
           const blob = await response.blob();
-          return new File([blob], "image.png");
+          return new File([blob], "image.png"); // You can adjust the file name and type if necessary
         }
-        return image;
+        return image; // If it's already a File or Blob, return as is
       };
 
+      // Process each service to prepare the data
       for (const service of services) {
-        serviceNames.push(service.title);
+        serviceNames.push(service.title); // Collect service titles
         if (service.image) {
-          const binaryImage = await convertImageToBinary(service.image);
-          serviceFiles.push(binaryImage);
+          const binaryImage = await convertImageToBinary(service.image); // Convert image to binary if needed
+          serviceFiles.push(binaryImage); // Collect service images
         }
       }
 
+      // Append each service image and its corresponding name to formData
       for (let i = 0; i < serviceFiles.length; i++) {
         formData.append("images", serviceFiles[i]);
-        formData.append("services_name", serviceNames[i] || `file-${i}`);
+        formData.append("services_name", serviceNames[i] || `file-${i}`); // Use a default name if none provided
       }
-
+      const token = localStorage.getItem("vendorToken");
+      // First request to update company data
       await axios({
         method: "put",
         url: `https://apiwl.novajobs.us/api/admin/company`,
@@ -1116,47 +1111,24 @@ function Vendorprofile() {
 
       showToastSuccess("Company data updated successfully.");
 
+      // Second request to update company services
       await axios({
         method: "put",
         url: `https://apiwl.novajobs.us/api/admin/company-services`,
         headers: {
           Authorization: token,
+          // No need to set 'Content-Type' when sending FormData; the browser sets it automatically
         },
-        data: formData,
+        data: formData, // This is the FormData containing images and names
       });
 
       showToastSuccess("Services updated successfully.");
-      
-      // Refresh vendor profile after update
-      fetchVendorProfile();
     } catch (error) {
       console.error("Error updating company data or services:", error);
       showToastError("Failed to update company data or services.");
     }
   };
-
-  if (loading) {
-    return (
-      <>
-        <VendorHeader />
-        <div className="page-content bg-white">
-          <div className="content-block">
-            <div className="section-full bg-white p-t50 p-b20">
-              <div className="container">
-                <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "400px" }}>
-                  <div className="spinner-border text-primary" role="status">
-                    <span className="sr-only">Loading...</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <Footer />
-      </>
-    );
-  }
-
+  // console.log(companyDetail,"companyDetail");
   return (
     <>
       <VendorHeader />
@@ -1172,6 +1144,21 @@ function Vendorprofile() {
                       <h5 className="font-weight-700 pull-left text-uppercase">
                         Company Profile
                       </h5>
+                      {/* <Link
+                        to={
+                          companyDetail?.id
+                            ? `/user/company/${companyDetail.id}`
+                            : "#"
+                        }
+                        className={`site-button right-arrow button-sm float-right ${
+                          !companyDetail?.id
+                            ? "opacity-50 cursor-not-allowed pointer-events-none"
+                            : ""
+                        }`}
+                        disabled={!companyDetail?.id}
+                      >
+                        View Company Page
+                      </Link> */}
                     </div>
                     <form
                       onSubmit={(e) => {
@@ -1225,6 +1212,36 @@ function Vendorprofile() {
                               readOnly
                             />
                           </div>
+                          {/* <div
+                            className="form-group  "
+                            style={{ position: "relative" }}
+                          >
+                            <label>Email ID</label>
+                            <input
+                              type="email"
+                              className="form-control"
+                              placeholder="info@gmail.com"
+                              value={email}
+                              disabled
+                              style={{
+                                paddingRight: "2.5rem", // Leave space for the icon
+                              }}
+                            />
+                            <span
+                              style={{
+                                position: "absolute",
+                                top: "50%",
+                                right: "10px", // Adjust spacing from the right
+                                transform: "translateY(-50%)",
+                                color: "green",
+                                fontSize: "1.2rem",
+                                cursor: "pointer",
+                              }}
+                              title="Verified"
+                            >
+                              ✅
+                            </span>
+                          </div> */}
                         </div>
                         <div className="col-lg-6 col-md-6">
                           <div className="form-group">
@@ -1244,7 +1261,7 @@ function Vendorprofile() {
                           <div className="form-group">
                             <label>Founded Year</label>
                             <input
-                              type="number"
+                              type="number" // Allows the user to select year and month
                               className="form-control"
                               placeholder="Founded Year"
                               onChange={(e) => setFoundedYear(e.target.value)}
@@ -1276,12 +1293,91 @@ function Vendorprofile() {
                         <div className="col-lg-12 col-md-6">
                           <div className="form-group">
                             <label>Company Description</label>
+                           
                             <TextEditor
-                              value={description}
+                             value={description}
                               onChange={handleChange}
                             />
                           </div>
                         </div>
+                        {/* <div className="col-lg-12 col-md-12">
+                          <div className="form-group">
+                            <label>Services</label>
+                            {services.map((service, index) => (
+                              <div key={index} className="row mb-3">
+                                <div className="col-lg-6 col-md-6">
+                                  <div className="form-group">
+                                    <input
+                                      type="text"
+                                      className="form-control"
+                                      placeholder="Service Title"
+                                      value={service.title}
+                                      onChange={(e) =>
+                                        handleServiceChange(
+                                          index,
+                                          "title",
+                                          e.target.value
+                                        )
+                                      }
+                                    />
+                                  </div>
+                                </div>
+                                <div className="col-lg-5 col-md-5">
+                                  <div className="form-group">
+                                    <input
+                                      type="file"
+                                      className="form-control-file"
+                                      onChange={(e) =>
+                                        handleImageChange(index, e)
+                                      }
+                                    />
+                                  </div>
+                                </div>
+                                <div className="col-lg-1 col-md-1">
+                                  <button
+                                    type="button"
+                                    className="site-button button-sm red"
+                                    onClick={() => removeService(index)}
+                                  >
+                                    <i className="fa fa-trash"></i>
+                                  </button>
+                                </div>
+                                {/* {service.image && (
+                                  <div className="col-lg-12 col-md-12 mt-2">
+                                    <img
+                                      src={`https://apiwl.novajobs.us${service.image}`}
+                                      alt="Service"
+                                      className="img-fluid"
+                                      style={{ maxHeight: "100px" }}
+                                    />
+                                  </div>
+                                )}
+                                {(service.url ||
+                                  typeof service.image === "string") && (
+                                  <div className="col-lg-12 col-md-12 mt-2">
+                                    <img
+                                      src={
+                                        service.url
+                                          ? service.url
+                                          : `https://apiwl.novajobs.us${service.image}`
+                                      }
+                                      alt="Service"
+                                      className="img-fluid"
+                                      style={{ maxHeight: "100px" }}
+                                    />
+                                  </div>
+                                )}
+                              </div>
+                            ))}
+                            <button
+                              type="button"
+                              className="site-button button-sm"
+                              onClick={addService}
+                            >
+                              Add Service
+                            </button>
+                          </div>
+                        </div> */}
                         <div className="col-lg-6 col-md-6">
                           <div className="form-group">
                             <label>Phone Number</label>
@@ -1289,6 +1385,7 @@ function Vendorprofile() {
                               type="text"
                               className="form-control"
                               placeholder="Phone Number"
+                              // onChange={(e) => setNumber(e.target.value)}
                               onChange={(e) => handlePhoneChange(e)}
                               value={number}
                               required
@@ -1296,10 +1393,10 @@ function Vendorprofile() {
                               maxLength={10}
                             />
                             {phoneError && (
-                              <div className="invalid-feedback d-block">
-                                {phoneError}
-                              </div>
-                            )}
+                          <div className="invalid-feedback d-block">
+                            {phoneError}
+                          </div>
+                        )}
                           </div>
                         </div>
                         <div className="col-lg-6 col-md-6">
@@ -1365,6 +1462,19 @@ function Vendorprofile() {
                             </Form.Control>
                           </div>
                         </div>
+                        {/* <div className="col-lg-12 col-md-12">
+                          <div className="form-group">
+                            <label>Address</label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              placeholder="Enter Address"
+                              onChange={(e) => setAddress(e.target.value)}
+                              value={address}
+                              required
+                            />
+                          </div>
+                        </div> */}
 
                         <div className="col-lg-12 col-md-6">
                           <div className="form-group">
@@ -1378,6 +1488,44 @@ function Vendorprofile() {
                             />
                           </div>
                         </div>
+                        {/* <div className="col-lg-6 col-md-6">
+                          <div className="form-group">
+                            <label>Twitter Link</label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              placeholder="Twitter Link"
+                              onChange={(e) => setTwitter(e.target.value)}
+                              value={twitter}
+                            />
+                          </div>
+                        </div> */}
+                        {/* <div className="col-lg-6 col-md-6">
+                          <div className="form-group">
+                            <label>Google Business Link</label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              placeholder="Google Business Link"
+                              onChange={(e) =>
+                                setGoogleBusiness(e.target.value)
+                              }
+                              value={googleBusiness}
+                            />
+                          </div>
+                        </div> */}
+                        {/* <div className="col-lg-6 col-md-6">
+                          <div className="form-group">
+                            <label>Glassdoor Link</label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              placeholder="Glassdoor Link"
+                              onChange={(e) => setGlassdor(e.target.value)}
+                              value={glassdoor}
+                            />
+                          </div>
+                        </div> */}
 
                         <div className="col-lg-12 col-md-12 mt-4">
                           <div className="clearfix font-bold">

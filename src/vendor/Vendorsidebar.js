@@ -93,10 +93,10 @@ const VendorCompanySideBar = ({ active }) => {
     getLogo();
   }, [token]); // Added getLogo to dependencies
 
-  const companyData = useSelector(
-    (state) => state.companyDataSlice.companyData
-  );
-  const companyDetail = companyData?.company_detail;
+  // const companyData = useSelector(
+  //   (state) => state.companyDataSlice.companyData
+  // );
+  // const companyDetail = companyData?.company_detail;
 
   const [file, setFile] = useState([]);
   const handleImageChange = (e) => {
@@ -231,7 +231,7 @@ const VendorCompanySideBar = ({ active }) => {
               ) : null}
               <div className="candidate-title text-center candidate-detail text-break">
                 <h4 className="m-b5">
-                  <Link to={"#"}>{companyDetail?.company_name}</Link>
+                  {/* <Link to={"#"}>{companyDetail?.company_name}</Link> */}
                 </h4>
                 {/*  */}
               </div>
