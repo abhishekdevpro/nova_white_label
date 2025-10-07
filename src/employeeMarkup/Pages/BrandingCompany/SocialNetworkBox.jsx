@@ -140,11 +140,11 @@ const SocialNetworkBox = () => {
     );
   }, [setInsideCultureImages, setInsideWorkplaceImages, setInsidePeopleImages]);
 
-  console.log("Debug - Images state:");
-  console.log("insideCultureImages:", insideCultureImages);
-  console.log("insideWorkplaceImages:", insideWorkplaceImages);
-  console.log("insidePeopleImages:", insidePeopleImages);
-  console.log("companyData.inside_culture_images:", companyData.inside_culture_images);
+  // console.log("Debug - Images state:");
+  // console.log("insideCultureImages:", insideCultureImages);
+  // console.log("insideWorkplaceImages:", insideWorkplaceImages);
+  // console.log("insidePeopleImages:", insidePeopleImages);
+  // console.log("companyData.inside_culture_images:", companyData.inside_culture_images);
 
   return (
     <>

@@ -22,8 +22,8 @@ const VerifyEmail = () => {
         const response = await axios.get(
           `https://apiwl.novajobs.us/api/admin/verify-account/${token}`
         );
-
-        if (response?.status === 200) {
+console.log(response,"verify response")
+        if (response?.data?.code === 200 || response?.data?.status === "success") {
           showToastSuccess("Email verified successfully");
           navigate(isVendor ? "/vendor/login" : "/user/login");
         } else {
