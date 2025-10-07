@@ -18,7 +18,8 @@ import jobProfileSlice from "./reducers/jobProfileSlice";
 import fixedHeaderSlice from "./reducers/fixedHeaderSlice";
 import browseCandidateSlice from "./reducers/browseCandidateSlice";
 import EmployerAuthSlice from "./slice/EmployerAuthSlice";
-import CompanyData from "./slice/CompanySlice"
+import CompanyData from "./slice/CompanySlice";
+import vendorReducer from "./slice/VendorAuthSlice";
 const middleware = applyMiddleware(thunk);
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -26,8 +27,9 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const reducers = combineReducers({
   posts: PostsReducer,
   auth: AuthReducer,
-   employerAuth: EmployerAuthSlice,
-   company : CompanyData,
+  employerAuth: EmployerAuthSlice,
+  company: CompanyData,
+  vendor: vendorReducer,
   todoReducers,
   skills: skillSlice,
   postAJobSlice: postAJobSlice,
@@ -43,7 +45,6 @@ const reducers = combineReducers({
   jobProfileSlice: jobProfileSlice,
   fixedHeaderSlice: fixedHeaderSlice,
   browseCandidateSlice: browseCandidateSlice,
- 
 });
 
 //const store = createStore(rootReducers);
